@@ -1,0 +1,37 @@
+/* Angular UI's Animation */
+
+.view-animate.ng-enter,
+.view-animate.ng-leave {
+    position: absolute;
+}
+
+.view-animate.ng-enter {
+    -moz-transition: ease-out all 0.3s 0.4s;
+    -o-transition: ease-out all 0.3s 0.4s;
+    -webkit-transition: ease-out all 0.3s 0.4s;
+    transition: ease-out all 0.3s 0.4s;
+}
+
+
+.view-animate.ng-leave {
+    -moz-transition: 0.3s ease-out all;
+    -o-transition: 0.3s ease-out all;
+    -webkit-transition: 0.3s ease-out all;
+    transition: 0.3s ease-out all;
+}
+
+.view-animate.ng-enter,
+.view-animate.ng-leave.ng-leave-active {
+    left: 2em;
+    opacity: 0;
+}
+
+.view-animate.ng-leave,
+.view-animate.ng-enter.ng-enter-active {
+    left: 0;
+    opacity: 1;
+}
+
+/* Empty href Pointer Fix */
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }

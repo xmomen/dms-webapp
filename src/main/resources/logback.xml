@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+    <!--  Define the storage location of the log files. (勿在LogBack里面使用相对路径)                                                                         -->
+    <!-- -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+    <property name="LOG_LEVEL" value="${log.level}" />
+    <property name="LOG_HOME" value="${log.home}" />
+    <property name="PROJECT_NAME" value="${PROJECT_NAME}"/>
+    <!-- -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+    <!--  Console output                                                                                                        -->
+    <!-- -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">   
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %X{ip} %logger{50} - %msg%n</pattern>      
+        </layout>   
+    </appender>
+    
+    <appender name="FILE-INFO"  class="ch.qos.logback.core.rolling.RollingFileAppender">   
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/${PROJECT_NAME}/%d{yyyyMM}/${PROJECT_NAME}.info.%d{yyyyMMdd}.log</FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>   
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %X{ip} %logger{50} - %msg%n</pattern>      
+       </layout> 
+   	   <!--  File Max Size -->
+       <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+         <MaxFileSize>10MB</MaxFileSize>
+       </triggeringPolicy>
+       <filter class="ch.qos.logback.classic.filter.LevelFilter">  
+	   		<level>INFO</level>  
+	   		<onMatch>ACCEPT</onMatch>  
+	   		<onMismatch>DENY</onMismatch>  
+		</filter>
+    </appender> 
+    
+    <appender name="FILE-ERROR"  class="ch.qos.logback.core.rolling.RollingFileAppender">   
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+           	<!-- 【begin 开发阶段配置】 -->    
+           	<FileNamePattern>${LOG_HOME}/${PROJECT_NAME}/%d{yyyyMM}/${PROJECT_NAME}.error.%d{yyyyMMdd}.log</FileNamePattern>
+		    <!-- 【end 开发阶段配置】 -->
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>   
+        <layout class="ch.qos.logback.classic.PatternLayout">  
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %X{ip} %logger{50} - %msg%n</pattern>   
+       </layout> 
+       <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+         <MaxFileSize>10MB</MaxFileSize>
+       </triggeringPolicy>
+       <filter class="ch.qos.logback.classic.filter.LevelFilter">  
+	   		<level>ERROR</level>  
+	   		<onMatch>ACCEPT</onMatch>  
+	   		<onMismatch>DENY</onMismatch>  
+		</filter>
+    </appender>
+
+
+	<appender name="FILE-ALL"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- 【begin 开发阶段配置】 -->
+			<FileNamePattern>${LOG_HOME}/${PROJECT_NAME}/%d{yyyyMM}/${PROJECT_NAME}.all.%d{yyyyMMdd}.log
+			</FileNamePattern>
+			<!-- 【end 开发阶段配置】 -->
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %X{ip} %logger{50} - %msg%n</pattern>
+		</layout>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>10MB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+
+    <logger name="org.apache.activemq.transport.AbstractInactivityMonitor" level="INFO"></logger>
+
+    <root level="${LOG_LEVEL}">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE-ERROR" />
+		<appender-ref ref="FILE-INFO" />
+		<appender-ref ref="FILE-ALL" />
+    </root>
+
+
+</configuration>

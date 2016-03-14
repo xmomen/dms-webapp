@@ -1,0 +1,101 @@
+package com.udfex.ams.module.account.web.controller;
+
+import javax.validation.Valid;
+
+import com.udfex.ams.module.account.model.CreateUser;
+import com.udfex.ams.module.account.mapper.UserMapper;
+import com.udfex.ams.module.account.service.UserService;
+import com.udfex.ams.module.account.web.controller.vo.CreateUserVo;
+import com.udfex.ucs.module.user.entity.SysUsers;
+import com.xmomen.framework.mybatis.page.Page;
+import com.xmomen.framework.web.exceptions.ArgumentValidException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import com.xmomen.framework.mybatis.dao.MybatisDao;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Created by Jeng on 2016/1/5.
+ */
+@RestController
+public class UserController {
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    UserMapper userMapper;
+
+    @Autowired
+    MybatisDao mybatisDao;
+
+    /**
+     *  用户列表
+     * @param id
+     */
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public Page<CreateUser> getUserList(@RequestParam(value = "limit") Integer limit,
+                                  @RequestParam(value = "offset") Integer offset,
+                                  @RequestParam(value = "id", required = false) Integer id,
+                                  @RequestParam(value = "keyword", required = false) String keyword){
+        Map map = new HashMap<String,Object>();
+        map.put("id", id);
+        map.put("keyword", keyword);
+        return (Page<CreateUser>) mybatisDao.selectPage("com.udfex.ams.module.account.mapper.UserMapper.getUsers", map, limit, offset);
+    }
+
+    /**
+     *  用户列表
+     * @param id
+     */
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+    public SysUsers getUserList(@PathVariable(value = "id") Integer id){
+        return mybatisDao.selectByPrimaryKey(SysUsers.class, id);
+    }
+
+    /**
+     * 新增用户
+     * @param createUser
+     * @param bindingResult
+     * @return
+     */
+    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    public SysUsers createUser(@RequestBody @Valid CreateUserVo createUser, BindingResult bindingResult) throws ArgumentValidException {
+        if(bindingResult != null && bindingResult.hasErrors()){
+            throw new ArgumentValidException(bindingResult);
+        }
+        CreateUser user = new CreateUser();
+        user.setUsername(createUser.getUsername());
+        user.setPassword(createUser.getPassword());
+        user.setEmail(createUser.getEmail());
+        user.setLocked(createUser.getLocked() != null && createUser.getLocked() == true ? true : false);
+        return userService.createUser(user);
+    }
+
+    /**
+     *  删除用户
+     * @param id
+     */
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
+    public void deleteUser(@PathVariable(value = "id") Long id){
+        mybatisDao.deleteByPrimaryKey(SysUsers.class, id);
+    }
+
+    /**
+     *  锁定用户
+     * @param id
+     */
+    @RequestMapping(value = "/user/{id}/locked", method = RequestMethod.PUT)
+    public void lockedUser(@PathVariable(value = "id") Integer id,
+                           @RequestParam(value = "locked") Boolean locked){
+        SysUsers sysUsers = new SysUsers();
+        sysUsers.setLocked(locked ? 1 : 0);
+        sysUsers.setId(id);
+        mybatisDao.update(sysUsers);
+    }
+
+}

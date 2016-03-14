@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>UploadiFive Test</title>
+<script src="../js/lib/jquery/jquery.min.js" type="text/javascript"></script>
+<script src="jquery.uploadify.min.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="uploadify.css">
+<style type="text/css">
+body {
+	font: 13px Arial, Helvetica, Sans-serif;
+}
+</style>
+</head>
+
+<body>
+	<h1>Uploadify Demo</h1>
+	<form>
+		<div id="queue"></div>
+		<input id="file_upload" name="files" type="file" multiple="true">
+        <div></div>
+	</form>
+    <table>
+        <tr>
+            <td width="45%"><input type="file" name="upload_org_code" id="upload_org_code"/></td>
+            <td></td>
+        </tr>
+    </table>
+	<script type="text/javascript">
+		var now = new Date().getTime();
+		$(function() {
+			$('#file_upload').uploadify({
+				'formData'     : {
+					'timestamp' : now
+				},
+                'buttonText'    : '上传身份证图片',
+                'swf'      : 'uploadify.swf',
+				'uploader' : 'http://127.0.0.1/05-udf-ecw/ie/view.json',
+                'onUploadSuccess':function(file,data,response){
+                    $('#' + file.id).find('.data').html('');
+                    $("#upload_org_code_name").val(data);
+                    var obj = eval( "(" + data + ")");
+                    $("#upload_org_code_img").attr("src","http://dev.img.udfex.com/"+obj.result);
+                    $("#upload_org_code_img").show();
+                }
+            });
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+
+<!-- User info -->
+<div class="login-info" data-ng-controller="LeftPanelController">
+    <span> <!-- User image size is adjusted inside CSS, it should stay as is -->
+
+        <a ui-sref="dashboard" id="show-shortcut" >
+            <img src="img/avatars/sunny.png" alt="me" class="online" />
+            <span data-localize="account.username">
+                {{account.username}}
+            </span>
+        </a>
+
+    </span>
+</div>
+<!-- end user info -->
+
+<!-- NAVIGATION : This navigation is also responsive
+
+To make this navigation dynamic please make sure to link the node
+(the reference to the nav > ul) after page load. Or the navigation
+will not initialize.
+-->
+
+<navigation xmlns:nav="http://www.w3.org/2001/XMLSchema">
+    <nav:item ui-sref="dashboard" data-icon="fa fa-fw fa-home" title="控制板" />
+    <nav:group data-icon="fa fa-lg fa-fw fa-inbox" title="消息中心" permission-only="user">
+        <nav:item ui-sref="message_list" title="消息列表"/>
+    </nav:group>
+    <nav:group data-icon="fa fa-fw fa-pencil" title="用户管理" permission-only="admin">
+        <nav:item ui-sref="user_list" title="用户列表" permission-only="admin"/>
+        <nav:item ui-sref="group_list" title="用户组列表" permission-only="admin"/>
+    </nav:group>
+    <nav:item ui-sref="schedule" data-icon="fa fa-fw fa-home" title="任务调度" permission-only="admin"/>
+</navigation>
+<span class="minifyme" data-action="minifyMenu"> <i class="fa fa-arrow-circle-left hit"></i> </span>

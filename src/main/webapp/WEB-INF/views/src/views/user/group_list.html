@@ -1,0 +1,187 @@
+<!--
+	The ID "widget-grid" will start to initialize all widgets below 
+	You do not need to use widgets if you dont want to. Simply remove 
+	the <section></section> and you can use wells or panels instead 
+	-->
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget" id="wid-id-4">
+				<!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2>用户组列表</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- end widget edit box -->
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="dt-toolbar">
+							<div class="col-xs-11 col-sm-10">
+								<div class="dataTables_filter">
+									<label>
+										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+										<input type="search" placeholder="用户名/邮箱" data-ng-keyup="getGroupList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+								</div>
+							</div>
+							<div class="col-xs-1 col-sm-2">
+								<button class="btn btn-primary" type="button" data-ng-click="open()">
+									<i class="fa fa-plus"></i>
+									新增用户组
+								</button>
+							</div>
+						</div>
+						<div class="table-responsive">
+							<table class="table table-striped table-condensed table-hover smart-form has-tickbox">
+								<thead>
+								<tr>
+									<th>用户组</th>
+									<th>描述</th>
+									<th>是否启用</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat="group in groupList"  ng-if="groupList.length > 0">
+									<td>
+										<a href="#" data-ng-click="openAddUserToGroup($index)" ng-bind="group.role"></a>
+									</td>
+									<td ng-bind="group.description"></td>
+									<td>
+										<label class="checkbox">
+											<input type="checkbox" ng-model="group.available" name="checkbox-inline"
+												   ng-change="locked($index)"
+												   data-ng-checked="group.available == 1" data-ng-true-value="1" data-ng-false-value="0">
+											<i></i>
+										</label>
+									</td>
+								</tr>
+								<tr ng-if="groupList == null || userList.length == 0">
+									<td colspan="3">
+										<div>暂无消息数据</div>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="dt-toolbar-footer">
+							<div class="col-xs-12 col-sm-12">
+								<ug-pagination page-info="pageInfoSetting" ></ug-pagination>
+							</div>
+						</div>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- WIDGET END -->
+
+	</div>
+
+	<!-- end row -->
+
+</section>
+<!-- end widget grid -->
+
+<script type="text/ng-template" id="addGroup.html">
+	<div class="modal-header">
+		<h3 class="modal-title">新增用户组</h3>
+	</div>
+	<div class="modal-body">
+		<div class="widget-body">
+
+			<form class="form-horizontal" ug-validate="addGroupForm" name="addGroupForm" novalidate="">
+
+				<fieldset>
+					<div class="form-group">
+						<label class="col-md-2 control-label">用户组</label>
+						<div class="col-md-10">
+							<input class="form-control" required="true" data-rule-minlength="3" data-rule-maxlength="100" ng-model="userGroup.role" name="role" placeholder="请输入英文用户组名称" type="text">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">描述</label>
+						<div class="col-md-10">
+							<input class="form-control" required="true" data-rule-maxlength="100" ng-model="userGroup.description" name="email" placeholder="描述" type="email">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">禁用状态</label>
+						<div class="col-md-10">
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" ng-model="userGroup.available" class="checkbox style-0" name="available" checked="checked" ng-true-value="true" ng-false-value="false">
+									<span>禁用</span>
+								</label>
+							</div>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="button" data-ng-click="saveGroup()">
+			<i class="fa fa-save"></i>
+			保存
+		</button>
+		<button class="btn btn-warning" ng-click="cancel()">关闭</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="addUserToGroup.html">
+	<div class="modal-header">
+		<h3 class="modal-title">新增用户到用户组</h3>
+	</div>
+	<div class="modal-body">
+		<!-- row -->
+		<div class="row">
+			<div class="selected_source col-xs-6">
+				<h4>已选择用户</h4>
+				<ul ng-repeat="user in choseUsers" ng-if="choseUsers.length > 0" >
+					<li ng-bind="user.username"  data-ng-click="removeUser($index)"></li>
+				</ul>
+			</div>
+			<div class="selected_source col-xs-6">
+				<h4>未选择用户</h4>
+				<ul ng-repeat="unUser in unChoseUsers" ng-if="unChoseUsers.length > 0" >
+					<li ng-bind="unUser.username" data-ng-click="addUser($index)"></li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- end row -->
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-warning" ng-click="cancel()">关闭</button>
+	</div>
+</script>

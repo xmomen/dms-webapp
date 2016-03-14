@@ -1,0 +1,86 @@
+<div id="logo-group" xmlns:activity="http://www.w3.org/1999/xhtml">
+
+    <!-- PLACE YOUR LOGO HERE -->
+   <!-- <span id="logo">
+        <img src="img/logo.png" alt="SmartAdmin">原版本logo图片处
+    </span>-->
+    <!-- END LOGO PLACEHOLDER -->
+
+    <span class="logo-tt">消息监控平台</span>
+    <p class="logo-eng">ActiveMQ Monitor System</p>
+</div>
+
+<!-- pulled right: nav area -->
+<div class="pull-right">
+
+    <!-- collapse menu button -->
+    <div id="hide-menu" class="btn-header pull-right">
+        <span> <a href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder"></i></a> </span>
+    </div>
+    <!-- end collapse menu -->
+
+    <!-- Top menu profile link : this shows only when top menu is active -->
+    <ul id="mobile-profile-img" class="header-dropdown-list hidden-xs padding-5">
+        <li class="">
+            <a href="#" class="dropdown-toggle no-margin userdropdown" data-toggle="dropdown">
+                <img src="img/avatars/sunny.png" alt="John Doe" class="online" />
+            </a>
+            <ul class="dropdown-menu pull-right">
+                <li>
+                    <a href="javascript:void(0);" class="padding-10 padding-top-0 padding-bottom-0"><i class="fa fa-cog"></i> Setting</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="#/misc/other/profile" class="padding-10 padding-top-0 padding-bottom-0"> <i class="fa fa-user"></i> <u>P</u>rofile</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="javascript:void(0);" class="padding-10 padding-top-0 padding-bottom-0" data-action="toggleShortcut"><i class="fa fa-arrow-down"></i> <u>S</u>hortcut</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="javascript:void(0);" class="padding-10 padding-top-0 padding-bottom-0" data-action="launchFullscreen"><i class="fa fa-arrows-alt"></i> Full <u>S</u>creen</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="login.html" class="padding-10 padding-top-5 padding-bottom-5" data-action="userLogout"><i class="fa fa-sign-out fa-lg"></i> <strong><u>L</u>ogout</strong></a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <!-- logout button -->
+    <div id="logout" class="btn-header transparent pull-right">
+        <span> <a href="/logout" title="Sign Out" data-action="userLogout" data-logout-msg="您即将退出该系统，请您确认是否退出？"><i class="fa fa-sign-out"></i></a> </span>
+    </div>
+    <!-- end logout button -->
+
+    <!-- search mobile button (this is hidden till mobile view port) -->
+    <div id="search-mobile" class="btn-header transparent pull-right">
+        <span> <a href="javascript:void(0)" title="Search"><i class="fa fa-search"></i></a> </span>
+    </div>
+    <!-- end search mobile button -->
+
+    <!-- fullscreen button -->
+    <div id="fullscreen" class="btn-header transparent pull-right">
+        <span> <a href="javascript:void(0);" data-action="launchFullscreen" title="Full Screen"><i class="fa fa-arrows-alt"></i></a> </span>
+    </div>
+    <!-- end fullscreen button -->
+
+    <!-- multiple lang dropdown : find all flags in the image folder -->
+    <ul data-lang-menu="" class="header-dropdown-list hidden-xs" data-ng-controller="LangController">
+        <li>
+            <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                <img alt="" class="flag flag-{{ currentLang.flagCode }}" src="img/blank.gif"> <span> {{ currentLang.translation }} </span> <i class="fa fa-angle-down"></i>
+            </a>
+            <ul class="dropdown-menu pull-right">
+                <li data-ng-class="{active: lang == currentLang}" data-ng-repeat="lang in languages">
+                    <a href="" data-ng-click="setLang(lang)" ><img class="flag flag-{{ lang.flagCode }}" src="img/blank.gif" /> {{ lang.language }} ({{ lang.translation }}) </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <!-- end multiple lang -->
+
+</div>
+<!-- end pulled right: nav area -->

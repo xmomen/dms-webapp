@@ -1,0 +1,259 @@
+<!-- Bread crumb is created dynamically -->
+<!--
+	The ID "widget-grid" will start to initialize all widgets below
+	You do not need to use widgets if you dont want to. Simply remove
+	the <section></section> and you can use wells or panels instead
+	-->
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget" id="wid-id-4">
+				<!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2>消息列表</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- end widget edit box -->
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="dt-toolbar">
+							<div class="col-xs-12 col-sm-6">
+								<div class="dataTables_filter">
+									<label>
+										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+										<input type="search" placeholder="消息ID" data-ng-keyup="getMessageList()" ng-model="queryParam.messageId" class="form-control" aria-controls="dt_basic"></label>
+								</div>
+								<div class="dataTables_filter">
+									<label>
+										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+										<input type="search" placeholder="队列" data-ng-keyup="getMessageList()" ng-model="queryParam.queue" class="form-control" aria-controls="dt_basic"></label>
+								</div>
+								<div class="dataTables_filter">
+									<label>
+										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+										<input type="search" placeholder="消息内容关键词" data-ng-keyup="getMessageList()" ng-model="queryParam.body" class="form-control" aria-controls="dt_basic"></label>
+								</div>
+							</div>
+						</div>
+						<div class="table-responsive">
+							<table class="table table-striped table-condensed table-hover smart-form has-tickbox">
+								<thead>
+									<tr>
+										<th>
+											<label class="checkbox">
+												<input type="checkbox" name="checkbox-inline">
+												<i></i>
+											</label>
+										</th>
+										<th>序号</th>
+										<th>消息ID</th>
+										<th>队列名称</th>
+										<th>提交时间</th>
+										<th>投递状态</th>
+										<th>处理状态</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="msg in messageList"  ng-if="messageList.length > 0">
+										<td>
+											<label class="checkbox">
+												<input type="checkbox" name="checkbox-inline">
+												<i></i>
+											</label>
+										</td>
+										<td ng-bind="$index * pageInfoSetting.pageNum + 1"></td>
+										<td ng-bind="msg.messageId"></td>
+										<td ng-bind="msg.queue"></td>
+										<td ng-bind="msg.createTime | date : 'yyyy-MM-dd hh:mm:ss'"></td>
+										<td ng-bind="msg.pushStatusDesc"></td>
+										<td ng-bind="msg.dataStatusDesc"></td>
+										<td>
+											<!-- Split button -->
+											<div class="btn-group" dropdown>
+												<button type="button" class="btn btn-primary" data-ng-click="open($index, 'lg')">查看</button>
+												<button type="button" class="btn btn-primary dropdown-toggle">
+													<span class="caret"></span>
+													<span class="sr-only">Split button!</span>
+												</button>
+												<ul class="dropdown-menu" role="menu">
+													<li>
+														<a href="javascript:void(0);" data-ng-click="open($index)">查看</a>
+													</li>
+													<li>
+														<a href="javascript:void(0);" data-ng-click="getLog($index)">历史记录</a>
+													</li>
+													<li>
+														<a href="javascript:void(0);" permission-only="admin" data-ng-click="openMessage($index)">编辑</a>
+													</li>
+													<li class="divider"></li>
+													<li>
+														<a href="javascript:void(0);" data-ng-click="retry(msg.messageId)">重发</a>
+													</li>
+												</ul>
+											</div>
+										</td>
+									</tr>
+									<tr ng-if="messageList == null || messageList.length == 0">
+										<td colspan="8">
+											<div>暂无消息数据</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="dt-toolbar-footer">
+								<div class="col-xs-12 col-sm-6 ">
+									<button type="button" class="btn btn-primary" data-ng-click="retryAll()">重发</button>
+									<button type="button" class="btn btn-primary">移到回收站</button>
+								</div>
+								<div class="col-xs-12 col-sm-6">
+									<ug-pagination page-info="pageInfoSetting" ></ug-pagination>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- WIDGET END -->
+	</div>
+	<!-- end row -->
+</section>
+<!-- end widget grid -->
+
+<script type="text/ng-template" id="myModalContent.html">
+	<div class="modal-header">
+		<h3 class="modal-title">查看消息明细</h3>
+	</div>
+	<div class="modal-body">
+		<table id="user" class="table table-bordered table-striped" style="clear: both">
+			<tbody>
+				<tr>
+					<td style="width:20%;min-width: 100px;max-width: 100px">队列名称</td>
+					<td style="width:80%">{{message.queue}}</td>
+				</tr>
+				<tr>
+					<td style="width:20%;">消息ID</td>
+					<td style="width:80%">{{message.messageId}}</td>
+				</tr>
+				<tr>
+					<td style="width:20%;">创建时间</td>
+					<td style="width:80%">{{message.createTime | date : 'yyyy-MM-dd hh:mm:ss'}}</td>
+				</tr>
+				<tr>
+					<td style="width:20%;">投递状态</td>
+					<td style="width:80%">{{message.pushStatus}}：{{message.pushStatusDesc}}</td>
+				</tr>
+				<tr>
+					<td style="width:20%;">处理状态</td>
+					<td style="width:80%">{{message.dataStatus}}：{{message.dataStatusDesc}}</td>
+				</tr>
+				<tr>
+					<td style="width:20%;">响应时间</td>
+					<td style="width:80%">{{message.responseTime | date : 'yyyy-MM-dd hh:mm:ss'}}</td>
+				</tr>
+				<tr>
+					<td style="width:20%;">响应内容</td>
+					<td style="width:80%">{{message.responseData}}</td>
+				</tr>
+				<tr>
+					<td style="width:20%;">消息内容</td>
+					<td style="width:80%">{{message.messageBody}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<div><button class="btn btn-primary" ng-click="getMessageLogList()">查看请求历史记录</button></div>
+		<table class="table table-bordered table-striped" >
+			<tbody ng-repeat="messageLog in messageLogList">
+				<tr>
+					<td style="width:20%;min-width: 100px">请求ID</td>
+					<td style="width:80%;max-width: 755px;">{{messageLog.requestId}}</td>
+				</tr>
+				<tr>
+					<td style="width:20%;">请求时间</td>
+					<td style="width:80%;max-width: 755px;" ng-bind="messageLog.requestTime | date : 'yyyy-MM-dd hh:mm:ss'"></td>
+				</tr>
+				<tr>
+					<td style="width:20%;">请求内容</td>
+					<td style="width:80%">{{messageLog.requestData}}</td>
+				</tr>
+				<tr>
+					<td style="width:20%;">响应时间</td>
+					<td style="width:80%;" ng-bind="messageLog.responseTime | date : 'yyyy-MM-dd hh:mm:ss'"></td>
+				</tr>
+				<tr>
+					<td style="width:20%;">响应内容</td>
+					<td style="width:80%">{{messageLog.responseData}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-warning" ng-click="cancel()">关闭</button>
+	</div>
+</script>
+
+
+<script type="text/ng-template" id="updateMessage.html">
+	<div class="modal-header">
+		<h3 class="modal-title">修改消息内容</h3>
+	</div>
+	<div class="modal-body">
+		<div class="widget-body">
+			<form class="form-horizontal" ug-validate="updateMessageForm" name="addUserForm" novalidate="">
+				<fieldset>
+					<div class="form-group">
+						<label class="col-md-2 control-label">队列名称</label>
+						<div class="col-md-10">
+							{{message.queue}}
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">消息内容</label>
+						<div class="col-md-10">
+							<textarea  class="form-control" required="true" placeholder="填写需要发送的消息内容"  ng-model="message.messageBody" name="requestData"></textarea>
+						</div>
+					</div>
+
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="button" data-ng-click="updateMessage()">
+			<i class="fa fa-save"></i>
+			更新
+		</button>
+		<button class="btn btn-warning" ng-click="cancel()">关闭</button>
+	</div>
+</script>

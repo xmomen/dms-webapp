@@ -1,0 +1,20 @@
+<div class="dataTables_paginate paging_simple_numbers" id="dt_basic_paginate">
+    <ul class="pagination pagination-sm">
+        <li class="paginate_button previous" ng-class="{disabled:curPage==1}" aria-controls="dt_basic" tabindex="0" id="dt_basic_previous">
+            <a ng-if="curPage==1">上一页</a>
+            <a ng-if="curPage!=1" ng-click="skipPage(curPage-1)">上一页</a>
+        </li>
+        <li ng-repeat="page in pageList"
+            ng-class="{active:curPage==page.num,disabled:page.isOmit}"
+            class="paginate_button" aria-controls="dt_basic" tabindex="0">
+            <a ng-click="skipPage(page.num)"  ng-show="!page.isOmit">{{page.num}}</a>
+            <a href="#" ng-show="page.isOmit">{{page.text}}</a>
+        </li>
+        <li class="paginate_button" ng-class="{next:curPage!=pages,disabled:curPage==pages}" aria-controls="dt_basic" tabindex="0" id="dt_basic_next">
+            <a ng-if="curPage!=pages" ng-click="skipPage(curPage+1)">下一页</a>
+            <a ng-if="curPage==pages" href="#">下一页</a>
+        </li>
+    </ul>
+    <div style="line-height: 34px; float: right; margin-right: 6px;font-size: 13px;">
+        共有 <span class="text-primary">{{total}}</span> 条，当前页 <span class="txt-color-darken">{{curPage}}</span> / <span class="txt-color-darken">{{pages}}</span> 总页数</div>
+</div>
