@@ -4,7 +4,7 @@
 define([
     "views/schedule/list"
 ],function (scheduleList) {
-    angular.module('SPS.schedule', []).config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function ($stateProvider, $urlRouterProvider, $httpProvider) {
+    angular.module('DMS.schedule', []).config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
         $stateProvider
 

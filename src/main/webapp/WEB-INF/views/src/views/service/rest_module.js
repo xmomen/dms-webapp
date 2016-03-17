@@ -2,7 +2,7 @@
  * Created by Jeng on 2016/1/28.
  */
 define(function () {
-    var ngREST = angular.module("AMS.REST",["ngResource"]);
+    var ngREST = angular.module("DMS.REST",["ngResource"]);
     ngREST.factory("UserAPI", ["$resource", function($resource){
         return $resource("/user/:userId", { userId:"@id" }, {
             query:{ isArray:false},

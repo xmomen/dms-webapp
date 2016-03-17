@@ -1,12 +1,11 @@
 define([
     "views/user/user_module",
-    "views/message/message_module",
     "views/schedule/schedule_module",
     "views/dashboard"
-],function (addAccount,receive_module,schedule_module, dashboard) {
-    angular.module('SPS', [
-        "smartApp", "ui.router", "SPS.message", "SPS.schedule", "SPS.user", "ug.pagination", "EnvModule", "permission", "ug.validate","ug.dialog",
-        "AMS.REST"
+],function (user_module,schedule_module, dashboard) {
+    angular.module('DMS', [
+        "smartApp", "ui.router", "DMS.schedule", "DMS.user", "ug.pagination", "EnvModule", "permission", "ug.validate","ug.dialog",
+        "DMS.REST"
     ]).factory({
         HttpInterceptor:["$q", function($q){
            return {

@@ -1,0 +1,5 @@
+node_modules
+.tmp
+bower_components
+.DS_Store
+.idea

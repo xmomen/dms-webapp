@@ -11,5 +11,10 @@
   "devDependencies": {
     "bower": "^1.7.2",
     "require-css": "^0.1.8"
+  },
+  "dependencies": {
+    "angular": "^1.5.1",
+    "angular-permission": "^2.1.2",
+    "angular-ui-router": "^0.2.18"
   }
 }

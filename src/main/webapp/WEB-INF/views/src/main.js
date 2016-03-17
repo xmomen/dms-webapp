@@ -4,5 +4,5 @@
 require([
   "ngApp"
 ],function(ngApp) {
-  angular.bootstrap(document,['SPS']);
+  angular.bootstrap(document,['DMS']);
 });

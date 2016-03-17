@@ -36,7 +36,7 @@ require.config({
             deps:["ngResource"]
         },
         ngApp:{
-            deps:["ugPagination", "EnvModule", "ngPermission", "ugValidate", "amsRest", "ugDialog" ]
+            deps:["ugPagination", "EnvModule", "ngPermission", "ugValidate", "amsRest", "ugDialog"]
         }
     }
 });
