@@ -49,7 +49,7 @@
 										<input type="search" placeholder="用户名/邮箱" data-ng-keyup="getGroupList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
 								</div>
 							</div>
-							<div class="col-xs-1 col-sm-2" permission only="'GROUP_ADD'">
+							<div class="col-xs-1 col-sm-2" permission only="'USER_GROUP_ADD'">
 								<button class="btn btn-primary" type="button" data-ng-click="open()">
 									<i class="fa fa-plus"></i>
 									新增用户组
@@ -83,6 +83,9 @@
 									<td>
 										<div ng-show="show">
 											<a href="#" data-ng-click="removeGroup($index)" title="删除用户组：{{group.role}}">
+												<span class="glyphicon glyphicon-remove-circle"></span>
+											</a>
+											<a href="#" data-ng-click="openUpdateGroupPermission($index)" title="修改权限：{{group.role}}">
 												<span class="glyphicon glyphicon-remove-circle"></span>
 											</a>
 										</div>
@@ -183,6 +186,34 @@
 				<h4>未选择用户</h4>
 				<ul ng-repeat="unUser in unChoseUsers" ng-if="unChoseUsers.length > 0" >
 					<li ng-bind="unUser.username" data-ng-click="addUser($index)"></li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- end row -->
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-warning" ng-click="cancel()">关闭</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="updateGroupPermission.html">
+	<div class="modal-header">
+		<h3 class="modal-title">修改用户组权限</h3>
+	</div>
+	<div class="modal-body">
+		<!-- row -->
+		<div class="row">
+			<div class="selected_source col-xs-6">
+				<h4>已有权限</h4>
+				<ul ng-repeat="permission in chosePermissions" ng-if="chosePermissions.length > 0" >
+					<li ng-bind="permission.permissionDescription"  data-ng-click="unCorrelationPermission($index)"></li>
+				</ul>
+			</div>
+			<div class="selected_source col-xs-6">
+				<h4>未添加权限</h4>
+				<ul ng-repeat="unPermission in unChosePermissions" ng-if="unChosePermissions.length > 0" >
+					<li ng-bind="unPermission.permissionDescription" data-ng-click="correlationUser($index)"></li>
 				</ul>
 			</div>
 		</div>

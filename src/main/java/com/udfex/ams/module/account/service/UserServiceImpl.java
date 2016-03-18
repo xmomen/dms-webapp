@@ -145,7 +145,12 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     public Set<String> findPermissions(String username) {
-        return null;
+        List<SysPermissions> sysPermissionsList = userMapper.getPermissionList(username);
+        Set<String> permissions = new HashSet();
+        for (int i = 0; i < sysPermissionsList.size(); i++) {
+            permissions.add(sysPermissionsList.get(i).getPermission());
+        }
+        return permissions;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.udfex.ams.module.account.web.controller;
 
 import com.udfex.ams.module.account.service.PermissionService;
+import com.udfex.ams.module.account.service.RoleService;
 import com.udfex.ams.module.account.service.UserService;
 import com.udfex.ams.module.account.web.controller.vo.CreatePermissionVo;
 import com.udfex.ucs.module.user.entity.SysPermissions;
@@ -30,6 +31,9 @@ public class PermissionController {
     PermissionService permissionService;
 
     @Autowired
+    RoleService roleService;
+
+    @Autowired
     MybatisDao mybatisDao;
 
     /**
@@ -40,14 +44,19 @@ public class PermissionController {
     public Map getPermission(){
         String username = (String) SecurityUtils.getSubject().getPrincipal();
         Set<String> roles = userService.findRoles(username);
-        Map map = new HashMap();
-        map.put("roles", roles);
-        return map;
+        Set<String> permissions = userService.findPermissions(username);
+        Map rolesMap = new HashMap();
+        rolesMap.put("roles", roles);
+        rolesMap.put("permissions", permissions);
+        return rolesMap;
     }
 
     /**
-     *  用户列表
-     * @param id
+     * 权限列表
+     * @param limit
+     * @param offset
+     * @param keyword
+     * @return
      */
     @RequestMapping(value = "/permission", method = RequestMethod.GET)
     public Page<SysPermissions> getPermissionList(@RequestParam(value = "limit") Integer limit,
@@ -62,7 +71,7 @@ public class PermissionController {
     }
 
     /**
-     *  权限列表
+     *  权限资源
      * @param id
      */
     @RequestMapping(value = "/permission/{id}", method = RequestMethod.GET)

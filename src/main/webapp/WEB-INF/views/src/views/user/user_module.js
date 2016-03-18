@@ -14,12 +14,12 @@ define([
             .state('user_list', {
                 url: '/user/list',
                 templateUrl: 'views/user/user_list.html',
-                //data:{
-                //    permissions:{
-                //        only:["admin"],
-                //        redirectTo:"unauthorized"
-                //    }
-                //},
+                data:{
+                    permissions:{
+                        only:["USER_VIEW"],
+                        redirectTo:"unauthorized"
+                    }
+                },
                 controller: accountList
             })
             // 用户组
@@ -28,7 +28,7 @@ define([
                 templateUrl: 'views/user/group_list.html',
                 //data:{
                 //    permissions:{
-                //        only:["admin"],
+                //        only:["USER_GROUP_VIEW"],
                 //        redirectTo:"unauthorized"
                 //    }
                 //},
@@ -38,12 +38,12 @@ define([
             .state('permission', {
                 url: '/permission',
                 templateUrl: 'views/user/permission_list.html',
-                data:{
-                    permissions:{
-                        only:["admin"],
-                        redirectTo:"unauthorized"
-                    }
-                },
+                //data:{
+                //    permissions:{
+                //        only:["	PERMISSION_VIEW"],
+                //        redirectTo:"unauthorized"
+                //    }
+                //},
                 controller: permission_list
             })
             // 组织管理
@@ -52,7 +52,7 @@ define([
                 templateUrl: 'views/user/organization.html',
                 data:{
                     permissions:{
-                        only:["admin"],
+                        only:["ORGANIZATION_VIEW"],
                         redirectTo:"unauthorized"
                     }
                 },

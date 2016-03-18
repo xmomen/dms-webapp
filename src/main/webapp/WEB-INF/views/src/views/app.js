@@ -18,6 +18,22 @@ define([
                }
            }
         }],
+        User : ["UserAPI","PermissionStore", function(UserAPI, PermissionStore){
+            return {
+                fetchPermission: function(){
+                    UserAPI.getPermissions(function(data){
+                        PermissionStore.clearStore();
+                        for (var i = 0; i < data.permissions.length; i++) {
+                            var obj = data.permissions[i];
+                            PermissionStore
+                                .definePermission(obj, function (stateParams) {
+                                    return true;
+                                });
+                        }
+                    });
+                }
+            }
+        }],
         $baseHttp:["$http", "$q", "ApiEndpoint", function($http, $q, ApiEndpoint){
             var urlEndpoint = "";
             if(ApiEndpoint && ApiEndpoint.url){
@@ -78,25 +94,8 @@ define([
                 }]
             })
 
-    }]).run(["$rootScope", "PermissionStore", "RoleStore", "$q", "$baseHttp", function($rootScope, PermissionStore, RoleStore, $q, $baseHttp){
-        RoleStore
-            // Permission array validated role
-            // Library will internally validate if 'user' and 'editor' permissions are valid when checking if role is valid
-            .defineRole('admin', ['group_add'], function (stateParams) {
-                // If the returned value is *truthy* then the user has the permission, otherwise they don't
-                //if (!User) {
-                //    return true; // Is anonymous
-                //}
-                return true;
-            });
-        //PermissionStore
-        //    .definePermission('group_update', function (stateParams) {
-        //        // If the returned value is *truthy* then the user has the permission, otherwise they don't
-        //        //if (!User) {
-        //        //    return true; // Is anonymous
-        //        //}
-        //        return false;
-        //    });
+    }]).run(["$rootScope", "User", function($rootScope, User){
+        User.fetchPermission();
         $rootScope.$on('$viewContentLoaded', function (event, next,  nextParams, fromState) {
             // 初始化全局控件
 //           pageSetUp();
