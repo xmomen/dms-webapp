@@ -63,7 +63,7 @@
 									<th>用户组</th>
 									<th>描述</th>
 									<th width="40" style="align-content: center">启用</th>
-									<th width="80">操作</th>
+									<th width="120">操作</th>
 								</tr>
 								</thead>
 								<tbody>
@@ -83,10 +83,10 @@
 									<td>
 										<div ng-show="show">
 											<a href="#" data-ng-click="removeGroup($index)" title="删除用户组：{{group.role}}">
-												<span class="glyphicon glyphicon-remove-circle"></span>
-											</a>
+												<span class="glyphicon glyphicon-trash">删除</span>
+											</a>｜
 											<a href="#" data-ng-click="openUpdateGroupPermission($index)" title="修改权限：{{group.role}}">
-												<span class="glyphicon glyphicon-remove-circle"></span>
+												<span class="glyphicon glyphicon-wrench">权限</span>
 											</a>
 										</div>
 									</td>
