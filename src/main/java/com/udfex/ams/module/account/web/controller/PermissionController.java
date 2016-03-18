@@ -1,13 +1,11 @@
 package com.udfex.ams.module.account.web.controller;
 
-import com.udfex.ams.module.account.model.CreateUser;
 import com.udfex.ams.module.account.service.PermissionService;
+import com.udfex.ams.module.account.service.RoleService;
 import com.udfex.ams.module.account.service.UserService;
 import com.udfex.ams.module.account.web.controller.vo.CreatePermissionVo;
-import com.udfex.ams.module.account.web.controller.vo.CreateUserVo;
 import com.udfex.ucs.module.user.entity.SysPermissions;
 import com.udfex.ucs.module.user.entity.SysPermissionsExample;
-import com.udfex.ucs.module.user.entity.SysUsers;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
@@ -33,6 +31,9 @@ public class PermissionController {
     PermissionService permissionService;
 
     @Autowired
+    RoleService roleService;
+
+    @Autowired
     MybatisDao mybatisDao;
 
     /**
@@ -43,29 +44,34 @@ public class PermissionController {
     public Map getPermission(){
         String username = (String) SecurityUtils.getSubject().getPrincipal();
         Set<String> roles = userService.findRoles(username);
-        Map map = new HashMap();
-        map.put("roles", roles);
-        return map;
+        Set<String> permissions = userService.findPermissions(username);
+        Map rolesMap = new HashMap();
+        rolesMap.put("roles", roles);
+        rolesMap.put("permissions", permissions);
+        return rolesMap;
     }
 
     /**
-     *  用户列表
-     * @param id
+     * 权限列表
+     * @param limit
+     * @param offset
+     * @param keyword
+     * @return
      */
     @RequestMapping(value = "/permission", method = RequestMethod.GET)
     public Page<SysPermissions> getPermissionList(@RequestParam(value = "limit") Integer limit,
                                         @RequestParam(value = "offset") Integer offset,
-                                        @RequestParam(value = "id", required = false) Integer id,
                                         @RequestParam(value = "keyword", required = false) String keyword){
         SysPermissionsExample sysPermissionsExample = new SysPermissionsExample();
         sysPermissionsExample.createCriteria()
-                .andPermissionLike("%" + StringUtils.trimToEmpty(keyword) + "%")
+                .andPermissionLike("%" + StringUtils.trimToEmpty(keyword) + "%");
+        sysPermissionsExample.or()
                 .andDescriptionLike("%" + StringUtils.trimToEmpty(keyword) + "%");
         return mybatisDao.selectPageByExample(sysPermissionsExample, limit, offset);
     }
 
     /**
-     *  权限列表
+     *  权限资源
      * @param id
      */
     @RequestMapping(value = "/permission/{id}", method = RequestMethod.GET)
@@ -86,8 +92,8 @@ public class PermissionController {
         }
         SysPermissions sysPermissions = new SysPermissions();
         sysPermissions.setDescription(createPermissionVo.getDescription());
-        sysPermissions.setPermission(createPermissionVo.getPermissionCode());
-        sysPermissions.setAvailable(createPermissionVo.getAvailable() ? 1 : 0);
+        sysPermissions.setPermission(createPermissionVo.getPermissionCode().toUpperCase());
+        sysPermissions.setAvailable(createPermissionVo.getAvailable() != null && createPermissionVo.getAvailable() ? 1 : 0);
         return permissionService.createPermission(sysPermissions);
     }
 

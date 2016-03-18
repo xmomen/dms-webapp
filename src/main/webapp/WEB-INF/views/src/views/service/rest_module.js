@@ -14,6 +14,9 @@ define(function () {
                     locked:"@locked"
                 }
             },
+            getPermissions: {
+                url:"/user/permissions"
+            },
             resetPassword: {
                 url:"/account/resetPassword" ,
                 method:"POST",
@@ -54,6 +57,18 @@ define(function () {
                 params: {
                     chose: "@chose",
                     userId: "@userId"
+                }
+            }
+        });
+    }]);
+    ngREST.factory("GroupPermissionRelationAPI", ["$resource", function($resource){
+        return $resource("/group/:id/permissions",{id:'@id'},{
+            query:{ isArray:false},
+            save:{
+                method:"PUT",
+                params: {
+                    chose: "@chose",
+                    permissionId: "@permissionId"
                 }
             }
         });

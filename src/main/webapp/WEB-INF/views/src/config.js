@@ -9,7 +9,8 @@ require.config({
         amsRest:"views/service/rest_module",
         EnvModule:"views/env_config",
         ugPagination:"js/ug-ui/ug-pagination",
-        ngPermission:"js/libs/angular-permission/angular-permission",
+        ngPermission:"js/components/angular-permission/dist/angular-permission",
+        //ngPermission:"js/libs/angular-permission/angular-permission",
         jqValidate:"js/plugin/jquery-validate/jquery.validate.min",
         messageTip:"js/plugin/jquery-validate/messages_zh",
         ngResource:"js/libs/angular-resource",
@@ -36,7 +37,7 @@ require.config({
             deps:["ngResource"]
         },
         ngApp:{
-            deps:["ugPagination", "EnvModule", "ngPermission", "ugValidate", "amsRest", "ugDialog"]
+            deps:["ugPagination", "EnvModule", "ugValidate", "amsRest", "ugDialog"]
         }
     }
 });

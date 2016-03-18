@@ -18,6 +18,22 @@ define([
                }
            }
         }],
+        User : ["UserAPI","PermissionStore", function(UserAPI, PermissionStore){
+            return {
+                fetchPermission: function(){
+                    UserAPI.getPermissions(function(data){
+                        PermissionStore.clearStore();
+                        for (var i = 0; i < data.permissions.length; i++) {
+                            var obj = data.permissions[i];
+                            PermissionStore
+                                .definePermission(obj, function (stateParams) {
+                                    return true;
+                                });
+                        }
+                    });
+                }
+            }
+        }],
         $baseHttp:["$http", "$q", "ApiEndpoint", function($http, $q, ApiEndpoint){
             var urlEndpoint = "";
             if(ApiEndpoint && ApiEndpoint.url){
@@ -53,37 +69,8 @@ define([
                 $rootScope.account = data.data;
             }
         })
-    }]).config(["$httpProvider", function($httpProvider){
-        $httpProvider.interceptors.push('HttpInterceptor');
-    }]).run(["$rootScope", "Permission", "$q", "$baseHttp", function($rootScope, Permission, $q, $baseHttp){
-        var roles = ["anonymous", "user", "admin", "superAdmin"];
-        Permission.defineManyRoles(roles, function(stateParams, roleName){
-            var deferred = $q.defer();
-            $baseHttp.get("/user/permissions").then(function (data) {
-                var hasRole = false;
-                for (var i = 0; i < data.roles.length; i++) {
-                    var obj = data.roles[i];
-                    if(obj === roleName){
-                        hasRole = true;
-                        break;
-                    }
-                }
-                if (hasRole) {
-                    deferred.resolve();
-                } else {
-                    deferred.reject();
-                }
-            }, function () {
-                // Error with request
-                deferred.reject();
-            });
-            return deferred.promise;
-        });
-        $rootScope.$on('$viewContentLoaded', function (event, next,  nextParams, fromState) {
-            // 初始化全局控件
-//           pageSetUp();
-        });
     }]).config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function ($stateProvider, $urlRouterProvider, $httpProvider) {
+        $httpProvider.interceptors.push('HttpInterceptor');
         $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
         $urlRouterProvider.otherwise('/dashboard');
 
@@ -107,5 +94,11 @@ define([
                 }]
             })
 
+    }]).run(["$rootScope", "User", function($rootScope, User){
+        User.fetchPermission();
+        $rootScope.$on('$viewContentLoaded', function (event, next,  nextParams, fromState) {
+            // 初始化全局控件
+//           pageSetUp();
+        });
     }]);
 });

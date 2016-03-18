@@ -1,9 +1,11 @@
 package com.udfex.ams.module.account.service;
 
+import com.udfex.ams.module.account.web.controller.vo.GroupPermissionRelation;
 import com.udfex.ams.module.account.web.controller.vo.UserGroupRelation;
 import com.udfex.ucs.module.user.entity.SysRoles;
 import com.udfex.ucs.module.user.entity.SysRolesExample;
 import com.udfex.ucs.module.user.entity.SysRolesPermissions;
+import com.udfex.ucs.module.user.entity.SysRolesPermissionsExample;
 import com.xmomen.framework.mybatis.page.Page;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import com.xmomen.framework.mybatis.dao.MybatisDao;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,7 +105,15 @@ public class RoleServiceImpl implements RoleService {
     	mybatisDao.deleteByPrimaryKey(SysRoles.class, roleId);
     }
 
-    /**
+	@Override
+	public Page<GroupPermissionRelation> findPermissionByRoles(String roleId, boolean chose, Integer pageSize, Integer pageNum) {
+		Map map = new HashMap();
+		map.put("id" , roleId);
+		map.put("chose" , chose);
+		return (Page<GroupPermissionRelation>) mybatisDao.selectPage("com.udfex.ams.module.account.mapper.UserMapper.findPermissionByRole", map, pageSize, pageNum);
+	}
+
+	/**
      * 添加角色-权限之间关系
      * @param roleId
      * @param permissionIds
@@ -121,13 +132,12 @@ public class RoleServiceImpl implements RoleService {
      * @param roleId
      * @param permissionIds
      */
-    public void uncorrelationPermissions(Integer roleId, Integer... permissionIds) {
-    	for(Integer permissionId : permissionIds){
-    		SysRolesPermissions sysRolesPermissionsKey = new SysRolesPermissions();
-    		sysRolesPermissionsKey.setPermissionId(permissionId);
-    		sysRolesPermissionsKey.setRoleId(roleId);
-    		mybatisDao.delete(sysRolesPermissionsKey);
-    	}
+    public void unCorrelationPermissions(Integer roleId, Integer... permissionIds) {
+		SysRolesPermissionsExample sysRolesPermissionsExample = new SysRolesPermissionsExample();
+		sysRolesPermissionsExample.createCriteria()
+				.andRoleIdEqualTo(roleId)
+				.andPermissionIdIn(Arrays.asList(permissionIds));
+		mybatisDao.deleteByExample(sysRolesPermissionsExample);
     }
 
 }

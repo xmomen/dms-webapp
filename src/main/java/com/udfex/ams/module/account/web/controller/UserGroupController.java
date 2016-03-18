@@ -4,6 +4,7 @@ import com.udfex.ams.module.account.model.User;
 import com.udfex.ams.module.account.service.RoleService;
 import com.udfex.ams.module.account.service.UserService;
 import com.udfex.ams.module.account.web.controller.vo.CreateUserGroup;
+import com.udfex.ams.module.account.web.controller.vo.GroupPermissionRelation;
 import com.udfex.ams.module.account.web.controller.vo.UpdateUserGroup;
 import com.udfex.ams.module.account.web.controller.vo.UserGroupRelation;
 import com.udfex.ucs.module.user.entity.SysRoles;
@@ -133,6 +134,41 @@ public class UserGroupController {
             userService.correlationRoles(userId, groupId);
         }else{
             userService.uncorrelationRoles(userId, groupId);
+        }
+    }
+
+    /**
+     * 查询用户组权限
+     * @param groupId
+     * @param limit
+     * @param offset
+     * @return
+     */
+    @RequestMapping(value = "/group/{groupId}/permissions")
+    public Page<GroupPermissionRelation> findPermissionByGroup(@PathVariable(value = "groupId") String groupId,
+                                                    @RequestParam(value = "chose") Boolean unChose,
+                                                    @RequestParam(value = "limit") Integer limit,
+                                                    @RequestParam(value = "offset") Integer offset){
+        if(unChose == null){
+            unChose = false;
+        }
+        return roleService.findPermissionByRoles(groupId, unChose, limit, offset);
+    }
+
+    /**
+     * 绑定权限
+     * @param groupId
+     * @param chose
+     * @param permissionId
+     */
+    @RequestMapping(value = "/group/{groupId}/permissions", method = RequestMethod.PUT)
+    public void correlationPermission(@PathVariable(value = "groupId") Integer groupId,
+                                 @RequestParam(value = "chose") Boolean chose,
+                                 @RequestParam(value = "permissionId") Integer permissionId){
+        if(chose != null && chose){
+            roleService.correlationPermissions(groupId, permissionId);
+        }else{
+            roleService.unCorrelationPermissions(groupId, permissionId);
         }
     }
 

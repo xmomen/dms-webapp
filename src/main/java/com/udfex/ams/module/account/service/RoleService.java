@@ -1,5 +1,6 @@
 package com.udfex.ams.module.account.service;
 
+import com.udfex.ams.module.account.web.controller.vo.GroupPermissionRelation;
 import com.udfex.ams.module.account.web.controller.vo.UserGroupRelation;
 import com.udfex.ucs.module.user.entity.SysRoles;
 import com.xmomen.framework.mybatis.page.Page;
@@ -64,6 +65,16 @@ public interface RoleService {
     public void deleteRole(Integer roleId);
 
     /**
+     * 根据角色查询权限
+     * @param roleId
+     * @param chose
+     * @param pageSize
+     * @param pageNum
+     * @return
+     */
+    public Page<GroupPermissionRelation> findPermissionByRoles(String roleId, boolean chose, Integer pageSize, Integer pageNum);
+
+    /**
      * 添加角色-权限之间关系
      * @param roleId
      * @param permissionIds
@@ -75,6 +86,6 @@ public interface RoleService {
      * @param roleId
      * @param permissionIds
      */
-    public void uncorrelationPermissions(Integer roleId, Integer... permissionIds);
+    public void unCorrelationPermissions(Integer roleId, Integer... permissionIds);
 
 }

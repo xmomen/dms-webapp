@@ -29,10 +29,10 @@
         u.EMAIL
         FROM
         sys_users u
-        <if test="id and chose">
+        <!--<if test="id and chose">-->
             LEFT JOIN sys_users_roles ur
             ON u.ID = ur.USER_ID
-        </if>
+        <!--</if>-->
         <where>
             <if test="id and chose">
                 AND ur.ROLE_ID = #{id}
@@ -46,6 +46,34 @@
                 LEFT JOIN sys_users_roles ur
                 ON u.ID = ur.USER_ID
                 WHERE ur.ROLE_ID= #{id})
+            </if>
+        </where>
+    </select>
+
+    <!--    查询权限关系表    -->
+    <select id="findPermissionByRole" resultType="com.udfex.ams.module.account.web.controller.vo.GroupPermissionRelation" parameterType="java.util.HashMap">
+        select p.`ID` as permissionId,
+              p.`PERMISSION` as permissionCode,
+              p.`DESCRIPTION` as permissionDescription,
+              rp.`ROLE_ID`  as GROUP_ID
+        from sys_permissions p
+        <!--<if test="id and chose">-->
+            left join `sys_roles_permissions` rp
+              on rp.`PERMISSION_ID`=p.`ID`
+        <!--</if>-->
+        <where>
+            <if test="id and chose">
+                AND rp.ROLE_ID = #{id}
+            </if>
+            <if test="!chose">
+                AND p.ID NOT IN
+                (SELECT
+                r.ID AS permission_id
+                FROM
+                sys_permissions r
+                LEFT JOIN sys_roles_permissions rp
+                ON r.ID = rp.PERMISSION_ID
+                WHERE rp.ROLE_ID= #{id})
             </if>
         </where>
     </select>

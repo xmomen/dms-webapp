@@ -4,15 +4,15 @@
 define(function () {
     return ["$scope", "PermissionAPI", "$modal", "$ugDialog", function($scope, PermissionAPI, $modal, $ugDialog){
         $scope.userList = [];
-        $scope.pageSetting = {
-            pageSize:10,
+        $scope.pageInfoSetting = {
+            pageSize:30,
             pageNum:1
         };
         $scope.queryParam = {};
         $scope.getPermissionList = function(){
             PermissionAPI.query({
-                limit:$scope.pageSetting.pageSize,
-                offset:$scope.pageSetting.pageNum,
+                limit:$scope.pageInfoSetting.pageSize,
+                offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword
             }, function(data){
                 $scope.permissionList = data.data;
