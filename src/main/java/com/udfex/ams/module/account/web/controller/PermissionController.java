@@ -1,13 +1,10 @@
 package com.udfex.ams.module.account.web.controller;
 
-import com.udfex.ams.module.account.model.CreateUser;
 import com.udfex.ams.module.account.service.PermissionService;
 import com.udfex.ams.module.account.service.UserService;
 import com.udfex.ams.module.account.web.controller.vo.CreatePermissionVo;
-import com.udfex.ams.module.account.web.controller.vo.CreateUserVo;
 import com.udfex.ucs.module.user.entity.SysPermissions;
 import com.udfex.ucs.module.user.entity.SysPermissionsExample;
-import com.udfex.ucs.module.user.entity.SysUsers;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
@@ -55,11 +52,11 @@ public class PermissionController {
     @RequestMapping(value = "/permission", method = RequestMethod.GET)
     public Page<SysPermissions> getPermissionList(@RequestParam(value = "limit") Integer limit,
                                         @RequestParam(value = "offset") Integer offset,
-                                        @RequestParam(value = "id", required = false) Integer id,
                                         @RequestParam(value = "keyword", required = false) String keyword){
         SysPermissionsExample sysPermissionsExample = new SysPermissionsExample();
         sysPermissionsExample.createCriteria()
-                .andPermissionLike("%" + StringUtils.trimToEmpty(keyword) + "%")
+                .andPermissionLike("%" + StringUtils.trimToEmpty(keyword) + "%");
+        sysPermissionsExample.or()
                 .andDescriptionLike("%" + StringUtils.trimToEmpty(keyword) + "%");
         return mybatisDao.selectPageByExample(sysPermissionsExample, limit, offset);
     }
@@ -86,8 +83,8 @@ public class PermissionController {
         }
         SysPermissions sysPermissions = new SysPermissions();
         sysPermissions.setDescription(createPermissionVo.getDescription());
-        sysPermissions.setPermission(createPermissionVo.getPermissionCode());
-        sysPermissions.setAvailable(createPermissionVo.getAvailable() ? 1 : 0);
+        sysPermissions.setPermission(createPermissionVo.getPermissionCode().toUpperCase());
+        sysPermissions.setAvailable(createPermissionVo.getAvailable() != null && createPermissionVo.getAvailable() ? 1 : 0);
         return permissionService.createPermission(sysPermissions);
     }
 

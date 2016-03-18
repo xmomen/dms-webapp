@@ -49,7 +49,7 @@
 										<input type="search" placeholder="用户名/邮箱" data-ng-keyup="getGroupList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
 								</div>
 							</div>
-							<div class="col-xs-1 col-sm-2">
+							<div class="col-xs-1 col-sm-2" permission only="'GROUP_ADD'">
 								<button class="btn btn-primary" type="button" data-ng-click="open()">
 									<i class="fa fa-plus"></i>
 									新增用户组
@@ -62,8 +62,8 @@
 								<tr>
 									<th>用户组</th>
 									<th>描述</th>
-									<th>是否启用</th>
-									<th width="40">操作</th>
+									<th width="40" style="align-content: center">启用</th>
+									<th width="80">操作</th>
 								</tr>
 								</thead>
 								<tbody>
@@ -90,7 +90,7 @@
 								</tr>
 								<tr ng-if="groupList == null || groupList.length == 0">
 									<td colspan="4">
-										<div>暂无消息数据</div>
+										<div>暂无数据</div>
 									</td>
 								</tr>
 								</tbody>

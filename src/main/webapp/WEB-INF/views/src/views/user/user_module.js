@@ -7,31 +7,31 @@ define([
     "views/user/permission_list",
     "views/user/organization"
 ],function (accountList,group_list,permission_list,organization) {
-    angular.module('DMS.user', []).config(["$stateProvider", function ($stateProvider) {
-
+    angular.module('DMS.user', [
+        "permission"
+    ]).config(["$stateProvider", function($stateProvider){
         $stateProvider
-
             .state('user_list', {
                 url: '/user/list',
                 templateUrl: 'views/user/user_list.html',
-                data:{
-                    permissions:{
-                        only:["admin"],
-                        redirectTo:"unauthorized"
-                    }
-                },
+                //data:{
+                //    permissions:{
+                //        only:["admin"],
+                //        redirectTo:"unauthorized"
+                //    }
+                //},
                 controller: accountList
             })
             // 用户组
             .state('group_list', {
                 url: '/user/groups',
                 templateUrl: 'views/user/group_list.html',
-                data:{
-                    permissions:{
-                        only:["admin"],
-                        redirectTo:"unauthorized"
-                    }
-                },
+                //data:{
+                //    permissions:{
+                //        only:["admin"],
+                //        redirectTo:"unauthorized"
+                //    }
+                //},
                 controller: group_list
             })
             // 权限管理
@@ -58,6 +58,5 @@ define([
                 },
                 controller: organization
             })
-
     }]);
 });
