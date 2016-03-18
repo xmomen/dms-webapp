@@ -43,8 +43,7 @@ define(function () {
     }]);
     ngREST.factory("UserGroupAPI", ["$resource", function($resource){
         return $resource("/group/:id",{id:'@id'},{
-            query:{ isArray:false},
-            save:{method:"PUT"}
+            query:{ isArray:false}
         });
     }]);
     ngREST.factory("UserGroupRelationAPI", ["$resource", function($resource){
@@ -57,6 +56,12 @@ define(function () {
                     userId: "@userId"
                 }
             }
+        });
+    }]);
+    ngREST.factory("PermissionAPI", ["$resource", function($resource){
+        return $resource("/permission/:id",{id:'@id'},{
+            query:{ isArray:false},
+            update:{method:"PUT", params:{id:"@id"}}
         });
     }]);
     ngREST.factory("ScheduleAPI", ["$resource", function($resource){

@@ -63,10 +63,11 @@
 									<th>用户组</th>
 									<th>描述</th>
 									<th>是否启用</th>
+									<th width="40">操作</th>
 								</tr>
 								</thead>
 								<tbody>
-								<tr ng-repeat="group in groupList"  ng-if="groupList.length > 0">
+								<tr ng-repeat="group in groupList"  ng-if="groupList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
 									<td>
 										<a href="#" data-ng-click="openAddUserToGroup($index)" ng-bind="group.role"></a>
 									</td>
@@ -79,9 +80,16 @@
 											<i></i>
 										</label>
 									</td>
+									<td>
+										<div ng-show="show">
+											<a href="#" data-ng-click="removeGroup($index)" title="删除用户组：{{group.role}}">
+												<span class="glyphicon glyphicon-remove-circle"></span>
+											</a>
+										</div>
+									</td>
 								</tr>
-								<tr ng-if="groupList == null || userList.length == 0">
-									<td colspan="3">
+								<tr ng-if="groupList == null || groupList.length == 0">
+									<td colspan="4">
 										<div>暂无消息数据</div>
 									</td>
 								</tr>
@@ -123,14 +131,14 @@
 					<div class="form-group">
 						<label class="col-md-2 control-label">用户组</label>
 						<div class="col-md-10">
-							<input class="form-control" required="true" data-rule-minlength="3" data-rule-maxlength="100" ng-model="userGroup.role" name="role" placeholder="请输入英文用户组名称" type="text">
+							<input class="form-control" required="true" data-rule-minlength="3" data-rule-maxlength="100" ng-model="userGroup.userGroup" name="role" placeholder="请输入英文用户组名称" type="text">
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label class="col-md-2 control-label">描述</label>
 						<div class="col-md-10">
-							<input class="form-control" required="true" data-rule-maxlength="100" ng-model="userGroup.description" name="email" placeholder="描述" type="email">
+							<input class="form-control" required="true" data-rule-maxlength="100" ng-model="userGroup.description" name="email" placeholder="描述" type="text">
 						</div>
 					</div>
 

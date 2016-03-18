@@ -64,8 +64,8 @@ public class UserGroupController {
         }
         SysRoles sysRoles = new SysRoles();
         sysRoles.setRole(createUserGroup.getUserGroup());
-        sysRoles.setDescrption(createUserGroup.getDescription());
-        sysRoles.setAvailable(createUserGroup.getAvailable() != null && createUserGroup.getAvailable() == 1 ? 1 : 0);
+        sysRoles.setDescription(createUserGroup.getDescription());
+        sysRoles.setAvailable(createUserGroup.getAvailable() != null && createUserGroup.getAvailable() ? 1 : 0);
         roleService.createRole(sysRoles);
     }
 
@@ -90,7 +90,7 @@ public class UserGroupController {
         }
         SysRoles sysRoles = new SysRoles();
         sysRoles.setId(id);
-        sysRoles.setDescrption(updateUserGroup.getDescription());
+        sysRoles.setDescription(updateUserGroup.getDescription());
         if(updateUserGroup.getAvailable() != null){
             sysRoles.setAvailable(updateUserGroup.getAvailable() ? 1 : 0);
         }

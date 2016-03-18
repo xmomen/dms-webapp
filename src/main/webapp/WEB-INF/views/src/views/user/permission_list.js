@@ -2,50 +2,44 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "UserAPI", "$modal", "$ugDialog", function($scope, UserAPI, $modal, $ugDialog){
+    return ["$scope", "PermissionAPI", "$modal", "$ugDialog", function($scope, PermissionAPI, $modal, $ugDialog){
         $scope.userList = [];
         $scope.pageSetting = {
             pageSize:10,
             pageNum:1
         };
         $scope.queryParam = {};
-        $scope.getUserList = function(){
-            UserAPI.query({
+        $scope.getPermissionList = function(){
+            PermissionAPI.query({
                 limit:$scope.pageSetting.pageSize,
                 offset:$scope.pageSetting.pageNum,
                 keyword:$scope.queryParam.keyword
             }, function(data){
-                $scope.userList = data.data;
+                $scope.permissionList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;
-                $scope.pageInfoSetting.loadData = $scope.getMessageList;
+                $scope.pageInfoSetting.loadData = $scope.getPermissionList;
             });
         };
-        $scope.locked = function(index){
-            UserAPI.lock({
-                userId: $scope.userList[index].userId,
-                locked: $scope.userList[index].locked == 1 ? true : false
-            });
-        };
-        $scope.removeUser = function(index){
-            $ugDialog.confirm("是否删除用户？").then(function(){
-                UserAPI.delete({
-                    userId: $scope.userList[index].userId
+        $scope.removePermission = function(index){
+            $ugDialog.confirm("是否删除权限？").then(function(){
+                PermissionAPI.delete({
+                    id: $scope.permissionList[index].id
                 }, function(){
-                    $scope.getUserList();
+                    $scope.getPermissionList();
                 });
             })
         };
         $scope.open = function (index, size) {
             var modalInstance = $modal.open({
-                templateUrl: 'addUser.html',
-                controller: ["$scope", "UserAPI", "$modalInstance", function ($scope, UserAPI, $modalInstance) {
-                    $scope.user = {};
+                templateUrl: 'addPermission.html',
+                controller: ["$scope", "PermissionAPI", "$modalInstance", function ($scope, PermissionAPI, $modalInstance) {
+                    $scope.permission = {};
                     $scope.errors = null;
-                    $scope.addAccountForm = {};
-                    $scope.saveAccount = function(){
+                    $scope.addPermissionForm = {};
+                    $scope.savePermission = function(){
                         $scope.errors = null;
-                        if($scope.addAccountForm.validator.form()){
-                            UserAPI.save($scope.user, function(){
+                        if($scope.addPermissionForm.validator.form()){
+                            PermissionAPI.save($scope.permission, function(){
                                 $modalInstance.close();
                             }, function(data){
                                 $scope.errors = data.data;
@@ -59,10 +53,10 @@ define(function () {
                 size: size
             });
             modalInstance.result.then(function () {
-                $scope.getUserList();
+                $scope.getPermissionList();
             });
         };
 
-        $scope.getUserList();
+        $scope.getPermissionList();
     }];
 });

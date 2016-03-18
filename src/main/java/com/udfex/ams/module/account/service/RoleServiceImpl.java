@@ -52,7 +52,7 @@ public class RoleServiceImpl implements RoleService {
 		if(StringUtils.isNotBlank(keyValue)){
 			sysRolesExample.createCriteria()
 					.andRoleLike(keyValue);
-			sysRolesExample.or().andDescrptionLike(keyValue);
+			sysRolesExample.or().andDescriptionLike(keyValue);
 		}
 		return mybatisDao.selectPageByExample(sysRolesExample, pageSize, pageNum);
 	}

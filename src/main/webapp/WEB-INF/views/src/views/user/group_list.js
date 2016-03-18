@@ -2,7 +2,7 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "UserGroupAPI", "$modal", function($scope, UserGroupAPI, $modal){
+    return ["$scope", "UserGroupAPI", "$modal", "$ugDialog", function($scope, UserGroupAPI, $modal, $ugDialog){
         $scope.groupList = [];
         $scope.pageSetting = {
             pageSize:10,
@@ -19,6 +19,15 @@ define(function () {
                 $scope.pageInfoSetting = data.pageInfo;
                 $scope.pageInfoSetting.loadData = $scope.getGroupList;
             });
+        };
+        $scope.removeGroup = function(index){
+            $ugDialog.confirm("是否删除用户组？").then(function(){
+                UserGroupAPI.delete({
+                    id: $scope.groupList[index].id
+                }, function(){
+                    $scope.getGroupList();
+                });
+            })
         };
         $scope.locked = function(index){
             UserGroupAPI.save({

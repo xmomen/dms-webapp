@@ -1,7 +1,6 @@
 package com.udfex.ucs.module.user.entity;
 
 import com.xmomen.framework.mybatis.model.BaseMybatisExample;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -236,73 +235,73 @@ public class SysPermissionsExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andDescrptionIsNull() {
-            addCriterion("DESCRPTION is null");
+        public Criteria andDescriptionIsNull() {
+            addCriterion("DESCRIPTION is null");
             return (Criteria) this;
         }
 
-        public Criteria andDescrptionIsNotNull() {
-            addCriterion("DESCRPTION is not null");
+        public Criteria andDescriptionIsNotNull() {
+            addCriterion("DESCRIPTION is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDescrptionEqualTo(String value) {
-            addCriterion("DESCRPTION =", value, "descrption");
+        public Criteria andDescriptionEqualTo(String value) {
+            addCriterion("DESCRIPTION =", value, "description");
             return (Criteria) this;
         }
 
-        public Criteria andDescrptionNotEqualTo(String value) {
-            addCriterion("DESCRPTION <>", value, "descrption");
+        public Criteria andDescriptionNotEqualTo(String value) {
+            addCriterion("DESCRIPTION <>", value, "description");
             return (Criteria) this;
         }
 
-        public Criteria andDescrptionGreaterThan(String value) {
-            addCriterion("DESCRPTION >", value, "descrption");
+        public Criteria andDescriptionGreaterThan(String value) {
+            addCriterion("DESCRIPTION >", value, "description");
             return (Criteria) this;
         }
 
-        public Criteria andDescrptionGreaterThanOrEqualTo(String value) {
-            addCriterion("DESCRPTION >=", value, "descrption");
+        public Criteria andDescriptionGreaterThanOrEqualTo(String value) {
+            addCriterion("DESCRIPTION >=", value, "description");
             return (Criteria) this;
         }
 
-        public Criteria andDescrptionLessThan(String value) {
-            addCriterion("DESCRPTION <", value, "descrption");
+        public Criteria andDescriptionLessThan(String value) {
+            addCriterion("DESCRIPTION <", value, "description");
             return (Criteria) this;
         }
 
-        public Criteria andDescrptionLessThanOrEqualTo(String value) {
-            addCriterion("DESCRPTION <=", value, "descrption");
+        public Criteria andDescriptionLessThanOrEqualTo(String value) {
+            addCriterion("DESCRIPTION <=", value, "description");
             return (Criteria) this;
         }
 
-        public Criteria andDescrptionLike(String value) {
-            addCriterion("DESCRPTION like", value, "descrption");
+        public Criteria andDescriptionLike(String value) {
+            addCriterion("DESCRIPTION like", value, "description");
             return (Criteria) this;
         }
 
-        public Criteria andDescrptionNotLike(String value) {
-            addCriterion("DESCRPTION not like", value, "descrption");
+        public Criteria andDescriptionNotLike(String value) {
+            addCriterion("DESCRIPTION not like", value, "description");
             return (Criteria) this;
         }
 
-        public Criteria andDescrptionIn(List<String> values) {
-            addCriterion("DESCRPTION in", values, "descrption");
+        public Criteria andDescriptionIn(List<String> values) {
+            addCriterion("DESCRIPTION in", values, "description");
             return (Criteria) this;
         }
 
-        public Criteria andDescrptionNotIn(List<String> values) {
-            addCriterion("DESCRPTION not in", values, "descrption");
+        public Criteria andDescriptionNotIn(List<String> values) {
+            addCriterion("DESCRIPTION not in", values, "description");
             return (Criteria) this;
         }
 
-        public Criteria andDescrptionBetween(String value1, String value2) {
-            addCriterion("DESCRPTION between", value1, value2, "descrption");
+        public Criteria andDescriptionBetween(String value1, String value2) {
+            addCriterion("DESCRIPTION between", value1, value2, "description");
             return (Criteria) this;
         }
 
-        public Criteria andDescrptionNotBetween(String value1, String value2) {
-            addCriterion("DESCRPTION not between", value1, value2, "descrption");
+        public Criteria andDescriptionNotBetween(String value1, String value2) {
+            addCriterion("DESCRIPTION not between", value1, value2, "description");
             return (Criteria) this;
         }
 

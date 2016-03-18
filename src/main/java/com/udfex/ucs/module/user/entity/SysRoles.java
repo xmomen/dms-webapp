@@ -1,8 +1,12 @@
 package com.udfex.ucs.module.user.entity;
 
 import com.xmomen.framework.mybatis.model.BaseMybatisModel;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Version;
 
 @Entity
 @Table(name = "sys_roles")
@@ -20,7 +24,7 @@ public class SysRoles extends BaseMybatisModel {
     /**
      * 角色描述
      */
-    private String descrption;
+    private String description;
 
     /**
      * 是否启用：0-禁用，1-启用
@@ -57,18 +61,18 @@ public class SysRoles extends BaseMybatisModel {
         addValidField("role");
     }
 
-    @Column(name = "DESCRPTION")
-    public String getDescrption() {
-        return descrption;
+    @Column(name = "DESCRIPTION")
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescrption(String descrption) {
-        this.descrption = descrption;
-        if(descrption == null){
-              removeValidField("descrption");
+    public void setDescription(String description) {
+        this.description = description;
+        if(description == null){
+              removeValidField("description");
               return;
         }
-        addValidField("descrption");
+        addValidField("description");
     }
 
     @Column(name = "AVAILABLE")

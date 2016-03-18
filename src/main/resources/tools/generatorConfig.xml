@@ -24,23 +24,24 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://192.168.8.200:3306/udf_ams_dev?useUnicode=true&amp;characterEncoding=UTF-8"
-                        userId="dev" password="dev" />
+                        connectionURL="jdbc:mysql://120.24.236.186:3306/dms_dev?useUnicode=true&amp;characterEncoding=UTF-8"
+                        userId="dms_dev" password="dev" />
 
         <javaTypeResolver type="com.xmomen.maven.plugins.mybatis.generator.plugins.types.JavaTypeResolverDefaultImplExt"></javaTypeResolver>
 
-        <javaModelGenerator targetPackage="com.udfex.ucs.module.schedule.entity"
+        <javaModelGenerator targetPackage="com.udfex.ucs.module.user.entity"
                             targetProject="./src/main/java" >
             <property name="rootClass" value="com.xmomen.framework.mybatis.model.BaseMybatisModel" />
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="com.udfex.ucs.module.schedule.entity.mapper"
+        <sqlMapGenerator targetPackage="com.udfex.ucs.module.user.entity.mapper"
                          targetProject="./src/main/resources" />
-        <javaClientGenerator targetPackage="com.udfex.ucs.module.schedule.entity.mapper"
+        <javaClientGenerator targetPackage="com.udfex.ucs.module.user.entity.mapper"
                              targetProject="./src/main/java" type="XMLMAPPER" >
         </javaClientGenerator>
         <!--    用户模块    -->
-        <table tableName="schedule_job" />
+        <table tableName="sys_permissions" />
+        <table tableName="sys_roles" />
 
     </context>
 </generatorConfiguration>

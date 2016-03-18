@@ -3,25 +3,28 @@ package com.udfex.ams.module.account.web.controller.vo;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * Created by Jeng on 2016/2/1.
+ * Created by Jeng on 2016/3/18.
  */
-public class CreateUserGroup implements Serializable {
+public class CreatePermissionVo implements Serializable {
 
     @NotBlank
-    private String userGroup;
-    @NotEmpty
+    @NotNull
+    private String permissionCode;
+    @NotBlank
+    @NotNull
     private String description;
     private Boolean available;
 
-    public String getUserGroup() {
-        return userGroup;
+    public String getPermissionCode() {
+        return permissionCode;
     }
 
-    public void setUserGroup(String userGroup) {
-        this.userGroup = userGroup;
+    public void setPermissionCode(String permissionCode) {
+        this.permissionCode = permissionCode;
     }
 
     public String getDescription() {

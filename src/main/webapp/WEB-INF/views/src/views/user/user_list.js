@@ -17,7 +17,7 @@ define(function () {
             }, function(data){
                 $scope.userList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;
-                $scope.pageInfoSetting.loadData = $scope.getMessageList;
+                $scope.pageInfoSetting.loadData = $scope.getUserList;
             });
         };
         $scope.locked = function(index){

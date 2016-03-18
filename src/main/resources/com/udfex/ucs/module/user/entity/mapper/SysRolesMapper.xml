@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.udfex.ucs.module.user.entity.SysRoles" >
     <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="ROLE" property="role" jdbcType="VARCHAR" />
-    <result column="DESCRPTION" property="descrption" jdbcType="VARCHAR" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
     <result column="AVAILABLE" property="available" jdbcType="BIT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -66,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, ROLE, DESCRPTION, AVAILABLE
+    ID, ROLE, DESCRIPTION, AVAILABLE
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.udfex.ucs.module.user.entity.SysRolesExample" >
     select
@@ -97,8 +97,8 @@
       <if test="role != null" >
         ROLE,
       </if>
-      <if test="descrption != null" >
-        DESCRPTION,
+      <if test="description != null" >
+        DESCRIPTION,
       </if>
       <if test="available != null" >
         AVAILABLE,
@@ -111,8 +111,8 @@
       <if test="role != null" >
         #{role,jdbcType=VARCHAR},
       </if>
-      <if test="descrption != null" >
-        #{descrption,jdbcType=VARCHAR},
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
       </if>
       <if test="available != null" >
         #{available,jdbcType=BIT},
@@ -134,8 +134,8 @@
       <if test="record.role != null" >
         ROLE = #{record.role,jdbcType=VARCHAR},
       </if>
-      <if test="record.descrption != null" >
-        DESCRPTION = #{record.descrption,jdbcType=VARCHAR},
+      <if test="record.description != null" >
+        DESCRIPTION = #{record.description,jdbcType=VARCHAR},
       </if>
       <if test="record.available != null" >
         AVAILABLE = #{record.available,jdbcType=BIT},
