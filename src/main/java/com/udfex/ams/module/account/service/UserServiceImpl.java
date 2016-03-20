@@ -4,11 +4,7 @@ import java.util.*;
 
 import com.udfex.ams.module.account.mapper.UserMapper;
 import com.udfex.ams.module.account.model.CreateUser;
-import com.udfex.ams.module.account.web.controller.vo.UserGroupRelation;
 import com.udfex.ucs.module.user.entity.*;
-import com.xmomen.framework.mybatis.page.Page;
-import org.apache.commons.collections.ListUtils;
-import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
