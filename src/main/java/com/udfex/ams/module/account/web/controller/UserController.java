@@ -9,6 +9,7 @@ import com.udfex.ams.module.account.web.controller.vo.CreateUserVo;
 import com.udfex.ucs.module.user.entity.SysUsers;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
+import com.xmomen.module.logger.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +39,7 @@ public class UserController {
      * @param id
      */
     @RequestMapping(value = "/user", method = RequestMethod.GET)
+    @Log(actionName = "查询用户列表")
     public Page<CreateUser> getUserList(@RequestParam(value = "limit") Integer limit,
                                   @RequestParam(value = "offset") Integer offset,
                                   @RequestParam(value = "id", required = false) Integer id,
@@ -53,6 +55,7 @@ public class UserController {
      * @param id
      */
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+    @Log(actionName = "查询用户")
     public SysUsers getUserList(@PathVariable(value = "id") Integer id){
         return mybatisDao.selectByPrimaryKey(SysUsers.class, id);
     }
@@ -64,6 +67,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/user", method = RequestMethod.POST)
+    @Log(actionName = "新增用户")
     public SysUsers createUser(@RequestBody @Valid CreateUserVo createUser, BindingResult bindingResult) throws ArgumentValidException {
         if(bindingResult != null && bindingResult.hasErrors()){
             throw new ArgumentValidException(bindingResult);
@@ -81,6 +85,7 @@ public class UserController {
      * @param id
      */
     @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
+    @Log(actionName = "删除用户")
     public void deleteUser(@PathVariable(value = "id") Long id){
         mybatisDao.deleteByPrimaryKey(SysUsers.class, id);
     }
@@ -90,6 +95,7 @@ public class UserController {
      * @param id
      */
     @RequestMapping(value = "/user/{id}/locked", method = RequestMethod.PUT)
+    @Log(actionName = "修改用户信息")
     public void lockedUser(@PathVariable(value = "id") Integer id,
                            @RequestParam(value = "locked") Boolean locked){
         SysUsers sysUsers = new SysUsers();

@@ -1,7 +1,10 @@
 package com.udfex.ams.module.core.web.filter;
 
 import com.alibaba.fastjson.JSONObject;
+import com.udfex.ams.module.account.service.UserService;
 import com.udfex.ams.module.core.web.WebCommonUtils;
+import com.udfex.ucs.module.user.entity.SysUsers;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.subject.Subject;
@@ -9,6 +12,7 @@ import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import javax.servlet.ServletOutputStream;
@@ -26,6 +30,9 @@ import java.util.Map;
  * Created by Jeng on 2016/1/7.
  */
 public class FormAuthenticationFilterExt extends FormAuthenticationFilter {
+
+    @Autowired
+    UserService userService;
 
     private static Logger logger = LoggerFactory.getLogger(FormAuthenticationFilterExt.class);
 
@@ -96,7 +103,9 @@ public class FormAuthenticationFilterExt extends FormAuthenticationFilter {
                                      ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-
+        String username = (String) subject.getPrincipal();
+        SysUsers sysUsers = userService.findByUsername(username);
+        subject.getSession().setAttribute("user_id", sysUsers.getId());
         if (!WebCommonUtils.isJSON(request)) {// 不是ajax请求
             issueSuccessRedirect(request, response);
         } else {

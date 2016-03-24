@@ -1,10 +1,7 @@
 package com.udfex.ams.module.core.web.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
-import com.udfex.ams.module.account.service.RoleService;
 import com.udfex.ams.module.account.service.UserService;
 import com.udfex.ams.module.core.web.controller.dto.AccountSettingDto;
 import org.apache.shiro.SecurityUtils;
@@ -14,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import static com.udfex.ams.module.core.web.controller.dto.AccountSettingDto.*;
 
 /**
  * Created by Jeng on 2016/1/5.
