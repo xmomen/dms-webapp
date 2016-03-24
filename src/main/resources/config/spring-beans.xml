@@ -16,12 +16,12 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <bean id="passwordHelper" class="com.udfex.ams.module.account.service.PasswordHelper">
+    <bean id="passwordHelper" class="com.xmomen.module.account.service.PasswordHelper">
         <property name="algorithmName" value="md5"/>
         <property name="hashIterations" value="2"/>
     </bean>
 
-    <bean id="userService" class="com.udfex.ams.module.account.service.UserServiceImpl">
+    <bean id="userService" class="com.xmomen.module.account.service.UserServiceImpl">
         <property name="passwordHelper" ref="passwordHelper"/>
     </bean>
 

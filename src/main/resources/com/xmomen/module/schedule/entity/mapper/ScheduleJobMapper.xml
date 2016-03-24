@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.schedule.entity.mapper.ScheduleJobMapper" >
+  <resultMap id="BaseResultMap" type="com.xmomen.module.schedule.entity.ScheduleJob" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="JOB_NAME" property="jobName" jdbcType="VARCHAR" />
+    <result column="JOB_GROUP" property="jobGroup" jdbcType="VARCHAR" />
+    <result column="JOB_STATUS" property="jobStatus" jdbcType="BIT" />
+    <result column="JOB_DESCRIPTION" property="jobDescription" jdbcType="VARCHAR" />
+    <result column="CRON_EXPRESSION" property="cronExpression" jdbcType="VARCHAR" />
+    <result column="TRIGGER_ID" property="triggerId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, JOB_NAME, JOB_GROUP, JOB_STATUS, JOB_DESCRIPTION, CRON_EXPRESSION, TRIGGER_ID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.schedule.entity.ScheduleJobExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from schedule_job
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.xmomen.module.schedule.entity.ScheduleJobExample" >
+    delete from schedule_job
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insertSelective" parameterType="com.xmomen.module.schedule.entity.ScheduleJob" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
+    insert into schedule_job
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="jobName != null" >
+        JOB_NAME,
+      </if>
+      <if test="jobGroup != null" >
+        JOB_GROUP,
+      </if>
+      <if test="jobStatus != null" >
+        JOB_STATUS,
+      </if>
+      <if test="jobDescription != null" >
+        JOB_DESCRIPTION,
+      </if>
+      <if test="cronExpression != null" >
+        CRON_EXPRESSION,
+      </if>
+      <if test="triggerId != null" >
+        TRIGGER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="jobName != null" >
+        #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobGroup != null" >
+        #{jobGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="jobStatus != null" >
+        #{jobStatus,jdbcType=BIT},
+      </if>
+      <if test="jobDescription != null" >
+        #{jobDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="cronExpression != null" >
+        #{cronExpression,jdbcType=VARCHAR},
+      </if>
+      <if test="triggerId != null" >
+        #{triggerId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xmomen.module.schedule.entity.ScheduleJobExample" resultType="java.lang.Integer" >
+    select count(*) from schedule_job
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update schedule_job
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.jobName != null" >
+        JOB_NAME = #{record.jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobGroup != null" >
+        JOB_GROUP = #{record.jobGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobStatus != null" >
+        JOB_STATUS = #{record.jobStatus,jdbcType=BIT},
+      </if>
+      <if test="record.jobDescription != null" >
+        JOB_DESCRIPTION = #{record.jobDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cronExpression != null" >
+        CRON_EXPRESSION = #{record.cronExpression,jdbcType=VARCHAR},
+      </if>
+      <if test="record.triggerId != null" >
+        TRIGGER_ID = #{record.triggerId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>
