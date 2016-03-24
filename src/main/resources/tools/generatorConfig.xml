@@ -29,14 +29,14 @@
 
         <javaTypeResolver type="com.xmomen.maven.plugins.mybatis.generator.plugins.types.JavaTypeResolverDefaultImplExt"></javaTypeResolver>
 
-        <javaModelGenerator targetPackage="com.udfex.ucs.module.user.entity"
+        <javaModelGenerator targetPackage="com.xmomen.ucs.module.user.entity"
                             targetProject="./src/main/java" >
             <property name="rootClass" value="com.xmomen.framework.mybatis.model.BaseMybatisModel" />
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="com.udfex.ucs.module.user.entity.mapper"
+        <sqlMapGenerator targetPackage="com.xmomen.ucs.module.user.entity.mapper"
                          targetProject="./src/main/resources" />
-        <javaClientGenerator targetPackage="com.udfex.ucs.module.user.entity.mapper"
+        <javaClientGenerator targetPackage="com.xmomen.ucs.module.user.entity.mapper"
                              targetProject="./src/main/java" type="XMLMAPPER" >
         </javaClientGenerator>
         <!--    用户模块    -->

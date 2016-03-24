@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.account.mapper.UserMapper" >
+
+    <!--    查询消息    -->
+    <select id="getUsers" resultType="com.xmomen.module.account.model.User" parameterType="java.util.HashMap">
+        SELECT
+        u.id AS userId,
+        u.username,
+        u.email,
+        u.locked
+        FROM
+        sys_users u
+        <where>
+              <if test="keyword">
+                  AND u.username LIKE CONCAT('%', #{keyword}, '%') or u.email like CONCAT('%', #{keyword}, '%')
+              </if>
+              <if test="id">
+                  AND m.ID = #{id}
+              </if>
+          </where>
+    </select>
+
+    <!--    查询关联关系表    -->
+    <select id="findUsersByRolesId" resultType="com.xmomen.module.account.web.controller.vo.UserGroupRelation" parameterType="java.util.HashMap">
+        SELECT
+        u.ID AS user_id,
+        u.USERNAME,
+        u.EMAIL
+        FROM
+        sys_users u
+        <!--<if test="id and chose">-->
+            LEFT JOIN sys_users_roles ur
+            ON u.ID = ur.USER_ID
+        <!--</if>-->
+        <where>
+            <if test="id and chose">
+                AND ur.ROLE_ID = #{id}
+            </if>
+            <if test="!chose">
+                AND u.ID NOT IN
+                (SELECT
+                u.ID AS user_id
+                FROM
+                sys_users u
+                LEFT JOIN sys_users_roles ur
+                ON u.ID = ur.USER_ID
+                WHERE ur.ROLE_ID= #{id})
+            </if>
+        </where>
+    </select>
+
+    <!--    查询权限关系表    -->
+    <select id="findPermissionByRole" resultType="com.xmomen.module.account.web.controller.vo.GroupPermissionRelation" parameterType="java.util.HashMap">
+        select p.`ID` as permissionId,
+              p.`PERMISSION` as permissionCode,
+              p.`DESCRIPTION` as permissionDescription,
+              rp.`ROLE_ID`  as GROUP_ID
+        from sys_permissions p
+        <!--<if test="id and chose">-->
+            left join `sys_roles_permissions` rp
+              on rp.`PERMISSION_ID`=p.`ID`
+        <!--</if>-->
+        <where>
+            <if test="id and chose">
+                AND rp.ROLE_ID = #{id}
+            </if>
+            <if test="!chose">
+                AND p.ID NOT IN
+                (SELECT
+                r.ID AS permission_id
+                FROM
+                sys_permissions r
+                LEFT JOIN sys_roles_permissions rp
+                ON r.ID = rp.PERMISSION_ID
+                WHERE rp.ROLE_ID= #{id})
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -26,24 +26,24 @@ define([
             .state('group_list', {
                 url: '/user/groups',
                 templateUrl: 'views/user/group_list.html',
-                //data:{
-                //    permissions:{
-                //        only:["USER_GROUP_VIEW"],
-                //        redirectTo:"unauthorized"
-                //    }
-                //},
+                data:{
+                    permissions:{
+                        only:["USER_GROUP_VIEW"],
+                        redirectTo:"unauthorized"
+                    }
+                },
                 controller: group_list
             })
             // 权限管理
             .state('permission', {
                 url: '/permission',
                 templateUrl: 'views/user/permission_list.html',
-                //data:{
-                //    permissions:{
-                //        only:["	PERMISSION_VIEW"],
-                //        redirectTo:"unauthorized"
-                //    }
-                //},
+                data:{
+                    permissions:{
+                        only:["PERMISSION_VIEW"],
+                        redirectTo:"unauthorized"
+                    }
+                },
                 controller: permission_list
             })
             // 组织管理

@@ -1,0 +1,66 @@
+{
+  "name": "angular",
+  "version": "1.5.1",
+  "description": "HTML enhanced for web apps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/angular/angular.js.git"
+  },
+  "keywords": [
+    "angular",
+    "framework",
+    "browser",
+    "client-side"
+  ],
+  "author": {
+    "name": "Angular Core Team",
+    "email": "angular-core+npm@google.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/angular/angular.js/issues"
+  },
+  "homepage": "http://angularjs.org",
+  "gitHead": "49f7c72f885619ddd93a6a30c55b9fb9da542a2c",
+  "_id": "angular@1.5.1",
+  "_shasum": "135d5c87e17dfb31a16fa18c1c9eea337a9d6969",
+  "_from": "angular@^1.5.1",
+  "_npmVersion": "2.0.2",
+  "_nodeVersion": "0.10.26",
+  "_npmUser": {
+    "name": "angularcore",
+    "email": "angular-core+npm@google.com"
+  },
+  "maintainers": [
+    {
+      "name": "angularcore",
+      "email": "angular-core+npm@google.com"
+    },
+    {
+      "name": "bclinkinbeard",
+      "email": "ben.clinkinbeard@gmail.com"
+    },
+    {
+      "name": "petebd",
+      "email": "pete@bacondarwin.com"
+    }
+  ],
+  "dist": {
+    "shasum": "135d5c87e17dfb31a16fa18c1c9eea337a9d6969",
+    "size": 535607,
+    "noattachment": false,
+    "tarball": "http://registry.cnpmjs.org/angular/download/angular-1.5.1.tgz"
+  },
+  "_npmOperationalInternal": {
+    "host": "packages-13-west.internal.npmjs.com",
+    "tmp": "tmp/angular-1.5.1.tgz_1458135309742_0.19614177127368748"
+  },
+  "directories": {},
+  "publish_time": 1458135310398,
+  "_cnpm_publish_time": 1458135310398,
+  "_resolved": "http://registry.cnpmjs.org/angular/download/angular-1.5.1.tgz"
+}

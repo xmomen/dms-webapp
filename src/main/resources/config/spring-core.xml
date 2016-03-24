@@ -31,6 +31,6 @@
 	<context:component-scan base-package="com">
 	</context:component-scan>
 
-	<bean class="com.udfex.ams.module.schedule.service.ScheduleJobService" init-method="initScheduleJobs" />
+	<bean class="com.xmomen.module.schedule.service.ScheduleJobService" init-method="initScheduleJobs" />
 
 </beans>

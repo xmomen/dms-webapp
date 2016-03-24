@@ -19,7 +19,7 @@
 
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
 
-	<bean id="loggerAspect" class="com.udfex.ams.module.system.LoggerAspect"/>
+	<bean id="loggerAspect" class="com.xmomen.module.system.LoggerAspect"/>
 
 	<bean id="jacksonObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
 	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
@@ -80,7 +80,7 @@
 	<bean id="exceptionHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">
 	</bean>
 
-	<bean id="handlerExceptionResolver" class="com.udfex.ams.module.core.web.exception.GlobalMappingExceptionResolver">
+	<bean id="handlerExceptionResolver" class="com.xmomen.module.core.web.exception.GlobalMappingExceptionResolver">
 		<property name="exceptionMappings">
 			<props>
 				<prop key="java.lang.Exception">errors/error</prop>

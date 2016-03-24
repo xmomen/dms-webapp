@@ -9,7 +9,7 @@
     </bean>
 
     <!-- 凭证匹配器 -->
-    <bean id="credentialsMatcher" class="com.udfex.ams.module.account.credentials.RetryLimitHashedCredentialsMatcher">
+    <bean id="credentialsMatcher" class="com.xmomen.module.account.credentials.RetryLimitHashedCredentialsMatcher">
         <constructor-arg ref="cacheManager"/>
         <property name="hashAlgorithmName" value="md5"/>
         <property name="hashIterations" value="2"/>
@@ -70,7 +70,7 @@
         <property name="realms" >
             <util:list>
                 <!-- Realm实现 -->
-                <bean id="userRealm" class="com.udfex.ams.module.account.realm.UserRealm">
+                <bean id="userRealm" class="com.xmomen.module.account.realm.UserRealm">
                     <property name="userService" ref="userService"/>
                     <property name="credentialsMatcher" ref="credentialsMatcher"/>
                     <property name="cachingEnabled" value="true"/>
@@ -93,7 +93,7 @@
     </bean>
 
     <!-- 基于Form表单的身份验证过滤器 -->
-    <bean id="formAuthenticationFilter" class="com.udfex.ams.module.core.web.filter.FormAuthenticationFilterExt">
+    <bean id="formAuthenticationFilter" class="com.xmomen.module.core.web.filter.FormAuthenticationFilterExt">
         <property name="usernameParam" value="username"/>
         <property name="passwordParam" value="password"/>
         <property name="rememberMeParam" value="rememberMe"/>
