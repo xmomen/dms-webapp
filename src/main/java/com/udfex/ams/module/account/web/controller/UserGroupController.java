@@ -10,6 +10,7 @@ import com.udfex.ams.module.account.web.controller.vo.UserGroupRelation;
 import com.udfex.ucs.module.user.entity.SysRoles;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
+import com.xmomen.module.logger.Log;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -36,6 +37,7 @@ public class UserGroupController {
      * @return
      */
     @RequestMapping(value = "/group", method = RequestMethod.GET)
+    @Log(actionName = "查询用户组列表")
     public Page<SysRoles> getUserList(@RequestParam(value = "limit") Integer limit,
                                   @RequestParam(value = "offset") Integer offset,
                                   @RequestParam(value = "keyword", required = false) String keyword){
@@ -48,6 +50,7 @@ public class UserGroupController {
      * @param id
      */
     @RequestMapping(value = "/group/{id}", method = RequestMethod.GET)
+    @Log(actionName = "查询用户组")
     public SysRoles getUserList(@PathVariable(value = "id") Integer id){
         return roleService.getRole(id);
     }
@@ -59,6 +62,7 @@ public class UserGroupController {
      * @throws ArgumentValidException
      */
     @RequestMapping(value = "/group", method = RequestMethod.POST)
+    @Log(actionName = "新增用户组")
     public void createUser(@RequestBody @Valid CreateUserGroup createUserGroup, BindingResult bindingResult) throws ArgumentValidException {
         if(bindingResult != null && bindingResult.hasErrors()){
             throw new ArgumentValidException(bindingResult);
@@ -75,6 +79,7 @@ public class UserGroupController {
      * @param id
      */
     @RequestMapping(value = "/group/{id}", method = RequestMethod.DELETE)
+    @Log(actionName = "删除用户组")
     public void deleteUser(@PathVariable(value = "id") Integer id){
         roleService.deleteRole(id);
     }
@@ -84,6 +89,7 @@ public class UserGroupController {
      * @param id
      */
     @RequestMapping(value = "/group/{id}", method = RequestMethod.PUT)
+    @Log(actionName = "修改用户组")
     public void updateUserGroup(@PathVariable(value = "id") Integer id,
                            @RequestBody @Valid UpdateUserGroup updateUserGroup, BindingResult bindingResult) throws ArgumentValidException {
         if(bindingResult != null && bindingResult.hasErrors()){
@@ -110,6 +116,7 @@ public class UserGroupController {
      * @return
      */
     @RequestMapping(value = "/group/{groupId}/user")
+    @Log(actionName = "查询用户组下属用户")
     public Page<UserGroupRelation> findUsersByGroup(@PathVariable(value = "groupId") String groupId,
                                        @RequestParam(value = "chose") Boolean unChose,
                                        @RequestParam(value = "limit") Integer limit,
@@ -126,6 +133,7 @@ public class UserGroupController {
      * @param chose
      * @param userId
      */
+    @Log(actionName = "修改用户组下属用户关系")
     @RequestMapping(value = "/group/{groupId}/user", method = RequestMethod.PUT)
     public void findUsersByGroup(@PathVariable(value = "groupId") Integer groupId,
                                  @RequestParam(value = "chose") Boolean chose,
@@ -144,6 +152,7 @@ public class UserGroupController {
      * @param offset
      * @return
      */
+    @Log(actionName = "查询用户组所属权限")
     @RequestMapping(value = "/group/{groupId}/permissions")
     public Page<GroupPermissionRelation> findPermissionByGroup(@PathVariable(value = "groupId") String groupId,
                                                     @RequestParam(value = "chose") Boolean unChose,
@@ -161,6 +170,7 @@ public class UserGroupController {
      * @param chose
      * @param permissionId
      */
+    @Log(actionName = "修改用户组所属权限")
     @RequestMapping(value = "/group/{groupId}/permissions", method = RequestMethod.PUT)
     public void correlationPermission(@PathVariable(value = "groupId") Integer groupId,
                                  @RequestParam(value = "chose") Boolean chose,
