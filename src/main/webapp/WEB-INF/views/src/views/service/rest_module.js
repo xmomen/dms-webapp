@@ -90,4 +90,10 @@ define(function () {
             }
         });
     }]);
+    ngREST.factory("OrganizationAPI", ["$resource", function($resource){
+        return $resource("/organization/:id",{id:'@id'},{
+        //    query:{ isArray:false},
+            update:{method:"PUT", params:{id:"@id"}}
+        });
+    }]);
 });

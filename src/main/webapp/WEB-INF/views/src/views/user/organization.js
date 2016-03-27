@@ -2,50 +2,36 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "UserAPI", "$modal", "$ugDialog", function($scope, UserAPI, $modal, $ugDialog){
-        $scope.userList = [];
-        $scope.pageSetting = {
-            pageSize:10,
-            pageNum:1
-        };
+    return ["$scope", "OrganizationAPI", "$modal", "$ugDialog", function($scope, OrganizationAPI, $modal, $ugDialog){
+        $scope.organizationList = [];
         $scope.queryParam = {};
-        $scope.getUserList = function(){
-            UserAPI.query({
-                limit:$scope.pageSetting.pageSize,
-                offset:$scope.pageSetting.pageNum,
-                keyword:$scope.queryParam.keyword
+        $scope.getOrganizationTree = function(){
+            OrganizationAPI.query({
+                id:$scope.queryParam.id
             }, function(data){
-                $scope.userList = data.data;
-                $scope.pageInfoSetting = data.pageInfo;
-                $scope.pageInfoSetting.loadData = $scope.getMessageList;
-            });
-        };
-        $scope.locked = function(index){
-            UserAPI.lock({
-                userId: $scope.userList[index].userId,
-                locked: $scope.userList[index].locked == 1 ? true : false
+                $scope.organizationList = data;
             });
         };
         $scope.removeUser = function(index){
             $ugDialog.confirm("是否删除用户？").then(function(){
-                UserAPI.delete({
-                    userId: $scope.userList[index].userId
+                OrganizationAPI.delete({
+                    id: $scope.userList[index].userId
                 }, function(){
                     $scope.getUserList();
                 });
             })
         };
-        $scope.open = function (index, size) {
+        $scope.openAddModel = function () {
             var modalInstance = $modal.open({
-                templateUrl: 'addUser.html',
-                controller: ["$scope", "UserAPI", "$modalInstance", function ($scope, UserAPI, $modalInstance) {
-                    $scope.user = {};
+                templateUrl: 'addOrganization.html',
+                controller: ["$scope", "OrganizationAPI", "$modalInstance", function ($scope, OrganizationAPI, $modalInstance) {
+                    $scope.organization = {};
                     $scope.errors = null;
-                    $scope.addAccountForm = {};
-                    $scope.saveAccount = function(){
+                    $scope.addOrganizationForm = {};
+                    $scope.saveOrganization = function(){
                         $scope.errors = null;
-                        if($scope.addAccountForm.validator.form()){
-                            UserAPI.save($scope.user, function(){
+                        if($scope.addOrganizationForm.validator.form()){
+                            OrganizationAPI.save($scope.organization, function(){
                                 $modalInstance.close();
                             }, function(data){
                                 $scope.errors = data.data;
@@ -55,14 +41,15 @@ define(function () {
                     $scope.cancel = function () {
                         $modalInstance.dismiss('cancel');
                     };
-                }],
-                size: size
+                }]
             });
             modalInstance.result.then(function () {
-                $scope.getUserList();
+                $scope.getOrganizationTree();
             });
         };
 
-        $scope.getUserList();
+        $scope.getOrganizationTree();
+
+        loadScript("js/plugin/bootstraptree/bootstrap-tree.min.js");
     }];
 });
