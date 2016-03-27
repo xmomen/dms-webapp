@@ -23,6 +23,10 @@ will not initialize.
 
 <navigation xmlns:nav="http://www.w3.org/2001/XMLSchema">
     <nav:item ui-sref="dashboard" data-icon="fa fa-fw fa-home" title="控制板" />
+    <nav:group data-icon="fa fa-fw fa-pencil" title="基础数据">
+        <nav:item ui-sref="company_list" title="单位/公司"/>
+        <nav:item ui-sref="member_list" title="客户信息"/>
+    </nav:group>
     <nav:group data-icon="fa fa-fw fa-pencil" title="系统管理" permission-only="admin">
         <nav:item ui-sref="user_list" title="用户管理" permission-only="admin"/>
         <nav:item ui-sref="group_list" title="用户组管理" permission-only="admin"/>

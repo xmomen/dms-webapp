@@ -1,10 +1,11 @@
 define([
     "views/user/user_module",
     "views/schedule/schedule_module",
-    "views/dashboard"
-],function (user_module,schedule_module, dashboard) {
+    "views/dashboard",
+    "views/base/base_module"
+],function (user_module,schedule_module, dashboard,base_module) {
     angular.module('DMS', [
-        "smartApp", "ui.router", "DMS.schedule", "DMS.user", "ug.pagination", "EnvModule", "permission", "ug.validate","ug.dialog",
+        "smartApp", "ui.router", "DMS.schedule", "DMS.user","DMS.base", "ug.pagination", "EnvModule", "permission", "ug.validate","ug.dialog",
         "DMS.REST"
     ]).factory({
         HttpInterceptor:["$q", function($q){
