@@ -50,7 +50,7 @@
 								</div>
 							</div>
 							<div class="col-xs-1 col-sm-2">
-								<button class="btn btn-primary" type="button" data-ng-click="open()">
+								<button class="btn btn-primary" type="button" data-ng-click="new()">
 									<i class="fa fa-plus"></i>
 									新增客户
 								</button>
@@ -87,11 +87,11 @@
 									<td ng-bind="member.address"></td>
                                     <td>
                                         <div ng-show="show">
-                                            <button class="btn btn-primary" type="button" data-ng-click="open()">
+                                            <button class="btn btn-primary" type="button" data-ng-click="update($index)">
                                                 <i class="fa fa-update"></i>
                                                 修改
                                             </button>
-                                            <a href="#" data-ng-click="removeMember($index)" title="删除用户：{{member.name}}">
+                                            <a href="#" data-ng-click="removeMember($index)" title="删除客户：{{member.name}}">
                                                 <span class="glyphicon glyphicon-remove-circle"></span>
                                             </a>
                                         </div>
@@ -129,7 +129,7 @@
 
 <script type="text/ng-template" id="addMember.html">
 	<div class="modal-header">
-		<h3 class="modal-title">新增客户</h3>
+		<h3 class="modal-title">新增/更新客户</h3>
 	</div>
 	<div class="modal-body">
 		<div class="widget-body">

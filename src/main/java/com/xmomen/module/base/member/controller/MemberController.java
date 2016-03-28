@@ -17,14 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
-import com.xmomen.module.account.web.controller.vo.UpdateUserGroup;
 import com.xmomen.module.base.member.mapper.MemberMapper;
 import com.xmomen.module.base.member.model.CreateMember;
 import com.xmomen.module.base.member.model.MemberModel;
+import com.xmomen.module.base.member.model.UpdateMember;
 import com.xmomen.module.base.member.service.MemberSercvice;
 import com.xmomen.module.logger.Log;
-import com.xmomen.module.system.entity.SysOrganization;
-import com.xmomen.module.system.model.CreateOrganization;
 
 /**
  * Created by ted on 16/3/28.
@@ -54,6 +52,8 @@ public class MemberController {
          map.put("keyword", keyword);
         return (Page<MemberModel>) mybatisDao.selectPage(MemberMapper.MemberMapperNameSpace + "getMemberList", map, limit, offset);
     }
+    
+    
     @RequestMapping(value = "/member", method = RequestMethod.POST)
     @Log(actionName = "新增客户")
     public void createMember(@RequestBody @Valid CreateMember createMember, BindingResult bindingResult) throws ArgumentValidException {
@@ -61,5 +61,29 @@ public class MemberController {
             throw new ArgumentValidException(bindingResult);
         }
         memberService.createMember(createMember);
+    }
+    
+    /**
+     *  修改
+     * @param id
+     */
+    @RequestMapping(value = "/member/{id}", method = RequestMethod.PUT)
+    @Log(actionName = "修改客户信息")
+    public void updateMember(@PathVariable(value = "id") Integer id,
+                                @RequestBody @Valid UpdateMember updateMember, BindingResult bindingResult) throws ArgumentValidException {
+        if(bindingResult != null && bindingResult.hasErrors()){
+            throw new ArgumentValidException(bindingResult);
+        }
+        memberService.updateMember(id,updateMember);
+    }
+    
+    /**
+     *  删除
+     * @param id
+     */
+    @RequestMapping(value = "/member/{id}", method = RequestMethod.DELETE)
+    @Log(actionName = "删除客户信息")
+    public void deleteMember(@PathVariable(value = "id") Integer id){
+    	memberService.delete(id);
     }
 }

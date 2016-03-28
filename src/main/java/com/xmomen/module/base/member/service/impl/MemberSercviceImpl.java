@@ -7,7 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.module.base.entity.CdMember;
 import com.xmomen.module.base.member.model.CreateMember;
+import com.xmomen.module.base.member.model.UpdateMember;
 import com.xmomen.module.base.member.service.MemberSercvice;
+import com.xmomen.module.system.entity.SysOrganization;
 @Service
 public class MemberSercviceImpl implements MemberSercvice {
 	@Autowired
@@ -31,5 +33,14 @@ public class MemberSercviceImpl implements MemberSercvice {
 		member.setCdUserId(createMember.getCdUserId());
 		mybatisDao.save(member);
 	}
+	@Transactional
+	public void updateMember(Integer id,UpdateMember updateMember) {
+		
+	}
+	
+	@Transactional
+    public void delete(Integer id){
+        mybatisDao.deleteByPrimaryKey(CdMember.class, id);
+    }
 
 }
