@@ -17,7 +17,7 @@ public class CreateOrganization implements Serializable {
     @NotBlank
     private String description;
 
-    private Integer parentNodeId;
+    private Integer parentId;
 
     public String getName() {
         return name;
@@ -35,11 +35,11 @@ public class CreateOrganization implements Serializable {
         this.description = description;
     }
 
-    public Integer getParentNodeId() {
-        return parentNodeId;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setParentNodeId(Integer parentNodeId) {
-        this.parentNodeId = parentNodeId;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 }

@@ -19,9 +19,10 @@ define([
                }
            }
         }],
-        User : ["UserAPI","PermissionStore", function(UserAPI, PermissionStore){
+        User : ["UserAPI","PermissionStore", "$q", function(UserAPI, PermissionStore, $q){
             return {
                 fetchPermission: function(){
+                    var defered = $q.defer();
                     UserAPI.getPermissions(function(data){
                         PermissionStore.clearStore();
                         for (var i = 0; i < data.permissions.length; i++) {
@@ -31,7 +32,21 @@ define([
                                     return true;
                                 });
                         }
+                        defered.resolve();
+                    }, function(){
+                        defered.reject();
                     });
+                    return defered.promise;
+                },
+                resetPermission: function(data){
+                    PermissionStore.clearStore();
+                    for (var i = 0; i < data.permissions.length; i++) {
+                        var obj = data.permissions[i];
+                        PermissionStore
+                            .definePermission(obj, function (stateParams) {
+                                return true;
+                            });
+                    }
                 }
             }
         }],
@@ -70,6 +85,12 @@ define([
                 $rootScope.account = data.data;
             }
         })
+    }]).run(["$rootScope", "User", function($rootScope, User){
+        User.resetPermission(permissionList);
+        $rootScope.$on('$viewContentLoaded', function (event, next,  nextParams, fromState) {
+            // 初始化全局控件
+//           pageSetUp();
+        });
     }]).config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function ($stateProvider, $urlRouterProvider, $httpProvider) {
         $httpProvider.interceptors.push('HttpInterceptor');
         $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -91,15 +112,14 @@ define([
                 url: '/blank',
                 templateUrl: 'views/blank.html',
                 controller: ["$scope", function ($scope) {
-                    console.log("blank");
                 }]
             })
 
-    }]).run(["$rootScope", "User", function($rootScope, User){
-        User.fetchPermission();
-        $rootScope.$on('$viewContentLoaded', function (event, next,  nextParams, fromState) {
-            // 初始化全局控件
-//           pageSetUp();
-        });
     }]);
+    angular.element(document).ready(function() {
+        $.get('/user/permissions', function(data) {
+            permissionList = data;
+            angular.bootstrap(document, ['DMS']);
+        });
+    });
 });

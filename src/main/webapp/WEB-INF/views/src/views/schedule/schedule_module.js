@@ -4,16 +4,16 @@
 define([
     "views/schedule/list"
 ],function (scheduleList) {
-    angular.module('DMS.schedule', []).config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function ($stateProvider, $urlRouterProvider, $httpProvider) {
+    angular.module('DMS.schedule', ["permission"]).config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
         $stateProvider
 
             .state('schedule', {
-                url: '/schedule/list',
+                url: '/schedule',
                 templateUrl: 'views/schedule/list.html',
                 data:{
                     permissions:{
-                        only:["admin"],
+                        only:["TASK_SCHEDULE_VIEW"],
                         redirectTo:"unauthorized"
                     }
                 },
