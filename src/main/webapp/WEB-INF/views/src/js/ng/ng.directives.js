@@ -686,11 +686,15 @@ angular.module('app.navigation', [])
 
 				scope.$watch('active', function(newVal, oldVal) {
 					if (newVal) {
-						if (angular.isDefined(navgroupCtrl)) navgroupCtrl.setActive(true);
+						if (angular.isDefined(navgroupCtrl) && navgroupCtrl != null){
+							navgroupCtrl.setActive(true);
+						}
 						$window.document.title = scope.title;
 						scope.setBreadcrumb();
 					} else {
-						if (angular.isDefined(navgroupCtrl)) navgroupCtrl.setActive(false);
+						if (angular.isDefined(navgroupCtrl) && navgroupCtrl != null){
+							navgroupCtrl.setActive(false);
+						}
 					}
 				});
 				scope.openParents = scope.isActive(scope.href);

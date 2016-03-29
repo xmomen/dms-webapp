@@ -52,34 +52,6 @@
 
 							<div class="row">
 
-								<div class="col-sm-12 col-md-10">
-
-									<div class="form-group">
-										<label class="sr-only">Task title</label>
-										<input type="email" class="form-control input-sm" placeholder="My Task">
-									</div>
-									<div class="form-group">
-										<label class="sr-only">Pick Week</label>
-										<select class="form-control input-sm">
-											<option>Week 1</option>
-											<option>Week 2</option>
-										</select>
-									</div>
-									<div class="form-group">
-										<label class="sr-only">Days</label>
-										<select class="form-control input-sm">
-											<option>Monday</option>
-											<option>Tuesday</option>
-											<option>Wednesday</option>
-											<option>Thursday</option>
-											<option>Friday</option>
-											<option>Saturday</option>
-											<option>Sunday</option>
-										</select>
-									</div>
-
-								</div>
-
 								<div class="col-sm-12 col-md-2 text-align-right">
 
 									<button type="button" class="btn btn-warning btn-xs" data-ng-click="openAddModel()" >
@@ -117,7 +89,9 @@
 </section>
 <!-- end widget grid -->
 <script type="text/ng-template" id="tree_view.html">
-	<span><i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i> {{item.name}}</span> <a href="javascript:void(0);">{{item.description}}</a>
+	<span>
+		<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i>{{item.name}}</span>
+	<a href="javascript:void(0);">{{item.description}}</a>
 	<ul ng-if="item.nodes && item.nodes.length > 0">
 		<li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view.html'"></li>
 	</ul>

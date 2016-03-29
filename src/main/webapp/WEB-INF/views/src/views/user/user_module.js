@@ -35,7 +35,7 @@ define([
                 controller: group_list
             })
             // 权限管理
-            .state('permission', {
+            .state('permission_list', {
                 url: '/permission',
                 templateUrl: 'views/user/permission_list.html',
                 data:{

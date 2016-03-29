@@ -1,0 +1,20 @@
+{
+  "name": "src",
+  "version": "1.0.0",
+  "homepage": "https://github.com/xmomen/dms-webapp",
+  "authors": [
+    "Jeng Tam <jeng.tam@udfex.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "js/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "require-css": "~0.1.8"
+  }
+}
