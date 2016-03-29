@@ -631,7 +631,7 @@ angular.module('app.navigation', [])
 				icon: '@',
 				title: '@',
 				iconCaption: '@',
-				active: '=?'
+				active: '@'
 			},
 			template: '\
 				<li data-ng-class="{active: active}" >\
@@ -657,8 +657,12 @@ angular.module('app.navigation', [])
 	    $scope.hasIconCaption = angular.isDefined($scope.iconCaption);
 
 	    $scope.getItemUrl = function(view) {
-	    	if (angular.isDefined($scope.href)) return $scope.href;
-	    	if (!angular.isDefined(view)) return '';
+            //if (angular.isDefined($scope.href)){
+			//	return $scope.href
+			//};
+	    	if (!angular.isDefined(view)) {
+				return ''
+			};
 	    	return view;
 	    };
 
@@ -667,7 +671,7 @@ angular.module('app.navigation', [])
 	    };
 
 	}])
-	.directive('navItem', ['ribbon', '$window', function(ribbon, $window) {
+	.directive('navItem', ['ribbon', '$window', '$rootScope', '$state', function(ribbon, $window, $rootScope, $state) {
 		return {
 			require: ['^navigation', '^?navGroup'],
 			restrict: 'AE',
@@ -717,19 +721,25 @@ angular.module('app.navigation', [])
 					scope.openParents = false;
 					ribbon.updateBreadcrumb(crumbs);
 	    		};
-
+				scope.isItemActive = function(uiSref){
+					if($state.current.name == uiSref){
+						return true;
+					}
+					return false;
+				}
 	    		element.on('click', 'a[href!="#"]', function() {
 	    			if ($.root_.hasClass('mobile-view-activated')) {
 	    				$.root_.removeClass('hidden-menu');
 	    				$('html').removeClass("hidden-menu-mobile-lock");
 	    			}
+					$rootScope.$apply();
 	    		});
 				
 			},
 			transclude: true,
 			replace: true,
 			template: '\
-				<li ui-sref-active="active">\
+				<li ng-class="{active:isItemActive(uiSref)}">\
 					<a ui-sref="{{ getItemUrl(uiSref) }}"  title="{{ title }}">\
 						<i data-ng-if="hasIcon" class="{{ icon }}"><em data-ng-if="hasIconCaption"> {{ iconCaption }} </em></i>\
 						<span ng-class="{\'menu-item-parent\': !isChild}" data-localize="{{ title }}"> {{ title }} </span>\
