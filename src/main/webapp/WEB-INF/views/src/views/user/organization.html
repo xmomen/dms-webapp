@@ -89,9 +89,16 @@
 </section>
 <!-- end widget grid -->
 <script type="text/ng-template" id="tree_view.html">
-	<span>
-		<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i>{{item.name}}</span>
-	<a href="javascript:void(0);">{{item.description}}</a>
+	<div ng-mouseenter="item.show=true" ng-mouseleave="item.show=false">
+		<span>
+			<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i> {{item.name}}（{{item.description}}）
+		</span>
+		<a href="javascript:void(0);" ng-show="item.show" ng-click="updateChildOrganization(item)">修改</a>
+		<a ng-show="item.show" > | </a>
+		<a href="javascript:void(0);" ng-show="item.show" ng-click="removeNode(item)">删除</a>
+		<a ng-show="item.show" > | </a>
+		<a href="javascript:void(0);" ng-show="item.show" ng-click="addChildOrganization(item)">添加下级组织</a>
+	</div>
 	<ul ng-if="item.nodes && item.nodes.length > 0">
 		<li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view.html'"></li>
 	</ul>
@@ -110,6 +117,7 @@
 					<div class="form-group">
 						<label class="col-md-2 control-label">组织名称</label>
 						<div class="col-md-10">
+							<input class="form-control" ng-model="organization.id" name="id" type="hidden">
 							<input class="form-control" required="true" ng-model="organization.name" name="name" placeholder="组织名称" type="text">
 						</div>
 					</div>
@@ -117,14 +125,15 @@
 					<div class="form-group">
 						<label class="col-md-2 control-label">组织描述</label>
 						<div class="col-md-10">
-							<input class="form-control"  ng-model="organization.description" name="description" placeholder="组织描述" type="text">
+							<input class="form-control" required="true" ng-model="organization.description" name="description" placeholder="组织描述" type="text">
 						</div>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group" ng-if="organization.parentId">
 						<label class="col-md-2 control-label">上级组织</label>
 						<div class="col-md-10">
-							<input class="form-control" ng-model="organization.parentNodeId" name="parentNodeId" placeholder="上级组织" type="text" >
+							<input class="form-control" ng-model="organization.parentName" readonly name="parentName" placeholder="上级组织" type="text" >
+							<input class="form-control" ng-model="organization.parentId" name="parentId" type="hidden" >
 						</div>
 					</div>
 

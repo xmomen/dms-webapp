@@ -12,30 +12,73 @@ define(function () {
                 $scope.organizationList = data;
             });
         };
-        $scope.removeUser = function(index){
-            $ugDialog.confirm("是否删除用户？").then(function(){
+        $scope.removeNode = function(item){
+            var msg = "是否删除此组织?";
+            if(item.nodes && item.nodes.length > 0){
+                msg = "此组织存在下级组织，确认将同步删除此组织所有下级组织，是否删除？"
+            }
+            $ugDialog.confirm(msg).then(function(){
                 OrganizationAPI.delete({
-                    id: $scope.userList[index].userId
+                    id: item.id
                 }, function(){
-                    $scope.getUserList();
+                    $scope.getOrganizationTree();
                 });
             })
         };
-        $scope.openAddModel = function () {
+        $scope.addChildOrganization = function(item){
+            $scope.openAddModel({
+                parentId:item.id,
+                parentName:item.name
+            }, 'ADD_CHILD_NODE');
+        };
+        $scope.updateChildOrganization = function(item){
+            $scope.openAddModel(angular.copy(item));
+        };
+        $scope.openAddModel = function (organization, action) {
             var modalInstance = $modal.open({
                 templateUrl: 'addOrganization.html',
-                controller: ["$scope", "OrganizationAPI", "$modalInstance", function ($scope, OrganizationAPI, $modalInstance) {
+                resolve:{
+                    CurrentOrganization : function(){
+                        return organization;
+                    },
+                    Action: function(){
+                        return action;
+                    }
+                },
+                controller: ["$scope", "OrganizationAPI", "$modalInstance", "CurrentOrganization", "Action", function ($scope, OrganizationAPI, $modalInstance, CurrentOrganization, Action) {
                     $scope.organization = {};
+                    if(CurrentOrganization){
+                        if(Action == 'ADD_CHILD_NODE'){
+                            $scope.organization.parentId = CurrentOrganization.parentId;
+                            $scope.organization.parentName = CurrentOrganization.parentName;
+                        }else{
+                            $scope.organization = {
+                                id:CurrentOrganization.id,
+                                name:CurrentOrganization.name,
+                                description:CurrentOrganization.description,
+                                parentId:CurrentOrganization.parentId,
+                                parentName:CurrentOrganization.parentName
+                            };
+                        }
+                    }
                     $scope.errors = null;
                     $scope.addOrganizationForm = {};
                     $scope.saveOrganization = function(){
                         $scope.errors = null;
                         if($scope.addOrganizationForm.validator.form()){
-                            OrganizationAPI.save($scope.organization, function(){
-                                $modalInstance.close();
-                            }, function(data){
-                                $scope.errors = data.data;
-                            })
+                            if($scope.organization.id){
+                                OrganizationAPI.update($scope.organization, function(){
+                                    $modalInstance.close();
+                                }, function(data){
+                                    $scope.errors = data.data;
+                                })
+                            }else{
+                                OrganizationAPI.save($scope.organization, function(){
+                                    $modalInstance.close();
+                                }, function(data){
+                                    $scope.errors = data.data;
+                                })
+                            }
                         }
                     };
                     $scope.cancel = function () {

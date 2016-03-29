@@ -10,9 +10,9 @@ public class OrganizationModel implements Serializable {
 
     private Integer id;
     private String name;
-    private String desc;
-    private String code;
-    private Integer parentNodeId;
+    private String description;
+    private Integer parentId;
+    private String parentName;
     private List<OrganizationModel> nodes;
 
     public Integer getId() {
@@ -31,28 +31,28 @@ public class OrganizationModel implements Serializable {
         this.name = name;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getCode() {
-        return code;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
-    public Integer getParentNodeId() {
-        return parentNodeId;
+    public String getParentName() {
+        return parentName;
     }
 
-    public void setParentNodeId(Integer parentNodeId) {
-        this.parentNodeId = parentNodeId;
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
     }
 
     public List<OrganizationModel> getNodes() {

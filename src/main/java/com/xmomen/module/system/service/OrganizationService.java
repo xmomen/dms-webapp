@@ -34,16 +34,7 @@ public class OrganizationService {
             sysOrganizationExample.createCriteria().andParentIdIsNull();
             List<SysOrganization> sysOrganizationList = mybatisDao.selectByExample(sysOrganizationExample);
             for (SysOrganization sysOrganization : sysOrganizationList) {
-                List<SysOrganization> list = organizationMapper.getOrganizationTree(sysOrganization.getId());
-                List<OrganizationModel> organizationModels = new ArrayList<OrganizationModel>();
-                for (SysOrganization organization : list) {
-                    OrganizationModel organizationModel = new OrganizationModel();
-                    organizationModel.setParentNodeId(organization.getParentId());
-                    organizationModel.setName(organization.getName());
-                    organizationModel.setId(organization.getId());
-                    organizationModel.setDesc(organization.getDescription());
-                    organizationModels.add(organizationModel);
-                }
+                List<OrganizationModel> organizationModels = organizationMapper.getOrganizationTree(sysOrganization.getId());
                 result.add(getTree(organizationModels, id));
             }
         }
@@ -53,7 +44,7 @@ public class OrganizationService {
     private OrganizationModel getTree(List<OrganizationModel> list, Integer id){
         OrganizationModel root = new OrganizationModel();
         for (OrganizationModel organization : list) {
-            if(organization.getParentNodeId() == id){
+            if(organization.getParentId() == id){
                 root = organization;
             }else{
                 getTreeNode(organization, root);
@@ -63,11 +54,11 @@ public class OrganizationService {
     }
 
     private void getTreeNode(OrganizationModel child, OrganizationModel parent){
-        if(child.getParentNodeId() != null && child.getParentNodeId().equals(parent.getId())){
+        if(child.getParentId() != null && child.getParentId().equals(parent.getId())){
             if(parent.getNodes() == null){
-                List<OrganizationModel> childs = new ArrayList<OrganizationModel>();
-                childs.add(child);
-                parent.setNodes(childs);
+                List<OrganizationModel> childes = new ArrayList<OrganizationModel>();
+                childes.add(child);
+                parent.setNodes(childes);
             }else{
                 parent.getNodes().add(child);
             }
@@ -84,6 +75,11 @@ public class OrganizationService {
     @Transactional
     public SysOrganization createOrganization(SysOrganization sysOrganization){
         return mybatisDao.saveByModel(sysOrganization);
+    }
+
+    @Transactional
+    public void updateOrganization(SysOrganization sysOrganization){
+        mybatisDao.save(sysOrganization);
     }
 
     @Transactional

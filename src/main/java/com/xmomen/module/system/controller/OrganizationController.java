@@ -52,7 +52,7 @@ public class OrganizationController {
         SysOrganization sysOrganization = new SysOrganization();
         sysOrganization.setName(createOrganization.getName());
         sysOrganization.setDescription(createOrganization.getDescription());
-        sysOrganization.setParentId(createOrganization.getParentNodeId());
+        sysOrganization.setParentId(createOrganization.getParentId());
         organizationService.createOrganization(sysOrganization);
     }
 
@@ -73,10 +73,15 @@ public class OrganizationController {
     @RequestMapping(value = "/organization/{id}", method = RequestMethod.PUT)
     @Log(actionName = "修改组织机构")
     public void updateOrganization(@PathVariable(value = "id") Integer id,
-                                @RequestBody @Valid UpdateUserGroup updateUserGroup, BindingResult bindingResult) throws ArgumentValidException {
+                                @RequestBody @Valid CreateOrganization createOrganization, BindingResult bindingResult) throws ArgumentValidException {
         if(bindingResult != null && bindingResult.hasErrors()){
             throw new ArgumentValidException(bindingResult);
         }
-
+        SysOrganization sysOrganization = new SysOrganization();
+        sysOrganization.setId(id);
+        sysOrganization.setName(createOrganization.getName());
+        sysOrganization.setDescription(createOrganization.getDescription());
+        sysOrganization.setParentId(createOrganization.getParentId());
+        organizationService.updateOrganization(sysOrganization);
     }
 }
