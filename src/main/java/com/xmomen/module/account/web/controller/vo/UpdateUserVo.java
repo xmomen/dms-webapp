@@ -1,21 +1,29 @@
-package com.xmomen.module.account.model;
+package com.xmomen.module.account.web.controller.vo;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * Created by Jeng on 2016/1/28.
+ * Created by Jeng on 2016/1/7.
  */
-public class User implements Serializable {
+public class UpdateUserVo implements Serializable {
+
+    @NotNull
     private Integer id;
+    @NotBlank
     private String username;
+    @Email
+    @NotNull
+    private String email;
     private String realName;
     private String phoneNumber;
-    private String sex;
     private Integer age;
     private String qq;
     private String officeTel;
-    private Integer locked;
-    private String email;
+    private Boolean locked;
 
     public Integer getId() {
         return id;
@@ -33,20 +41,20 @@ public class User implements Serializable {
         this.username = username;
     }
 
-    public Integer getLocked() {
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Boolean getLocked() {
         return locked;
     }
 
-    public void setLocked(Integer locked) {
+    public void setLocked(Boolean locked) {
         this.locked = locked;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
     }
 
     public String getRealName() {
@@ -87,13 +95,5 @@ public class User implements Serializable {
 
     public void setOfficeTel(String officeTel) {
         this.officeTel = officeTel;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }

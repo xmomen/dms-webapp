@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.xmomen.module.account.mapper.UserMapper;
 import com.xmomen.module.account.model.CreateUser;
+import com.xmomen.module.account.web.controller.vo.UpdateUserVo;
 import com.xmomen.module.user.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,28 @@ public class UserServiceImpl implements UserService {
         sysUsers.setPassword(newPassword);
         sysUsers.setLocked(user.getLocked() ? 1 : 0);
         return mybatisDao.saveByModel(sysUsers);
+    }
+
+    /**
+     * 更新用户
+     *
+     * @param updateUserVo
+     */
+    @Transactional
+    @Override
+    public void updateUser(UpdateUserVo updateUserVo) {
+        SysUsers sysUsers = new SysUsers();
+        sysUsers.setId(updateUserVo.getId());
+        sysUsers.setUsername(updateUserVo.getUsername());
+        sysUsers.setEmail(updateUserVo.getEmail());
+        sysUsers.setLocked(updateUserVo.getLocked() ? 1 : 0);
+        sysUsers.setAge(updateUserVo.getAge());
+        sysUsers.setOfficeTel(updateUserVo.getOfficeTel());
+        sysUsers.setPhoneNumber(updateUserVo.getPhoneNumber());
+        sysUsers.setSex(updateUserVo.getAge());
+        sysUsers.setQq(updateUserVo.getQq());
+        sysUsers.setRealname(updateUserVo.getRealName());
+        mybatisDao.save(sysUsers);
     }
 
     /**

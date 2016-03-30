@@ -30,7 +30,7 @@
                 -->
 				<header>
 					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
-					<h2>消息列表</h2>
+					<h2>用户列表</h2>
 				</header>
 				<!-- widget div-->
 				<div>
@@ -68,6 +68,11 @@
 									</th>
 									<th width="120">用户名</th>
 									<th>邮箱</th>
+									<th>真实姓名</th>
+									<th>性别</th>
+									<th>年龄</th>
+									<th>手机号码</th>
+									<th>办公电话</th>
 									<th>锁定</th>
 									<th width="80">操作</th>
 								</tr>
@@ -82,6 +87,11 @@
 									</td>
 									<td ng-bind="user.username"></td>
 									<td ng-bind="user.email"></td>
+									<td ng-bind="user.realName"></td>
+									<td ng-bind="user.sex"></td>
+									<td ng-bind="user.age"></td>
+									<td ng-bind="user.phoneNumber"></td>
+									<td ng-bind="user.officeTel"></td>
 									<td>
 										<label class="checkbox">
 											<input type="checkbox" ng-model="user.locked" name="checkbox-inline"
@@ -92,15 +102,19 @@
 									</td>
 									<td>
 										<div ng-show="show">
-											<a href="#" data-ng-click="removeUser($index)" title="删除用户：{{user.username}}">
+											<a href="javascript:void(0);" data-ng-click="removeUser($index)" title="删除用户：{{user.username}}">
 												<span class="glyphicon glyphicon-remove-circle"></span>
+											</a>
+											<span> | </span>
+											<a href="javascript:void(0);" data-ng-click="updateUser($index)" title="编辑用户：{{user.username}}">
+												<span class="fa fa-pencil"></span>
 											</a>
 										</div>
 									</td>
 								</tr>
 								<tr ng-if="userList == null || userList.length == 0">
 									<td colspan="3">
-										<div>暂无消息数据</div>
+										<div>暂无数据</div>
 									</td>
 								</tr>
 								</tbody>
@@ -130,7 +144,7 @@
 
 <script type="text/ng-template" id="addUser.html">
 	<div class="modal-header">
-		<h3 class="modal-title">新增用户</h3>
+		<h3 class="modal-title">用户信息</h3>
 	</div>
 	<div class="modal-body">
 		<div class="widget-body">
@@ -138,10 +152,19 @@
 			<form class="form-horizontal" ug-validate="addAccountForm" name="addUserForm" novalidate="">
 
 				<fieldset>
+
 					<div class="form-group">
 						<label class="col-md-2 control-label">用户名</label>
 						<div class="col-md-10">
+							<input class="form-control" ng-model="user.userId" name="id" type="hidden">
 							<input class="form-control" required="true" data-rule-minlength="6" data-rule-maxlength="20" ng-model="user.username" name="username" placeholder="用户名" type="text">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">真实姓名</label>
+						<div class="col-md-10">
+							<input class="form-control"  ng-model="user.realName" name="realName" placeholder="真实姓名" type="text">
 						</div>
 					</div>
 
@@ -153,13 +176,55 @@
 					</div>
 
 					<div class="form-group">
+						<label class="col-md-2 control-label">QQ</label>
+						<div class="col-md-10">
+							<input class="form-control"  ng-model="user.qq" name="qq" placeholder="QQ" type="text">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">性别</label>
+						<div class="col-md-10">
+							<label class="radio radio-inline">
+								<input type="radio" class="radiobox" ng-model="user.sex" ng-checked="user.sex==0" name="sex">
+								<span>男</span>
+							</label>
+							<label class="radio radio-inline">
+								<input type="radio" class="radiobox" ng-model="user.sex" ng-checked="user.sex==1" name="sex">
+								<span>女</span>
+							</label>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">年龄</label>
+						<div class="col-md-10">
+							<input class="form-control" data-rule-d  ng-model="user.age" name="age" placeholder="年龄" type="number">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">手机号码</label>
+						<div class="col-md-10">
+							<input class="form-control"  ng-model="user.phoneNumber" name="phoneNumber" placeholder="手机号码" type="text">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">办公电话</label>
+						<div class="col-md-10">
+							<input class="form-control"  ng-model="user.officeTel" name="officeTel" placeholder="办公电话" type="text">
+						</div>
+					</div>
+
+					<div class="form-group" ng-if="user.id == null">
 						<label class="col-md-2 control-label">密码</label>
 						<div class="col-md-10">
 							<input id="password" class="form-control" required="true" data-rule-minlength="6" data-rule-maxlength="20" ng-model="user.password" name="password" placeholder="密码" type="password" >
 						</div>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group" ng-if="user.id == null">
 						<label class="col-md-2 control-label">确认密码</label>
 						<div class="col-md-10">
 							<input class="form-control" required="true" data-rule-equalTo="#password" data-rule-minlength="6" data-rule-maxlength="20" ng-model="user.confirmPassword" name="confirmPassword_{{$index}}" placeholder="确认密码" type="password">

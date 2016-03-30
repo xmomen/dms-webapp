@@ -1,8 +1,8 @@
 package com.xmomen.module.user.entity.mapper;
 
+import com.xmomen.framework.mybatis.mapper.MybatisMapper;
 import com.xmomen.module.user.entity.SysUsers;
 import com.xmomen.module.user.entity.SysUsersExample;
-import com.xmomen.framework.mybatis.mapper.MybatisMapper;
 import org.apache.ibatis.annotations.Param;
 
 public interface SysUsersMapper extends MybatisMapper {

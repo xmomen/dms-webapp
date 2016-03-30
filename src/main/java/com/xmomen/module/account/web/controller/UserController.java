@@ -4,8 +4,10 @@ import javax.validation.Valid;
 
 import com.xmomen.module.account.model.CreateUser;
 import com.xmomen.module.account.mapper.UserMapper;
+import com.xmomen.module.account.model.User;
 import com.xmomen.module.account.service.UserService;
 import com.xmomen.module.account.web.controller.vo.CreateUserVo;
+import com.xmomen.module.account.web.controller.vo.UpdateUserVo;
 import com.xmomen.module.user.entity.SysUsers;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
@@ -40,14 +42,14 @@ public class UserController {
      */
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     @Log(actionName = "查询用户列表")
-    public Page<CreateUser> getUserList(@RequestParam(value = "limit") Integer limit,
+    public Page<User> getUserList(@RequestParam(value = "limit") Integer limit,
                                   @RequestParam(value = "offset") Integer offset,
                                   @RequestParam(value = "id", required = false) Integer id,
                                   @RequestParam(value = "keyword", required = false) String keyword){
         Map map = new HashMap<String,Object>();
         map.put("id", id);
         map.put("keyword", keyword);
-        return (Page<CreateUser>) mybatisDao.selectPage(UserMapper.UserMapperNameSpace + "getUsers", map, limit, offset);
+        return (Page<User>) mybatisDao.selectPage(UserMapper.UserMapperNameSpace + "getUsers", map, limit, offset);
     }
 
     /**
@@ -78,6 +80,23 @@ public class UserController {
         user.setEmail(createUser.getEmail());
         user.setLocked(createUser.getLocked() != null && createUser.getLocked() == true ? true : false);
         return userService.createUser(user);
+    }
+
+    /**
+     * 更新用户
+     * @param id
+     * @param updateUserVo
+     * @param bindingResult
+     * @throws ArgumentValidException
+     */
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
+    @Log(actionName = "更新用户")
+    public void updateUser(@PathVariable(value = "id") Integer id,
+                           @RequestBody @Valid UpdateUserVo updateUserVo, BindingResult bindingResult) throws ArgumentValidException {
+        if(bindingResult != null && bindingResult.hasErrors()){
+            throw new ArgumentValidException(bindingResult);
+        }
+        userService.updateUser(updateUserVo);
     }
 
     /**

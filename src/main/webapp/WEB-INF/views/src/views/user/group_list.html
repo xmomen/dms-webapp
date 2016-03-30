@@ -68,7 +68,7 @@
 									</th>
 									<th width="120">用户组</th>
 									<th>描述</th>
-									<th width="40" style="align-content: center">启用</th>
+									<!--<th width="40" style="align-content: center">启用</th>-->
 									<th width="120">操作</th>
 								</tr>
 								</thead>
@@ -84,20 +84,19 @@
 										<a href="#" data-ng-click="openAddUserToGroup($index)" ng-bind="group.role"></a>
 									</td>
 									<td ng-bind="group.description"></td>
-									<td>
-										<label class="checkbox">
-											<input type="checkbox" ng-model="group.available" name="checkbox-inline"
-												   ng-change="locked($index)"
-												   data-ng-checked="group.available == 1" data-ng-true-value="1" data-ng-false-value="0">
-											<i></i>
-										</label>
-									</td>
+									<!--<td>-->
+										<!--<label class="checkbox">-->
+											<!--<input type="checkbox" ng-model="group.available" name="checkbox-inline"-->
+												   <!--ng-change="locked($index)"-->
+												   <!--data-ng-checked="group.available == 1" data-ng-true-value="1" data-ng-false-value="0">-->
+											<!--<i></i>-->
+										<!--</label>-->
+									<!--</td>-->
 									<td>
 										<div ng-show="show">
-											<a href="#" data-ng-click="removeGroup($index)" title="删除用户组：{{group.role}}">
-												<span class="glyphicon glyphicon-trash">删除</span>
-											</a>｜
-											<a href="#" data-ng-click="openUpdateGroupPermission($index)" title="修改权限：{{group.role}}">
+											<a href="javascript:void(0);" data-ng-click="removeGroup($index)" title="删除用户组：{{group.role}}"><span class="glyphicon glyphicon-trash"></span></a>
+											<span> ｜ </span>
+											<a href="javascript:void(0);" data-ng-click="openUpdateGroupPermission($index)" title="修改{{group.role}}用户组权限">
 												<span class="glyphicon glyphicon-wrench">权限</span>
 											</a>
 										</div>

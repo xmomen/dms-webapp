@@ -18,6 +18,11 @@ public class CreateUserVo implements Serializable {
     @Email
     @NotNull
     private String email;
+    private String realName;
+    private String phoneNumber;
+    private Integer age;
+    private String qq;
+    private String officeTel;
     private Boolean locked;
 
     public String getUsername() {
@@ -50,5 +55,45 @@ public class CreateUserVo implements Serializable {
 
     public void setLocked(Boolean locked) {
         this.locked = locked;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
+
+    public String getOfficeTel() {
+        return officeTel;
+    }
+
+    public void setOfficeTel(String officeTel) {
+        this.officeTel = officeTel;
     }
 }

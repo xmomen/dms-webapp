@@ -5,10 +5,16 @@
     <!--    查询消息    -->
     <select id="getUsers" resultType="com.xmomen.module.account.model.User" parameterType="java.util.HashMap">
         SELECT
-        u.id AS userId,
+        u.id,
         u.username,
         u.email,
-        u.locked
+        u.locked,
+        u.realname,
+        u.qq,
+        u.phone_number,
+        u.age,
+        u.sex,
+        u.office_tel
         FROM
         sys_users u
         <where>
@@ -24,7 +30,7 @@
     <!--    查询关联关系表    -->
     <select id="findUsersByRolesId" resultType="com.xmomen.module.account.web.controller.vo.UserGroupRelation" parameterType="java.util.HashMap">
         SELECT
-        u.ID AS user_id,
+        u.ID,
         u.USERNAME,
         u.EMAIL
         FROM
@@ -52,14 +58,14 @@
 
     <!--    查询权限关系表    -->
     <select id="findPermissionByRole" resultType="com.xmomen.module.account.web.controller.vo.GroupPermissionRelation" parameterType="java.util.HashMap">
-        select p.`ID` as permissionId,
-              p.`PERMISSION` as permissionCode,
-              p.`DESCRIPTION` as permissionDescription,
-              rp.`ROLE_ID`  as GROUP_ID
+        select p.ID as permissionId,
+              p.PERMISSION as permissionCode,
+              p.DESCRIPTION as permissionDescription,
+              rp.ROLE_ID  as GROUP_ID
         from sys_permissions p
         <!--<if test="id and chose">-->
-            left join `sys_roles_permissions` rp
-              on rp.`PERMISSION_ID`=p.`ID`
+            left join sys_roles_permissions rp
+              on rp.PERMISSION_ID=p.ID
         <!--</if>-->
         <where>
             <if test="id and chose">
