@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.base.entity.mapper.CdMemberMapper" >
+  <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdMember" >
+    <id column="CD_MEMBER_ID" property="cdMemberId" jdbcType="INTEGER" />
+    <result column="MEMBER_CODE" property="memberCode" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="PHONE_NUMBER" property="phoneNumber" jdbcType="VARCHAR" />
+    <result column="SPARE_TEL" property="spareTel" jdbcType="VARCHAR" />
+    <result column="SPARE_TEL2" property="spareTel2" jdbcType="VARCHAR" />
+    <result column="TEL_NUMBER" property="telNumber" jdbcType="VARCHAR" />
+    <result column="OFFICE_TEL" property="officeTel" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="SPARE_ADDRESS" property="spareAddress" jdbcType="VARCHAR" />
+    <result column="SPARE_ADDRESS2" property="spareAddress2" jdbcType="VARCHAR" />
+    <result column="MEMBER_TYPE" property="memberType" jdbcType="INTEGER" />
+    <result column="CD_COMPANY_ID" property="cdCompanyId" jdbcType="INTEGER" />
+    <result column="CD_USER_ID" property="cdUserId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CD_MEMBER_ID, MEMBER_CODE, NAME, PHONE_NUMBER, SPARE_TEL, SPARE_TEL2, TEL_NUMBER, 
+    OFFICE_TEL, ADDRESS, SPARE_ADDRESS, SPARE_ADDRESS2, MEMBER_TYPE, CD_COMPANY_ID, CD_USER_ID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdMemberExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cd_member
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.xmomen.module.base.entity.CdMemberExample" >
+    delete from cd_member
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdMember" useGeneratedKeys="true" keyProperty="cdMemberId" keyColumn="CD_MEMBER_ID" >
+    insert into cd_member
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cdMemberId != null" >
+        CD_MEMBER_ID,
+      </if>
+      <if test="memberCode != null" >
+        MEMBER_CODE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="phoneNumber != null" >
+        PHONE_NUMBER,
+      </if>
+      <if test="spareTel != null" >
+        SPARE_TEL,
+      </if>
+      <if test="spareTel2 != null" >
+        SPARE_TEL2,
+      </if>
+      <if test="telNumber != null" >
+        TEL_NUMBER,
+      </if>
+      <if test="officeTel != null" >
+        OFFICE_TEL,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="spareAddress != null" >
+        SPARE_ADDRESS,
+      </if>
+      <if test="spareAddress2 != null" >
+        SPARE_ADDRESS2,
+      </if>
+      <if test="memberType != null" >
+        MEMBER_TYPE,
+      </if>
+      <if test="cdCompanyId != null" >
+        CD_COMPANY_ID,
+      </if>
+      <if test="cdUserId != null" >
+        CD_USER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cdMemberId != null" >
+        #{cdMemberId,jdbcType=INTEGER},
+      </if>
+      <if test="memberCode != null" >
+        #{memberCode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null" >
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="spareTel != null" >
+        #{spareTel,jdbcType=VARCHAR},
+      </if>
+      <if test="spareTel2 != null" >
+        #{spareTel2,jdbcType=VARCHAR},
+      </if>
+      <if test="telNumber != null" >
+        #{telNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="officeTel != null" >
+        #{officeTel,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="spareAddress != null" >
+        #{spareAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="spareAddress2 != null" >
+        #{spareAddress2,jdbcType=VARCHAR},
+      </if>
+      <if test="memberType != null" >
+        #{memberType,jdbcType=INTEGER},
+      </if>
+      <if test="cdCompanyId != null" >
+        #{cdCompanyId,jdbcType=INTEGER},
+      </if>
+      <if test="cdUserId != null" >
+        #{cdUserId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xmomen.module.base.entity.CdMemberExample" resultType="java.lang.Integer" >
+    select count(*) from cd_member
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cd_member
+    <set >
+      <if test="record.cdMemberId != null" >
+        CD_MEMBER_ID = #{record.cdMemberId,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberCode != null" >
+        MEMBER_CODE = #{record.memberCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phoneNumber != null" >
+        PHONE_NUMBER = #{record.phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spareTel != null" >
+        SPARE_TEL = #{record.spareTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spareTel2 != null" >
+        SPARE_TEL2 = #{record.spareTel2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telNumber != null" >
+        TEL_NUMBER = #{record.telNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.officeTel != null" >
+        OFFICE_TEL = #{record.officeTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        ADDRESS = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spareAddress != null" >
+        SPARE_ADDRESS = #{record.spareAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spareAddress2 != null" >
+        SPARE_ADDRESS2 = #{record.spareAddress2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberType != null" >
+        MEMBER_TYPE = #{record.memberType,jdbcType=INTEGER},
+      </if>
+      <if test="record.cdCompanyId != null" >
+        CD_COMPANY_ID = #{record.cdCompanyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cdUserId != null" >
+        CD_USER_ID = #{record.cdUserId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

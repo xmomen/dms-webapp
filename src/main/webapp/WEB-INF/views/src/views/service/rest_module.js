@@ -97,4 +97,17 @@ define(function () {
             update:{method:"PUT", params:{id:"@id"}}
         });
     }]);
+
+    ngREST.factory("MemberAPI", ["$resource", function($resource){
+        return $resource("/member/:memberId", { id:"@id" }, {
+            query:{ isArray:false},
+            update:{method:"PUT", params:{id:"@id"}}
+        });
+    }]);
+
+    ngREST.factory("CompanyAPI", ["$resource", function($resource){
+        return $resource("/company/:company", { id:"@id" }, {
+            query:{ isArray:false}
+        });
+    }]);
 });

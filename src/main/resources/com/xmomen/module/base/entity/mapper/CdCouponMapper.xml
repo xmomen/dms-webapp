@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.base.entity.mapper.CdCouponMapper" >
+  <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdCoupon" >
+    <id column="CD_COUPON_ID" property="cdCouponId" jdbcType="INTEGER" />
+    <result column="COUPON_TYPE" property="couponType" jdbcType="INTEGER" />
+    <result column="COUPON_NUMBER" property="couponNumber" jdbcType="VARCHAR" />
+    <result column="COUPON_PASSWORD" property="couponPassword" jdbcType="VARCHAR" />
+    <result column="BEGIN_TIME" property="beginTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="COUNT" property="count" jdbcType="INTEGER" />
+    <result column="IS_USED" property="isUsed" jdbcType="INTEGER" />
+    <result column="IS_USEFUL" property="isUseful" jdbcType="INTEGER" />
+    <result column="IS_FEEDBACK" property="isFeedback" jdbcType="INTEGER" />
+    <result column="NOTES" property="notes" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CD_COUPON_ID, COUPON_TYPE, COUPON_NUMBER, COUPON_PASSWORD, BEGIN_TIME, END_TIME, 
+    PRICE, COUNT, IS_USED, IS_USEFUL, IS_FEEDBACK, NOTES
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdCouponExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cd_coupon
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.xmomen.module.base.entity.CdCouponExample" >
+    delete from cd_coupon
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdCoupon" useGeneratedKeys="true" keyProperty="cdCouponId" keyColumn="CD_COUPON_ID" >
+    insert into cd_coupon
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cdCouponId != null" >
+        CD_COUPON_ID,
+      </if>
+      <if test="couponType != null" >
+        COUPON_TYPE,
+      </if>
+      <if test="couponNumber != null" >
+        COUPON_NUMBER,
+      </if>
+      <if test="couponPassword != null" >
+        COUPON_PASSWORD,
+      </if>
+      <if test="beginTime != null" >
+        BEGIN_TIME,
+      </if>
+      <if test="endTime != null" >
+        END_TIME,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="count != null" >
+        COUNT,
+      </if>
+      <if test="isUsed != null" >
+        IS_USED,
+      </if>
+      <if test="isUseful != null" >
+        IS_USEFUL,
+      </if>
+      <if test="isFeedback != null" >
+        IS_FEEDBACK,
+      </if>
+      <if test="notes != null" >
+        NOTES,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cdCouponId != null" >
+        #{cdCouponId,jdbcType=INTEGER},
+      </if>
+      <if test="couponType != null" >
+        #{couponType,jdbcType=INTEGER},
+      </if>
+      <if test="couponNumber != null" >
+        #{couponNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="couponPassword != null" >
+        #{couponPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="beginTime != null" >
+        #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="isUsed != null" >
+        #{isUsed,jdbcType=INTEGER},
+      </if>
+      <if test="isUseful != null" >
+        #{isUseful,jdbcType=INTEGER},
+      </if>
+      <if test="isFeedback != null" >
+        #{isFeedback,jdbcType=INTEGER},
+      </if>
+      <if test="notes != null" >
+        #{notes,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xmomen.module.base.entity.CdCouponExample" resultType="java.lang.Integer" >
+    select count(*) from cd_coupon
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cd_coupon
+    <set >
+      <if test="record.cdCouponId != null" >
+        CD_COUPON_ID = #{record.cdCouponId,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponType != null" >
+        COUPON_TYPE = #{record.couponType,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponNumber != null" >
+        COUPON_NUMBER = #{record.couponNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponPassword != null" >
+        COUPON_PASSWORD = #{record.couponPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beginTime != null" >
+        BEGIN_TIME = #{record.beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null" >
+        END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.price != null" >
+        PRICE = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.count != null" >
+        COUNT = #{record.count,jdbcType=INTEGER},
+      </if>
+      <if test="record.isUsed != null" >
+        IS_USED = #{record.isUsed,jdbcType=INTEGER},
+      </if>
+      <if test="record.isUseful != null" >
+        IS_USEFUL = #{record.isUseful,jdbcType=INTEGER},
+      </if>
+      <if test="record.isFeedback != null" >
+        IS_FEEDBACK = #{record.isFeedback,jdbcType=INTEGER},
+      </if>
+      <if test="record.notes != null" >
+        NOTES = #{record.notes,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>
