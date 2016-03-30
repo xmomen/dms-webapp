@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.base.entity.mapper.CdContractMapper" >
+  <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdContract" >
+    <id column="CD_CONTRACT_ID" property="cdContractId" jdbcType="INTEGER" />
+    <result column="CD_MEMBER_ID" property="cdMemberId" jdbcType="INTEGER" />
+    <result column="CD_COMPANY_ID" property="cdCompanyId" jdbcType="INTEGER" />
+    <result column="SCOPE" property="scope" jdbcType="INTEGER" />
+    <result column="CONTRACT_PRICE" property="contractPrice" jdbcType="DECIMAL" />
+    <result column="BENGIN_TIME" property="benginTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="IS_AUDITOR" property="isAuditor" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CD_CONTRACT_ID, CD_MEMBER_ID, CD_COMPANY_ID, SCOPE, CONTRACT_PRICE, BENGIN_TIME, 
+    END_TIME, IS_AUDITOR
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdContractExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cd_contract
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.xmomen.module.base.entity.CdContractExample" >
+    delete from cd_contract
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdContract" useGeneratedKeys="true" keyProperty="cdContractId" keyColumn="CD_CONTRACT_ID" >
+    insert into cd_contract
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cdContractId != null" >
+        CD_CONTRACT_ID,
+      </if>
+      <if test="cdMemberId != null" >
+        CD_MEMBER_ID,
+      </if>
+      <if test="cdCompanyId != null" >
+        CD_COMPANY_ID,
+      </if>
+      <if test="scope != null" >
+        SCOPE,
+      </if>
+      <if test="contractPrice != null" >
+        CONTRACT_PRICE,
+      </if>
+      <if test="benginTime != null" >
+        BENGIN_TIME,
+      </if>
+      <if test="endTime != null" >
+        END_TIME,
+      </if>
+      <if test="isAuditor != null" >
+        IS_AUDITOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cdContractId != null" >
+        #{cdContractId,jdbcType=INTEGER},
+      </if>
+      <if test="cdMemberId != null" >
+        #{cdMemberId,jdbcType=INTEGER},
+      </if>
+      <if test="cdCompanyId != null" >
+        #{cdCompanyId,jdbcType=INTEGER},
+      </if>
+      <if test="scope != null" >
+        #{scope,jdbcType=INTEGER},
+      </if>
+      <if test="contractPrice != null" >
+        #{contractPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="benginTime != null" >
+        #{benginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isAuditor != null" >
+        #{isAuditor,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xmomen.module.base.entity.CdContractExample" resultType="java.lang.Integer" >
+    select count(*) from cd_contract
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cd_contract
+    <set >
+      <if test="record.cdContractId != null" >
+        CD_CONTRACT_ID = #{record.cdContractId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cdMemberId != null" >
+        CD_MEMBER_ID = #{record.cdMemberId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cdCompanyId != null" >
+        CD_COMPANY_ID = #{record.cdCompanyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.scope != null" >
+        SCOPE = #{record.scope,jdbcType=INTEGER},
+      </if>
+      <if test="record.contractPrice != null" >
+        CONTRACT_PRICE = #{record.contractPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.benginTime != null" >
+        BENGIN_TIME = #{record.benginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null" >
+        END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isAuditor != null" >
+        IS_AUDITOR = #{record.isAuditor,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

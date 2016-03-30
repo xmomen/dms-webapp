@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.base.entity.mapper.CdItemMapper" >
+  <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdItem" >
+    <id column="CD_ITEM_ID" property="cdItemId" jdbcType="INTEGER" />
+    <result column="ITEM_CODE" property="itemCode" jdbcType="VARCHAR" />
+    <result column="CD_CATEGORY_ID" property="cdCategoryId" jdbcType="INTEGER" />
+    <result column="ITEM_NAME" property="itemName" jdbcType="VARCHAR" />
+    <result column="ITEM_DESCRIBE" property="itemDescribe" jdbcType="VARCHAR" />
+    <result column="ITEM_TYPE" property="itemType" jdbcType="VARCHAR" />
+    <result column="YIELDLY" property="yieldly" jdbcType="VARCHAR" />
+    <result column="SPEC" property="spec" jdbcType="VARCHAR" />
+    <result column="BASE_PRICE" property="basePrice" jdbcType="DECIMAL" />
+    <result column="MEMBER_PRICE" property="memberPrice" jdbcType="DECIMAL" />
+    <result column="PRICING_MANNER" property="pricingManner" jdbcType="VARCHAR" />
+    <result column="SELL_STATUS" property="sellStatus" jdbcType="INTEGER" />
+    <result column="SELL_UNIT" property="sellUnit" jdbcType="VARCHAR" />
+    <result column="SELL_PRICE" property="sellPrice" jdbcType="DECIMAL" />
+    <result column="IS_COMBINATION" property="isCombination" jdbcType="INTEGER" />
+    <result column="PARENT_ITEM_ID" property="parentItemId" jdbcType="INTEGER" />
+    <result column="IS_AUDIT" property="isAudit" jdbcType="INTEGER" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER_CODE" property="createUserCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CD_ITEM_ID, ITEM_CODE, CD_CATEGORY_ID, ITEM_NAME, ITEM_DESCRIBE, ITEM_TYPE, YIELDLY, 
+    SPEC, BASE_PRICE, MEMBER_PRICE, PRICING_MANNER, SELL_STATUS, SELL_UNIT, SELL_PRICE, 
+    IS_COMBINATION, PARENT_ITEM_ID, IS_AUDIT, CREATE_DATE_TIME, CREATE_USER_CODE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdItemExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cd_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.xmomen.module.base.entity.CdItemExample" >
+    delete from cd_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdItem" useGeneratedKeys="true" keyProperty="cdItemId" keyColumn="CD_ITEM_ID" >
+    insert into cd_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cdItemId != null" >
+        CD_ITEM_ID,
+      </if>
+      <if test="itemCode != null" >
+        ITEM_CODE,
+      </if>
+      <if test="cdCategoryId != null" >
+        CD_CATEGORY_ID,
+      </if>
+      <if test="itemName != null" >
+        ITEM_NAME,
+      </if>
+      <if test="itemDescribe != null" >
+        ITEM_DESCRIBE,
+      </if>
+      <if test="itemType != null" >
+        ITEM_TYPE,
+      </if>
+      <if test="yieldly != null" >
+        YIELDLY,
+      </if>
+      <if test="spec != null" >
+        SPEC,
+      </if>
+      <if test="basePrice != null" >
+        BASE_PRICE,
+      </if>
+      <if test="memberPrice != null" >
+        MEMBER_PRICE,
+      </if>
+      <if test="pricingManner != null" >
+        PRICING_MANNER,
+      </if>
+      <if test="sellStatus != null" >
+        SELL_STATUS,
+      </if>
+      <if test="sellUnit != null" >
+        SELL_UNIT,
+      </if>
+      <if test="sellPrice != null" >
+        SELL_PRICE,
+      </if>
+      <if test="isCombination != null" >
+        IS_COMBINATION,
+      </if>
+      <if test="parentItemId != null" >
+        PARENT_ITEM_ID,
+      </if>
+      <if test="isAudit != null" >
+        IS_AUDIT,
+      </if>
+      <if test="createDateTime != null" >
+        CREATE_DATE_TIME,
+      </if>
+      <if test="createUserCode != null" >
+        CREATE_USER_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cdItemId != null" >
+        #{cdItemId,jdbcType=INTEGER},
+      </if>
+      <if test="itemCode != null" >
+        #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cdCategoryId != null" >
+        #{cdCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="itemName != null" >
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemDescribe != null" >
+        #{itemDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="itemType != null" >
+        #{itemType,jdbcType=VARCHAR},
+      </if>
+      <if test="yieldly != null" >
+        #{yieldly,jdbcType=VARCHAR},
+      </if>
+      <if test="spec != null" >
+        #{spec,jdbcType=VARCHAR},
+      </if>
+      <if test="basePrice != null" >
+        #{basePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="memberPrice != null" >
+        #{memberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="pricingManner != null" >
+        #{pricingManner,jdbcType=VARCHAR},
+      </if>
+      <if test="sellStatus != null" >
+        #{sellStatus,jdbcType=INTEGER},
+      </if>
+      <if test="sellUnit != null" >
+        #{sellUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="sellPrice != null" >
+        #{sellPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="isCombination != null" >
+        #{isCombination,jdbcType=INTEGER},
+      </if>
+      <if test="parentItemId != null" >
+        #{parentItemId,jdbcType=INTEGER},
+      </if>
+      <if test="isAudit != null" >
+        #{isAudit,jdbcType=INTEGER},
+      </if>
+      <if test="createDateTime != null" >
+        #{createDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserCode != null" >
+        #{createUserCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xmomen.module.base.entity.CdItemExample" resultType="java.lang.Integer" >
+    select count(*) from cd_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cd_item
+    <set >
+      <if test="record.cdItemId != null" >
+        CD_ITEM_ID = #{record.cdItemId,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemCode != null" >
+        ITEM_CODE = #{record.itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cdCategoryId != null" >
+        CD_CATEGORY_ID = #{record.cdCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemName != null" >
+        ITEM_NAME = #{record.itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemDescribe != null" >
+        ITEM_DESCRIBE = #{record.itemDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemType != null" >
+        ITEM_TYPE = #{record.itemType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yieldly != null" >
+        YIELDLY = #{record.yieldly,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spec != null" >
+        SPEC = #{record.spec,jdbcType=VARCHAR},
+      </if>
+      <if test="record.basePrice != null" >
+        BASE_PRICE = #{record.basePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.memberPrice != null" >
+        MEMBER_PRICE = #{record.memberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.pricingManner != null" >
+        PRICING_MANNER = #{record.pricingManner,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sellStatus != null" >
+        SELL_STATUS = #{record.sellStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.sellUnit != null" >
+        SELL_UNIT = #{record.sellUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sellPrice != null" >
+        SELL_PRICE = #{record.sellPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isCombination != null" >
+        IS_COMBINATION = #{record.isCombination,jdbcType=INTEGER},
+      </if>
+      <if test="record.parentItemId != null" >
+        PARENT_ITEM_ID = #{record.parentItemId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isAudit != null" >
+        IS_AUDIT = #{record.isAudit,jdbcType=INTEGER},
+      </if>
+      <if test="record.createDateTime != null" >
+        CREATE_DATE_TIME = #{record.createDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserCode != null" >
+        CREATE_USER_CODE = #{record.createUserCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

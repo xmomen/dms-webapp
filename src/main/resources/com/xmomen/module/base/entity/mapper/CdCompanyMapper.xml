@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.base.entity.mapper.CdCompanyMapper" >
+  <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdCompany" >
+    <id column="CD_COMPANY_ID" property="cdCompanyId" jdbcType="INTEGER" />
+    <result column="COMPANY_CODE" property="companyCode" jdbcType="VARCHAR" />
+    <result column="COMPANY_NAME" property="companyName" jdbcType="VARCHAR" />
+    <result column="COMPANY_ADDRESS" property="companyAddress" jdbcType="VARCHAR" />
+    <result column="COMPANY_LEADER" property="companyLeader" jdbcType="VARCHAR" />
+    <result column="COMPANY_LEADER_TEL" property="companyLeaderTel" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CD_COMPANY_ID, COMPANY_CODE, COMPANY_NAME, COMPANY_ADDRESS, COMPANY_LEADER, COMPANY_LEADER_TEL
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdCompanyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cd_company
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.xmomen.module.base.entity.CdCompanyExample" >
+    delete from cd_company
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdCompany" useGeneratedKeys="true" keyProperty="cdCompanyId" keyColumn="CD_COMPANY_ID" >
+    insert into cd_company
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cdCompanyId != null" >
+        CD_COMPANY_ID,
+      </if>
+      <if test="companyCode != null" >
+        COMPANY_CODE,
+      </if>
+      <if test="companyName != null" >
+        COMPANY_NAME,
+      </if>
+      <if test="companyAddress != null" >
+        COMPANY_ADDRESS,
+      </if>
+      <if test="companyLeader != null" >
+        COMPANY_LEADER,
+      </if>
+      <if test="companyLeaderTel != null" >
+        COMPANY_LEADER_TEL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cdCompanyId != null" >
+        #{cdCompanyId,jdbcType=INTEGER},
+      </if>
+      <if test="companyCode != null" >
+        #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAddress != null" >
+        #{companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="companyLeader != null" >
+        #{companyLeader,jdbcType=VARCHAR},
+      </if>
+      <if test="companyLeaderTel != null" >
+        #{companyLeaderTel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xmomen.module.base.entity.CdCompanyExample" resultType="java.lang.Integer" >
+    select count(*) from cd_company
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cd_company
+    <set >
+      <if test="record.cdCompanyId != null" >
+        CD_COMPANY_ID = #{record.cdCompanyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyCode != null" >
+        COMPANY_CODE = #{record.companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyName != null" >
+        COMPANY_NAME = #{record.companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyAddress != null" >
+        COMPANY_ADDRESS = #{record.companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyLeader != null" >
+        COMPANY_LEADER = #{record.companyLeader,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyLeaderTel != null" >
+        COMPANY_LEADER_TEL = #{record.companyLeaderTel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>
