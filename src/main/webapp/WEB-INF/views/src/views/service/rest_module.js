@@ -4,13 +4,14 @@
 define(function () {
     var ngREST = angular.module("DMS.REST",["ngResource"]);
     ngREST.factory("UserAPI", ["$resource", function($resource){
-        return $resource("/user/:userId", { userId:"@id" }, {
+        return $resource("/user/:id", { id:"@id" }, {
             query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}},
             lock:{
                 method:"PUT",
-                url:"/user/:userId/locked" ,
+                url:"/user/:id/locked" ,
                 params:{
-                    userId:"@userId",
+                    id:"@id",
                     locked:"@locked"
                 }
             },

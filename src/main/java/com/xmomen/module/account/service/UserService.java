@@ -3,6 +3,7 @@ package com.xmomen.module.account.service;
 import java.util.Set;
 
 import com.xmomen.module.account.model.CreateUser;
+import com.xmomen.module.account.web.controller.vo.UpdateUserVo;
 import com.xmomen.module.user.entity.SysUsers;
 
 /**
@@ -17,6 +18,12 @@ public interface UserService {
      * @param user
      */
     public SysUsers createUser(CreateUser user);
+
+    /**
+     * 更新用户
+     * @param updateUserVo
+     */
+    public void updateUser(UpdateUserVo updateUserVo);
 
     /**
      * 修改密码

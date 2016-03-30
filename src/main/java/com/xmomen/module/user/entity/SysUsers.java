@@ -1,31 +1,50 @@
 package com.xmomen.module.user.entity;
 
 import com.xmomen.framework.mybatis.model.BaseMybatisModel;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Version;
 
 @Entity
 @Table(name = "sys_users")
 public class SysUsers extends BaseMybatisModel {
     /**
-     * 物理主键
+     * 
      */
     private Integer id;
 
     /**
-     * 用户名
+     * 登陆用户名
      */
     private String username;
 
     /**
-     * 密码
+     * 真实姓名
+     */
+    private String realname;
+
+    /**
+     * 密码盐值
+     */
+    private String salt;
+
+    /**
+     * 登陆密码
      */
     private String password;
 
     /**
-     * 盐值
+     * 年龄
      */
-    private String salt;
+    private Integer age;
+
+    /**
+     * 1-男，2女
+     */
+    private Integer sex;
 
     /**
      * 邮箱
@@ -33,7 +52,22 @@ public class SysUsers extends BaseMybatisModel {
     private String email;
 
     /**
-     * 是否启用：0-禁用，1-启用
+     * QQ
+     */
+    private String qq;
+
+    /**
+     * 手机号
+     */
+    private String phoneNumber;
+
+    /**
+     * 办公室电话
+     */
+    private String officeTel;
+
+    /**
+     * 0-禁用，1-启用
      */
     private Integer locked;
 
@@ -67,18 +101,18 @@ public class SysUsers extends BaseMybatisModel {
         addValidField("username");
     }
 
-    @Column(name = "PASSWORD")
-    public String getPassword() {
-        return password;
+    @Column(name = "REALNAME")
+    public String getRealname() {
+        return realname;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-        if(password == null){
-              removeValidField("password");
+    public void setRealname(String realname) {
+        this.realname = realname;
+        if(realname == null){
+              removeValidField("realname");
               return;
         }
-        addValidField("password");
+        addValidField("realname");
     }
 
     @Column(name = "SALT")
@@ -95,6 +129,48 @@ public class SysUsers extends BaseMybatisModel {
         addValidField("salt");
     }
 
+    @Column(name = "PASSWORD")
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+        if(password == null){
+              removeValidField("password");
+              return;
+        }
+        addValidField("password");
+    }
+
+    @Column(name = "AGE")
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+        if(age == null){
+              removeValidField("age");
+              return;
+        }
+        addValidField("age");
+    }
+
+    @Column(name = "SEX")
+    public Integer getSex() {
+        return sex;
+    }
+
+    public void setSex(Integer sex) {
+        this.sex = sex;
+        if(sex == null){
+              removeValidField("sex");
+              return;
+        }
+        addValidField("sex");
+    }
+
     @Column(name = "EMAIL")
     public String getEmail() {
         return email;
@@ -107,6 +183,48 @@ public class SysUsers extends BaseMybatisModel {
               return;
         }
         addValidField("email");
+    }
+
+    @Column(name = "QQ")
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
+        if(qq == null){
+              removeValidField("qq");
+              return;
+        }
+        addValidField("qq");
+    }
+
+    @Column(name = "PHONE_NUMBER")
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+        if(phoneNumber == null){
+              removeValidField("phoneNumber");
+              return;
+        }
+        addValidField("phoneNumber");
+    }
+
+    @Column(name = "OFFICE_TEL")
+    public String getOfficeTel() {
+        return officeTel;
+    }
+
+    public void setOfficeTel(String officeTel) {
+        this.officeTel = officeTel;
+        if(officeTel == null){
+              removeValidField("officeTel");
+              return;
+        }
+        addValidField("officeTel");
     }
 
     @Column(name = "LOCKED")

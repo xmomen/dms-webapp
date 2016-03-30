@@ -22,41 +22,59 @@ define(function () {
         };
         $scope.locked = function(index){
             UserAPI.lock({
-                userId: $scope.userList[index].userId,
+                id: $scope.userList[index].id,
                 locked: $scope.userList[index].locked == 1 ? true : false
             });
         };
         $scope.removeUser = function(index){
             $ugDialog.confirm("是否删除用户？").then(function(){
                 UserAPI.delete({
-                    userId: $scope.userList[index].userId
+                    id: $scope.userList[index].id
                 }, function(){
                     $scope.getUserList();
                 });
             })
         };
-        $scope.open = function (index, size) {
+        $scope.updateUser = function(index){
+            $scope.open(angular.copy($scope.userList[index]));
+        };
+        $scope.open = function (user) {
             var modalInstance = $modal.open({
                 templateUrl: 'addUser.html',
-                controller: ["$scope", "UserAPI", "$modalInstance", function ($scope, UserAPI, $modalInstance) {
+                resolve: {
+                    CurrentUser: function(){
+                        return user;
+                    }
+                },
+                controller: ["$scope", "UserAPI", "CurrentUser", "$modalInstance", function ($scope, UserAPI, CurrentUser, $modalInstance) {
                     $scope.user = {};
+                    if(CurrentUser){
+                        $scope.user = CurrentUser;
+                    }
                     $scope.errors = null;
                     $scope.addAccountForm = {};
                     $scope.saveAccount = function(){
                         $scope.errors = null;
                         if($scope.addAccountForm.validator.form()){
-                            UserAPI.save($scope.user, function(){
-                                $modalInstance.close();
-                            }, function(data){
-                                $scope.errors = data.data;
-                            })
+                            if($scope.user.id){
+                                UserAPI.update($scope.user, function(){
+                                    $modalInstance.close();
+                                }, function(data){
+                                    $scope.errors = data.data;
+                                })
+                            }else{
+                                UserAPI.save($scope.user, function(){
+                                    $modalInstance.close();
+                                }, function(data){
+                                    $scope.errors = data.data;
+                                })
+                            }
                         }
                     };
                     $scope.cancel = function () {
                         $modalInstance.dismiss('cancel');
                     };
-                }],
-                size: size
+                }]
             });
             modalInstance.result.then(function () {
                 $scope.getUserList();

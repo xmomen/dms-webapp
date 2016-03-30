@@ -4,10 +4,16 @@
   <resultMap id="BaseResultMap" type="com.xmomen.module.user.entity.SysUsers" >
     <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="USERNAME" property="username" jdbcType="VARCHAR" />
-    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="REALNAME" property="realname" jdbcType="VARCHAR" />
     <result column="SALT" property="salt" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="AGE" property="age" jdbcType="INTEGER" />
+    <result column="SEX" property="sex" jdbcType="INTEGER" />
     <result column="EMAIL" property="email" jdbcType="VARCHAR" />
-    <result column="LOCKED" property="locked" jdbcType="BIT" />
+    <result column="QQ" property="qq" jdbcType="VARCHAR" />
+    <result column="PHONE_NUMBER" property="phoneNumber" jdbcType="VARCHAR" />
+    <result column="OFFICE_TEL" property="officeTel" jdbcType="VARCHAR" />
+    <result column="LOCKED" property="locked" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -68,7 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, USERNAME, PASSWORD, SALT, EMAIL, LOCKED
+    ID, USERNAME, REALNAME, SALT, PASSWORD, AGE, SEX, EMAIL, QQ, PHONE_NUMBER, OFFICE_TEL, 
+    LOCKED
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.user.entity.SysUsersExample" >
     select
@@ -99,14 +106,32 @@
       <if test="username != null" >
         USERNAME,
       </if>
-      <if test="password != null" >
-        PASSWORD,
+      <if test="realname != null" >
+        REALNAME,
       </if>
       <if test="salt != null" >
         SALT,
       </if>
+      <if test="password != null" >
+        PASSWORD,
+      </if>
+      <if test="age != null" >
+        AGE,
+      </if>
+      <if test="sex != null" >
+        SEX,
+      </if>
       <if test="email != null" >
         EMAIL,
+      </if>
+      <if test="qq != null" >
+        QQ,
+      </if>
+      <if test="phoneNumber != null" >
+        PHONE_NUMBER,
+      </if>
+      <if test="officeTel != null" >
+        OFFICE_TEL,
       </if>
       <if test="locked != null" >
         LOCKED,
@@ -119,17 +144,35 @@
       <if test="username != null" >
         #{username,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
-        #{password,jdbcType=VARCHAR},
+      <if test="realname != null" >
+        #{realname,jdbcType=VARCHAR},
       </if>
       <if test="salt != null" >
         #{salt,jdbcType=VARCHAR},
       </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
       <if test="email != null" >
         #{email,jdbcType=VARCHAR},
       </if>
+      <if test="qq != null" >
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null" >
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="officeTel != null" >
+        #{officeTel,jdbcType=VARCHAR},
+      </if>
       <if test="locked != null" >
-        #{locked,jdbcType=BIT},
+        #{locked,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -148,17 +191,35 @@
       <if test="record.username != null" >
         USERNAME = #{record.username,jdbcType=VARCHAR},
       </if>
-      <if test="record.password != null" >
-        PASSWORD = #{record.password,jdbcType=VARCHAR},
+      <if test="record.realname != null" >
+        REALNAME = #{record.realname,jdbcType=VARCHAR},
       </if>
       <if test="record.salt != null" >
         SALT = #{record.salt,jdbcType=VARCHAR},
       </if>
+      <if test="record.password != null" >
+        PASSWORD = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.age != null" >
+        AGE = #{record.age,jdbcType=INTEGER},
+      </if>
+      <if test="record.sex != null" >
+        SEX = #{record.sex,jdbcType=INTEGER},
+      </if>
       <if test="record.email != null" >
         EMAIL = #{record.email,jdbcType=VARCHAR},
       </if>
+      <if test="record.qq != null" >
+        QQ = #{record.qq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phoneNumber != null" >
+        PHONE_NUMBER = #{record.phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.officeTel != null" >
+        OFFICE_TEL = #{record.officeTel,jdbcType=VARCHAR},
+      </if>
       <if test="record.locked != null" >
-        LOCKED = #{record.locked,jdbcType=BIT},
+        LOCKED = #{record.locked,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >
