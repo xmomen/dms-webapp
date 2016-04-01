@@ -110,4 +110,11 @@ define(function () {
             query:{ isArray:false}
         });
     }]);
+
+    ngREST.factory("CouponAPI", ["$resource", function($resource){
+        return $resource("/coupon/:id", { id:"@id" }, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}}
+        });
+    }]);
 });

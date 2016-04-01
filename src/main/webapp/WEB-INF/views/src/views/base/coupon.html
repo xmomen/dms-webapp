@@ -1,0 +1,287 @@
+<!--
+	The ID "widget-grid" will start to initialize all widgets below 
+	You do not need to use widgets if you dont want to. Simply remove 
+	the <section></section> and you can use wells or panels instead 
+	-->
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget" id="wid-id-4">
+				<!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2>卡券列表</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- end widget edit box -->
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="dt-toolbar">
+							<div class="col-xs-11 col-sm-10">
+								<div class="dataTables_filter">
+									<label>
+										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+										<input type="search" placeholder="卡号/券号/描述" data-ng-keyup="getCouponList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+								</div>
+							</div>
+							<div class="col-xs-1 col-sm-2">
+								<button class="btn btn-primary" type="button" data-ng-click="open()">
+									<i class="fa fa-plus"></i>
+									新增卡券
+								</button>
+							</div>
+						</div>
+						<div class="table-responsive">
+							<table class="table table-striped table-condensed table-hover smart-form has-tickbox">
+								<thead>
+								<tr>
+									<th>
+										<label class="checkbox">
+											<input type="checkbox" name="checkbox-inline">
+											<i></i>
+										</label>
+									</th>
+									<th width="120">卡券类型</th>
+									<th>描述</th>
+									<th>卡号</th>
+									<th>可用金额/可用次数</th>
+									<th>有效日期</th>
+									<th>使用状态</th>
+									<th>有效状态</th>
+									<th>是否赠送</th>
+									<th>备注</th>
+									<th width="80">操作</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat="coupon in couponList"  ng-if="couponList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+									<td>
+										<label class="checkbox">
+											<input type="checkbox" name="checkbox-inline">
+											<i></i>
+										</label>
+									</td>
+									<td ng-bind="coupon.couponType"></td>
+									<td ng-bind="coupon.couponDesc"></td>
+									<td ng-bind="coupon.couponNumber"></td>
+									<td ng-bind="coupon.couponValue"></td>
+									<td>{{coupon.beginTime | date: 'yyyy-MM-dd'}} 至 {{coupon.endTime | date: 'yyyy-MM-dd'}}</td>
+									<td ng-bind="coupon.isUsed"></td>
+									<td ng-bind="coupon.isUseful"></td>
+									<td ng-bind="coupon.isGift"></td>
+									<td ng-bind="coupon.notes"></td>
+									<td>
+										<div ng-show="show">
+											<a href="javascript:void(0);" data-ng-click="removeCoupon($index)" title="删除：{{coupon.couponDesc}}">
+												<span class="glyphicon glyphicon-remove-circle"></span>
+											</a>
+											<span> | </span>
+											<a href="javascript:void(0);" data-ng-click="updateCoupon($index)" title="编辑：{{coupon.couponDesc}}">
+												<span class="fa fa-pencil"></span>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr ng-if="couponList == null || couponList.length == 0">
+									<td colspan="11">
+										<div>暂无数据</div>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="dt-toolbar-footer">
+							<div class="col-xs-12 col-sm-12">
+								<ug-pagination page-info="pageInfoSetting" ></ug-pagination>
+							</div>
+						</div>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- WIDGET END -->
+
+	</div>
+
+	<!-- end row -->
+
+</section>
+<!-- end widget grid -->
+
+<script type="text/ng-template" id="addCoupon.html">
+	<div class="modal-header">
+		<h3 class="modal-title">卡券信息</h3>
+	</div>
+	<div class="modal-body">
+		<div class="widget-body">
+
+			<form class="form-horizontal" ug-validate="addCouponForm" name="addCouponForm" novalidate="">
+
+				<fieldset>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">类型</label>
+						<div class="col-md-10 input-group">
+							<label class="radio radio-inline">
+								<input type="radio" class="radiobox" ng-model="coupon.couponType" value="0" ng-checked="coupon.couponType==0" name="couponType">
+								<span>卡</span>
+							</label>
+							<label class="radio radio-inline">
+								<input type="radio" class="radiobox" ng-model="coupon.couponType" value="1" ng-checked="coupon.couponType==1" name="couponType">
+								<span>券</span>
+							</label>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">描述</label>
+						<div class="col-md-10 input-group">
+							<input class="form-control" ng-model="coupon.id" name="id" type="hidden">
+							<input class="form-control"  ng-model="coupon.couponDesc" name="couponDesc" placeholder="描述" type="text">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">卡号</label>
+						<div class="col-md-10 input-group">
+							<input class="form-control"  ng-model="coupon.couponNumber" name="couponNumber" placeholder="卡号" type="text">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">数值</label>
+						<div class="col-md-10 input-group">
+							<input class="form-control"  ng-model="coupon.couponValue" name="couponValue" placeholder="可用金额/可用次数" type="text">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">起始时间</label>
+						<div class="col-md-10 input-group">
+							<input type="text" class="form-control"
+								   datepicker-popup="yyyy-MM-dd"
+								   placeholder="起始日期"
+								   ng-model="coupon.beginTime"
+								   close-text="关闭"
+								   current-text="今日"
+								   clear-text="清除"
+								   is-open="datepickerSetting.beginTime.opened"
+								   ng-required="true" />
+							<span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="open($event, 0)"><i class="glyphicon glyphicon-calendar"></i></button>
+							</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-2 control-label">截止日期</label>
+						<div class="col-md-10 input-group">
+							<input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
+								   placeholder="截止日期"
+								   ng-model="coupon.endTime"
+								   close-text="关闭"
+								   current-text="今日"
+								   clear-text="清除"
+								   is-open="datepickerSetting.endTime.opened"
+								   ng-required="true" />
+							<span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="open($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
+							</span>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">是否已使用</label>
+						<div class="col-md-10 input-group">
+							<label class="radio radio-inline">
+								<input type="radio" class="radiobox" ng-model="coupon.isUsed" value="0" ng-checked="coupon.isUsed==0" name="isUsed">
+								<span>未使用</span>
+							</label>
+							<label class="radio radio-inline">
+								<input type="radio" class="radiobox" ng-model="coupon.isUsed" value="1" ng-checked="coupon.isUsed==1" name="isUsed">
+								<span>已使用</span>
+							</label>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">是否有效</label>
+						<div class="col-md-10 input-group">
+							<label class="radio radio-inline">
+								<input type="radio" class="radiobox" ng-model="coupon.isUseful" value="0" ng-checked="coupon.isUseful==0" name="isUseful">
+								<span>无效</span>
+							</label>
+							<label class="radio radio-inline">
+								<input type="radio" class="radiobox" ng-model="coupon.isUseful" value="1" ng-checked="coupon.isUseful==1" name="isUseful">
+								<span>有效</span>
+							</label>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">是否赠送</label>
+						<div class="col-md-10 input-group">
+							<label class="radio radio-inline">
+								<input type="radio" class="radiobox" ng-model="coupon.isGift" value="0" ng-checked="coupon.isGift==0" name="isGift">
+								<span>否</span>
+							</label>
+							<label class="radio radio-inline">
+								<input type="radio" class="radiobox" ng-model="coupon.isGift" value="1" ng-checked="coupon.isGift==1" name="isGift">
+								<span>是</span>
+							</label>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">备注</label>
+						<div class="col-md-10 input-group">
+							<textarea class="form-control" ng-model="coupon.notes" rows="5" name="notes" placeholder="备注" ></textarea>
+						</div>
+					</div>
+
+					<div class="form-group" ng-if="errors">
+						<label class="col-md-2 control-label"></label>
+						<div class="col-md-10 error">
+							{{errors.message}}
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="submit" data-ng-click="saveCoupon()">
+			<i class="fa fa-save"></i>
+			保存
+		</button>
+		<button class="btn btn-warning" ng-click="cancel()">关闭</button>
+	</div>
+</script>

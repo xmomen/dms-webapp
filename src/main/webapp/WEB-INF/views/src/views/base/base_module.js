@@ -3,8 +3,9 @@
  */
 define([
     "views/base/member/member_list",
-    "views/base/company/company_list"
-],function (memberList,companyList) {
+    "views/base/company/company_list",
+    "views/base/coupon"
+],function (memberList,companyList,coupon) {
     angular.module('DMS.base', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -30,6 +31,17 @@ define([
                     }
                 },
                 controller: companyList
+            })
+            .state('coupon', {
+                url: '/coupon',
+                templateUrl: 'views/base/coupon.html',
+                data:{
+                    permissions:{
+                        only:["USER_VIEW"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: coupon
             })
     }]);
 });

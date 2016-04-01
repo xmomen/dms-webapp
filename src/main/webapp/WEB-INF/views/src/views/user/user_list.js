@@ -52,10 +52,10 @@ define(function () {
                         $scope.user = CurrentUser;
                     }
                     $scope.errors = null;
-                    $scope.addAccountForm = {};
-                    $scope.saveAccount = function(){
+                    $scope.addUserForm = {};
+                    $scope.saveUser = function(){
                         $scope.errors = null;
-                        if($scope.addAccountForm.validator.form()){
+                        if($scope.addUserForm.validator.form()){
                             if($scope.user.id){
                                 UserAPI.update($scope.user, function(){
                                     $modalInstance.close();
