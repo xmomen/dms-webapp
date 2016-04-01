@@ -150,6 +150,50 @@
                         </div>
                     </div>
 					<div class="form-group">
+						<label class="col-md-2 control-label">公司/单位</label>
+						<div class="col-md-10">
+							<select ug-select2 style="width: 100%;" required="true" ng-model="member.company" name="company">
+								<optgroup label="Alaskan/Hawaiian Time Zone">
+									<option value="AK">Alaska</option>
+									<option value="HI">Hawaii</option>
+								</optgroup>
+								<optgroup label="Pacific Time Zone">
+									<option value="CA">California</option>
+									<option value="NV" selected="selected">Nevada</option>
+									<option value="OR">Oregon</option>
+									<option value="WA">Washington</option>
+								</optgroup>
+								<optgroup label="Mountain Time Zone">
+									<option value="AZ">Arizona</option>
+									<option value="CO">Colorado</option>
+									<option value="ID">Idaho</option>
+									<option value="MT" selected="selected">Montana</option><option value="NE">Nebraska</option>
+									<option value="NM">New Mexico</option>
+									<option value="ND">North Dakota</option>
+									<option value="UT">Utah</option>
+									<option value="WY">Wyoming</option>
+								</optgroup>
+								<optgroup label="Central Time Zone">
+									<option value="AL">Alabama</option>
+									<option value="AR">Arkansas</option>
+									<option value="IL">Illinois</option>
+									<option value="IA">Iowa</option>
+									<option value="KS">Kansas</option>
+									<option value="KY">Kentucky</option>
+									<option value="LA">Louisiana</option>
+									<option value="MN">Minnesota</option>
+									<option value="MS">Mississippi</option>
+									<option value="MO">Missouri</option>
+									<option value="OK">Oklahoma</option>
+									<option value="SD">South Dakota</option>
+									<option value="TX">Texas</option>
+									<option value="TN">Tennessee</option>
+									<option value="WI">Wisconsin</option>
+								</optgroup>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
 						<label class="col-md-2 control-label">手机号</label>
 						<div class="col-md-10">
 							<input class="form-control" required="true" ng-model="member.phoneNumber" name="phoneNumber" placeholder="手机号" type="text">
@@ -164,13 +208,13 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">备用手机号</label>
                         <div class="col-md-10">
-                            <input class="form-control"ng-model="member.spareTel2" name="spareTel2" placeholder="备用手机号2" type="text">
+                            <input class="form-control" ng-model="member.spareTel2" name="spareTel2" placeholder="备用手机号2" type="text">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">家庭固话</label>
                         <div class="col-md-10">
-                            <input class="form-control"ng-model="member.telNumber" name="telNumber" placeholder="家庭固话" type="text">
+                            <input class="form-control" ng-model="member.telNumber" name="telNumber" placeholder="家庭固话" type="text">
                         </div>
                     </div>
                     <div class="form-group">
@@ -202,6 +246,7 @@
 						<div class="col-md-10 error">
 							{{errors.message}}
 						</div>
+
 					</div>
 				</fieldset>
 			</form>

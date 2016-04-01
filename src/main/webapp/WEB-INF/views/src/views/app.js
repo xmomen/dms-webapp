@@ -79,7 +79,15 @@ define([
                 post:httpPost
             };
         }]
-    }).controller("LeftPanelController",["$scope", "$rootScope", "$http", function($scope, $rootScope, $http){
+    }).directive("ugSelect2",[function(){
+        return {
+            restrict:"A",
+            require:"select",
+            link: function(scope, element, attr, crtl){
+                $(element).select2();
+            }
+        }
+    }]).controller("LeftPanelController",["$scope", "$rootScope", "$http", function($scope, $rootScope, $http){
         $http.get("/account/setting").then(function(data){
             if(data.data){
                 $rootScope.account = data.data;
