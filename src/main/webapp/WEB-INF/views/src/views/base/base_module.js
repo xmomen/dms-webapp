@@ -4,6 +4,7 @@
 define([
     "views/base/member/member_list",
     "views/base/company/company_list",
+    "views/base/coupon",
     "views/base/dictionary"
 ],function (memberList,companyList,coupon,dictionary) {
     angular.module('DMS.base', [

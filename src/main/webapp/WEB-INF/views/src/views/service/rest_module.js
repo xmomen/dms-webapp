@@ -117,4 +117,18 @@ define(function () {
             update:{ method:"PUT", params:{id:"@id"}}
         });
     }]);
+
+    ngREST.factory("DictionaryGroupAPI", ["$resource", function($resource){
+        return $resource("/dictionary/:id", { id:"@id" }, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}}
+        });
+    }]);
+
+    ngREST.factory("DictionaryAPI", ["$resource", function($resource){
+        return $resource("/dictionary/:group_id/child/:id", { id:"@id",group_id:"@sysDictionaryId" }, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}}
+        });
+    }]);
 });
