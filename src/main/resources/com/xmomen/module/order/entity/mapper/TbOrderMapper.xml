@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.order.entity.mapper.TbOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.xmomen.module.order.entity.TbOrder" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="ORDER_CODE" property="orderCode" jdbcType="VARCHAR" />
+    <result column="ORDER_TYPE" property="orderType" jdbcType="INTEGER" />
+    <result column="COUPON_NUMBER" property="couponNumber" jdbcType="VARCHAR" />
+    <result column="COUPON_PASSWORD" property="couponPassword" jdbcType="VARCHAR" />
+    <result column="ORDER_SOURCE" property="orderSource" jdbcType="INTEGER" />
+    <result column="PAYMENT_MODE" property="paymentMode" jdbcType="INTEGER" />
+    <result column="ORDER_STATUS" property="orderStatus" jdbcType="VARCHAR" />
+    <result column="CONSIGNEE_PHONE" property="consigneePhone" jdbcType="VARCHAR" />
+    <result column="CONSIGNEE_NAME" property="consigneeName" jdbcType="VARCHAR" />
+    <result column="CONSIGNEE_ADDRESS" property="consigneeAddress" jdbcType="VARCHAR" />
+    <result column="POSTCODE" property="postcode" jdbcType="VARCHAR" />
+    <result column="TRANSPORT_MODE" property="transportMode" jdbcType="INTEGER" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="TOTAL_AMOUNT" property="totalAmount" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, ORDER_CODE, ORDER_TYPE, COUPON_NUMBER, COUPON_PASSWORD, ORDER_SOURCE, PAYMENT_MODE, 
+    ORDER_STATUS, CONSIGNEE_PHONE, CONSIGNEE_NAME, CONSIGNEE_ADDRESS, POSTCODE, TRANSPORT_MODE, 
+    REMARK, TOTAL_AMOUNT, CREATE_TIME, CREATE_USER
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.xmomen.module.order.entity.TbOrderExample" >
+    delete from tb_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insertSelective" parameterType="com.xmomen.module.order.entity.TbOrder" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
+    insert into tb_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="orderCode != null" >
+        ORDER_CODE,
+      </if>
+      <if test="orderType != null" >
+        ORDER_TYPE,
+      </if>
+      <if test="couponNumber != null" >
+        COUPON_NUMBER,
+      </if>
+      <if test="couponPassword != null" >
+        COUPON_PASSWORD,
+      </if>
+      <if test="orderSource != null" >
+        ORDER_SOURCE,
+      </if>
+      <if test="paymentMode != null" >
+        PAYMENT_MODE,
+      </if>
+      <if test="orderStatus != null" >
+        ORDER_STATUS,
+      </if>
+      <if test="consigneePhone != null" >
+        CONSIGNEE_PHONE,
+      </if>
+      <if test="consigneeName != null" >
+        CONSIGNEE_NAME,
+      </if>
+      <if test="consigneeAddress != null" >
+        CONSIGNEE_ADDRESS,
+      </if>
+      <if test="postcode != null" >
+        POSTCODE,
+      </if>
+      <if test="transportMode != null" >
+        TRANSPORT_MODE,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="totalAmount != null" >
+        TOTAL_AMOUNT,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="couponNumber != null" >
+        #{couponNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="couponPassword != null" >
+        #{couponPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSource != null" >
+        #{orderSource,jdbcType=INTEGER},
+      </if>
+      <if test="paymentMode != null" >
+        #{paymentMode,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null" >
+        #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="consigneePhone != null" >
+        #{consigneePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="consigneeName != null" >
+        #{consigneeName,jdbcType=VARCHAR},
+      </if>
+      <if test="consigneeAddress != null" >
+        #{consigneeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null" >
+        #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="transportMode != null" >
+        #{transportMode,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="totalAmount != null" >
+        #{totalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xmomen.module.order.entity.TbOrderExample" resultType="java.lang.Integer" >
+    select count(*) from tb_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_order
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderCode != null" >
+        ORDER_CODE = #{record.orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderType != null" >
+        ORDER_TYPE = #{record.orderType,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponNumber != null" >
+        COUPON_NUMBER = #{record.couponNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponPassword != null" >
+        COUPON_PASSWORD = #{record.couponPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderSource != null" >
+        ORDER_SOURCE = #{record.orderSource,jdbcType=INTEGER},
+      </if>
+      <if test="record.paymentMode != null" >
+        PAYMENT_MODE = #{record.paymentMode,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderStatus != null" >
+        ORDER_STATUS = #{record.orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.consigneePhone != null" >
+        CONSIGNEE_PHONE = #{record.consigneePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.consigneeName != null" >
+        CONSIGNEE_NAME = #{record.consigneeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.consigneeAddress != null" >
+        CONSIGNEE_ADDRESS = #{record.consigneeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postcode != null" >
+        POSTCODE = #{record.postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transportMode != null" >
+        TRANSPORT_MODE = #{record.transportMode,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null" >
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalAmount != null" >
+        TOTAL_AMOUNT = #{record.totalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null" >
+        CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

@@ -1,0 +1,85 @@
+<!--
+	The ID "widget-grid" will start to initialize all widgets below 
+	You do not need to use widgets if you dont want to. Simply remove 
+	the <section></section> and you can use wells or panels instead 
+	-->
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget" id="wid-id-4">
+				<!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2>订单列表</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- end widget edit box -->
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="dt-toolbar">
+							<div class="col-xs-11 col-sm-10">
+								<div class="dataTables_filter">
+									<label>
+										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+										<input type="search" placeholder="卡号/券号/描述" data-ng-keyup="getOrderList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+								</div>
+							</div>
+							<div class="col-xs-1 col-sm-2">
+								<button class="btn btn-primary" type="button" data-ng-click="open()">
+									<i class="fa fa-plus"></i>
+									新增订单
+								</button>
+							</div>
+						</div>
+						<div class="table-responsive">
+
+						</div>
+						<div class="dt-toolbar-footer">
+							<div class="col-xs-12 col-sm-12">
+								<button class="btn btn-primary" type="button" data-ng-click="open()">
+									<i class="fa fa-plus"></i>
+									提交订单
+								</button>
+							</div>
+						</div>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- WIDGET END -->
+
+	</div>
+
+	<!-- end row -->
+
+</section>
+<!-- end widget grid -->
