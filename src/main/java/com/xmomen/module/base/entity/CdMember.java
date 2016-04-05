@@ -14,7 +14,7 @@ public class CdMember extends BaseMybatisModel {
     /**
      * 
      */
-    private Integer cdMemberId;
+    private Integer id;
 
     /**
      * 会员编号
@@ -81,20 +81,20 @@ public class CdMember extends BaseMybatisModel {
      */
     private Integer cdUserId;
 
-    @Column(name = "CD_MEMBER_ID")
+    @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
-    public Integer getCdMemberId() {
-        return cdMemberId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCdMemberId(Integer cdMemberId) {
-        this.cdMemberId = cdMemberId;
-        if(cdMemberId == null){
-              removeValidField("cdMemberId");
+    public void setId(Integer id) {
+        this.id = id;
+        if(id == null){
+              removeValidField("id");
               return;
         }
-        addValidField("cdMemberId");
+        addValidField("id");
     }
 
     @Column(name = "MEMBER_CODE")

@@ -2,17 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xmomen.module.base.entity.mapper.CdCouponMapper" >
   <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdCoupon" >
-    <id column="CD_COUPON_ID" property="cdCouponId" jdbcType="INTEGER" />
+    <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="COUPON_TYPE" property="couponType" jdbcType="INTEGER" />
+    <result column="COUPON_DESC" property="couponDesc" jdbcType="VARCHAR" />
     <result column="COUPON_NUMBER" property="couponNumber" jdbcType="VARCHAR" />
+    <result column="COUPON_VALUE" property="couponValue" jdbcType="DECIMAL" />
     <result column="COUPON_PASSWORD" property="couponPassword" jdbcType="VARCHAR" />
     <result column="BEGIN_TIME" property="beginTime" jdbcType="TIMESTAMP" />
     <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
-    <result column="PRICE" property="price" jdbcType="DECIMAL" />
-    <result column="COUNT" property="count" jdbcType="INTEGER" />
     <result column="IS_USED" property="isUsed" jdbcType="INTEGER" />
     <result column="IS_USEFUL" property="isUseful" jdbcType="INTEGER" />
-    <result column="IS_FEEDBACK" property="isFeedback" jdbcType="INTEGER" />
+    <result column="IS_GIFT" property="isGift" jdbcType="INTEGER" />
     <result column="NOTES" property="notes" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -74,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    CD_COUPON_ID, COUPON_TYPE, COUPON_NUMBER, COUPON_PASSWORD, BEGIN_TIME, END_TIME, 
-    PRICE, COUNT, IS_USED, IS_USEFUL, IS_FEEDBACK, NOTES
+    ID, COUPON_TYPE, COUPON_DESC, COUPON_NUMBER, COUPON_VALUE, COUPON_PASSWORD, BEGIN_TIME, 
+    END_TIME, IS_USED, IS_USEFUL, IS_GIFT, NOTES
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdCouponExample" >
     select
@@ -97,17 +97,23 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdCoupon" useGeneratedKeys="true" keyProperty="cdCouponId" keyColumn="CD_COUPON_ID" >
+  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdCoupon" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
     insert into cd_coupon
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="cdCouponId != null" >
-        CD_COUPON_ID,
+      <if test="id != null" >
+        ID,
       </if>
       <if test="couponType != null" >
         COUPON_TYPE,
       </if>
+      <if test="couponDesc != null" >
+        COUPON_DESC,
+      </if>
       <if test="couponNumber != null" >
         COUPON_NUMBER,
+      </if>
+      <if test="couponValue != null" >
+        COUPON_VALUE,
       </if>
       <if test="couponPassword != null" >
         COUPON_PASSWORD,
@@ -118,34 +124,34 @@
       <if test="endTime != null" >
         END_TIME,
       </if>
-      <if test="price != null" >
-        PRICE,
-      </if>
-      <if test="count != null" >
-        COUNT,
-      </if>
       <if test="isUsed != null" >
         IS_USED,
       </if>
       <if test="isUseful != null" >
         IS_USEFUL,
       </if>
-      <if test="isFeedback != null" >
-        IS_FEEDBACK,
+      <if test="isGift != null" >
+        IS_GIFT,
       </if>
       <if test="notes != null" >
         NOTES,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="cdCouponId != null" >
-        #{cdCouponId,jdbcType=INTEGER},
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
       </if>
       <if test="couponType != null" >
         #{couponType,jdbcType=INTEGER},
       </if>
+      <if test="couponDesc != null" >
+        #{couponDesc,jdbcType=VARCHAR},
+      </if>
       <if test="couponNumber != null" >
         #{couponNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="couponValue != null" >
+        #{couponValue,jdbcType=DECIMAL},
       </if>
       <if test="couponPassword != null" >
         #{couponPassword,jdbcType=VARCHAR},
@@ -156,20 +162,14 @@
       <if test="endTime != null" >
         #{endTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="price != null" >
-        #{price,jdbcType=DECIMAL},
-      </if>
-      <if test="count != null" >
-        #{count,jdbcType=INTEGER},
-      </if>
       <if test="isUsed != null" >
         #{isUsed,jdbcType=INTEGER},
       </if>
       <if test="isUseful != null" >
         #{isUseful,jdbcType=INTEGER},
       </if>
-      <if test="isFeedback != null" >
-        #{isFeedback,jdbcType=INTEGER},
+      <if test="isGift != null" >
+        #{isGift,jdbcType=INTEGER},
       </if>
       <if test="notes != null" >
         #{notes,jdbcType=VARCHAR},
@@ -185,14 +185,20 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update cd_coupon
     <set >
-      <if test="record.cdCouponId != null" >
-        CD_COUPON_ID = #{record.cdCouponId,jdbcType=INTEGER},
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.couponType != null" >
         COUPON_TYPE = #{record.couponType,jdbcType=INTEGER},
       </if>
+      <if test="record.couponDesc != null" >
+        COUPON_DESC = #{record.couponDesc,jdbcType=VARCHAR},
+      </if>
       <if test="record.couponNumber != null" >
         COUPON_NUMBER = #{record.couponNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponValue != null" >
+        COUPON_VALUE = #{record.couponValue,jdbcType=DECIMAL},
       </if>
       <if test="record.couponPassword != null" >
         COUPON_PASSWORD = #{record.couponPassword,jdbcType=VARCHAR},
@@ -203,20 +209,14 @@
       <if test="record.endTime != null" >
         END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.price != null" >
-        PRICE = #{record.price,jdbcType=DECIMAL},
-      </if>
-      <if test="record.count != null" >
-        COUNT = #{record.count,jdbcType=INTEGER},
-      </if>
       <if test="record.isUsed != null" >
         IS_USED = #{record.isUsed,jdbcType=INTEGER},
       </if>
       <if test="record.isUseful != null" >
         IS_USEFUL = #{record.isUseful,jdbcType=INTEGER},
       </if>
-      <if test="record.isFeedback != null" >
-        IS_FEEDBACK = #{record.isFeedback,jdbcType=INTEGER},
+      <if test="record.isGift != null" >
+        IS_GIFT = #{record.isGift,jdbcType=INTEGER},
       </if>
       <if test="record.notes != null" >
         NOTES = #{record.notes,jdbcType=VARCHAR},

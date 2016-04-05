@@ -16,7 +16,7 @@ public class CdCoupon extends BaseMybatisModel {
     /**
      * 
      */
-    private Integer cdCouponId;
+    private Integer id;
 
     /**
      * 卡或者劵,1-卡，2-劵
@@ -24,9 +24,19 @@ public class CdCoupon extends BaseMybatisModel {
     private Integer couponType;
 
     /**
+     * 卡描述
+     */
+    private String couponDesc;
+
+    /**
      * 卡号
      */
     private String couponNumber;
+
+    /**
+     * 卡值：可用金额,可用次数
+     */
+    private BigDecimal couponValue;
 
     /**
      * 密码
@@ -44,16 +54,6 @@ public class CdCoupon extends BaseMybatisModel {
     private Date endTime;
 
     /**
-     * 固定金额
-     */
-    private BigDecimal price;
-
-    /**
-     * 固定次数
-     */
-    private Integer count;
-
-    /**
      * 0-未使用，1-已使用
      */
     private Integer isUsed;
@@ -64,29 +64,29 @@ public class CdCoupon extends BaseMybatisModel {
     private Integer isUseful;
 
     /**
-     * 0-否，1-是
+     * 0-非赠送，1-赠送
      */
-    private Integer isFeedback;
+    private Integer isGift;
 
     /**
-     * 
+     * 备注
      */
     private String notes;
 
-    @Column(name = "CD_COUPON_ID")
+    @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
-    public Integer getCdCouponId() {
-        return cdCouponId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCdCouponId(Integer cdCouponId) {
-        this.cdCouponId = cdCouponId;
-        if(cdCouponId == null){
-              removeValidField("cdCouponId");
+    public void setId(Integer id) {
+        this.id = id;
+        if(id == null){
+              removeValidField("id");
               return;
         }
-        addValidField("cdCouponId");
+        addValidField("id");
     }
 
     @Column(name = "COUPON_TYPE")
@@ -103,6 +103,20 @@ public class CdCoupon extends BaseMybatisModel {
         addValidField("couponType");
     }
 
+    @Column(name = "COUPON_DESC")
+    public String getCouponDesc() {
+        return couponDesc;
+    }
+
+    public void setCouponDesc(String couponDesc) {
+        this.couponDesc = couponDesc;
+        if(couponDesc == null){
+              removeValidField("couponDesc");
+              return;
+        }
+        addValidField("couponDesc");
+    }
+
     @Column(name = "COUPON_NUMBER")
     public String getCouponNumber() {
         return couponNumber;
@@ -115,6 +129,20 @@ public class CdCoupon extends BaseMybatisModel {
               return;
         }
         addValidField("couponNumber");
+    }
+
+    @Column(name = "COUPON_VALUE")
+    public BigDecimal getCouponValue() {
+        return couponValue;
+    }
+
+    public void setCouponValue(BigDecimal couponValue) {
+        this.couponValue = couponValue;
+        if(couponValue == null){
+              removeValidField("couponValue");
+              return;
+        }
+        addValidField("couponValue");
     }
 
     @Column(name = "COUPON_PASSWORD")
@@ -159,34 +187,6 @@ public class CdCoupon extends BaseMybatisModel {
         addValidField("endTime");
     }
 
-    @Column(name = "PRICE")
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-        if(price == null){
-              removeValidField("price");
-              return;
-        }
-        addValidField("price");
-    }
-
-    @Column(name = "COUNT")
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
-        if(count == null){
-              removeValidField("count");
-              return;
-        }
-        addValidField("count");
-    }
-
     @Column(name = "IS_USED")
     public Integer getIsUsed() {
         return isUsed;
@@ -215,18 +215,18 @@ public class CdCoupon extends BaseMybatisModel {
         addValidField("isUseful");
     }
 
-    @Column(name = "IS_FEEDBACK")
-    public Integer getIsFeedback() {
-        return isFeedback;
+    @Column(name = "IS_GIFT")
+    public Integer getIsGift() {
+        return isGift;
     }
 
-    public void setIsFeedback(Integer isFeedback) {
-        this.isFeedback = isFeedback;
-        if(isFeedback == null){
-              removeValidField("isFeedback");
+    public void setIsGift(Integer isGift) {
+        this.isGift = isGift;
+        if(isGift == null){
+              removeValidField("isGift");
               return;
         }
-        addValidField("isFeedback");
+        addValidField("isGift");
     }
 
     @Column(name = "NOTES")

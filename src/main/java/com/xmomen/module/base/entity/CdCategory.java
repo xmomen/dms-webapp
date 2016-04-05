@@ -14,27 +14,27 @@ public class CdCategory extends BaseMybatisModel {
     /**
      * 
      */
-    private Integer cdCategoryId;
+    private Integer id;
 
     /**
      * 类别名称
      */
     private String categoryName;
 
-    @Column(name = "CD_CATEGORY_ID")
+    @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
-    public Integer getCdCategoryId() {
-        return cdCategoryId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCdCategoryId(Integer cdCategoryId) {
-        this.cdCategoryId = cdCategoryId;
-        if(cdCategoryId == null){
-              removeValidField("cdCategoryId");
+    public void setId(Integer id) {
+        this.id = id;
+        if(id == null){
+              removeValidField("id");
               return;
         }
-        addValidField("cdCategoryId");
+        addValidField("id");
     }
 
     @Column(name = "CATEGORY_NAME")

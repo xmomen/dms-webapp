@@ -16,7 +16,7 @@ public class CdContract extends BaseMybatisModel {
     /**
      * 
      */
-    private Integer cdContractId;
+    private Integer id;
 
     /**
      * 合同价的客户
@@ -53,20 +53,20 @@ public class CdContract extends BaseMybatisModel {
      */
     private Integer isAuditor;
 
-    @Column(name = "CD_CONTRACT_ID")
+    @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
-    public Integer getCdContractId() {
-        return cdContractId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCdContractId(Integer cdContractId) {
-        this.cdContractId = cdContractId;
-        if(cdContractId == null){
-              removeValidField("cdContractId");
+    public void setId(Integer id) {
+        this.id = id;
+        if(id == null){
+              removeValidField("id");
               return;
         }
-        addValidField("cdContractId");
+        addValidField("id");
     }
 
     @Column(name = "CD_MEMBER_ID")

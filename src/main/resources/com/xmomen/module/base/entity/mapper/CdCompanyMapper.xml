@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xmomen.module.base.entity.mapper.CdCompanyMapper" >
   <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdCompany" >
-    <id column="CD_COMPANY_ID" property="cdCompanyId" jdbcType="INTEGER" />
+    <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="COMPANY_CODE" property="companyCode" jdbcType="VARCHAR" />
     <result column="COMPANY_NAME" property="companyName" jdbcType="VARCHAR" />
     <result column="COMPANY_ADDRESS" property="companyAddress" jdbcType="VARCHAR" />
@@ -68,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    CD_COMPANY_ID, COMPANY_CODE, COMPANY_NAME, COMPANY_ADDRESS, COMPANY_LEADER, COMPANY_LEADER_TEL
+    ID, COMPANY_CODE, COMPANY_NAME, COMPANY_ADDRESS, COMPANY_LEADER, COMPANY_LEADER_TEL
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdCompanyExample" >
     select
@@ -90,11 +90,11 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdCompany" useGeneratedKeys="true" keyProperty="cdCompanyId" keyColumn="CD_COMPANY_ID" >
+  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdCompany" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
     insert into cd_company
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="cdCompanyId != null" >
-        CD_COMPANY_ID,
+      <if test="id != null" >
+        ID,
       </if>
       <if test="companyCode != null" >
         COMPANY_CODE,
@@ -113,8 +113,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="cdCompanyId != null" >
-        #{cdCompanyId,jdbcType=INTEGER},
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
       </if>
       <if test="companyCode != null" >
         #{companyCode,jdbcType=VARCHAR},
@@ -142,8 +142,8 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update cd_company
     <set >
-      <if test="record.cdCompanyId != null" >
-        CD_COMPANY_ID = #{record.cdCompanyId,jdbcType=INTEGER},
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.companyCode != null" >
         COMPANY_CODE = #{record.companyCode,jdbcType=VARCHAR},

@@ -14,7 +14,7 @@ public class CdCompany extends BaseMybatisModel {
     /**
      * 
      */
-    private Integer cdCompanyId;
+    private Integer id;
 
     /**
      * 单位编号
@@ -41,20 +41,20 @@ public class CdCompany extends BaseMybatisModel {
      */
     private String companyLeaderTel;
 
-    @Column(name = "CD_COMPANY_ID")
+    @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
-    public Integer getCdCompanyId() {
-        return cdCompanyId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCdCompanyId(Integer cdCompanyId) {
-        this.cdCompanyId = cdCompanyId;
-        if(cdCompanyId == null){
-              removeValidField("cdCompanyId");
+    public void setId(Integer id) {
+        this.id = id;
+        if(id == null){
+              removeValidField("id");
               return;
         }
-        addValidField("cdCompanyId");
+        addValidField("id");
     }
 
     @Column(name = "COMPANY_CODE")

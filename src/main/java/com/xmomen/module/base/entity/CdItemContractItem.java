@@ -15,7 +15,7 @@ public class CdItemContractItem extends BaseMybatisModel {
     /**
      * 
      */
-    private Integer cdItemContractItemId;
+    private Integer id;
 
     /**
      * 产品合同
@@ -32,20 +32,20 @@ public class CdItemContractItem extends BaseMybatisModel {
      */
     private BigDecimal contractPrice;
 
-    @Column(name = "CD_ITEM_CONTRACT_ITEM_ID")
+    @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
-    public Integer getCdItemContractItemId() {
-        return cdItemContractItemId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCdItemContractItemId(Integer cdItemContractItemId) {
-        this.cdItemContractItemId = cdItemContractItemId;
-        if(cdItemContractItemId == null){
-              removeValidField("cdItemContractItemId");
+    public void setId(Integer id) {
+        this.id = id;
+        if(id == null){
+              removeValidField("id");
               return;
         }
-        addValidField("cdItemContractItemId");
+        addValidField("id");
     }
 
     @Column(name = "CD_CONTRACT_ID")

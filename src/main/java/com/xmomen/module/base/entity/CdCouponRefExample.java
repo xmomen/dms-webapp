@@ -105,63 +105,63 @@ public class CdCouponRefExample extends BaseMybatisExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria and主键idIsNull() {
-            addCriterion("主键ID is null");
+        public Criteria andIdIsNull() {
+            addCriterion("ID is null");
             return (Criteria) this;
         }
 
-        public Criteria and主键idIsNotNull() {
-            addCriterion("主键ID is not null");
+        public Criteria andIdIsNotNull() {
+            addCriterion("ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria and主键idEqualTo(Integer value) {
-            addCriterion("主键ID =", value, "主键id");
+        public Criteria andIdEqualTo(Integer value) {
+            addCriterion("ID =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria and主键idNotEqualTo(Integer value) {
-            addCriterion("主键ID <>", value, "主键id");
+        public Criteria andIdNotEqualTo(Integer value) {
+            addCriterion("ID <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria and主键idGreaterThan(Integer value) {
-            addCriterion("主键ID >", value, "主键id");
+        public Criteria andIdGreaterThan(Integer value) {
+            addCriterion("ID >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria and主键idGreaterThanOrEqualTo(Integer value) {
-            addCriterion("主键ID >=", value, "主键id");
+        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ID >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria and主键idLessThan(Integer value) {
-            addCriterion("主键ID <", value, "主键id");
+        public Criteria andIdLessThan(Integer value) {
+            addCriterion("ID <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria and主键idLessThanOrEqualTo(Integer value) {
-            addCriterion("主键ID <=", value, "主键id");
+        public Criteria andIdLessThanOrEqualTo(Integer value) {
+            addCriterion("ID <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria and主键idIn(List<Integer> values) {
-            addCriterion("主键ID in", values, "主键id");
+        public Criteria andIdIn(List<Integer> values) {
+            addCriterion("ID in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria and主键idNotIn(List<Integer> values) {
-            addCriterion("主键ID not in", values, "主键id");
+        public Criteria andIdNotIn(List<Integer> values) {
+            addCriterion("ID not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria and主键idBetween(Integer value1, Integer value2) {
-            addCriterion("主键ID between", value1, value2, "主键id");
+        public Criteria andIdBetween(Integer value1, Integer value2) {
+            addCriterion("ID between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria and主键idNotBetween(Integer value1, Integer value2) {
-            addCriterion("主键ID not between", value1, value2, "主键id");
+        public Criteria andIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("ID not between", value1, value2, "id");
             return (Criteria) this;
         }
 

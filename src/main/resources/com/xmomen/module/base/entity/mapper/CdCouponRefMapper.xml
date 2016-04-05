@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xmomen.module.base.entity.mapper.CdCouponRefMapper" >
   <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdCouponRef" >
-    <id column="主键ID" property="主键id" jdbcType="INTEGER" />
+    <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="CD_COUPON_ID" property="cdCouponId" jdbcType="INTEGER" />
     <result column="REF_TYPE" property="refType" jdbcType="VARCHAR" />
     <result column="REF_NAME" property="refName" jdbcType="VARCHAR" />
@@ -67,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    主键ID, CD_COUPON_ID, REF_TYPE, REF_NAME, REF_VALUE
+    ID, CD_COUPON_ID, REF_TYPE, REF_NAME, REF_VALUE
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdCouponRefExample" >
     select
@@ -89,11 +89,11 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdCouponRef" useGeneratedKeys="true" keyProperty="主键id" keyColumn="主键ID" >
+  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdCouponRef" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
     insert into cd_coupon_ref
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="主键id != null" >
-        主键ID,
+      <if test="id != null" >
+        ID,
       </if>
       <if test="cdCouponId != null" >
         CD_COUPON_ID,
@@ -109,8 +109,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="主键id != null" >
-        #{主键id,jdbcType=INTEGER},
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
       </if>
       <if test="cdCouponId != null" >
         #{cdCouponId,jdbcType=INTEGER},
@@ -135,8 +135,8 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update cd_coupon_ref
     <set >
-      <if test="record.主键id != null" >
-        主键ID = #{record.主键id,jdbcType=INTEGER},
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.cdCouponId != null" >
         CD_COUPON_ID = #{record.cdCouponId,jdbcType=INTEGER},

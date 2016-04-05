@@ -107,63 +107,63 @@ public class CdCouponExample extends BaseMybatisExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andCdCouponIdIsNull() {
-            addCriterion("CD_COUPON_ID is null");
+        public Criteria andIdIsNull() {
+            addCriterion("ID is null");
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdIsNotNull() {
-            addCriterion("CD_COUPON_ID is not null");
+        public Criteria andIdIsNotNull() {
+            addCriterion("ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdEqualTo(Integer value) {
-            addCriterion("CD_COUPON_ID =", value, "cdCouponId");
+        public Criteria andIdEqualTo(Integer value) {
+            addCriterion("ID =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdNotEqualTo(Integer value) {
-            addCriterion("CD_COUPON_ID <>", value, "cdCouponId");
+        public Criteria andIdNotEqualTo(Integer value) {
+            addCriterion("ID <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdGreaterThan(Integer value) {
-            addCriterion("CD_COUPON_ID >", value, "cdCouponId");
+        public Criteria andIdGreaterThan(Integer value) {
+            addCriterion("ID >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("CD_COUPON_ID >=", value, "cdCouponId");
+        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ID >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdLessThan(Integer value) {
-            addCriterion("CD_COUPON_ID <", value, "cdCouponId");
+        public Criteria andIdLessThan(Integer value) {
+            addCriterion("ID <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdLessThanOrEqualTo(Integer value) {
-            addCriterion("CD_COUPON_ID <=", value, "cdCouponId");
+        public Criteria andIdLessThanOrEqualTo(Integer value) {
+            addCriterion("ID <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdIn(List<Integer> values) {
-            addCriterion("CD_COUPON_ID in", values, "cdCouponId");
+        public Criteria andIdIn(List<Integer> values) {
+            addCriterion("ID in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdNotIn(List<Integer> values) {
-            addCriterion("CD_COUPON_ID not in", values, "cdCouponId");
+        public Criteria andIdNotIn(List<Integer> values) {
+            addCriterion("ID not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdBetween(Integer value1, Integer value2) {
-            addCriterion("CD_COUPON_ID between", value1, value2, "cdCouponId");
+        public Criteria andIdBetween(Integer value1, Integer value2) {
+            addCriterion("ID between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("CD_COUPON_ID not between", value1, value2, "cdCouponId");
+        public Criteria andIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("ID not between", value1, value2, "id");
             return (Criteria) this;
         }
 
@@ -224,6 +224,76 @@ public class CdCouponExample extends BaseMybatisExample {
 
         public Criteria andCouponTypeNotBetween(Integer value1, Integer value2) {
             addCriterion("COUPON_TYPE not between", value1, value2, "couponType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescIsNull() {
+            addCriterion("COUPON_DESC is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescIsNotNull() {
+            addCriterion("COUPON_DESC is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescEqualTo(String value) {
+            addCriterion("COUPON_DESC =", value, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescNotEqualTo(String value) {
+            addCriterion("COUPON_DESC <>", value, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescGreaterThan(String value) {
+            addCriterion("COUPON_DESC >", value, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescGreaterThanOrEqualTo(String value) {
+            addCriterion("COUPON_DESC >=", value, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescLessThan(String value) {
+            addCriterion("COUPON_DESC <", value, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescLessThanOrEqualTo(String value) {
+            addCriterion("COUPON_DESC <=", value, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescLike(String value) {
+            addCriterion("COUPON_DESC like", value, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescNotLike(String value) {
+            addCriterion("COUPON_DESC not like", value, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescIn(List<String> values) {
+            addCriterion("COUPON_DESC in", values, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescNotIn(List<String> values) {
+            addCriterion("COUPON_DESC not in", values, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescBetween(String value1, String value2) {
+            addCriterion("COUPON_DESC between", value1, value2, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescNotBetween(String value1, String value2) {
+            addCriterion("COUPON_DESC not between", value1, value2, "couponDesc");
             return (Criteria) this;
         }
 
@@ -294,6 +364,66 @@ public class CdCouponExample extends BaseMybatisExample {
 
         public Criteria andCouponNumberNotBetween(String value1, String value2) {
             addCriterion("COUPON_NUMBER not between", value1, value2, "couponNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueIsNull() {
+            addCriterion("COUPON_VALUE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueIsNotNull() {
+            addCriterion("COUPON_VALUE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueEqualTo(BigDecimal value) {
+            addCriterion("COUPON_VALUE =", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueNotEqualTo(BigDecimal value) {
+            addCriterion("COUPON_VALUE <>", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueGreaterThan(BigDecimal value) {
+            addCriterion("COUPON_VALUE >", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("COUPON_VALUE >=", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueLessThan(BigDecimal value) {
+            addCriterion("COUPON_VALUE <", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("COUPON_VALUE <=", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueIn(List<BigDecimal> values) {
+            addCriterion("COUPON_VALUE in", values, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueNotIn(List<BigDecimal> values) {
+            addCriterion("COUPON_VALUE not in", values, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("COUPON_VALUE between", value1, value2, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("COUPON_VALUE not between", value1, value2, "couponValue");
             return (Criteria) this;
         }
 
@@ -487,126 +617,6 @@ public class CdCouponExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andPriceIsNull() {
-            addCriterion("PRICE is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPriceIsNotNull() {
-            addCriterion("PRICE is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPriceEqualTo(BigDecimal value) {
-            addCriterion("PRICE =", value, "price");
-            return (Criteria) this;
-        }
-
-        public Criteria andPriceNotEqualTo(BigDecimal value) {
-            addCriterion("PRICE <>", value, "price");
-            return (Criteria) this;
-        }
-
-        public Criteria andPriceGreaterThan(BigDecimal value) {
-            addCriterion("PRICE >", value, "price");
-            return (Criteria) this;
-        }
-
-        public Criteria andPriceGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("PRICE >=", value, "price");
-            return (Criteria) this;
-        }
-
-        public Criteria andPriceLessThan(BigDecimal value) {
-            addCriterion("PRICE <", value, "price");
-            return (Criteria) this;
-        }
-
-        public Criteria andPriceLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("PRICE <=", value, "price");
-            return (Criteria) this;
-        }
-
-        public Criteria andPriceIn(List<BigDecimal> values) {
-            addCriterion("PRICE in", values, "price");
-            return (Criteria) this;
-        }
-
-        public Criteria andPriceNotIn(List<BigDecimal> values) {
-            addCriterion("PRICE not in", values, "price");
-            return (Criteria) this;
-        }
-
-        public Criteria andPriceBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("PRICE between", value1, value2, "price");
-            return (Criteria) this;
-        }
-
-        public Criteria andPriceNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("PRICE not between", value1, value2, "price");
-            return (Criteria) this;
-        }
-
-        public Criteria andCountIsNull() {
-            addCriterion("COUNT is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCountIsNotNull() {
-            addCriterion("COUNT is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCountEqualTo(Integer value) {
-            addCriterion("COUNT =", value, "count");
-            return (Criteria) this;
-        }
-
-        public Criteria andCountNotEqualTo(Integer value) {
-            addCriterion("COUNT <>", value, "count");
-            return (Criteria) this;
-        }
-
-        public Criteria andCountGreaterThan(Integer value) {
-            addCriterion("COUNT >", value, "count");
-            return (Criteria) this;
-        }
-
-        public Criteria andCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("COUNT >=", value, "count");
-            return (Criteria) this;
-        }
-
-        public Criteria andCountLessThan(Integer value) {
-            addCriterion("COUNT <", value, "count");
-            return (Criteria) this;
-        }
-
-        public Criteria andCountLessThanOrEqualTo(Integer value) {
-            addCriterion("COUNT <=", value, "count");
-            return (Criteria) this;
-        }
-
-        public Criteria andCountIn(List<Integer> values) {
-            addCriterion("COUNT in", values, "count");
-            return (Criteria) this;
-        }
-
-        public Criteria andCountNotIn(List<Integer> values) {
-            addCriterion("COUNT not in", values, "count");
-            return (Criteria) this;
-        }
-
-        public Criteria andCountBetween(Integer value1, Integer value2) {
-            addCriterion("COUNT between", value1, value2, "count");
-            return (Criteria) this;
-        }
-
-        public Criteria andCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("COUNT not between", value1, value2, "count");
-            return (Criteria) this;
-        }
-
         public Criteria andIsUsedIsNull() {
             addCriterion("IS_USED is null");
             return (Criteria) this;
@@ -727,63 +737,63 @@ public class CdCouponExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsFeedbackIsNull() {
-            addCriterion("IS_FEEDBACK is null");
+        public Criteria andIsGiftIsNull() {
+            addCriterion("IS_GIFT is null");
             return (Criteria) this;
         }
 
-        public Criteria andIsFeedbackIsNotNull() {
-            addCriterion("IS_FEEDBACK is not null");
+        public Criteria andIsGiftIsNotNull() {
+            addCriterion("IS_GIFT is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIsFeedbackEqualTo(Integer value) {
-            addCriterion("IS_FEEDBACK =", value, "isFeedback");
+        public Criteria andIsGiftEqualTo(Integer value) {
+            addCriterion("IS_GIFT =", value, "isGift");
             return (Criteria) this;
         }
 
-        public Criteria andIsFeedbackNotEqualTo(Integer value) {
-            addCriterion("IS_FEEDBACK <>", value, "isFeedback");
+        public Criteria andIsGiftNotEqualTo(Integer value) {
+            addCriterion("IS_GIFT <>", value, "isGift");
             return (Criteria) this;
         }
 
-        public Criteria andIsFeedbackGreaterThan(Integer value) {
-            addCriterion("IS_FEEDBACK >", value, "isFeedback");
+        public Criteria andIsGiftGreaterThan(Integer value) {
+            addCriterion("IS_GIFT >", value, "isGift");
             return (Criteria) this;
         }
 
-        public Criteria andIsFeedbackGreaterThanOrEqualTo(Integer value) {
-            addCriterion("IS_FEEDBACK >=", value, "isFeedback");
+        public Criteria andIsGiftGreaterThanOrEqualTo(Integer value) {
+            addCriterion("IS_GIFT >=", value, "isGift");
             return (Criteria) this;
         }
 
-        public Criteria andIsFeedbackLessThan(Integer value) {
-            addCriterion("IS_FEEDBACK <", value, "isFeedback");
+        public Criteria andIsGiftLessThan(Integer value) {
+            addCriterion("IS_GIFT <", value, "isGift");
             return (Criteria) this;
         }
 
-        public Criteria andIsFeedbackLessThanOrEqualTo(Integer value) {
-            addCriterion("IS_FEEDBACK <=", value, "isFeedback");
+        public Criteria andIsGiftLessThanOrEqualTo(Integer value) {
+            addCriterion("IS_GIFT <=", value, "isGift");
             return (Criteria) this;
         }
 
-        public Criteria andIsFeedbackIn(List<Integer> values) {
-            addCriterion("IS_FEEDBACK in", values, "isFeedback");
+        public Criteria andIsGiftIn(List<Integer> values) {
+            addCriterion("IS_GIFT in", values, "isGift");
             return (Criteria) this;
         }
 
-        public Criteria andIsFeedbackNotIn(List<Integer> values) {
-            addCriterion("IS_FEEDBACK not in", values, "isFeedback");
+        public Criteria andIsGiftNotIn(List<Integer> values) {
+            addCriterion("IS_GIFT not in", values, "isGift");
             return (Criteria) this;
         }
 
-        public Criteria andIsFeedbackBetween(Integer value1, Integer value2) {
-            addCriterion("IS_FEEDBACK between", value1, value2, "isFeedback");
+        public Criteria andIsGiftBetween(Integer value1, Integer value2) {
+            addCriterion("IS_GIFT between", value1, value2, "isGift");
             return (Criteria) this;
         }
 
-        public Criteria andIsFeedbackNotBetween(Integer value1, Integer value2) {
-            addCriterion("IS_FEEDBACK not between", value1, value2, "isFeedback");
+        public Criteria andIsGiftNotBetween(Integer value1, Integer value2) {
+            addCriterion("IS_GIFT not between", value1, value2, "isGift");
             return (Criteria) this;
         }
 

@@ -105,63 +105,63 @@ public class CdManagerCompanyExample extends BaseMybatisExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andCdManagerCompanyIdIsNull() {
-            addCriterion("CD_MANAGER_COMPANY_ID is null");
+        public Criteria andIdIsNull() {
+            addCriterion("ID is null");
             return (Criteria) this;
         }
 
-        public Criteria andCdManagerCompanyIdIsNotNull() {
-            addCriterion("CD_MANAGER_COMPANY_ID is not null");
+        public Criteria andIdIsNotNull() {
+            addCriterion("ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCdManagerCompanyIdEqualTo(Integer value) {
-            addCriterion("CD_MANAGER_COMPANY_ID =", value, "cdManagerCompanyId");
+        public Criteria andIdEqualTo(Integer value) {
+            addCriterion("ID =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdManagerCompanyIdNotEqualTo(Integer value) {
-            addCriterion("CD_MANAGER_COMPANY_ID <>", value, "cdManagerCompanyId");
+        public Criteria andIdNotEqualTo(Integer value) {
+            addCriterion("ID <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdManagerCompanyIdGreaterThan(Integer value) {
-            addCriterion("CD_MANAGER_COMPANY_ID >", value, "cdManagerCompanyId");
+        public Criteria andIdGreaterThan(Integer value) {
+            addCriterion("ID >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdManagerCompanyIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("CD_MANAGER_COMPANY_ID >=", value, "cdManagerCompanyId");
+        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ID >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdManagerCompanyIdLessThan(Integer value) {
-            addCriterion("CD_MANAGER_COMPANY_ID <", value, "cdManagerCompanyId");
+        public Criteria andIdLessThan(Integer value) {
+            addCriterion("ID <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdManagerCompanyIdLessThanOrEqualTo(Integer value) {
-            addCriterion("CD_MANAGER_COMPANY_ID <=", value, "cdManagerCompanyId");
+        public Criteria andIdLessThanOrEqualTo(Integer value) {
+            addCriterion("ID <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdManagerCompanyIdIn(List<Integer> values) {
-            addCriterion("CD_MANAGER_COMPANY_ID in", values, "cdManagerCompanyId");
+        public Criteria andIdIn(List<Integer> values) {
+            addCriterion("ID in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdManagerCompanyIdNotIn(List<Integer> values) {
-            addCriterion("CD_MANAGER_COMPANY_ID not in", values, "cdManagerCompanyId");
+        public Criteria andIdNotIn(List<Integer> values) {
+            addCriterion("ID not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdManagerCompanyIdBetween(Integer value1, Integer value2) {
-            addCriterion("CD_MANAGER_COMPANY_ID between", value1, value2, "cdManagerCompanyId");
+        public Criteria andIdBetween(Integer value1, Integer value2) {
+            addCriterion("ID between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdManagerCompanyIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("CD_MANAGER_COMPANY_ID not between", value1, value2, "cdManagerCompanyId");
+        public Criteria andIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("ID not between", value1, value2, "id");
             return (Criteria) this;
         }
 
