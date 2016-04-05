@@ -105,63 +105,63 @@ public class CdMemberExample extends BaseMybatisExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andCdMemberIdIsNull() {
-            addCriterion("CD_MEMBER_ID is null");
+        public Criteria andIdIsNull() {
+            addCriterion("ID is null");
             return (Criteria) this;
         }
 
-        public Criteria andCdMemberIdIsNotNull() {
-            addCriterion("CD_MEMBER_ID is not null");
+        public Criteria andIdIsNotNull() {
+            addCriterion("ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCdMemberIdEqualTo(Integer value) {
-            addCriterion("CD_MEMBER_ID =", value, "cdMemberId");
+        public Criteria andIdEqualTo(Integer value) {
+            addCriterion("ID =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdMemberIdNotEqualTo(Integer value) {
-            addCriterion("CD_MEMBER_ID <>", value, "cdMemberId");
+        public Criteria andIdNotEqualTo(Integer value) {
+            addCriterion("ID <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdMemberIdGreaterThan(Integer value) {
-            addCriterion("CD_MEMBER_ID >", value, "cdMemberId");
+        public Criteria andIdGreaterThan(Integer value) {
+            addCriterion("ID >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdMemberIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("CD_MEMBER_ID >=", value, "cdMemberId");
+        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ID >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdMemberIdLessThan(Integer value) {
-            addCriterion("CD_MEMBER_ID <", value, "cdMemberId");
+        public Criteria andIdLessThan(Integer value) {
+            addCriterion("ID <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdMemberIdLessThanOrEqualTo(Integer value) {
-            addCriterion("CD_MEMBER_ID <=", value, "cdMemberId");
+        public Criteria andIdLessThanOrEqualTo(Integer value) {
+            addCriterion("ID <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdMemberIdIn(List<Integer> values) {
-            addCriterion("CD_MEMBER_ID in", values, "cdMemberId");
+        public Criteria andIdIn(List<Integer> values) {
+            addCriterion("ID in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdMemberIdNotIn(List<Integer> values) {
-            addCriterion("CD_MEMBER_ID not in", values, "cdMemberId");
+        public Criteria andIdNotIn(List<Integer> values) {
+            addCriterion("ID not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdMemberIdBetween(Integer value1, Integer value2) {
-            addCriterion("CD_MEMBER_ID between", value1, value2, "cdMemberId");
+        public Criteria andIdBetween(Integer value1, Integer value2) {
+            addCriterion("ID between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdMemberIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("CD_MEMBER_ID not between", value1, value2, "cdMemberId");
+        public Criteria andIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("ID not between", value1, value2, "id");
             return (Criteria) this;
         }
 

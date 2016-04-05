@@ -16,7 +16,7 @@ public class CdItem extends BaseMybatisModel {
     /**
      * 
      */
-    private Integer cdItemId;
+    private Integer id;
 
     /**
      * 产品编号
@@ -108,20 +108,20 @@ public class CdItem extends BaseMybatisModel {
      */
     private String createUserCode;
 
-    @Column(name = "CD_ITEM_ID")
+    @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
-    public Integer getCdItemId() {
-        return cdItemId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCdItemId(Integer cdItemId) {
-        this.cdItemId = cdItemId;
-        if(cdItemId == null){
-              removeValidField("cdItemId");
+    public void setId(Integer id) {
+        this.id = id;
+        if(id == null){
+              removeValidField("id");
               return;
         }
-        addValidField("cdItemId");
+        addValidField("id");
     }
 
     @Column(name = "ITEM_CODE")

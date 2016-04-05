@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xmomen.module.base.entity.mapper.CdItemMapper" >
   <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdItem" >
-    <id column="CD_ITEM_ID" property="cdItemId" jdbcType="INTEGER" />
+    <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="ITEM_CODE" property="itemCode" jdbcType="VARCHAR" />
     <result column="CD_CATEGORY_ID" property="cdCategoryId" jdbcType="INTEGER" />
     <result column="ITEM_NAME" property="itemName" jdbcType="VARCHAR" />
@@ -81,9 +81,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    CD_ITEM_ID, ITEM_CODE, CD_CATEGORY_ID, ITEM_NAME, ITEM_DESCRIBE, ITEM_TYPE, YIELDLY, 
-    SPEC, BASE_PRICE, MEMBER_PRICE, PRICING_MANNER, SELL_STATUS, SELL_UNIT, SELL_PRICE, 
-    IS_COMBINATION, PARENT_ITEM_ID, IS_AUDIT, CREATE_DATE_TIME, CREATE_USER_CODE
+    ID, ITEM_CODE, CD_CATEGORY_ID, ITEM_NAME, ITEM_DESCRIBE, ITEM_TYPE, YIELDLY, SPEC, 
+    BASE_PRICE, MEMBER_PRICE, PRICING_MANNER, SELL_STATUS, SELL_UNIT, SELL_PRICE, IS_COMBINATION, 
+    PARENT_ITEM_ID, IS_AUDIT, CREATE_DATE_TIME, CREATE_USER_CODE
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdItemExample" >
     select
@@ -105,11 +105,11 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdItem" useGeneratedKeys="true" keyProperty="cdItemId" keyColumn="CD_ITEM_ID" >
+  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdItem" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
     insert into cd_item
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="cdItemId != null" >
-        CD_ITEM_ID,
+      <if test="id != null" >
+        ID,
       </if>
       <if test="itemCode != null" >
         ITEM_CODE,
@@ -167,8 +167,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="cdItemId != null" >
-        #{cdItemId,jdbcType=INTEGER},
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
       </if>
       <if test="itemCode != null" >
         #{itemCode,jdbcType=VARCHAR},
@@ -235,8 +235,8 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update cd_item
     <set >
-      <if test="record.cdItemId != null" >
-        CD_ITEM_ID = #{record.cdItemId,jdbcType=INTEGER},
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.itemCode != null" >
         ITEM_CODE = #{record.itemCode,jdbcType=VARCHAR},

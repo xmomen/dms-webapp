@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xmomen.module.base.entity.mapper.CdContractMapper" >
   <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdContract" >
-    <id column="CD_CONTRACT_ID" property="cdContractId" jdbcType="INTEGER" />
+    <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="CD_MEMBER_ID" property="cdMemberId" jdbcType="INTEGER" />
     <result column="CD_COMPANY_ID" property="cdCompanyId" jdbcType="INTEGER" />
     <result column="SCOPE" property="scope" jdbcType="INTEGER" />
@@ -70,8 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    CD_CONTRACT_ID, CD_MEMBER_ID, CD_COMPANY_ID, SCOPE, CONTRACT_PRICE, BENGIN_TIME, 
-    END_TIME, IS_AUDITOR
+    ID, CD_MEMBER_ID, CD_COMPANY_ID, SCOPE, CONTRACT_PRICE, BENGIN_TIME, END_TIME, IS_AUDITOR
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdContractExample" >
     select
@@ -93,11 +92,11 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdContract" useGeneratedKeys="true" keyProperty="cdContractId" keyColumn="CD_CONTRACT_ID" >
+  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdContract" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
     insert into cd_contract
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="cdContractId != null" >
-        CD_CONTRACT_ID,
+      <if test="id != null" >
+        ID,
       </if>
       <if test="cdMemberId != null" >
         CD_MEMBER_ID,
@@ -122,8 +121,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="cdContractId != null" >
-        #{cdContractId,jdbcType=INTEGER},
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
       </if>
       <if test="cdMemberId != null" >
         #{cdMemberId,jdbcType=INTEGER},
@@ -157,8 +156,8 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update cd_contract
     <set >
-      <if test="record.cdContractId != null" >
-        CD_CONTRACT_ID = #{record.cdContractId,jdbcType=INTEGER},
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.cdMemberId != null" >
         CD_MEMBER_ID = #{record.cdMemberId,jdbcType=INTEGER},

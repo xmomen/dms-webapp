@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xmomen.module.base.entity.mapper.CdMemberMapper" >
   <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdMember" >
-    <id column="CD_MEMBER_ID" property="cdMemberId" jdbcType="INTEGER" />
+    <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="MEMBER_CODE" property="memberCode" jdbcType="VARCHAR" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="PHONE_NUMBER" property="phoneNumber" jdbcType="VARCHAR" />
@@ -76,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    CD_MEMBER_ID, MEMBER_CODE, NAME, PHONE_NUMBER, SPARE_TEL, SPARE_TEL2, TEL_NUMBER, 
-    OFFICE_TEL, ADDRESS, SPARE_ADDRESS, SPARE_ADDRESS2, MEMBER_TYPE, CD_COMPANY_ID, CD_USER_ID
+    ID, MEMBER_CODE, NAME, PHONE_NUMBER, SPARE_TEL, SPARE_TEL2, TEL_NUMBER, OFFICE_TEL, 
+    ADDRESS, SPARE_ADDRESS, SPARE_ADDRESS2, MEMBER_TYPE, CD_COMPANY_ID, CD_USER_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdMemberExample" >
     select
@@ -99,11 +99,11 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdMember" useGeneratedKeys="true" keyProperty="cdMemberId" keyColumn="CD_MEMBER_ID" >
+  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdMember" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
     insert into cd_member
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="cdMemberId != null" >
-        CD_MEMBER_ID,
+      <if test="id != null" >
+        ID,
       </if>
       <if test="memberCode != null" >
         MEMBER_CODE,
@@ -146,8 +146,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="cdMemberId != null" >
-        #{cdMemberId,jdbcType=INTEGER},
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
       </if>
       <if test="memberCode != null" >
         #{memberCode,jdbcType=VARCHAR},
@@ -199,8 +199,8 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update cd_member
     <set >
-      <if test="record.cdMemberId != null" >
-        CD_MEMBER_ID = #{record.cdMemberId,jdbcType=INTEGER},
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.memberCode != null" >
         MEMBER_CODE = #{record.memberCode,jdbcType=VARCHAR},

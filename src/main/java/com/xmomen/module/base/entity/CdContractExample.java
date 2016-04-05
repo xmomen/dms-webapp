@@ -107,63 +107,63 @@ public class CdContractExample extends BaseMybatisExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andCdContractIdIsNull() {
-            addCriterion("CD_CONTRACT_ID is null");
+        public Criteria andIdIsNull() {
+            addCriterion("ID is null");
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdIsNotNull() {
-            addCriterion("CD_CONTRACT_ID is not null");
+        public Criteria andIdIsNotNull() {
+            addCriterion("ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdEqualTo(Integer value) {
-            addCriterion("CD_CONTRACT_ID =", value, "cdContractId");
+        public Criteria andIdEqualTo(Integer value) {
+            addCriterion("ID =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdNotEqualTo(Integer value) {
-            addCriterion("CD_CONTRACT_ID <>", value, "cdContractId");
+        public Criteria andIdNotEqualTo(Integer value) {
+            addCriterion("ID <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdGreaterThan(Integer value) {
-            addCriterion("CD_CONTRACT_ID >", value, "cdContractId");
+        public Criteria andIdGreaterThan(Integer value) {
+            addCriterion("ID >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("CD_CONTRACT_ID >=", value, "cdContractId");
+        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ID >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdLessThan(Integer value) {
-            addCriterion("CD_CONTRACT_ID <", value, "cdContractId");
+        public Criteria andIdLessThan(Integer value) {
+            addCriterion("ID <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdLessThanOrEqualTo(Integer value) {
-            addCriterion("CD_CONTRACT_ID <=", value, "cdContractId");
+        public Criteria andIdLessThanOrEqualTo(Integer value) {
+            addCriterion("ID <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdIn(List<Integer> values) {
-            addCriterion("CD_CONTRACT_ID in", values, "cdContractId");
+        public Criteria andIdIn(List<Integer> values) {
+            addCriterion("ID in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdNotIn(List<Integer> values) {
-            addCriterion("CD_CONTRACT_ID not in", values, "cdContractId");
+        public Criteria andIdNotIn(List<Integer> values) {
+            addCriterion("ID not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdBetween(Integer value1, Integer value2) {
-            addCriterion("CD_CONTRACT_ID between", value1, value2, "cdContractId");
+        public Criteria andIdBetween(Integer value1, Integer value2) {
+            addCriterion("ID between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("CD_CONTRACT_ID not between", value1, value2, "cdContractId");
+        public Criteria andIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("ID not between", value1, value2, "id");
             return (Criteria) this;
         }
 

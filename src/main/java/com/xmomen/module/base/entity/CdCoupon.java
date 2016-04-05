@@ -69,7 +69,7 @@ public class CdCoupon extends BaseMybatisModel {
     private Integer isGift;
 
     /**
-     * 
+     * 备注
      */
     private String notes;
 
