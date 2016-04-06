@@ -30,7 +30,7 @@
                 -->
 				<header>
 					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
-					<h2>订单列表</h2>
+					<h2>创建订单</h2>
 				</header>
 				<!-- widget div-->
 				<div>
@@ -40,33 +40,376 @@
 					</div>
 					<!-- end widget edit box -->
 					<!-- widget content -->
-					<div class="widget-body no-padding">
-						<div class="dt-toolbar">
-							<div class="col-xs-11 col-sm-10">
-								<div class="dataTables_filter">
-									<label>
-										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-										<input type="search" placeholder="卡号/券号/描述" data-ng-keyup="getOrderList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+					<div class="widget-body">
+						<form class="form-horizontal" ug-validate="addOrderForm" name="addOrderForm">
+
+							<fieldset class="demo-switcher-1">
+								<legend>订单类型</legend>
+
+								<div class="form-group">
+									<label class="col-md-2 control-label">订单类型：</label>
+									<div class="col-md-10">
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" value="0" ng-model="order.orderType" ng-checked="order.orderType==0" name="orderType">
+											<span>常规订单</span>
+										</label>
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" value="1" ng-model="order.orderType" ng-checked="order.orderType==1" name="orderType">
+											<span>卡类订单</span>
+										</label>
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" value="2" ng-model="order.orderType" ng-checked="order.orderType==2" name="orderType">
+											<span>券类订单</span>
+										</label>
+									</div>
+								</div>
+
+							</fieldset>
+
+
+							<fieldset class="demo-switcher-1" ng-if="order.orderType==0">
+								<legend>客户信息</legend>
+								<div class="form-group">
+									<label class="control-label col-md-2">电话号码</label>
+									<div class="col-md-4">
+										<div class="input-group input-group-md">
+												<input type="text" placeholder="电话／手机号码" class="form-control">
+						                    <span class="input-group-btn">
+						                        <button class="btn btn-default" type="button">查询</button>
+						                    </span>
+										</div>
+									</div>
+									<label class="control-label col-md-2">姓名</label>
+									<div class="col-md-4">
+										<input type="text" disabled placeholder="查询后自动填充" class="form-control">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-md-2">单位／个人</label>
+									<div class="col-md-4">
+										<input type="text" disabled placeholder="查询后自动填充" class="form-control">
+									</div>
+									<label class="control-label col-md-2">客户经理</label>
+									<div class="col-md-4">
+										<input type="text" disabled placeholder="查询后自动填充" class="form-control">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-md-2">默认收货人</label>
+									<div class="col-md-4">
+										<div class="input-group">
+											<input type="text" disabled placeholder="查询后自动填充" class="form-control">
+											<span class="input-group-addon">
+												<span class="onoffswitch">
+													<input type="radio" name="start_interval" class="onoffswitch-checkbox" id="default_address">
+													<label class="onoffswitch-label" for="default_address">
+														<span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
+														<span class="onoffswitch-switch"></span>
+													</label>
+												</span>
+											</span>
+										</div>
+									</div>
+									<label class="control-label col-md-2">联系方式</label>
+									<div class="col-md-4">
+										<input type="text" disabled placeholder="查询后自动填充" class="form-control">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-md-2">收货地址</label>
+									<div class="col-md-10">
+										<input type="text" disabled placeholder="查询后自动填充" class="form-control">
+									</div>
+								</div>
+
+								<div class="form-group" ng-show="order.backup_address">
+									<label class="control-label col-md-2">备用收货人</label>
+									<div class="col-md-4">
+										<div class="input-group">
+											<input type="text" disabled placeholder="查询后自动填充" class="form-control">
+											<span class="input-group-addon">
+												<span class="onoffswitch">
+													<input type="radio" name="start_interval" class="onoffswitch-checkbox" id="backup_address">
+													<label class="onoffswitch-label" for="backup_address">
+														<span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
+														<span class="onoffswitch-switch"></span>
+													</label>
+												</span>
+											</span>
+										</div>
+									</div>
+									<label class="control-label col-md-2">联系方式</label>
+									<div class="col-md-4">
+										<input type="text" disabled placeholder="查询后自动填充" class="form-control">
+									</div>
+								</div>
+								<div class="form-group" ng-show="order.backup_address">
+									<label class="control-label col-md-2">收货地址</label>
+									<div class="col-md-10">
+										<input type="text" disabled placeholder="查询后自动填充" class="form-control">
+									</div>
+								</div>
+
+								<div class="form-group" ng-show="order.backup_address2">
+									<label class="control-label col-md-2">备用收货人</label>
+									<div class="col-md-4">
+										<div class="input-group">
+											<input type="text" disabled placeholder="查询后自动填充" class="form-control">
+											<span class="input-group-addon">
+												<span class="onoffswitch">
+													<input type="radio" name="start_interval" class="onoffswitch-checkbox" id="backup_address2">
+													<label class="onoffswitch-label" for="backup_address2">
+														<span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
+														<span class="onoffswitch-switch"></span>
+													</label>
+												</span>
+											</span>
+										</div>
+									</div>
+									<label class="control-label col-md-2">联系方式</label>
+									<div class="col-md-4">
+										<input type="text" disabled placeholder="查询后自动填充" class="form-control">
+									</div>
+								</div>
+								<div class="form-group" ng-show="order.backup_address2">
+									<label class="control-label col-md-2">收货地址</label>
+									<div class="col-md-10">
+										<input type="text" disabled placeholder="查询后自动填充" class="form-control">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="control-label col-md-2">客户要求</label>
+									<div class="col-md-10">
+										<input type="text" placeholder="周末送达，工作日送达" class="form-control">
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="demo-switcher-1">
+								<legend>订购产品</legend>
+								<div class="row">
+									<div class="table-responsive col-md-6">
+
+										<table class="table table-bordered">
+											<thead>
+											<tr>
+												<th colspan="4">可选购产品</th>
+											</tr>
+											</thead>
+											<thead>
+											<tr>
+												<th>名称</th>
+												<th>规格</th>
+												<th>单价</th>
+												<th>操作</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr>
+												<td>Row 1</td>
+												<td>Row 2</td>
+												<td>Row 3</td>
+												<td>Row 4</td>
+											</tr>
+											<tr>
+												<td>Row 1</td>
+												<td>Row 2</td>
+												<td>Row 3</td>
+												<td>Row 4</td>
+											</tr>
+											<tr>
+												<td>Row 1</td>
+												<td>Row 2</td>
+												<td>Row 3</td>
+												<td>Row 4</td>
+											</tr>
+											<tr>
+												<td>Row 1</td>
+												<td>Row 2</td>
+												<td>Row 3</td>
+												<td>Row 4</td>
+											</tr>
+											<tr>
+												<td>Row 1</td>
+												<td>Row 2</td>
+												<td>Row 3</td>
+												<td>Row 4</td>
+											</tr>
+											<tr>
+												<td>Row 1</td>
+												<td>Row 2</td>
+												<td>Row 3</td>
+												<td>Row 4</td>
+											</tr>
+											</tbody>
+											<tfoot>
+											<tr>
+												<td colspan="4">
+													<ug-pagination page-info="pageInfoSetting" ></ug-pagination>
+												</td>
+											</tr>
+											</tfoot>
+										</table>
+
+									</div>
+									<div class="table-responsive col-md-6">
+
+										<table class="table table-bordered">
+											<thead>
+											<tr>
+												<th colspan="5">已选购产品</th>
+											</tr>
+											<tr>
+												<th>名称</th>
+												<th>单价</th>
+												<th>份数</th>
+												<th>总价</th>
+												<th>操作</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr>
+												<td>Row 1</td>
+												<td>Row 2</td>
+												<td>Row 3</td>
+												<td>Row 4</td>
+												<td>Row 4</td>
+											</tr>
+											</tbody>
+											<tfoot>
+											<tr>
+												<td colspan="2">合计</td>
+												<td>Row 3</td>
+												<td>Row 4</td>
+												<td>Row 4</td>
+											</tr>
+											</tfoot>
+										</table>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="demo-switcher-1">
+								<legend>订单金额</legend>
+								<div class="form-group">
+									<label class="control-label col-md-2">订单总金额</label>
+									<div class="col-md-4">
+										<input type="text" placeholder="订单总金额" class="form-control">
+									</div>
+									<label class="col-md-2 control-label">订单折后总金额</label>
+									<div class="col-md-4">
+										<input type="text" placeholder="订单折后总金额" class="form-control">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-md-2">折扣</label>
+									<div class="col-md-4">
+										<input type="text" placeholder="折扣百分比" class="form-control">
+									</div>
+									<label class="col-md-2 control-label">显示订单金额</label>
+									<div class="col-md-2">
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" ng-model="user.locked" class="checkbox style-0" name="locked" checked="checked" ng-true-value="true" ng-false-value="false">
+												<span>显示</span>
+											</label>
+										</div>
+									</div>
+								</div>
+
+							</fieldset>
+
+
+							<fieldset class="demo-switcher-1">
+								<legend>付款方式</legend>
+								<div class="form-group">
+									<label class="control-label col-md-2">付款方式</label>
+									<div class="col-md-10">
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" value="0" ng-model="order.orderType" ng-checked="order.orderType==0" name="orderType">
+											<span>回馈</span>
+										</label>
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" value="1" ng-model="order.orderType" ng-checked="order.orderType==1" name="orderType">
+											<span>客户经理代收</span>
+										</label>
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" value="2" ng-model="order.orderType" ng-checked="order.orderType==2" name="orderType">
+											<span>刷POS</span>
+										</label>
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" value="2" ng-model="order.orderType" ng-checked="order.orderType==2" name="orderType">
+											<span>转账</span>
+										</label>
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" value="2" ng-model="order.orderType" ng-checked="order.orderType==2" name="orderType">
+											<span>物流公司代收</span>
+										</label>
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" value="2" ng-model="order.orderType" ng-checked="order.orderType==2" name="orderType">
+											<span>卡类扣款</span>
+										</label>
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" value="2" ng-model="order.orderType" ng-checked="order.orderType==2" name="orderType">
+											<span>其它</span>
+										</label>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="demo-switcher-1">
+								<legend>订单快照</legend>
+								<div class="form-group">
+									<label class="control-label col-md-2">付款方式</label>
+									<div class="col-md-10">
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" value="0" ng-model="order.orderType" ng-checked="order.orderType==0" name="orderType">
+											<span>回馈</span>
+										</label>
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" value="1" ng-model="order.orderType" ng-checked="order.orderType==1" name="orderType">
+											<span>客户经理代收</span>
+										</label>
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" value="2" ng-model="order.orderType" ng-checked="order.orderType==2" name="orderType">
+											<span>刷POS</span>
+										</label>
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" value="2" ng-model="order.orderType" ng-checked="order.orderType==2" name="orderType">
+											<span>转账</span>
+										</label>
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" value="2" ng-model="order.orderType" ng-checked="order.orderType==2" name="orderType">
+											<span>物流公司代收</span>
+										</label>
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" value="2" ng-model="order.orderType" ng-checked="order.orderType==2" name="orderType">
+											<span>卡类扣款</span>
+										</label>
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" value="2" ng-model="order.orderType" ng-checked="order.orderType==2" name="orderType">
+											<span>其它</span>
+										</label>
+									</div>
+								</div>
+							</fieldset>
+
+							<div class="form-actions">
+								<div class="row">
+									<div class="col-md-12">
+										<button class="btn btn-default" type="button">
+											取消
+										</button>
+										<button class="btn btn-primary" data-ng-click="saveOrder()" type="submit">
+											<i class="fa fa-save"></i>
+											提交
+										</button>
+									</div>
 								</div>
 							</div>
-							<div class="col-xs-1 col-sm-2">
-								<button class="btn btn-primary" type="button" data-ng-click="open()">
-									<i class="fa fa-plus"></i>
-									新增订单
-								</button>
-							</div>
-						</div>
-						<div class="table-responsive">
 
-						</div>
-						<div class="dt-toolbar-footer">
-							<div class="col-xs-12 col-sm-12">
-								<button class="btn btn-primary" type="button" data-ng-click="open()">
-									<i class="fa fa-plus"></i>
-									提交订单
-								</button>
-							</div>
-						</div>
+						</form>
 					</div>
 					<!-- end widget content -->
 				</div>

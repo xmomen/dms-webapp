@@ -2,8 +2,9 @@
  * Created by Administrator on 2016/1/15.
  */
 define([
-    "views/order/order"
-],function (order) {
+    "views/order/order",
+    "views/order/order_create"
+],function (order, order_create) {
     angular.module('DMS.order', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -22,6 +23,7 @@ define([
             .state('order_create', {
                 url: '/order/create',
                 templateUrl: 'views/order/order_create.html',
+                controller:order_create,
                 data:{
                     permissions:{
                         only:["USER_VIEW"],
