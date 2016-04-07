@@ -104,6 +104,7 @@ define(function () {
         $scope.removeDictionary = function(index){
             $ugDialog.confirm("是否删除此数据字典？").then(function(){
                 DictionaryAPI.delete({
+                    group_id:$scope.currentDictionaryGroup.id,
                     id: $scope.dictionaryList[index].id
                 }, function(){
                     $scope.getDictionaryList();

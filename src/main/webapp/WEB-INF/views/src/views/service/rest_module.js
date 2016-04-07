@@ -51,7 +51,7 @@ define(function () {
         });
     }]);
     ngREST.factory("UserGroupRelationAPI", ["$resource", function($resource){
-        return $resource("/group/:id/user",{id:'@id'},{
+        return $resource("/group/:id/user",{id:'@id',userId:'@userId'},{
             query:{ isArray:false},
             save:{
                 method:"PUT",
