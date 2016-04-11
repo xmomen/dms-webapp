@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,10 +47,14 @@ public class MemberController {
     public Page<MemberModel> getMemberList(@RequestParam(value = "limit") Integer limit,
             @RequestParam(value = "offset") Integer offset,
             @RequestParam(value = "id", required = false) Integer id,
-            @RequestParam(value = "keyword", required = false) String keyword){
+            @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "phoneNumber", required = false) String phoneNumber){
     	 Map map = new HashMap<String,Object>();
          map.put("id", id);
          map.put("keyword", keyword);
+         if(StringUtils.trimToNull(phoneNumber) != null){
+             map.put("phoneNumber", phoneNumber);
+         }
         return (Page<MemberModel>) mybatisDao.selectPage(MemberMapper.MemberMapperNameSpace + "getMemberList", map, limit, offset);
     }
     

@@ -112,9 +112,9 @@
 									<label class="control-label col-md-2">电话号码</label>
 									<div class="col-md-4">
 										<div class="input-group input-group-md">
-											<input type="text" ng-model="order.phone" placeholder="电话／手机号码" class="form-control">
+											<input type="text" ng-model="order.phone" value="13162323157" placeholder="电话／手机号码" class="form-control">
 						                    <span class="input-group-btn">
-						                        <button class="btn btn-default" type="button">查询</button>
+						                        <button class="btn btn-default" data-ng-click="queryMemberByPhoneNumber()" type="button">查询</button>
 						                    </span>
 										</div>
 										<input ng-if="order.orderType!=0" disabled type="text" ng-model="order.phone" placeholder="电话／手机号码" class="form-control">
@@ -174,7 +174,7 @@
 									</div>
 								</div>
 
-								<div class="form-group" ng-show="order.backup_address">
+								<div class="form-group" ng-show="order.spareAddress">
 									<label class="control-label col-md-2">备用收货人</label>
 									<div class="col-md-4">
 										<div class="input-group">
@@ -195,14 +195,14 @@
 										<input type="text" disabled placeholder="查询后自动填充" class="form-control">
 									</div>
 								</div>
-								<div class="form-group" ng-show="order.backup_address">
+								<div class="form-group" ng-show="order.spareAddress">
 									<label class="control-label col-md-2">收货地址</label>
 									<div class="col-md-10">
 										<input type="text" disabled placeholder="查询后自动填充" class="form-control">
 									</div>
 								</div>
 
-								<div class="form-group" ng-show="order.backup_address2">
+								<div class="form-group" ng-show="order.spareAddress2">
 									<label class="control-label col-md-2">备用收货人</label>
 									<div class="col-md-4">
 										<div class="input-group">
@@ -223,7 +223,7 @@
 										<input type="text" disabled placeholder="查询后自动填充" class="form-control">
 									</div>
 								</div>
-								<div class="form-group"  ng-show="order.backup_address2">
+								<div class="form-group"  ng-show="order.spareAddress2">
 									<label class="control-label col-md-2">收货地址</label>
 									<div class="col-md-10">
 										<input type="text" disabled placeholder="查询后自动填充" class="form-control">
@@ -258,41 +258,17 @@
 											</tr>
 											</thead>
 											<tbody>
-											<tr>
-												<td>Row 1</td>
-												<td>Row 2</td>
-												<td>Row 3</td>
-												<td>Row 4</td>
-											</tr>
-											<tr>
-												<td>Row 1</td>
-												<td>Row 2</td>
-												<td>Row 3</td>
-												<td>Row 4</td>
-											</tr>
-											<tr>
-												<td>Row 1</td>
-												<td>Row 2</td>
-												<td>Row 3</td>
-												<td>Row 4</td>
-											</tr>
-											<tr>
-												<td>Row 1</td>
-												<td>Row 2</td>
-												<td>Row 3</td>
-												<td>Row 4</td>
-											</tr>
-											<tr>
-												<td>Row 1</td>
-												<td>Row 2</td>
-												<td>Row 3</td>
-												<td>Row 4</td>
-											</tr>
-											<tr>
-												<td>Row 1</td>
-												<td>Row 2</td>
-												<td>Row 3</td>
-												<td>Row 4</td>
+											<tr data-ng-repeat="item in itemList">
+												<td>{{item.itemName}}</td>
+												<td>{{item.spec}}</td>
+												<td>{{item.sellPrice}}</td>
+												<td>
+													<div>
+														<a href="javascript:void(0);" data-ng-click="open($index)" title="订购：{{item.itemName}}">
+															<span class="fa fa-plus"></span>
+														</a>
+													</div>
+												</td>
 											</tr>
 											</tbody>
 											<tfoot>

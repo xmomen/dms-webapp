@@ -15,6 +15,9 @@
               <if test="id">
                   AND cm.id = #{id}
               </if>
+              <if test="phoneNumber">
+                  AND cm.phone_number = #{phoneNumber}
+              </if>
           </where>
     </select>
 </mapper>
