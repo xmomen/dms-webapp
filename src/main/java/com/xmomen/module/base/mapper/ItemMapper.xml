@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.base.mapper.ItemMapper" >
+
+    <!--    查询消息    -->
+    <select id="getItemList" resultType="com.xmomen.module.base.model.ItemModel" parameterType="java.util.HashMap">
+        SELECT
+        *
+        FROM
+        cd_item cm
+        <where>
+              <if test="keyword">
+                  AND cm.item_Code LIKE CONCAT('%', #{keyword}, '%') or cm.item_name LIKE CONCAT('%', #{keyword}, '%')
+              </if>
+              <if test="id">
+                  AND cm.id = #{id}
+              </if>
+          </where>
+    </select>
+</mapper>
