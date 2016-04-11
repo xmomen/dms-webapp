@@ -1,4 +1,4 @@
-package com.xmomen.module.base.member.controller;
+package com.xmomen.module.base.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,73 +17,66 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
-import com.xmomen.module.base.member.mapper.MemberMapper;
-import com.xmomen.module.base.member.model.CreateMember;
-import com.xmomen.module.base.member.model.MemberModel;
-import com.xmomen.module.base.member.model.UpdateMember;
-import com.xmomen.module.base.member.service.MemberSercvice;
+import com.xmomen.module.base.mapper.CompanyMapper;
+import com.xmomen.module.base.model.CompanyModel;
+import com.xmomen.module.base.model.CreateCompany;
+import com.xmomen.module.base.model.UpdateCompany;
+import com.xmomen.module.base.service.CompanyService;
 import com.xmomen.module.logger.Log;
-
-/**
- * Created by ted on 16/3/28.
- */
 @RestController
-public class MemberController {
-
-    @Autowired
-    MemberSercvice memberService;
-    @Autowired
-    MemberMapper memberMapper;
-    @Autowired
+public class CompanyController {
+	@Autowired
+	CompanyService companyService;
+	@Autowired
+	CompanyMapper companyMapper;
+	@Autowired
     MybatisDao mybatisDao;
     /**
-     * 查询客户信息
+     * 查询单位公司信息
      * @param id
      * @return
      */
-    @RequestMapping(value = "/member", method = RequestMethod.GET)
-    @Log(actionName = "查询客户信息")
-    public Page<MemberModel> getMemberList(@RequestParam(value = "limit") Integer limit,
+    @RequestMapping(value = "/company", method = RequestMethod.GET)
+    @Log(actionName = "查询单位公司信息")
+    public Page<CompanyModel> getMemberList(@RequestParam(value = "limit") Integer limit,
             @RequestParam(value = "offset") Integer offset,
             @RequestParam(value = "id", required = false) Integer id,
             @RequestParam(value = "keyword", required = false) String keyword){
     	 Map map = new HashMap<String,Object>();
          map.put("id", id);
          map.put("keyword", keyword);
-        return (Page<MemberModel>) mybatisDao.selectPage(MemberMapper.MemberMapperNameSpace + "getMemberList", map, limit, offset);
+        return (Page<CompanyModel>) mybatisDao.selectPage(CompanyMapper.CompanyMapperNameSpace + "getCompanyList", map, limit, offset);
     }
-    
-    
-    @RequestMapping(value = "/member", method = RequestMethod.POST)
-    @Log(actionName = "新增客户")
-    public void createMember(@RequestBody @Valid CreateMember createMember, BindingResult bindingResult) throws ArgumentValidException {
+    @RequestMapping(value = "/company", method = RequestMethod.POST)
+    @Log(actionName = "新增单位、公司")
+    public void createCompany(@RequestBody @Valid CreateCompany createCompany, BindingResult bindingResult) throws ArgumentValidException {
         if(bindingResult != null && bindingResult.hasErrors()){
             throw new ArgumentValidException(bindingResult);
         }
-        memberService.createMember(createMember);
+        companyService.createCompany(createCompany);
     }
     
     /**
      *  修改
      * @param id
      */
-    @RequestMapping(value = "/member/{id}", method = RequestMethod.PUT)
-    @Log(actionName = "修改客户信息")
+    @RequestMapping(value = "/company/{id}", method = RequestMethod.PUT)
+    @Log(actionName = "修改单位信息")
     public void updateMember(@PathVariable(value = "id") Integer id,
-                                @RequestBody @Valid UpdateMember updateMember, BindingResult bindingResult) throws ArgumentValidException {
+                                @RequestBody @Valid UpdateCompany updateCompany, BindingResult bindingResult) throws ArgumentValidException {
         if(bindingResult != null && bindingResult.hasErrors()){
             throw new ArgumentValidException(bindingResult);
         }
-        memberService.updateMember(id,updateMember);
+        companyService.updateCompany(id, updateCompany);
     }
     
     /**
      *  删除
      * @param id
      */
-    @RequestMapping(value = "/member/{id}", method = RequestMethod.DELETE)
-    @Log(actionName = "删除客户信息")
+    @RequestMapping(value = "/company/{id}", method = RequestMethod.DELETE)
+    @Log(actionName = "删除单位信息")
     public void deleteMember(@PathVariable(value = "id") Integer id){
-    	memberService.delete(id);
+    	companyService.delete(id);
     }
 }

@@ -1,4 +1,4 @@
-package com.xmomen.module.base.member.service.impl;
+package com.xmomen.module.base.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,10 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.module.base.entity.CdMember;
-import com.xmomen.module.base.member.model.CreateMember;
-import com.xmomen.module.base.member.model.UpdateMember;
-import com.xmomen.module.base.member.service.MemberSercvice;
-import com.xmomen.module.system.entity.SysOrganization;
+import com.xmomen.module.base.model.CreateMember;
+import com.xmomen.module.base.model.UpdateMember;
+import com.xmomen.module.base.service.MemberSercvice;
+
 @Service
 public class MemberSercviceImpl implements MemberSercvice {
 	@Autowired

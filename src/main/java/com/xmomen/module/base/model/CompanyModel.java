@@ -1,12 +1,11 @@
-package com.xmomen.module.base.company.model;
+package com.xmomen.module.base.model;
 
-import java.io.Serializable;
+public class CompanyModel {
+	 /**
+     * 
+     */
+    private Integer id;
 
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotBlank;
-
-public class CreateCompany implements Serializable{
     /**
      * 单位编号
      */
@@ -15,8 +14,6 @@ public class CreateCompany implements Serializable{
     /**
      * 单位名称
      */
-	@NotBlank
-	@NotNull
     private String companyName;
 
     /**
@@ -33,6 +30,15 @@ public class CreateCompany implements Serializable{
      * 联系人电话
      */
     private String companyLeaderTel;
+
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getCompanyCode() {
 		return companyCode;

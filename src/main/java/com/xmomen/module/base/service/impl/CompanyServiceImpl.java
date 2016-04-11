@@ -1,15 +1,15 @@
-package com.xmomen.module.base.company.service.impl;
+package com.xmomen.module.base.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
-import com.xmomen.module.base.company.model.CreateCompany;
-import com.xmomen.module.base.company.model.UpdateCompany;
-import com.xmomen.module.base.company.service.CompanyService;
+import com.xmomen.module.base.model.CreateCompany;
+import com.xmomen.module.base.model.UpdateCompany;
+import com.xmomen.module.base.service.CompanyService;
 import com.xmomen.module.base.entity.CdCompany;
-import com.xmomen.module.base.entity.CdMember;
+
 @Service
 public class CompanyServiceImpl implements CompanyService {
 	@Autowired

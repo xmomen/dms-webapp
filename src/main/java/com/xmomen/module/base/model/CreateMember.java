@@ -1,4 +1,4 @@
-package com.xmomen.module.base.member.model;
+package com.xmomen.module.base.model;
 
 import java.io.Serializable;
 
