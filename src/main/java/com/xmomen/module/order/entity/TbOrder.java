@@ -19,24 +19,14 @@ public class TbOrder extends BaseMybatisModel {
     private Integer id;
 
     /**
-     * 
+     * 订单编号
      */
-    private String orderCode;
+    private String orderNo;
 
     /**
      * 1-卡，2-劵，3-常规
      */
     private Integer orderType;
-
-    /**
-     * 卡号(订单类型为卡时记录卡号)
-     */
-    private String couponNumber;
-
-    /**
-     * 卡密码(订单类型为卡时记录密码)
-     */
-    private String couponPassword;
 
     /**
      * 1-微信订单，2-商城订单，3-客服下单，4-采摘订单
@@ -114,18 +104,18 @@ public class TbOrder extends BaseMybatisModel {
         addValidField("id");
     }
 
-    @Column(name = "ORDER_CODE")
-    public String getOrderCode() {
-        return orderCode;
+    @Column(name = "ORDER_NO")
+    public String getOrderNo() {
+        return orderNo;
     }
 
-    public void setOrderCode(String orderCode) {
-        this.orderCode = orderCode;
-        if(orderCode == null){
-              removeValidField("orderCode");
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
+        if(orderNo == null){
+              removeValidField("orderNo");
               return;
         }
-        addValidField("orderCode");
+        addValidField("orderNo");
     }
 
     @Column(name = "ORDER_TYPE")
@@ -140,34 +130,6 @@ public class TbOrder extends BaseMybatisModel {
               return;
         }
         addValidField("orderType");
-    }
-
-    @Column(name = "COUPON_NUMBER")
-    public String getCouponNumber() {
-        return couponNumber;
-    }
-
-    public void setCouponNumber(String couponNumber) {
-        this.couponNumber = couponNumber;
-        if(couponNumber == null){
-              removeValidField("couponNumber");
-              return;
-        }
-        addValidField("couponNumber");
-    }
-
-    @Column(name = "COUPON_PASSWORD")
-    public String getCouponPassword() {
-        return couponPassword;
-    }
-
-    public void setCouponPassword(String couponPassword) {
-        this.couponPassword = couponPassword;
-        if(couponPassword == null){
-              removeValidField("couponPassword");
-              return;
-        }
-        addValidField("couponPassword");
     }
 
     @Column(name = "ORDER_SOURCE")

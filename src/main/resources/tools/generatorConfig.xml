@@ -23,8 +23,8 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://120.24.236.186:3306/dms_dev?useUnicode=true&amp;characterEncoding=UTF-8"
-                        userId="dms_dev" password="dev" />
+                        connectionURL="jdbc:mysql://124.117.230.45:3306/dms_dev?useUnicode=true&amp;characterEncoding=UTF-8"
+                        userId="root" password="rootroot" />
 
         <javaTypeResolver type="com.xmomen.maven.plugins.mybatis.generator.plugins.types.JavaTypeResolverDefaultImplExt"></javaTypeResolver>
 
@@ -40,7 +40,6 @@
         </javaClientGenerator>
         <!--    用户模块    -->
         <table tableName="tb_order" />
-        <table tableName="tb_order_item" />
 
     </context>
 </generatorConfiguration>

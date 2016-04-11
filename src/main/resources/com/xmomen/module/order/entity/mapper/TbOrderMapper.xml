@@ -3,10 +3,8 @@
 <mapper namespace="com.xmomen.module.order.entity.mapper.TbOrderMapper" >
   <resultMap id="BaseResultMap" type="com.xmomen.module.order.entity.TbOrder" >
     <id column="ID" property="id" jdbcType="INTEGER" />
-    <result column="ORDER_CODE" property="orderCode" jdbcType="VARCHAR" />
+    <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
     <result column="ORDER_TYPE" property="orderType" jdbcType="INTEGER" />
-    <result column="COUPON_NUMBER" property="couponNumber" jdbcType="VARCHAR" />
-    <result column="COUPON_PASSWORD" property="couponPassword" jdbcType="VARCHAR" />
     <result column="ORDER_SOURCE" property="orderSource" jdbcType="INTEGER" />
     <result column="PAYMENT_MODE" property="paymentMode" jdbcType="INTEGER" />
     <result column="ORDER_STATUS" property="orderStatus" jdbcType="VARCHAR" />
@@ -79,9 +77,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, ORDER_CODE, ORDER_TYPE, COUPON_NUMBER, COUPON_PASSWORD, ORDER_SOURCE, PAYMENT_MODE, 
-    ORDER_STATUS, CONSIGNEE_PHONE, CONSIGNEE_NAME, CONSIGNEE_ADDRESS, POSTCODE, TRANSPORT_MODE, 
-    REMARK, TOTAL_AMOUNT, CREATE_TIME, CREATE_USER
+    ID, ORDER_NO, ORDER_TYPE, ORDER_SOURCE, PAYMENT_MODE, ORDER_STATUS, CONSIGNEE_PHONE, 
+    CONSIGNEE_NAME, CONSIGNEE_ADDRESS, POSTCODE, TRANSPORT_MODE, REMARK, TOTAL_AMOUNT, 
+    CREATE_TIME, CREATE_USER
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbOrderExample" >
     select
@@ -109,17 +107,11 @@
       <if test="id != null" >
         ID,
       </if>
-      <if test="orderCode != null" >
-        ORDER_CODE,
+      <if test="orderNo != null" >
+        ORDER_NO,
       </if>
       <if test="orderType != null" >
         ORDER_TYPE,
-      </if>
-      <if test="couponNumber != null" >
-        COUPON_NUMBER,
-      </if>
-      <if test="couponPassword != null" >
-        COUPON_PASSWORD,
       </if>
       <if test="orderSource != null" >
         ORDER_SOURCE,
@@ -162,17 +154,11 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="orderCode != null" >
-        #{orderCode,jdbcType=VARCHAR},
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
       </if>
       <if test="orderType != null" >
         #{orderType,jdbcType=INTEGER},
-      </if>
-      <if test="couponNumber != null" >
-        #{couponNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="couponPassword != null" >
-        #{couponPassword,jdbcType=VARCHAR},
       </if>
       <if test="orderSource != null" >
         #{orderSource,jdbcType=INTEGER},
@@ -224,17 +210,11 @@
       <if test="record.id != null" >
         ID = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.orderCode != null" >
-        ORDER_CODE = #{record.orderCode,jdbcType=VARCHAR},
+      <if test="record.orderNo != null" >
+        ORDER_NO = #{record.orderNo,jdbcType=VARCHAR},
       </if>
       <if test="record.orderType != null" >
         ORDER_TYPE = #{record.orderType,jdbcType=INTEGER},
-      </if>
-      <if test="record.couponNumber != null" >
-        COUPON_NUMBER = #{record.couponNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="record.couponPassword != null" >
-        COUPON_PASSWORD = #{record.couponPassword,jdbcType=VARCHAR},
       </if>
       <if test="record.orderSource != null" >
         ORDER_SOURCE = #{record.orderSource,jdbcType=INTEGER},

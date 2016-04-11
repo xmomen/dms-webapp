@@ -7,8 +7,15 @@ define(function () {
             orderType:0
         };
         $scope.addOrderForm = {};
+        $scope.errors = null;
         $scope.saveOrder = function(){
-            console.log($scope.order);
+            if($scope.addOrderForm.validator.form()){
+                OrderAPI.save($scope.order, function(){
+                    $ugDialog.alert("订单提交成功！");
+                }, function(data){
+                    $scope.errors = data.data;
+                })
+            }
         }
     }];
 });

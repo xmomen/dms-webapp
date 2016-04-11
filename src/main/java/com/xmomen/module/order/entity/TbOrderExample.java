@@ -167,73 +167,73 @@ public class TbOrderExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andOrderCodeIsNull() {
-            addCriterion("ORDER_CODE is null");
+        public Criteria andOrderNoIsNull() {
+            addCriterion("ORDER_NO is null");
             return (Criteria) this;
         }
 
-        public Criteria andOrderCodeIsNotNull() {
-            addCriterion("ORDER_CODE is not null");
+        public Criteria andOrderNoIsNotNull() {
+            addCriterion("ORDER_NO is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOrderCodeEqualTo(String value) {
-            addCriterion("ORDER_CODE =", value, "orderCode");
+        public Criteria andOrderNoEqualTo(String value) {
+            addCriterion("ORDER_NO =", value, "orderNo");
             return (Criteria) this;
         }
 
-        public Criteria andOrderCodeNotEqualTo(String value) {
-            addCriterion("ORDER_CODE <>", value, "orderCode");
+        public Criteria andOrderNoNotEqualTo(String value) {
+            addCriterion("ORDER_NO <>", value, "orderNo");
             return (Criteria) this;
         }
 
-        public Criteria andOrderCodeGreaterThan(String value) {
-            addCriterion("ORDER_CODE >", value, "orderCode");
+        public Criteria andOrderNoGreaterThan(String value) {
+            addCriterion("ORDER_NO >", value, "orderNo");
             return (Criteria) this;
         }
 
-        public Criteria andOrderCodeGreaterThanOrEqualTo(String value) {
-            addCriterion("ORDER_CODE >=", value, "orderCode");
+        public Criteria andOrderNoGreaterThanOrEqualTo(String value) {
+            addCriterion("ORDER_NO >=", value, "orderNo");
             return (Criteria) this;
         }
 
-        public Criteria andOrderCodeLessThan(String value) {
-            addCriterion("ORDER_CODE <", value, "orderCode");
+        public Criteria andOrderNoLessThan(String value) {
+            addCriterion("ORDER_NO <", value, "orderNo");
             return (Criteria) this;
         }
 
-        public Criteria andOrderCodeLessThanOrEqualTo(String value) {
-            addCriterion("ORDER_CODE <=", value, "orderCode");
+        public Criteria andOrderNoLessThanOrEqualTo(String value) {
+            addCriterion("ORDER_NO <=", value, "orderNo");
             return (Criteria) this;
         }
 
-        public Criteria andOrderCodeLike(String value) {
-            addCriterion("ORDER_CODE like", value, "orderCode");
+        public Criteria andOrderNoLike(String value) {
+            addCriterion("ORDER_NO like", value, "orderNo");
             return (Criteria) this;
         }
 
-        public Criteria andOrderCodeNotLike(String value) {
-            addCriterion("ORDER_CODE not like", value, "orderCode");
+        public Criteria andOrderNoNotLike(String value) {
+            addCriterion("ORDER_NO not like", value, "orderNo");
             return (Criteria) this;
         }
 
-        public Criteria andOrderCodeIn(List<String> values) {
-            addCriterion("ORDER_CODE in", values, "orderCode");
+        public Criteria andOrderNoIn(List<String> values) {
+            addCriterion("ORDER_NO in", values, "orderNo");
             return (Criteria) this;
         }
 
-        public Criteria andOrderCodeNotIn(List<String> values) {
-            addCriterion("ORDER_CODE not in", values, "orderCode");
+        public Criteria andOrderNoNotIn(List<String> values) {
+            addCriterion("ORDER_NO not in", values, "orderNo");
             return (Criteria) this;
         }
 
-        public Criteria andOrderCodeBetween(String value1, String value2) {
-            addCriterion("ORDER_CODE between", value1, value2, "orderCode");
+        public Criteria andOrderNoBetween(String value1, String value2) {
+            addCriterion("ORDER_NO between", value1, value2, "orderNo");
             return (Criteria) this;
         }
 
-        public Criteria andOrderCodeNotBetween(String value1, String value2) {
-            addCriterion("ORDER_CODE not between", value1, value2, "orderCode");
+        public Criteria andOrderNoNotBetween(String value1, String value2) {
+            addCriterion("ORDER_NO not between", value1, value2, "orderNo");
             return (Criteria) this;
         }
 
@@ -294,146 +294,6 @@ public class TbOrderExample extends BaseMybatisExample {
 
         public Criteria andOrderTypeNotBetween(Integer value1, Integer value2) {
             addCriterion("ORDER_TYPE not between", value1, value2, "orderType");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponNumberIsNull() {
-            addCriterion("COUPON_NUMBER is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponNumberIsNotNull() {
-            addCriterion("COUPON_NUMBER is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponNumberEqualTo(String value) {
-            addCriterion("COUPON_NUMBER =", value, "couponNumber");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponNumberNotEqualTo(String value) {
-            addCriterion("COUPON_NUMBER <>", value, "couponNumber");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponNumberGreaterThan(String value) {
-            addCriterion("COUPON_NUMBER >", value, "couponNumber");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponNumberGreaterThanOrEqualTo(String value) {
-            addCriterion("COUPON_NUMBER >=", value, "couponNumber");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponNumberLessThan(String value) {
-            addCriterion("COUPON_NUMBER <", value, "couponNumber");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponNumberLessThanOrEqualTo(String value) {
-            addCriterion("COUPON_NUMBER <=", value, "couponNumber");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponNumberLike(String value) {
-            addCriterion("COUPON_NUMBER like", value, "couponNumber");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponNumberNotLike(String value) {
-            addCriterion("COUPON_NUMBER not like", value, "couponNumber");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponNumberIn(List<String> values) {
-            addCriterion("COUPON_NUMBER in", values, "couponNumber");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponNumberNotIn(List<String> values) {
-            addCriterion("COUPON_NUMBER not in", values, "couponNumber");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponNumberBetween(String value1, String value2) {
-            addCriterion("COUPON_NUMBER between", value1, value2, "couponNumber");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponNumberNotBetween(String value1, String value2) {
-            addCriterion("COUPON_NUMBER not between", value1, value2, "couponNumber");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponPasswordIsNull() {
-            addCriterion("COUPON_PASSWORD is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponPasswordIsNotNull() {
-            addCriterion("COUPON_PASSWORD is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponPasswordEqualTo(String value) {
-            addCriterion("COUPON_PASSWORD =", value, "couponPassword");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponPasswordNotEqualTo(String value) {
-            addCriterion("COUPON_PASSWORD <>", value, "couponPassword");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponPasswordGreaterThan(String value) {
-            addCriterion("COUPON_PASSWORD >", value, "couponPassword");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponPasswordGreaterThanOrEqualTo(String value) {
-            addCriterion("COUPON_PASSWORD >=", value, "couponPassword");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponPasswordLessThan(String value) {
-            addCriterion("COUPON_PASSWORD <", value, "couponPassword");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponPasswordLessThanOrEqualTo(String value) {
-            addCriterion("COUPON_PASSWORD <=", value, "couponPassword");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponPasswordLike(String value) {
-            addCriterion("COUPON_PASSWORD like", value, "couponPassword");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponPasswordNotLike(String value) {
-            addCriterion("COUPON_PASSWORD not like", value, "couponPassword");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponPasswordIn(List<String> values) {
-            addCriterion("COUPON_PASSWORD in", values, "couponPassword");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponPasswordNotIn(List<String> values) {
-            addCriterion("COUPON_PASSWORD not in", values, "couponPassword");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponPasswordBetween(String value1, String value2) {
-            addCriterion("COUPON_PASSWORD between", value1, value2, "couponPassword");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponPasswordNotBetween(String value1, String value2) {
-            addCriterion("COUPON_PASSWORD not between", value1, value2, "couponPassword");
             return (Criteria) this;
         }
 
