@@ -46,7 +46,7 @@
 								<div class="dataTables_filter">
 									<label>
 										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-										<input type="search" placeholder="编号/名称" data-ng-keyup="getCompanyList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+										<input type="search" placeholder="单位名称" data-ng-keyup="getCompanyList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
 								</div>
 							</div>
 							<div class="col-xs-1 col-sm-2">
@@ -66,11 +66,11 @@
 											<i></i>
 										</label>
 									</th>
-                                    <th width="120">编号</th>
-									<th width="120">名称</th>
+                                    <!--<th width="120">编号</th>-->
+									<th width="120">单位名称</th>
                                     <th width="120">联系人</th>
 									<th>手机号</th>
-									<th>地址</th>
+									<th>单位地址</th>
 									<th width="80">操作</th>
 								</tr>
 								</thead>
@@ -82,19 +82,19 @@
 											<i></i>
 										</label>
 									</td>
-									<td ng-bind="company.companyCode"></td>
+									<!--<td ng-bind="company.companyCode"></td>-->
 									<td ng-bind="company.companyName"></td>
                                     <td ng-bind="company.companyLeader"></td>
 									<td ng-bind="company.companyLeaderTel"></td>
 									<td ng-bind="company.companyAddress"></td>
                                     <td>
                                         <div ng-show="show">
-                                            <button class="btn btn-primary" type="button" data-ng-click="open()">
-                                                <i class="fa fa-update"></i>
-                                                修改
-                                            </button>
-                                            <a href="#" data-ng-click="removeCompany($index)" title="删除：{{company.companyName}}">
+                                            <a href="javascript:void(0);" data-ng-click="removeCompany($index)" title="删除：{{company.companyName}}">
                                                 <span class="glyphicon glyphicon-remove-circle"></span>
+                                            </a>
+                                            <span> | </span>
+                                            <a href="javascript:void(0);" data-ng-click="open($index)" title="编辑：{{company.companyName}}">
+                                                <span class="fa fa-pencil"></span>
                                             </a>
                                         </div>
                                     </td>
@@ -139,16 +139,16 @@
 			<form class="form-horizontal" ug-validate="addCompanyForm" name="addCompanyForm" novalidate="">
 
 				<fieldset>
-					<div class="form-group">
-						<label class="col-md-2 control-label">编号</label>
-						<div class="col-md-10">
-							<input class="form-control" required="true" data-rule-minlength="3" data-rule-maxlength="20" ng-model="company.companyCode" name="companyCode" placeholder="编号" type="text">
-						</div>
-					</div>
+					<!--<div class="form-group">-->
+						<!--<label class="col-md-2 control-label">编号</label>-->
+						<!--<div class="col-md-10">-->
+							<!--<input class="form-control" required="true" data-rule-minlength="3" data-rule-maxlength="20" ng-model="company.companyCode" name="companyCode" placeholder="编号" type="text">-->
+						<!--</div>-->
+					<!--</div>-->
                     <div class="form-group">
-                        <label class="col-md-2 control-label">名称</label>
+                        <label class="col-md-2 control-label">单位名称<span class="vaild">*</span></label>
                         <div class="col-md-10">
-                            <input class="form-control" required="true" data-rule-minlength="3" data-rule-maxlength="20" ng-model="company.companyName" name="name" placeholder="名称" type="text">
+                            <input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="20" ng-model="company.companyName" name="name" placeholder="单位名称" type="text">
                         </div>
                     </div>
 					<div class="form-group">
@@ -164,7 +164,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-2 control-label">备用手机号</label>
+                        <label class="col-md-2 control-label">单位地址</label>
                         <div class="col-md-10">
                             <input class="form-control" ng-model="company.companyAddress" name="companyAddress" placeholder="地址" type="text">
                         </div>

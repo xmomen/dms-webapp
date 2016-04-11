@@ -375,6 +375,146 @@ public class CdMemberExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
+        public Criteria andSpareNameIsNull() {
+            addCriterion("SPARE_NAME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameIsNotNull() {
+            addCriterion("SPARE_NAME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameEqualTo(String value) {
+            addCriterion("SPARE_NAME =", value, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameNotEqualTo(String value) {
+            addCriterion("SPARE_NAME <>", value, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameGreaterThan(String value) {
+            addCriterion("SPARE_NAME >", value, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameGreaterThanOrEqualTo(String value) {
+            addCriterion("SPARE_NAME >=", value, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameLessThan(String value) {
+            addCriterion("SPARE_NAME <", value, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameLessThanOrEqualTo(String value) {
+            addCriterion("SPARE_NAME <=", value, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameLike(String value) {
+            addCriterion("SPARE_NAME like", value, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameNotLike(String value) {
+            addCriterion("SPARE_NAME not like", value, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameIn(List<String> values) {
+            addCriterion("SPARE_NAME in", values, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameNotIn(List<String> values) {
+            addCriterion("SPARE_NAME not in", values, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameBetween(String value1, String value2) {
+            addCriterion("SPARE_NAME between", value1, value2, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameNotBetween(String value1, String value2) {
+            addCriterion("SPARE_NAME not between", value1, value2, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2IsNull() {
+            addCriterion("SPARE_NAME2 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2IsNotNull() {
+            addCriterion("SPARE_NAME2 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2EqualTo(String value) {
+            addCriterion("SPARE_NAME2 =", value, "spareName2");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2NotEqualTo(String value) {
+            addCriterion("SPARE_NAME2 <>", value, "spareName2");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2GreaterThan(String value) {
+            addCriterion("SPARE_NAME2 >", value, "spareName2");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2GreaterThanOrEqualTo(String value) {
+            addCriterion("SPARE_NAME2 >=", value, "spareName2");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2LessThan(String value) {
+            addCriterion("SPARE_NAME2 <", value, "spareName2");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2LessThanOrEqualTo(String value) {
+            addCriterion("SPARE_NAME2 <=", value, "spareName2");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2Like(String value) {
+            addCriterion("SPARE_NAME2 like", value, "spareName2");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2NotLike(String value) {
+            addCriterion("SPARE_NAME2 not like", value, "spareName2");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2In(List<String> values) {
+            addCriterion("SPARE_NAME2 in", values, "spareName2");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2NotIn(List<String> values) {
+            addCriterion("SPARE_NAME2 not in", values, "spareName2");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2Between(String value1, String value2) {
+            addCriterion("SPARE_NAME2 between", value1, value2, "spareName2");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2NotBetween(String value1, String value2) {
+            addCriterion("SPARE_NAME2 not between", value1, value2, "spareName2");
+            return (Criteria) this;
+        }
+
         public Criteria andSpareTelIsNull() {
             addCriterion("SPARE_TEL is null");
             return (Criteria) this;

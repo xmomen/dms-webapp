@@ -5,23 +5,13 @@ define([
     "views/base/member/member_list",
     "views/base/company/company_list",
     "views/base/coupon",
-    "views/base/dictionary"
-],function (memberList,companyList,coupon,dictionary) {
+    "views/base/itemCategory/itemCategory",
+    "views/base/item/item"
+],function (memberList,companyList,coupon,itemCategory,item) {
     angular.module('DMS.base', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
         $stateProvider
-            .state('data_dictionary', {
-                url: '/dictionary',
-                templateUrl: 'views/base/dictionary.html',
-                //data:{
-                //    permissions:{
-                //        only:["USER_VIEW"],
-                //        redirectTo:"unauthorized"
-                //    }
-                //},
-                controller: dictionary
-            })
             .state('member_list', {
                 url: '/base/member',
                 templateUrl: 'views/base/member/member_list.html',
@@ -54,6 +44,28 @@ define([
                     }
                 },
                 controller: coupon
+            })
+            .state('itemCategory', {
+                url: '/itemCategory',
+                templateUrl: 'views/base/itemCategory/itemCategory.html',
+                data:{
+                    permissions:{
+                        only:["USER_VIEW"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: itemCategory
+            })
+            .state('item', {
+                url: '/item',
+                templateUrl: 'views/base/item/item.html',
+                data:{
+                    permissions:{
+                        only:["USER_VIEW"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: item
             })
     }]);
 });

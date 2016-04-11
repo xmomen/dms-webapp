@@ -1,0 +1,223 @@
+<!--
+	The ID "widget-grid" will start to initialize all widgets below 
+	You do not need to use widgets if you dont want to. Simply remove 
+	the <section></section> and you can use wells or panels instead 
+	-->
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need uniqu e ID)-->
+			<div class="jarviswidget" id="wid-id-4">
+				<!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2>产品列表</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- end widget edit box -->
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="dt-toolbar">
+							<div class="col-xs-11 col-sm-10">
+								<div class="dataTables_filter">
+									<label>
+										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+										<input type="search" placeholder="产品编号/名称" data-ng-keyup="getItemList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+								</div>
+							</div>
+							<div class="col-xs-1 col-sm-2">
+								<button class="btn btn-primary" type="button" data-ng-click="open()">
+									<i class="fa fa-plus"></i>
+									新增
+								</button>
+							</div>
+						</div>
+						<div class="table-responsive">
+							<table class="table table-striped table-condensed table-hover smart-form has-tickbox">
+								<thead>
+								<tr>
+									<th>
+										<label class="checkbox">
+											<input type="checkbox" name="checkbox-inline">
+											<i></i>
+										</label>
+									</th>
+                                    <th width="120">产品编号</th>
+									<th width="120">产品名称</th>
+                                    <th width="120">生产地</th>
+									<th>产品规格</th>
+                                    <th>计价方式</th>
+                                    <th>销售状态</th>
+                                    <th>销售单位</th>
+                                    <th>销售价格</th>
+                                    <th>会员价格</th>
+                                    <th>基础价格</th>
+									<th width="80">操作</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat="item in itemList"  ng-if="itemList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+									<td>
+										<label class="checkbox">
+											<input type="checkbox" name="checkbox-inline">
+											<i></i>
+										</label>
+									</td>
+									<td ng-bind="item.itemCode"></td>
+                                    <td ng-bind="item.itemName"></td>
+                                    <td ng-bind="item.yieldly"></td>
+                                    <td ng-bind="item.spec"></td>
+                                    <td ng-bind="item.pricingManner"></td>
+                                    <td ng-bind="item.sellStatus"></td>
+                                    <td ng-bind="item.sellUnit"></td>
+                                    <td ng-bind="item.sellPrice"></td>
+                                    <td ng-bind="item.memberPrice"></td>
+                                    <td ng-bind="item.basePrice"></td>
+                                    <td>
+                                        <div ng-show="show">
+                                            <a href="javascript:void(0);" data-ng-click="removeItem($index)" title="删除：{{item.itemName}}">
+                                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                            </a>
+                                            <span> | </span>
+                                            <a href="javascript:void(0);" data-ng-click="open($index)" title="编辑：{{item.itemName}}">
+                                                <span class="fa fa-pencil"></span>
+                                            </a>
+                                        </div>
+                                    </td>
+								</tr>
+								<tr ng-if="itemList == null || itemList.length == 0">
+									<td colspan="3">
+										<div>暂无消息数据</div>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="dt-toolbar-footer">
+							<div class="col-xs-12 col-sm-12">
+								<ug-pagination page-info="pageInfoSetting" ></ug-pagination>
+							</div>
+						</div>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- WIDGET END -->
+
+	</div>
+
+	<!-- end row -->
+
+</section>
+<!-- end widget grid -->
+
+<script type="text/ng-template" id="addItem.html">
+	<div class="modal-header">
+		<h3 class="modal-title">新增/更新产品</h3>
+	</div>
+	<div class="modal-body">
+		<div class="widget-body">
+
+			<form class="form-horizontal" ug-validate="addItemForm" name="addItemForm" novalidate="">
+
+				<fieldset>
+					<div class="form-group">
+						<label class="col-md-2 control-label">产品编号<span class="vaild">*</span></label>
+						<div class="col-md-10">
+							<input class="form-control" required="true" data-rule-minlength="3" data-rule-maxlength="20" ng-model="item.itemCode" name="itemCode" placeholder="产品编号" type="text">
+						</div>
+					</div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">产品名称<span class="vaild">*</span></label>
+                        <div class="col-md-10">
+                            <input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="20" ng-model="item.itemName" name="name" placeholder="产品名称" type="text">
+                        </div>
+                    </div>
+					<div class="form-group">
+						<label class="col-md-2 control-label">生产地</label>
+						<div class="col-md-10">
+							<input class="form-control"  ng-model="item.yieldly" name="yieldly" placeholder="生产地" type="text">
+						</div>
+					</div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">规格</label>
+                        <div class="col-md-10">
+                            <input class="form-control" ng-model="item.spec" name="spec" placeholder="规格" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">计价方式<span class="vaild">*</span></label>
+                        <div class="col-md-10">
+                            <input class="form-control" required="" ng-model="item.pricingManner" name="pricingManner" placeholder="计价方式" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">销售单位<span class="vaild">*</span></label>
+                        <div class="col-md-10">
+                            <input class="form-control"required="" ng-model="item.sellUnit" name="sellUnit" placeholder="销售单位" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">销售金额<span class="vaild">*</span></label>
+                        <div class="col-md-10">
+                            <input class="form-control"required="" ng-model="item.sellPrice" name="sellPrice" placeholder="销售金额" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">基础价格<span class="vaild">*</span></label>
+                        <div class="col-md-10">
+                            <input class="form-control" required="" ng-model="item.basePrice" name="basePrice" placeholder="基础价格" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">会员价格<span class="vaild">*</span></label>
+                        <div class="col-md-10">
+                            <input class="form-control" required="" ng-model="item.memberPrice" name="basePrice" placeholder="会员价格" type="text">
+                        </div>
+                    </div>
+					<div class="form-group" ng-if="errors">
+						<label class="col-md-2 control-label"></label>
+						<div class="col-md-10 error">
+							{{errors.message}}
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="submit" data-ng-click="saveOrUpdateItem()">
+			<i class="fa fa-save"></i>
+			保存
+		</button>
+		<button class="btn btn-warning" ng-click="cancel()">关闭</button>
+	</div>
+</script>

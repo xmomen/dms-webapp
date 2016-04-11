@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,7 +20,9 @@ import com.xmomen.framework.web.exceptions.ArgumentValidException;
 import com.xmomen.module.base.company.mapper.CompanyMapper;
 import com.xmomen.module.base.company.model.CompanyModel;
 import com.xmomen.module.base.company.model.CreateCompany;
+import com.xmomen.module.base.company.model.UpdateCompany;
 import com.xmomen.module.base.company.service.CompanyService;
+import com.xmomen.module.base.member.model.UpdateMember;
 import com.xmomen.module.logger.Log;
 @RestController
 public class CompanyController {
@@ -52,5 +55,29 @@ public class CompanyController {
             throw new ArgumentValidException(bindingResult);
         }
         companyService.createCompany(createCompany);
+    }
+    
+    /**
+     *  修改
+     * @param id
+     */
+    @RequestMapping(value = "/company/{id}", method = RequestMethod.PUT)
+    @Log(actionName = "修改单位信息")
+    public void updateMember(@PathVariable(value = "id") Integer id,
+                                @RequestBody @Valid UpdateCompany updateCompany, BindingResult bindingResult) throws ArgumentValidException {
+        if(bindingResult != null && bindingResult.hasErrors()){
+            throw new ArgumentValidException(bindingResult);
+        }
+        companyService.updateCompany(id, updateCompany);
+    }
+    
+    /**
+     *  删除
+     * @param id
+     */
+    @RequestMapping(value = "/company/{id}", method = RequestMethod.DELETE)
+    @Log(actionName = "删除单位信息")
+    public void deleteMember(@PathVariable(value = "id") Integer id){
+    	companyService.delete(id);
     }
 }

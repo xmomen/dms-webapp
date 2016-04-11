@@ -4,7 +4,7 @@ public class CompanyModel {
 	 /**
      * 
      */
-    private Integer cdCompanyId;
+    private Integer id;
 
     /**
      * 单位编号
@@ -31,12 +31,13 @@ public class CompanyModel {
      */
     private String companyLeaderTel;
 
-	public Integer getCdCompanyId() {
-		return cdCompanyId;
+
+	public Integer getId() {
+		return id;
 	}
 
-	public void setCdCompanyId(Integer cdCompanyId) {
-		this.cdCompanyId = cdCompanyId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getCompanyCode() {

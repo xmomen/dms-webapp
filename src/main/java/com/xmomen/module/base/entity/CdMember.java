@@ -32,6 +32,16 @@ public class CdMember extends BaseMybatisModel {
     private String phoneNumber;
 
     /**
+     * 备用收货人
+     */
+    private String spareName;
+
+    /**
+     * 备用收货人
+     */
+    private String spareName2;
+
+    /**
      * 备用手机号1
      */
     private String spareTel;
@@ -137,6 +147,34 @@ public class CdMember extends BaseMybatisModel {
               return;
         }
         addValidField("phoneNumber");
+    }
+
+    @Column(name = "SPARE_NAME")
+    public String getSpareName() {
+        return spareName;
+    }
+
+    public void setSpareName(String spareName) {
+        this.spareName = spareName;
+        if(spareName == null){
+              removeValidField("spareName");
+              return;
+        }
+        addValidField("spareName");
+    }
+
+    @Column(name = "SPARE_NAME2")
+    public String getSpareName2() {
+        return spareName2;
+    }
+
+    public void setSpareName2(String spareName2) {
+        this.spareName2 = spareName2;
+        if(spareName2 == null){
+              removeValidField("spareName2");
+              return;
+        }
+        addValidField("spareName2");
     }
 
     @Column(name = "SPARE_TEL")

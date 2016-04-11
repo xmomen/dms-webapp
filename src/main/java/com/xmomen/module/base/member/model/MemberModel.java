@@ -6,7 +6,7 @@ public class MemberModel implements Serializable{
 	/**
      * 
      */
-    private Integer cdMemberId;
+    private Integer id;
 	/**
      * 会员编号
      */
@@ -21,7 +21,10 @@ public class MemberModel implements Serializable{
      * 手机号
      */
     private String phoneNumber;
-
+    
+    private String spareName;
+    
+    private String spareName2;
     /**
      * 备用手机号1
      */
@@ -76,13 +79,16 @@ public class MemberModel implements Serializable{
 		return memberCode;
 	}
 
-	public Integer getCdMemberId() {
-		return cdMemberId;
+
+	public Integer getId() {
+		return id;
 	}
 
-	public void setCdMemberId(Integer cdMemberId) {
-		this.cdMemberId = cdMemberId;
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
+
 
 	public void setMemberCode(String memberCode) {
 		this.memberCode = memberCode;
@@ -182,5 +188,21 @@ public class MemberModel implements Serializable{
 
 	public void setCdUserId(Integer cdUserId) {
 		this.cdUserId = cdUserId;
+	}
+
+	public String getSpareName() {
+		return spareName;
+	}
+
+	public void setSpareName(String spareName) {
+		this.spareName = spareName;
+	}
+
+	public String getSpareName2() {
+		return spareName2;
+	}
+
+	public void setSpareName2(String spareName2) {
+		this.spareName2 = spareName2;
 	}
 }

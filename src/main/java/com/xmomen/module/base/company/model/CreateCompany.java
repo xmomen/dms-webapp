@@ -10,8 +10,6 @@ public class CreateCompany implements Serializable{
     /**
      * 单位编号
      */
-	@NotBlank
-	@NotNull
     private String companyCode;
 
     /**

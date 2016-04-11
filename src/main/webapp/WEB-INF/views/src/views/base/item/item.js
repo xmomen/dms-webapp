@@ -2,54 +2,54 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "CompanyAPI", "$modal", "$ugDialog", function($scope, CompanyAPI, $modal, $ugDialog){
-        $scope.companyList = [];
+    return ["$scope", "ItemAPI", "$modal", "$ugDialog", function($scope, ItemAPI, $modal, $ugDialog){
+        $scope.itemList = [];
         $scope.pageSetting = {
             pageSize:10,
             pageNum:1
         };
         $scope.queryParam = {};
-        $scope.getCompanyList = function(){
-            CompanyAPI.query({
+        $scope.getItemList = function(){
+            ItemAPI.query({
                 limit:$scope.pageSetting.pageSize,
                 offset:$scope.pageSetting.pageNum,
                 keyword:$scope.queryParam.keyword
             }, function(data){
-                $scope.companyList = data.data;
+                $scope.itemList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;
-                $scope.pageInfoSetting.loadData = $scope.getCompanyList;
+                $scope.pageInfoSetting.loadData = $scope.getItemList;
             });
         };
-        $scope.removeCompany = function(index){
-            $ugDialog.confirm("是否删除该单位/公司？").then(function(){
-                CompanyAPI.delete({
-                    id: $scope.companyList[index].id
+        $scope.removeItem = function(index){
+            $ugDialog.confirm("是否删除该产品？").then(function(){
+                ItemAPI.delete({
+                    id: $scope.itemList[index].id
                 }, function(){
-                    $scope.getCompanyList();
+                    $scope.getItemList();
                 });
             })
         };
         $scope.open = function (index) {
             var modalInstance = $modal.open({
-                templateUrl: 'addCompany.html',
-                controller: ["$scope", "CompanyAPI", "$modalInstance","currentCompany", function ($scope, CompanyAPI, $modalInstance,currentCompany) {
-                    $scope.company = {};
-                    if(currentCompany){
-                        $scope.company = currentCompany;
+                templateUrl: 'addItem.html',
+                controller: ["$scope", "ItemAPI", "$modalInstance","currentItem", function ($scope, ItemAPI, $modalInstance,currentItem) {
+                    $scope.item = {};
+                    if(currentItem){
+                        $scope.item = currentItem;
                     }
                     $scope.errors = null;
-                    $scope.addCompanyForm = {};
-                    $scope.saveOrUpdateCompany = function(){
+                    $scope.addItemForm = {};
+                    $scope.saveOrUpdateItem = function(){
                         $scope.errors = null;
-                        if($scope.addCompanyForm.validator.form()){
-                            if($scope.company.id){
-                                CompanyAPI.update($scope.company, function(){
+                        if($scope.addItemForm.validator.form()){
+                            if($scope.item.id){
+                                ItemAPI.update($scope.item, function(){
                                     $modalInstance.close();
                                 }, function(data){
                                     $scope.errors = data.data;
                                 })
                             }else{
-                                CompanyAPI.save($scope.company, function(){
+                                ItemAPI.save($scope.item, function(){
                                     $modalInstance.close();
                                 }, function(data){
                                     $scope.errors = data.data;
@@ -63,16 +63,16 @@ define(function () {
                     };
                 }],
                 resolve: {
-                currentCompany: function () {
-                    return $scope.companyList[index];
+                currentItem: function () {
+                    return $scope.itemList[index];
                 }
             }
             });
             modalInstance.result.then(function () {
-                $scope.getCompanyList();
+                $scope.getItemList();
             });
         };
 
-        $scope.getCompanyList();
+        $scope.getItemList();
     }];
 });

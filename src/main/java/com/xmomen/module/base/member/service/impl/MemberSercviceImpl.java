@@ -22,6 +22,8 @@ public class MemberSercviceImpl implements MemberSercvice {
 		member.setMemberType(createMember.getMemberType());
 		member.setName(createMember.getName());
 		member.setPhoneNumber(createMember.getPhoneNumber());
+		member.setSpareName(createMember.getSpareName());
+		member.setSpareName2(createMember.getSpareName2());
 		member.setSpareTel(createMember.getSpareTel());
 		member.setSpareTel2(createMember.getSpareTel2());
 		member.setTelNumber(createMember.getTelNumber());
@@ -35,7 +37,24 @@ public class MemberSercviceImpl implements MemberSercvice {
 	}
 	@Transactional
 	public void updateMember(Integer id,UpdateMember updateMember) {
-		
+		CdMember member = new CdMember();
+		member.setId(id);
+		member.setMemberCode(updateMember.getMemberCode());
+		member.setMemberType(updateMember.getMemberType());
+		member.setName(updateMember.getName());
+		member.setPhoneNumber(updateMember.getPhoneNumber());
+		member.setSpareName(updateMember.getSpareName());
+		member.setSpareName2(updateMember.getSpareName2());
+		member.setSpareTel(updateMember.getSpareTel());
+		member.setSpareTel2(updateMember.getSpareTel2());
+		member.setTelNumber(updateMember.getTelNumber());
+		member.setOfficeTel(updateMember.getOfficeTel());
+		member.setAddress(updateMember.getAddress());
+		member.setSpareAddress(updateMember.getSpareAddress());
+		member.setSpareAddress2(updateMember.getSpareAddress2());
+		member.setCdCompanyId(updateMember.getCdCompanyId());
+		member.setCdUserId(updateMember.getCdUserId());
+		mybatisDao.update(member);
 	}
 	
 	@Transactional

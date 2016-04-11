@@ -13,7 +13,7 @@
                   AND cm.companyCode LIKE CONCAT('%', #{keyword}, '%') or cm.company_name LIKE CONCAT('%', #{keyword}, '%')
               </if>
               <if test="id">
-                  AND cm.cd_company_id = #{id}
+                  AND cm.id = #{id}
               </if>
           </where>
     </select>

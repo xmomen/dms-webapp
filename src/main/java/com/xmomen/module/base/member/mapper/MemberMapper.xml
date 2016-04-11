@@ -13,7 +13,7 @@
                   AND cm.member_code LIKE CONCAT('%', #{keyword}, '%') or cm.name LIKE CONCAT('%', #{keyword}, '%') or cm.phone_number like CONCAT('%', #{keyword}, '%')
               </if>
               <if test="id">
-                  AND cm.cd_member_id = #{id}
+                  AND cm.id = #{id}
               </if>
           </where>
     </select>

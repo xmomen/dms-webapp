@@ -21,6 +21,11 @@ public class CdCategory extends BaseMybatisModel {
      */
     private String categoryName;
 
+    /**
+     * 父类别
+     */
+    private Integer parentId;
+
     @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
@@ -49,5 +54,19 @@ public class CdCategory extends BaseMybatisModel {
               return;
         }
         addValidField("categoryName");
+    }
+
+    @Column(name = "PARENT_ID")
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+        if(parentId == null){
+              removeValidField("parentId");
+              return;
+        }
+        addValidField("parentId");
     }
 }

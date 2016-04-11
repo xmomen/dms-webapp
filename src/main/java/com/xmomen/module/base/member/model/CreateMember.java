@@ -10,8 +10,6 @@ public class CreateMember implements Serializable{
 	/**
      * 会员编号
      */
-    @NotNull
-    @NotBlank
     private String memberCode;
 
     /**
@@ -27,8 +25,12 @@ public class CreateMember implements Serializable{
     @NotNull
     @NotBlank
     private String phoneNumber;
+    
+    private String spareName;
+    
+    private String spareName2;
 
-    /**
+	/**
      * 备用手机号1
      */
     private String spareTel;
@@ -182,5 +184,20 @@ public class CreateMember implements Serializable{
 
 	public void setCdUserId(Integer cdUserId) {
 		this.cdUserId = cdUserId;
+	}
+	public String getSpareName() {
+		return spareName;
+	}
+
+	public void setSpareName(String spareName) {
+		this.spareName = spareName;
+	}
+
+	public String getSpareName2() {
+		return spareName2;
+	}
+
+	public void setSpareName2(String spareName2) {
+		this.spareName2 = spareName2;
 	}
 }

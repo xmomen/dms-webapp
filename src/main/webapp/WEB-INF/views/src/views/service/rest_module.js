@@ -111,6 +111,20 @@ define(function () {
         });
     }]);
 
+    ngREST.factory("ItemCategoryAPI", ["$resource", function($resource){
+        return $resource("/itemCategory/:id", { id:"@id" }, {
+            //  query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}}
+        });
+    }]);
+
+    ngREST.factory("ItemAPI", ["$resource", function($resource){
+        return $resource("/item/:id", { id:"@id" }, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}}
+        });
+    }]);
+
     ngREST.factory("CouponAPI", ["$resource", function($resource){
         return $resource("/coupon/:id", { id:"@id" }, {
             query:{ isArray:false},

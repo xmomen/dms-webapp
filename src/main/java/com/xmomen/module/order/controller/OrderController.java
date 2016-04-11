@@ -53,11 +53,7 @@ public class OrderController {
         if(bindingResult != null && bindingResult.hasErrors()){
             throw new ArgumentValidException(bindingResult);
         }
-        TbOrder tbOrder = new TbOrder();
-        tbOrder.setOrderType(createOrder.getOrderType());
-        tbOrder.setConsigneeAddress(createOrder.getConsigneeAddress());
-        tbOrder.setConsigneeName(createOrder.getConsigneeName());
-        return orderService.createOrder(tbOrder);
+        return orderService.createOrder(createOrder);
     }
 
     /**
