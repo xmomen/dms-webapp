@@ -101,7 +101,8 @@ define(function () {
     ngREST.factory("MemberAPI", ["$resource", function($resource){
         return $resource("/member/:memberId", { id:"@id" }, {
             query:{ isArray:false},
-            update:{method:"PUT", params:{id:"@id"}}
+            update:{method:"PUT", params:{id:"@id"}},
+            getCompanyList:{method:"GET",url:"/companyList",isArray:true}
         });
     }]);
 
