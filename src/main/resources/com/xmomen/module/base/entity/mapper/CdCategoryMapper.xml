@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdCategory" >
     <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="CATEGORY_NAME" property="categoryName" jdbcType="VARCHAR" />
+    <result column="PARENT_ID" property="parentId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -64,7 +65,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, CATEGORY_NAME
+    ID, CATEGORY_NAME, PARENT_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdCategoryExample" >
     select
@@ -95,6 +96,9 @@
       <if test="categoryName != null" >
         CATEGORY_NAME,
       </if>
+      <if test="parentId != null" >
+        PARENT_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -102,6 +106,9 @@
       </if>
       <if test="categoryName != null" >
         #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -119,6 +126,9 @@
       </if>
       <if test="record.categoryName != null" >
         CATEGORY_NAME = #{record.categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentId != null" >
+        PARENT_ID = #{record.parentId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >

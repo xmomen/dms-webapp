@@ -5,9 +5,11 @@
     <!--    查询消息    -->
     <select id="getItemList" resultType="com.xmomen.module.base.model.ItemModel" parameterType="java.util.HashMap">
         SELECT
-        *
+        cm.*,
+        cc.category_name
         FROM
         cd_item cm
+        left join cd_category cc on cm.cd_category_id = cc.id
         <where>
               <if test="keyword">
                   AND cm.item_Code LIKE CONCAT('%', #{keyword}, '%') or cm.item_name LIKE CONCAT('%', #{keyword}, '%')

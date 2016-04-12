@@ -2,12 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xmomen.module.base.mapper.CompanyMapper" >
 
+	<resultMap type="com.xmomen.module.base.model.CompanyModel" id="CustomerCompany">
+		 	<id column="id" property="id"/>
+		 	<result column="company_leader_tel" property="companyLeaderTel" />
+		 	<result column="company_name" property="companyName" />
+		 	<result column="company_address" property="companyAddress" />
+		 	<result column="company_leader" property="companyLeader" />
+			<collection property="companyCustomerManagers" ofType="com.xmomen.module.base.model.CompanyCustomerManager" column="id" select="queryCompanyManagerList"></collection>
+    </resultMap>
+
     <!--    查询消息    -->
-    <select id="getCompanyList" resultType="com.xmomen.module.base.model.CompanyModel" parameterType="java.util.HashMap">
-        SELECT
-        *
-        FROM
-        cd_company cm
+    <select id="getCompanyList" resultMap="CustomerCompany" parameterType="java.util.HashMap">
+       select 
+       	cc.*
+       from cd_company cc
         <where>
               <if test="keyword">
                   AND cm.companyCode LIKE CONCAT('%', #{keyword}, '%') or cm.company_name LIKE CONCAT('%', #{keyword}, '%')
@@ -17,4 +25,17 @@
               </if>
           </where>
     </select>
+    
+    <select id="queryCompanyManagerList" resultType="com.xmomen.module.base.model.CompanyCustomerManager" parameterType="Integer">
+		select  
+			su.username as customerManger,
+			su.id as customerMangerId
+		from 
+			cd_manager_company cmc 
+		left join 
+			sys_users su on cmc.CD_MANAGER_ID = su.id
+		where 
+			cmc.CD_COMPANY_ID = #{id}
+	</select>
 </mapper>
+

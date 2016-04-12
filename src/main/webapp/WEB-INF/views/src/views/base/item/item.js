@@ -4,6 +4,7 @@
 define(function () {
     return ["$scope", "ItemAPI", "$modal", "$ugDialog", function($scope, ItemAPI, $modal, $ugDialog){
         $scope.itemList = [];
+        $scope.item = {};
         $scope.pageSetting = {
             pageSize:10,
             pageNum:1
@@ -61,6 +62,31 @@ define(function () {
                     $scope.cancel = function () {
                         $modalInstance.dismiss('cancel');
                     };
+
+                    $scope.chooseCategoryModel = function(){
+                        var modalInstance = $modal.open({
+                            templateUrl: 'chooseCategory.html',
+                            controller: ["$scope", "ItemCategoryAPI", "$modalInstance", function ($scope, ItemCategoryAPI, $modalInstance) {
+                                $scope.itemCategoryList = [];
+                                $scope.queryParam = {};
+                                ItemCategoryAPI.query({
+                                    id:$scope.queryParam.id
+                                }, function(data){
+                                    $scope.itemCategoryList = data;
+                                });
+                                $scope.cancel = function () {
+                                    $modalInstance.dismiss('cancel');
+                                };
+                                $scope.chooseCategory = function(category){
+                                    $modalInstance.close(category);
+                                }
+                            }]
+                        });
+                        modalInstance.result.then(function (category) {
+                                $scope.item.categoryName = category.name;
+                                $scope.item.cdCategoryId = category.id;
+                        });
+                    }
                 }],
                 resolve: {
                 currentItem: function () {

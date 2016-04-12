@@ -1,5 +1,7 @@
 package com.xmomen.module.base.model;
 
+import java.util.List;
+
 public class CompanyModel {
 	 /**
      * 
@@ -31,7 +33,8 @@ public class CompanyModel {
      */
     private String companyLeaderTel;
 
-
+   List<CompanyCustomerManager> companyCustomerManagers;
+    
 	public Integer getId() {
 		return id;
 	}
@@ -78,5 +81,14 @@ public class CompanyModel {
 
 	public void setCompanyLeaderTel(String companyLeaderTel) {
 		this.companyLeaderTel = companyLeaderTel;
+	}
+
+	public List<CompanyCustomerManager> getCompanyCustomerManagers() {
+		return companyCustomerManagers;
+	}
+
+	public void setCompanyCustomerManagers(
+			List<CompanyCustomerManager> companyCustomerManagers) {
+		this.companyCustomerManagers = companyCustomerManagers;
 	}
 }

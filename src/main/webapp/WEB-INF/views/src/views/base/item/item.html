@@ -66,6 +66,7 @@
 											<i></i>
 										</label>
 									</th>
+                                    <th>产品类别</th>
                                     <th width="120">产品编号</th>
 									<th width="120">产品名称</th>
                                     <th width="120">生产地</th>
@@ -87,6 +88,7 @@
 											<i></i>
 										</label>
 									</td>
+                                    <td ng-bind="item.categoryName"></td>
 									<td ng-bind="item.itemCode"></td>
                                     <td ng-bind="item.itemName"></td>
                                     <td ng-bind="item.yieldly"></td>
@@ -149,6 +151,12 @@
 			<form class="form-horizontal" ug-validate="addItemForm" name="addItemForm" novalidate="">
 
 				<fieldset>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">产品类别<span class="vaild">*</span></label>
+                        <div class="col-md-10">
+                            <input class="form-control" required="true" data-rule-minlength="2" data-rule-maxlength="20" ng-focus="chooseCategoryModel()" ng-model="item.categoryName" name="itemCode" placeholder="产品类别" type="text">
+                        </div>
+                    </div>
 					<div class="form-group">
 						<label class="col-md-2 control-label">产品编号<span class="vaild">*</span></label>
 						<div class="col-md-10">
@@ -220,4 +228,35 @@
 		</button>
 		<button class="btn btn-warning" ng-click="cancel()">关闭</button>
 	</div>
+</script>
+
+
+<script type="text/ng-template" id="chooseCategory.html">
+    <div class="modal-header">
+        <h3 class="modal-title">选择类别</h3>
+    </div>
+    <div class="modal-body">
+        <div class="widget-body">
+            <div class="tree">
+                <ul>
+                    <li data-ng-repeat="item in itemCategoryList" data-ng-include="'tree_view.html'"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="tree_view.html">
+    <div ng-mouseenter="item.show=true" ng-mouseleave="item.show=false">
+		<span>
+			<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i> {{item.name}}
+		</span>
+        <a href="javascript:void(0);" ng-show="item.show && item.parentId != null" ng-click="chooseCategory(item)">选择</a>
+    </div>
+    <ul ng-if="item.nodes && item.nodes.length > 0">
+        <li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view.html'"></li>
+    </ul>
 </script>

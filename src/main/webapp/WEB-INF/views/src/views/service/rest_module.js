@@ -25,7 +25,8 @@ define(function () {
                     current_password: "@current_password",
                     password:"@password"
                 }
-            }
+            },
+            getCustomerManagerList:{method:"GET",url:"/customerManagerList",isArray:true}
         });
     }]);
     ngREST.factory("MessageAPI", ["$resource", function($resource){
@@ -108,7 +109,8 @@ define(function () {
 
     ngREST.factory("CompanyAPI", ["$resource", function($resource){
         return $resource("/company/:id", { id:"@id" }, {
-            query:{ isArray:false}
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}}
         });
     }]);
 

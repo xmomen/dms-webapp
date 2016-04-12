@@ -15,6 +15,8 @@ public class ItemModel implements Serializable {
      * 产品归属的类别
      */
     private Integer cdCategoryId;
+    
+    private String categoryName;
 
     /**
      * 产品名称
@@ -246,5 +248,13 @@ public class ItemModel implements Serializable {
 
 	public void setCreateUserCode(String createUserCode) {
 		this.createUserCode = createUserCode;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 }
