@@ -8,7 +8,6 @@ define(function () {
             ItemCategoryAPI.query({
                 id:$scope.queryParam.id
             }, function(data){
-                debugger;
                 $scope.itemCategoryList = data;
             });
         };

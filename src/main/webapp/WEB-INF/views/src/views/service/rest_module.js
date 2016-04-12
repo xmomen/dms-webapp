@@ -99,7 +99,7 @@ define(function () {
     }]);
 
     ngREST.factory("MemberAPI", ["$resource", function($resource){
-        return $resource("/member/:memberId", { id:"@id" }, {
+        return $resource("/member/:id", { id:"@id" }, {
             query:{ isArray:false},
             update:{method:"PUT", params:{id:"@id"}},
             getCompanyList:{method:"GET",url:"/companyList",isArray:true}
@@ -107,7 +107,7 @@ define(function () {
     }]);
 
     ngREST.factory("CompanyAPI", ["$resource", function($resource){
-        return $resource("/company/:company", { id:"@id" }, {
+        return $resource("/company/:id", { id:"@id" }, {
             query:{ isArray:false}
         });
     }]);

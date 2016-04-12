@@ -39,8 +39,8 @@ define(function () {
                         $scope.order.name = member.name;
                         $scope.order.phone = member.phoneNumber;
                         $scope.order.consigneeAddress = member.address;
-                        $scope.order.consigneeName = member.spareName;
-                        $scope.order.consigneePhone = member.spareTel;
+                        $scope.order.consigneeName = member.name;
+                        $scope.order.consigneePhone = member.phoneNumber;
                         $scope.order.spareAddress = member.spareAddress;
                         $scope.order.spareName = member.spareName;
                         $scope.order.spareTel = member.spareTel;

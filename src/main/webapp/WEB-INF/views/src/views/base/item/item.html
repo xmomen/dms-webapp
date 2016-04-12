@@ -170,7 +170,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">规格</label>
                         <div class="col-md-10">
-                            <input class="form-control" ng-model="item.spec" name="spec" placeholder="规格" type="text">
+                            <input class="form-control" ng-model="item.spec" name="spec" placeholder="规格" ng-blur="openTree()" type="text">
                         </div>
                     </div>
                     <div class="form-group">
@@ -211,6 +211,24 @@
 					</div>
 				</fieldset>
 			</form>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="submit" data-ng-click="saveOrUpdateItem()">
+			<i class="fa fa-save"></i>
+			保存
+		</button>
+		<button class="btn btn-warning" ng-click="cancel()">关闭</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="getTree.html">
+	<div class="modal-header">
+		<h3 class="modal-title">新增/更新产品</h3>
+	</div>
+	<div class="modal-body">
+		<div class="widget-body">
+DEMO
 		</div>
 	</div>
 	<div class="modal-footer">

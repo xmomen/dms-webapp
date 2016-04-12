@@ -147,9 +147,9 @@
                         </div>
                         <label class="col-md-2 control-label">公司/单位<span class="vaild">*</span></label>
                         <div class="col-md-4">
-                            <select ug-select2 style="width: 100%;" required="true" ng-model="member.cdCompanyId" name="company" ng-repeat="company in companyList">
-                                <option ng-value="">--请选择--</option>
-                                <option ng-value="company.id">{{company.companyName}}</option>
+                            <select ug-select2 style="width: 100%;" required="true" ng-model="member.cdCompanyId" name="company" >
+                                <option value="">--请选择--</option>
+                                <option value="{{company.id}}" ng-repeat="company in companyList">{{company.companyName}}</option>
                             </select>
                         </div>
 					</div>

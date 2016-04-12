@@ -58,6 +58,14 @@ define(function () {
 
                         }
                     };
+                    $scope.openTree = function(){
+                        $modal.open({
+                            templateUrl: 'getTree.html',
+                            controller: ["$scope", "ItemAPI", "$modalInstance", function ($scope, ItemAPI, $modalInstance) {
+
+                            }]
+                        });
+                    }
                     $scope.cancel = function () {
                         $modalInstance.dismiss('cancel');
                     };
