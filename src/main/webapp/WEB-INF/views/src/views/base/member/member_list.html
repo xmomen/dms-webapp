@@ -70,6 +70,7 @@
 									<th width="120">姓名</th>
 									<th>手机号</th>
 									<th>地址</th>
+                                    <th>所属单位</th>
 									<th width="80">操作</th>
 								</tr>
 								</thead>
@@ -85,6 +86,7 @@
 									<td ng-bind="member.name"></td>
 									<td ng-bind="member.phoneNumber"></td>
 									<td ng-bind="member.address"></td>
+                                    <td ng-bind="member.companyName"></td>
                                     <td>
                                         <div ng-show="show">
                                             <a href="javascript:void(0);" data-ng-click="removeMember($index)" title="删除：{{member.name}}">
