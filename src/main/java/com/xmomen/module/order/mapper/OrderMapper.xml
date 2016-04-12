@@ -19,15 +19,15 @@
         left join sys_dictionary_parameter ssp on ssp.SYS_DICTIONARY_ID=ss.ID and tb.ORDER_STATUS = ssp.REAL_VALUE
 
         LEFT JOIN sys_dictionary payment on payment.DICTIONARY_CODE='PAYMENT_MODE'
-        left join sys_dictionary_parameter paymentp on paymentp.SYS_DICTIONARY_ID=payment.ID and tb.ORDER_STATUS = paymentp.REAL_VALUE
+        left join sys_dictionary_parameter paymentp on paymentp.SYS_DICTIONARY_ID=payment.ID and tb.PAYMENT_MODE = paymentp.REAL_VALUE
 
         LEFT JOIN sys_dictionary oss on oss.DICTIONARY_CODE='ORDER_SOURCE'
-        left join sys_dictionary_parameter osp on osp.SYS_DICTIONARY_ID=oss.ID and tb.ORDER_STATUS = osp.REAL_VALUE
+        left join sys_dictionary_parameter osp on osp.SYS_DICTIONARY_ID=oss.ID and tb.ORDER_SOURCE = osp.REAL_VALUE
         <where>
               <if test="keyword">
                   AND tb.order_no LIKE CONCAT('%', #{keyword}, '%')
-                  or tb.consigneePhone LIKE CONCAT('%', #{keyword}, '%')
-                  or tb.consigneeName like CONCAT('%', #{keyword}, '%')
+                  or tb.consignee_phone LIKE CONCAT('%', #{keyword}, '%')
+                  or tb.consignee_name like CONCAT('%', #{keyword}, '%')
               </if>
               <if test="id">
                   AND tb.id = #{id}
