@@ -8,6 +8,7 @@ import com.xmomen.module.order.entity.TbOrder;
 import com.xmomen.module.order.model.CreateOrder;
 import com.xmomen.module.order.model.OrderModel;
 import com.xmomen.module.order.service.OrderService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -53,6 +54,8 @@ public class OrderController {
         if(bindingResult != null && bindingResult.hasErrors()){
             throw new ArgumentValidException(bindingResult);
         }
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("user_id");
+        createOrder.setCreateUserId(userId);
         return orderService.createOrder(createOrder);
     }
 

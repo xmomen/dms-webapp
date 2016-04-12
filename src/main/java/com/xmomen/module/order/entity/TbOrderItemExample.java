@@ -166,63 +166,63 @@ public class TbOrderItemExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andTbOrderIdIsNull() {
-            addCriterion("TB_ORDER_ID is null");
+        public Criteria andItemIdIsNull() {
+            addCriterion("ITEM_ID is null");
             return (Criteria) this;
         }
 
-        public Criteria andTbOrderIdIsNotNull() {
-            addCriterion("TB_ORDER_ID is not null");
+        public Criteria andItemIdIsNotNull() {
+            addCriterion("ITEM_ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTbOrderIdEqualTo(Integer value) {
-            addCriterion("TB_ORDER_ID =", value, "tbOrderId");
+        public Criteria andItemIdEqualTo(Integer value) {
+            addCriterion("ITEM_ID =", value, "itemId");
             return (Criteria) this;
         }
 
-        public Criteria andTbOrderIdNotEqualTo(Integer value) {
-            addCriterion("TB_ORDER_ID <>", value, "tbOrderId");
+        public Criteria andItemIdNotEqualTo(Integer value) {
+            addCriterion("ITEM_ID <>", value, "itemId");
             return (Criteria) this;
         }
 
-        public Criteria andTbOrderIdGreaterThan(Integer value) {
-            addCriterion("TB_ORDER_ID >", value, "tbOrderId");
+        public Criteria andItemIdGreaterThan(Integer value) {
+            addCriterion("ITEM_ID >", value, "itemId");
             return (Criteria) this;
         }
 
-        public Criteria andTbOrderIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("TB_ORDER_ID >=", value, "tbOrderId");
+        public Criteria andItemIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ITEM_ID >=", value, "itemId");
             return (Criteria) this;
         }
 
-        public Criteria andTbOrderIdLessThan(Integer value) {
-            addCriterion("TB_ORDER_ID <", value, "tbOrderId");
+        public Criteria andItemIdLessThan(Integer value) {
+            addCriterion("ITEM_ID <", value, "itemId");
             return (Criteria) this;
         }
 
-        public Criteria andTbOrderIdLessThanOrEqualTo(Integer value) {
-            addCriterion("TB_ORDER_ID <=", value, "tbOrderId");
+        public Criteria andItemIdLessThanOrEqualTo(Integer value) {
+            addCriterion("ITEM_ID <=", value, "itemId");
             return (Criteria) this;
         }
 
-        public Criteria andTbOrderIdIn(List<Integer> values) {
-            addCriterion("TB_ORDER_ID in", values, "tbOrderId");
+        public Criteria andItemIdIn(List<Integer> values) {
+            addCriterion("ITEM_ID in", values, "itemId");
             return (Criteria) this;
         }
 
-        public Criteria andTbOrderIdNotIn(List<Integer> values) {
-            addCriterion("TB_ORDER_ID not in", values, "tbOrderId");
+        public Criteria andItemIdNotIn(List<Integer> values) {
+            addCriterion("ITEM_ID not in", values, "itemId");
             return (Criteria) this;
         }
 
-        public Criteria andTbOrderIdBetween(Integer value1, Integer value2) {
-            addCriterion("TB_ORDER_ID between", value1, value2, "tbOrderId");
+        public Criteria andItemIdBetween(Integer value1, Integer value2) {
+            addCriterion("ITEM_ID between", value1, value2, "itemId");
             return (Criteria) this;
         }
 
-        public Criteria andTbOrderIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("TB_ORDER_ID not between", value1, value2, "tbOrderId");
+        public Criteria andItemIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("ITEM_ID not between", value1, value2, "itemId");
             return (Criteria) this;
         }
 
@@ -506,52 +506,52 @@ public class TbOrderItemExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andItemQtyEqualTo(Integer value) {
+        public Criteria andItemQtyEqualTo(BigDecimal value) {
             addCriterion("ITEM_QTY =", value, "itemQty");
             return (Criteria) this;
         }
 
-        public Criteria andItemQtyNotEqualTo(Integer value) {
+        public Criteria andItemQtyNotEqualTo(BigDecimal value) {
             addCriterion("ITEM_QTY <>", value, "itemQty");
             return (Criteria) this;
         }
 
-        public Criteria andItemQtyGreaterThan(Integer value) {
+        public Criteria andItemQtyGreaterThan(BigDecimal value) {
             addCriterion("ITEM_QTY >", value, "itemQty");
             return (Criteria) this;
         }
 
-        public Criteria andItemQtyGreaterThanOrEqualTo(Integer value) {
+        public Criteria andItemQtyGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("ITEM_QTY >=", value, "itemQty");
             return (Criteria) this;
         }
 
-        public Criteria andItemQtyLessThan(Integer value) {
+        public Criteria andItemQtyLessThan(BigDecimal value) {
             addCriterion("ITEM_QTY <", value, "itemQty");
             return (Criteria) this;
         }
 
-        public Criteria andItemQtyLessThanOrEqualTo(Integer value) {
+        public Criteria andItemQtyLessThanOrEqualTo(BigDecimal value) {
             addCriterion("ITEM_QTY <=", value, "itemQty");
             return (Criteria) this;
         }
 
-        public Criteria andItemQtyIn(List<Integer> values) {
+        public Criteria andItemQtyIn(List<BigDecimal> values) {
             addCriterion("ITEM_QTY in", values, "itemQty");
             return (Criteria) this;
         }
 
-        public Criteria andItemQtyNotIn(List<Integer> values) {
+        public Criteria andItemQtyNotIn(List<BigDecimal> values) {
             addCriterion("ITEM_QTY not in", values, "itemQty");
             return (Criteria) this;
         }
 
-        public Criteria andItemQtyBetween(Integer value1, Integer value2) {
+        public Criteria andItemQtyBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("ITEM_QTY between", value1, value2, "itemQty");
             return (Criteria) this;
         }
 
-        public Criteria andItemQtyNotBetween(Integer value1, Integer value2) {
+        public Criteria andItemQtyNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("ITEM_QTY not between", value1, value2, "itemQty");
             return (Criteria) this;
         }

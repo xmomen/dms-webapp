@@ -84,9 +84,9 @@ public class TbOrder extends BaseMybatisModel {
     private Date createTime;
 
     /**
-     * 订单创建人
+     * 订单创建人ID
      */
-    private String createUser;
+    private Integer createUserId;
 
     @Column(name = "ID")
     @Id
@@ -286,17 +286,17 @@ public class TbOrder extends BaseMybatisModel {
         addValidField("createTime");
     }
 
-    @Column(name = "CREATE_USER")
-    public String getCreateUser() {
-        return createUser;
+    @Column(name = "CREATE_USER_ID")
+    public Integer getCreateUserId() {
+        return createUserId;
     }
 
-    public void setCreateUser(String createUser) {
-        this.createUser = createUser;
-        if(createUser == null){
-              removeValidField("createUser");
+    public void setCreateUserId(Integer createUserId) {
+        this.createUserId = createUserId;
+        if(createUserId == null){
+              removeValidField("createUserId");
               return;
         }
-        addValidField("createUser");
+        addValidField("createUserId");
     }
 }
