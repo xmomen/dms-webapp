@@ -14,6 +14,7 @@ import com.xmomen.module.order.model.OrderModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -32,8 +33,33 @@ public class OrderService {
     }
 
     public TbOrder createOrder(CreateOrder createOrder){
+        String orderNo = DateUtils.getDateTimeString();
+        List<Integer> itemIdList = new ArrayList<Integer>();
+        for (CreateOrder.OrderItem orderItem : createOrder.getOrderItemList()) {
+            itemIdList.add(orderItem.getOrderItemId());
+        }
+        CdItemExample cdItemExample = new CdItemExample();
+        cdItemExample.createCriteria().andIdIn(itemIdList);
+        List<CdItem> itemList = mybatisDao.selectByExample(cdItemExample);
+        BigDecimal totalAmount = BigDecimal.ZERO;
+        for (CdItem cdItem : itemList) {
+            for (CreateOrder.OrderItem orderItem : createOrder.getOrderItemList()) {
+                if(cdItem.getId().equals(orderItem.getOrderItemId())){
+                    TbOrderItem tbOrderItem = new TbOrderItem();
+                    tbOrderItem.setOrderNo(orderNo);
+                    tbOrderItem.setItemCode(cdItem.getItemCode());
+                    tbOrderItem.setItemId(cdItem.getId());
+                    tbOrderItem.setItemName(cdItem.getItemName());
+                    tbOrderItem.setItemPrice(cdItem.getSellPrice());
+                    tbOrderItem.setItemQty(orderItem.getItemQty());
+                    tbOrderItem.setItemUnit(cdItem.getSellUnit());
+                    totalAmount = totalAmount.add(tbOrderItem.getItemPrice().multiply(orderItem.getItemQty()));
+                    mybatisDao.insert(tbOrderItem);
+                }
+            }
+        }
         TbOrder tbOrder = new TbOrder();
-        tbOrder.setOrderStatus("ORDER_CREATE");// 订单新建
+        tbOrder.setOrderStatus("1");// 订单新建
         tbOrder.setTransportMode(1);// 默认快递
         tbOrder.setConsigneeName(createOrder.getConsigneeName());
         tbOrder.setConsigneeAddress(createOrder.getConsigneeAddress());
@@ -43,32 +69,11 @@ public class OrderService {
         tbOrder.setPaymentMode(createOrder.getPaymentMode());
         tbOrder.setRemark(createOrder.getRemark());
         tbOrder.setOrderType(createOrder.getOrderType());
-        tbOrder.setOrderNo(DateUtils.getDateTimeString());
+        tbOrder.setOrderNo(orderNo);
         tbOrder.setOrderSource(createOrder.getOrderSource());
         tbOrder.setCreateUserId(createOrder.getCreateUserId());
+        tbOrder.setTotalAmount(totalAmount);
         tbOrder = mybatisDao.insertByModel(tbOrder);
-        List<Integer> itemIdList = new ArrayList<Integer>();
-        for (CreateOrder.OrderItem orderItem : createOrder.getOrderItemList()) {
-            itemIdList.add(orderItem.getOrderItemId());
-        }
-        CdItemExample cdItemExample = new CdItemExample();
-        cdItemExample.createCriteria().andIdIn(itemIdList);
-        List<CdItem> itemList = mybatisDao.selectByExample(cdItemExample);
-        for (CdItem cdItem : itemList) {
-            for (CreateOrder.OrderItem orderItem : createOrder.getOrderItemList()) {
-                if(cdItem.getId().equals(orderItem.getOrderItemId())){
-                    TbOrderItem tbOrderItem = new TbOrderItem();
-                    tbOrderItem.setOrderNo(tbOrder.getOrderNo());
-                    tbOrderItem.setItemCode(cdItem.getItemCode());
-                    tbOrderItem.setItemId(cdItem.getId());
-                    tbOrderItem.setItemName(cdItem.getItemName());
-                    tbOrderItem.setItemPrice(cdItem.getSellPrice());
-                    tbOrderItem.setItemQty(orderItem.getItemQty());
-                    tbOrderItem.setItemUnit(cdItem.getSellUnit());
-                    mybatisDao.insertByModel(tbOrderItem);
-                }
-            }
-        }
         return tbOrder;
     }
 

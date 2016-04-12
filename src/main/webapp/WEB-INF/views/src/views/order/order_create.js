@@ -2,7 +2,7 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "OrderAPI", "ItemAPI", "MemberAPI", "$modal", "$ugDialog", function($scope, OrderAPI, ItemAPI, MemberAPI, $modal, $ugDialog){
+    return ["$scope", "OrderAPI", "ItemAPI", "MemberAPI", "$modal", "$ugDialog", "$state", function($scope, OrderAPI, ItemAPI, MemberAPI, $modal, $ugDialog, $state){
         $scope.order = {
             orderType:0
         };
@@ -12,7 +12,6 @@ define(function () {
             $scope.order.orderItemList = [];
             for (var i = 0; i < $scope.choseOrderItemList.length; i++) {
                 var obj = $scope.choseOrderItemList[i];
-
                 $scope.order.orderItemList.push({
                     orderItemId:obj.id,
                     itemQty: obj.itemQty
@@ -20,6 +19,7 @@ define(function () {
             }
             OrderAPI.save($scope.order, function(){
                 $ugDialog.alert("订单提交成功！");
+                $state.go("order");
             }, function(data){
                 $scope.errors = data.data;
             })
