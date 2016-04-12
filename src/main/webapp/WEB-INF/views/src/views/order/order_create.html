@@ -264,7 +264,7 @@
 												<td>{{item.sellPrice}}</td>
 												<td>
 													<div>
-														<a href="javascript:void(0);" data-ng-click="open($index)" title="订购：{{item.itemName}}">
+														<a href="javascript:void(0);" data-ng-click="choseItem($index)" title="订购：{{item.itemName}}">
 															<span class="fa fa-plus"></span>
 														</a>
 													</div>
@@ -297,20 +297,38 @@
 											</tr>
 											</thead>
 											<tbody>
-											<tr>
-												<td>Row 1</td>
-												<td>Row 2</td>
-												<td>Row 3</td>
-												<td>Row 4</td>
-												<td>Row 4</td>
-											</tr>
+												<tr ng-repeat="choseItem in choseOrderItemList">
+													<td>{{choseItem.itemName}}</td>
+													<td>{{choseItem.sellPrice}}</td>
+													<td>{{choseItem.number}}</td>
+													<td>{{choseItem.sellPrice * choseItem.number}}</td>
+													<td>
+														<div>
+															<a href="javascript:void(0);" data-ng-click="removeItem($index)" title="移除：{{choseItem.itemName}}">
+																<span class="glyphicon glyphicon-trash"></span>
+															</a>
+															<a href="javascript:void(0);" data-ng-click="changeItemNumber($index, 1)" title="添加：{{choseItem.itemName}}">
+																<span class="fa fa-plus"></span>
+															</a>
+															<a  ng-if="choseItem.number > 1" href="javascript:void(0);" data-ng-click="changeItemNumber($index, 0)" title="减少：{{choseItem.itemName}}">
+																<span class="fa fa-minus"></span>
+															</a>
+														</div>
+													</td>
+												</tr>
 											</tbody>
 											<tfoot>
 											<tr>
 												<td colspan="2">合计</td>
-												<td>Row 3</td>
-												<td>Row 4</td>
-												<td>Row 4</td>
+												<td>{{totalItem.totalNumber}}</td>
+												<td>{{totalItem.totalPrice}}</td>
+												<td>
+													<div>
+														<a href="javascript:void(0);" data-ng-click="removeAllItem()" title="移除所有：{{choseItem.itemName}}">
+															<span class="glyphicon glyphicon-trash"></span>
+														</a>
+													</div>
+												</td>
 											</tr>
 											</tfoot>
 										</table>
@@ -355,31 +373,31 @@
 									<label class="control-label col-md-2">付款方式</label>
 									<div class="col-md-10">
 										<label class="radio radio-inline">
-											<input type="radio" class="radiobox" value="0" ng-model="order.paymentMode" ng-checked="order.paymentMode==0" name="paymentMode">
+											<input type="radio" required class="radiobox" value="0" ng-model="order.paymentMode" ng-checked="order.paymentMode==0" name="paymentMode">
 											<span>回馈</span>
 										</label>
 										<label class="radio radio-inline">
-											<input type="radio" class="radiobox" value="1" ng-model="order.paymentMode" ng-checked="order.paymentMode==1" name="paymentMode">
+											<input type="radio" required class="radiobox" value="1" ng-model="order.paymentMode" ng-checked="order.paymentMode==1" name="paymentMode">
 											<span>客户经理代收</span>
 										</label>
 										<label class="radio radio-inline">
-											<input type="radio" class="radiobox" value="2" ng-model="order.paymentMode" ng-checked="order.paymentMode==2" name="paymentMode">
+											<input type="radio" required class="radiobox" value="2" ng-model="order.paymentMode" ng-checked="order.paymentMode==2" name="paymentMode">
 											<span>刷POS</span>
 										</label>
 										<label class="radio radio-inline">
-											<input type="radio" class="radiobox" value="3" ng-model="order.paymentMode" ng-checked="order.paymentMode==3" name="paymentMode">
+											<input type="radio" required class="radiobox" value="3" ng-model="order.paymentMode" ng-checked="order.paymentMode==3" name="paymentMode">
 											<span>转账</span>
 										</label>
 										<label class="radio radio-inline">
-											<input type="radio" class="radiobox" value="4" ng-model="order.paymentMode" ng-checked="order.paymentMode==4" name="paymentMode">
+											<input type="radio" required class="radiobox" value="4" ng-model="order.paymentMode" ng-checked="order.paymentMode==4" name="paymentMode">
 											<span>物流公司代收</span>
 										</label>
 										<label class="radio radio-inline">
-											<input type="radio" class="radiobox" value="5" ng-model="order.paymentMode" ng-checked="order.paymentMode==5" name="paymentMode">
+											<input type="radio" required class="radiobox" value="5" ng-model="order.paymentMode" ng-checked="order.paymentMode==5" name="paymentMode">
 											<span>卡类扣款</span>
 										</label>
 										<label class="radio radio-inline">
-											<input type="radio" class="radiobox" value="6" ng-model="order.paymentMode" ng-checked="order.paymentMode==6" name="paymentMode">
+											<input type="radio" required class="radiobox" value="6" ng-model="order.paymentMode" ng-checked="order.paymentMode==6" name="paymentMode">
 											<span>其它</span>
 										</label>
 									</div>
@@ -389,70 +407,80 @@
 							<fieldset class="demo-switcher-1">
 								<legend>订单快照</legend>
 								<div class="form-group">
-									<label class="control-label col-md-2">客户姓名：</label>
-									<div class="col-md-4">
-										<label class="control-label" ng-bind="order.name"></label>
+									<div class="col-md-12">
+										<label class="control-label col-md-2">客户姓名：</label>
+										<div class="col-md-4">
+											<label class="control-label" ng-bind="order.name"></label>
+										</div>
 									</div>
-									<label class="control-label col-md-2">客户联系方式：</label>
-									<div class="col-md-4">
-										<label class="control-label" ng-bind="order.phone"></label>
+									<div class="col-md-12">
+										<label class="control-label col-md-2">客户联系方式：</label>
+										<div class="col-md-4">
+											<label class="control-label" ng-bind="order.phone"></label>
+										</div>
 									</div>
-									<label class="control-label col-md-2">收货人：</label>
-									<div class="col-md-4">
-										<label class="control-label" ng-bind="order.consigneeName"></label>
+									<div class="col-md-12">
+										<label class="control-label col-md-2">收货人：</label>
+										<div class="col-md-4">
+											<label class="control-label" ng-bind="order.consigneeName"></label>
+										</div>
 									</div>
-									<label class="control-label col-md-2">收货人联系方式：</label>
-									<div class="col-md-4">
-										<label class="control-label" ng-bind="order.consigneePhone"></label>
+									<div class="col-md-12">
+										<label class="control-label col-md-2">收货人联系方式：</label>
+										<div class="col-md-4">
+											<label class="control-label" ng-bind="order.consigneePhone"></label>
+										</div>
 									</div>
-									<label class="control-label col-md-2">收货人联系方式：</label>
-									<div class="col-md-10">
-										<label class="control-label" ng-bind="order.consigneeAddress"></label>
+									<div class="col-md-12">
+										<label class="control-label col-md-2">收货人联系方式：</label>
+										<div class="col-md-10">
+											<label class="control-label" ng-bind="order.consigneeAddress"></label>
+										</div>
 									</div>
-									<label class="control-label col-md-2">付款方式：</label>
-									<div class="col-md-10">
-										<label class="control-label" ng-bind="order.paymentMode">回馈</label>
+									<div class="col-md-12">
+										<label class="control-label col-md-2">付款方式：</label>
+										<div class="col-md-10">
+											<label class="control-label" ng-bind="order.paymentMode">回馈</label>
+										</div>
 									</div>
-									<label class="control-label col-md-2">客户要求：</label>
-									<div class="col-md-10">
-										<label class="control-label" ng-bind="order.remark"></label>
+									<div class="col-md-12">
+										<label class="control-label col-md-2" ng-if="order.remark">客户要求：</label>
+										<div class="col-md-10" ng-if="order.remark">
+											<label class="control-label" ng-bind="order.remark"></label>
+										</div>
 									</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label col-md-2">订购产品详情：</label>
-									<div class="table-responsive col-md-6">
-
-										<table class="table table-bordered">
-											<thead>
-											<tr>
-												<th colspan="5">已选购产品</th>
-											</tr>
-											<tr>
-												<th>名称</th>
-												<th>单价</th>
-												<th>份数</th>
-												<th>总价</th>
-												<th>操作</th>
-											</tr>
-											</thead>
-											<tbody>
-											<tr>
-												<td>Row 1</td>
-												<td>Row 2</td>
-												<td>Row 3</td>
-												<td>Row 4</td>
-												<td>Row 4</td>
-											</tr>
-											</tbody>
-											<tfoot>
-											<tr>
-												<td colspan="2">合计</td>
-												<td>Row 3</td>
-												<td>Row 4</td>
-												<td>Row 4</td>
-											</tr>
-											</tfoot>
-										</table>
+									<div class="col-md-12">
+										<label class="control-label col-md-2">订购产品详情：</label>
+										<div class="table-responsive col-md-6" style="padding-top: 10px;">
+											<table class="table table-bordered">
+												<thead>
+												<tr>
+													<th colspan="4">已选购产品</th>
+												</tr>
+												<tr>
+													<th>名称</th>
+													<th>单价</th>
+													<th>份数</th>
+													<th>总价</th>
+												</tr>
+												</thead>
+												<tbody>
+												<tr ng-repeat="choseItem in choseOrderItemList">
+													<td>{{choseItem.itemName}}</td>
+													<td>{{choseItem.sellPrice}}</td>
+													<td>{{choseItem.number}}</td>
+													<td>{{choseItem.sellPrice * choseItem.number}}</td>
+												</tr>
+												</tbody>
+												<tfoot>
+												<tr>
+													<td colspan="2">合计</td>
+													<td>{{totalItem.totalNumber}}</td>
+													<td>{{totalItem.totalPrice}}</td>
+												</tr>
+												</tfoot>
+											</table>
+										</div>
 									</div>
 								</div>
 							</fieldset>

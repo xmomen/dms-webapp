@@ -41,10 +41,14 @@ public class ItemController {
     public Page<ItemModel> getMemberList(@RequestParam(value = "limit") Integer limit,
             @RequestParam(value = "offset") Integer offset,
             @RequestParam(value = "id", required = false) Integer id,
-            @RequestParam(value = "keyword", required = false) String keyword){
+            @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "exclude_ids", required = false) Integer[] exclude_ids){
     	 Map map = new HashMap<String,Object>();
          map.put("id", id);
          map.put("keyword", keyword);
+        if(exclude_ids != null){
+            map.put("exclude_ids", exclude_ids);
+        }
         return (Page<ItemModel>) mybatisDao.selectPage(ItemMapper.ItemMapperNameSpace + "getItemList", map, limit, offset);
     }
     @RequestMapping(value = "/item", method = RequestMethod.POST)

@@ -15,6 +15,12 @@
               <if test="id">
                   AND cm.id = #{id}
               </if>
+              <if test="exclude_ids">
+                  AND cm.id NOT IN
+                  <foreach collection="exclude_ids" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+              </if>
           </where>
     </select>
 </mapper>
