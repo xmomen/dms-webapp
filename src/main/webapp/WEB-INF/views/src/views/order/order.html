@@ -42,14 +42,18 @@
 					<!-- widget content -->
 					<div class="widget-body no-padding">
 						<div class="dt-toolbar">
-							<div class="col-xs-11 col-sm-10">
+							<div class="col-sm-2">
 								<div class="dataTables_filter">
 									<label>
 										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
 										<input type="search" placeholder="订单编号/手机号码/收货人" data-ng-keyup="getOrderList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
 								</div>
 							</div>
-							<div class="col-xs-1 col-sm-2">
+							<div class="col-sm-2">
+								<button class="btn btn-primary" type="button" data-ng-click="getOrderList()">
+									<i class="fa fa-refresh"></i>
+									刷新
+								</button>
 								<button class="btn btn-primary" type="button" ui-sref="order_create">
 									<i class="fa fa-plus"></i>
 									新增订单

@@ -2,8 +2,8 @@
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
-    <classPathEntry location="/Users/jeng/.m2/repository/mysql/mysql-connector-java/5.1.31/mysql-connector-java-5.1.31.jar" />
-    <!--<classPathEntry location="E:\MavenRepositories\mysql\mysql-connector-java\5.1.31\mysql-connector-java-5.1.31.jar" />-->
+    <!--<classPathEntry location="/Users/jeng/.m2/repository/mysql/mysql-connector-java/5.1.31/mysql-connector-java-5.1.31.jar" />-->
+    <classPathEntry location="E:\MavenRepositories\mysql\mysql-connector-java\5.1.31\mysql-connector-java-5.1.31.jar" />
 
     <context id="context1"
              targetRuntime="com.xmomen.maven.plugins.mybatis.generator.context.IntrospectedTableMyBatis3ImplExt">
@@ -39,7 +39,7 @@
                              targetProject="./src/main/java" type="XMLMAPPER" >
         </javaClientGenerator>
         <!--    用户模块    -->
-        <table tableName="tb_order" />
+        <table tableName="tb_order_ref" />
 
     </context>
 </generatorConfiguration>
