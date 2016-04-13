@@ -52,7 +52,7 @@
 
 							<div class="row">
 
-								<div class="col-sm-12 col-md-2 text-align-right">
+								<div class="col-sm-12">
 									<button class="btn btn-primary" type="button" data-ng-click="getOrganizationTree()">
 										<i class="fa fa-refresh"></i>
 										刷新
@@ -102,6 +102,9 @@
 		<a href="javascript:void(0);" ng-show="item.show" ng-click="removeNode(item)">删除</a>
 		<a ng-show="item.show" > | </a>
 		<a href="javascript:void(0);" ng-show="item.show" ng-click="addChildOrganization(item)">添加下级组织</a>
+		<a ng-show="item.show" > | </a>
+		<a href="javascript:void(0);" ng-show="item.show" ng-click="openUserModel(item)">用户</a>
+
 	</div>
 	<ul ng-if="item.nodes && item.nodes.length > 0">
 		<li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view.html'"></li>
@@ -152,6 +155,33 @@
 	</div>
 	<div class="modal-footer">
 		<button class="btn btn-primary" type="button" data-ng-click="saveOrganization()">
+			<i class="fa fa-save"></i>
+			保存
+		</button>
+		<button class="btn btn-warning" ng-click="cancel()">关闭</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="organizationUser.html">
+	<div class="modal-header">
+		<h3 class="modal-title">机构组织用户</h3>
+	</div>
+	<div class="modal-body">
+		<div class="widget-body">
+			<fieldset>
+				<div class="form-group">
+					<label class="col-md-2 control-label">用户名</label>
+					<div class="col-md-10">
+						<select multiple ug-select2 style="width: 100%;" required="true" ng-model="choseUser.items" name="userId" >
+							<option value="{{user.id}}" ng-repeat="user in userList">{{user.username}}</option>
+						</select>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="button" data-ng-click="saveOrganizationUser()">
 			<i class="fa fa-save"></i>
 			保存
 		</button>

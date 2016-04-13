@@ -94,7 +94,15 @@ define(function () {
     ngREST.factory("OrganizationAPI", ["$resource", function($resource){
         return $resource("/organization/:id",{id:'@id'},{
           //  query:{ isArray:false},
-            update:{method:"PUT", params:{id:"@id"}}
+            update:{method:"PUT", params:{id:"@id"}},
+            bindUser:{
+                url:"/organization/:id/user",
+                method:"POST", params:{id:"@id",userIds:"@userIds"}
+            },
+            unBindUser:{
+                url:"/organization/:id/user",
+                method:"DELETE", params:{id:"@id",userIds:"@userIds"}
+            }
         });
     }]);
 

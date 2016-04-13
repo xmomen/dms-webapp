@@ -42,17 +42,21 @@
 					<!-- widget content -->
 					<div class="widget-body no-padding">
 						<div class="dt-toolbar">
-							<div class="col-xs-11 col-sm-8">
+							<div class="col-sm-6">
 								<div class="dataTables_filter">
 									<label>
 										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
 										<input type="search" placeholder="代码／名称" data-ng-keyup="getDictionaryGroupList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
 								</div>
 							</div>
-							<div class="col-xs-1 col-sm-2">
+							<div class="col-sm-4">
+								<button class="btn btn-primary" type="button" data-ng-click="getDictionaryGroupList()">
+									<i class="fa fa-refresh"></i>
+									刷新
+								</button>
 								<button class="btn btn-primary" type="button" data-ng-click="open()">
 									<i class="fa fa-plus"></i>
-									新增数据字典组
+									新增组
 								</button>
 							</div>
 						</div>

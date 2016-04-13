@@ -42,7 +42,7 @@
 					<!-- widget content -->
 					<div class="widget-body no-padding">
 						<div class="dt-toolbar">
-							<div class="col-sm-2">
+							<div class="col-sm-4">
 								<div class="dataTables_filter">
 									<label>
 										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
@@ -99,10 +99,6 @@
 									<td ng-bind="order.remark"></td>
 									<td>
 										<div ng-show="show">
-											<a href="javascript:void(0);" data-ng-click="removeOrder($index)" title="删除：{{order.orderDesc}}">
-												<span class="glyphicon glyphicon-remove-circle"></span>
-											</a>
-											<span> | </span>
 											<a href="javascript:void(0);" data-ng-click="updateOrder($index)" title="编辑：{{order.orderDesc}}">
 												<span class="fa fa-pencil"></span>
 											</a>

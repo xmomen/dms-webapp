@@ -84,4 +84,29 @@ public class OrganizationController {
         sysOrganization.setParentId(createOrganization.getParentId());
         organizationService.updateOrganization(sysOrganization);
     }
+
+    /**
+     * 新增机构组织用户
+     * @param id
+     * @param userIds
+     */
+    @RequestMapping(value = "/organization/{id}/user", method = RequestMethod.POST)
+    @Log(actionName = "新增组织机构用户")
+    public void bindOrganizationUser(@PathVariable(value = "id") Integer id,
+                                   @RequestParam(value = "userIds") Integer[] userIds) {
+
+        organizationService.bindOrganizationUser(id, userIds);
+    }
+
+    /**
+     * 删除机构组织用户
+     * @param id
+     * @param userIds
+     */
+    @RequestMapping(value = "/organization/{id}/user", method = RequestMethod.DELETE)
+    @Log(actionName = "删除组织机构用户")
+    public void updateOrganization(@PathVariable(value = "id") Integer id,
+                                   @RequestParam(value = "userIds") Integer[] userIds) {
+        organizationService.unBindOrganizationUser(id, userIds);
+    }
 }
