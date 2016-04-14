@@ -89,7 +89,7 @@
 									<td ng-bind="company.companyLeaderTel"></td>
 									<td ng-bind="company.companyAddress"></td>
                                     <td>
-                                        <span class="label label-primary" ng-repeat="customerManager in company.companyCustomerManagers" >{{customerManager.customerManger}}</span>
+                                        <span ng-repeat="customerManager in company.companyCustomerManagers" >{{customerManager.customerManger}}<br></span>
                                     </td>
                                     <td>
                                         <div ng-show="show">

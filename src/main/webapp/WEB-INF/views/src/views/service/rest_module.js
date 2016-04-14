@@ -102,15 +102,15 @@ define(function () {
     ngREST.factory("MemberAPI", ["$resource", function($resource){
         return $resource("/member/:id", { id:"@id" }, {
             query:{ isArray:false},
-            update:{method:"PUT", params:{id:"@id"}},
-            getCompanyList:{method:"GET",url:"/companyList",isArray:true}
+            update:{method:"PUT", params:{id:"@id"}}
         });
     }]);
 
     ngREST.factory("CompanyAPI", ["$resource", function($resource){
         return $resource("/company/:id", { id:"@id" }, {
             query:{ isArray:false},
-            update:{ method:"PUT", params:{id:"@id"}}
+            update:{ method:"PUT", params:{id:"@id"}},
+            getCompanyList:{method:"GET",url:"/companyList",isArray:true}
         });
     }]);
 
@@ -130,6 +130,20 @@ define(function () {
 
     ngREST.factory("CouponAPI", ["$resource", function($resource){
         return $resource("/coupon/:id", { id:"@id" }, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}}
+        });
+    }]);
+
+    ngREST.factory("ContractAPI", ["$resource", function($resource){
+        return $resource("/contract/:id", { id:"@id" }, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}}
+        });
+    }]);
+
+    ngREST.factory("ContractItemAPI", ["$resource", function($resource){
+        return $resource("/contractItem/:id", { id:"@id" }, {
             query:{ isArray:false},
             update:{ method:"PUT", params:{id:"@id"}}
         });

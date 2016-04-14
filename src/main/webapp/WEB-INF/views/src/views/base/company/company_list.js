@@ -48,7 +48,6 @@ define(function () {
                         $scope.errors = null;
                         if($scope.addCompanyForm.validator.form()){
                             if($scope.company.id){
-                                debugger;
                                 CompanyAPI.update($scope.company, function(){
                                     $modalInstance.close();
                                 }, function(data){

@@ -23,9 +23,9 @@ define(function () {
         $scope.open = function (index) {
             var modalInstance = $modal.open({
                 templateUrl: 'addMember.html',
-                controller: ["$scope", "MemberAPI", "$modalInstance","currentMember", function ($scope, MemberAPI, $modalInstance,currentMember) {
+                controller: ["$scope", "MemberAPI", "$modalInstance","currentMember","CompanyAPI", function ($scope, MemberAPI, $modalInstance,currentMember,CompanyAPI) {
                     $scope.companyList = [];
-                    MemberAPI.getCompanyList({},function(data){
+                    CompanyAPI.getCompanyList({},function(data){
                         $scope.companyList = data;
                     })
                     $scope.member = {};

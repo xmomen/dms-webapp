@@ -3,11 +3,13 @@
 <mapper namespace="com.xmomen.module.base.entity.mapper.CdContractMapper" >
   <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdContract" >
     <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="CONTRACT_NAME" property="contractName" jdbcType="VARCHAR" />
+    <result column="CONTRACT_CODE" property="contractCode" jdbcType="VARCHAR" />
     <result column="CD_MEMBER_ID" property="cdMemberId" jdbcType="INTEGER" />
     <result column="CD_COMPANY_ID" property="cdCompanyId" jdbcType="INTEGER" />
     <result column="SCOPE" property="scope" jdbcType="INTEGER" />
     <result column="CONTRACT_PRICE" property="contractPrice" jdbcType="DECIMAL" />
-    <result column="BENGIN_TIME" property="benginTime" jdbcType="TIMESTAMP" />
+    <result column="BEGIN_TIME" property="beginTime" jdbcType="TIMESTAMP" />
     <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
     <result column="IS_AUDITOR" property="isAuditor" jdbcType="INTEGER" />
   </resultMap>
@@ -70,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, CD_MEMBER_ID, CD_COMPANY_ID, SCOPE, CONTRACT_PRICE, BENGIN_TIME, END_TIME, IS_AUDITOR
+    ID, CONTRACT_NAME, CONTRACT_CODE, CD_MEMBER_ID, CD_COMPANY_ID, SCOPE, CONTRACT_PRICE, 
+    BEGIN_TIME, END_TIME, IS_AUDITOR
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdContractExample" >
     select
@@ -98,6 +101,12 @@
       <if test="id != null" >
         ID,
       </if>
+      <if test="contractName != null" >
+        CONTRACT_NAME,
+      </if>
+      <if test="contractCode != null" >
+        CONTRACT_CODE,
+      </if>
       <if test="cdMemberId != null" >
         CD_MEMBER_ID,
       </if>
@@ -110,8 +119,8 @@
       <if test="contractPrice != null" >
         CONTRACT_PRICE,
       </if>
-      <if test="benginTime != null" >
-        BENGIN_TIME,
+      <if test="beginTime != null" >
+        BEGIN_TIME,
       </if>
       <if test="endTime != null" >
         END_TIME,
@@ -123,6 +132,12 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="contractName != null" >
+        #{contractName,jdbcType=VARCHAR},
+      </if>
+      <if test="contractCode != null" >
+        #{contractCode,jdbcType=VARCHAR},
       </if>
       <if test="cdMemberId != null" >
         #{cdMemberId,jdbcType=INTEGER},
@@ -136,8 +151,8 @@
       <if test="contractPrice != null" >
         #{contractPrice,jdbcType=DECIMAL},
       </if>
-      <if test="benginTime != null" >
-        #{benginTime,jdbcType=TIMESTAMP},
+      <if test="beginTime != null" >
+        #{beginTime,jdbcType=TIMESTAMP},
       </if>
       <if test="endTime != null" >
         #{endTime,jdbcType=TIMESTAMP},
@@ -159,6 +174,12 @@
       <if test="record.id != null" >
         ID = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.contractName != null" >
+        CONTRACT_NAME = #{record.contractName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractCode != null" >
+        CONTRACT_CODE = #{record.contractCode,jdbcType=VARCHAR},
+      </if>
       <if test="record.cdMemberId != null" >
         CD_MEMBER_ID = #{record.cdMemberId,jdbcType=INTEGER},
       </if>
@@ -171,8 +192,8 @@
       <if test="record.contractPrice != null" >
         CONTRACT_PRICE = #{record.contractPrice,jdbcType=DECIMAL},
       </if>
-      <if test="record.benginTime != null" >
-        BENGIN_TIME = #{record.benginTime,jdbcType=TIMESTAMP},
+      <if test="record.beginTime != null" >
+        BEGIN_TIME = #{record.beginTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.endTime != null" >
         END_TIME = #{record.endTime,jdbcType=TIMESTAMP},

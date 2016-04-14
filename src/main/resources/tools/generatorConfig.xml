@@ -39,7 +39,7 @@
                              targetProject="./src/main/java" type="XMLMAPPER" >
         </javaClientGenerator>
         <!--    用户模块    -->
-        <table tableName="cd_category" />
+        <table tableName="cd_contract_item" />
 
     </context>
 </generatorConfiguration>

@@ -167,6 +167,146 @@ public class CdContractExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
+        public Criteria andContractNameIsNull() {
+            addCriterion("CONTRACT_NAME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameIsNotNull() {
+            addCriterion("CONTRACT_NAME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameEqualTo(String value) {
+            addCriterion("CONTRACT_NAME =", value, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameNotEqualTo(String value) {
+            addCriterion("CONTRACT_NAME <>", value, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameGreaterThan(String value) {
+            addCriterion("CONTRACT_NAME >", value, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameGreaterThanOrEqualTo(String value) {
+            addCriterion("CONTRACT_NAME >=", value, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameLessThan(String value) {
+            addCriterion("CONTRACT_NAME <", value, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameLessThanOrEqualTo(String value) {
+            addCriterion("CONTRACT_NAME <=", value, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameLike(String value) {
+            addCriterion("CONTRACT_NAME like", value, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameNotLike(String value) {
+            addCriterion("CONTRACT_NAME not like", value, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameIn(List<String> values) {
+            addCriterion("CONTRACT_NAME in", values, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameNotIn(List<String> values) {
+            addCriterion("CONTRACT_NAME not in", values, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameBetween(String value1, String value2) {
+            addCriterion("CONTRACT_NAME between", value1, value2, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameNotBetween(String value1, String value2) {
+            addCriterion("CONTRACT_NAME not between", value1, value2, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractCodeIsNull() {
+            addCriterion("CONTRACT_CODE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractCodeIsNotNull() {
+            addCriterion("CONTRACT_CODE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractCodeEqualTo(String value) {
+            addCriterion("CONTRACT_CODE =", value, "contractCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractCodeNotEqualTo(String value) {
+            addCriterion("CONTRACT_CODE <>", value, "contractCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractCodeGreaterThan(String value) {
+            addCriterion("CONTRACT_CODE >", value, "contractCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("CONTRACT_CODE >=", value, "contractCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractCodeLessThan(String value) {
+            addCriterion("CONTRACT_CODE <", value, "contractCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractCodeLessThanOrEqualTo(String value) {
+            addCriterion("CONTRACT_CODE <=", value, "contractCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractCodeLike(String value) {
+            addCriterion("CONTRACT_CODE like", value, "contractCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractCodeNotLike(String value) {
+            addCriterion("CONTRACT_CODE not like", value, "contractCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractCodeIn(List<String> values) {
+            addCriterion("CONTRACT_CODE in", values, "contractCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractCodeNotIn(List<String> values) {
+            addCriterion("CONTRACT_CODE not in", values, "contractCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractCodeBetween(String value1, String value2) {
+            addCriterion("CONTRACT_CODE between", value1, value2, "contractCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractCodeNotBetween(String value1, String value2) {
+            addCriterion("CONTRACT_CODE not between", value1, value2, "contractCode");
+            return (Criteria) this;
+        }
+
         public Criteria andCdMemberIdIsNull() {
             addCriterion("CD_MEMBER_ID is null");
             return (Criteria) this;
@@ -407,63 +547,63 @@ public class CdContractExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andBenginTimeIsNull() {
-            addCriterion("BENGIN_TIME is null");
+        public Criteria andBeginTimeIsNull() {
+            addCriterion("BEGIN_TIME is null");
             return (Criteria) this;
         }
 
-        public Criteria andBenginTimeIsNotNull() {
-            addCriterion("BENGIN_TIME is not null");
+        public Criteria andBeginTimeIsNotNull() {
+            addCriterion("BEGIN_TIME is not null");
             return (Criteria) this;
         }
 
-        public Criteria andBenginTimeEqualTo(Date value) {
-            addCriterion("BENGIN_TIME =", value, "benginTime");
+        public Criteria andBeginTimeEqualTo(Date value) {
+            addCriterion("BEGIN_TIME =", value, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBenginTimeNotEqualTo(Date value) {
-            addCriterion("BENGIN_TIME <>", value, "benginTime");
+        public Criteria andBeginTimeNotEqualTo(Date value) {
+            addCriterion("BEGIN_TIME <>", value, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBenginTimeGreaterThan(Date value) {
-            addCriterion("BENGIN_TIME >", value, "benginTime");
+        public Criteria andBeginTimeGreaterThan(Date value) {
+            addCriterion("BEGIN_TIME >", value, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBenginTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("BENGIN_TIME >=", value, "benginTime");
+        public Criteria andBeginTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("BEGIN_TIME >=", value, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBenginTimeLessThan(Date value) {
-            addCriterion("BENGIN_TIME <", value, "benginTime");
+        public Criteria andBeginTimeLessThan(Date value) {
+            addCriterion("BEGIN_TIME <", value, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBenginTimeLessThanOrEqualTo(Date value) {
-            addCriterion("BENGIN_TIME <=", value, "benginTime");
+        public Criteria andBeginTimeLessThanOrEqualTo(Date value) {
+            addCriterion("BEGIN_TIME <=", value, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBenginTimeIn(List<Date> values) {
-            addCriterion("BENGIN_TIME in", values, "benginTime");
+        public Criteria andBeginTimeIn(List<Date> values) {
+            addCriterion("BEGIN_TIME in", values, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBenginTimeNotIn(List<Date> values) {
-            addCriterion("BENGIN_TIME not in", values, "benginTime");
+        public Criteria andBeginTimeNotIn(List<Date> values) {
+            addCriterion("BEGIN_TIME not in", values, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBenginTimeBetween(Date value1, Date value2) {
-            addCriterion("BENGIN_TIME between", value1, value2, "benginTime");
+        public Criteria andBeginTimeBetween(Date value1, Date value2) {
+            addCriterion("BEGIN_TIME between", value1, value2, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBenginTimeNotBetween(Date value1, Date value2) {
-            addCriterion("BENGIN_TIME not between", value1, value2, "benginTime");
+        public Criteria andBeginTimeNotBetween(Date value1, Date value2) {
+            addCriterion("BEGIN_TIME not between", value1, value2, "beginTime");
             return (Criteria) this;
         }
 
