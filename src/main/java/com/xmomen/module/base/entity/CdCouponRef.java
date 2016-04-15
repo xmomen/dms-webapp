@@ -14,7 +14,7 @@ public class CdCouponRef extends BaseMybatisModel {
     /**
      * 
      */
-    private Integer 主键id;
+    private Integer id;
 
     /**
      * 卡劵
@@ -36,20 +36,20 @@ public class CdCouponRef extends BaseMybatisModel {
      */
     private String refValue;
 
-    @Column(name = "主键ID")
+    @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
-    public Integer get主键id() {
-        return 主键id;
+    public Integer getId() {
+        return id;
     }
 
-    public void set主键id(Integer 主键id) {
-        this.主键id = 主键id;
-        if(主键id == null){
-              removeValidField("主键id");
+    public void setId(Integer id) {
+        this.id = id;
+        if(id == null){
+              removeValidField("id");
               return;
         }
-        addValidField("主键id");
+        addValidField("id");
     }
 
     @Column(name = "CD_COUPON_ID")

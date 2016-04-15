@@ -30,7 +30,7 @@
     <!--    查询关联关系表    -->
     <select id="findUsersByRolesId" resultType="com.xmomen.module.account.web.controller.vo.UserGroupRelation" parameterType="java.util.HashMap">
         SELECT
-        u.ID,
+        u.ID as userId,
         u.USERNAME,
         u.EMAIL
         FROM

@@ -105,63 +105,63 @@ public class CdCategoryExample extends BaseMybatisExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andCdCategoryIdIsNull() {
-            addCriterion("CD_CATEGORY_ID is null");
+        public Criteria andIdIsNull() {
+            addCriterion("ID is null");
             return (Criteria) this;
         }
 
-        public Criteria andCdCategoryIdIsNotNull() {
-            addCriterion("CD_CATEGORY_ID is not null");
+        public Criteria andIdIsNotNull() {
+            addCriterion("ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCdCategoryIdEqualTo(Integer value) {
-            addCriterion("CD_CATEGORY_ID =", value, "cdCategoryId");
+        public Criteria andIdEqualTo(Integer value) {
+            addCriterion("ID =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdCategoryIdNotEqualTo(Integer value) {
-            addCriterion("CD_CATEGORY_ID <>", value, "cdCategoryId");
+        public Criteria andIdNotEqualTo(Integer value) {
+            addCriterion("ID <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdCategoryIdGreaterThan(Integer value) {
-            addCriterion("CD_CATEGORY_ID >", value, "cdCategoryId");
+        public Criteria andIdGreaterThan(Integer value) {
+            addCriterion("ID >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdCategoryIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("CD_CATEGORY_ID >=", value, "cdCategoryId");
+        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ID >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdCategoryIdLessThan(Integer value) {
-            addCriterion("CD_CATEGORY_ID <", value, "cdCategoryId");
+        public Criteria andIdLessThan(Integer value) {
+            addCriterion("ID <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdCategoryIdLessThanOrEqualTo(Integer value) {
-            addCriterion("CD_CATEGORY_ID <=", value, "cdCategoryId");
+        public Criteria andIdLessThanOrEqualTo(Integer value) {
+            addCriterion("ID <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdCategoryIdIn(List<Integer> values) {
-            addCriterion("CD_CATEGORY_ID in", values, "cdCategoryId");
+        public Criteria andIdIn(List<Integer> values) {
+            addCriterion("ID in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdCategoryIdNotIn(List<Integer> values) {
-            addCriterion("CD_CATEGORY_ID not in", values, "cdCategoryId");
+        public Criteria andIdNotIn(List<Integer> values) {
+            addCriterion("ID not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdCategoryIdBetween(Integer value1, Integer value2) {
-            addCriterion("CD_CATEGORY_ID between", value1, value2, "cdCategoryId");
+        public Criteria andIdBetween(Integer value1, Integer value2) {
+            addCriterion("ID between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdCategoryIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("CD_CATEGORY_ID not between", value1, value2, "cdCategoryId");
+        public Criteria andIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("ID not between", value1, value2, "id");
             return (Criteria) this;
         }
 
@@ -232,6 +232,66 @@ public class CdCategoryExample extends BaseMybatisExample {
 
         public Criteria andCategoryNameNotBetween(String value1, String value2) {
             addCriterion("CATEGORY_NAME not between", value1, value2, "categoryName");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentIdIsNull() {
+            addCriterion("PARENT_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentIdIsNotNull() {
+            addCriterion("PARENT_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentIdEqualTo(Integer value) {
+            addCriterion("PARENT_ID =", value, "parentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentIdNotEqualTo(Integer value) {
+            addCriterion("PARENT_ID <>", value, "parentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentIdGreaterThan(Integer value) {
+            addCriterion("PARENT_ID >", value, "parentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("PARENT_ID >=", value, "parentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentIdLessThan(Integer value) {
+            addCriterion("PARENT_ID <", value, "parentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentIdLessThanOrEqualTo(Integer value) {
+            addCriterion("PARENT_ID <=", value, "parentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentIdIn(List<Integer> values) {
+            addCriterion("PARENT_ID in", values, "parentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentIdNotIn(List<Integer> values) {
+            addCriterion("PARENT_ID not in", values, "parentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentIdBetween(Integer value1, Integer value2) {
+            addCriterion("PARENT_ID between", value1, value2, "parentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("PARENT_ID not between", value1, value2, "parentId");
             return (Criteria) this;
         }
     }

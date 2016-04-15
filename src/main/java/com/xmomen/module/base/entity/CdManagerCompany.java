@@ -14,7 +14,7 @@ public class CdManagerCompany extends BaseMybatisModel {
     /**
      * 
      */
-    private Integer cdManagerCompanyId;
+    private Integer id;
 
     /**
      * 单位
@@ -26,20 +26,20 @@ public class CdManagerCompany extends BaseMybatisModel {
      */
     private Integer cdManagerId;
 
-    @Column(name = "CD_MANAGER_COMPANY_ID")
+    @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
-    public Integer getCdManagerCompanyId() {
-        return cdManagerCompanyId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCdManagerCompanyId(Integer cdManagerCompanyId) {
-        this.cdManagerCompanyId = cdManagerCompanyId;
-        if(cdManagerCompanyId == null){
-              removeValidField("cdManagerCompanyId");
+    public void setId(Integer id) {
+        this.id = id;
+        if(id == null){
+              removeValidField("id");
               return;
         }
-        addValidField("cdManagerCompanyId");
+        addValidField("id");
     }
 
     @Column(name = "CD_COMPANY_ID")

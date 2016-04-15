@@ -87,6 +87,7 @@
                 </includes>
                 <excludes>
                     <exclude>deploy/**</exclude>
+                    <exclude>sql/**</exclude>
                 </excludes>
             </resource>
         </resources>

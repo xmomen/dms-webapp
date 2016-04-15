@@ -25,7 +25,8 @@ define(function () {
                     current_password: "@current_password",
                     password:"@password"
                 }
-            }
+            },
+            getCustomerManagerList:{method:"GET",url:"/customerManagerList",isArray:true}
         });
     }]);
     ngREST.factory("MessageAPI", ["$resource", function($resource){
@@ -51,7 +52,7 @@ define(function () {
         });
     }]);
     ngREST.factory("UserGroupRelationAPI", ["$resource", function($resource){
-        return $resource("/group/:id/user",{id:'@id'},{
+        return $resource("/group/:id/user",{id:'@id',userId:'@userId'},{
             query:{ isArray:false},
             save:{
                 method:"PUT",
@@ -99,20 +100,71 @@ define(function () {
     }]);
 
     ngREST.factory("MemberAPI", ["$resource", function($resource){
-        return $resource("/member/:memberId", { id:"@id" }, {
+        return $resource("/member/:id", { id:"@id" }, {
             query:{ isArray:false},
             update:{method:"PUT", params:{id:"@id"}}
         });
     }]);
 
     ngREST.factory("CompanyAPI", ["$resource", function($resource){
-        return $resource("/company/:company", { id:"@id" }, {
-            query:{ isArray:false}
+        return $resource("/company/:id", { id:"@id" }, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}},
+            getCompanyList:{method:"GET",url:"/companyList",isArray:true}
+        });
+    }]);
+
+    ngREST.factory("ItemCategoryAPI", ["$resource", function($resource){
+        return $resource("/itemCategory/:id", { id:"@id" }, {
+            //  query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}}
+        });
+    }]);
+
+    ngREST.factory("ItemAPI", ["$resource", function($resource){
+        return $resource("/item/:id", { id:"@id" }, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}}
         });
     }]);
 
     ngREST.factory("CouponAPI", ["$resource", function($resource){
         return $resource("/coupon/:id", { id:"@id" }, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}}
+        });
+    }]);
+
+    ngREST.factory("ContractAPI", ["$resource", function($resource){
+        return $resource("/contract/:id", { id:"@id" }, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}}
+        });
+    }]);
+
+    ngREST.factory("ContractItemAPI", ["$resource", function($resource){
+        return $resource("/contractItem/:id", { id:"@id" }, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}}
+        });
+    }]);
+
+    ngREST.factory("DictionaryGroupAPI", ["$resource", function($resource){
+        return $resource("/dictionary/:id", { id:"@id" }, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}}
+        });
+    }]);
+
+    ngREST.factory("DictionaryAPI", ["$resource", function($resource){
+        return $resource("/dictionary/:group_id/child/:id", { id:"@id",group_id:"@sysDictionaryId" }, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}}
+        });
+    }]);
+
+    ngREST.factory("OrderAPI", ["$resource", function($resource){
+        return $resource("/order/:id", { id:"@id"}, {
             query:{ isArray:false},
             update:{ method:"PUT", params:{id:"@id"}}
         });

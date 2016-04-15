@@ -1,0 +1,149 @@
+<!--
+	The ID "widget-grid" will start to initialize all widgets below 
+	You do not need to use widgets if you dont want to. Simply remove 
+	the <section></section> and you can use wells or panels instead 
+	-->
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget" id="wid-id-0">
+				<!-- widget options:
+				usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+				data-widget-colorbutton="false"
+				data-widget-editbutton="false"
+				data-widget-togglebutton="false"
+				data-widget-deletebutton="false"
+				data-widget-fullscreenbutton="false"
+				data-widget-custombutton="false"
+				data-widget-collapsed="true"
+				data-widget-sortable="false"
+
+				-->
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2>产品分类管理</h2>
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+
+					</div>
+					<!-- end widget edit box -->
+
+					<!-- widget content -->
+					<div class="widget-body">
+
+						<div class="widget-body-toolbar bg-color-white">
+
+
+							<div class="row">
+
+								<div class="col-sm-12 col-md-2 text-align-right">
+
+									<button type="button" class="btn btn-warning btn-xs" data-ng-click="openAddModel()" >
+										<i class="fa fa-plus"></i> 添加一级产品分类
+									</button>
+
+								</div>
+
+							</div>
+
+						</div>
+
+						<div class="tree">
+							<ul>
+								<li data-ng-repeat="item in itemCategoryList" data-ng-include="'tree_view.html'"></li>
+							</ul>
+						</div>
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- WIDGET END -->
+
+	</div>
+
+	<!-- end row -->
+
+</section>
+<!-- end widget grid -->
+<script type="text/ng-template" id="tree_view.html">
+	<div ng-mouseenter="item.show=true" ng-mouseleave="item.show=false">
+		<span>
+			<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i> {{item.name}}
+		</span>
+		<a href="javascript:void(0);" ng-show="item.show" ng-click="updateChildItemCategory(item)">修改</a>
+		<a ng-show="item.show" > | </a>
+		<a href="javascript:void(0);" ng-show="item.show" ng-click="removeNode(item)">删除</a>
+		<a ng-show="item.show" > | </a>
+		<a href="javascript:void(0);" ng-show="item.show" ng-click="addChildItemCategory(item)">添加下级分类</a>
+	</div>
+	<ul ng-if="item.nodes && item.nodes.length > 0">
+		<li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view.html'"></li>
+	</ul>
+</script>
+
+<script type="text/ng-template" id="addItemCategory.html">
+	<div class="modal-header">
+		<h3 class="modal-title">新增分类</h3>
+	</div>
+	<div class="modal-body">
+		<div class="widget-body">
+
+			<form class="form-horizontal" ug-validate="addItemCategoryForm" name="addItemCategoryForm" novalidate="">
+
+				<fieldset>
+					<div class="form-group">
+						<label class="col-md-2 control-label">分类名称</label>
+						<div class="col-md-10">
+							<input class="form-control" ng-model="itemCategory.id" name="id" type="hidden">
+							<input class="form-control" required="true" ng-model="itemCategory.name" name="name" placeholder="分类名称" type="text">
+						</div>
+					</div>
+					<div class="form-group" ng-if="itemCategory.parentId">
+						<label class="col-md-2 control-label">上级分类</label>
+						<div class="col-md-10">
+							<input class="form-control" ng-model="itemCategory.parentName" readonly name="parentName" placeholder="上级分类" type="text" >
+							<input class="form-control" ng-model="itemCategory.parentId" name="parentId" type="hidden" >
+						</div>
+					</div>
+
+					<div class="form-group" ng-if="errors">
+						<label class="col-md-2 control-label"></label>
+						<div class="col-md-10 error">
+							{{errors.message}}
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="button" data-ng-click="saveItemCategory()">
+			<i class="fa fa-save"></i>
+			保存
+		</button>
+		<button class="btn btn-warning" ng-click="cancel()">关闭</button>
+	</div>
+</script>

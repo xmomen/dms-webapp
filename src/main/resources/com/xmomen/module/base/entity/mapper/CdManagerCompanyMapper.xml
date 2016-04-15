@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xmomen.module.base.entity.mapper.CdManagerCompanyMapper" >
   <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdManagerCompany" >
-    <id column="CD_MANAGER_COMPANY_ID" property="cdManagerCompanyId" jdbcType="INTEGER" />
+    <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="CD_COMPANY_ID" property="cdCompanyId" jdbcType="INTEGER" />
     <result column="CD_MANAGER_ID" property="cdManagerId" jdbcType="INTEGER" />
   </resultMap>
@@ -65,7 +65,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    CD_MANAGER_COMPANY_ID, CD_COMPANY_ID, CD_MANAGER_ID
+    ID, CD_COMPANY_ID, CD_MANAGER_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdManagerCompanyExample" >
     select
@@ -87,11 +87,11 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdManagerCompany" useGeneratedKeys="true" keyProperty="cdManagerCompanyId" keyColumn="CD_MANAGER_COMPANY_ID" >
+  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdManagerCompany" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
     insert into cd_manager_company
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="cdManagerCompanyId != null" >
-        CD_MANAGER_COMPANY_ID,
+      <if test="id != null" >
+        ID,
       </if>
       <if test="cdCompanyId != null" >
         CD_COMPANY_ID,
@@ -101,8 +101,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="cdManagerCompanyId != null" >
-        #{cdManagerCompanyId,jdbcType=INTEGER},
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
       </if>
       <if test="cdCompanyId != null" >
         #{cdCompanyId,jdbcType=INTEGER},
@@ -121,8 +121,8 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update cd_manager_company
     <set >
-      <if test="record.cdManagerCompanyId != null" >
-        CD_MANAGER_COMPANY_ID = #{record.cdManagerCompanyId,jdbcType=INTEGER},
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.cdCompanyId != null" >
         CD_COMPANY_ID = #{record.cdCompanyId,jdbcType=INTEGER},

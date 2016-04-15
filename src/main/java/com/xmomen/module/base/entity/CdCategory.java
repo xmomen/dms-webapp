@@ -14,27 +14,32 @@ public class CdCategory extends BaseMybatisModel {
     /**
      * 
      */
-    private Integer cdCategoryId;
+    private Integer id;
 
     /**
      * 类别名称
      */
     private String categoryName;
 
-    @Column(name = "CD_CATEGORY_ID")
+    /**
+     * 上级类别
+     */
+    private Integer parentId;
+
+    @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
-    public Integer getCdCategoryId() {
-        return cdCategoryId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCdCategoryId(Integer cdCategoryId) {
-        this.cdCategoryId = cdCategoryId;
-        if(cdCategoryId == null){
-              removeValidField("cdCategoryId");
+    public void setId(Integer id) {
+        this.id = id;
+        if(id == null){
+              removeValidField("id");
               return;
         }
-        addValidField("cdCategoryId");
+        addValidField("id");
     }
 
     @Column(name = "CATEGORY_NAME")
@@ -49,5 +54,19 @@ public class CdCategory extends BaseMybatisModel {
               return;
         }
         addValidField("categoryName");
+    }
+
+    @Column(name = "PARENT_ID")
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+        if(parentId == null){
+              removeValidField("parentId");
+              return;
+        }
+        addValidField("parentId");
     }
 }

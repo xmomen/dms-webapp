@@ -4,8 +4,12 @@
 define([
     "views/base/member/member_list",
     "views/base/company/company_list",
-    "views/base/coupon"
-],function (memberList,companyList,coupon) {
+    "views/base/coupon",
+    "views/base/dictionary",
+    "views/base/itemCategory/itemCategory",
+    "views/base/item/item",
+    "views/base/contract/contract"
+],function (memberList,companyList,coupon,dictionary,itemCategory,item,contract) {
     angular.module('DMS.base', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -42,6 +46,50 @@ define([
                     }
                 },
                 controller: coupon
+            })
+            .state('dictionary', {
+                url: '/dictionary',
+                templateUrl: 'views/base/dictionary.html',
+                data:{
+                    permissions:{
+                        only:["USER_VIEW"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: dictionary
+            })
+            .state('itemCategory', {
+                url: '/itemCategory',
+                templateUrl: 'views/base/itemCategory/itemCategory.html',
+                data:{
+                    permissions:{
+                        only:["USER_VIEW"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: itemCategory
+            })
+            .state('item', {
+                url: '/item',
+                templateUrl: 'views/base/item/item.html',
+                data:{
+                    permissions:{
+                        only:["USER_VIEW"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: item
+            })
+            .state('contract', {
+                url: '/contract',
+                templateUrl: 'views/base/contract/contract.html',
+                data:{
+                    permissions:{
+                        only:["USER_VIEW"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: contract
             })
     }]);
 });

@@ -92,7 +92,8 @@ define(function () {
         };
 
         $scope.getOrganizationTree();
-
-        loadScript("js/plugin/bootstraptree/bootstrap-tree.min.js");
+        setTimeout(function(){
+            loadScript("js/plugin/bootstraptree/bootstrap-tree.min.js");
+        }, 3000)
     }];
 });

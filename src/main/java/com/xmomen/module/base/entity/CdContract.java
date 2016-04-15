@@ -16,7 +16,17 @@ public class CdContract extends BaseMybatisModel {
     /**
      * 
      */
-    private Integer cdContractId;
+    private Integer id;
+
+    /**
+     * 合同名称
+     */
+    private String contractName;
+
+    /**
+     * 合同编号
+     */
+    private String contractCode;
 
     /**
      * 合同价的客户
@@ -41,7 +51,7 @@ public class CdContract extends BaseMybatisModel {
     /**
      * 合同开始时间
      */
-    private Date benginTime;
+    private Date beginTime;
 
     /**
      * 合同结束时间
@@ -53,20 +63,48 @@ public class CdContract extends BaseMybatisModel {
      */
     private Integer isAuditor;
 
-    @Column(name = "CD_CONTRACT_ID")
+    @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
-    public Integer getCdContractId() {
-        return cdContractId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCdContractId(Integer cdContractId) {
-        this.cdContractId = cdContractId;
-        if(cdContractId == null){
-              removeValidField("cdContractId");
+    public void setId(Integer id) {
+        this.id = id;
+        if(id == null){
+              removeValidField("id");
               return;
         }
-        addValidField("cdContractId");
+        addValidField("id");
+    }
+
+    @Column(name = "CONTRACT_NAME")
+    public String getContractName() {
+        return contractName;
+    }
+
+    public void setContractName(String contractName) {
+        this.contractName = contractName;
+        if(contractName == null){
+              removeValidField("contractName");
+              return;
+        }
+        addValidField("contractName");
+    }
+
+    @Column(name = "CONTRACT_CODE")
+    public String getContractCode() {
+        return contractCode;
+    }
+
+    public void setContractCode(String contractCode) {
+        this.contractCode = contractCode;
+        if(contractCode == null){
+              removeValidField("contractCode");
+              return;
+        }
+        addValidField("contractCode");
     }
 
     @Column(name = "CD_MEMBER_ID")
@@ -125,18 +163,18 @@ public class CdContract extends BaseMybatisModel {
         addValidField("contractPrice");
     }
 
-    @Column(name = "BENGIN_TIME")
-    public Date getBenginTime() {
-        return benginTime;
+    @Column(name = "BEGIN_TIME")
+    public Date getBeginTime() {
+        return beginTime;
     }
 
-    public void setBenginTime(Date benginTime) {
-        this.benginTime = benginTime;
-        if(benginTime == null){
-              removeValidField("benginTime");
+    public void setBeginTime(Date beginTime) {
+        this.beginTime = beginTime;
+        if(beginTime == null){
+              removeValidField("beginTime");
               return;
         }
-        addValidField("benginTime");
+        addValidField("beginTime");
     }
 
     @Column(name = "END_TIME")

@@ -105,63 +105,63 @@ public class CdMemberExample extends BaseMybatisExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andCdMemberIdIsNull() {
-            addCriterion("CD_MEMBER_ID is null");
+        public Criteria andIdIsNull() {
+            addCriterion("ID is null");
             return (Criteria) this;
         }
 
-        public Criteria andCdMemberIdIsNotNull() {
-            addCriterion("CD_MEMBER_ID is not null");
+        public Criteria andIdIsNotNull() {
+            addCriterion("ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCdMemberIdEqualTo(Integer value) {
-            addCriterion("CD_MEMBER_ID =", value, "cdMemberId");
+        public Criteria andIdEqualTo(Integer value) {
+            addCriterion("ID =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdMemberIdNotEqualTo(Integer value) {
-            addCriterion("CD_MEMBER_ID <>", value, "cdMemberId");
+        public Criteria andIdNotEqualTo(Integer value) {
+            addCriterion("ID <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdMemberIdGreaterThan(Integer value) {
-            addCriterion("CD_MEMBER_ID >", value, "cdMemberId");
+        public Criteria andIdGreaterThan(Integer value) {
+            addCriterion("ID >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdMemberIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("CD_MEMBER_ID >=", value, "cdMemberId");
+        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ID >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdMemberIdLessThan(Integer value) {
-            addCriterion("CD_MEMBER_ID <", value, "cdMemberId");
+        public Criteria andIdLessThan(Integer value) {
+            addCriterion("ID <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdMemberIdLessThanOrEqualTo(Integer value) {
-            addCriterion("CD_MEMBER_ID <=", value, "cdMemberId");
+        public Criteria andIdLessThanOrEqualTo(Integer value) {
+            addCriterion("ID <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdMemberIdIn(List<Integer> values) {
-            addCriterion("CD_MEMBER_ID in", values, "cdMemberId");
+        public Criteria andIdIn(List<Integer> values) {
+            addCriterion("ID in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdMemberIdNotIn(List<Integer> values) {
-            addCriterion("CD_MEMBER_ID not in", values, "cdMemberId");
+        public Criteria andIdNotIn(List<Integer> values) {
+            addCriterion("ID not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdMemberIdBetween(Integer value1, Integer value2) {
-            addCriterion("CD_MEMBER_ID between", value1, value2, "cdMemberId");
+        public Criteria andIdBetween(Integer value1, Integer value2) {
+            addCriterion("ID between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCdMemberIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("CD_MEMBER_ID not between", value1, value2, "cdMemberId");
+        public Criteria andIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("ID not between", value1, value2, "id");
             return (Criteria) this;
         }
 
@@ -372,6 +372,146 @@ public class CdMemberExample extends BaseMybatisExample {
 
         public Criteria andPhoneNumberNotBetween(String value1, String value2) {
             addCriterion("PHONE_NUMBER not between", value1, value2, "phoneNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameIsNull() {
+            addCriterion("SPARE_NAME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameIsNotNull() {
+            addCriterion("SPARE_NAME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameEqualTo(String value) {
+            addCriterion("SPARE_NAME =", value, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameNotEqualTo(String value) {
+            addCriterion("SPARE_NAME <>", value, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameGreaterThan(String value) {
+            addCriterion("SPARE_NAME >", value, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameGreaterThanOrEqualTo(String value) {
+            addCriterion("SPARE_NAME >=", value, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameLessThan(String value) {
+            addCriterion("SPARE_NAME <", value, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameLessThanOrEqualTo(String value) {
+            addCriterion("SPARE_NAME <=", value, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameLike(String value) {
+            addCriterion("SPARE_NAME like", value, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameNotLike(String value) {
+            addCriterion("SPARE_NAME not like", value, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameIn(List<String> values) {
+            addCriterion("SPARE_NAME in", values, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameNotIn(List<String> values) {
+            addCriterion("SPARE_NAME not in", values, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameBetween(String value1, String value2) {
+            addCriterion("SPARE_NAME between", value1, value2, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareNameNotBetween(String value1, String value2) {
+            addCriterion("SPARE_NAME not between", value1, value2, "spareName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2IsNull() {
+            addCriterion("SPARE_NAME2 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2IsNotNull() {
+            addCriterion("SPARE_NAME2 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2EqualTo(String value) {
+            addCriterion("SPARE_NAME2 =", value, "spareName2");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2NotEqualTo(String value) {
+            addCriterion("SPARE_NAME2 <>", value, "spareName2");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2GreaterThan(String value) {
+            addCriterion("SPARE_NAME2 >", value, "spareName2");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2GreaterThanOrEqualTo(String value) {
+            addCriterion("SPARE_NAME2 >=", value, "spareName2");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2LessThan(String value) {
+            addCriterion("SPARE_NAME2 <", value, "spareName2");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2LessThanOrEqualTo(String value) {
+            addCriterion("SPARE_NAME2 <=", value, "spareName2");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2Like(String value) {
+            addCriterion("SPARE_NAME2 like", value, "spareName2");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2NotLike(String value) {
+            addCriterion("SPARE_NAME2 not like", value, "spareName2");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2In(List<String> values) {
+            addCriterion("SPARE_NAME2 in", values, "spareName2");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2NotIn(List<String> values) {
+            addCriterion("SPARE_NAME2 not in", values, "spareName2");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2Between(String value1, String value2) {
+            addCriterion("SPARE_NAME2 between", value1, value2, "spareName2");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpareName2NotBetween(String value1, String value2) {
+            addCriterion("SPARE_NAME2 not between", value1, value2, "spareName2");
             return (Criteria) this;
         }
 

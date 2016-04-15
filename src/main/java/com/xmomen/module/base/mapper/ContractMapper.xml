@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.base.mapper.ContractMapper" >
+
+    <!--    查询消息    -->
+    <select id="getContractList" resultType="com.xmomen.module.base.model.ContractModel" parameterType="java.util.HashMap">
+        SELECT
+        cc.*,
+        cco.company_name
+        FROM
+        cd_contract cc
+        left join cd_company cco on cc.cd_company_id = cco.id
+        <where>
+              <if test="keyword">
+                  AND cc.contract_code LIKE CONCAT('%', #{keyword}, '%') or cc.contract_name LIKE CONCAT('%', #{keyword}, '%')
+              </if>
+              <if test="id">
+                  AND cc.id = #{id}
+              </if>
+          </where>
+    </select>
+</mapper>

@@ -2,8 +2,8 @@
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
-    <!--<classPathEntry location="/Users/jeng/.m2/repository/mysql/mysql-connector-java/5.1.31/mysql-connector-java-5.1.31.jar" />-->
-    <classPathEntry location="E:\MavenRepositories\mysql\mysql-connector-java\5.1.31\mysql-connector-java-5.1.31.jar" />
+<!--     <classPathEntry location="/Users/jeng/.m2/repository/mysql/mysql-connector-java/5.1.31/mysql-connector-java-5.1.31.jar" /> -->
+    <classPathEntry location="E:\work\repository\mysql\mysql-connector-java\5.1.31\mysql-connector-java-5.1.31.jar" />
 
     <context id="context1"
              targetRuntime="com.xmomen.maven.plugins.mybatis.generator.context.IntrospectedTableMyBatis3ImplExt">
@@ -23,8 +23,8 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://120.24.236.186:3306/dms_dev?useUnicode=true&amp;characterEncoding=UTF-8"
-                        userId="dms_dev" password="dev" />
+                        connectionURL="jdbc:mysql://124.117.230.45:3306/dms_dev?useUnicode=true&amp;characterEncoding=UTF-8"
+                        userId="root" password="rootroot" />
 
         <javaTypeResolver type="com.xmomen.maven.plugins.mybatis.generator.plugins.types.JavaTypeResolverDefaultImplExt"></javaTypeResolver>
 
@@ -39,7 +39,7 @@
                              targetProject="./src/main/java" type="XMLMAPPER" >
         </javaClientGenerator>
         <!--    用户模块    -->
-        <table tableName="cd_coupon" />
+        <table tableName="cd_contract_item" />
 
     </context>
 </generatorConfiguration>

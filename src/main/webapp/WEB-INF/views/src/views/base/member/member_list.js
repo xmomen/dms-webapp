@@ -20,63 +20,36 @@ define(function () {
                 $scope.pageInfoSetting.loadData = $scope.getMemberList;
             });
         };
-        $scope.locked = function(index){
-            UserAPI.lock({
-                userId: $scope.memberList[index].userId,
-                locked: $scope.memberList[index].locked == 1 ? true : false
-            });
-        };
-        $scope.removeUser = function(index){
-            $ugDialog.confirm("是否删除用户？").then(function(){
-                UserAPI.delete({
-                    userId: $scope.memberList[index].userId
-                }, function(){
-                    $scope.getMemberList();
-                });
-            })
-        };
-        $scope.new = function (index) {
+        $scope.open = function (index) {
             var modalInstance = $modal.open({
                 templateUrl: 'addMember.html',
-                controller: ["$scope", "MemberAPI", "$modalInstance", function ($scope, MemberAPI, $modalInstance) {
+                controller: ["$scope", "MemberAPI", "$modalInstance","currentMember","CompanyAPI", function ($scope, MemberAPI, $modalInstance,currentMember,CompanyAPI) {
+                    $scope.companyList = [];
+                    CompanyAPI.getCompanyList({},function(data){
+                        $scope.companyList = data;
+                    })
                     $scope.member = {};
+                    if(currentMember){
+                        $scope.member = currentMember;
+                    }
                     $scope.errors = null;
                     $scope.addMemberForm = {};
                     $scope.saveOrUpdateMember = function(){
                         $scope.errors = null;
                         if($scope.addMemberForm.validator.form()){
-                            MemberAPI.save($scope.member, function(){
-                                $modalInstance.close();
-                            }, function(data){
-                                $scope.errors = data.data;
-                            })
-                        }
-                    };
-                    $scope.cancel = function () {
-                        $modalInstance.dismiss('cancel');
-                    };
-                }]
-            });
-            modalInstance.result.then(function () {
-                $scope.getMemberList();
-            });
-        };
-
-        $scope.update = function (index) {
-            var modalInstance = $modal.open({
-                templateUrl: 'addMember.html',
-                controller: ["$scope", "MemberAPI","updateMember","$modalInstance", function ($scope, MemberAPI,updateMember, $modalInstance) {
-                    $scope.member = updateMember;
-                    $scope.errors = null;
-                    $scope.addMemberForm = {};
-                    $scope.saveOrUpdateMember = function(){
-                        $scope.errors = null;
-                        if($scope.addMemberForm.validator.form()){
-                            MemberAPI.update($scope.member, function(){
-                                $modalInstance.close();
-                            }, function(data){
-                                $scope.errors = data.data;
-                            })
+                            if($scope.member.id){
+                                MemberAPI.update($scope.member, function(){
+                                    $modalInstance.close();
+                                }, function(data){
+                                    $scope.errors = data.data;
+                                })
+                            }else{
+                                MemberAPI.save($scope.member, function(){
+                                    $modalInstance.close();
+                                }, function(data){
+                                    $scope.errors = data.data;
+                                })
+                            }
                         }
                     };
                     $scope.cancel = function () {
@@ -84,22 +57,19 @@ define(function () {
                     };
                 }],
                 resolve: {
-                    updateMember: function () {
+                    currentMember: function () {
                         return $scope.memberList[index];
                     }
                 }
-
             });
             modalInstance.result.then(function () {
                 $scope.getMemberList();
             });
         };
-
         $scope.removeMember = function(index){
             $ugDialog.confirm("是否删除客户？").then(function(){
-                alert($scope.memberList[index].cdMemberId)
                 MemberAPI.delete({
-                    id: $scope.memberList[index].cdMemberId
+                    id: $scope.memberList[index].id
                 },function(){
                     $scope.getMemberList();
                 });

@@ -1,0 +1,372 @@
+<!--
+	The ID "widget-grid" will start to initialize all widgets below 
+	You do not need to use widgets if you dont want to. Simply remove 
+	the <section></section> and you can use wells or panels instead 
+	-->
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget" id="wid-id-4">
+				<!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2>数据字典组列表</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- end widget edit box -->
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="dt-toolbar">
+							<div class="col-xs-11 col-sm-8">
+								<div class="dataTables_filter">
+									<label>
+										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+										<input type="search" placeholder="代码／名称" data-ng-keyup="getDictionaryGroupList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+								</div>
+							</div>
+							<div class="col-xs-1 col-sm-2">
+								<button class="btn btn-primary" type="button" data-ng-click="open()">
+									<i class="fa fa-plus"></i>
+									新增数据字典组
+								</button>
+							</div>
+						</div>
+						<div class="table-responsive">
+							<table class="table table-striped table-condensed table-hover smart-form has-tickbox">
+								<thead>
+								<tr>
+									<th>
+										<label class="checkbox">
+											<input type="checkbox" name="checkbox-inline">
+											<i></i>
+										</label>
+									</th>
+									<th width="120">代码</th>
+									<th>名称</th>
+									<th>有效状态</th>
+									<th width="80">操作</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-class="{warning:currentDictionaryGroup.id==dictionaryGroup.id}"
+									data-ng-click="choiceGroup($index)"
+									ng-repeat="dictionaryGroup in dictionaryGroupList"
+									ng-if="dictionaryGroupList.length > 0"
+									ng-mouseenter="show=true"
+									ng-mouseleave="show=false">
+									<td>
+										<label class="checkbox">
+											<input type="checkbox" name="checkbox-inline">
+											<i></i>
+										</label>
+									</td>
+									<td ng-bind="dictionaryGroup.dictionaryCode"></td>
+									<td ng-bind="dictionaryGroup.dictionaryDesc"></td>
+									<td ng-bind="dictionaryGroup.available"></td>
+									<td>
+										<div ng-show="show">
+											<a href="javascript:void(0);" data-ng-click="removeDictionaryGroup($index)" title="删除：{{dictionaryGroup.dictionaryDesc}}">
+												<span class="glyphicon glyphicon-remove-circle"></span>
+											</a>
+											<span> | </span>
+											<a href="javascript:void(0);" data-ng-click="updateDictionaryGroup($index)" title="编辑：{{dictionaryGroup.dictionaryDesc}}">
+												<span class="fa fa-pencil"></span>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr ng-if="dictionaryGroupList == null || dictionaryGroupList.length == 0">
+									<td colspan="11">
+										<div>暂无数据</div>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="dt-toolbar-footer">
+							<div class="col-xs-12 col-sm-12">
+								<ug-pagination page-info="pageInfoSetting" ></ug-pagination>
+							</div>
+						</div>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- WIDGET END -->
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget">
+				<!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2>数据字典列表</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- end widget edit box -->
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="dt-toolbar">
+							<div class="col-xs-11 col-sm-8">
+								<div class="dataTables_filter">
+									<label>
+										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+										<input type="search" placeholder="实际值／显示值／排序值" data-ng-keyup="getDictionaryList()" ng-model="dictionaryQueryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+								</div>
+							</div>
+							<div class="col-xs-1 col-sm-2">
+								<button class="btn btn-primary" type="button" data-ng-click="openChild(dictionary)">
+									<i class="fa fa-plus"></i>
+									新增数据字典
+								</button>
+							</div>
+						</div>
+						<div class="table-responsive">
+							<table class="table table-striped table-condensed table-hover smart-form has-tickbox">
+								<thead>
+								<tr>
+									<th>
+										<label class="checkbox">
+											<input type="checkbox" name="checkbox-inline">
+											<i></i>
+										</label>
+									</th>
+									<th width="120">显示值</th>
+									<th>实际值</th>
+									<th>排序</th>
+									<th>有效状态</th>
+									<th width="80">操作</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat="dictionary in dictionaryList"  ng-if="dictionaryList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+									<td>
+										<label class="checkbox">
+											<input type="checkbox" name="checkbox-inline">
+											<i></i>
+										</label>
+									</td>
+									<td ng-bind="dictionary.showValue"></td>
+									<td ng-bind="dictionary.realValue"></td>
+									<td ng-bind="dictionary.sortValue"></td>
+									<td ng-bind="dictionary.available"></td>
+									<td>
+										<div ng-show="show">
+											<a href="javascript:void(0);" data-ng-click="removeDictionary($index)" title="删除：{{dictionary.showValue}}">
+												<span class="glyphicon glyphicon-remove-circle"></span>
+											</a>
+											<span> | </span>
+											<a href="javascript:void(0);" data-ng-click="updateDictionary($index)" title="编辑：{{dictionary.showValue}}">
+												<span class="fa fa-pencil"></span>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr ng-if="dictionaryList == null || dictionaryList.length == 0">
+									<td colspan="6">
+										<div>暂无数据</div>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="dt-toolbar-footer">
+							<div class="col-xs-12 col-sm-12">
+								<ug-pagination page-info="childPageInfoSetting" ></ug-pagination>
+							</div>
+						</div>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- WIDGET END -->
+	</div>
+
+	<!-- end row -->
+
+</section>
+<!-- end widget grid -->
+
+<script type="text/ng-template" id="addDictionaryGroup.html">
+	<div class="modal-header">
+		<h3 class="modal-title">数据字典组信息</h3>
+	</div>
+	<div class="modal-body">
+		<div class="widget-body">
+
+			<form class="form-horizontal" ug-validate="addDictionaryGroupForm" name="addDictionaryGroupForm" novalidate="">
+
+				<fieldset>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">代码</label>
+						<div class="col-md-10 input-group">
+							<input class="form-control" ng-model="dictionaryGroup.id" name="id" type="hidden">
+							<input class="form-control" ng-disabled="dictionaryGroup.id" required ng-model="dictionaryGroup.dictionaryCode" name="dictionaryCode" placeholder="代码" type="text">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">名称</label>
+						<div class="col-md-10 input-group">
+							<input class="form-control" required ng-model="dictionaryGroup.dictionaryDesc" name="dictionaryDesc" placeholder="描述" type="text">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">是否启用</label>
+						<div class="col-md-10 input-group">
+							<label class="radio radio-inline">
+								<input type="radio" required class="radiobox" ng-model="dictionaryGroup.available" value="0" ng-checked="dictionaryGroup.available==0" name="available">
+								<span>启用</span>
+							</label>
+							<label class="radio radio-inline">
+								<input type="radio" required class="radiobox" ng-model="dictionaryGroup.available" value="1" ng-checked="dictionaryGroup.available==1" name="available">
+								<span>禁用</span>
+							</label>
+						</div>
+					</div>
+
+					<div class="form-group" ng-if="errors">
+						<label class="col-md-2 control-label"></label>
+						<div class="col-md-10 error">
+							{{errors.message}}
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="submit" data-ng-click="saveDictionaryGroup()">
+			<i class="fa fa-save"></i>
+			保存
+		</button>
+		<button class="btn btn-warning" ng-click="cancel()">关闭</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="addDictionary.html">
+	<div class="modal-header">
+		<h3 class="modal-title">数据字典信息</h3>
+	</div>
+	<div class="modal-body">
+		<div class="widget-body">
+
+			<form class="form-horizontal" ug-validate="addDictionaryForm" name="addDictionaryForm" novalidate="">
+
+				<fieldset>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">组别</label>
+						<div class="col-md-10 input-group">
+							<input class="form-control" disabled="true" ng-model="dictionary.groupDesc" name="groupDesc" placeholder="组别" type="text">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">显示值</label>
+						<div class="col-md-10 input-group">
+							<input class="form-control" ng-model="dictionary.id" name="id" type="hidden">
+							<input class="form-control" ng-model="dictionary.sysDictionaryId" name="sysDictionaryId" type="hidden">
+							<input class="form-control" required ng-model="dictionary.showValue" name="showValue" placeholder="显示值" type="text">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">实际值</label>
+						<div class="col-md-10 input-group">
+							<input class="form-control" ng-disabled="dictionary.id" required ng-model="dictionary.realValue" name="realValue" placeholder="实际值" type="text">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-2 control-label">排序值</label>
+						<div class="col-md-10 input-group">
+							<input class="form-control" required ng-model="dictionary.sortValue" name="sortValue" placeholder="排序值" type="text">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">是否启用</label>
+						<div class="col-md-10 input-group">
+							<label class="radio radio-inline">
+								<input type="radio" required class="radiobox" ng-model="dictionary.available" value="0" ng-checked="dictionary.available==0" name="available">
+								<span>禁用</span>
+							</label>
+							<label class="radio radio-inline">
+								<input type="radio" required class="radiobox" ng-model="dictionary.available" value="1" ng-checked="dictionary.available==1" name="available">
+								<span>启用</span>
+							</label>
+						</div>
+					</div>
+
+					<div class="form-group" ng-if="errors">
+						<label class="col-md-2 control-label"></label>
+						<div class="col-md-10 error">
+							{{errors.message}}
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="submit" data-ng-click="saveDictionary()">
+			<i class="fa fa-save"></i>
+			保存
+		</button>
+		<button class="btn btn-warning" ng-click="cancel()">关闭</button>
+	</div>
+</script>
