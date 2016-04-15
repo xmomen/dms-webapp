@@ -22,7 +22,7 @@ public class CdCategory extends BaseMybatisModel {
     private String categoryName;
 
     /**
-     * 父类别
+     * 上级类别
      */
     private Integer parentId;
 

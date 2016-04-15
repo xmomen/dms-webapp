@@ -1,17 +1,18 @@
 package com.xmomen.module.base.entity;
 
 import com.xmomen.framework.mybatis.model.BaseMybatisExample;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CdCategoryExample extends BaseMybatisExample {
+public class CdContractItemExample extends BaseMybatisExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public CdCategoryExample() {
+    public CdContractItemExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -165,133 +166,243 @@ public class CdCategoryExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andCategoryNameIsNull() {
-            addCriterion("CATEGORY_NAME is null");
+        public Criteria andContractTypeIsNull() {
+            addCriterion("CONTRACT_TYPE is null");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryNameIsNotNull() {
-            addCriterion("CATEGORY_NAME is not null");
+        public Criteria andContractTypeIsNotNull() {
+            addCriterion("CONTRACT_TYPE is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryNameEqualTo(String value) {
-            addCriterion("CATEGORY_NAME =", value, "categoryName");
+        public Criteria andContractTypeEqualTo(Integer value) {
+            addCriterion("CONTRACT_TYPE =", value, "contractType");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryNameNotEqualTo(String value) {
-            addCriterion("CATEGORY_NAME <>", value, "categoryName");
+        public Criteria andContractTypeNotEqualTo(Integer value) {
+            addCriterion("CONTRACT_TYPE <>", value, "contractType");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryNameGreaterThan(String value) {
-            addCriterion("CATEGORY_NAME >", value, "categoryName");
+        public Criteria andContractTypeGreaterThan(Integer value) {
+            addCriterion("CONTRACT_TYPE >", value, "contractType");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryNameGreaterThanOrEqualTo(String value) {
-            addCriterion("CATEGORY_NAME >=", value, "categoryName");
+        public Criteria andContractTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("CONTRACT_TYPE >=", value, "contractType");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryNameLessThan(String value) {
-            addCriterion("CATEGORY_NAME <", value, "categoryName");
+        public Criteria andContractTypeLessThan(Integer value) {
+            addCriterion("CONTRACT_TYPE <", value, "contractType");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryNameLessThanOrEqualTo(String value) {
-            addCriterion("CATEGORY_NAME <=", value, "categoryName");
+        public Criteria andContractTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("CONTRACT_TYPE <=", value, "contractType");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryNameLike(String value) {
-            addCriterion("CATEGORY_NAME like", value, "categoryName");
+        public Criteria andContractTypeIn(List<Integer> values) {
+            addCriterion("CONTRACT_TYPE in", values, "contractType");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryNameNotLike(String value) {
-            addCriterion("CATEGORY_NAME not like", value, "categoryName");
+        public Criteria andContractTypeNotIn(List<Integer> values) {
+            addCriterion("CONTRACT_TYPE not in", values, "contractType");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryNameIn(List<String> values) {
-            addCriterion("CATEGORY_NAME in", values, "categoryName");
+        public Criteria andContractTypeBetween(Integer value1, Integer value2) {
+            addCriterion("CONTRACT_TYPE between", value1, value2, "contractType");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryNameNotIn(List<String> values) {
-            addCriterion("CATEGORY_NAME not in", values, "categoryName");
+        public Criteria andContractTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("CONTRACT_TYPE not between", value1, value2, "contractType");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryNameBetween(String value1, String value2) {
-            addCriterion("CATEGORY_NAME between", value1, value2, "categoryName");
+        public Criteria andCdContractIdIsNull() {
+            addCriterion("CD_CONTRACT_ID is null");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryNameNotBetween(String value1, String value2) {
-            addCriterion("CATEGORY_NAME not between", value1, value2, "categoryName");
+        public Criteria andCdContractIdIsNotNull() {
+            addCriterion("CD_CONTRACT_ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andParentIdIsNull() {
-            addCriterion("PARENT_ID is null");
+        public Criteria andCdContractIdEqualTo(Integer value) {
+            addCriterion("CD_CONTRACT_ID =", value, "cdContractId");
             return (Criteria) this;
         }
 
-        public Criteria andParentIdIsNotNull() {
-            addCriterion("PARENT_ID is not null");
+        public Criteria andCdContractIdNotEqualTo(Integer value) {
+            addCriterion("CD_CONTRACT_ID <>", value, "cdContractId");
             return (Criteria) this;
         }
 
-        public Criteria andParentIdEqualTo(Integer value) {
-            addCriterion("PARENT_ID =", value, "parentId");
+        public Criteria andCdContractIdGreaterThan(Integer value) {
+            addCriterion("CD_CONTRACT_ID >", value, "cdContractId");
             return (Criteria) this;
         }
 
-        public Criteria andParentIdNotEqualTo(Integer value) {
-            addCriterion("PARENT_ID <>", value, "parentId");
+        public Criteria andCdContractIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("CD_CONTRACT_ID >=", value, "cdContractId");
             return (Criteria) this;
         }
 
-        public Criteria andParentIdGreaterThan(Integer value) {
-            addCriterion("PARENT_ID >", value, "parentId");
+        public Criteria andCdContractIdLessThan(Integer value) {
+            addCriterion("CD_CONTRACT_ID <", value, "cdContractId");
             return (Criteria) this;
         }
 
-        public Criteria andParentIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("PARENT_ID >=", value, "parentId");
+        public Criteria andCdContractIdLessThanOrEqualTo(Integer value) {
+            addCriterion("CD_CONTRACT_ID <=", value, "cdContractId");
             return (Criteria) this;
         }
 
-        public Criteria andParentIdLessThan(Integer value) {
-            addCriterion("PARENT_ID <", value, "parentId");
+        public Criteria andCdContractIdIn(List<Integer> values) {
+            addCriterion("CD_CONTRACT_ID in", values, "cdContractId");
             return (Criteria) this;
         }
 
-        public Criteria andParentIdLessThanOrEqualTo(Integer value) {
-            addCriterion("PARENT_ID <=", value, "parentId");
+        public Criteria andCdContractIdNotIn(List<Integer> values) {
+            addCriterion("CD_CONTRACT_ID not in", values, "cdContractId");
             return (Criteria) this;
         }
 
-        public Criteria andParentIdIn(List<Integer> values) {
-            addCriterion("PARENT_ID in", values, "parentId");
+        public Criteria andCdContractIdBetween(Integer value1, Integer value2) {
+            addCriterion("CD_CONTRACT_ID between", value1, value2, "cdContractId");
             return (Criteria) this;
         }
 
-        public Criteria andParentIdNotIn(List<Integer> values) {
-            addCriterion("PARENT_ID not in", values, "parentId");
+        public Criteria andCdContractIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("CD_CONTRACT_ID not between", value1, value2, "cdContractId");
             return (Criteria) this;
         }
 
-        public Criteria andParentIdBetween(Integer value1, Integer value2) {
-            addCriterion("PARENT_ID between", value1, value2, "parentId");
+        public Criteria andCdItemIdIsNull() {
+            addCriterion("CD_ITEM_ID is null");
             return (Criteria) this;
         }
 
-        public Criteria andParentIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("PARENT_ID not between", value1, value2, "parentId");
+        public Criteria andCdItemIdIsNotNull() {
+            addCriterion("CD_ITEM_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdItemIdEqualTo(Integer value) {
+            addCriterion("CD_ITEM_ID =", value, "cdItemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdItemIdNotEqualTo(Integer value) {
+            addCriterion("CD_ITEM_ID <>", value, "cdItemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdItemIdGreaterThan(Integer value) {
+            addCriterion("CD_ITEM_ID >", value, "cdItemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdItemIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("CD_ITEM_ID >=", value, "cdItemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdItemIdLessThan(Integer value) {
+            addCriterion("CD_ITEM_ID <", value, "cdItemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdItemIdLessThanOrEqualTo(Integer value) {
+            addCriterion("CD_ITEM_ID <=", value, "cdItemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdItemIdIn(List<Integer> values) {
+            addCriterion("CD_ITEM_ID in", values, "cdItemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdItemIdNotIn(List<Integer> values) {
+            addCriterion("CD_ITEM_ID not in", values, "cdItemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdItemIdBetween(Integer value1, Integer value2) {
+            addCriterion("CD_ITEM_ID between", value1, value2, "cdItemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdItemIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("CD_ITEM_ID not between", value1, value2, "cdItemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractValueIsNull() {
+            addCriterion("CONTRACT_VALUE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractValueIsNotNull() {
+            addCriterion("CONTRACT_VALUE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractValueEqualTo(BigDecimal value) {
+            addCriterion("CONTRACT_VALUE =", value, "contractValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractValueNotEqualTo(BigDecimal value) {
+            addCriterion("CONTRACT_VALUE <>", value, "contractValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractValueGreaterThan(BigDecimal value) {
+            addCriterion("CONTRACT_VALUE >", value, "contractValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractValueGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("CONTRACT_VALUE >=", value, "contractValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractValueLessThan(BigDecimal value) {
+            addCriterion("CONTRACT_VALUE <", value, "contractValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractValueLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("CONTRACT_VALUE <=", value, "contractValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractValueIn(List<BigDecimal> values) {
+            addCriterion("CONTRACT_VALUE in", values, "contractValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractValueNotIn(List<BigDecimal> values) {
+            addCriterion("CONTRACT_VALUE not in", values, "contractValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractValueBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("CONTRACT_VALUE between", value1, value2, "contractValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractValueNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("CONTRACT_VALUE not between", value1, value2, "contractValue");
             return (Criteria) this;
         }
     }

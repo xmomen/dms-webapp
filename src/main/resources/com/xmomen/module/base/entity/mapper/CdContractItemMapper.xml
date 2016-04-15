@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xmomen.module.base.entity.mapper.CdCategoryMapper" >
-  <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdCategory" >
+<mapper namespace="com.xmomen.module.base.entity.mapper.CdContractItemMapper" >
+  <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdContractItem" >
     <id column="ID" property="id" jdbcType="INTEGER" />
-    <result column="CATEGORY_NAME" property="categoryName" jdbcType="VARCHAR" />
-    <result column="PARENT_ID" property="parentId" jdbcType="INTEGER" />
+    <result column="CONTRACT_TYPE" property="contractType" jdbcType="INTEGER" />
+    <result column="CD_CONTRACT_ID" property="cdContractId" jdbcType="INTEGER" />
+    <result column="CD_ITEM_ID" property="cdItemId" jdbcType="INTEGER" />
+    <result column="CONTRACT_VALUE" property="contractValue" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -65,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, CATEGORY_NAME, PARENT_ID
+    ID, CONTRACT_TYPE, CD_CONTRACT_ID, CD_ITEM_ID, CONTRACT_VALUE
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdCategoryExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdContractItemExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cd_category
+    from cd_contract_item
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -81,54 +83,72 @@
       order by ${orderByClause}
     </if>
   </select>
-  <delete id="deleteByExample" parameterType="com.xmomen.module.base.entity.CdCategoryExample" >
-    delete from cd_category
+  <delete id="deleteByExample" parameterType="com.xmomen.module.base.entity.CdContractItemExample" >
+    delete from cd_contract_item
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdCategory" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
-    insert into cd_category
+  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdContractItem" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
+    insert into cd_contract_item
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         ID,
       </if>
-      <if test="categoryName != null" >
-        CATEGORY_NAME,
+      <if test="contractType != null" >
+        CONTRACT_TYPE,
       </if>
-      <if test="parentId != null" >
-        PARENT_ID,
+      <if test="cdContractId != null" >
+        CD_CONTRACT_ID,
+      </if>
+      <if test="cdItemId != null" >
+        CD_ITEM_ID,
+      </if>
+      <if test="contractValue != null" >
+        CONTRACT_VALUE,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="categoryName != null" >
-        #{categoryName,jdbcType=VARCHAR},
+      <if test="contractType != null" >
+        #{contractType,jdbcType=INTEGER},
       </if>
-      <if test="parentId != null" >
-        #{parentId,jdbcType=INTEGER},
+      <if test="cdContractId != null" >
+        #{cdContractId,jdbcType=INTEGER},
+      </if>
+      <if test="cdItemId != null" >
+        #{cdItemId,jdbcType=INTEGER},
+      </if>
+      <if test="contractValue != null" >
+        #{contractValue,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.xmomen.module.base.entity.CdCategoryExample" resultType="java.lang.Integer" >
-    select count(*) from cd_category
+  <select id="countByExample" parameterType="com.xmomen.module.base.entity.CdContractItemExample" resultType="java.lang.Integer" >
+    select count(*) from cd_contract_item
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update cd_category
+    update cd_contract_item
     <set >
       <if test="record.id != null" >
         ID = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.categoryName != null" >
-        CATEGORY_NAME = #{record.categoryName,jdbcType=VARCHAR},
+      <if test="record.contractType != null" >
+        CONTRACT_TYPE = #{record.contractType,jdbcType=INTEGER},
       </if>
-      <if test="record.parentId != null" >
-        PARENT_ID = #{record.parentId,jdbcType=INTEGER},
+      <if test="record.cdContractId != null" >
+        CD_CONTRACT_ID = #{record.cdContractId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cdItemId != null" >
+        CD_ITEM_ID = #{record.cdItemId,jdbcType=INTEGER},
+      </if>
+      <if test="record.contractValue != null" >
+        CONTRACT_VALUE = #{record.contractValue,jdbcType=DECIMAL},
       </if>
     </set>
     <if test="_parameter != null" >

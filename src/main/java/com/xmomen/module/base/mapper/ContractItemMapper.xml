@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.base.mapper.ContractItemMapper" >
+
+    <!--    查询消息    -->
+    <select id="getContractItemList" resultType="com.xmomen.module.base.model.ContractItemModel" parameterType="java.util.HashMap">
+       SELECT
+        cci.*,
+		ci.ITEM_CODE,
+		ci.ITEM_NAME,
+		cc.CATEGORY_NAME
+       FROM
+        cd_contract_item cci
+	   left join cd_item ci on cci.cd_item_id = ci.id
+		left join cd_category cc on ci.cd_category_id = cc.id
+        <where>
+              <if test="keyword">
+                  AND cci.cd_contract_id = #{keyword}
+              </if>
+              <if test="id">
+                  AND cci.id = #{id}
+              </if>
+          </where>
+    </select>
+</mapper>

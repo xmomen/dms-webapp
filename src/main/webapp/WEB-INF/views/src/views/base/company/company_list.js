@@ -32,10 +32,15 @@ define(function () {
         $scope.open = function (index) {
             var modalInstance = $modal.open({
                 templateUrl: 'addCompany.html',
-                controller: ["$scope", "CompanyAPI", "$modalInstance","currentCompany", function ($scope, CompanyAPI, $modalInstance,currentCompany) {
+                controller: ["$scope", "CompanyAPI", "$modalInstance","currentCompany","UserAPI", function ($scope, CompanyAPI, $modalInstance,currentCompany,UserAPI) {
+                    $scope.customerManagerList = [];
+                    UserAPI.getCustomerManagerList({},function(data){
+                        $scope.customerManagerList = data;
+                    });
                     $scope.company = {};
                     if(currentCompany){
                         $scope.company = currentCompany;
+                        $scope.company.customerManagerIds = ["1","2"];
                     }
                     $scope.errors = null;
                     $scope.addCompanyForm = {};
