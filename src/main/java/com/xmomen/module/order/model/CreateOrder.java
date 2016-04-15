@@ -38,7 +38,6 @@ public class CreateOrder implements Serializable {
      * 付款方式
      */
     @NotNull
-    @NotBlank
     private Integer paymentMode;
 
     /**
@@ -76,6 +75,11 @@ public class CreateOrder implements Serializable {
      * 是否显示金额
      */
     private Integer isShowAmount;
+
+    /**
+     * 操作人
+     */
+    private Integer createUserId;
 
     @NotNull
     @NotEmpty
@@ -182,5 +186,29 @@ public class CreateOrder implements Serializable {
 
     public void setOrderItemList(List<OrderItem> orderItemList) {
         this.orderItemList = orderItemList;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Integer getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(Integer createUserId) {
+        this.createUserId = createUserId;
     }
 }

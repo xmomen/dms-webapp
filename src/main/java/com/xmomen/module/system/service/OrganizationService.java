@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.module.system.entity.SysOrganization;
 import com.xmomen.module.system.entity.SysOrganizationExample;
+import com.xmomen.module.system.entity.SysUserOrganization;
+import com.xmomen.module.system.entity.SysUserOrganizationExample;
 import com.xmomen.module.system.mapper.OrganizationMapper;
 import com.xmomen.module.system.model.OrganizationModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,11 @@ public class OrganizationService {
     @Autowired
     OrganizationMapper organizationMapper;
 
+    /**
+     * 查询树形组织结构
+     * @param id
+     * @return
+     */
     public List<OrganizationModel> getOrganizationTree(Integer id){
         SysOrganizationExample sysOrganizationExample = new SysOrganizationExample();
         List<OrganizationModel> result = new ArrayList<OrganizationModel>();
@@ -53,6 +60,11 @@ public class OrganizationService {
         return root;
     }
 
+    /**
+     * 获取子节点
+     * @param child
+     * @param parent
+     */
     private void getTreeNode(OrganizationModel child, OrganizationModel parent){
         if(child.getParentId() != null && child.getParentId().equals(parent.getId())){
             if(parent.getNodes() == null){
@@ -72,16 +84,80 @@ public class OrganizationService {
         }
     }
 
+    /**
+     * 创建组织结构
+     * @param sysOrganization
+     * @return
+     */
     @Transactional
     public SysOrganization createOrganization(SysOrganization sysOrganization){
         return mybatisDao.saveByModel(sysOrganization);
     }
 
+    /**
+     * 绑定组织机构用户
+     * @param organizationId
+     * @param userId
+     */
+    @Transactional
+    public void bindOrganizationUser(Integer organizationId, Integer userId){
+        SysUserOrganization sysUserOrganization = new SysUserOrganization();
+        sysUserOrganization.setOrganizationId(organizationId);
+        sysUserOrganization.setUserId(userId);
+        mybatisDao.insert(sysUserOrganization);
+    }
+
+    /**
+     * 批量绑定组织机构用户
+     * @param organizationId
+     * @param userIds
+     */
+    @Transactional
+    public void bindOrganizationUser(Integer organizationId, Integer... userIds){
+        for (Integer userId : userIds) {
+            bindOrganizationUser(organizationId, userId);
+        }
+    }
+
+    /**
+     * 解除组织机构用户关系
+     * @param organizationId
+     * @param userId
+     */
+    @Transactional
+    public void unBindOrganizationUser(Integer organizationId, Integer userId){
+        SysUserOrganizationExample sysUserOrganizationExample = new SysUserOrganizationExample();
+        sysUserOrganizationExample.createCriteria()
+                .andOrganizationIdEqualTo(organizationId)
+                .andUserIdEqualTo(userId);
+        mybatisDao.deleteByExample(sysUserOrganizationExample);
+    }
+
+    /**
+     * 批量解除组织机构用户
+     * @param organizationId
+     * @param userIds
+     */
+    @Transactional
+    public void unBindOrganizationUser(Integer organizationId, Integer... userIds){
+        for (Integer userId : userIds) {
+            unBindOrganizationUser(organizationId, userId);
+        }
+    }
+
+    /**
+     * 更新组织机构
+     * @param sysOrganization
+     */
     @Transactional
     public void updateOrganization(SysOrganization sysOrganization){
         mybatisDao.save(sysOrganization);
     }
 
+    /**
+     * 删除机构组织
+     * @param id
+     */
     @Transactional
     public void delete(Integer id){
         mybatisDao.deleteByPrimaryKey(SysOrganization.class, id);

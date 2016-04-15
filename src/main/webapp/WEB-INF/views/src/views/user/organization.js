@@ -91,6 +91,48 @@ define(function () {
             });
         };
 
+        $scope.openUserModel = function (organization) {
+            var modalInstance = $modal.open({
+                templateUrl: 'organizationUser.html',
+                resolve:{
+                    CurrentOrganization : function(){
+                        return organization;
+                    }
+                },
+                controller: ["$scope", "OrganizationAPI", "UserAPI", "$modalInstance", "CurrentOrganization", function ($scope, OrganizationAPI, UserAPI, $modalInstance, CurrentOrganization) {
+                    $scope.organization = {};
+                    if(CurrentOrganization){
+                        $scope.organization = {
+                            id:CurrentOrganization.id,
+                            name:CurrentOrganization.name,
+                            description:CurrentOrganization.description,
+                            parentId:CurrentOrganization.parentId,
+                            parentName:CurrentOrganization.parentName
+                        };
+                    }
+                    UserAPI.query({
+                        limit:10,
+                        offset:1
+                    }, function(data){
+                        $scope.userList = data.data;
+                    });
+                    $scope.choseUser = {};
+                    $scope.saveOrganizationUser = function(){
+                        OrganizationAPI.bindUser({
+                            id:$scope.organization.id,
+                            userIds:$scope.choseUser.items
+                        })
+                    };
+                    $scope.cancel = function () {
+                        $modalInstance.dismiss('cancel');
+                    };
+                }]
+            });
+            modalInstance.result.then(function () {
+                $scope.getOrganizationTree();
+            });
+        };
+
         $scope.getOrganizationTree();
         setTimeout(function(){
             loadScript("js/plugin/bootstraptree/bootstrap-tree.min.js");

@@ -18,9 +18,9 @@ public class TbOrderItem extends BaseMybatisModel {
     private Integer id;
 
     /**
-     * 订单ID
+     * 产品ID
      */
-    private Integer tbOrderId;
+    private Integer itemId;
 
     /**
      * 订单编号
@@ -45,7 +45,7 @@ public class TbOrderItem extends BaseMybatisModel {
     /**
      * 商品数量
      */
-    private Integer itemQty;
+    private BigDecimal itemQty;
 
     /**
      * 商品单位
@@ -68,18 +68,18 @@ public class TbOrderItem extends BaseMybatisModel {
         addValidField("id");
     }
 
-    @Column(name = "TB_ORDER_ID")
-    public Integer getTbOrderId() {
-        return tbOrderId;
+    @Column(name = "ITEM_ID")
+    public Integer getItemId() {
+        return itemId;
     }
 
-    public void setTbOrderId(Integer tbOrderId) {
-        this.tbOrderId = tbOrderId;
-        if(tbOrderId == null){
-              removeValidField("tbOrderId");
+    public void setItemId(Integer itemId) {
+        this.itemId = itemId;
+        if(itemId == null){
+              removeValidField("itemId");
               return;
         }
-        addValidField("tbOrderId");
+        addValidField("itemId");
     }
 
     @Column(name = "ORDER_NO")
@@ -139,11 +139,11 @@ public class TbOrderItem extends BaseMybatisModel {
     }
 
     @Column(name = "ITEM_QTY")
-    public Integer getItemQty() {
+    public BigDecimal getItemQty() {
         return itemQty;
     }
 
-    public void setItemQty(Integer itemQty) {
+    public void setItemQty(BigDecimal itemQty) {
         this.itemQty = itemQty;
         if(itemQty == null){
               removeValidField("itemQty");

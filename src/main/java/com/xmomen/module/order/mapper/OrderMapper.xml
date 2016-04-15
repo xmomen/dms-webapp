@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.order.mapper.OrderMapper" >
+
+    <!--    查询订单    -->
+    <select id="getOrderList" resultType="com.xmomen.module.order.model.OrderModel" parameterType="java.util.HashMap">
+        SELECT
+        sp.SHOW_VALUE AS orderTypeDesc,
+        ssp.SHOW_VALUE AS orderStatusDesc,
+        paymentp.SHOW_VALUE AS paymentModeDesc,
+        osp.SHOW_VALUE AS orderSourceDesc,
+        tb.*
+        FROM
+        tb_order tb
+        LEFT JOIN sys_dictionary s on s.DICTIONARY_CODE='ORDER_TYPE'
+        left join sys_dictionary_parameter sp on sp.SYS_DICTIONARY_ID=s.ID and tb.ORDER_TYPE = sp.REAL_VALUE
+
+        LEFT JOIN sys_dictionary ss on ss.DICTIONARY_CODE='ORDER_STATUS'
+        left join sys_dictionary_parameter ssp on ssp.SYS_DICTIONARY_ID=ss.ID and tb.ORDER_STATUS = ssp.REAL_VALUE
+
+        LEFT JOIN sys_dictionary payment on payment.DICTIONARY_CODE='PAYMENT_MODE'
+        left join sys_dictionary_parameter paymentp on paymentp.SYS_DICTIONARY_ID=payment.ID and tb.PAYMENT_MODE = paymentp.REAL_VALUE
+
+        LEFT JOIN sys_dictionary oss on oss.DICTIONARY_CODE='ORDER_SOURCE'
+        left join sys_dictionary_parameter osp on osp.SYS_DICTIONARY_ID=oss.ID and tb.ORDER_SOURCE = osp.REAL_VALUE
+        <where>
+              <if test="keyword">
+                  AND tb.order_no LIKE CONCAT('%', #{keyword}, '%')
+                  or tb.consignee_phone LIKE CONCAT('%', #{keyword}, '%')
+                  or tb.consignee_name like CONCAT('%', #{keyword}, '%')
+              </if>
+              <if test="id">
+                  AND tb.id = #{id}
+              </if>
+          </where>
+    </select>
+</mapper>

@@ -41,7 +41,7 @@
 					<!-- end widget edit box -->
 					<!-- widget content -->
 					<div class="widget-body">
-						<form class="form-horizontal" ug-validate="addOrderForm" name="addOrderForm">
+						<form class="form-horizontal" ug-validate="addOrderForm" name="addOrderForm" novalidate="">
 
 							<fieldset class="demo-switcher-1">
 								<legend>订单类型</legend>
@@ -51,7 +51,7 @@
 									<div class="col-md-10">
 										<label class="radio radio-inline">
 											<!--	3-客服下单	-->
-											<input type="hidden" value="3" ng-model="order.orderSource" name="orderSource">
+											<input type="hidden" ng-init="order.orderSource=3" ng-model="order.orderSource" name="orderSource">
 											<input type="radio" class="radiobox" value="0" ng-model="order.orderType" ng-checked="order.orderType==0" name="orderType">
 											<span>常规订单</span>
 										</label>
@@ -282,7 +282,7 @@
 
 									</div>
 									<div class="table-responsive col-md-6">
-
+										<input type="hidden" ng-model="order.orderItemList" name="orderItemList">
 										<table class="table table-bordered">
 											<thead>
 											<tr>
@@ -300,8 +300,8 @@
 												<tr ng-repeat="choseItem in choseOrderItemList">
 													<td>{{choseItem.itemName}}</td>
 													<td>{{choseItem.sellPrice}}</td>
-													<td>{{choseItem.number}}</td>
-													<td>{{choseItem.sellPrice * choseItem.number}}</td>
+													<td>{{choseItem.itemQty}}</td>
+													<td>{{choseItem.sellPrice * choseItem.itemQty}}</td>
 													<td>
 														<div>
 															<a href="javascript:void(0);" data-ng-click="removeItem($index)" title="移除：{{choseItem.itemName}}">
@@ -310,7 +310,7 @@
 															<a href="javascript:void(0);" data-ng-click="changeItemNumber($index, 1)" title="添加：{{choseItem.itemName}}">
 																<span class="fa fa-plus"></span>
 															</a>
-															<a  ng-if="choseItem.number > 1" href="javascript:void(0);" data-ng-click="changeItemNumber($index, 0)" title="减少：{{choseItem.itemName}}">
+															<a  ng-if="choseItem.itemQty > 1" href="javascript:void(0);" data-ng-click="changeItemNumber($index, 0)" title="减少：{{choseItem.itemName}}">
 																<span class="fa fa-minus"></span>
 															</a>
 														</div>
@@ -468,8 +468,8 @@
 												<tr ng-repeat="choseItem in choseOrderItemList">
 													<td>{{choseItem.itemName}}</td>
 													<td>{{choseItem.sellPrice}}</td>
-													<td>{{choseItem.number}}</td>
-													<td>{{choseItem.sellPrice * choseItem.number}}</td>
+													<td>{{choseItem.itemQty}}</td>
+													<td>{{choseItem.sellPrice * choseItem.itemQty}}</td>
 												</tr>
 												</tbody>
 												<tfoot>
@@ -491,7 +491,7 @@
 										<button class="btn btn-default" type="button">
 											取消
 										</button>
-										<button class="btn btn-primary" data-ng-click="saveOrder()" type="submit">
+										<button class="btn btn-primary" data-ng-click="saveOrder()" type="button">
 											<i class="fa fa-save"></i>
 											提交
 										</button>

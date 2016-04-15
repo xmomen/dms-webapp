@@ -2,12 +2,31 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "OrderAPI", "ItemAPI", "MemberAPI", "$modal", "$ugDialog", function($scope, OrderAPI, ItemAPI, MemberAPI, $modal, $ugDialog){
+    return ["$scope", "OrderAPI", "ItemAPI", "MemberAPI", "$modal", "$ugDialog", "$state", function($scope, OrderAPI, ItemAPI, MemberAPI, $modal, $ugDialog, $state){
         $scope.order = {
             orderType:0
         };
         $scope.addOrderForm = {};
         $scope.errors = null;
+        $scope.saveOrder = function(){
+            $scope.order.orderItemList = [];
+            for (var i = 0; i < $scope.choseOrderItemList.length; i++) {
+                var obj = $scope.choseOrderItemList[i];
+                $scope.order.orderItemList.push({
+                    orderItemId:obj.id,
+                    itemQty: obj.itemQty
+                });
+            }
+            OrderAPI.save($scope.order, function(){
+                $ugDialog.alert("订单提交成功！");
+                $state.go("order");
+            }, function(data){
+                $scope.errors = data.data;
+            })
+            //if($scope.addOrderForm.validator.form()){
+            //
+            //}
+        };
         $scope.pageSetting = {
             pageSize:10,
             pageNum:1
@@ -64,20 +83,21 @@ define(function () {
         $scope.choseOrderItemList = [];
         $scope.choseItem = function(index){
             var item = $scope.itemList[index];
-            item.number = 1;
+            item.itemQty = 1;
+            item.orderItemId = item.id;
             $scope.choseOrderItemList.push(item);
             $scope.itemList.splice(index,1);
             $scope.calTotalItem();
             $scope.getItemList();
-        }
+        };
         $scope.changeItemNumber = function(index, action){
             if(action == 1){
-                $scope.choseOrderItemList[index].number++;
+                $scope.choseOrderItemList[index].itemQty++;
             }else if(action == 0){
-                $scope.choseOrderItemList[index].number--;
+                $scope.choseOrderItemList[index].itemQty--;
             }
             $scope.calTotalItem();
-        }
+        };
         $scope.removeItem = function(index){
             $scope.choseOrderItemList.splice(index,1);
             $scope.calTotalItem();
@@ -96,21 +116,12 @@ define(function () {
             var totalPrice = 0;
             for (var i = 0; i < $scope.choseOrderItemList.length; i++) {
                 var obj = $scope.choseOrderItemList[i];
-                totalNumber += obj.number;
-                totalPrice += (obj.number * obj.sellPrice);
+                totalNumber += obj.itemQty;
+                totalPrice += (obj.itemQty * obj.sellPrice);
             }
             $scope.totalItem.totalNumber = totalNumber;
             $scope.totalItem.totalPrice = totalPrice;
-        }
-        $scope.saveOrder = function(){
-            if($scope.addOrderForm.validator.form()){
-                OrderAPI.save($scope.order, function(){
-                    $ugDialog.alert("订单提交成功！");
-                }, function(data){
-                    $scope.errors = data.data;
-                })
-            }
-        }
+        };
         $scope.getItemList();
     }];
 });

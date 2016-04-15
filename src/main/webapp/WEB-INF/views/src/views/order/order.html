@@ -42,14 +42,18 @@
 					<!-- widget content -->
 					<div class="widget-body no-padding">
 						<div class="dt-toolbar">
-							<div class="col-xs-11 col-sm-10">
+							<div class="col-sm-4">
 								<div class="dataTables_filter">
 									<label>
 										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-										<input type="search" placeholder="卡号/券号/描述" data-ng-keyup="getOrderList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+										<input type="search" placeholder="订单编号/手机号码/收货人" data-ng-keyup="getOrderList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
 								</div>
 							</div>
-							<div class="col-xs-1 col-sm-2">
+							<div class="col-sm-2">
+								<button class="btn btn-primary" type="button" data-ng-click="getOrderList()">
+									<i class="fa fa-refresh"></i>
+									刷新
+								</button>
 								<button class="btn btn-primary" type="button" ui-sref="order_create">
 									<i class="fa fa-plus"></i>
 									新增订单
@@ -66,14 +70,13 @@
 											<i></i>
 										</label>
 									</th>
-									<th width="120">订单类型</th>
-									<th>描述</th>
-									<th>卡号</th>
-									<th>可用金额/可用次数</th>
-									<th>有效日期</th>
-									<th>使用状态</th>
-									<th>有效状态</th>
-									<th>是否赠送</th>
+									<th width="120">订单编号</th>
+									<th>订单类型</th>
+									<th>订购日期</th>
+									<th>订单状态</th>
+									<th>付款方式</th>
+									<th>总金额</th>
+									<th>客户信息</th>
 									<th>备注</th>
 									<th width="80">操作</th>
 								</tr>
@@ -86,21 +89,16 @@
 											<i></i>
 										</label>
 									</td>
-									<td ng-bind="order.orderType"></td>
-									<td ng-bind="order.orderDesc"></td>
-									<td ng-bind="order.orderNumber"></td>
-									<td ng-bind="order.orderValue"></td>
-									<td>{{order.beginTime | date: 'yyyy-MM-dd'}} 至 {{order.endTime | date: 'yyyy-MM-dd'}}</td>
-									<td ng-bind="order.isUsed"></td>
-									<td ng-bind="order.isUseful"></td>
-									<td ng-bind="order.isGift"></td>
-									<td ng-bind="order.notes"></td>
+									<td ng-bind="order.orderNo"></td>
+									<td ng-bind="order.orderTypeDesc"></td>
+									<td ng-bind="order.createTime | date: 'yyyy-MM-dd'"></td>
+									<td ng-bind="order.orderStatusDesc"></td>
+									<td ng-bind="order.paymentModeDesc"></td>
+									<td ng-bind="order.totalAmount"></td>
+									<td ng-bind="order.consigneeName"></td>
+									<td ng-bind="order.remark"></td>
 									<td>
 										<div ng-show="show">
-											<a href="javascript:void(0);" data-ng-click="removeOrder($index)" title="删除：{{order.orderDesc}}">
-												<span class="glyphicon glyphicon-remove-circle"></span>
-											</a>
-											<span> | </span>
 											<a href="javascript:void(0);" data-ng-click="updateOrder($index)" title="编辑：{{order.orderDesc}}">
 												<span class="fa fa-pencil"></span>
 											</a>
