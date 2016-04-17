@@ -71,8 +71,9 @@
 										</label>
 									</th>
 									<th width="120">卡券类型</th>
+                                    <th>卡劵类别</th>
 									<th>描述</th>
-									<th>卡号</th>
+									<th>卡号/劵号</th>
 									<th>可用金额/可用次数</th>
 									<th>有效日期</th>
 									<th>使用状态</th>
@@ -91,6 +92,7 @@
 										</label>
 									</td>
                                     <td><span ng-if="coupon.couponType == 1">卡</span><span ng-if="coupon.couponType == 2">消费劵</span></td>
+                                    <td ng-bind="coupon.categoryName"></td>
 									<td ng-bind="coupon.couponDesc"></td>
 									<td ng-bind="coupon.couponNumber"></td>
 									<td ng-bind="coupon.couponValue"></td>
