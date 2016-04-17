@@ -90,14 +90,14 @@
 											<i></i>
 										</label>
 									</td>
-									<td ng-bind="coupon.couponType"></td>
+                                    <td><span ng-if="coupon.couponType == 1">卡</span><span ng-if="coupon.couponType == 2">消费劵</span></td>
 									<td ng-bind="coupon.couponDesc"></td>
 									<td ng-bind="coupon.couponNumber"></td>
 									<td ng-bind="coupon.couponValue"></td>
 									<td>{{coupon.beginTime | date: 'yyyy-MM-dd'}} 至 {{coupon.endTime | date: 'yyyy-MM-dd'}}</td>
-									<td ng-bind="coupon.isUsed"></td>
-									<td ng-bind="coupon.isUseful"></td>
-									<td ng-bind="coupon.isGift"></td>
+                                    <td><span ng-if="coupon.isUsed == 0">未使用</span><span ng-if="coupon.isUsed == 1">已使用</span></td>
+                                    <td><span ng-if="coupon.isUseful == 0">无效</span><span ng-if="coupon.isUseful == 1">有效</span></td>
+                                    <td><span ng-if="coupon.isGift == 0">未赠送</span><span ng-if="coupon.isGift == 1">已赠送</span></td>
 									<td ng-bind="coupon.notes"></td>
 									<td>
 										<div ng-show="show">
@@ -161,7 +161,7 @@
 							</label>
 							<label class="radio radio-inline">
 								<input type="radio" class="radiobox" ng-model="coupon.couponType" value="2" ng-checked="coupon.couponType==2" ng-change="selectCategory()" name="couponType">
-								<span>券</span>
+								<span>消费券</span>
 							</label>
 						</div>
 					</div>

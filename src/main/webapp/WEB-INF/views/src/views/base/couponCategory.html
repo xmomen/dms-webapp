@@ -67,12 +67,12 @@
 								</thead>
 								<tbody>
 								<tr ng-repeat="couponCategory in couponCategoryList"  ng-if="couponCategoryList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
-                                    <td ng-bind="couponCategory.categoryName"></td>
                                     <td>
                                         <span ng-if="couponCategory.categoryType == 1">卡</span>
                                         <span ng-if="couponCategory.categoryType == 2">消费券</span>
                                         <!--<span ng-if="couponCategory.categoryType == 3">采摘劵</span>-->
                                     </td>
+                                    <td ng-bind="couponCategory.categoryName"></td>
                                     <td>
                                         <div ng-show="show">
                                             <a href="javascript:void(0);" data-ng-click="removeCouponCategory($index)" title="删除：{{couponCategory.couponCategoryName}}">
