@@ -37,6 +37,13 @@ define(function () {
                     $scope.couponCategory = {categoryType : 1};
                     if(currentCouponCategory){
                         $scope.couponCategory = currentCouponCategory;
+                        if($scope.couponCategory.categoryType == 2){
+                            CouponCategoryAPI.getChoseItemList({
+                                parentId:$scope.couponCategory.id
+                            },function(data){
+                                $scope.choseItemList = data;
+                            })
+                        }
                     }
                     $scope.errors = null;
                     $scope.addCouponCategoryForm = {};
@@ -44,12 +51,26 @@ define(function () {
                         $scope.errors = null;
                         if($scope.addCouponCategoryForm.validator.form()){
                             if($scope.couponCategory.id){
+                                $scope.couponCategory.categoryRefs = [];
+                                for (var i = 0; i < $scope.choseItemList.length; i++) {
+                                    var obj = $scope.choseItemList[i];
+                                    $scope.couponCategory.categoryRefs.push({
+                                        cdItemId:obj.id
+                                    });
+                                }
                                 CouponCategoryAPI.update($scope.couponCategory, function(){
                                     $modalInstance.close();
                                 }, function(data){
                                     $scope.errors = data.data;
                                 })
                             }else{
+                                $scope.couponCategory.categoryRefs = [];
+                                for (var i = 0; i < $scope.choseItemList.length; i++) {
+                                    var obj = $scope.choseItemList[i];
+                                    $scope.couponCategory.categoryRefs.push({
+                                        cdItemId:obj.id
+                                    });
+                                }
                                 CouponCategoryAPI.save($scope.couponCategory, function(){
                                     $modalInstance.close();
                                 }, function(data){

@@ -1,5 +1,10 @@
 package com.xmomen.module.base.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +20,9 @@ import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
 import com.xmomen.module.base.entity.CdCouponCategory;
+import com.xmomen.module.base.mapper.CouponCategoryMapper;
 import com.xmomen.module.base.model.CreateCouponCategory;
+import com.xmomen.module.base.model.ItemChildModel;
 import com.xmomen.module.base.model.UpdateCouponCategory;
 import com.xmomen.module.base.service.CouponCategoryService;
 import com.xmomen.module.logger.Log;
@@ -43,8 +50,9 @@ public class CouponCategoryController {
     @Log(actionName = "查询卡券类别列表")
     public Page<CdCouponCategory> getUserList(@RequestParam(value = "limit") Integer limit,
                                   @RequestParam(value = "offset") Integer offset,
-                                  @RequestParam(value = "keyword", required = false) String keyword){
-        return couponCategoryService.getCouponCategoryList(keyword, limit, offset);
+                                  @RequestParam(value = "keyword", required = false) String keyword,
+                                  @RequestParam(value = "categoryType", required = false) Integer categoryType){
+        return couponCategoryService.getCouponCategoryList(keyword,categoryType, limit, offset);
     }
 
     /**
@@ -98,5 +106,17 @@ public class CouponCategoryController {
     public void deleteCouponCategory(@PathVariable(value = "id") Long id){
         mybatisDao.deleteByPrimaryKey(CdCouponCategory.class, id);
     }
-
+    /**
+     * 查询选择的产品
+     * @param parentId
+     * @return
+     */
+    @RequestMapping(value = "/getChoseItemList", method = RequestMethod.GET)
+	public List<ItemChildModel> getChildItem(@RequestParam(value = "parentId", required = false) Integer parentId){
+    	List<ItemChildModel> childItems = new ArrayList<ItemChildModel>();
+    	Map map = new HashMap<String,Object>();
+	    map.put("parentId", parentId);
+	    childItems = mybatisDao.getSqlSessionTemplate().selectList(CouponCategoryMapper.CouponCategoryMapperNameSpace + "getChoseItemList", map);
+		return childItems;
+	}
 }

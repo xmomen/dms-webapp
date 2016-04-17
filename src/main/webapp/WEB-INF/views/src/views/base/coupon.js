@@ -40,11 +40,34 @@ define(function () {
                         return coupon;
                     }
                 },
-                controller: ["$scope", "CouponAPI", "CurrentCoupon", "$modalInstance", function ($scope, CouponAPI, CurrentCoupon, $modalInstance) {
-                    $scope.coupon = {};
+                controller: ["$scope", "CouponAPI","CouponCategoryAPI","CurrentCoupon", "$modalInstance", function ($scope, CouponAPI,CouponCategoryAPI, CurrentCoupon, $modalInstance) {
+                    $scope.coupon = {
+                        couponType : 1,
+                        isUsed : 0,
+                        isUseful : 1,
+                        isGift : 0
+                    };
                     if(CurrentCoupon){
                         $scope.coupon = CurrentCoupon;
                     }
+                    $scope.getCategoryList = function(){
+                        $scope.pageSetting = {
+                            pageSize:1000,
+                            pageNum:1
+                        };
+                        $scope.queryParam = {};
+                        $scope.categoryList = [];
+                        CouponCategoryAPI.query({
+                            limit:$scope.pageSetting.pageSize,
+                            offset:$scope.pageSetting.pageNum,
+                            categoryType :$scope.coupon.couponType
+                        }, function(data){
+                            $scope.categoryList = data.data;
+                            $scope.pageInfoSetting = data.pageInfo;
+                            $scope.pageInfoSetting.loadData = $scope.getCategoryList;
+                        });
+                    }
+                    $scope.getCategoryList();
                     $scope.datepickerSetting = {
                         datepickerPopupConfig:{
                             "current-text":"今天",
@@ -89,6 +112,16 @@ define(function () {
                     };
                     $scope.cancel = function () {
                         $modalInstance.dismiss('cancel');
+                    };
+
+                    $scope.selectCategory = function(){
+                        $scope.coupon.couponCategory = null;
+                        if($scope.coupon.couponType == 2){
+                             $scope.coupon.couponValue = 1;
+                         }else{
+                             $scope.coupon.couponValue = "";
+                         }
+                        $scope.getCategoryList();
                     };
                 }]
             });

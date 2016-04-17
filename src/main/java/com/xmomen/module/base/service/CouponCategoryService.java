@@ -6,7 +6,7 @@ import com.xmomen.module.base.model.CreateCouponCategory;
 import com.xmomen.module.base.model.UpdateCouponCategory;
 
 public interface CouponCategoryService {
-	public Page<CdCouponCategory> getCouponCategoryList(String keyword, Integer limit, Integer offset);
+	public Page<CdCouponCategory> getCouponCategoryList(String keyword,Integer categoryType, Integer limit, Integer offset);
 	
 	public CdCouponCategory getCouponCategory(Integer id);
 	

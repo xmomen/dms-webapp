@@ -3,20 +3,22 @@
 <mapper namespace="com.xmomen.module.base.mapper.CouponCategoryMapper" >
 
 <!--        查询消息    -->
-<!--     <select id="getCouponCategoryList" resultType="com.xmomen.module.base.model.CouponCategoryModel" parameterType="java.util.HashMap"> -->
-<!--         SELECT -->
-<!--         cm.*, -->
-<!--         cc.category_name -->
-<!--         FROM -->
-<!--         cd_item cm -->
-<!--         left join cd_category cc on cm.cd_category_id = cc.id -->
-<!--         <where> -->
-<!--               <if test="keyword"> -->
-<!--                   AND cm.item_Code LIKE CONCAT('%', #{keyword}, '%') or cm.item_name LIKE CONCAT('%', #{keyword}, '%') -->
-<!--               </if> -->
-<!--               <if test="id"> -->
-<!--                   AND cm.id = #{id} -->
-<!--               </if> -->
-<!--           </where> -->
-<!--     </select> -->
+	<select id="getChoseItemList" resultType="com.xmomen.module.base.model.ItemChildModel" parameterType="java.util.HashMap">
+        SELECT
+			cm.id,
+        	cm.item_name,
+			cm.item_code,
+        	cc.category_name
+        FROM
+        	cd_item cm
+        left join 
+        	cd_category cc on cm.cd_category_id = cc.id	
+		left join 
+			cd_coupon_category_ref cir on cm.id = cir.REF_VALUE and cir.REF_TYPE='TICKET_ITEM'
+        <where>
+             <if test = 'parentId'>
+             	AND cir.CD_COUPON_CATEGORY_ID = #{parentId}
+             </if>	
+        </where>
+    </select>
 </mapper>

@@ -140,7 +140,8 @@ define(function () {
     ngREST.factory("CouponCategoryAPI", ["$resource", function($resource){
         return $resource("/couponCategory/:id", { id:"@id" }, {
             query:{ isArray:false},
-            update:{ method:"PUT", params:{id:"@id"}}
+            update:{ method:"PUT", params:{id:"@id"}},
+            getChoseItemList:{method:"GET",url:"/getChoseItemList",isArray:true}
         });
     }]);
 
