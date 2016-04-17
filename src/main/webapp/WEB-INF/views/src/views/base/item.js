@@ -34,9 +34,20 @@ define(function () {
             var modalInstance = $modal.open({
                 templateUrl: 'addItem.html',
                 controller: ["$scope", "ItemAPI", "$modalInstance","currentItem", function ($scope, ItemAPI, $modalInstance,currentItem) {
-                    $scope.item = {};
+                    $scope.choseChildItemList = [];
+                    $scope.item = {
+                        itemType : 1,
+                        sellStatus : 1
+                    };
                     if(currentItem){
                         $scope.item = currentItem;
+                        if($scope.item.itemType == 2){
+                            ItemAPI.getChildItemList({
+                                parentId:$scope.item.id
+                            },function(data){
+                                $scope.choseChildItemList = data;
+                            })
+                        }
                     }
                     $scope.errors = null;
                     $scope.addItemForm = {};
@@ -44,19 +55,32 @@ define(function () {
                         $scope.errors = null;
                         if($scope.addItemForm.validator.form()){
                             if($scope.item.id){
+                                $scope.item.childItems = [];
+                                for (var i = 0; i < $scope.choseChildItemList.length; i++) {
+                                    var obj = $scope.choseChildItemList[i];
+                                    $scope.item.childItems.push({
+                                        id:obj.id
+                                    });
+                                }
                                 ItemAPI.update($scope.item, function(){
                                     $modalInstance.close();
                                 }, function(data){
                                     $scope.errors = data.data;
                                 })
                             }else{
+                                $scope.item.childItems = [];
+                                for (var i = 0; i < $scope.choseChildItemList.length; i++) {
+                                    var obj = $scope.choseChildItemList[i];
+                                    $scope.item.childItems.push({
+                                        id:obj.id
+                                    });
+                                }
                                 ItemAPI.save($scope.item, function(){
                                     $modalInstance.close();
                                 }, function(data){
                                     $scope.errors = data.data;
                                 })
                             }
-
                         }
                     };
                     $scope.cancel = function () {
@@ -86,13 +110,54 @@ define(function () {
                                 $scope.item.categoryName = category.name;
                                 $scope.item.cdCategoryId = category.id;
                         });
-                    }
+                    },
+                    $scope.pageChildSetting = {
+                        pageSize:1000,
+                        pageNum:1
+                    };
+                    $scope.queryChildParam = {};
+
+                    $scope.getChildItemList = function(){
+                        var choseItemId = null;
+                        if($scope.choseChildItemList && $scope.choseChildItemList.length > 0){
+                            choseItemId = []
+                            for (var i = 0; i < $scope.choseChildItemList.length; i++) {
+                                var obj = $scope.choseChildItemList[i];
+                                choseItemId.push(obj.id);
+                            }
+                        }
+                        ItemAPI.query({
+                            limit:$scope.pageChildSetting.pageSize,
+                            offset:$scope.pageChildSetting.pageNum,
+                            keyword:$scope.queryChildParam.keyword,
+                            exclude_ids:choseItemId,
+                            itemType : 1,
+                            sellStatus : 1
+                        }, function(data){
+                            $scope.childItemList = data.data;
+                            $scope.pageInfoSetting = data.pageInfo;
+                            $scope.pageInfoSetting.loadData = $scope.getChildItemList;
+                        });
+                    };
+                    $scope.choseChildItem = function(index){
+                        var item = $scope.childItemList[index];
+                        item.childItemId = item.id;
+                        $scope.choseChildItemList.push(item);
+                        $scope.getChildItemList();
+                    };
+
+                    $scope.removeChildItem = function(index){
+                        $scope.choseChildItemList.splice(index,1);
+                        $scope.getChildItemList();
+                    };
+
                 }],
                 resolve: {
                 currentItem: function () {
                     return $scope.itemList[index];
                 }
-            }
+            },
+             size : 'lg'
             });
             modalInstance.result.then(function () {
                 $scope.getItemList();

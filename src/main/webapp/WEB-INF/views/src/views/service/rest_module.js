@@ -132,6 +132,14 @@ define(function () {
     ngREST.factory("ItemAPI", ["$resource", function($resource){
         return $resource("/item/:id", { id:"@id" }, {
             query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}},
+            getChildItemList:{method:"GET",url:"/getChildItem",isArray:true}
+        });
+    }]);
+
+    ngREST.factory("CouponCategoryAPI", ["$resource", function($resource){
+        return $resource("/couponCategory/:id", { id:"@id" }, {
+            query:{ isArray:false},
             update:{ method:"PUT", params:{id:"@id"}}
         });
     }]);

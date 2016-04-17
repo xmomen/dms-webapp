@@ -39,9 +39,9 @@ public class CdItem extends BaseMybatisModel {
     private String itemDescribe;
 
     /**
-     * 产品类型
+     * 产品类型(1-常规商品，2-组合商品)
      */
-    private String itemType;
+    private Integer itemType;
 
     /**
      * 生产地
@@ -82,16 +82,6 @@ public class CdItem extends BaseMybatisModel {
      * 销售金额
      */
     private BigDecimal sellPrice;
-
-    /**
-     * 0-未组合，1-组合
-     */
-    private Integer isCombination;
-
-    /**
-     * 组合产品的父id
-     */
-    private Integer parentItemId;
 
     /**
      * 0-未审核，1-审核
@@ -181,11 +171,11 @@ public class CdItem extends BaseMybatisModel {
     }
 
     @Column(name = "ITEM_TYPE")
-    public String getItemType() {
+    public Integer getItemType() {
         return itemType;
     }
 
-    public void setItemType(String itemType) {
+    public void setItemType(Integer itemType) {
         this.itemType = itemType;
         if(itemType == null){
               removeValidField("itemType");
@@ -304,34 +294,6 @@ public class CdItem extends BaseMybatisModel {
               return;
         }
         addValidField("sellPrice");
-    }
-
-    @Column(name = "IS_COMBINATION")
-    public Integer getIsCombination() {
-        return isCombination;
-    }
-
-    public void setIsCombination(Integer isCombination) {
-        this.isCombination = isCombination;
-        if(isCombination == null){
-              removeValidField("isCombination");
-              return;
-        }
-        addValidField("isCombination");
-    }
-
-    @Column(name = "PARENT_ITEM_ID")
-    public Integer getParentItemId() {
-        return parentItemId;
-    }
-
-    public void setParentItemId(Integer parentItemId) {
-        this.parentItemId = parentItemId;
-        if(parentItemId == null){
-              removeValidField("parentItemId");
-              return;
-        }
-        addValidField("parentItemId");
     }
 
     @Column(name = "IS_AUDIT")
