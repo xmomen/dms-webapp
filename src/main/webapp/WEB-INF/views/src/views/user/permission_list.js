@@ -39,6 +39,7 @@ define(function () {
                     $scope.savePermission = function(){
                         $scope.errors = null;
                         if($scope.addPermissionForm.validator.form()){
+                            $scope.permission.available = true;
                             PermissionAPI.save($scope.permission, function(){
                                 $modalInstance.close();
                             }, function(data){

@@ -23,22 +23,54 @@ will not initialize.
 
 <navigation xmlns:nav="http://www.w3.org/2001/XMLSchema">
     <nav:item ui-sref="dashboard" data-icon="fa fa-fw fa-home" title="控制板" />
-    <nav:group data-icon="fa fa-fw fa-database" title="基础数据">
-        <nav:item ui-sref="dictionary" title="数据字典"/>
-        <nav:item ui-sref="company_list" title="单位/公司"/>
-        <nav:item ui-sref="member_list" title="客户信息"/>
-        <nav:item ui-sref="item" title="产品信息"/>
-        <nav:item ui-sref="itemCategory" title="产品分类"/>
-        <nav:item ui-sref="coupon" title="卡券管理"/>
-        <nav:item ui-sref="contract" title="合同管理"/>
-    </nav:group>
-    <nav:item ui-sref="order" data-icon="fa fa-fw fa-shopping-cart" title="订单管理" />
-    <nav:group data-icon="fa fa-fw fa-pencil" title="系统管理" permission-only="admin">
-        <nav:item ui-sref="user_list" title="用户管理" permission-only="admin"/>
-        <nav:item ui-sref="group_list" title="用户组管理" permission-only="admin"/>
-        <nav:item ui-sref="permission_list" title="权限管理" permission-only="admin"/>
-        <nav:item ui-sref="organization" title="组织管理"/>
-        <!--<nav:item ui-sref="schedule" title="任务调度" />-->
+    <div permission only="'BASE_MENU'">
+        <nav:group data-icon="fa fa-fw fa-database" title="基础数据">
+            <div permission only="'DICTIONARY_VIEW'">
+                <nav:item ui-sref="dictionary" title="数据字典"/>
+            </div>
+            <div permission only="'COMPANY_VIEW'">
+                <nav:item ui-sref="company_list" title="单位/公司"/>
+            </div>
+            <div permission only="'MEMBER_VIEW'">
+                <nav:item ui-sref="member_list" title="客户信息"/>
+            </div>
+            <div permission only="'PRODUCT_VIEW'">
+                <nav:item ui-sref="item" title="产品信息"/>
+            </div>
+            <div permission only="'PRODUCT_CATEGORY_VIEW'">
+                <nav:item ui-sref="itemCategory" title="产品分类"/>
+            </div>
+            <div permission only="'COUPON_VIEW'">
+                <nav:item ui-sref="coupon" title="卡券管理"/>
+            </div>
+            <div permission only="'CONTRACT_VIEW'">
+                <nav:item ui-sref="contract" title="合同管理"/>
+            </div>
+        </nav:group>
+    </div>
+    <div permission only="'ORDER_MENU'">
+        <nav:group data-icon="fa fa-fw fa-shopping-cart" title="订单管理">
+            <div permission only="'ORDER_VIEW'">
+                <nav:item ui-sref="order" title="订单列表" />
+            </div>
+        </nav:group>
+    </div>
+    <nav:group data-icon="fa fa-fw fa-pencil" title="系统管理">
+        <div permission only="'USER_VIEW'">
+            <nav:item ui-sref="user_list" title="用户管理"/>
+        </div>
+        <div permission only="'USER_GROUP_VIEW'">
+            <nav:item ui-sref="group_list" title="用户组管理"/>
+        </div>
+        <div permission only="'PERMISSION_VIEW'">
+            <nav:item ui-sref="permission_list" title="权限管理" />
+        </div>
+        <div permission only="'ORGANIZATION_VIEW'">
+            <nav:item ui-sref="organization" title="组织管理" />
+        </div>
+        <div permission only="'SCHEDULE_VIEW'">
+            <nav:item ui-sref="schedule" title="任务调度" />
+        </div>
     </nav:group>
 </navigation>
 <span class="minifyme" data-action="minifyMenu"> <i class="fa fa-arrow-circle-left hit"></i> </span>
