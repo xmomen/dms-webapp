@@ -8,9 +8,11 @@ import com.xmomen.module.base.entity.CdItem;
 import com.xmomen.module.base.entity.CdItemExample;
 import com.xmomen.module.order.entity.TbOrder;
 import com.xmomen.module.order.entity.TbOrderItem;
+import com.xmomen.module.order.entity.TbOrderRelation;
 import com.xmomen.module.order.mapper.OrderMapper;
 import com.xmomen.module.order.model.CreateOrder;
 import com.xmomen.module.order.model.OrderModel;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,12 +28,24 @@ public class OrderService {
     @Autowired
     MybatisDao mybatisDao;
 
+    /**
+     * 查询订单
+     * @param keyword
+     * @param limit
+     * @param offset
+     * @return
+     */
     public Page<OrderModel> getOrderList(String keyword, Integer limit, Integer offset){
         Map param = new HashMap();
         param.put("keyword", keyword);
         return (Page<OrderModel>) mybatisDao.selectPage(OrderMapper.ORDER_MAPPER_NAMESPACE + "getOrderList", param, limit, offset);
     }
 
+    /**
+     * 创建订单
+     * @param createOrder
+     * @return
+     */
     public TbOrder createOrder(CreateOrder createOrder){
         String orderNo = DateUtils.getDateTimeString();
         List<Integer> itemIdList = new ArrayList<Integer>();
@@ -67,6 +81,7 @@ public class OrderService {
         tbOrder.setCreateTime(mybatisDao.getSysdate());
         tbOrder.setOrderSource(createOrder.getOrderSource());
         tbOrder.setPaymentMode(createOrder.getPaymentMode());
+        tbOrder.setMemberCode(createOrder.getMemberCode());
         tbOrder.setRemark(createOrder.getRemark());
         tbOrder.setOrderType(createOrder.getOrderType());
         tbOrder.setOrderNo(orderNo);
@@ -74,11 +89,22 @@ public class OrderService {
         tbOrder.setCreateUserId(createOrder.getCreateUserId());
         tbOrder.setTotalAmount(totalAmount);
         tbOrder = mybatisDao.insertByModel(tbOrder);
+        if(StringUtils.trimToNull(createOrder.getPaymentRalationNo()) != null){
+            TbOrderRelation tbOrderRelation = new TbOrderRelation();
+            tbOrderRelation.setOrderNo(orderNo);
+            tbOrderRelation.setRefType("ORDER_PAY_RELATION");// 订单支付关系
+            tbOrderRelation.setRefValue(createOrder.getPaymentRalationNo());
+            mybatisDao.insert(tbOrderRelation);
+        }
         return tbOrder;
     }
 
+    /**
+     * 删除订单
+     * @param id
+     */
     public void deleteOrder(Integer id){
-
+        mybatisDao.deleteByPrimaryKey(TbOrder.class, id);
     }
 
 }
