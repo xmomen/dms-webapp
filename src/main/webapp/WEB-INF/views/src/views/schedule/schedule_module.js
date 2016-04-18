@@ -13,7 +13,7 @@ define([
                 templateUrl: 'views/schedule/list.html',
                 data:{
                     permissions:{
-                        only:["TASK_SCHEDULE_VIEW"],
+                        only:["SCHEDULE_VIEW"],
                         redirectTo:"unauthorized"
                     }
                 },
