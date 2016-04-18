@@ -3,6 +3,7 @@ package com.xmomen.module.base.model;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -16,6 +17,8 @@ public class UpdateCoupon implements Serializable {
     private Integer id;
     @NotNull
     private Integer couponType;
+    @NotNull
+    private Integer couponCategory;
     @NotNull
     @NotBlank
     private String couponDesc;
@@ -126,4 +129,14 @@ public class UpdateCoupon implements Serializable {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+
+	public Integer getCouponCategory() {
+		return couponCategory;
+	}
+
+	public void setCouponCategory(Integer couponCategory) {
+		this.couponCategory = couponCategory;
+	}
+
+	
 }

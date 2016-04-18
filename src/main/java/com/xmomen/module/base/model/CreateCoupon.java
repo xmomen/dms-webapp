@@ -18,6 +18,8 @@ public class CreateCoupon implements Serializable {
     @NotBlank
     private String couponDesc;
     @NotNull
+    private Integer couponCategory;
+    @NotNull
     @NotBlank
     private String couponNumber;
     private String couponPassword;
@@ -116,4 +118,13 @@ public class CreateCoupon implements Serializable {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+
+	public Integer getCouponCategory() {
+		return couponCategory;
+	}
+
+	public void setCouponCategory(Integer couponCategory) {
+		this.couponCategory = couponCategory;
+	}
+
 }

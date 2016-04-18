@@ -3,6 +3,7 @@ package com.xmomen.module.base.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class UpdateItem implements Serializable {
 	/**
@@ -28,7 +29,7 @@ public class UpdateItem implements Serializable {
     /**
      * 产品类型
      */
-    private String itemType;
+    private Integer itemType;
 
     /**
      * 生产地
@@ -71,16 +72,6 @@ public class UpdateItem implements Serializable {
     private BigDecimal sellPrice;
 
     /**
-     * 0-未组合，1-组合
-     */
-    private Integer isCombination;
-
-    /**
-     * 组合产品的父id
-     */
-    private Integer parentItemId;
-
-    /**
      * 0-未审核，1-审核
      */
     private Integer isAudit;
@@ -95,6 +86,8 @@ public class UpdateItem implements Serializable {
      */
     private String createUserCode;
 
+    private List<ItemChildModel> childItems;
+    
 	public String getItemCode() {
 		return itemCode;
 	}
@@ -127,11 +120,11 @@ public class UpdateItem implements Serializable {
 		this.itemDescribe = itemDescribe;
 	}
 
-	public String getItemType() {
+	public Integer getItemType() {
 		return itemType;
 	}
 
-	public void setItemType(String itemType) {
+	public void setItemType(Integer itemType) {
 		this.itemType = itemType;
 	}
 
@@ -199,22 +192,6 @@ public class UpdateItem implements Serializable {
 		this.sellPrice = sellPrice;
 	}
 
-	public Integer getIsCombination() {
-		return isCombination;
-	}
-
-	public void setIsCombination(Integer isCombination) {
-		this.isCombination = isCombination;
-	}
-
-	public Integer getParentItemId() {
-		return parentItemId;
-	}
-
-	public void setParentItemId(Integer parentItemId) {
-		this.parentItemId = parentItemId;
-	}
-
 	public Integer getIsAudit() {
 		return isAudit;
 	}
@@ -237,5 +214,13 @@ public class UpdateItem implements Serializable {
 
 	public void setCreateUserCode(String createUserCode) {
 		this.createUserCode = createUserCode;
+	}
+
+	public List<ItemChildModel> getChildItems() {
+		return childItems;
+	}
+
+	public void setChildItems(List<ItemChildModel> childItems) {
+		this.childItems = childItems;
 	}
 }
