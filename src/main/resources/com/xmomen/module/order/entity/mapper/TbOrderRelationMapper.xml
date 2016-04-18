@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xmomen.module.base.entity.mapper.CdItemContractItemMapper" >
-  <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdItemContractItem" >
+<mapper namespace="com.xmomen.module.order.entity.mapper.TbOrderRelationMapper" >
+  <resultMap id="BaseResultMap" type="com.xmomen.module.order.entity.TbOrderRelation" >
     <id column="ID" property="id" jdbcType="INTEGER" />
-    <result column="CD_CONTRACT_ID" property="cdContractId" jdbcType="INTEGER" />
-    <result column="CD_ITEM_ID" property="cdItemId" jdbcType="INTEGER" />
-    <result column="CONTRACT_PRICE" property="contractPrice" jdbcType="DECIMAL" />
+    <result column="REF_TYPE" property="refType" jdbcType="VARCHAR" />
+    <result column="REF_VALUE" property="refValue" jdbcType="VARCHAR" />
+    <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -66,15 +66,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, CD_CONTRACT_ID, CD_ITEM_ID, CONTRACT_PRICE
+    ID, REF_TYPE, REF_VALUE, ORDER_NO
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdItemContractItemExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbOrderRelationExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cd_item_contract_item
+    from tb_order_relation
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -82,63 +82,63 @@
       order by ${orderByClause}
     </if>
   </select>
-  <delete id="deleteByExample" parameterType="com.xmomen.module.base.entity.CdItemContractItemExample" >
-    delete from cd_item_contract_item
+  <delete id="deleteByExample" parameterType="com.xmomen.module.order.entity.TbOrderRelationExample" >
+    delete from tb_order_relation
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdItemContractItem" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
-    insert into cd_item_contract_item
+  <insert id="insertSelective" parameterType="com.xmomen.module.order.entity.TbOrderRelation" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
+    insert into tb_order_relation
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         ID,
       </if>
-      <if test="cdContractId != null" >
-        CD_CONTRACT_ID,
+      <if test="refType != null" >
+        REF_TYPE,
       </if>
-      <if test="cdItemId != null" >
-        CD_ITEM_ID,
+      <if test="refValue != null" >
+        REF_VALUE,
       </if>
-      <if test="contractPrice != null" >
-        CONTRACT_PRICE,
+      <if test="orderNo != null" >
+        ORDER_NO,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="cdContractId != null" >
-        #{cdContractId,jdbcType=INTEGER},
+      <if test="refType != null" >
+        #{refType,jdbcType=VARCHAR},
       </if>
-      <if test="cdItemId != null" >
-        #{cdItemId,jdbcType=INTEGER},
+      <if test="refValue != null" >
+        #{refValue,jdbcType=VARCHAR},
       </if>
-      <if test="contractPrice != null" >
-        #{contractPrice,jdbcType=DECIMAL},
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.xmomen.module.base.entity.CdItemContractItemExample" resultType="java.lang.Integer" >
-    select count(*) from cd_item_contract_item
+  <select id="countByExample" parameterType="com.xmomen.module.order.entity.TbOrderRelationExample" resultType="java.lang.Integer" >
+    select count(*) from tb_order_relation
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update cd_item_contract_item
+    update tb_order_relation
     <set >
       <if test="record.id != null" >
         ID = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.cdContractId != null" >
-        CD_CONTRACT_ID = #{record.cdContractId,jdbcType=INTEGER},
+      <if test="record.refType != null" >
+        REF_TYPE = #{record.refType,jdbcType=VARCHAR},
       </if>
-      <if test="record.cdItemId != null" >
-        CD_ITEM_ID = #{record.cdItemId,jdbcType=INTEGER},
+      <if test="record.refValue != null" >
+        REF_VALUE = #{record.refValue,jdbcType=VARCHAR},
       </if>
-      <if test="record.contractPrice != null" >
-        CONTRACT_PRICE = #{record.contractPrice,jdbcType=DECIMAL},
+      <if test="record.orderNo != null" >
+        ORDER_NO = #{record.orderNo,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >

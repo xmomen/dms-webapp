@@ -19,7 +19,7 @@ public class TbOrder extends BaseMybatisModel {
     private Integer id;
 
     /**
-     * 订单编号
+     * 卡号
      */
     private String orderNo;
 
@@ -37,6 +37,11 @@ public class TbOrder extends BaseMybatisModel {
      * 1-预付款，2-后付款，3-免费
      */
     private Integer paymentMode;
+
+    /**
+     * 客户代码
+     */
+    private String memberCode;
 
     /**
      * 订单状态
@@ -158,6 +163,20 @@ public class TbOrder extends BaseMybatisModel {
               return;
         }
         addValidField("paymentMode");
+    }
+
+    @Column(name = "MEMBER_CODE")
+    public String getMemberCode() {
+        return memberCode;
+    }
+
+    public void setMemberCode(String memberCode) {
+        this.memberCode = memberCode;
+        if(memberCode == null){
+              removeValidField("memberCode");
+              return;
+        }
+        addValidField("memberCode");
     }
 
     @Column(name = "ORDER_STATUS")

@@ -30,6 +30,11 @@ public class CreateOrder implements Serializable {
     private String name;
 
     /**
+     * 客户代码
+     */
+    private String memberCode;
+
+    /**
      * 客户联系方式
      */
     private String phone;
@@ -39,6 +44,11 @@ public class CreateOrder implements Serializable {
      */
     @NotNull
     private Integer paymentMode;
+
+    /**
+     * 支付关系编号（卡号/券号）
+     */
+    private String paymentRalationNo;
 
     /**
      * 收货人手机
@@ -106,6 +116,14 @@ public class CreateOrder implements Serializable {
         public void setItemQty(BigDecimal itemQty) {
             this.itemQty = itemQty;
         }
+    }
+
+    public String getMemberCode() {
+        return memberCode;
+    }
+
+    public void setMemberCode(String memberCode) {
+        this.memberCode = memberCode;
     }
 
     public Integer getOrderType() {
@@ -210,5 +228,13 @@ public class CreateOrder implements Serializable {
 
     public void setCreateUserId(Integer createUserId) {
         this.createUserId = createUserId;
+    }
+
+    public String getPaymentRalationNo() {
+        return paymentRalationNo;
+    }
+
+    public void setPaymentRalationNo(String paymentRalationNo) {
+        this.paymentRalationNo = paymentRalationNo;
     }
 }

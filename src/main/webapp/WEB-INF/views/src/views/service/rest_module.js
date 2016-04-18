@@ -25,7 +25,8 @@ define(function () {
                     current_password: "@current_password",
                     password:"@password"
                 }
-            }
+            },
+            getCustomerManagerList:{method:"GET",url:"/customerManagerList",isArray:true}
         });
     }]);
     ngREST.factory("MessageAPI", ["$resource", function($resource){
@@ -109,14 +110,15 @@ define(function () {
     ngREST.factory("MemberAPI", ["$resource", function($resource){
         return $resource("/member/:id", { id:"@id" }, {
             query:{ isArray:false},
-            update:{method:"PUT", params:{id:"@id"}},
-            getCompanyList:{method:"GET",url:"/companyList",isArray:true}
+            update:{method:"PUT", params:{id:"@id"}}
         });
     }]);
 
     ngREST.factory("CompanyAPI", ["$resource", function($resource){
         return $resource("/company/:id", { id:"@id" }, {
-            query:{ isArray:false}
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}},
+            getCompanyList:{method:"GET",url:"/companyList",isArray:true}
         });
     }]);
 
@@ -130,12 +132,35 @@ define(function () {
     ngREST.factory("ItemAPI", ["$resource", function($resource){
         return $resource("/item/:id", { id:"@id" }, {
             query:{ isArray:false},
-            update:{ method:"PUT", params:{id:"@id"}}
+            update:{ method:"PUT", params:{id:"@id"}},
+            getChildItemList:{method:"GET",url:"/getChildItem",isArray:true}
+        });
+    }]);
+
+    ngREST.factory("CouponCategoryAPI", ["$resource", function($resource){
+        return $resource("/couponCategory/:id", { id:"@id" }, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}},
+            getChoseItemList:{method:"GET",url:"/getChoseItemList",isArray:true}
         });
     }]);
 
     ngREST.factory("CouponAPI", ["$resource", function($resource){
         return $resource("/coupon/:id", { id:"@id" }, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}}
+        });
+    }]);
+
+    ngREST.factory("ContractAPI", ["$resource", function($resource){
+        return $resource("/contract/:id", { id:"@id" }, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}}
+        });
+    }]);
+
+    ngREST.factory("ContractItemAPI", ["$resource", function($resource){
+        return $resource("/contractItem/:id", { id:"@id" }, {
             query:{ isArray:false},
             update:{ method:"PUT", params:{id:"@id"}}
         });

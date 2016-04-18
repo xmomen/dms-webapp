@@ -23,8 +23,8 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://124.117.230.45:3306/dms_dev?useUnicode=true&amp;characterEncoding=UTF-8"
-                        userId="root" password="rootroot" />
+                        connectionURL="jdbc:mysql://121.40.156.26:3306/dms_dev?useUnicode=true&amp;characterEncoding=UTF-8"
+                        userId="root" password="fuckyoumysql" />
 
         <javaTypeResolver type="com.xmomen.maven.plugins.mybatis.generator.plugins.types.JavaTypeResolverDefaultImplExt"></javaTypeResolver>
 

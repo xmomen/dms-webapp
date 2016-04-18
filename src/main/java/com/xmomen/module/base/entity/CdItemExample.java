@@ -447,62 +447,52 @@ public class CdItemExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andItemTypeEqualTo(String value) {
+        public Criteria andItemTypeEqualTo(Integer value) {
             addCriterion("ITEM_TYPE =", value, "itemType");
             return (Criteria) this;
         }
 
-        public Criteria andItemTypeNotEqualTo(String value) {
+        public Criteria andItemTypeNotEqualTo(Integer value) {
             addCriterion("ITEM_TYPE <>", value, "itemType");
             return (Criteria) this;
         }
 
-        public Criteria andItemTypeGreaterThan(String value) {
+        public Criteria andItemTypeGreaterThan(Integer value) {
             addCriterion("ITEM_TYPE >", value, "itemType");
             return (Criteria) this;
         }
 
-        public Criteria andItemTypeGreaterThanOrEqualTo(String value) {
+        public Criteria andItemTypeGreaterThanOrEqualTo(Integer value) {
             addCriterion("ITEM_TYPE >=", value, "itemType");
             return (Criteria) this;
         }
 
-        public Criteria andItemTypeLessThan(String value) {
+        public Criteria andItemTypeLessThan(Integer value) {
             addCriterion("ITEM_TYPE <", value, "itemType");
             return (Criteria) this;
         }
 
-        public Criteria andItemTypeLessThanOrEqualTo(String value) {
+        public Criteria andItemTypeLessThanOrEqualTo(Integer value) {
             addCriterion("ITEM_TYPE <=", value, "itemType");
             return (Criteria) this;
         }
 
-        public Criteria andItemTypeLike(String value) {
-            addCriterion("ITEM_TYPE like", value, "itemType");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemTypeNotLike(String value) {
-            addCriterion("ITEM_TYPE not like", value, "itemType");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemTypeIn(List<String> values) {
+        public Criteria andItemTypeIn(List<Integer> values) {
             addCriterion("ITEM_TYPE in", values, "itemType");
             return (Criteria) this;
         }
 
-        public Criteria andItemTypeNotIn(List<String> values) {
+        public Criteria andItemTypeNotIn(List<Integer> values) {
             addCriterion("ITEM_TYPE not in", values, "itemType");
             return (Criteria) this;
         }
 
-        public Criteria andItemTypeBetween(String value1, String value2) {
+        public Criteria andItemTypeBetween(Integer value1, Integer value2) {
             addCriterion("ITEM_TYPE between", value1, value2, "itemType");
             return (Criteria) this;
         }
 
-        public Criteria andItemTypeNotBetween(String value1, String value2) {
+        public Criteria andItemTypeNotBetween(Integer value1, Integer value2) {
             addCriterion("ITEM_TYPE not between", value1, value2, "itemType");
             return (Criteria) this;
         }
@@ -1024,126 +1014,6 @@ public class CdItemExample extends BaseMybatisExample {
 
         public Criteria andSellPriceNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("SELL_PRICE not between", value1, value2, "sellPrice");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCombinationIsNull() {
-            addCriterion("IS_COMBINATION is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCombinationIsNotNull() {
-            addCriterion("IS_COMBINATION is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCombinationEqualTo(Integer value) {
-            addCriterion("IS_COMBINATION =", value, "isCombination");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCombinationNotEqualTo(Integer value) {
-            addCriterion("IS_COMBINATION <>", value, "isCombination");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCombinationGreaterThan(Integer value) {
-            addCriterion("IS_COMBINATION >", value, "isCombination");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCombinationGreaterThanOrEqualTo(Integer value) {
-            addCriterion("IS_COMBINATION >=", value, "isCombination");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCombinationLessThan(Integer value) {
-            addCriterion("IS_COMBINATION <", value, "isCombination");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCombinationLessThanOrEqualTo(Integer value) {
-            addCriterion("IS_COMBINATION <=", value, "isCombination");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCombinationIn(List<Integer> values) {
-            addCriterion("IS_COMBINATION in", values, "isCombination");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCombinationNotIn(List<Integer> values) {
-            addCriterion("IS_COMBINATION not in", values, "isCombination");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCombinationBetween(Integer value1, Integer value2) {
-            addCriterion("IS_COMBINATION between", value1, value2, "isCombination");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCombinationNotBetween(Integer value1, Integer value2) {
-            addCriterion("IS_COMBINATION not between", value1, value2, "isCombination");
-            return (Criteria) this;
-        }
-
-        public Criteria andParentItemIdIsNull() {
-            addCriterion("PARENT_ITEM_ID is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andParentItemIdIsNotNull() {
-            addCriterion("PARENT_ITEM_ID is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andParentItemIdEqualTo(Integer value) {
-            addCriterion("PARENT_ITEM_ID =", value, "parentItemId");
-            return (Criteria) this;
-        }
-
-        public Criteria andParentItemIdNotEqualTo(Integer value) {
-            addCriterion("PARENT_ITEM_ID <>", value, "parentItemId");
-            return (Criteria) this;
-        }
-
-        public Criteria andParentItemIdGreaterThan(Integer value) {
-            addCriterion("PARENT_ITEM_ID >", value, "parentItemId");
-            return (Criteria) this;
-        }
-
-        public Criteria andParentItemIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("PARENT_ITEM_ID >=", value, "parentItemId");
-            return (Criteria) this;
-        }
-
-        public Criteria andParentItemIdLessThan(Integer value) {
-            addCriterion("PARENT_ITEM_ID <", value, "parentItemId");
-            return (Criteria) this;
-        }
-
-        public Criteria andParentItemIdLessThanOrEqualTo(Integer value) {
-            addCriterion("PARENT_ITEM_ID <=", value, "parentItemId");
-            return (Criteria) this;
-        }
-
-        public Criteria andParentItemIdIn(List<Integer> values) {
-            addCriterion("PARENT_ITEM_ID in", values, "parentItemId");
-            return (Criteria) this;
-        }
-
-        public Criteria andParentItemIdNotIn(List<Integer> values) {
-            addCriterion("PARENT_ITEM_ID not in", values, "parentItemId");
-            return (Criteria) this;
-        }
-
-        public Criteria andParentItemIdBetween(Integer value1, Integer value2) {
-            addCriterion("PARENT_ITEM_ID between", value1, value2, "parentItemId");
-            return (Criteria) this;
-        }
-
-        public Criteria andParentItemIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("PARENT_ITEM_ID not between", value1, value2, "parentItemId");
             return (Criteria) this;
         }
 

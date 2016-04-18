@@ -6,7 +6,7 @@
     <!-- -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
     <property name="LOG_LEVEL" value="${log.level}" />
     <property name="LOG_HOME" value="${log.home}" />
-    <property name="PROJECT_NAME" value="${PROJECT_NAME}"/>
+    <property name="PROJECT_NAME" value="${log.name}"/>
     <!-- -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
     <!--  Console output                                                                                                        -->
     <!-- -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
@@ -54,25 +54,6 @@
 	   		<onMismatch>DENY</onMismatch>  
 		</filter>
     </appender>
-
-
-	<appender name="FILE-ALL"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<!-- 【begin 开发阶段配置】 -->
-			<FileNamePattern>${LOG_HOME}/${PROJECT_NAME}/%d{yyyyMM}/${PROJECT_NAME}.all.%d{yyyyMMdd}.log
-			</FileNamePattern>
-			<!-- 【end 开发阶段配置】 -->
-			<MaxHistory>30</MaxHistory>
-		</rollingPolicy>
-		<layout class="ch.qos.logback.classic.PatternLayout">
-			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %X{ip} %logger{50} - %msg%n</pattern>
-		</layout>
-		<triggeringPolicy
-			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-			<MaxFileSize>10MB</MaxFileSize>
-		</triggeringPolicy>
-	</appender>
 
     <logger name="org.apache.activemq.transport.AbstractInactivityMonitor" level="INFO"></logger>
 

@@ -1,6 +1,7 @@
 package com.xmomen.module.base.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
@@ -33,7 +34,7 @@ public class UpdateCompany implements Serializable{
      * 联系人电话
      */
     private String companyLeaderTel;
-
+    private List<Integer> customerManagerIds;
 	public String getCompanyCode() {
 		return companyCode;
 	}
@@ -72,5 +73,13 @@ public class UpdateCompany implements Serializable{
 
 	public void setCompanyLeaderTel(String companyLeaderTel) {
 		this.companyLeaderTel = companyLeaderTel;
+	}
+
+	public List<Integer> getCustomerManagerIds() {
+		return customerManagerIds;
+	}
+
+	public void setCustomerManagerIds(List<Integer> customerManagerIds) {
+		this.customerManagerIds = customerManagerIds;
 	}
 }

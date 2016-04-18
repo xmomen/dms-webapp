@@ -69,12 +69,18 @@ public class MemberModel implements Serializable{
      * 所属单位
      */
     private Integer cdCompanyId;
-
+    /**
+     * 单位
+     */
+    private String companyName;
     /**
      * 所属客服经理
      */
     private Integer cdUserId;
-
+    /**
+     * 所属客服经理
+     */
+    private String userName;
 	public String getMemberCode() {
 		return memberCode;
 	}
@@ -204,5 +210,25 @@ public class MemberModel implements Serializable{
 
 	public void setSpareName2(String spareName2) {
 		this.spareName2 = spareName2;
+	}
+
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+
+	public String getUserName() {
+		return userName;
+	}
+
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 }

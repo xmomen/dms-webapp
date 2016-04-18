@@ -1,18 +1,17 @@
-package com.xmomen.module.base.entity;
+package com.xmomen.module.order.entity;
 
 import com.xmomen.framework.mybatis.model.BaseMybatisExample;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CdItemContractItemExample extends BaseMybatisExample {
+public class TbOrderRelationExample extends BaseMybatisExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public CdItemContractItemExample() {
+    public TbOrderRelationExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -166,183 +165,213 @@ public class CdItemContractItemExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdIsNull() {
-            addCriterion("CD_CONTRACT_ID is null");
+        public Criteria andRefTypeIsNull() {
+            addCriterion("REF_TYPE is null");
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdIsNotNull() {
-            addCriterion("CD_CONTRACT_ID is not null");
+        public Criteria andRefTypeIsNotNull() {
+            addCriterion("REF_TYPE is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdEqualTo(Integer value) {
-            addCriterion("CD_CONTRACT_ID =", value, "cdContractId");
+        public Criteria andRefTypeEqualTo(String value) {
+            addCriterion("REF_TYPE =", value, "refType");
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdNotEqualTo(Integer value) {
-            addCriterion("CD_CONTRACT_ID <>", value, "cdContractId");
+        public Criteria andRefTypeNotEqualTo(String value) {
+            addCriterion("REF_TYPE <>", value, "refType");
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdGreaterThan(Integer value) {
-            addCriterion("CD_CONTRACT_ID >", value, "cdContractId");
+        public Criteria andRefTypeGreaterThan(String value) {
+            addCriterion("REF_TYPE >", value, "refType");
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("CD_CONTRACT_ID >=", value, "cdContractId");
+        public Criteria andRefTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("REF_TYPE >=", value, "refType");
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdLessThan(Integer value) {
-            addCriterion("CD_CONTRACT_ID <", value, "cdContractId");
+        public Criteria andRefTypeLessThan(String value) {
+            addCriterion("REF_TYPE <", value, "refType");
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdLessThanOrEqualTo(Integer value) {
-            addCriterion("CD_CONTRACT_ID <=", value, "cdContractId");
+        public Criteria andRefTypeLessThanOrEqualTo(String value) {
+            addCriterion("REF_TYPE <=", value, "refType");
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdIn(List<Integer> values) {
-            addCriterion("CD_CONTRACT_ID in", values, "cdContractId");
+        public Criteria andRefTypeLike(String value) {
+            addCriterion("REF_TYPE like", value, "refType");
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdNotIn(List<Integer> values) {
-            addCriterion("CD_CONTRACT_ID not in", values, "cdContractId");
+        public Criteria andRefTypeNotLike(String value) {
+            addCriterion("REF_TYPE not like", value, "refType");
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdBetween(Integer value1, Integer value2) {
-            addCriterion("CD_CONTRACT_ID between", value1, value2, "cdContractId");
+        public Criteria andRefTypeIn(List<String> values) {
+            addCriterion("REF_TYPE in", values, "refType");
             return (Criteria) this;
         }
 
-        public Criteria andCdContractIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("CD_CONTRACT_ID not between", value1, value2, "cdContractId");
+        public Criteria andRefTypeNotIn(List<String> values) {
+            addCriterion("REF_TYPE not in", values, "refType");
             return (Criteria) this;
         }
 
-        public Criteria andCdItemIdIsNull() {
-            addCriterion("CD_ITEM_ID is null");
+        public Criteria andRefTypeBetween(String value1, String value2) {
+            addCriterion("REF_TYPE between", value1, value2, "refType");
             return (Criteria) this;
         }
 
-        public Criteria andCdItemIdIsNotNull() {
-            addCriterion("CD_ITEM_ID is not null");
+        public Criteria andRefTypeNotBetween(String value1, String value2) {
+            addCriterion("REF_TYPE not between", value1, value2, "refType");
             return (Criteria) this;
         }
 
-        public Criteria andCdItemIdEqualTo(Integer value) {
-            addCriterion("CD_ITEM_ID =", value, "cdItemId");
+        public Criteria andRefValueIsNull() {
+            addCriterion("REF_VALUE is null");
             return (Criteria) this;
         }
 
-        public Criteria andCdItemIdNotEqualTo(Integer value) {
-            addCriterion("CD_ITEM_ID <>", value, "cdItemId");
+        public Criteria andRefValueIsNotNull() {
+            addCriterion("REF_VALUE is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCdItemIdGreaterThan(Integer value) {
-            addCriterion("CD_ITEM_ID >", value, "cdItemId");
+        public Criteria andRefValueEqualTo(String value) {
+            addCriterion("REF_VALUE =", value, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andCdItemIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("CD_ITEM_ID >=", value, "cdItemId");
+        public Criteria andRefValueNotEqualTo(String value) {
+            addCriterion("REF_VALUE <>", value, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andCdItemIdLessThan(Integer value) {
-            addCriterion("CD_ITEM_ID <", value, "cdItemId");
+        public Criteria andRefValueGreaterThan(String value) {
+            addCriterion("REF_VALUE >", value, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andCdItemIdLessThanOrEqualTo(Integer value) {
-            addCriterion("CD_ITEM_ID <=", value, "cdItemId");
+        public Criteria andRefValueGreaterThanOrEqualTo(String value) {
+            addCriterion("REF_VALUE >=", value, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andCdItemIdIn(List<Integer> values) {
-            addCriterion("CD_ITEM_ID in", values, "cdItemId");
+        public Criteria andRefValueLessThan(String value) {
+            addCriterion("REF_VALUE <", value, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andCdItemIdNotIn(List<Integer> values) {
-            addCriterion("CD_ITEM_ID not in", values, "cdItemId");
+        public Criteria andRefValueLessThanOrEqualTo(String value) {
+            addCriterion("REF_VALUE <=", value, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andCdItemIdBetween(Integer value1, Integer value2) {
-            addCriterion("CD_ITEM_ID between", value1, value2, "cdItemId");
+        public Criteria andRefValueLike(String value) {
+            addCriterion("REF_VALUE like", value, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andCdItemIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("CD_ITEM_ID not between", value1, value2, "cdItemId");
+        public Criteria andRefValueNotLike(String value) {
+            addCriterion("REF_VALUE not like", value, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andContractPriceIsNull() {
-            addCriterion("CONTRACT_PRICE is null");
+        public Criteria andRefValueIn(List<String> values) {
+            addCriterion("REF_VALUE in", values, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andContractPriceIsNotNull() {
-            addCriterion("CONTRACT_PRICE is not null");
+        public Criteria andRefValueNotIn(List<String> values) {
+            addCriterion("REF_VALUE not in", values, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andContractPriceEqualTo(BigDecimal value) {
-            addCriterion("CONTRACT_PRICE =", value, "contractPrice");
+        public Criteria andRefValueBetween(String value1, String value2) {
+            addCriterion("REF_VALUE between", value1, value2, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andContractPriceNotEqualTo(BigDecimal value) {
-            addCriterion("CONTRACT_PRICE <>", value, "contractPrice");
+        public Criteria andRefValueNotBetween(String value1, String value2) {
+            addCriterion("REF_VALUE not between", value1, value2, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andContractPriceGreaterThan(BigDecimal value) {
-            addCriterion("CONTRACT_PRICE >", value, "contractPrice");
+        public Criteria andOrderNoIsNull() {
+            addCriterion("ORDER_NO is null");
             return (Criteria) this;
         }
 
-        public Criteria andContractPriceGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("CONTRACT_PRICE >=", value, "contractPrice");
+        public Criteria andOrderNoIsNotNull() {
+            addCriterion("ORDER_NO is not null");
             return (Criteria) this;
         }
 
-        public Criteria andContractPriceLessThan(BigDecimal value) {
-            addCriterion("CONTRACT_PRICE <", value, "contractPrice");
+        public Criteria andOrderNoEqualTo(String value) {
+            addCriterion("ORDER_NO =", value, "orderNo");
             return (Criteria) this;
         }
 
-        public Criteria andContractPriceLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("CONTRACT_PRICE <=", value, "contractPrice");
+        public Criteria andOrderNoNotEqualTo(String value) {
+            addCriterion("ORDER_NO <>", value, "orderNo");
             return (Criteria) this;
         }
 
-        public Criteria andContractPriceIn(List<BigDecimal> values) {
-            addCriterion("CONTRACT_PRICE in", values, "contractPrice");
+        public Criteria andOrderNoGreaterThan(String value) {
+            addCriterion("ORDER_NO >", value, "orderNo");
             return (Criteria) this;
         }
 
-        public Criteria andContractPriceNotIn(List<BigDecimal> values) {
-            addCriterion("CONTRACT_PRICE not in", values, "contractPrice");
+        public Criteria andOrderNoGreaterThanOrEqualTo(String value) {
+            addCriterion("ORDER_NO >=", value, "orderNo");
             return (Criteria) this;
         }
 
-        public Criteria andContractPriceBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("CONTRACT_PRICE between", value1, value2, "contractPrice");
+        public Criteria andOrderNoLessThan(String value) {
+            addCriterion("ORDER_NO <", value, "orderNo");
             return (Criteria) this;
         }
 
-        public Criteria andContractPriceNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("CONTRACT_PRICE not between", value1, value2, "contractPrice");
+        public Criteria andOrderNoLessThanOrEqualTo(String value) {
+            addCriterion("ORDER_NO <=", value, "orderNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderNoLike(String value) {
+            addCriterion("ORDER_NO like", value, "orderNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderNoNotLike(String value) {
+            addCriterion("ORDER_NO not like", value, "orderNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderNoIn(List<String> values) {
+            addCriterion("ORDER_NO in", values, "orderNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderNoNotIn(List<String> values) {
+            addCriterion("ORDER_NO not in", values, "orderNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderNoBetween(String value1, String value2) {
+            addCriterion("ORDER_NO between", value1, value2, "orderNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderNoNotBetween(String value1, String value2) {
+            addCriterion("ORDER_NO not between", value1, value2, "orderNo");
             return (Criteria) this;
         }
     }
