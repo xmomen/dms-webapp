@@ -81,9 +81,9 @@ define(function () {
             }
         };
         $scope.choseOrderItemList = [];
-        $scope.choseItem = function(index){
+        $scope.choseItem = function(index, number){
             var item = $scope.itemList[index];
-            item.itemQty = 1;
+            item.itemQty = number;
             item.orderItemId = item.id;
             $scope.choseOrderItemList.push(item);
             $scope.itemList.splice(index,1);
@@ -108,6 +108,35 @@ define(function () {
                 $scope.choseOrderItemList = [];
                 $scope.calTotalItem();
                 $scope.getItemList();
+            });
+        };
+        $scope.openItemNumber = function (index) {
+            var modalInstance = $modal.open({
+                templateUrl: 'addItemNumber.html',
+                resolve: {
+                    CurrentOrderItem: function(){
+                        return $scope.itemList[index];
+                    }
+                },
+                controller: ["$scope", "CurrentOrderItem", "$modalInstance", function ($scope, CurrentOrderItem, $modalInstance) {
+                    $scope.orderItem = {};
+                    if(CurrentOrderItem){
+                        $scope.orderItem = CurrentOrderItem;
+                    }
+                    $scope.addItemNumberForm = {};
+                    $scope.saveItemNumber = function(){
+                        if($scope.addItemNumberForm.validator.form()){
+                            $modalInstance.close($scope.orderItem);
+                        }
+                    };
+                    $scope.cancel = function () {
+                        $modalInstance.dismiss('cancel');
+                    };
+                }]
+            });
+            modalInstance.result.then(function (data) {
+                console.log(data)
+                $scope.choseItem(index, parseFloat(data.number));
             });
         };
         $scope.calTotalItem = function(){

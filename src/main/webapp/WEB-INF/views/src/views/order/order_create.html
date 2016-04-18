@@ -253,7 +253,7 @@
 											<tr>
 												<th>名称</th>
 												<th>规格</th>
-												<th>单价</th>
+												<th class="text-align-right">单价</th>
 												<th>操作</th>
 											</tr>
 											</thead>
@@ -261,10 +261,10 @@
 											<tr data-ng-repeat="item in itemList">
 												<td>{{item.itemName}}</td>
 												<td>{{item.spec}}</td>
-												<td>{{item.sellPrice}}</td>
+												<td class="text-align-right">{{item.sellPrice | number:2}}</td>
 												<td>
 													<div>
-														<a href="javascript:void(0);" data-ng-click="choseItem($index)" title="订购：{{item.itemName}}">
+														<a href="javascript:void(0);" data-ng-click="openItemNumber($index)" title="订购：{{item.itemName}}">
 															<span class="fa fa-plus"></span>
 														</a>
 													</div>
@@ -290,29 +290,29 @@
 											</tr>
 											<tr>
 												<th>名称</th>
-												<th>单价</th>
-												<th>份数</th>
-												<th>总价</th>
+												<th class="text-align-right">单价</th>
+												<th class="text-align-right">份数</th>
+												<th class="text-align-right">总价</th>
 												<th>操作</th>
 											</tr>
 											</thead>
 											<tbody>
 												<tr ng-repeat="choseItem in choseOrderItemList">
 													<td>{{choseItem.itemName}}</td>
-													<td>{{choseItem.sellPrice}}</td>
-													<td>{{choseItem.itemQty}}</td>
-													<td>{{choseItem.sellPrice * choseItem.itemQty}}</td>
+													<td class="text-align-right">{{choseItem.sellPrice | number:2}}</td>
+													<td class="text-align-right">{{choseItem.itemQty | number:2}}</td>
+													<td class="text-align-right">{{choseItem.sellPrice * choseItem.itemQty | number:2}}</td>
 													<td>
 														<div>
 															<a href="javascript:void(0);" data-ng-click="removeItem($index)" title="移除：{{choseItem.itemName}}">
 																<span class="glyphicon glyphicon-trash"></span>
 															</a>
-															<a href="javascript:void(0);" data-ng-click="changeItemNumber($index, 1)" title="添加：{{choseItem.itemName}}">
-																<span class="fa fa-plus"></span>
-															</a>
-															<a  ng-if="choseItem.itemQty > 1" href="javascript:void(0);" data-ng-click="changeItemNumber($index, 0)" title="减少：{{choseItem.itemName}}">
-																<span class="fa fa-minus"></span>
-															</a>
+															<!--<a href="javascript:void(0);" data-ng-click="changeItemNumber($index, 1)" title="添加：{{choseItem.itemName}}">-->
+																<!--<span class="fa fa-plus"></span>-->
+															<!--</a>-->
+															<!--<a  ng-if="choseItem.itemQty > 1" href="javascript:void(0);" data-ng-click="changeItemNumber($index, 0)" title="减少：{{choseItem.itemName}}">-->
+																<!--<span class="fa fa-minus"></span>-->
+															<!--</a>-->
 														</div>
 													</td>
 												</tr>
@@ -320,11 +320,11 @@
 											<tfoot>
 											<tr>
 												<td colspan="2">合计</td>
-												<td>{{totalItem.totalNumber}}</td>
-												<td>{{totalItem.totalPrice}}</td>
+												<td class="text-align-right">{{totalItem.totalNumber | number:2}}</td>
+												<td class="text-align-right">{{totalItem.totalPrice | number:2}}</td>
 												<td>
 													<div>
-														<a href="javascript:void(0);" data-ng-click="removeAllItem()" title="移除所有：{{choseItem.itemName}}">
+														<a ng-if="choseOrderItemList.length > 0" href="javascript:void(0);" data-ng-click="removeAllItem()" title="移除所有：{{choseItem.itemName}}">
 															<span class="glyphicon glyphicon-trash"></span>
 														</a>
 													</div>
@@ -459,24 +459,24 @@
 												</tr>
 												<tr>
 													<th>名称</th>
-													<th>单价</th>
-													<th>份数</th>
-													<th>总价</th>
+													<th class="text-align-right">单价</th>
+													<th class="text-align-right">份数</th>
+													<th class="text-align-right">总价</th>
 												</tr>
 												</thead>
 												<tbody>
 												<tr ng-repeat="choseItem in choseOrderItemList">
 													<td>{{choseItem.itemName}}</td>
-													<td>{{choseItem.sellPrice}}</td>
-													<td>{{choseItem.itemQty}}</td>
-													<td>{{choseItem.sellPrice * choseItem.itemQty}}</td>
+													<td class="text-align-right">{{choseItem.sellPrice | number:2}}</td>
+													<td class="text-align-right">{{choseItem.itemQty | number:2}}</td>
+													<td class="text-align-right">{{choseItem.sellPrice * choseItem.itemQty | number:2}}</td>
 												</tr>
 												</tbody>
 												<tfoot>
 												<tr>
 													<td colspan="2">合计</td>
-													<td>{{totalItem.totalNumber}}</td>
-													<td>{{totalItem.totalPrice}}</td>
+													<td class="text-align-right">{{totalItem.totalNumber | number:2}}</td>
+													<td class="text-align-right">{{totalItem.totalPrice | number:2}}</td>
 												</tr>
 												</tfoot>
 											</table>
@@ -516,3 +516,40 @@
 
 </section>
 <!-- end widget grid -->
+
+<script type="text/ng-template" id="addItemNumber.html">
+	<div class="modal-header">
+		<h3 class="modal-title">订购【{{orderItem.itemName}}】</h3>
+	</div>
+	<div class="modal-body">
+		<div class="widget-body">
+
+			<form class="form-horizontal" ug-validate="addItemNumberForm" name="addItemNumberForm" novalidate="">
+
+				<fieldset>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">订购数量</label>
+						<div class="col-md-10 input-group">
+							<input class="form-control" required data-rule-number="true" ng-model="orderItem.number" name="number" placeholder="产品订购数量" type="text">
+						</div>
+					</div>
+
+					<div class="form-group" ng-if="errors">
+						<label class="col-md-2 control-label"></label>
+						<div class="col-md-10 error">
+							{{errors.message}}
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="submit" data-ng-click="saveItemNumber()">
+			<i class="fa fa-save"></i>
+			确定
+		</button>
+		<button class="btn btn-warning" ng-click="cancel()">取消</button>
+	</div>
+</script>
