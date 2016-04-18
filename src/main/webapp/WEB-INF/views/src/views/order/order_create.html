@@ -75,9 +75,9 @@
 									<label class="control-label col-md-2">卡号</label>
 									<div class="col-md-4">
 										<div class="input-group input-group-md">
-											<input type="text" ng-model="order.cardNumber" placeholder="卡号" class="form-control">
+											<input type="text" ng-model="card.cardNumber" placeholder="卡号" class="form-control">
 						                    <span class="input-group-btn">
-						                        <button class="btn btn-default" type="button">查询</button>
+						                        <button class="btn btn-default" data-ng-click="getCouponByCouponNo()" type="button">查询</button>
 						                    </span>
 										</div>
 									</div>
@@ -90,7 +90,7 @@
 									<label class="control-label col-md-2">券号</label>
 									<div class="col-md-4">
 										<div class="input-group input-group-md">
-											<input type="text" ng-model="order.cardNumber" placeholder="券号" class="form-control">
+											<input type="text" ng-model="coupon.cardNumber" placeholder="券号" class="form-control">
 						                    <span class="input-group-btn">
 						                        <button class="btn btn-default" type="button">查询</button>
 						                    </span>
@@ -99,11 +99,11 @@
 									<label class="control-label col-md-2">使用状态</label>
 									<div class="col-md-4">
 										<label class="radio radio-inline">
-											<input type="radio" class="radiobox" disabled value="0" ng-model="order.isUse" ng-checked="order.isUse==0" name="isUse">
+											<input type="radio" class="radiobox" disabled value="0" ng-model="coupon.isUse" ng-checked="coupon.isUse==0" name="isUse">
 											<span>已使用</span>
 										</label>
 										<label class="radio radio-inline">
-											<input type="radio" class="radiobox" disabled value="1" ng-model="order.isUse" ng-checked="order.isUse==1" name="isUse">
+											<input type="radio" class="radiobox" disabled value="1" ng-model="coupon.isUse" ng-checked="coupon.isUse==1" name="isUse">
 											<span>未使用</span>
 										</label>
 									</div>
@@ -112,7 +112,7 @@
 									<label class="control-label col-md-2">电话号码</label>
 									<div class="col-md-4">
 										<div class="input-group input-group-md">
-											<input type="text" ng-model="order.phone" value="13162323157" placeholder="电话／手机号码" class="form-control">
+											<input type="text" ng-model="order.phone" ng-value="13162323157" placeholder="电话／手机号码" class="form-control">
 						                    <span class="input-group-btn">
 						                        <button class="btn btn-default" data-ng-click="queryMemberByPhoneNumber()" type="button">查询</button>
 						                    </span>
@@ -127,11 +127,11 @@
 								<div class="form-group" ng-if="order.orderType==1">
 									<label class="control-label col-md-2">密码</label>
 									<div class="col-md-4">
-										<input type="text" ng-model="order.password" disabled placeholder="查询后自动填充" class="form-control">
+										<input type="text" ng-model="card.password" disabled placeholder="查询后自动填充" class="form-control">
 									</div>
 									<label class="control-label col-md-2">余额</label>
 									<div class="col-md-4">
-										<input type="text" ng-model="order.amount" disabled placeholder="查询后自动填充" class="form-control">
+										<input type="text" ng-model="card.amount" disabled placeholder="查询后自动填充" class="form-control">
 									</div>
 								</div>
 								<div class="form-group">
@@ -153,7 +153,7 @@
 											<input type="text" ng-model="order.consigneeName" disabled placeholder="查询后自动填充" class="form-control">
 											<span class="input-group-addon">
 												<span class="onoffswitch">
-													<input type="radio" name="start_interval" class="onoffswitch-checkbox" id="default_address">
+													<input type="radio" ng-model="order.addressChose" data-ng-checked="order.addressChose == 1" name="start_interval" class="onoffswitch-checkbox" id="default_address">
 													<label class="onoffswitch-label" for="default_address">
 														<span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
 														<span class="onoffswitch-switch"></span>
@@ -181,7 +181,7 @@
 											<input type="text" disabled placeholder="查询后自动填充" class="form-control">
 											<span class="input-group-addon">
 												<span class="onoffswitch">
-													<input type="radio" name="start_interval" class="onoffswitch-checkbox" id="backup_address">
+													<input type="radio"  ng-model="order.addressChose" data-ng-checked="order.addressChose == 2" name="start_interval" class="onoffswitch-checkbox" id="backup_address">
 													<label class="onoffswitch-label" for="backup_address">
 														<span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
 														<span class="onoffswitch-switch"></span>
@@ -209,7 +209,7 @@
 											<input type="text" disabled placeholder="查询后自动填充" class="form-control">
 											<span class="input-group-addon">
 												<span class="onoffswitch">
-													<input type="radio" name="start_interval" class="onoffswitch-checkbox" id="backup_address2">
+													<input type="radio" ng-model="order.addressChose" data-ng-checked="order.addressChose == 3" name="start_interval" class="onoffswitch-checkbox" id="backup_address2">
 													<label class="onoffswitch-label" for="backup_address2">
 														<span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
 														<span class="onoffswitch-switch"></span>
@@ -241,8 +241,16 @@
 							<fieldset class="demo-switcher-1">
 								<legend>订购产品</legend>
 								<div class="row">
+									<div class="row">
+										<div class="col-sm-3">
+											<div class="dataTables_filter">
+												<label>
+													<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+													<input type="search" placeholder="产品分类/名称/编号" data-ng-keyup="getItemList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+											</div>
+										</div>
+									</div>
 									<div class="table-responsive col-md-6">
-
 										<table class="table table-bordered">
 											<thead>
 											<tr>
@@ -491,7 +499,7 @@
 										<button class="btn btn-default" type="button">
 											取消
 										</button>
-										<button class="btn btn-primary" data-ng-click="saveOrder()" type="button">
+										<button class="btn btn-primary" data-ng-click="saveOrder()" type="submit">
 											<i class="fa fa-save"></i>
 											提交
 										</button>

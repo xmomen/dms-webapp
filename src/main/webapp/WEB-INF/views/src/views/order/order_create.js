@@ -2,7 +2,7 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "OrderAPI", "ItemAPI", "MemberAPI", "$modal", "$ugDialog", "$state", function($scope, OrderAPI, ItemAPI, MemberAPI, $modal, $ugDialog, $state){
+    return ["$scope", "OrderAPI", "ItemAPI", "MemberAPI", "$modal", "$ugDialog", "$state", "CouponAPI", "$modalMemberAdd", function($scope, OrderAPI, ItemAPI, MemberAPI, $modal, $ugDialog, $state, CouponAPI, $modalMemberAdd){
         $scope.order = {
             orderType:0
         };
@@ -22,9 +22,8 @@ define(function () {
                 $state.go("order");
             }, function(data){
                 $scope.errors = data.data;
-            })
+            });
             //if($scope.addOrderForm.validator.form()){
-            //
             //}
         };
         $scope.pageSetting = {
@@ -52,6 +51,15 @@ define(function () {
                 $scope.pageInfoSetting.loadData = $scope.getItemList;
             });
         };
+        $scope.bindMember = function(){
+            $modalMemberAdd.open({
+                currentMember:{
+                    phoneNumber:$scope.order.phone
+                }
+            }).result.then(function (data) {
+                $scope.queryMemberByPhoneNumber();
+            });
+        };
         $scope.queryMemberByPhoneNumber = function(){
             if($scope.order.phone){
                 MemberAPI.query({
@@ -65,6 +73,7 @@ define(function () {
                         $scope.order.cdCompanyId = member.cdCompanyId;
                         $scope.order.name = member.name;
                         $scope.order.phone = member.phoneNumber;
+                        $scope.order.addressChose = 1;
                         $scope.order.consigneeAddress = member.address;
                         $scope.order.consigneeName = member.name;
                         $scope.order.consigneePhone = member.phoneNumber;
@@ -74,6 +83,37 @@ define(function () {
                         $scope.order.spareAddress2 = member.spareAddress2;
                         $scope.order.spareName2 = member.spareName2;
                         $scope.order.spareTel2 = member.spareTel2;
+                    }else{
+                        $ugDialog.confirm("未找到匹配手机号的客户，是否新增客户？").then(function(){
+                            $scope.bindMember();
+                        });
+                    }
+                })
+            }
+        };
+        $scope.card = {};
+        $scope.getCouponByCouponNo = function(){
+            if($scope.card.cardNumber){
+                CouponAPI.query({
+                    limit:1,
+                    offset:1,
+                    couponNumber:$scope.card.cardNumber
+                }, function(data){
+                    if(data.data && data.data.length > 0){
+                        var member = data.data[0];
+                        //$scope.order.memberId = member.id;
+                        //$scope.order.cdCompanyId = member.cdCompanyId;
+                        //$scope.order.name = member.name;
+                        //$scope.order.phone = member.phoneNumber;
+                        //$scope.order.consigneeAddress = member.address;
+                        //$scope.order.consigneeName = member.name;
+                        //$scope.order.consigneePhone = member.phoneNumber;
+                        //$scope.order.spareAddress = member.spareAddress;
+                        //$scope.order.spareName = member.spareName;
+                        //$scope.order.spareTel = member.spareTel;
+                        //$scope.order.spareAddress2 = member.spareAddress2;
+                        //$scope.order.spareName2 = member.spareName2;
+                        //$scope.order.spareTel2 = member.spareTel2;
                     }else{
                         $ugDialog.alert("未找到匹配手机号的客户");
                     }
@@ -135,7 +175,6 @@ define(function () {
                 }]
             });
             modalInstance.result.then(function (data) {
-                console.log(data)
                 $scope.choseItem(index, parseFloat(data.number));
             });
         };

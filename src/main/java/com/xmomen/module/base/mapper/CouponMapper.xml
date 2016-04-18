@@ -14,6 +14,9 @@
               <if test="keyword">
                   AND cc.COUPON_NUMBER LIKE CONCAT('%', #{keyword}, '%') or cc.COUPON_DESC LIKE CONCAT('%', #{keyword}, '%')
               </if>
+              <if test="couponNumber">
+                  AND cc.COUPON_NUMBER = #{couponNumber}
+              </if>
          </where>
     </select>
 </mapper>

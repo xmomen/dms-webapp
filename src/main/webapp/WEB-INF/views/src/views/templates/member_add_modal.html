@@ -1,0 +1,102 @@
+<div class="modal-header">
+    <h3 class="modal-title">新增/更新客户</h3>
+</div>
+<div class="modal-body">
+    <div class="widget-body">
+
+        <form class="form-horizontal" ug-validate="addMemberForm" name="addMemberForm" novalidate="">
+            <fieldset>
+                <div class="form-group">
+                    <!--<label class="col-md-2 control-label">客户编码</label>-->
+                    <!--<div class="col-md-4">-->
+                    <!--<input class="form-control" required="true" data-rule-minlength="3" data-rule-maxlength="20" ng-model="member.memberCode" name="memberCode" placeholder="客户编码" type="text">-->
+                    <!--</div>-->
+                    <label class="col-md-2 control-label">客户姓名<span class="vaild">*</span></label>
+                    <div class="col-md-4">
+                        <input class="form-control" required="true" data-rule-minlength="2" data-rule-maxlength="20" ng-model="member.name" name="name" placeholder="客户姓名" type="text">
+                    </div>
+                    <label class="col-md-2 control-label">公司/单位<span class="vaild">*</span></label>
+                    <div class="col-md-4">
+                        <select ug-select2 style="width: 100%;" required="true" ng-model="member.cdCompanyId" name="company" >
+                            <option value="">--请选择--</option>
+                            <option value="{{company.id}}" ng-repeat="company in companyList">{{company.companyName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">家庭固话</label>
+                    <div class="col-md-4">
+                        <input class="form-control" ng-model="member.telNumber" name="telNumber" placeholder="家庭固话" type="text">
+                    </div>
+                    <label class="col-md-2 control-label">办公室电话</label>
+                    <div class="col-md-4">
+                        <input class="form-control" ng-model="member.officeTel" name="officeTel" placeholder="办公室电话" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">收货人</label>
+                    <div class="col-md-4">
+                        <!--<input class="form-control" required="true" ng-model="" name="" placeholder="收货人" type="text">-->
+                        {{member.name}}
+                    </div>
+                    <label class="col-md-2 control-label">手机号<span class="vaild">*</span></label>
+                    <div class="col-md-4">
+                        <input class="form-control" required="true" ng-model="member.phoneNumber" name="phoneNumber" data-rule-telephone="true" placeholder="手机号"  type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">收货地址<span class="vaild">*</span></label>
+                    <div class="col-md-10">
+                        <input class="form-control" required="true" ng-model="member.address" name="address" placeholder="收货地址" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">收货人</label>
+                    <div class="col-md-4">
+                        <input class="form-control" ng-model="member.spareName" name="spareName" placeholder="备用收货人" type="text">
+                    </div>
+                    <label class="col-md-2 control-label">手机号</label>
+                    <div class="col-md-4">
+                        <input class="form-control" ng-model="member.spareTel" name="spareTel" placeholder="备用手机号" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">收货地址</label>
+                    <div class="col-md-10">
+                        <input class="form-control" ng-model="member.spareAddress" name="spareAddress" placeholder="备用收货地址" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">收货人</label>
+                    <div class="col-md-4">
+                        <input class="form-control" ng-model="member.spareName2" name="spareName2" placeholder="备用收货人" type="text">
+                    </div>
+                    <label class="col-md-2 control-label">手机号</label>
+                    <div class="col-md-4">
+                        <input class="form-control" ng-model="member.spareTel2" name="spareTel2"  placeholder="备用手机号" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">备用地址</label>
+                    <div class="col-md-10">
+                        <input class="form-control"  ng-model="member.spareAddress2" name="spareAddress2" placeholder="备用收货地址" type="text">
+                    </div>
+                </div>
+                <div class="form-group" ng-if="errors">
+                    <label class="col-md-2 control-label"></label>
+                    <div class="col-md-10 error">
+                        {{errors.message}}
+                    </div>
+
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="submit" data-ng-click="saveOrUpdateMember()">
+        <i class="fa fa-save"></i>
+        保存
+    </button>
+    <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+</div>
