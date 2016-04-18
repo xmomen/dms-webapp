@@ -7,6 +7,7 @@
     <result column="ORDER_TYPE" property="orderType" jdbcType="INTEGER" />
     <result column="ORDER_SOURCE" property="orderSource" jdbcType="INTEGER" />
     <result column="PAYMENT_MODE" property="paymentMode" jdbcType="INTEGER" />
+    <result column="MEMBER_CODE" property="memberCode" jdbcType="VARCHAR" />
     <result column="ORDER_STATUS" property="orderStatus" jdbcType="VARCHAR" />
     <result column="CONSIGNEE_PHONE" property="consigneePhone" jdbcType="VARCHAR" />
     <result column="CONSIGNEE_NAME" property="consigneeName" jdbcType="VARCHAR" />
@@ -77,9 +78,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, ORDER_NO, ORDER_TYPE, ORDER_SOURCE, PAYMENT_MODE, ORDER_STATUS, CONSIGNEE_PHONE, 
-    CONSIGNEE_NAME, CONSIGNEE_ADDRESS, POSTCODE, TRANSPORT_MODE, REMARK, TOTAL_AMOUNT, 
-    CREATE_TIME, CREATE_USER_ID
+    ID, ORDER_NO, ORDER_TYPE, ORDER_SOURCE, PAYMENT_MODE, MEMBER_CODE, ORDER_STATUS, 
+    CONSIGNEE_PHONE, CONSIGNEE_NAME, CONSIGNEE_ADDRESS, POSTCODE, TRANSPORT_MODE, REMARK, 
+    TOTAL_AMOUNT, CREATE_TIME, CREATE_USER_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbOrderExample" >
     select
@@ -118,6 +119,9 @@
       </if>
       <if test="paymentMode != null" >
         PAYMENT_MODE,
+      </if>
+      <if test="memberCode != null" >
+        MEMBER_CODE,
       </if>
       <if test="orderStatus != null" >
         ORDER_STATUS,
@@ -165,6 +169,9 @@
       </if>
       <if test="paymentMode != null" >
         #{paymentMode,jdbcType=INTEGER},
+      </if>
+      <if test="memberCode != null" >
+        #{memberCode,jdbcType=VARCHAR},
       </if>
       <if test="orderStatus != null" >
         #{orderStatus,jdbcType=VARCHAR},
@@ -221,6 +228,9 @@
       </if>
       <if test="record.paymentMode != null" >
         PAYMENT_MODE = #{record.paymentMode,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberCode != null" >
+        MEMBER_CODE = #{record.memberCode,jdbcType=VARCHAR},
       </if>
       <if test="record.orderStatus != null" >
         ORDER_STATUS = #{record.orderStatus,jdbcType=VARCHAR},

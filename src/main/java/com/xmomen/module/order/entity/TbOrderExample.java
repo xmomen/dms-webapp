@@ -417,6 +417,76 @@ public class TbOrderExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
+        public Criteria andMemberCodeIsNull() {
+            addCriterion("MEMBER_CODE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeIsNotNull() {
+            addCriterion("MEMBER_CODE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeEqualTo(String value) {
+            addCriterion("MEMBER_CODE =", value, "memberCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeNotEqualTo(String value) {
+            addCriterion("MEMBER_CODE <>", value, "memberCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeGreaterThan(String value) {
+            addCriterion("MEMBER_CODE >", value, "memberCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("MEMBER_CODE >=", value, "memberCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeLessThan(String value) {
+            addCriterion("MEMBER_CODE <", value, "memberCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeLessThanOrEqualTo(String value) {
+            addCriterion("MEMBER_CODE <=", value, "memberCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeLike(String value) {
+            addCriterion("MEMBER_CODE like", value, "memberCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeNotLike(String value) {
+            addCriterion("MEMBER_CODE not like", value, "memberCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeIn(List<String> values) {
+            addCriterion("MEMBER_CODE in", values, "memberCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeNotIn(List<String> values) {
+            addCriterion("MEMBER_CODE not in", values, "memberCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeBetween(String value1, String value2) {
+            addCriterion("MEMBER_CODE between", value1, value2, "memberCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeNotBetween(String value1, String value2) {
+            addCriterion("MEMBER_CODE not between", value1, value2, "memberCode");
+            return (Criteria) this;
+        }
+
         public Criteria andOrderStatusIsNull() {
             addCriterion("ORDER_STATUS is null");
             return (Criteria) this;
