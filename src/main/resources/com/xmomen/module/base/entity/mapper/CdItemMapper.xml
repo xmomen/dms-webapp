@@ -7,7 +7,7 @@
     <result column="CD_CATEGORY_ID" property="cdCategoryId" jdbcType="INTEGER" />
     <result column="ITEM_NAME" property="itemName" jdbcType="VARCHAR" />
     <result column="ITEM_DESCRIBE" property="itemDescribe" jdbcType="VARCHAR" />
-    <result column="ITEM_TYPE" property="itemType" jdbcType="VARCHAR" />
+    <result column="ITEM_TYPE" property="itemType" jdbcType="INTEGER" />
     <result column="YIELDLY" property="yieldly" jdbcType="VARCHAR" />
     <result column="SPEC" property="spec" jdbcType="VARCHAR" />
     <result column="BASE_PRICE" property="basePrice" jdbcType="DECIMAL" />
@@ -16,8 +16,6 @@
     <result column="SELL_STATUS" property="sellStatus" jdbcType="INTEGER" />
     <result column="SELL_UNIT" property="sellUnit" jdbcType="VARCHAR" />
     <result column="SELL_PRICE" property="sellPrice" jdbcType="DECIMAL" />
-    <result column="IS_COMBINATION" property="isCombination" jdbcType="INTEGER" />
-    <result column="PARENT_ITEM_ID" property="parentItemId" jdbcType="INTEGER" />
     <result column="IS_AUDIT" property="isAudit" jdbcType="INTEGER" />
     <result column="CREATE_DATE_TIME" property="createDateTime" jdbcType="TIMESTAMP" />
     <result column="CREATE_USER_CODE" property="createUserCode" jdbcType="VARCHAR" />
@@ -82,8 +80,8 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, ITEM_CODE, CD_CATEGORY_ID, ITEM_NAME, ITEM_DESCRIBE, ITEM_TYPE, YIELDLY, SPEC, 
-    BASE_PRICE, MEMBER_PRICE, PRICING_MANNER, SELL_STATUS, SELL_UNIT, SELL_PRICE, IS_COMBINATION, 
-    PARENT_ITEM_ID, IS_AUDIT, CREATE_DATE_TIME, CREATE_USER_CODE
+    BASE_PRICE, MEMBER_PRICE, PRICING_MANNER, SELL_STATUS, SELL_UNIT, SELL_PRICE, IS_AUDIT, 
+    CREATE_DATE_TIME, CREATE_USER_CODE
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdItemExample" >
     select
@@ -150,12 +148,6 @@
       <if test="sellPrice != null" >
         SELL_PRICE,
       </if>
-      <if test="isCombination != null" >
-        IS_COMBINATION,
-      </if>
-      <if test="parentItemId != null" >
-        PARENT_ITEM_ID,
-      </if>
       <if test="isAudit != null" >
         IS_AUDIT,
       </if>
@@ -183,7 +175,7 @@
         #{itemDescribe,jdbcType=VARCHAR},
       </if>
       <if test="itemType != null" >
-        #{itemType,jdbcType=VARCHAR},
+        #{itemType,jdbcType=INTEGER},
       </if>
       <if test="yieldly != null" >
         #{yieldly,jdbcType=VARCHAR},
@@ -208,12 +200,6 @@
       </if>
       <if test="sellPrice != null" >
         #{sellPrice,jdbcType=DECIMAL},
-      </if>
-      <if test="isCombination != null" >
-        #{isCombination,jdbcType=INTEGER},
-      </if>
-      <if test="parentItemId != null" >
-        #{parentItemId,jdbcType=INTEGER},
       </if>
       <if test="isAudit != null" >
         #{isAudit,jdbcType=INTEGER},
@@ -251,7 +237,7 @@
         ITEM_DESCRIBE = #{record.itemDescribe,jdbcType=VARCHAR},
       </if>
       <if test="record.itemType != null" >
-        ITEM_TYPE = #{record.itemType,jdbcType=VARCHAR},
+        ITEM_TYPE = #{record.itemType,jdbcType=INTEGER},
       </if>
       <if test="record.yieldly != null" >
         YIELDLY = #{record.yieldly,jdbcType=VARCHAR},
@@ -276,12 +262,6 @@
       </if>
       <if test="record.sellPrice != null" >
         SELL_PRICE = #{record.sellPrice,jdbcType=DECIMAL},
-      </if>
-      <if test="record.isCombination != null" >
-        IS_COMBINATION = #{record.isCombination,jdbcType=INTEGER},
-      </if>
-      <if test="record.parentItemId != null" >
-        PARENT_ITEM_ID = #{record.parentItemId,jdbcType=INTEGER},
       </if>
       <if test="record.isAudit != null" >
         IS_AUDIT = #{record.isAudit,jdbcType=INTEGER},

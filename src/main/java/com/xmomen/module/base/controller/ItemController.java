@@ -1,6 +1,8 @@
 package com.xmomen.module.base.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -19,6 +21,7 @@ import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
 import com.xmomen.module.base.mapper.ItemMapper;
 import com.xmomen.module.base.model.CreateItem;
+import com.xmomen.module.base.model.ItemChildModel;
 import com.xmomen.module.base.model.ItemModel;
 import com.xmomen.module.base.model.UpdateItem;
 import com.xmomen.module.base.service.ItemService;
@@ -42,10 +45,18 @@ public class ItemController {
             @RequestParam(value = "offset") Integer offset,
             @RequestParam(value = "id", required = false) Integer id,
             @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "sellStatus", required = false) Integer sellStatus,
+            @RequestParam(value = "itemType", required = false) Integer itemType,
             @RequestParam(value = "exclude_ids", required = false) Integer[] exclude_ids){
-    	 Map map = new HashMap<String,Object>();
-         map.put("id", id);
-         map.put("keyword", keyword);
+		 Map map = new HashMap<String,Object>();
+	     map.put("id", id);
+	     map.put("keyword", keyword);
+	     if(sellStatus != null){
+	    	 map.put("sellStatus",sellStatus);
+	     }
+	     if(itemType != null){
+	    	 map.put("itemType",itemType);
+	     }
         if(exclude_ids != null){
             map.put("exclude_ids", exclude_ids);
         }
@@ -83,4 +94,18 @@ public class ItemController {
     public void deleteMember(@PathVariable(value = "id") Integer id){
     	itemService.delete(id);
     }
+    
+    /**
+     * 查询子产品
+     * @param parentId
+     * @return
+     */
+    @RequestMapping(value = "/getChildItem", method = RequestMethod.GET)
+	public List<ItemChildModel> getChildItem(@RequestParam(value = "parentId", required = false) Integer parentId){
+    	List<ItemChildModel> childItems = new ArrayList<ItemChildModel>();
+    	Map map = new HashMap<String,Object>();
+	    map.put("parentId", parentId);
+	    childItems = mybatisDao.getSqlSessionTemplate().selectList(ItemMapper.ItemMapperNameSpace + "getChildItemList", map);
+		return childItems;
+	}
 }

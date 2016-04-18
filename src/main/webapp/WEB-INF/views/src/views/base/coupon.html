@@ -71,8 +71,9 @@
 										</label>
 									</th>
 									<th width="120">卡券类型</th>
+                                    <th>卡劵类别</th>
 									<th>描述</th>
-									<th>卡号</th>
+									<th>卡号/劵号</th>
 									<th>可用金额/可用次数</th>
 									<th>有效日期</th>
 									<th>使用状态</th>
@@ -90,14 +91,15 @@
 											<i></i>
 										</label>
 									</td>
-									<td ng-bind="coupon.couponType"></td>
+                                    <td><span ng-if="coupon.couponType == 1">卡</span><span ng-if="coupon.couponType == 2">消费劵</span></td>
+                                    <td ng-bind="coupon.categoryName"></td>
 									<td ng-bind="coupon.couponDesc"></td>
 									<td ng-bind="coupon.couponNumber"></td>
 									<td ng-bind="coupon.couponValue"></td>
 									<td>{{coupon.beginTime | date: 'yyyy-MM-dd'}} 至 {{coupon.endTime | date: 'yyyy-MM-dd'}}</td>
-									<td ng-bind="coupon.isUsed"></td>
-									<td ng-bind="coupon.isUseful"></td>
-									<td ng-bind="coupon.isGift"></td>
+                                    <td><span ng-if="coupon.isUsed == 0">未使用</span><span ng-if="coupon.isUsed == 1">已使用</span></td>
+                                    <td><span ng-if="coupon.isUseful == 0">无效</span><span ng-if="coupon.isUseful == 1">有效</span></td>
+                                    <td><span ng-if="coupon.isGift == 0">未赠送</span><span ng-if="coupon.isGift == 1">已赠送</span></td>
 									<td ng-bind="coupon.notes"></td>
 									<td>
 										<div ng-show="show">
@@ -156,35 +158,49 @@
 						<label class="col-md-2 control-label">类型</label>
 						<div class="col-md-10 input-group">
 							<label class="radio radio-inline">
-								<input type="radio" class="radiobox" ng-model="coupon.couponType" value="0" ng-checked="coupon.couponType==0" name="couponType">
+								<input type="radio" class="radiobox" ng-model="coupon.couponType" value="1" ng-checked="coupon.couponType==1" ng-change="selectCategory()" name="couponType">
 								<span>卡</span>
 							</label>
 							<label class="radio radio-inline">
-								<input type="radio" class="radiobox" ng-model="coupon.couponType" value="1" ng-checked="coupon.couponType==1" name="couponType">
-								<span>券</span>
+								<input type="radio" class="radiobox" ng-model="coupon.couponType" value="2" ng-checked="coupon.couponType==2" ng-change="selectCategory()" name="couponType">
+								<span>消费券</span>
 							</label>
 						</div>
 					</div>
-
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">类别<span class="vaild">*</span></label>
+                        <div class="col-md-10 input-group">
+                            <select ug-select2 style="width: 100%;" required="true" ng-model="coupon.couponCategory" name="couponCategory" >
+                                <option value="">--请选择--</option>
+                                <option value="{{category.id}}" ng-repeat="category in categoryList">{{category.categoryName}}</option>
+                            </select>
+                        </div>
+                    </div>
 					<div class="form-group">
 						<label class="col-md-2 control-label">描述</label>
 						<div class="col-md-10 input-group">
-							<input class="form-control" ng-model="coupon.id" name="id" type="hidden">
+							<input class="form-control"  ng-model="coupon.id" name="id" type="hidden">
 							<input class="form-control"  ng-model="coupon.couponDesc" name="couponDesc" placeholder="描述" type="text">
 						</div>
 					</div>
 
 					<div class="form-group">
-						<label class="col-md-2 control-label">卡号</label>
+						<label class="col-md-2 control-label">卡号/劵号<span class="vaild">*</span></label>
 						<div class="col-md-10 input-group">
-							<input class="form-control"  ng-model="coupon.couponNumber" name="couponNumber" placeholder="卡号" type="text">
+							<input class="form-control" required="true"  ng-model="coupon.couponNumber" name="couponNumber" placeholder="卡号/劵号" type="text">
 						</div>
 					</div>
 
+                    <div class="form-group" ng-show="coupon.couponType == 1">
+                        <label class="col-md-2 control-label">卡密码</label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control"  ng-model="coupon.couponPassword" name="couponNumber" placeholder="卡密码" type="text">
+                        </div>
+                    </div>
 					<div class="form-group">
-						<label class="col-md-2 control-label">数值</label>
+						<label class="col-md-2 control-label">数值<span class="vaild">*</span></label>
 						<div class="col-md-10 input-group">
-							<input class="form-control"  ng-model="coupon.couponValue" name="couponValue" placeholder="可用金额/可用次数" type="text">
+							<input class="form-control"  required="true" ng-disabled="coupon.couponType == 2" ng-model="coupon.couponValue" name="couponValue" placeholder="可用金额/可用次数" type="text">
 						</div>
 					</div>
 

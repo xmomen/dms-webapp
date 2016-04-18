@@ -46,7 +46,7 @@
 								<div class="dataTables_filter">
 									<label>
 										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-										<input type="search" placeholder="产品编号/名称" data-ng-keyup="getItemList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+										<input type="search" placeholder="产品类别/编号/名称" data-ng-keyup="getItemList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
 								</div>
 							</div>
 							<div class="col-xs-1 col-sm-2">
@@ -69,14 +69,15 @@
                                     <th>产品类别</th>
                                     <th width="120">产品编号</th>
 									<th width="120">产品名称</th>
-                                    <th width="120">生产地</th>
+                                    <th>产品类型</th>
+                                    <th>生产地</th>
 									<th>产品规格</th>
                                     <th>计价方式</th>
                                     <th>销售状态</th>
                                     <th>销售单位</th>
                                     <th>销售价格</th>
+                                    <th>进货价格</th>
                                     <th>会员价格</th>
-                                    <th>基础价格</th>
 									<th width="80">操作</th>
 								</tr>
 								</thead>
@@ -91,14 +92,15 @@
                                     <td ng-bind="item.categoryName"></td>
 									<td ng-bind="item.itemCode"></td>
                                     <td ng-bind="item.itemName"></td>
+                                    <td><span ng-if="item.itemType == 1">常规产品</span><span ng-if="item.itemType == 2">组合产品</span></td>
                                     <td ng-bind="item.yieldly"></td>
                                     <td ng-bind="item.spec"></td>
                                     <td ng-bind="item.pricingManner"></td>
-                                    <td ng-bind="item.sellStatus"></td>
+                                    <td><span ng-if="item.sellStatus == 0">下架</span><span ng-if="item.sellStatus == 1">上架</span></td>
                                     <td ng-bind="item.sellUnit"></td>
                                     <td ng-bind="item.sellPrice"></td>
-                                    <td ng-bind="item.memberPrice"></td>
                                     <td ng-bind="item.basePrice"></td>
+                                    <td ng-bind="item.memberPrice"></td>
                                     <td>
                                         <div ng-show="show">
                                             <a href="javascript:void(0);" data-ng-click="removeItem($index)" title="删除：{{item.itemName}}">
@@ -152,6 +154,19 @@
 
 				<fieldset>
                     <div class="form-group">
+                        <label class="col-md-2 control-label">产品类型：</label>
+                        <div class="col-md-10">
+                            <label class="radio radio-inline">
+                                <input type="radio" class="radiobox" ng-disabled="item.id != null" value="1" ng-model="item.itemType" ng-checked="item.itemType == 1" name="itemType">
+                                <span>常规产品</span>
+                            </label>
+                            <label class="radio radio-inline">
+                                <input type="radio" class="radiobox" ng-disabled="item.id != null"  value="2" ng-model="item.itemType" ng-checked="item.itemType == 2" name="itemType">
+                                <span>组合产品</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-md-2 control-label">产品类别<span class="vaild">*</span></label>
                         <div class="col-md-10">
                             <input class="form-control" required="true" data-rule-minlength="2" data-rule-maxlength="20" ng-focus="chooseCategoryModel()" ng-model="item.categoryName" name="itemCode" placeholder="产品类别" type="text">
@@ -176,7 +191,7 @@
 						</div>
 					</div>
                     <div class="form-group">
-                        <label class="col-md-2 control-label">规格</label>
+                        <label class="col-md-2 control-label">规格≥</label>
                         <div class="col-md-10">
                             <input class="form-control" ng-model="item.spec" name="spec" placeholder="规格" type="text">
                         </div>
@@ -185,6 +200,21 @@
                         <label class="col-md-2 control-label">计价方式<span class="vaild">*</span></label>
                         <div class="col-md-10">
                             <input class="form-control" required="" ng-model="item.pricingManner" name="pricingManner" placeholder="计价方式" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">销售状态<span class="vaild">*</span></label>
+                        <div class="col-md-10">
+                            <div class="col-md-10">
+                                <label class="radio radio-inline">
+                                    <input type="radio" class="radiobox" value="0" ng-model="item.sellStatus" ng-checked="item.sellStatus == 0" name="sellStatus">
+                                    <span>下架</span>
+                                </label>
+                                <label class="radio radio-inline">
+                                    <input type="radio" class="radiobox" value="1" ng-model="item.sellStatus" ng-checked="item.sellStatus == 1" name="sellStatus">
+                                    <span>上架</span>
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -200,17 +230,101 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-2 control-label">基础价格<span class="vaild">*</span></label>
+                        <label class="col-md-2 control-label">进货价格</label>
                         <div class="col-md-10">
-                            <input class="form-control" required="" ng-model="item.basePrice" name="basePrice" placeholder="基础价格" type="text">
+                            <input class="form-control"  ng-model="item.basePrice" name="basePrice" placeholder="进货价格" type="text">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-2 control-label">会员价格<span class="vaild">*</span></label>
+                        <label class="col-md-2 control-label">会员价格</label>
                         <div class="col-md-10">
-                            <input class="form-control" required="" ng-model="item.memberPrice" name="basePrice" placeholder="会员价格" type="text">
+                            <input class="form-control" ng-model="item.memberPrice" name="basePrice" placeholder="会员价格" type="text">
                         </div>
                     </div>
+                    <fieldset class="demo-switcher-1" ng-if="item.itemType == 2">
+                        <legend>组合产品</legend>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-xs-11 col-sm-10">
+                                    <div class="dataTables_filter" style="width : 35%;">
+                                        <label>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                                            <input type="search" placeholder="产品类别/编号/名称" data-ng-keyup="getChildItemList()" ng-model="queryChildParam.keyword" class="form-control" aria-controls="dt_basic">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive col-md-6">
+
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="4">可选择产品</th>
+                                    </tr>
+                                    </thead>
+                                    <thead>
+                                    <tr>
+                                        <th>类别</th>
+                                        <th>编号</th>
+                                        <th>名称</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr data-ng-repeat="childItem in childItemList">
+                                        <td>{{childItem.categoryName}}</td>
+                                        <td>{{childItem.itemCode}}</td>
+                                        <td>{{childItem.itemName}}</td>
+                                        <td>
+                                            <div>
+                                                <a href="javascript:void(0);" data-ng-click="choseChildItem($index)" title="选择：{{childItem.itemName}}">
+                                                    <span class="fa fa-plus"></span>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <!--<tfoot>-->
+                                    <!--<tr>-->
+                                        <!--<td colspan="4">-->
+                                            <!--<ug-pagination page-info="pageInfoSetting" ></ug-pagination>-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--</tfoot>-->
+                                </table>
+
+                            </div>
+                            <div class="table-responsive col-md-6">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="4">已选择产品</th>
+                                    </tr>
+                                    <tr>
+                                        <th>类别</th>
+                                        <th>编号</th>
+                                        <th>名称</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="choseItem in choseChildItemList">
+                                        <td>{{choseItem.categoryName}}</td>
+                                        <td>{{choseItem.itemCode}}</td>
+                                        <td>{{choseItem.itemName}}</td>
+                                        <td>
+                                            <div>
+                                                <a href="javascript:void(0);" data-ng-click="removeChildItem($index)" title="移除：{{choseItem.itemName}}">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </fieldset>
 					<div class="form-group" ng-if="errors">
 						<label class="col-md-2 control-label"></label>
 						<div class="col-md-10 error">

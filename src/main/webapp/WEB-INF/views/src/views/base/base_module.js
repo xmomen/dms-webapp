@@ -2,21 +2,22 @@
  * Created by Administrator on 2016/1/15.
  */
 define([
-    "views/base/member/member_list",
-    "views/base/company/company_list",
+    "views/base/member_list",
+    "views/base/company_list",
+    "views/base/couponCategory",
     "views/base/coupon",
     "views/base/dictionary",
-    "views/base/itemCategory/itemCategory",
-    "views/base/item/item",
-    "views/base/contract/contract"
-],function (memberList,companyList,coupon,dictionary,itemCategory,item,contract) {
+    "views/base/itemCategory",
+    "views/base/item",
+    "views/base/contract"
+],function (memberList,companyList,couponCategory,coupon,dictionary,itemCategory,item,contract) {
     angular.module('DMS.base', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
         $stateProvider
             .state('member_list', {
                 url: '/base/member',
-                templateUrl: 'views/base/member/member_list.html',
+                templateUrl: 'views/base/member_list.html',
                 data:{
                     permissions:{
                         only:["USER_VIEW"],
@@ -27,7 +28,7 @@ define([
             })
             .state('company_list', {
                 url: '/base/company',
-                templateUrl: 'views/base/company/company_list.html',
+                templateUrl: 'views/base/company_list.html',
                 data:{
                     permissions:{
                         only:["USER_VIEW"],
@@ -35,6 +36,17 @@ define([
                     }
                 },
                 controller: companyList
+            })
+            .state('couponCategory', {
+                url: '/couponCategory',
+                templateUrl: 'views/base/couponCategory.html',
+                data:{
+                    permissions:{
+                        only:["USER_VIEW"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: couponCategory
             })
             .state('coupon', {
                 url: '/coupon',
@@ -60,7 +72,7 @@ define([
             })
             .state('itemCategory', {
                 url: '/itemCategory',
-                templateUrl: 'views/base/itemCategory/itemCategory.html',
+                templateUrl: 'views/base/itemCategory.html',
                 data:{
                     permissions:{
                         only:["USER_VIEW"],
@@ -71,7 +83,7 @@ define([
             })
             .state('item', {
                 url: '/item',
-                templateUrl: 'views/base/item/item.html',
+                templateUrl: 'views/base/item.html',
                 data:{
                     permissions:{
                         only:["USER_VIEW"],
@@ -82,7 +94,7 @@ define([
             })
             .state('contract', {
                 url: '/contract',
-                templateUrl: 'views/base/contract/contract.html',
+                templateUrl: 'views/base/contract.html',
                 data:{
                     permissions:{
                         only:["USER_VIEW"],

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.base.mapper.CouponMapper" >
+
+<!--        查询消息    -->
+	<select id="getCouponList" resultType="com.xmomen.module.base.model.CouponModel" parameterType="java.util.HashMap">
+        SELECT
+        cc.*,
+		ccc.CATEGORY_NAME
+        FROM
+        cd_coupon cc
+        left join cd_coupon_category ccc on cc.COUPON_CATEGORY = ccc.id
+        <where>
+              <if test="keyword">
+                  AND cc.COUPON_NUMBER LIKE CONCAT('%', #{keyword}, '%') or cc.COUPON_DESC LIKE CONCAT('%', #{keyword}, '%')
+              </if>
+         </where>
+    </select>
+</mapper>

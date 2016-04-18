@@ -1,18 +1,29 @@
 package com.xmomen.module.base.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
 import com.xmomen.module.base.entity.CdCoupon;
+import com.xmomen.module.base.mapper.CouponMapper;
+import com.xmomen.module.base.model.CouponModel;
 import com.xmomen.module.base.model.CreateCoupon;
 import com.xmomen.module.base.model.UpdateCoupon;
 import com.xmomen.module.base.service.CouponService;
 import com.xmomen.module.logger.Log;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 /**
  * Created by Jeng on 2016/3/30.
@@ -35,10 +46,12 @@ public class CouponController {
      */
     @RequestMapping(value = "/coupon", method = RequestMethod.GET)
     @Log(actionName = "查询卡券列表")
-    public Page<CdCoupon> getUserList(@RequestParam(value = "limit") Integer limit,
+    public Page<CouponModel> getUserList(@RequestParam(value = "limit") Integer limit,
                                   @RequestParam(value = "offset") Integer offset,
                                   @RequestParam(value = "keyword", required = false) String keyword){
-        return couponService.getCouponList(keyword, limit, offset);
+   	 Map map = new HashMap<String,Object>();
+     map.put("keyword", keyword);
+    return (Page<CouponModel>) mybatisDao.selectPage(CouponMapper.CouponMapperNameSpace + "getCouponList", map, limit, offset);
     }
 
     /**
@@ -65,6 +78,7 @@ public class CouponController {
         }
         CdCoupon cdCoupon = new CdCoupon();
         cdCoupon.setCouponType(createCoupon.getCouponType());
+        cdCoupon.setCouponCategory(createCoupon.getCouponCategory());
         cdCoupon.setCouponDesc(createCoupon.getCouponDesc());
         cdCoupon.setCouponNumber(createCoupon.getCouponNumber());
         cdCoupon.setCouponPassword(createCoupon.getCouponPassword());
@@ -94,6 +108,7 @@ public class CouponController {
         }
         CdCoupon cdCoupon = new CdCoupon();
         cdCoupon.setId(id);
+        cdCoupon.setCouponCategory(updateCoupon.getCouponCategory());
         cdCoupon.setCouponType(updateCoupon.getCouponType());
         cdCoupon.setCouponDesc(updateCoupon.getCouponDesc());
         cdCoupon.setCouponNumber(updateCoupon.getCouponNumber());

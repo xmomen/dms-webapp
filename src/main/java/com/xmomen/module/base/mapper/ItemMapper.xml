@@ -12,7 +12,7 @@
         left join cd_category cc on cm.cd_category_id = cc.id
         <where>
               <if test="keyword">
-                  AND cm.item_Code LIKE CONCAT('%', #{keyword}, '%') or cm.item_name LIKE CONCAT('%', #{keyword}, '%')
+                  AND (cm.item_Code LIKE CONCAT('%', #{keyword}, '%') or cm.item_name LIKE CONCAT('%', #{keyword}, '%') or cc.CATEGORY_NAME LIKE CONCAT('%',#{keyword}, '%'))
               </if>
               <if test="id">
                   AND cm.id = #{id}
@@ -23,6 +23,31 @@
                     #{listItem}
                   </foreach>
               </if>
+              <if test="sellStatus">
+              		AND cm.sell_status = #{sellStatus}
+              </if>
+              <if test="itemType">
+              		AND cm.item_type = #{itemType}
+              </if>
           </where>
+    </select>
+    
+        <select id="getChildItemList" resultType="com.xmomen.module.base.model.ItemChildModel" parameterType="java.util.HashMap">
+        SELECT
+			cm.id,
+        	cm.item_name,
+			cm.item_code,
+        	cc.category_name
+        FROM
+        	cd_item cm
+        left join 
+        	cd_category cc on cm.cd_category_id = cc.id	
+		left join 
+			cd_item_ref cir on cm.id = cir.REF_VALUE and cir.REF_TYPE='CHILD_ITEM'
+        <where>
+             <if test = 'parentId'>
+             	AND cir.cd_item_id = #{parentId}
+             </if>	
+        </where>
     </select>
 </mapper>
