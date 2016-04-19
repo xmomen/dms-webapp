@@ -51,7 +51,7 @@ define(function () {
                 $scope.pageInfoSetting.loadData = $scope.getItemList;
             });
         };
-        $scope.bindMember = function(){
+        var bindMember = function(){
             $modalMemberAdd.open({
                 currentMember:{
                     phoneNumber:$scope.order.phone
@@ -59,6 +59,19 @@ define(function () {
             }).result.then(function (data) {
                 $scope.queryMemberByPhoneNumber();
             });
+        };
+        $scope.editMember = function(){
+            $modalMemberAdd.open({
+                currentMember:{
+                    id: $scope.order.memberId
+                }
+            }).result.then(function (data) {
+                $scope.queryMemberByPhoneNumber();
+            });
+        };
+        $scope.setting = {
+            disablesSpareName2:true,
+            disablesSpareName:true
         };
         $scope.queryMemberByPhoneNumber = function(){
             if($scope.order.phone){
@@ -72,6 +85,8 @@ define(function () {
                         $scope.order.memberId = member.id;
                         $scope.order.cdCompanyId = member.cdCompanyId;
                         $scope.order.name = member.name;
+                        $scope.order.companyId = member.companyId;
+                        $scope.order.companyName = member.companyName;
                         $scope.order.phone = member.phoneNumber;
                         $scope.order.addressChose = 1;
                         $scope.order.consigneeAddress = member.address;
@@ -83,9 +98,15 @@ define(function () {
                         $scope.order.spareAddress2 = member.spareAddress2;
                         $scope.order.spareName2 = member.spareName2;
                         $scope.order.spareTel2 = member.spareTel2;
+                        if($scope.order.spareName){
+                            $scope.setting.disablesSpareName = false;
+                        }
+                        if($scope.order.spareName2){
+                            $scope.setting.disablesSpareName2 = false;
+                        }
                     }else{
                         $ugDialog.confirm("未找到匹配手机号的客户，是否新增客户？").then(function(){
-                            $scope.bindMember();
+                            bindMember();
                         });
                     }
                 })
