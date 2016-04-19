@@ -48,10 +48,12 @@ public class CouponController {
     @Log(actionName = "查询卡券列表")
     public Page<CouponModel> getUserList(@RequestParam(value = "limit") Integer limit,
                                   @RequestParam(value = "offset") Integer offset,
+                                  @RequestParam(value = "couponNumber", required = false) String couponNumber,
                                   @RequestParam(value = "keyword", required = false) String keyword){
-   	 Map map = new HashMap<String,Object>();
-     map.put("keyword", keyword);
-    return (Page<CouponModel>) mybatisDao.selectPage(CouponMapper.CouponMapperNameSpace + "getCouponList", map, limit, offset);
+   	    Map map = new HashMap<String,Object>();
+        map.put("keyword", keyword);
+        map.put("couponNumber", couponNumber);
+        return (Page<CouponModel>) mybatisDao.selectPage(CouponMapper.CouponMapperNameSpace + "getCouponList", map, limit, offset);
     }
 
     /**
