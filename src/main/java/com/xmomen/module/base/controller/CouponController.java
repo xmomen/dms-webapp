@@ -49,10 +49,12 @@ public class CouponController {
     public Page<CouponModel> getUserList(@RequestParam(value = "limit") Integer limit,
                                   @RequestParam(value = "offset") Integer offset,
                                   @RequestParam(value = "couponNumber", required = false) String couponNumber,
+                                  @RequestParam(value = "couponType",required = false) String couponType,
                                   @RequestParam(value = "keyword", required = false) String keyword){
    	    Map map = new HashMap<String,Object>();
         map.put("keyword", keyword);
         map.put("couponNumber", couponNumber);
+        map.put("couponType",couponType);
         return (Page<CouponModel>) mybatisDao.selectPage(CouponMapper.CouponMapperNameSpace + "getCouponList", map, limit, offset);
     }
 

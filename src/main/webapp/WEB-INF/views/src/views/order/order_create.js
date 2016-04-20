@@ -2,7 +2,7 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "OrderAPI", "ItemAPI", "MemberAPI", "$modal", "$ugDialog", "$state", "CouponAPI", "$modalMemberAdd", function($scope, OrderAPI, ItemAPI, MemberAPI, $modal, $ugDialog, $state, CouponAPI, $modalMemberAdd){
+    return ["$scope", "OrderAPI", "ItemAPI", "MemberAPI", "ItemCategoryAPI","$modal", "$ugDialog", "$state", "CouponAPI", "$modalMemberAdd", function($scope, OrderAPI, ItemAPI, MemberAPI,ItemCategoryAPI, $modal, $ugDialog, $state, CouponAPI, $modalMemberAdd){
         $scope.order = {
             orderType:0
         };
@@ -31,7 +31,7 @@ define(function () {
             pageNum:1
         };
         $scope.queryParam = {};
-        $scope.getItemList = function(){
+        $scope.getItemList = function(categoryName){
             var choseItemId = null;
             if($scope.choseOrderItemList && $scope.choseOrderItemList.length > 0){
                 choseItemId = []
@@ -39,6 +39,9 @@ define(function () {
                     var obj = $scope.choseOrderItemList[i];
                     choseItemId.push(obj.id);
                 }
+            }
+            if(categoryName){
+                $scope.queryParam.keyword = categoryName;
             }
             ItemAPI.query({
                 limit:$scope.pageSetting.pageSize,
@@ -119,34 +122,48 @@ define(function () {
                 CouponAPI.query({
                     limit:1,
                     offset:1,
-                    couponNumber:$scope.card.cardNumber
+                    couponNumber:$scope.card.cardNumber,
+                    categoryType:1
                 }, function(data){
                     if(data.data && data.data.length > 0){
                         var coupon = data.data[0];
                         $scope.card.id = coupon.id;
                         $scope.card.password = coupon.couponPassword;
                         $scope.card.amount = coupon.couponValue;
-                        if(coupon.member){
-                            $scope.order.memberId = member.id;
-                            $scope.order.cdCompanyId = member.cdCompanyId;
-                            $scope.order.name = member.name;
-                            $scope.order.phone = member.phoneNumber;
-                            $scope.order.consigneeAddress = member.address;
-                            $scope.order.consigneeName = member.name;
-                            $scope.order.consigneePhone = member.phoneNumber;
-                            $scope.order.spareAddress = member.spareAddress;
-                            $scope.order.spareName = member.spareName;
-                            $scope.order.spareTel = member.spareTel;
-                            $scope.order.spareAddress2 = member.spareAddress2;
-                            $scope.order.spareName2 = member.spareName2;
-                            $scope.order.spareTel2 = member.spareTel2;
-                        }
+                        //存在是否绑定客户 没有则填写客户信息
                     }else{
-                        $ugDialog.alert("未找到匹配手机号的客户");
+                        $ugDialog.alert("卡号不存在！");
                     }
                 })
             }
         };
+
+        $scope.coupon ={};
+        $scope.getCouponByJuanNo = function(){
+            if($scope.coupon.cardNumber){
+                CouponAPI.query({
+                    limit:1,
+                    offset:1,
+                    couponNumber:$scope.coupon.cardNumber,
+                    categoryType:2
+                }, function(data){
+                    if(data.data && data.data.length > 0){
+                        var coupon = data.data[0];
+                        $scope.coupon.id = coupon.id;
+                        $scope.coupon.isUsed = coupon.isUsed;
+                        if(coupon.isUsed==1){
+                            $ugDialog.warn("劵号已使用！");
+                            return
+                        }
+                        //存在是否绑定客户 没有则填写客户信息
+                    }else{
+                        $ugDialog.warn("劵号不存在！");
+                    }
+                })
+            }
+        }
+
+
         $scope.choseOrderItemList = [];
         $scope.choseItem = function(index, number){
             var item = $scope.itemList[index];
@@ -216,7 +233,24 @@ define(function () {
             }
             $scope.totalItem.totalNumber = totalNumber;
             $scope.totalItem.totalPrice = totalPrice;
+            $scope.totalItem.totalPriceDiscount = totalPrice * $scope.order.discount / 100;
         };
-        $scope.getItemList();
+//        $scope.getItemList();
+        $scope.discountTotalPrice = function(){
+            $scope.totalItem.totalPriceDiscount = $scope.totalItem.totalPrice * $scope.order.discount / 100;
+        }
+        $scope.itemCategoryList = [];
+        $scope.queryCategoryParam = {};
+        $scope.getItemCategoryTree = function(){
+            ItemCategoryAPI.query({
+                id:$scope.queryCategoryParam.id
+            }, function(data){
+                $scope.itemCategoryList = data;
+            });
+        };
+        $scope.getItemCategoryTree()
+        $scope.order = {};
+        $scope.order.discount = 100;
+        $scope.order.orderType = 1;
     }];
 });
