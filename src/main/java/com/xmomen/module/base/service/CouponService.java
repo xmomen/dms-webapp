@@ -38,4 +38,8 @@ public class CouponService {
         cdCouponExample.createCriteria().andCouponNumberLike("%" + StringUtils.trimToEmpty(keyword) + "%");
         return mybatisDao.selectPageByExample(cdCouponExample, limit, offset);
     }
+
+    public void bindMember(String couponNumber, Integer memberId){
+
+    }
 }

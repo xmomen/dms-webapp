@@ -6,10 +6,20 @@ define(function () {
         $scope.companyList = [];
         CompanyAPI.getCompanyList({},function(data){
             $scope.companyList = data;
-        })
+        });
         $scope.member = {};
         if(currentMember){
-            $scope.member = currentMember;
+            if(currentMember.id && !currentMember.name){
+                MemberAPI.get({
+                    id:currentMember.id
+                }, function(data){
+                    if(data){
+                        $scope.member = data;
+                    }
+                })
+            }else{
+                $scope.member = currentMember;
+            }
         }
         $scope.errors = null;
         $scope.addMemberForm = {};

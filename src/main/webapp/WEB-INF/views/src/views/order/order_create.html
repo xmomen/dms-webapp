@@ -75,9 +75,14 @@
 									<label class="control-label col-md-2">卡号</label>
 									<div class="col-md-4">
 										<div class="input-group input-group-md">
-											<input type="text" ng-model="card.cardNumber" placeholder="卡号" class="form-control">
+											<input type="hidden" ng-model="order.paymentRelationNo" name="paymentRelationNo">
+											<input type="hidden" ng-model="card.id" name="cardId">
+											<input type="text" ng-model="card.cardNumber" placeholder="卡号" name="cardNumber" class="form-control">
 						                    <span class="input-group-btn">
 						                        <button class="btn btn-default" data-ng-click="getCouponByCouponNo()" type="button">查询</button>
+						                    </span>
+											<span class="input-group-btn" ng-if="card.id">
+						                        <button class="btn btn-default" data-ng-click="editMember()" type="button">绑定</button>
 						                    </span>
 										</div>
 									</div>
@@ -90,7 +95,7 @@
 									<label class="control-label col-md-2">券号</label>
 									<div class="col-md-4">
 										<div class="input-group input-group-md">
-											<input type="text" ng-model="coupon.cardNumber" placeholder="券号" class="form-control">
+											<input type="text" ng-model="coupon.cardNumber2" placeholder="券号" class="form-control">
 						                    <span class="input-group-btn">
 						                        <button class="btn btn-default" type="button">查询</button>
 						                    </span>
@@ -112,9 +117,12 @@
 									<label class="control-label col-md-2">电话号码</label>
 									<div class="col-md-4">
 										<div class="input-group input-group-md">
-											<input type="text" ng-model="order.phone" ng-value="13162323157" placeholder="电话／手机号码" class="form-control">
+											<input type="text" ng-model="order.phone" placeholder="电话／手机号码" class="form-control">
 						                    <span class="input-group-btn">
 						                        <button class="btn btn-default" data-ng-click="queryMemberByPhoneNumber()" type="button">查询</button>
+						                    </span>
+											<span class="input-group-btn" ng-if="order.memberId">
+						                        <button class="btn btn-default" data-ng-click="editMember()" type="button">编辑</button>
 						                    </span>
 										</div>
 										<input ng-if="order.orderType!=0" disabled type="text" ng-model="order.phone" placeholder="电话／手机号码" class="form-control">
@@ -137,7 +145,7 @@
 								<div class="form-group">
 									<label class="control-label col-md-2">单位／个人</label>
 									<div class="col-md-4">
-										<input type="hidden" ng-model="order.companyCode" disabled class="form-control">
+										<input type="hidden" ng-model="order.companyId" disabled class="form-control">
 										<input type="text" ng-model="order.companyName" disabled placeholder="查询后自动填充" class="form-control">
 									</div>
 									<label class="control-label col-md-2">客户经理</label>
@@ -153,7 +161,7 @@
 											<input type="text" ng-model="order.consigneeName" disabled placeholder="查询后自动填充" class="form-control">
 											<span class="input-group-addon">
 												<span class="onoffswitch">
-													<input type="radio" ng-model="order.addressChose" data-ng-checked="order.addressChose == 1" name="start_interval" class="onoffswitch-checkbox" id="default_address">
+													<input type="radio" ng-disabled="!order.consigneeName" ng-model="order.addressChose" data-ng-checked="order.addressChose == 1" name="start_interval" class="onoffswitch-checkbox" id="default_address">
 													<label class="onoffswitch-label" for="default_address">
 														<span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
 														<span class="onoffswitch-switch"></span>
@@ -174,14 +182,14 @@
 									</div>
 								</div>
 
-								<div class="form-group" ng-show="order.spareAddress">
+								<div class="form-group">
 									<label class="control-label col-md-2">备用收货人</label>
 									<div class="col-md-4">
 										<div class="input-group">
-											<input type="text" disabled placeholder="查询后自动填充" class="form-control">
+											<input type="text" disabled ng-model="order.spareName" placeholder="查询后自动填充" class="form-control">
 											<span class="input-group-addon">
 												<span class="onoffswitch">
-													<input type="radio"  ng-model="order.addressChose" data-ng-checked="order.addressChose == 2" name="start_interval" class="onoffswitch-checkbox" id="backup_address">
+													<input type="radio" ng-disabled="setting.disablesSpareName2" ng-model="order.addressChose" data-ng-checked="order.addressChose == 2" name="start_interval" class="onoffswitch-checkbox" id="backup_address">
 													<label class="onoffswitch-label" for="backup_address">
 														<span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
 														<span class="onoffswitch-switch"></span>
@@ -192,24 +200,24 @@
 									</div>
 									<label class="control-label col-md-2">联系方式</label>
 									<div class="col-md-4">
-										<input type="text" disabled placeholder="查询后自动填充" class="form-control">
+										<input type="text" disabled ng-model="order.spareTel" placeholder="查询后自动填充" class="form-control">
 									</div>
 								</div>
-								<div class="form-group" ng-show="order.spareAddress">
+								<div class="form-group">
 									<label class="control-label col-md-2">收货地址</label>
 									<div class="col-md-10">
-										<input type="text" disabled placeholder="查询后自动填充" class="form-control">
+										<input type="text" disabled ng-model="order.spareAddress" placeholder="查询后自动填充" class="form-control">
 									</div>
 								</div>
 
-								<div class="form-group" ng-show="order.spareAddress2">
+								<div class="form-group">
 									<label class="control-label col-md-2">备用收货人</label>
 									<div class="col-md-4">
 										<div class="input-group">
-											<input type="text" disabled placeholder="查询后自动填充" class="form-control">
+											<input type="text" disabled ng-model="order.spareName2" placeholder="查询后自动填充" class="form-control">
 											<span class="input-group-addon">
 												<span class="onoffswitch">
-													<input type="radio" ng-model="order.addressChose" data-ng-checked="order.addressChose == 3" name="start_interval" class="onoffswitch-checkbox" id="backup_address2">
+													<input type="radio" ng-disabled="setting.disablesSpareName2" ng-model="order.addressChose" data-ng-checked="order.addressChose == 3" name="start_interval" class="onoffswitch-checkbox" id="backup_address2">
 													<label class="onoffswitch-label" for="backup_address2">
 														<span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
 														<span class="onoffswitch-switch"></span>
@@ -220,13 +228,13 @@
 									</div>
 									<label class="control-label col-md-2">联系方式</label>
 									<div class="col-md-4">
-										<input type="text" disabled placeholder="查询后自动填充" class="form-control">
+										<input type="text" disabled ng-model="order.spareTel2" placeholder="查询后自动填充" class="form-control">
 									</div>
 								</div>
-								<div class="form-group"  ng-show="order.spareAddress2">
+								<div class="form-group">
 									<label class="control-label col-md-2">收货地址</label>
 									<div class="col-md-10">
-										<input type="text" disabled placeholder="查询后自动填充" class="form-control">
+										<input type="text" disabled ng-model="order.spareAddress2" placeholder="查询后自动填充" class="form-control">
 									</div>
 								</div>
 
