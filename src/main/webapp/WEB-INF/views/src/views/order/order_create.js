@@ -63,7 +63,8 @@ define(function () {
         $scope.editMember = function(){
             $modalMemberAdd.open({
                 currentMember:{
-                    id: $scope.order.memberId
+                    id: $scope.order.memberId,
+                    couponNumber:$scope.card.cardNumber
                 }
             }).result.then(function (data) {
                 $scope.queryMemberByPhoneNumber();
@@ -121,20 +122,25 @@ define(function () {
                     couponNumber:$scope.card.cardNumber
                 }, function(data){
                     if(data.data && data.data.length > 0){
-                        var member = data.data[0];
-                        //$scope.order.memberId = member.id;
-                        //$scope.order.cdCompanyId = member.cdCompanyId;
-                        //$scope.order.name = member.name;
-                        //$scope.order.phone = member.phoneNumber;
-                        //$scope.order.consigneeAddress = member.address;
-                        //$scope.order.consigneeName = member.name;
-                        //$scope.order.consigneePhone = member.phoneNumber;
-                        //$scope.order.spareAddress = member.spareAddress;
-                        //$scope.order.spareName = member.spareName;
-                        //$scope.order.spareTel = member.spareTel;
-                        //$scope.order.spareAddress2 = member.spareAddress2;
-                        //$scope.order.spareName2 = member.spareName2;
-                        //$scope.order.spareTel2 = member.spareTel2;
+                        var coupon = data.data[0];
+                        $scope.card.id = coupon.id;
+                        $scope.card.password = coupon.couponPassword;
+                        $scope.card.amount = coupon.couponValue;
+                        if(coupon.member){
+                            $scope.order.memberId = member.id;
+                            $scope.order.cdCompanyId = member.cdCompanyId;
+                            $scope.order.name = member.name;
+                            $scope.order.phone = member.phoneNumber;
+                            $scope.order.consigneeAddress = member.address;
+                            $scope.order.consigneeName = member.name;
+                            $scope.order.consigneePhone = member.phoneNumber;
+                            $scope.order.spareAddress = member.spareAddress;
+                            $scope.order.spareName = member.spareName;
+                            $scope.order.spareTel = member.spareTel;
+                            $scope.order.spareAddress2 = member.spareAddress2;
+                            $scope.order.spareName2 = member.spareName2;
+                            $scope.order.spareTel2 = member.spareTel2;
+                        }
                     }else{
                         $ugDialog.alert("未找到匹配手机号的客户");
                     }

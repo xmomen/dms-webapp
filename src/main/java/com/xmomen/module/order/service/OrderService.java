@@ -89,11 +89,11 @@ public class OrderService {
         tbOrder.setCreateUserId(createOrder.getCreateUserId());
         tbOrder.setTotalAmount(totalAmount);
         tbOrder = mybatisDao.insertByModel(tbOrder);
-        if(StringUtils.trimToNull(createOrder.getPaymentRalationNo()) != null){
+        if(StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null){
             TbOrderRelation tbOrderRelation = new TbOrderRelation();
             tbOrderRelation.setOrderNo(orderNo);
             tbOrderRelation.setRefType("ORDER_PAY_RELATION");// 订单支付关系
-            tbOrderRelation.setRefValue(createOrder.getPaymentRalationNo());
+            tbOrderRelation.setRefValue(createOrder.getPaymentRelationNo());
             mybatisDao.insert(tbOrderRelation);
         }
         return tbOrder;

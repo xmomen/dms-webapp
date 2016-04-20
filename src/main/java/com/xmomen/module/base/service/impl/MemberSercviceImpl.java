@@ -1,5 +1,9 @@
 package com.xmomen.module.base.service.impl;
 
+import com.xmomen.framework.utils.StringUtilsExt;
+import com.xmomen.module.base.entity.CdMemberCouponRelation;
+import com.xmomen.module.base.service.CouponService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,11 +18,15 @@ import com.xmomen.module.base.service.MemberSercvice;
 public class MemberSercviceImpl implements MemberSercvice {
 	@Autowired
 	MybatisDao mybatisDao;
+
+	@Autowired
+	CouponService couponService;
+
 	@Override
 	@Transactional
 	public void createMember(CreateMember createMember) {
 		CdMember member = new CdMember();
-		member.setMemberCode(createMember.getMemberCode());
+		member.setMemberCode(StringUtilsExt.random(12));
 		member.setMemberType(createMember.getMemberType());
 		member.setName(createMember.getName());
 		member.setPhoneNumber(createMember.getPhoneNumber());
@@ -33,7 +41,11 @@ public class MemberSercviceImpl implements MemberSercvice {
 		member.setSpareAddress2(createMember.getSpareAddress2());
 		member.setCdCompanyId(createMember.getCdCompanyId());
 		member.setCdUserId(createMember.getCdUserId());
-		mybatisDao.save(member);
+		member = mybatisDao.insertByModel(member);
+		CdMemberCouponRelation cdMemberCouponRelation = new CdMemberCouponRelation();
+		cdMemberCouponRelation.setMemberCode(member.getMemberCode());
+		cdMemberCouponRelation.setCouponNumber(createMember.getCouponNumber());
+		mybatisDao.insert(cdMemberCouponRelation);
 	}
 	@Transactional
 	public void updateMember(Integer id,UpdateMember updateMember) {

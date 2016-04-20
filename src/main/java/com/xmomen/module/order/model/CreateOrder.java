@@ -48,7 +48,7 @@ public class CreateOrder implements Serializable {
     /**
      * 支付关系编号（卡号/券号）
      */
-    private String paymentRalationNo;
+    private String paymentRelationNo;
 
     /**
      * 收货人手机
@@ -230,11 +230,11 @@ public class CreateOrder implements Serializable {
         this.createUserId = createUserId;
     }
 
-    public String getPaymentRalationNo() {
-        return paymentRalationNo;
+    public String getPaymentRelationNo() {
+        return paymentRelationNo;
     }
 
-    public void setPaymentRalationNo(String paymentRalationNo) {
-        this.paymentRalationNo = paymentRalationNo;
+    public void setPaymentRelationNo(String paymentRelationNo) {
+        this.paymentRelationNo = paymentRelationNo;
     }
 }

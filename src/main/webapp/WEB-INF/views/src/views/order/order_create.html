@@ -75,12 +75,14 @@
 									<label class="control-label col-md-2">卡号</label>
 									<div class="col-md-4">
 										<div class="input-group input-group-md">
-											<input type="text" ng-model="card.cardNumber" placeholder="卡号" class="form-control">
+											<input type="hidden" ng-model="order.paymentRelationNo" name="paymentRelationNo">
+											<input type="hidden" ng-model="card.id" name="cardId">
+											<input type="text" ng-model="card.cardNumber" placeholder="卡号" name="cardNumber" class="form-control">
 						                    <span class="input-group-btn">
 						                        <button class="btn btn-default" data-ng-click="getCouponByCouponNo()" type="button">查询</button>
 						                    </span>
-											<span class="input-group-btn">
-						                        <button class="btn btn-default" data-ng-click="getCouponByCouponNo()" type="button">编辑</button>
+											<span class="input-group-btn" ng-if="card.id">
+						                        <button class="btn btn-default" data-ng-click="editMember()" type="button">绑定</button>
 						                    </span>
 										</div>
 									</div>
@@ -93,7 +95,7 @@
 									<label class="control-label col-md-2">券号</label>
 									<div class="col-md-4">
 										<div class="input-group input-group-md">
-											<input type="text" ng-model="coupon.cardNumber" placeholder="券号" class="form-control">
+											<input type="text" ng-model="coupon.cardNumber2" placeholder="券号" class="form-control">
 						                    <span class="input-group-btn">
 						                        <button class="btn btn-default" type="button">查询</button>
 						                    </span>
@@ -159,7 +161,7 @@
 											<input type="text" ng-model="order.consigneeName" disabled placeholder="查询后自动填充" class="form-control">
 											<span class="input-group-addon">
 												<span class="onoffswitch">
-													<input type="radio" ng-model="order.addressChose" data-ng-checked="order.addressChose == 1" name="start_interval" class="onoffswitch-checkbox" id="default_address">
+													<input type="radio" ng-disabled="!order.consigneeName" ng-model="order.addressChose" data-ng-checked="order.addressChose == 1" name="start_interval" class="onoffswitch-checkbox" id="default_address">
 													<label class="onoffswitch-label" for="default_address">
 														<span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
 														<span class="onoffswitch-switch"></span>
