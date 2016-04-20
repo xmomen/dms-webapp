@@ -14,7 +14,7 @@ public class CdItemRef extends BaseMybatisModel {
     /**
      * 
      */
-    private Integer id;
+    private Integer cdItemRefId;
 
     /**
      * 拓展类型
@@ -36,20 +36,25 @@ public class CdItemRef extends BaseMybatisModel {
      */
     private Integer cdItemId;
 
-    @Column(name = "ID")
+    /**
+     * 份数
+     */
+    private Integer refCount;
+
+    @Column(name = "CD_ITEM_REF_ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
-    public Integer getId() {
-        return id;
+    public Integer getCdItemRefId() {
+        return cdItemRefId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-        if(id == null){
-              removeValidField("id");
+    public void setCdItemRefId(Integer cdItemRefId) {
+        this.cdItemRefId = cdItemRefId;
+        if(cdItemRefId == null){
+              removeValidField("cdItemRefId");
               return;
         }
-        addValidField("id");
+        addValidField("cdItemRefId");
     }
 
     @Column(name = "REF_TYPE")
@@ -106,5 +111,19 @@ public class CdItemRef extends BaseMybatisModel {
               return;
         }
         addValidField("cdItemId");
+    }
+
+    @Column(name = "REF_COUNT")
+    public Integer getRefCount() {
+        return refCount;
+    }
+
+    public void setRefCount(Integer refCount) {
+        this.refCount = refCount;
+        if(refCount == null){
+              removeValidField("refCount");
+              return;
+        }
+        addValidField("refCount");
     }
 }

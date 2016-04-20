@@ -37,7 +37,8 @@
 			cm.id,
         	cm.item_name,
 			cm.item_code,
-        	cc.category_name
+        	cc.category_name,
+        	cir.ref_count as count
         FROM
         	cd_item cm
         left join 

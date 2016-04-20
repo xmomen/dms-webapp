@@ -2,7 +2,18 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "ItemAPI", "$modal", "$ugDialog", function($scope, ItemAPI, $modal, $ugDialog){
+    return ["$scope", "ItemAPI", "ItemCategoryAPI","$modal", "$ugDialog", function($scope, ItemAPI,ItemCategoryAPI, $modal, $ugDialog){
+
+        $scope.itemCategoryList = [];
+        $scope.queryCategoryParam = {};
+        $scope.getItemCategoryTree = function(){
+            ItemCategoryAPI.query({
+                id:$scope.queryCategoryParam.id
+            }, function(data){
+                $scope.itemCategoryList = data;
+            });
+        };
+        $scope.getItemCategoryTree();
         $scope.itemList = [];
         $scope.item = {};
         $scope.pageSetting = {
@@ -10,7 +21,7 @@ define(function () {
             pageNum:1
         };
         $scope.queryParam = {};
-        $scope.getItemList = function(){
+        $scope.getItemList = function(categoryName){
             ItemAPI.query({
                 limit:$scope.pageSetting.pageSize,
                 offset:$scope.pageSetting.pageNum,
@@ -21,6 +32,12 @@ define(function () {
                 $scope.pageInfoSetting.loadData = $scope.getItemList;
             });
         };
+
+        $scope.getItemListFormCategory = function(categoryName){
+            $scope.queryParam.keyword = categoryName;
+            $scope.getItemList();
+        }
+
         $scope.removeItem = function(index){
             $ugDialog.confirm("是否删除该产品？").then(function(){
                 ItemAPI.delete({
@@ -139,9 +156,40 @@ define(function () {
                             $scope.pageInfoSetting.loadData = $scope.getChildItemList;
                         });
                     };
-                    $scope.choseChildItem = function(index){
+
+                    $scope.openItemNumber = function (index) {
+                        var modalInstance = $modal.open({
+                            templateUrl: 'addItemNumber.html',
+                            resolve: {
+                                CurrentOrderItem: function(){
+                                    return $scope.childItemList[index];
+                                }
+                            },
+                            controller: ["$scope", "CurrentOrderItem", "$modalInstance", function ($scope, CurrentOrderItem, $modalInstance) {
+                                $scope.orderItem = {};
+                                if(CurrentOrderItem){
+                                    $scope.orderItem = CurrentOrderItem;
+                                }
+                                $scope.addItemNumberForm = {};
+                                $scope.saveItemNumber = function(){
+                                    if($scope.addItemNumberForm.validator.form()){
+                                        $modalInstance.close($scope.orderItem);
+                                    }
+                                };
+                                $scope.cancel = function () {
+                                    $modalInstance.dismiss('cancel');
+                                };
+                            }]
+                        });
+                        modalInstance.result.then(function (data) {
+                            $scope.choseChildItem(index, parseFloat(data.number));
+                        });
+                    };
+
+                    $scope.choseChildItem = function(index,count){
                         var item = $scope.childItemList[index];
                         item.childItemId = item.id;
+                        item.count = count;
                         $scope.choseChildItemList.push(item);
                         $scope.getChildItemList();
                     };

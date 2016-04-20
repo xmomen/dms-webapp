@@ -8,7 +8,7 @@ public class ItemChildModel implements Serializable{
 	private String itemName;
 	private String itemCode;
 	private String categoryName;
-	
+	private Integer count;
 	public Integer getId() {
 		return id;
 	}
@@ -32,5 +32,11 @@ public class ItemChildModel implements Serializable{
 	}
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
+	}
+	public Integer getCount() {
+		return count;
+	}
+	public void setCount(Integer count) {
+		this.count = count;
 	}
 }

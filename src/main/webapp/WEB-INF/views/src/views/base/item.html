@@ -9,15 +9,10 @@
 
 	<!-- row -->
 	<div class="row">
-
-		<!-- NEW WIDGET START -->
-		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
-			<!-- Widget ID (each widget will need uniqu e ID)-->
-			<div class="jarviswidget" id="wid-id-4">
-				<!-- widget options:
+        <article class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            <div class="jarviswidget" id="wid-id-0">
+                <!-- widget options:
                 usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
                 data-widget-colorbutton="false"
                 data-widget-editbutton="false"
                 data-widget-togglebutton="false"
@@ -26,7 +21,52 @@
                 data-widget-custombutton="false"
                 data-widget-collapsed="true"
                 data-widget-sortable="false"
+                -->
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>产品分类</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body">
+                        <!--<div class="widget-body-toolbar bg-color-white">-->
+                            <!--<div class="row">-->
 
+                                <!--<div class="col-sm-12 col-md-2 text-align-right">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <div class="tree">
+                            <ul>
+                                <li data-ng-repeat="item in itemCategoryList" data-ng-include="'tree_view_table.html'"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+        </article>
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+			<!-- Widget ID (each widget will need uniqu e ID)-->
+			<div class="jarviswidget" id="wid-id-4">
+				<!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
                 -->
 				<header>
 					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
@@ -72,9 +112,9 @@
                                     <th>产品类型</th>
                                     <th>生产地</th>
 									<th>产品规格</th>
-                                    <th>计价方式</th>
+                                    <!--<th>计价方式</th>-->
                                     <th>销售状态</th>
-                                    <th>销售单位</th>
+                                    <!--<th>销售单位</th>-->
                                     <th>销售价格</th>
                                     <th>进货价格</th>
                                     <th>会员价格</th>
@@ -95,9 +135,9 @@
                                     <td><span ng-if="item.itemType == 1">常规产品</span><span ng-if="item.itemType == 2">组合产品</span></td>
                                     <td ng-bind="item.yieldly"></td>
                                     <td ng-bind="item.spec"></td>
-                                    <td ng-bind="item.pricingManner"></td>
+                                    <!--<td ng-bind="item.pricingManner"></td>-->
                                     <td><span ng-if="item.sellStatus == 0">下架</span><span ng-if="item.sellStatus == 1">上架</span></td>
-                                    <td ng-bind="item.sellUnit"></td>
+                                    <!--<td ng-bind="item.sellUnit"></td>-->
                                     <td ng-bind="item.sellPrice"></td>
                                     <td ng-bind="item.basePrice"></td>
                                     <td ng-bind="item.memberPrice"></td>
@@ -192,16 +232,17 @@
 					</div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">规格≥</label>
-                        <div class="col-md-10">
+                        <div class="col-md-8">
                             <input class="form-control" ng-model="item.spec" name="spec" placeholder="规格" type="text">
                         </div>
+                        <label class="col-md-2"> <input class="form-control" ng-model="item.pricingManner" name="spec" placeholder="" type="text"></label>
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">计价方式<span class="vaild">*</span></label>
-                        <div class="col-md-10">
-                            <input class="form-control" required="" ng-model="item.pricingManner" name="pricingManner" placeholder="计价方式" type="text">
-                        </div>
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-md-2 control-label">计价方式<span class="vaild">*</span></label>-->
+                        <!--<div class="col-md-10">-->
+                            <!--<input class="form-control" required="" ng-model="item.pricingManner" name="pricingManner" placeholder="计价方式" type="text">-->
+                        <!--</div>-->
+                    <!--</div>-->
                     <div class="form-group">
                         <label class="col-md-2 control-label">销售状态<span class="vaild">*</span></label>
                         <div class="col-md-10">
@@ -217,14 +258,14 @@
                             </div>
                         </div>
                     </div>
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-md-2 control-label">销售单位<span class="vaild">*</span></label>-->
+                        <!--<div class="col-md-10">-->
+                            <!--<input class="form-control"required="" ng-model="item.sellUnit" name="sellUnit" placeholder="销售单位" type="text">-->
+                        <!--</div>-->
+                    <!--</div>-->
                     <div class="form-group">
-                        <label class="col-md-2 control-label">销售单位<span class="vaild">*</span></label>
-                        <div class="col-md-10">
-                            <input class="form-control"required="" ng-model="item.sellUnit" name="sellUnit" placeholder="销售单位" type="text">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">销售金额<span class="vaild">*</span></label>
+                        <label class="col-md-2 control-label">销售价格<span class="vaild">*</span></label>
                         <div class="col-md-10">
                             <input class="form-control"required="" ng-model="item.sellPrice" name="sellPrice" placeholder="销售金额" type="text">
                         </div>
@@ -277,7 +318,7 @@
                                         <td>{{childItem.itemName}}</td>
                                         <td>
                                             <div>
-                                                <a href="javascript:void(0);" data-ng-click="choseChildItem($index)" title="选择：{{childItem.itemName}}">
+                                                <a href="javascript:void(0);" data-ng-click="openItemNumber($index)" title="选择：{{childItem.itemName}}">
                                                     <span class="fa fa-plus"></span>
                                                 </a>
                                             </div>
@@ -304,6 +345,7 @@
                                         <th>类别</th>
                                         <th>编号</th>
                                         <th>名称</th>
+                                        <th>份数</th>
                                         <th>操作</th>
                                     </tr>
                                     </thead>
@@ -312,6 +354,7 @@
                                         <td>{{choseItem.categoryName}}</td>
                                         <td>{{choseItem.itemCode}}</td>
                                         <td>{{choseItem.itemName}}</td>
+                                        <td>{{choseItem.count}}</td>
                                         <td>
                                             <div>
                                                 <a href="javascript:void(0);" data-ng-click="removeChildItem($index)" title="移除：{{choseItem.itemName}}">
@@ -372,5 +415,56 @@
     </div>
     <ul ng-if="item.nodes && item.nodes.length > 0">
         <li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view.html'"></li>
+    </ul>
+</script>
+
+
+<script type="text/ng-template" id="addItemNumber.html">
+    <div class="modal-header">
+        <h3 class="modal-title">【{{orderItem.itemName}}】</h3>
+    </div>
+    <div class="modal-body">
+        <div class="widget-body">
+
+            <form class="form-horizontal" ug-validate="addItemNumberForm" name="addItemNumberForm" novalidate="">
+
+                <fieldset>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">组合份数</label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control" required data-rule-number="true" ng-model="orderItem.number" name="number" placeholder="组合份数" type="text">
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="errors">
+                        <label class="col-md-2 control-label"></label>
+                        <div class="col-md-10 error">
+                            {{errors.message}}
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit" data-ng-click="saveItemNumber()">
+            <i class="fa fa-save"></i>
+            确定
+        </button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="tree_view_table.html">
+    <div ng-mouseenter="item.show=true" ng-mouseleave="item.show=false">
+		<span>
+			<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i>
+            <a ng-show="item.parentId != null" ng-click="getItemListFormCategory(item.name)">{{item.name}}</a>
+            <lable ng-show="item.parentId == null" >{{item.name}}</lable>
+		</span>
+    </div>
+    <ul ng-if="item.nodes && item.nodes.length > 0">
+        <li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view_table.html'"></li>
     </ul>
 </script>

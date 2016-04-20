@@ -7,6 +7,7 @@
     <result column="REF_TYPE" property="refType" jdbcType="VARCHAR" />
     <result column="REF_NAME" property="refName" jdbcType="VARCHAR" />
     <result column="REF_VALUE" property="refValue" jdbcType="VARCHAR" />
+    <result column="REF_COUNT" property="refCount" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, CD_COUPON_CATEGORY_ID, REF_TYPE, REF_NAME, REF_VALUE
+    ID, CD_COUPON_CATEGORY_ID, REF_TYPE, REF_NAME, REF_VALUE, REF_COUNT
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdCouponCategoryRefExample" >
     select
@@ -107,6 +108,9 @@
       <if test="refValue != null" >
         REF_VALUE,
       </if>
+      <if test="refCount != null" >
+        REF_COUNT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -123,6 +127,9 @@
       </if>
       <if test="refValue != null" >
         #{refValue,jdbcType=VARCHAR},
+      </if>
+      <if test="refCount != null" >
+        #{refCount,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -149,6 +156,9 @@
       </if>
       <if test="record.refValue != null" >
         REF_VALUE = #{record.refValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.refCount != null" >
+        REF_COUNT = #{record.refCount,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >

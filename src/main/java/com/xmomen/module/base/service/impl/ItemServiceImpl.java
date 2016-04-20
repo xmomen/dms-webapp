@@ -47,6 +47,7 @@ public class ItemServiceImpl implements ItemService {
 				itemRef.setRefType("CHILD_ITEM");
 				itemRef.setRefValue(childItem.getId()+"");
 				itemRef.setRefName("组合子商品");
+				itemRef.setRefCount(childItem.getCount());
 				mybatisDao.save(itemRef);
 			}
 		}
