@@ -76,7 +76,8 @@ define(function () {
                                 for (var i = 0; i < $scope.choseChildItemList.length; i++) {
                                     var obj = $scope.choseChildItemList[i];
                                     $scope.item.childItems.push({
-                                        id:obj.id
+                                        id:obj.id,
+                                        count:obj.count
                                     });
                                 }
                                 ItemAPI.update($scope.item, function(){
@@ -89,7 +90,8 @@ define(function () {
                                 for (var i = 0; i < $scope.choseChildItemList.length; i++) {
                                     var obj = $scope.choseChildItemList[i];
                                     $scope.item.childItems.push({
-                                        id:obj.id
+                                        id:obj.id,
+                                        count:obj.count
                                     });
                                 }
                                 ItemAPI.save($scope.item, function(){
