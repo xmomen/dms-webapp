@@ -36,6 +36,11 @@ public class CdCouponCategoryRef extends BaseMybatisModel {
      */
     private String refValue;
 
+    /**
+     * 份数
+     */
+    private Integer refCount;
+
     @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
@@ -106,5 +111,19 @@ public class CdCouponCategoryRef extends BaseMybatisModel {
               return;
         }
         addValidField("refValue");
+    }
+
+    @Column(name = "REF_COUNT")
+    public Integer getRefCount() {
+        return refCount;
+    }
+
+    public void setRefCount(Integer refCount) {
+        this.refCount = refCount;
+        if(refCount == null){
+              removeValidField("refCount");
+              return;
+        }
+        addValidField("refCount");
     }
 }

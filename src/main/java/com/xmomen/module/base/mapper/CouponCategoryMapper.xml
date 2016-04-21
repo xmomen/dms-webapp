@@ -8,14 +8,16 @@
 			cm.id,
         	cm.item_name,
 			cm.item_code,
-        	cc.category_name
+        	cc.category_name,
+        	cir.ref_count as count
         FROM
-        	cd_item cm
-        left join 
-        	cd_category cc on cm.cd_category_id = cc.id	
+			cd_coupon_category_ref cir
 		left join 
-			cd_coupon_category_ref cir on cm.id = cir.REF_VALUE and cir.REF_TYPE='TICKET_ITEM'
+			cd_item cm on cm.id = cir.REF_VALUE
+   		left join 
+        	cd_category cc on cm.cd_category_id = cc.id	
         <where>
+        cir.REF_TYPE='TICKET_ITEM'
              <if test = 'parentId'>
              	AND cir.CD_COUPON_CATEGORY_ID = #{parentId}
              </if>	

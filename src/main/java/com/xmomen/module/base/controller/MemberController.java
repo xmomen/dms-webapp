@@ -67,7 +67,19 @@ public class MemberController {
         }
         memberService.createMember(createMember);
     }
-    
+
+    /**
+     *  根据ID查询客户信息
+     * @param id
+     */
+    @RequestMapping(value = "/member/{id}", method = RequestMethod.GET)
+    @Log(actionName = "根据ID查询客户信息")
+    public MemberModel getMember(@PathVariable(value = "id") Integer id){
+        Map map = new HashMap<String,Object>();
+        map.put("id", id);
+        return mybatisDao.getSqlSessionTemplate().selectOne(MemberMapper.MemberMapperNameSpace + "getMemberList", map);
+    }
+
     /**
      *  修改
      * @param id

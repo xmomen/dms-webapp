@@ -42,14 +42,25 @@
 					<!-- widget content -->
 					<div class="widget-body no-padding">
 						<div class="dt-toolbar">
-							<div class="col-xs-11 col-sm-10">
+							<div class="col-xs-5 col-sm-5">
 								<div class="dataTables_filter">
 									<label>
 										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-										<input type="search" placeholder="名称" data-ng-keyup="getCouponCategoryList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+										<input type="search" placeholder="名称" data-ng-keyup="getCouponCategoryList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic">
+                                    </label>
 								</div>
+
+                                <div class="dataTables_filter">
+                                    <label>
+                                        <select ug-select2 style="width: 250px;" ng-change="getCouponCategoryList()" ng-model="queryParam.categoryType" name="categoryType">
+                                            <option value="">--请选择--</option>
+                                            <option value="1">卡</option>
+                                            <option value="2">劵</option>
+                                        </select>
+                                    </label>
+                                </div>
 							</div>
-							<div class="col-xs-1 col-sm-2">
+							<div class="col-xs-2 col-sm-2">
 								<button class="btn btn-primary" type="button" data-ng-click="open()">
 									<i class="fa fa-plus"></i>
 									新增
@@ -66,7 +77,7 @@
 								</tr>
 								</thead>
 								<tbody>
-								<tr ng-repeat="couponCategory in couponCategoryList"  ng-if="couponCategoryList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+								<tr ng-repeat="couponCategory in couponCategoryList | orderBy:'categoryType'"   ng-if="couponCategoryList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
                                     <td>
                                         <span ng-if="couponCategory.categoryType == 1">卡</span>
                                         <span ng-if="couponCategory.categoryType == 2">消费券</span>
@@ -75,11 +86,11 @@
                                     <td ng-bind="couponCategory.categoryName"></td>
                                     <td>
                                         <div ng-show="show">
-                                            <a href="javascript:void(0);" data-ng-click="removeCouponCategory($index)" title="删除：{{couponCategory.couponCategoryName}}">
+                                            <a href="javascript:void(0);" data-ng-click="removeCouponCategory(couponCategory)" title="删除：{{couponCategory.couponCategoryName}}">
                                                 <span class="glyphicon glyphicon-remove-circle"></span>
                                             </a>
                                             <span> | </span>
-                                            <a href="javascript:void(0);" data-ng-click="open($index)" title="编辑：{{couponCategory.couponCategoryName}}">
+                                            <a href="javascript:void(0);" data-ng-click="open(couponCategory)" title="编辑：{{couponCategory.couponCategoryName}}">
                                                 <span class="fa fa-pencil"></span>
                                             </a>
                                         </div>
@@ -184,7 +195,7 @@
                                         <td>{{item.itemName}}</td>
                                         <td>
                                             <div>
-                                                <a href="javascript:void(0);" data-ng-click="choseItem($index)" title="订购：{{couponCategory.couponCategoryName}}">
+                                                <a href="javascript:void(0);" data-ng-click="openItemNumber($index)" title="订购：{{couponCategory.couponCategoryName}}">
                                                     <span class="fa fa-plus"></span>
                                                 </a>
                                             </div>
@@ -198,12 +209,13 @@
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th colspan="4">已选择产品</th>
+                                        <th colspan="5">已选择产品</th>
                                     </tr>
                                     <tr>
                                         <th>分类</th>
                                         <th>编号</th>
                                         <th>名称</th>
+                                        <th>份数</th>
                                         <th>操作</th>
                                     </tr>
                                     </thead>
@@ -212,6 +224,7 @@
                                         <td>{{choseItem.categoryName}}</td>
                                         <td>{{choseItem.itemCode}}</td>
                                         <td>{{choseItem.itemName}}</td>
+                                        <td>{{choseItem.count}}</td>
                                         <td>
                                             <div>
                                                 <a href="javascript:void(0);" data-ng-click="removeItem($index)" title="移除：{{choseItem.itemName}}">
@@ -242,4 +255,41 @@
 		</button>
 		<button class="btn btn-warning" ng-click="cancel()">关闭</button>
 	</div>
+</script>
+
+<script type="text/ng-template" id="addItemNumber.html">
+    <div class="modal-header">
+        <h3 class="modal-title">【{{orderItem.itemName}}】</h3>
+    </div>
+    <div class="modal-body">
+        <div class="widget-body">
+
+            <form class="form-horizontal" ug-validate="addItemNumberForm" name="addItemNumberForm" novalidate="">
+
+                <fieldset>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">组合份数</label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control" required data-rule-number="true" ng-model="orderItem.number" name="number" placeholder="组合份数" type="text">
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="errors">
+                        <label class="col-md-2 control-label"></label>
+                        <div class="col-md-10 error">
+                            {{errors.message}}
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit" data-ng-click="saveItemNumber()">
+            <i class="fa fa-save"></i>
+            确定
+        </button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
 </script>

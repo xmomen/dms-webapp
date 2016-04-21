@@ -14,23 +14,24 @@ define(function () {
             CouponCategoryAPI.query({
                 limit:$scope.pageSetting.pageSize,
                 offset:$scope.pageSetting.pageNum,
-                keyword:$scope.queryParam.keyword
+                keyword:$scope.queryParam.keyword,
+                categoryType:$scope.queryParam.categoryType
             }, function(data){
                 $scope.couponCategoryList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;
                 $scope.pageInfoSetting.loadData = $scope.getCouponCategoryList;
             });
         };
-        $scope.removeCouponCategory = function(index){
+        $scope.removeCouponCategory = function(couponCategory){
             $ugDialog.confirm("是否删除该产品？").then(function(){
                 CouponCategoryAPI.delete({
-                    id: $scope.couponCategoryList[index].id
+                    id: couponCategory.id
                 }, function(){
                     $scope.getCouponCategoryList();
                 });
             })
         };
-        $scope.open = function (index) {
+        $scope.open = function (couponCategory) {
             var modalInstance = $modal.open({
                 templateUrl: 'addCouponCategory.html',
                 controller: ["$scope", "CouponCategoryAPI", "ItemAPI","$modalInstance","currentCouponCategory", function ($scope, CouponCategoryAPI,ItemAPI,$modalInstance,currentCouponCategory) {
@@ -55,7 +56,8 @@ define(function () {
                                 for (var i = 0; i < $scope.choseItemList.length; i++) {
                                     var obj = $scope.choseItemList[i];
                                     $scope.couponCategory.categoryRefs.push({
-                                        cdItemId:obj.id
+                                        cdItemId:obj.id,
+                                        count :obj.count
                                     });
                                 }
                                 CouponCategoryAPI.update($scope.couponCategory, function(){
@@ -68,7 +70,8 @@ define(function () {
                                 for (var i = 0; i < $scope.choseItemList.length; i++) {
                                     var obj = $scope.choseItemList[i];
                                     $scope.couponCategory.categoryRefs.push({
-                                        cdItemId:obj.id
+                                        cdItemId:obj.id,
+                                        count :obj.count
                                     });
                                 }
                                 CouponCategoryAPI.save($scope.couponCategory, function(){
@@ -111,9 +114,40 @@ define(function () {
                             $scope.pageInfoSetting.loadData = $scope.getItemList;
                         });
                     };
-                    $scope.choseItem = function(index){
+
+                    $scope.openItemNumber = function (index) {
+                        var modalInstance = $modal.open({
+                            templateUrl: 'addItemNumber.html',
+                            resolve: {
+                                CurrentOrderItem: function(){
+                                    return $scope.itemList[index];
+                                }
+                            },
+                            controller: ["$scope", "CurrentOrderItem", "$modalInstance", function ($scope, CurrentOrderItem, $modalInstance) {
+                                $scope.orderItem = {};
+                                if(CurrentOrderItem){
+                                    $scope.orderItem = CurrentOrderItem;
+                                }
+                                $scope.addItemNumberForm = {};
+                                $scope.saveItemNumber = function(){
+                                    if($scope.addItemNumberForm.validator.form()){
+                                        $modalInstance.close($scope.orderItem);
+                                    }
+                                };
+                                $scope.cancel = function () {
+                                    $modalInstance.dismiss('cancel');
+                                };
+                            }]
+                        });
+                        modalInstance.result.then(function (data) {
+                            $scope.choseItem(index, parseFloat(data.number));
+                        });
+                    };
+
+                    $scope.choseItem = function(index,count){
                         var item = $scope.itemList[index];
                         item.cdItemId = item.id;
+                        item.count = count;
                         $scope.choseItemList.push(item);
                         $scope.getItemList();
                     };
@@ -122,11 +156,10 @@ define(function () {
                         $scope.choseItemList.splice(index,1);
                         $scope.getItemList();
                     };
-
                 }],
                 resolve: {
                 currentCouponCategory: function () {
-                    return $scope.couponCategoryList[index];
+                    return couponCategory;
                 }
             },
              size : 'lg'

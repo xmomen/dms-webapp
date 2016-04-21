@@ -25,6 +25,11 @@ public class CreateMember implements Serializable{
     @NotNull
     @NotBlank
     private String phoneNumber;
+
+	/**
+	 * 卡号
+	 */
+	private String couponNumber;
     
     private String spareName;
     
@@ -199,5 +204,13 @@ public class CreateMember implements Serializable{
 
 	public void setSpareName2(String spareName2) {
 		this.spareName2 = spareName2;
+	}
+
+	public String getCouponNumber() {
+		return couponNumber;
+	}
+
+	public void setCouponNumber(String couponNumber) {
+		this.couponNumber = couponNumber;
 	}
 }
