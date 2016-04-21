@@ -88,6 +88,7 @@ public class OrderService {
         tbOrder.setOrderSource(createOrder.getOrderSource());
         tbOrder.setCreateUserId(createOrder.getCreateUserId());
         tbOrder.setTotalAmount(totalAmount);
+        tbOrder.setAppointmentTime(createOrder.getAppointmentTime());
         tbOrder = mybatisDao.insertByModel(tbOrder);
         if(StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null){
             TbOrderRelation tbOrderRelation = new TbOrderRelation();

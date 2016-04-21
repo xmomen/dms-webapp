@@ -1,12 +1,14 @@
 package com.xmomen.module.order.model;
 
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
-
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
+
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Created by Jeng on 16/4/5.
@@ -91,6 +93,7 @@ public class CreateOrder implements Serializable {
      */
     private Integer createUserId;
 
+    private Date appointmentTime;
     @NotNull
     @NotEmpty
     private List<OrderItem> orderItemList;
@@ -237,4 +240,12 @@ public class CreateOrder implements Serializable {
     public void setPaymentRelationNo(String paymentRelationNo) {
         this.paymentRelationNo = paymentRelationNo;
     }
+
+	public Date getAppointmentTime() {
+		return appointmentTime;
+	}
+
+	public void setAppointmentTime(Date appointmentTime) {
+		this.appointmentTime = appointmentTime;
+	}
 }

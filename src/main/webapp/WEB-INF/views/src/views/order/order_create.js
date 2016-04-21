@@ -252,5 +252,94 @@ define(function () {
         $scope.order = {};
         $scope.order.discount = 100;
         $scope.order.orderType = 1;
+
+        $scope.datepickerSetting = {
+            datepickerPopupConfig:{
+                "current-text":"今天",
+                "clear-text":"清除",
+                "close-text":"关闭"
+            },
+            appointmentTime:{
+                opened:false
+            }
+        };
+        $scope.open = function($event, index) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            if(index == 1){
+                $scope.datepickerSetting.appointmentTime.opened = true;
+            }
+        };
+        $scope.addByTransDate = function(dateParameter, num) {
+            var translateDate = "", dateString = "", monthString = "", dayString = "";
+            translateDate = dateParameter.replace("-", "/").replace("-", "/");
+            var newDate = new Date(translateDate);
+            newDate = newDate.valueOf();
+            newDate = newDate + num * 24 * 60 * 60 * 1000;
+            newDate = new Date(newDate);
+            //如果月份长度少于2，则前加 0 补位
+            if ((newDate.getMonth() + 1).toString().length == 1) {
+                monthString = 0 + "" + (newDate.getMonth() + 1).toString();
+            } else {
+                monthString = (newDate.getMonth() + 1).toString();
+            }
+            //如果天数长度少于2，则前加 0 补位
+            if (newDate.getDate().toString().length == 1) {
+                dayString = 0 + "" + newDate.getDate().toString();
+            } else {
+                dayString = newDate.getDate().toString();
+            }
+            dateString = newDate.getFullYear() + "-" + monthString + "-" + dayString;
+            return dateString;
+        }
+
+        $scope.reduceByTransDate = function(dateParameter, num) {
+            var translateDate = "", dateString = "", monthString = "", dayString = "";
+            translateDate = dateParameter.replace("-", "/").replace("-", "/");
+            var newDate = new Date(translateDate);
+            newDate = newDate.valueOf();
+            newDate = newDate - num * 24 * 60 * 60 * 1000;
+            newDate = new Date(newDate);
+            //如果月份长度少于2，则前加 0 补位
+            if ((newDate.getMonth() + 1).toString().length == 1) {
+                monthString = 0 + "" + (newDate.getMonth() + 1).toString();
+            } else {
+                monthString = (newDate.getMonth() + 1).toString();
+            }
+            //如果天数长度少于2，则前加 0 补位
+            if (newDate.getDate().toString().length == 1) {
+                dayString = 0 + "" + newDate.getDate().toString();
+            } else {
+                dayString = newDate.getDate().toString();
+            }
+            dateString = newDate.getFullYear() + "-" + monthString + "-" + dayString;
+            return dateString;
+        }
+
+        //得到日期  主方法
+        $scope.showTime = function(pdVal) {
+            var trans_day = "";
+            var cur_date = new Date();
+            var cur_year = new Date().getFullYear();
+            var cur_month = cur_date.getMonth() + 1;
+            var real_date = cur_date.getDate();
+            cur_month = cur_month > 9 ? cur_month : ("0" + cur_month);
+            real_date = real_date > 9 ? real_date : ("0" + real_date);
+            eT = cur_year + "-" + cur_month + "-" + real_date;
+            if (pdVal == 1) {
+                trans_day = $scope.addByTransDate(eT, 1);
+            }
+            else if (pdVal == -1) {
+                trans_day = $scope.reduceByTransDate(eT, 1);
+            }
+            else {
+                trans_day = eT;
+            }
+            //处理
+            return trans_day;
+        }
+
+        $scope.order.appointmentTime = $scope.showTime(1);
+
     }];
 });
