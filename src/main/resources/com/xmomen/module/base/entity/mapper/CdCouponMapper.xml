@@ -15,6 +15,7 @@
     <result column="IS_USEFUL" property="isUseful" jdbcType="INTEGER" />
     <result column="IS_GIFT" property="isGift" jdbcType="INTEGER" />
     <result column="NOTES" property="notes" jdbcType="VARCHAR" />
+    <result column="IS_SEND" property="isSend" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -76,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, COUPON_TYPE, COUPON_CATEGORY, COUPON_DESC, COUPON_NUMBER, COUPON_PASSWORD, BEGIN_TIME, 
-    END_TIME, COUPON_VALUE, IS_USED, IS_USEFUL, IS_GIFT, NOTES
+    END_TIME, COUPON_VALUE, IS_USED, IS_USEFUL, IS_GIFT, NOTES, IS_SEND
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdCouponExample" >
     select
@@ -140,6 +141,9 @@
       <if test="notes != null" >
         NOTES,
       </if>
+      <if test="isSend != null" >
+        IS_SEND,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -180,6 +184,9 @@
       </if>
       <if test="notes != null" >
         #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="isSend != null" >
+        #{isSend,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -230,6 +237,9 @@
       </if>
       <if test="record.notes != null" >
         NOTES = #{record.notes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isSend != null" >
+        IS_SEND = #{record.isSend,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >

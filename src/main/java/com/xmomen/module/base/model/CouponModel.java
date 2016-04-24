@@ -66,8 +66,21 @@ public class CouponModel implements Serializable {
      * 0-无效，1-有效
      */
     private Integer isUseful;
-
-    private String isUsefulDesc;
+    /**
+     * 0-无效，1-有效
+     */
+    private Integer isSend;
+    /**
+     * 发放单位
+     */
+    private String companyName;
+    public Integer getIsSend() {
+		return isSend;
+	}
+	public void setIsSend(Integer isSend) {
+		this.isSend = isSend;
+	}
+	private String isUsefulDesc;
 
     /**
      * 0-非赠送，1-赠送
@@ -150,6 +163,12 @@ public class CouponModel implements Serializable {
 	}
 	public Integer getIsUsed() {
 		return isUsed;
+	}
+	public String getCompanyName() {
+		return companyName;
+	}
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 	public void setIsUsed(Integer isUsed) {
 		this.isUsed = isUsed;

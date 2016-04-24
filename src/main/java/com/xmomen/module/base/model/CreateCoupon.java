@@ -14,13 +14,9 @@ public class CreateCoupon implements Serializable {
 
     @NotNull
     private Integer couponType;
-    @NotNull
-    @NotBlank
     private String couponDesc;
     @NotNull
     private Integer couponCategory;
-    @NotNull
-    @NotBlank
     private String couponNumber;
     private String couponPassword;
     private Date beginTime;

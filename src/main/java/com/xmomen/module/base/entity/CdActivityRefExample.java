@@ -4,14 +4,14 @@ import com.xmomen.framework.mybatis.model.BaseMybatisExample;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CdCouponRefExample extends BaseMybatisExample {
+public class CdActivityRefExample extends BaseMybatisExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public CdCouponRefExample() {
+    public CdActivityRefExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -165,133 +165,133 @@ public class CdCouponRefExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdIsNull() {
-            addCriterion("CD_COUPON_ID is null");
+        public Criteria andCdActivityIdIsNull() {
+            addCriterion("CD_ACTIVITY_ID is null");
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdIsNotNull() {
-            addCriterion("CD_COUPON_ID is not null");
+        public Criteria andCdActivityIdIsNotNull() {
+            addCriterion("CD_ACTIVITY_ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdEqualTo(Integer value) {
-            addCriterion("CD_COUPON_ID =", value, "cdCouponId");
+        public Criteria andCdActivityIdEqualTo(Integer value) {
+            addCriterion("CD_ACTIVITY_ID =", value, "cdActivityId");
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdNotEqualTo(Integer value) {
-            addCriterion("CD_COUPON_ID <>", value, "cdCouponId");
+        public Criteria andCdActivityIdNotEqualTo(Integer value) {
+            addCriterion("CD_ACTIVITY_ID <>", value, "cdActivityId");
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdGreaterThan(Integer value) {
-            addCriterion("CD_COUPON_ID >", value, "cdCouponId");
+        public Criteria andCdActivityIdGreaterThan(Integer value) {
+            addCriterion("CD_ACTIVITY_ID >", value, "cdActivityId");
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("CD_COUPON_ID >=", value, "cdCouponId");
+        public Criteria andCdActivityIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("CD_ACTIVITY_ID >=", value, "cdActivityId");
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdLessThan(Integer value) {
-            addCriterion("CD_COUPON_ID <", value, "cdCouponId");
+        public Criteria andCdActivityIdLessThan(Integer value) {
+            addCriterion("CD_ACTIVITY_ID <", value, "cdActivityId");
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdLessThanOrEqualTo(Integer value) {
-            addCriterion("CD_COUPON_ID <=", value, "cdCouponId");
+        public Criteria andCdActivityIdLessThanOrEqualTo(Integer value) {
+            addCriterion("CD_ACTIVITY_ID <=", value, "cdActivityId");
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdIn(List<Integer> values) {
-            addCriterion("CD_COUPON_ID in", values, "cdCouponId");
+        public Criteria andCdActivityIdIn(List<Integer> values) {
+            addCriterion("CD_ACTIVITY_ID in", values, "cdActivityId");
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdNotIn(List<Integer> values) {
-            addCriterion("CD_COUPON_ID not in", values, "cdCouponId");
+        public Criteria andCdActivityIdNotIn(List<Integer> values) {
+            addCriterion("CD_ACTIVITY_ID not in", values, "cdActivityId");
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdBetween(Integer value1, Integer value2) {
-            addCriterion("CD_COUPON_ID between", value1, value2, "cdCouponId");
+        public Criteria andCdActivityIdBetween(Integer value1, Integer value2) {
+            addCriterion("CD_ACTIVITY_ID between", value1, value2, "cdActivityId");
             return (Criteria) this;
         }
 
-        public Criteria andCdCouponIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("CD_COUPON_ID not between", value1, value2, "cdCouponId");
+        public Criteria andCdActivityIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("CD_ACTIVITY_ID not between", value1, value2, "cdActivityId");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNumberIsNull() {
-            addCriterion("COUPON_NUMBER is null");
+        public Criteria andRefValueIsNull() {
+            addCriterion("REF_VALUE is null");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNumberIsNotNull() {
-            addCriterion("COUPON_NUMBER is not null");
+        public Criteria andRefValueIsNotNull() {
+            addCriterion("REF_VALUE is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNumberEqualTo(String value) {
-            addCriterion("COUPON_NUMBER =", value, "couponNumber");
+        public Criteria andRefValueEqualTo(String value) {
+            addCriterion("REF_VALUE =", value, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNumberNotEqualTo(String value) {
-            addCriterion("COUPON_NUMBER <>", value, "couponNumber");
+        public Criteria andRefValueNotEqualTo(String value) {
+            addCriterion("REF_VALUE <>", value, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNumberGreaterThan(String value) {
-            addCriterion("COUPON_NUMBER >", value, "couponNumber");
+        public Criteria andRefValueGreaterThan(String value) {
+            addCriterion("REF_VALUE >", value, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNumberGreaterThanOrEqualTo(String value) {
-            addCriterion("COUPON_NUMBER >=", value, "couponNumber");
+        public Criteria andRefValueGreaterThanOrEqualTo(String value) {
+            addCriterion("REF_VALUE >=", value, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNumberLessThan(String value) {
-            addCriterion("COUPON_NUMBER <", value, "couponNumber");
+        public Criteria andRefValueLessThan(String value) {
+            addCriterion("REF_VALUE <", value, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNumberLessThanOrEqualTo(String value) {
-            addCriterion("COUPON_NUMBER <=", value, "couponNumber");
+        public Criteria andRefValueLessThanOrEqualTo(String value) {
+            addCriterion("REF_VALUE <=", value, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNumberLike(String value) {
-            addCriterion("COUPON_NUMBER like", value, "couponNumber");
+        public Criteria andRefValueLike(String value) {
+            addCriterion("REF_VALUE like", value, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNumberNotLike(String value) {
-            addCriterion("COUPON_NUMBER not like", value, "couponNumber");
+        public Criteria andRefValueNotLike(String value) {
+            addCriterion("REF_VALUE not like", value, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNumberIn(List<String> values) {
-            addCriterion("COUPON_NUMBER in", values, "couponNumber");
+        public Criteria andRefValueIn(List<String> values) {
+            addCriterion("REF_VALUE in", values, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNumberNotIn(List<String> values) {
-            addCriterion("COUPON_NUMBER not in", values, "couponNumber");
+        public Criteria andRefValueNotIn(List<String> values) {
+            addCriterion("REF_VALUE not in", values, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNumberBetween(String value1, String value2) {
-            addCriterion("COUPON_NUMBER between", value1, value2, "couponNumber");
+        public Criteria andRefValueBetween(String value1, String value2) {
+            addCriterion("REF_VALUE between", value1, value2, "refValue");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNumberNotBetween(String value1, String value2) {
-            addCriterion("COUPON_NUMBER not between", value1, value2, "couponNumber");
+        public Criteria andRefValueNotBetween(String value1, String value2) {
+            addCriterion("REF_VALUE not between", value1, value2, "refValue");
             return (Criteria) this;
         }
 
@@ -435,73 +435,63 @@ public class CdCouponRefExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andRefValueIsNull() {
-            addCriterion("REF_VALUE is null");
+        public Criteria andRefCountIsNull() {
+            addCriterion("REF_COUNT is null");
             return (Criteria) this;
         }
 
-        public Criteria andRefValueIsNotNull() {
-            addCriterion("REF_VALUE is not null");
+        public Criteria andRefCountIsNotNull() {
+            addCriterion("REF_COUNT is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRefValueEqualTo(String value) {
-            addCriterion("REF_VALUE =", value, "refValue");
+        public Criteria andRefCountEqualTo(Integer value) {
+            addCriterion("REF_COUNT =", value, "refCount");
             return (Criteria) this;
         }
 
-        public Criteria andRefValueNotEqualTo(String value) {
-            addCriterion("REF_VALUE <>", value, "refValue");
+        public Criteria andRefCountNotEqualTo(Integer value) {
+            addCriterion("REF_COUNT <>", value, "refCount");
             return (Criteria) this;
         }
 
-        public Criteria andRefValueGreaterThan(String value) {
-            addCriterion("REF_VALUE >", value, "refValue");
+        public Criteria andRefCountGreaterThan(Integer value) {
+            addCriterion("REF_COUNT >", value, "refCount");
             return (Criteria) this;
         }
 
-        public Criteria andRefValueGreaterThanOrEqualTo(String value) {
-            addCriterion("REF_VALUE >=", value, "refValue");
+        public Criteria andRefCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("REF_COUNT >=", value, "refCount");
             return (Criteria) this;
         }
 
-        public Criteria andRefValueLessThan(String value) {
-            addCriterion("REF_VALUE <", value, "refValue");
+        public Criteria andRefCountLessThan(Integer value) {
+            addCriterion("REF_COUNT <", value, "refCount");
             return (Criteria) this;
         }
 
-        public Criteria andRefValueLessThanOrEqualTo(String value) {
-            addCriterion("REF_VALUE <=", value, "refValue");
+        public Criteria andRefCountLessThanOrEqualTo(Integer value) {
+            addCriterion("REF_COUNT <=", value, "refCount");
             return (Criteria) this;
         }
 
-        public Criteria andRefValueLike(String value) {
-            addCriterion("REF_VALUE like", value, "refValue");
+        public Criteria andRefCountIn(List<Integer> values) {
+            addCriterion("REF_COUNT in", values, "refCount");
             return (Criteria) this;
         }
 
-        public Criteria andRefValueNotLike(String value) {
-            addCriterion("REF_VALUE not like", value, "refValue");
+        public Criteria andRefCountNotIn(List<Integer> values) {
+            addCriterion("REF_COUNT not in", values, "refCount");
             return (Criteria) this;
         }
 
-        public Criteria andRefValueIn(List<String> values) {
-            addCriterion("REF_VALUE in", values, "refValue");
+        public Criteria andRefCountBetween(Integer value1, Integer value2) {
+            addCriterion("REF_COUNT between", value1, value2, "refCount");
             return (Criteria) this;
         }
 
-        public Criteria andRefValueNotIn(List<String> values) {
-            addCriterion("REF_VALUE not in", values, "refValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andRefValueBetween(String value1, String value2) {
-            addCriterion("REF_VALUE between", value1, value2, "refValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andRefValueNotBetween(String value1, String value2) {
-            addCriterion("REF_VALUE not between", value1, value2, "refValue");
+        public Criteria andRefCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("REF_COUNT not between", value1, value2, "refCount");
             return (Criteria) this;
         }
     }

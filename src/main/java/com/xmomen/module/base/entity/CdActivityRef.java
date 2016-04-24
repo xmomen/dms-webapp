@@ -9,22 +9,22 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 @Entity
-@Table(name = "cd_coupon_ref")
-public class CdCouponRef extends BaseMybatisModel {
+@Table(name = "cd_activity_ref")
+public class CdActivityRef extends BaseMybatisModel {
     /**
      * 
      */
     private Integer id;
 
     /**
-     * 卡劵
+     * 活动ID
      */
-    private Integer cdCouponId;
+    private Integer cdActivityId;
 
     /**
-     * 卡号
+     * 拓展值
      */
-    private String couponNumber;
+    private String refValue;
 
     /**
      * 拓展类型
@@ -37,9 +37,9 @@ public class CdCouponRef extends BaseMybatisModel {
     private String refName;
 
     /**
-     * 拓展值
+     * 份数
      */
-    private String refValue;
+    private Integer refCount;
 
     @Column(name = "ID")
     @Id
@@ -57,32 +57,32 @@ public class CdCouponRef extends BaseMybatisModel {
         addValidField("id");
     }
 
-    @Column(name = "CD_COUPON_ID")
-    public Integer getCdCouponId() {
-        return cdCouponId;
+    @Column(name = "CD_ACTIVITY_ID")
+    public Integer getCdActivityId() {
+        return cdActivityId;
     }
 
-    public void setCdCouponId(Integer cdCouponId) {
-        this.cdCouponId = cdCouponId;
-        if(cdCouponId == null){
-              removeValidField("cdCouponId");
+    public void setCdActivityId(Integer cdActivityId) {
+        this.cdActivityId = cdActivityId;
+        if(cdActivityId == null){
+              removeValidField("cdActivityId");
               return;
         }
-        addValidField("cdCouponId");
+        addValidField("cdActivityId");
     }
 
-    @Column(name = "COUPON_NUMBER")
-    public String getCouponNumber() {
-        return couponNumber;
+    @Column(name = "REF_VALUE")
+    public String getRefValue() {
+        return refValue;
     }
 
-    public void setCouponNumber(String couponNumber) {
-        this.couponNumber = couponNumber;
-        if(couponNumber == null){
-              removeValidField("couponNumber");
+    public void setRefValue(String refValue) {
+        this.refValue = refValue;
+        if(refValue == null){
+              removeValidField("refValue");
               return;
         }
-        addValidField("couponNumber");
+        addValidField("refValue");
     }
 
     @Column(name = "REF_TYPE")
@@ -113,17 +113,17 @@ public class CdCouponRef extends BaseMybatisModel {
         addValidField("refName");
     }
 
-    @Column(name = "REF_VALUE")
-    public String getRefValue() {
-        return refValue;
+    @Column(name = "REF_COUNT")
+    public Integer getRefCount() {
+        return refCount;
     }
 
-    public void setRefValue(String refValue) {
-        this.refValue = refValue;
-        if(refValue == null){
-              removeValidField("refValue");
+    public void setRefCount(Integer refCount) {
+        this.refCount = refCount;
+        if(refCount == null){
+              removeValidField("refCount");
               return;
         }
-        addValidField("refValue");
+        addValidField("refCount");
     }
 }

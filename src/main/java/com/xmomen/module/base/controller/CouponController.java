@@ -137,4 +137,37 @@ public class CouponController {
         mybatisDao.deleteByPrimaryKey(CdCoupon.class, id);
     }
 
+    /**
+     * @param id
+     */
+    @RequestMapping(value = "/coupon/sendOneCoupon", method = RequestMethod.GET)
+    @Log(actionName = "发放单卡")
+    public void sendOneCoupon(
+    		@RequestParam(value = "id") Integer id,
+    		@RequestParam(value="companyId") Integer companyId,
+    		@RequestParam(value="couponNumber") String couponNumber){
+    	couponService.sendOneCoupon(id,companyId,couponNumber);
+    }
+    
+    /**
+     * @param id
+     */
+    @RequestMapping(value = "/coupon/sendMoreCoupon", method = RequestMethod.GET)
+    @Log(actionName = "批量发放卡")
+    public void sendMoreCoupon(
+    		@RequestParam(value="companyId") Integer companyId,
+    		@RequestParam(value="couponNumberList") String couponNumberList){
+    	String[] couponNumbers = couponNumberList.split(",");
+    	for(int i = 0,length = couponNumbers.length;i < length; i++){
+    		String couponNumber = couponNumbers[i];
+    		CdCoupon coupon = new CdCoupon();
+    		coupon.setCouponNumber(couponNumber);
+    		coupon.setCouponType(1);
+    		coupon.setIsSend(0);
+    		coupon.setIsUseful(0);
+    		coupon = mybatisDao.selectOneByModel(coupon);
+    		if(coupon != null)
+    		couponService.sendOneCoupon(coupon.getId(),companyId,coupon.getCouponNumber());
+    	}
+    }
 }

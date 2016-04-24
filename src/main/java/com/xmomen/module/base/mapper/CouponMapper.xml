@@ -6,10 +6,13 @@
 	<select id="getCouponList" resultType="com.xmomen.module.base.model.CouponModel" parameterType="java.util.HashMap">
         SELECT
         cc.*,
-		ccc.CATEGORY_NAME
+		ccc.CATEGORY_NAME,
+		cd_company.COMPANY_NAME
         FROM
         cd_coupon cc
         left join cd_coupon_category ccc on cc.COUPON_CATEGORY = ccc.id
+        left join cd_coupon_ref ccr on cc.id = ccr.cd_coupon_id and ccr.ref_type='SEND_COMPANY'
+        left join cd_company cd_company on ccr.ref_value = cd_company.id
         <where>
               <if test="keyword">
                   AND cc.COUPON_NUMBER LIKE CONCAT('%', #{keyword}, '%') or cc.COUPON_DESC LIKE CONCAT('%', #{keyword}, '%')

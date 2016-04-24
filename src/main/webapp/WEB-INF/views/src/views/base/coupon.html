@@ -58,6 +58,10 @@
 									<i class="fa fa-plus"></i>
 									新增卡券
 								</button>
+                                <button class="btn btn-primary" type="button" data-ng-click="openSendMoreCoupon()">
+                                    <i class="fa fa-upload"></i>
+                                    批量发卡
+                                </button>
 							</div>
 						</div>
 						<div class="table-responsive">
@@ -77,14 +81,16 @@
 									<th>可用金额/可用次数</th>
 									<th>有效日期</th>
 									<th>使用状态</th>
-									<th>有效状态</th>
+									<th>激活状态</th>
 									<th>是否赠送</th>
+                                    <th>是否发卡</th>
+                                    <th>发放单位</th>
 									<th>备注</th>
 									<th width="80">操作</th>
 								</tr>
 								</thead>
 								<tbody>
-								<tr ng-repeat="coupon in couponList"  ng-if="couponList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+								<tr ng-repeat="coupon in couponList  | orderBy:'couponType'"  ng-if="couponList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
 									<td>
 										<label class="checkbox">
 											<input type="checkbox" name="checkbox-inline">
@@ -98,18 +104,24 @@
 									<td ng-bind="coupon.couponValue"></td>
 									<td>{{coupon.beginTime | date: 'yyyy-MM-dd'}} 至 {{coupon.endTime | date: 'yyyy-MM-dd'}}</td>
                                     <td><span ng-if="coupon.isUsed == 0">未使用</span><span ng-if="coupon.isUsed == 1">已使用</span></td>
-                                    <td><span ng-if="coupon.isUseful == 0">无效</span><span ng-if="coupon.isUseful == 1">有效</span></td>
+                                    <td><span ng-if="coupon.isUseful == 0">未激活</span><span ng-if="coupon.isUseful == 1">已激活</span></td>
                                     <td><span ng-if="coupon.isGift == 0">未赠送</span><span ng-if="coupon.isGift == 1">已赠送</span></td>
+                                    <td><span ng-if="coupon.isSend == 0">未发卡</span><span ng-if="coupon.isSend == 1">已发卡</span></td>
+                                    <td ng-bind="coupon.companyName"></td>
 									<td ng-bind="coupon.notes"></td>
 									<td>
 										<div ng-show="show">
-											<a href="javascript:void(0);" data-ng-click="removeCoupon($index)" title="删除：{{coupon.couponDesc}}">
+											<a href="javascript:void(0);" data-ng-click="removeCoupon(coupon)" title="删除：{{coupon.couponDesc}}">
 												<span class="glyphicon glyphicon-remove-circle"></span>
 											</a>
 											<span> | </span>
-											<a href="javascript:void(0);" data-ng-click="updateCoupon($index)" title="编辑：{{coupon.couponDesc}}">
+											<a href="javascript:void(0);" data-ng-click="updateCoupon(coupon)" title="编辑：{{coupon.couponDesc}}">
 												<span class="fa fa-pencil"></span>
 											</a>
+                                            <span> | </span>
+                                            <a href="javascript:void(0);" ng-show="coupon.couponType == 1 && coupon.isSend == 0 && coupon.isUseful == 0 " data-ng-click="openSendCoupon(coupon)" title="发卡：{{coupon.couponDesc}}">
+                                                <span class="fa fa-puzzle-piece"></span>
+                                            </a>
 										</div>
 									</td>
 								</tr>
@@ -198,9 +210,9 @@
                         </div>
                     </div>
 					<div class="form-group">
-						<label class="col-md-2 control-label">数值<span class="vaild">*</span></label>
+						<label class="col-md-2 control-label">数值</label>
 						<div class="col-md-10 input-group">
-							<input class="form-control"  required="true" ng-disabled="coupon.couponType == 2" ng-model="coupon.couponValue" name="couponValue" placeholder="可用金额/可用次数" type="text">
+							<input class="form-control"  ng-disabled="coupon.couponType == 2" ng-model="coupon.couponValue" name="couponValue" placeholder="可用金额/可用次数" type="text">
 						</div>
 					</div>
 
@@ -253,15 +265,15 @@
 					</div>
 
 					<div class="form-group">
-						<label class="col-md-2 control-label">是否有效</label>
+						<label class="col-md-2 control-label">是否激活</label>
 						<div class="col-md-10 input-group">
 							<label class="radio radio-inline">
 								<input type="radio" class="radiobox" ng-model="coupon.isUseful" value="0" ng-checked="coupon.isUseful==0" name="isUseful">
-								<span>无效</span>
+								<span>未激活</span>
 							</label>
 							<label class="radio radio-inline">
 								<input type="radio" class="radiobox" ng-model="coupon.isUseful" value="1" ng-checked="coupon.isUseful==1" name="isUseful">
-								<span>有效</span>
+								<span>已激活</span>
 							</label>
 						</div>
 					</div>
@@ -304,4 +316,97 @@
 		</button>
 		<button class="btn btn-warning" ng-click="cancel()">关闭</button>
 	</div>
+</script>
+
+<script type="text/ng-template" id="sendOneCoupon.html">
+    <div class="modal-header">
+        <h3 class="modal-title">单卡发放</h3>
+    </div>
+    <div class="modal-body">
+        <div class="widget-body">
+
+            <form class="form-horizontal" ug-validate="sendCouponForm" name="sendCouponForm" novalidate="">
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">卡号</label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control" required disabled ng-model="coupon.couponNumber" name="number" placeholder="卡号" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">卡类别</label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control" required disabled ng-model="coupon.categoryName" name="number" placeholder="卡类别" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">公司/单位<span class="vaild">*</span></label>
+                        <div class="col-md-10 input-group">
+                            <select ug-select2 style="width: 100%;" required="true" ng-model="coupon.cdCompanyId" name="company" >
+                                <option value="">--请选择--</option>
+                                <option value="{{company.id}}" ng-repeat="company in companyList">{{company.companyName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="errors">
+                        <label class="col-md-2 control-label"></label>
+                        <div class="col-md-10 error">
+                            {{errors.message}}
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit" data-ng-click="sendOneCoupon()">
+            <i class="fa fa-save"></i>
+            发卡
+        </button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="sendMoreCoupon.html">
+    <div class="modal-header">
+        <h3 class="modal-title">批量发卡</h3>
+    </div>
+    <div class="modal-body">
+        <div class="widget-body">
+
+            <form class="form-horizontal" ug-validate="sendMoreCouponForm" name="sendMoreCouponForm" novalidate="">
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">卡号</label>
+                        <div class="col-md-10 input-group">
+                            <textarea ng-model="coupon.couponNumberList" placeholder="多个卡号以英文逗号分隔（K1,K2,.......)" rows="10" cols="50">
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">公司/单位<span class="vaild">*</span></label>
+                        <div class="col-md-10 input-group">
+                            <select ug-select2 style="width: 100%;" required="true" ng-model="coupon.cdCompanyId" name="company" >
+                                <option value="">--请选择--</option>
+                                <option value="{{company.id}}" ng-repeat="company in companyList">{{company.companyName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="errors">
+                        <label class="col-md-2 control-label"></label>
+                        <div class="col-md-10 error">
+                            {{errors.message}}
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit" data-ng-click="sendMoreCoupon()">
+            <i class="fa fa-save"></i>
+            发卡
+        </button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
 </script>

@@ -32,6 +32,7 @@ define(function () {
         };
         $scope.queryParam = {};
         $scope.getItemList = function(categoryName){
+            debugger
             var choseItemId = null;
             if($scope.choseOrderItemList && $scope.choseOrderItemList.length > 0){
                 choseItemId = []
@@ -43,10 +44,12 @@ define(function () {
             if(categoryName){
                 $scope.queryParam.keyword = categoryName;
             }
+            debugger
             ItemAPI.query({
                 limit:$scope.pageSetting.pageSize,
                 offset:$scope.pageSetting.pageNum,
                 keyword:$scope.queryParam.keyword,
+                sellStatus:1,
                 exclude_ids:choseItemId
             }, function(data){
                 $scope.itemList = data.data;

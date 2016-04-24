@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xmomen.module.base.entity.mapper.CdCouponRefMapper" >
-  <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdCouponRef" >
+<mapper namespace="com.xmomen.module.base.entity.mapper.CdActivityMapper" >
+  <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdActivity" >
     <id column="ID" property="id" jdbcType="INTEGER" />
-    <result column="CD_COUPON_ID" property="cdCouponId" jdbcType="INTEGER" />
-    <result column="COUPON_NUMBER" property="couponNumber" jdbcType="VARCHAR" />
-    <result column="REF_TYPE" property="refType" jdbcType="VARCHAR" />
-    <result column="REF_NAME" property="refName" jdbcType="VARCHAR" />
-    <result column="REF_VALUE" property="refValue" jdbcType="VARCHAR" />
+    <result column="ACTIVITY_NAME" property="activityName" jdbcType="VARCHAR" />
+    <result column="ACTIVITY_BEGIN_TIME" property="activityBeginTime" jdbcType="TIMESTAMP" />
+    <result column="ACTIVITY_END_TIME" property="activityEndTime" jdbcType="TIMESTAMP" />
+    <result column="ACTIVITY_DESCRIBE" property="activityDescribe" jdbcType="VARCHAR" />
+    <result column="ACTIVITY_TYPE" property="activityType" jdbcType="INTEGER" />
+    <result column="ACTIVITY_DAY" property="activityDay" jdbcType="INTEGER" />
+    <result column="AVAILABLE" property="available" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -68,15 +70,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, CD_COUPON_ID, COUPON_NUMBER, REF_TYPE, REF_NAME, REF_VALUE
+    ID, ACTIVITY_NAME, ACTIVITY_BEGIN_TIME, ACTIVITY_END_TIME, ACTIVITY_DESCRIBE, ACTIVITY_TYPE, 
+    ACTIVITY_DAY, AVAILABLE
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdCouponRefExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdActivityExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cd_coupon_ref
+    from cd_activity
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -84,81 +87,99 @@
       order by ${orderByClause}
     </if>
   </select>
-  <delete id="deleteByExample" parameterType="com.xmomen.module.base.entity.CdCouponRefExample" >
-    delete from cd_coupon_ref
+  <delete id="deleteByExample" parameterType="com.xmomen.module.base.entity.CdActivityExample" >
+    delete from cd_activity
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdCouponRef" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
-    insert into cd_coupon_ref
+  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdActivity" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
+    insert into cd_activity
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         ID,
       </if>
-      <if test="cdCouponId != null" >
-        CD_COUPON_ID,
+      <if test="activityName != null" >
+        ACTIVITY_NAME,
       </if>
-      <if test="couponNumber != null" >
-        COUPON_NUMBER,
+      <if test="activityBeginTime != null" >
+        ACTIVITY_BEGIN_TIME,
       </if>
-      <if test="refType != null" >
-        REF_TYPE,
+      <if test="activityEndTime != null" >
+        ACTIVITY_END_TIME,
       </if>
-      <if test="refName != null" >
-        REF_NAME,
+      <if test="activityDescribe != null" >
+        ACTIVITY_DESCRIBE,
       </if>
-      <if test="refValue != null" >
-        REF_VALUE,
+      <if test="activityType != null" >
+        ACTIVITY_TYPE,
+      </if>
+      <if test="activityDay != null" >
+        ACTIVITY_DAY,
+      </if>
+      <if test="available != null" >
+        AVAILABLE,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="cdCouponId != null" >
-        #{cdCouponId,jdbcType=INTEGER},
+      <if test="activityName != null" >
+        #{activityName,jdbcType=VARCHAR},
       </if>
-      <if test="couponNumber != null" >
-        #{couponNumber,jdbcType=VARCHAR},
+      <if test="activityBeginTime != null" >
+        #{activityBeginTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="refType != null" >
-        #{refType,jdbcType=VARCHAR},
+      <if test="activityEndTime != null" >
+        #{activityEndTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="refName != null" >
-        #{refName,jdbcType=VARCHAR},
+      <if test="activityDescribe != null" >
+        #{activityDescribe,jdbcType=VARCHAR},
       </if>
-      <if test="refValue != null" >
-        #{refValue,jdbcType=VARCHAR},
+      <if test="activityType != null" >
+        #{activityType,jdbcType=INTEGER},
+      </if>
+      <if test="activityDay != null" >
+        #{activityDay,jdbcType=INTEGER},
+      </if>
+      <if test="available != null" >
+        #{available,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.xmomen.module.base.entity.CdCouponRefExample" resultType="java.lang.Integer" >
-    select count(*) from cd_coupon_ref
+  <select id="countByExample" parameterType="com.xmomen.module.base.entity.CdActivityExample" resultType="java.lang.Integer" >
+    select count(*) from cd_activity
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update cd_coupon_ref
+    update cd_activity
     <set >
       <if test="record.id != null" >
         ID = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.cdCouponId != null" >
-        CD_COUPON_ID = #{record.cdCouponId,jdbcType=INTEGER},
+      <if test="record.activityName != null" >
+        ACTIVITY_NAME = #{record.activityName,jdbcType=VARCHAR},
       </if>
-      <if test="record.couponNumber != null" >
-        COUPON_NUMBER = #{record.couponNumber,jdbcType=VARCHAR},
+      <if test="record.activityBeginTime != null" >
+        ACTIVITY_BEGIN_TIME = #{record.activityBeginTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.refType != null" >
-        REF_TYPE = #{record.refType,jdbcType=VARCHAR},
+      <if test="record.activityEndTime != null" >
+        ACTIVITY_END_TIME = #{record.activityEndTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.refName != null" >
-        REF_NAME = #{record.refName,jdbcType=VARCHAR},
+      <if test="record.activityDescribe != null" >
+        ACTIVITY_DESCRIBE = #{record.activityDescribe,jdbcType=VARCHAR},
       </if>
-      <if test="record.refValue != null" >
-        REF_VALUE = #{record.refValue,jdbcType=VARCHAR},
+      <if test="record.activityType != null" >
+        ACTIVITY_TYPE = #{record.activityType,jdbcType=INTEGER},
+      </if>
+      <if test="record.activityDay != null" >
+        ACTIVITY_DAY = #{record.activityDay,jdbcType=INTEGER},
+      </if>
+      <if test="record.available != null" >
+        AVAILABLE = #{record.available,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >

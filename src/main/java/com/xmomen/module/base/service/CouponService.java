@@ -9,6 +9,8 @@ import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.module.base.entity.CdCoupon;
 import com.xmomen.module.base.entity.CdCouponExample;
+import com.xmomen.module.base.entity.CdCouponRef;
+import com.xmomen.module.base.entity.CdCouponRefExample;
 
 /**
  * Created by Jeng on 2016/3/30.
@@ -41,5 +43,25 @@ public class CouponService {
 
     public void bindMember(String couponNumber, Integer memberId){
 
+    }
+    @Transactional
+    public void sendOneCoupon(Integer id,Integer companyId,String couponNumber){
+    	//更新卡发放状态
+    	CdCoupon coupon = new CdCoupon();
+    	coupon.setIsSend(1);
+    	coupon.setId(id);
+    	mybatisDao.updateByModel(coupon);
+    	//先删除再添加
+    	CdCouponRefExample couponRefExample = new CdCouponRefExample();
+		couponRefExample.createCriteria().andCdCouponIdEqualTo(id)
+		.andRefTypeEqualTo("SEND_COMPANY");
+		mybatisDao.deleteByExample(couponRefExample);
+    	CdCouponRef couponRef = new CdCouponRef();
+    	couponRef.setCdCouponId(id);
+    	couponRef.setRefType("SEND_COMPANY");
+    	couponRef.setRefName("发放单位");
+    	couponRef.setRefValue(companyId+"");
+    	couponRef.setCouponNumber(couponNumber);
+    	mybatisDao.save(couponRef);
     }
 }

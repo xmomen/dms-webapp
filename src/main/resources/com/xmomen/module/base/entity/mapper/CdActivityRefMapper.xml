@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xmomen.module.base.entity.mapper.CdCouponRefMapper" >
-  <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdCouponRef" >
+<mapper namespace="com.xmomen.module.base.entity.mapper.CdActivityRefMapper" >
+  <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdActivityRef" >
     <id column="ID" property="id" jdbcType="INTEGER" />
-    <result column="CD_COUPON_ID" property="cdCouponId" jdbcType="INTEGER" />
-    <result column="COUPON_NUMBER" property="couponNumber" jdbcType="VARCHAR" />
+    <result column="CD_ACTIVITY_ID" property="cdActivityId" jdbcType="INTEGER" />
+    <result column="REF_VALUE" property="refValue" jdbcType="VARCHAR" />
     <result column="REF_TYPE" property="refType" jdbcType="VARCHAR" />
     <result column="REF_NAME" property="refName" jdbcType="VARCHAR" />
-    <result column="REF_VALUE" property="refValue" jdbcType="VARCHAR" />
+    <result column="REF_COUNT" property="refCount" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -68,15 +68,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, CD_COUPON_ID, COUPON_NUMBER, REF_TYPE, REF_NAME, REF_VALUE
+    ID, CD_ACTIVITY_ID, REF_VALUE, REF_TYPE, REF_NAME, REF_COUNT
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdCouponRefExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdActivityRefExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cd_coupon_ref
+    from cd_activity_ref
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -84,23 +84,23 @@
       order by ${orderByClause}
     </if>
   </select>
-  <delete id="deleteByExample" parameterType="com.xmomen.module.base.entity.CdCouponRefExample" >
-    delete from cd_coupon_ref
+  <delete id="deleteByExample" parameterType="com.xmomen.module.base.entity.CdActivityRefExample" >
+    delete from cd_activity_ref
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdCouponRef" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
-    insert into cd_coupon_ref
+  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdActivityRef" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
+    insert into cd_activity_ref
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         ID,
       </if>
-      <if test="cdCouponId != null" >
-        CD_COUPON_ID,
+      <if test="cdActivityId != null" >
+        CD_ACTIVITY_ID,
       </if>
-      <if test="couponNumber != null" >
-        COUPON_NUMBER,
+      <if test="refValue != null" >
+        REF_VALUE,
       </if>
       <if test="refType != null" >
         REF_TYPE,
@@ -108,19 +108,19 @@
       <if test="refName != null" >
         REF_NAME,
       </if>
-      <if test="refValue != null" >
-        REF_VALUE,
+      <if test="refCount != null" >
+        REF_COUNT,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="cdCouponId != null" >
-        #{cdCouponId,jdbcType=INTEGER},
+      <if test="cdActivityId != null" >
+        #{cdActivityId,jdbcType=INTEGER},
       </if>
-      <if test="couponNumber != null" >
-        #{couponNumber,jdbcType=VARCHAR},
+      <if test="refValue != null" >
+        #{refValue,jdbcType=VARCHAR},
       </if>
       <if test="refType != null" >
         #{refType,jdbcType=VARCHAR},
@@ -128,28 +128,28 @@
       <if test="refName != null" >
         #{refName,jdbcType=VARCHAR},
       </if>
-      <if test="refValue != null" >
-        #{refValue,jdbcType=VARCHAR},
+      <if test="refCount != null" >
+        #{refCount,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.xmomen.module.base.entity.CdCouponRefExample" resultType="java.lang.Integer" >
-    select count(*) from cd_coupon_ref
+  <select id="countByExample" parameterType="com.xmomen.module.base.entity.CdActivityRefExample" resultType="java.lang.Integer" >
+    select count(*) from cd_activity_ref
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update cd_coupon_ref
+    update cd_activity_ref
     <set >
       <if test="record.id != null" >
         ID = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.cdCouponId != null" >
-        CD_COUPON_ID = #{record.cdCouponId,jdbcType=INTEGER},
+      <if test="record.cdActivityId != null" >
+        CD_ACTIVITY_ID = #{record.cdActivityId,jdbcType=INTEGER},
       </if>
-      <if test="record.couponNumber != null" >
-        COUPON_NUMBER = #{record.couponNumber,jdbcType=VARCHAR},
+      <if test="record.refValue != null" >
+        REF_VALUE = #{record.refValue,jdbcType=VARCHAR},
       </if>
       <if test="record.refType != null" >
         REF_TYPE = #{record.refType,jdbcType=VARCHAR},
@@ -157,8 +157,8 @@
       <if test="record.refName != null" >
         REF_NAME = #{record.refName,jdbcType=VARCHAR},
       </if>
-      <if test="record.refValue != null" >
-        REF_VALUE = #{record.refValue,jdbcType=VARCHAR},
+      <if test="record.refCount != null" >
+        REF_COUNT = #{record.refCount,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >
