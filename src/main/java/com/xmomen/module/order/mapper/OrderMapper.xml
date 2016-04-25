@@ -34,4 +34,21 @@
               </if>
           </where>
     </select>
+
+    <select id="getPurchaseList" resultType="com.xmomen.module.order.model.PurchaseModel" >
+        SELECT
+          SUM(i.ITEM_QTY) AS TOTAL_ITEM_QTY,
+          i.ITEM_ID,
+          i.ITEM_CODE,
+          i.ITEM_UNIT
+        FROM
+          tb_order_item i
+          LEFT JOIN tb_order o
+            ON o.ORDER_NO = i.ORDER_NO
+        <where>
+            o.ORDER_STATUS = 1
+
+        </where>
+        GROUP BY item_id
+    </select>
 </mapper>
