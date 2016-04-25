@@ -7,6 +7,15 @@ public class CouponCategoryRefModel implements Serializable{
 	private String itemName;
 	private String itemCode;
 	private String categoryName;
+	private Integer count;
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}
+
 	public String getItemName() {
 		return itemName;
 	}

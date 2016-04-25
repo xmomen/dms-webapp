@@ -49,6 +49,7 @@ public class CouponCategoryServiceImpl implements CouponCategoryService {
 				categoryRef.setRefType("TICKET_ITEM");
 				categoryRef.setRefValue(categoryRefVo.getCdItemId()+"");
 				categoryRef.setRefName("消费劵固定产品");
+				categoryRef.setRefCount(categoryRefVo.getCount());
 				mybatisDao.save(categoryRef);
 			}
 		}
@@ -72,6 +73,7 @@ public class CouponCategoryServiceImpl implements CouponCategoryService {
 				categoryRef.setRefType("TICKET_ITEM");
 				categoryRef.setRefValue(categoryRefVo.getCdItemId()+"");
 				categoryRef.setRefName("消费劵固定产品");
+				categoryRef.setRefCount(categoryRefVo.getCount());
 				mybatisDao.save(categoryRef);
 			}
 		}

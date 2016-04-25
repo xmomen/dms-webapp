@@ -434,6 +434,66 @@ public class CdCouponCategoryRefExample extends BaseMybatisExample {
             addCriterion("REF_VALUE not between", value1, value2, "refValue");
             return (Criteria) this;
         }
+
+        public Criteria andRefCountIsNull() {
+            addCriterion("REF_COUNT is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefCountIsNotNull() {
+            addCriterion("REF_COUNT is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefCountEqualTo(Integer value) {
+            addCriterion("REF_COUNT =", value, "refCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefCountNotEqualTo(Integer value) {
+            addCriterion("REF_COUNT <>", value, "refCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefCountGreaterThan(Integer value) {
+            addCriterion("REF_COUNT >", value, "refCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("REF_COUNT >=", value, "refCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefCountLessThan(Integer value) {
+            addCriterion("REF_COUNT <", value, "refCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefCountLessThanOrEqualTo(Integer value) {
+            addCriterion("REF_COUNT <=", value, "refCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefCountIn(List<Integer> values) {
+            addCriterion("REF_COUNT in", values, "refCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefCountNotIn(List<Integer> values) {
+            addCriterion("REF_COUNT not in", values, "refCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefCountBetween(Integer value1, Integer value2) {
+            addCriterion("REF_COUNT between", value1, value2, "refCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("REF_COUNT not between", value1, value2, "refCount");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

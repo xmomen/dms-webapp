@@ -17,6 +17,9 @@
               <if test="couponNumber">
                   AND cc.COUPON_NUMBER = #{couponNumber}
               </if>
+              <if test="categoryType">
+              	AND ccc.category_type = #{categoryType}
+              </if>
          </where>
     </select>
 </mapper>

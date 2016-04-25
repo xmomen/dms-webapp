@@ -50,12 +50,6 @@
 									<label class="col-md-2 control-label">订单类型：</label>
 									<div class="col-md-10">
 										<label class="radio radio-inline">
-											<!--	3-客服下单	-->
-											<input type="hidden" ng-init="order.orderSource=3" ng-model="order.orderSource" name="orderSource">
-											<input type="radio" class="radiobox" value="0" ng-model="order.orderType" ng-checked="order.orderType==0" name="orderType">
-											<span>常规订单</span>
-										</label>
-										<label class="radio radio-inline">
 											<input type="radio" class="radiobox" value="1" ng-model="order.orderType" ng-checked="order.orderType==1" name="orderType">
 											<span>卡类订单</span>
 										</label>
@@ -63,6 +57,12 @@
 											<input type="radio" class="radiobox" value="2" ng-model="order.orderType" ng-checked="order.orderType==2" name="orderType">
 											<span>券类订单</span>
 										</label>
+                                        <label class="radio radio-inline">
+                                            <!--	3-客服下单	-->
+                                            <input type="hidden" ng-init="order.orderSource=3" ng-model="order.orderSource" name="orderSource">
+                                            <input type="radio" class="radiobox" value="0" ng-model="order.orderType" ng-checked="order.orderType==0" name="orderType">
+                                            <span>常规订单</span>
+                                        </label>
 									</div>
 								</div>
 
@@ -95,21 +95,21 @@
 									<label class="control-label col-md-2">券号</label>
 									<div class="col-md-4">
 										<div class="input-group input-group-md">
-											<input type="text" ng-model="coupon.cardNumber2" placeholder="券号" class="form-control">
+											<input type="text" ng-model="coupon.cardNumber" placeholder="券号" class="form-control">
 						                    <span class="input-group-btn">
-						                        <button class="btn btn-default" type="button">查询</button>
+						                        <button class="btn btn-default" type="button" data-ng-click="getCouponByJuanNo()">查询</button>
 						                    </span>
 										</div>
 									</div>
 									<label class="control-label col-md-2">使用状态</label>
 									<div class="col-md-4">
+                                        <label class="radio radio-inline">
+                                            <input type="radio" class="radiobox" disabled value="0" ng-model="coupon.isUsed" ng-checked="coupon.isUsed==0" name="isUse">
+                                            <span>未使用</span>
+                                        </label>
 										<label class="radio radio-inline">
-											<input type="radio" class="radiobox" disabled value="0" ng-model="coupon.isUse" ng-checked="coupon.isUse==0" name="isUse">
+											<input type="radio" class="radiobox" disabled value="1" ng-model="coupon.isUsed" ng-checked="coupon.isUsed==1" name="isUse">
 											<span>已使用</span>
-										</label>
-										<label class="radio radio-inline">
-											<input type="radio" class="radiobox" disabled value="1" ng-model="coupon.isUse" ng-checked="coupon.isUse==1" name="isUse">
-											<span>未使用</span>
 										</label>
 									</div>
 								</div>
@@ -145,24 +145,24 @@
 								<div class="form-group">
 									<label class="control-label col-md-2">单位／个人</label>
 									<div class="col-md-4">
-										<input type="hidden" ng-model="order.companyId" disabled class="form-control">
-										<input type="text" ng-model="order.companyName" disabled placeholder="查询后自动填充" class="form-control">
+										<input type="hidden" ng-model="order.companyId" ng-disabled="order.orderType != 2 " class="form-control">
+										<input type="text" ng-model="order.companyName" ng-disabled="order.orderType != 2 " placeholder="查询后自动填充" class="form-control">
 									</div>
 									<label class="control-label col-md-2">客户经理</label>
 									<div class="col-md-4">
-										<input type="hidden" ng-model="order.managerId" disabled class="form-control">
-										<input type="text" ng-model="order.managerName" disabled placeholder="查询后自动填充" class="form-control">
+										<input type="hidden" ng-model="order.managerId" ng-disabled="order.orderType != 2 " class="form-control">
+										<input type="text" ng-model="order.managerName" ng-disabled="order.orderType != 2 " placeholder="查询后自动填充" class="form-control">
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="control-label col-md-2">默认收货人</label>
 									<div class="col-md-4">
 										<div class="input-group">
-											<input type="text" ng-model="order.consigneeName" disabled placeholder="查询后自动填充" class="form-control">
-											<span class="input-group-addon">
+											<input type="text" ng-model="order.consigneeName" ng-disabled="order.orderType != 2 " placeholder="查询后自动填充" class="form-control">
+											<span class="input-group-addon" ng-show="order.orderType != 2 ">
 												<span class="onoffswitch">
 													<input type="radio" ng-disabled="!order.consigneeName" ng-model="order.addressChose" data-ng-checked="order.addressChose == 1" name="start_interval" class="onoffswitch-checkbox" id="default_address">
-													<label class="onoffswitch-label" for="default_address">
+													<label class="onoffswitch-label" for="default_address" >
 														<span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
 														<span class="onoffswitch-switch"></span>
 													</label>
@@ -172,76 +172,77 @@
 									</div>
 									<label class="control-label col-md-2">联系方式</label>
 									<div class="col-md-4">
-										<input type="text" ng-model="order.consigneePhone" disabled placeholder="查询后自动填充" class="form-control">
+										<input type="text" ng-model="order.consigneePhone" ng-disabled="order.orderType != 2 " placeholder="查询后自动填充" class="form-control">
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="control-label col-md-2">收货地址</label>
 									<div class="col-md-10">
-										<input type="text" ng-model="order.consigneeAddress" disabled placeholder="查询后自动填充" class="form-control">
+										<input type="text" ng-model="order.consigneeAddress" ng-disabled="order.orderType != 2 " placeholder="查询后自动填充" class="form-control">
 									</div>
 								</div>
-
-								<div class="form-group">
-									<label class="control-label col-md-2">备用收货人</label>
-									<div class="col-md-4">
-										<div class="input-group">
-											<input type="text" disabled ng-model="order.spareName" placeholder="查询后自动填充" class="form-control">
+                                <div ng-show="order.orderType != 2">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">备用收货人</label>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" disabled ng-model="order.spareName" placeholder="查询后自动填充" class="form-control">
 											<span class="input-group-addon">
 												<span class="onoffswitch">
-													<input type="radio" ng-disabled="setting.disablesSpareName2" ng-model="order.addressChose" data-ng-checked="order.addressChose == 2" name="start_interval" class="onoffswitch-checkbox" id="backup_address">
+													<input type="radio" ng-disabled="setting.disablesSpareName" ng-model="order.addressChose" data-ng-checked="order.addressChose == 2" name="start_interval" class="onoffswitch-checkbox" id="backup_address">
 													<label class="onoffswitch-label" for="backup_address">
-														<span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
-														<span class="onoffswitch-switch"></span>
-													</label>
+                                                        <span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
+                                                        <span class="onoffswitch-switch"></span>
+                                                    </label>
 												</span>
 											</span>
-										</div>
-									</div>
-									<label class="control-label col-md-2">联系方式</label>
-									<div class="col-md-4">
-										<input type="text" disabled ng-model="order.spareTel" placeholder="查询后自动填充" class="form-control">
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label col-md-2">收货地址</label>
-									<div class="col-md-10">
-										<input type="text" disabled ng-model="order.spareAddress" placeholder="查询后自动填充" class="form-control">
-									</div>
-								</div>
+                                            </div>
+                                        </div>
+                                        <label class="control-label col-md-2">联系方式</label>
+                                        <div class="col-md-4">
+                                            <input type="text" disabled ng-model="order.spareTel" placeholder="查询后自动填充" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">收货地址</label>
+                                        <div class="col-md-10">
+                                            <input type="text" disabled ng-model="order.spareAddress" placeholder="查询后自动填充" class="form-control">
+                                        </div>
+                                    </div>
 
-								<div class="form-group">
-									<label class="control-label col-md-2">备用收货人</label>
-									<div class="col-md-4">
-										<div class="input-group">
-											<input type="text" disabled ng-model="order.spareName2" placeholder="查询后自动填充" class="form-control">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">备用收货人</label>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" disabled ng-model="order.spareName2" placeholder="查询后自动填充" class="form-control">
 											<span class="input-group-addon">
 												<span class="onoffswitch">
 													<input type="radio" ng-disabled="setting.disablesSpareName2" ng-model="order.addressChose" data-ng-checked="order.addressChose == 3" name="start_interval" class="onoffswitch-checkbox" id="backup_address2">
 													<label class="onoffswitch-label" for="backup_address2">
-														<span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
-														<span class="onoffswitch-switch"></span>
-													</label>
+                                                        <span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
+                                                        <span class="onoffswitch-switch"></span>
+                                                    </label>
 												</span>
 											</span>
-										</div>
-									</div>
-									<label class="control-label col-md-2">联系方式</label>
-									<div class="col-md-4">
-										<input type="text" disabled ng-model="order.spareTel2" placeholder="查询后自动填充" class="form-control">
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label col-md-2">收货地址</label>
-									<div class="col-md-10">
-										<input type="text" disabled ng-model="order.spareAddress2" placeholder="查询后自动填充" class="form-control">
-									</div>
-								</div>
+                                            </div>
+                                        </div>
+                                        <label class="control-label col-md-2">联系方式</label>
+                                        <div class="col-md-4">
+                                            <input type="text" disabled ng-model="order.spareTel2" placeholder="查询后自动填充" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">收货地址</label>
+                                        <div class="col-md-10">
+                                            <input type="text" disabled ng-model="order.spareAddress2" placeholder="查询后自动填充" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
 
 								<div class="form-group">
 									<label class="control-label col-md-2">客户要求</label>
 									<div class="col-md-10">
-										<input type="text" ng-model="order.remark" placeholder="周末送达，工作日送达" class="form-control">
+										<input type="text" ng-model="order.remark1" placeholder="周末送达，工作日送达" class="form-control">
 									</div>
 								</div>
 							</fieldset>
@@ -249,106 +250,136 @@
 							<fieldset class="demo-switcher-1">
 								<legend>订购产品</legend>
 								<div class="row">
-									<div class="row">
-										<div class="col-sm-3">
-											<div class="dataTables_filter">
-												<label>
-													<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-													<input type="search" placeholder="产品分类/名称/编号" data-ng-keyup="getItemList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
-											</div>
-										</div>
-									</div>
-									<div class="table-responsive col-md-6">
-										<table class="table table-bordered">
-											<thead>
-											<tr>
-												<th colspan="4">可选购产品</th>
-											</tr>
-											</thead>
-											<thead>
-											<tr>
-												<th>名称</th>
-												<th>规格</th>
-												<th class="text-align-right">单价</th>
-												<th>操作</th>
-											</tr>
-											</thead>
-											<tbody>
-											<tr data-ng-repeat="item in itemList">
-												<td>{{item.itemName}}</td>
-												<td>{{item.spec}}</td>
-												<td class="text-align-right">{{item.sellPrice | number:2}}</td>
-												<td>
-													<div>
-														<a href="javascript:void(0);" data-ng-click="openItemNumber($index)" title="订购：{{item.itemName}}">
-															<span class="fa fa-plus"></span>
-														</a>
-													</div>
-												</td>
-											</tr>
-											</tbody>
-											<tfoot>
-											<tr>
-												<td colspan="4">
-													<ug-pagination page-info="pageInfoSetting" ></ug-pagination>
-												</td>
-											</tr>
-											</tfoot>
-										</table>
-
-									</div>
-									<div class="table-responsive col-md-6">
-										<input type="hidden" ng-model="order.orderItemList" name="orderItemList">
-										<table class="table table-bordered">
-											<thead>
-											<tr>
-												<th colspan="5">已选购产品</th>
-											</tr>
-											<tr>
-												<th>名称</th>
-												<th class="text-align-right">单价</th>
-												<th class="text-align-right">份数</th>
-												<th class="text-align-right">总价</th>
-												<th>操作</th>
-											</tr>
-											</thead>
-											<tbody>
-												<tr ng-repeat="choseItem in choseOrderItemList">
-													<td>{{choseItem.itemName}}</td>
-													<td class="text-align-right">{{choseItem.sellPrice | number:2}}</td>
-													<td class="text-align-right">{{choseItem.itemQty | number:2}}</td>
-													<td class="text-align-right">{{choseItem.sellPrice * choseItem.itemQty | number:2}}</td>
-													<td>
-														<div>
-															<a href="javascript:void(0);" data-ng-click="removeItem($index)" title="移除：{{choseItem.itemName}}">
-																<span class="glyphicon glyphicon-trash"></span>
-															</a>
-															<!--<a href="javascript:void(0);" data-ng-click="changeItemNumber($index, 1)" title="添加：{{choseItem.itemName}}">-->
-																<!--<span class="fa fa-plus"></span>-->
-															<!--</a>-->
-															<!--<a  ng-if="choseItem.itemQty > 1" href="javascript:void(0);" data-ng-click="changeItemNumber($index, 0)" title="减少：{{choseItem.itemName}}">-->
-																<!--<span class="fa fa-minus"></span>-->
-															<!--</a>-->
-														</div>
-													</td>
-												</tr>
-											</tbody>
-											<tfoot>
-											<tr>
-												<td colspan="2">合计</td>
-												<td class="text-align-right">{{totalItem.totalNumber | number:2}}</td>
-												<td class="text-align-right">{{totalItem.totalPrice | number:2}}</td>
-												<td>
-													<div>
-														<a ng-if="choseOrderItemList.length > 0" href="javascript:void(0);" data-ng-click="removeAllItem()" title="移除所有：{{choseItem.itemName}}">
-															<span class="glyphicon glyphicon-trash"></span>
-														</a>
-													</div>
-												</td>
-											</tr>
-											</tfoot>
-										</table>
-									</div>
+                                    <div class="row">
+                                        <div class="table-responsive col-md-2">
+                                            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="jarviswidget" id="wid-id-0">
+                                                    <header>
+                                                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                                                        <h2>产品分类</h2>
+                                                    </header>
+                                                    <div>
+                                                        <div class="jarviswidget-editbox">
+                                                        </div>
+                                                        <div class="widget-body">
+                                                            <div class="tree">
+                                                                <ul>
+                                                                    <li data-ng-repeat="item in itemCategoryList" data-ng-include="'tree_view_table.html'"></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        </div>
+                                        <div class="table-responsive col-md-10">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="dataTables_filter">
+                                                        <label>
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                                                            <input type="search" placeholder="产品分类/名称/编号" data-ng-keyup="getItemList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th colspan="4">可选购产品</th>
+                                                </tr>
+                                                </thead>
+                                                <thead>
+                                                <tr>
+                                                    <th>名称</th>
+                                                    <th>规格</th>
+                                                    <th class="text-align-right">单价</th>
+                                                    <th>操作</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr data-ng-repeat="item in itemList">
+                                                    <td>{{item.itemName}}</td>
+                                                    <td>{{item.spec}}</td>
+                                                    <td class="text-align-right">{{item.sellPrice | number:2}}</td>
+                                                    <td>
+                                                        <div>
+                                                            <a href="javascript:void(0);" data-ng-click="openItemNumber($index)" title="订购：{{item.itemName}}">
+                                                                <span class="fa fa-plus"></span>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                <tr>
+                                                    <td colspan="4">
+                                                        <ug-pagination page-info="pageInfoSetting" ></ug-pagination>
+                                                    </td>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                            <input type="hidden" ng-model="order.orderItemList" name="orderItemList">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th colspan="6">已选购产品</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>名称</th>
+                                                    <th>规格</th>
+                                                    <th class="text-align-right">单价</th>
+                                                    <th class="text-align-right">份数</th>
+                                                    <th class="text-align-right">总价</th>
+                                                    <th>操作</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="choseItem in choseOrderItemList">
+                                                    <td>{{choseItem.itemName}}</td>
+                                                    <td>{{choseItem.spec}}</td>
+                                                    <td class="text-align-right">{{choseItem.sellPrice | number:2}}</td>
+                                                    <td class="text-align-right">{{choseItem.itemQty | number:2}}</td>
+                                                    <td class="text-align-right">{{choseItem.sellPrice * choseItem.itemQty | number:2}}</td>
+                                                    <td>
+                                                        <div>
+                                                            <a href="javascript:void(0);" data-ng-click="removeItem($index)" title="移除：{{choseItem.itemName}}">
+                                                                <span class="glyphicon glyphicon-trash"></span>
+                                                            </a>
+                                                            <!--<a href="javascript:void(0);" data-ng-click="changeItemNumber($index, 1)" title="添加：{{choseItem.itemName}}">-->
+                                                            <!--<span class="fa fa-plus"></span>-->
+                                                            <!--</a>-->
+                                                            <!--<a  ng-if="choseItem.itemQty > 1" href="javascript:void(0);" data-ng-click="changeItemNumber($index, 0)" title="减少：{{choseItem.itemName}}">-->
+                                                            <!--<span class="fa fa-minus"></span>-->
+                                                            <!--</a>-->
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                <tr>
+                                                    <td colspan="3">合计</td>
+                                                    <td class="text-align-right">{{totalItem.totalNumber | number:2}}</td>
+                                                    <td class="text-align-right">{{totalItem.totalPrice | number:2}}</td>
+                                                    <td>
+                                                        <div>
+                                                            <a ng-if="choseOrderItemList.length > 0" href="javascript:void(0);" data-ng-click="removeAllItem()" title="移除所有：{{choseItem.itemName}}">
+                                                                <span class="glyphicon glyphicon-trash"></span>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2">客户要求</label>
+                                            <div class="col-md-10">
+                                                <input type="text" ng-model="order.remark2" placeholder="要新鲜的" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
 								</div>
 							</fieldset>
 
@@ -357,17 +388,17 @@
 								<div class="form-group">
 									<label class="control-label col-md-2">订单总金额</label>
 									<div class="col-md-4">
-										<input type="text" disabled placeholder="由系统自动计算" class="form-control">
+										<input type="text" disabled placeholder="由系统自动计算" class="form-control" ng-model="totalItem.totalPrice">
 									</div>
 									<label class="col-md-2 control-label">订单折后总金额</label>
 									<div class="col-md-4">
-										<input type="text" disabled placeholder="由系统自动计算" class="form-control">
+										<input type="text" disabled placeholder="由系统自动计算" class="form-control" ng-model="totalItem.totalPriceDiscount">
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="control-label col-md-2">折扣</label>
 									<div class="col-md-4">
-										<input type="text" ng-model="order.discount" placeholder="折扣百分比" class="form-control">
+										<input type="text" ng-model="order.discount" placeholder="折扣百分比" class="form-control" data-ng-keyup="discountTotalPrice()">
 									</div>
 									<label class="col-md-2 control-label">显示订单金额</label>
 									<div class="col-md-2">
@@ -456,13 +487,14 @@
 									<div class="col-md-12">
 										<label class="control-label col-md-2">付款方式：</label>
 										<div class="col-md-10">
-											<label class="control-label" ng-bind="order.paymentMode">回馈</label>
+											<label class="control-label" ng-bind="order.paymentMode"></label>
 										</div>
 									</div>
 									<div class="col-md-12">
-										<label class="control-label col-md-2" ng-if="order.remark">客户要求：</label>
-										<div class="col-md-10" ng-if="order.remark">
-											<label class="control-label" ng-bind="order.remark"></label>
+										<label class="control-label col-md-2">客户要求：</label>
+										<div class="col-md-10">
+											<label class="control-label" ng-bind="order.remark1"></label>
+                                            <label class="control-label" ng-bind="order.remark2"></label>
 										</div>
 									</div>
 									<div class="col-md-12">
@@ -568,4 +600,18 @@
 		</button>
 		<button class="btn btn-warning" ng-click="cancel()">取消</button>
 	</div>
+</script>
+
+
+<script type="text/ng-template" id="tree_view_table.html">
+    <div ng-mouseenter="item.show=true" ng-mouseleave="item.show=false">
+		<span>
+			<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i>
+            <a ng-show="item.parentId != null" ng-click="getItemList(item.name)">{{item.name}}</a>
+            <lable ng-show="item.parentId == null" >{{item.name}}</lable>
+		</span>
+    </div>
+    <ul ng-if="item.nodes && item.nodes.length > 0">
+        <li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view_table.html'"></li>
+    </ul>
 </script>
