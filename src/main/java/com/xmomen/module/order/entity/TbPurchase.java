@@ -19,6 +19,11 @@ public class TbPurchase extends BaseMybatisModel {
     private Integer id;
 
     /**
+     * 采购单编号
+     */
+    private String purchaseCode;
+
+    /**
      * 产品代码
      */
     private String itemCode;
@@ -52,6 +57,20 @@ public class TbPurchase extends BaseMybatisModel {
               return;
         }
         addValidField("id");
+    }
+
+    @Column(name = "PURCHASE_CODE")
+    public String getPurchaseCode() {
+        return purchaseCode;
+    }
+
+    public void setPurchaseCode(String purchaseCode) {
+        this.purchaseCode = purchaseCode;
+        if(purchaseCode == null){
+              removeValidField("purchaseCode");
+              return;
+        }
+        addValidField("purchaseCode");
     }
 
     @Column(name = "ITEM_CODE")

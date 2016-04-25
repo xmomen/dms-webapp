@@ -6,28 +6,28 @@ import java.math.BigDecimal;
 /**
  * Created by Jeng on 2016/4/25.
  */
-public class PurchaseModel implements Serializable {
+public class OrderPurchaseModel implements Serializable {
 
-    private String purchaseCode;
-    private String itemName;
+    private String orderNo;
+    private Integer itemId;
     private String itemCode;
     private String itemUnit;
     private BigDecimal totalItemQty;
 
-    public String getPurchaseCode() {
-        return purchaseCode;
+    public String getOrderNo() {
+        return orderNo;
     }
 
-    public void setPurchaseCode(String purchaseCode) {
-        this.purchaseCode = purchaseCode;
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
     }
 
-    public String getItemName() {
-        return itemName;
+    public Integer getItemId() {
+        return itemId;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public void setItemId(Integer itemId) {
+        this.itemId = itemId;
     }
 
     public String getItemCode() {

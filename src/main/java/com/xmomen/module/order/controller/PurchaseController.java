@@ -50,17 +50,18 @@ public class PurchaseController {
      */
     @RequestMapping(value = "/purchase", method = RequestMethod.POST)
     @Log(actionName = "新增采购单")
-    public TbPurchase createPurchase(@RequestBody @Valid CreatePurchase createPurchase, BindingResult bindingResult) throws ArgumentValidException {
+    public void createPurchase(@RequestBody @Valid CreatePurchase createPurchase, BindingResult bindingResult) throws ArgumentValidException {
         if(bindingResult != null && bindingResult.hasErrors()){
             throw new ArgumentValidException(bindingResult);
         }
-        return purchaseService.createPurchase(createPurchase);
+        purchaseService.createPurchase(createPurchase);
     }
 
     /**
      *  删除采购单
      * @param id
      */
+
     @RequestMapping(value = "/purchase/{id}", method = RequestMethod.DELETE)
     @Log(actionName = "删除采购单")
     public void deletePurchase(@PathVariable(value = "id") Integer id){

@@ -35,20 +35,50 @@
           </where>
     </select>
 
-    <select id="getPurchaseList" resultType="com.xmomen.module.order.model.PurchaseModel" >
+    <select id="getPurchaseList" resultType="com.xmomen.module.order.model.PurchaseModel" parameterType="java.util.HashMap">
         SELECT
-          SUM(i.ITEM_QTY) AS TOTAL_ITEM_QTY,
-          i.ITEM_ID,
-          i.ITEM_CODE,
-          i.ITEM_UNIT
+            p.PURCHASE_CODE,
+            p.ITEM_CODE,
+            i.ITEM_NAME,
+            i.SELL_UNIT AS itemUnit,
+            p.TOTAL AS totalItemQty
         FROM
-          tb_order_item i
-          LEFT JOIN tb_order o
-            ON o.ORDER_NO = i.ORDER_NO
+          tb_purchase p
+        LEFT JOIN cd_item i
+          ON i.ITEM_CODE = p.ITEM_CODE
+          <where>
+              <if test="keyword">
+                  AND p.ITEM_NAME LIKE CONCAT('%', #{keyword}, '%')
+                  OR p.ITEM_CODE LIKE CONCAT('%', #{keyword}, '%')
+              </if>
+          </where>
+        ORDER BY p.CREATE_DATE DESC
+    </select>
+
+    <select id="getOrderPurchaseList" resultType="com.xmomen.module.order.model.OrderPurchaseModel" parameterType="java.util.HashMap">
+        SELECT
+        o.ORDER_NO,
+        SUM(i.ITEM_QTY) AS TOTAL_ITEM_QTY,
+        i.ITEM_ID,
+        i.ITEM_CODE,
+        i.ITEM_UNIT
+        FROM
+        tb_order_item i
+        LEFT JOIN tb_order o
+        ON o.ORDER_NO = i.ORDER_NO
         <where>
             o.ORDER_STATUS = 1
-
+            <if test="startTime">
+                <![CDATA[
+                  AND o.CREATE_TIME >= #{startTime}
+                ]]>
+            </if>
+            <if test="endTime">
+                <![CDATA[
+                  AND o.CREATE_TIME <= #{endTime}
+                ]]>
+            </if>
         </where>
-        GROUP BY item_id
+        GROUP BY o.ORDER_NO,i.item_id
     </select>
 </mapper>

@@ -3,6 +3,7 @@
 <mapper namespace="com.xmomen.module.order.entity.mapper.TbPurchaseMapper" >
   <resultMap id="BaseResultMap" type="com.xmomen.module.order.entity.TbPurchase" >
     <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="PURCHASE_CODE" property="purchaseCode" jdbcType="VARCHAR" />
     <result column="ITEM_CODE" property="itemCode" jdbcType="VARCHAR" />
     <result column="TOTAL" property="total" jdbcType="DECIMAL" />
     <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, ITEM_CODE, TOTAL, CREATE_DATE, BUYER_ID
+    ID, PURCHASE_CODE, ITEM_CODE, TOTAL, CREATE_DATE, BUYER_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbPurchaseExample" >
     select
@@ -95,6 +96,9 @@
       <if test="id != null" >
         ID,
       </if>
+      <if test="purchaseCode != null" >
+        PURCHASE_CODE,
+      </if>
       <if test="itemCode != null" >
         ITEM_CODE,
       </if>
@@ -111,6 +115,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseCode != null" >
+        #{purchaseCode,jdbcType=VARCHAR},
       </if>
       <if test="itemCode != null" >
         #{itemCode,jdbcType=VARCHAR},
@@ -137,6 +144,9 @@
     <set >
       <if test="record.id != null" >
         ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.purchaseCode != null" >
+        PURCHASE_CODE = #{record.purchaseCode,jdbcType=VARCHAR},
       </if>
       <if test="record.itemCode != null" >
         ITEM_CODE = #{record.itemCode,jdbcType=VARCHAR},
