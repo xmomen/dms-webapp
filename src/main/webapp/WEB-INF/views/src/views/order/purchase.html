@@ -46,18 +46,18 @@
 								<div class="dataTables_filter">
 									<label>
 										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-										<input type="search" placeholder="订单编号/手机号码/收货人" data-ng-keyup="getOrderList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+										<input type="search" placeholder="产品名称" data-ng-keyup="getPurchaseList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
 								</div>
 							</div>
 							<div class="col-sm-2">
-								<button class="btn btn-primary" type="button" data-ng-click="getOrderList()">
+								<button class="btn btn-primary" type="button" data-ng-click="getPurchaseList()">
 									<i class="fa fa-refresh"></i>
 									刷新
 								</button>
-								<button class="btn btn-primary" type="button" ui-sref="purchase_create">
-									<i class="fa fa-plus"></i>
-									生成采购计划
-								</button>
+								<!--<button class="btn btn-primary" type="button" ui-sref="purchase_create">-->
+									<!--<i class="fa fa-plus"></i>-->
+									<!--生成采购计划-->
+								<!--</button>-->
 							</div>
 						</div>
 						<div class="table-responsive">
@@ -70,7 +70,8 @@
 											<i></i>
 										</label>
 									</th>
-									<th width="80">产品名称</th>
+									<th width="80">需求日期</th>
+									<th>产品名称</th>
 									<th>单位</th>
 									<th>数量</th>
 								</tr>
@@ -83,6 +84,7 @@
 											<i></i>
 										</label>
 									</td>
+									<td ng-bind="purchase.purchaseCode"></td>
 									<td ng-bind="purchase.itemName"></td>
 									<td ng-bind="purchase.itemUnit"></td>
 									<td ng-bind="purchase.totalItemQty"></td>
@@ -117,20 +119,20 @@
 </section>
 <!-- end widget grid -->
 
-<script type="text/ng-template" id="addOrder.html">
+<script type="text/ng-template" id="addPurchase.html">
 	<div class="modal-header">
 		<h3 class="modal-title">采购计划</h3>
 	</div>
 	<div class="modal-body">
 		<div class="widget-body">
 
-			<form class="form-horizontal" ug-validate="addOrderForm" name="addOrderForm" novalidate="">
+			<form class="form-horizontal" ug-validate="addPurchaseForm" name="addPurchaseForm" novalidate="">
 
 			</form>
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button class="btn btn-primary" type="submit" data-ng-click="saveOrder()">
+		<button class="btn btn-primary" type="submit" data-ng-click="savePurchase()">
 			<i class="fa fa-save"></i>
 			保存
 		</button>

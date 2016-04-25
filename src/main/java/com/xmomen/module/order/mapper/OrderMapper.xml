@@ -48,7 +48,7 @@
           ON i.ITEM_CODE = p.ITEM_CODE
           <where>
               <if test="keyword">
-                  AND p.ITEM_NAME LIKE CONCAT('%', #{keyword}, '%')
+                  AND i.ITEM_NAME LIKE CONCAT('%', #{keyword}, '%')
                   OR p.ITEM_CODE LIKE CONCAT('%', #{keyword}, '%')
               </if>
           </where>
