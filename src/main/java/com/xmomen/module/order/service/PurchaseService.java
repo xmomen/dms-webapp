@@ -5,6 +5,7 @@ import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.utils.DateUtils;
 import com.xmomen.module.order.entity.TbOrder;
 import com.xmomen.module.order.entity.TbOrderExample;
+import com.xmomen.module.order.entity.TbOrderRelation;
 import com.xmomen.module.order.entity.TbPurchase;
 import com.xmomen.module.order.mapper.OrderMapper;
 import com.xmomen.module.order.model.CreatePurchase;
@@ -81,6 +82,13 @@ public class PurchaseService {
                 .andOrderStatusEqualTo("1")
                 .andOrderNoIn(orderNoList);
         mybatisDao.updateByExampleSelective(tbOrder, tbOrderExample);
+        for (String orderNo : orderNoList) {
+            TbOrderRelation tbOrderRelation = new TbOrderRelation();
+            tbOrderRelation.setRefType("ORDER_PURCHASE_CODE");
+            tbOrderRelation.setOrderNo(orderNo);
+            tbOrderRelation.setRefValue(purchaseCode);
+            mybatisDao.insert(tbOrderRelation);
+        }
     }
 
     /**
