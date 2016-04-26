@@ -2,7 +2,7 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "ItemAPI", "ItemCategoryAPI","$modal", "$ugDialog", function($scope, ItemAPI,ItemCategoryAPI, $modal, $ugDialog){
+    return ["$scope", "ItemAPI", "ItemCategoryAPI","$modal", "$ugDialog","$rootScope", function($scope, ItemAPI,ItemCategoryAPI, $modal, $ugDialog, $rootScope){
 
         $scope.itemCategoryList = [];
         $scope.queryCategoryParam = {};
@@ -11,6 +11,7 @@ define(function () {
                 id:$scope.queryCategoryParam.id
             }, function(data){
                 $scope.itemCategoryList = data;
+                $rootScope.$broadcast("loadingTree");
             });
         };
         $scope.getItemCategoryTree();

@@ -97,6 +97,16 @@ define([
         })
     }]).run(["$rootScope", "User", function($rootScope, User){
         User.resetPermission(permissionList);
+
+        $rootScope.$on('loadingTree', function(){
+            setTimeout(function(){
+                $(".tree > ul").attr("role", "tree").find("ul").attr("role", "group"), $(".tree").find("li:has(ul)").addClass("parent_li").attr("role", "treeitem").find(" > span").attr("title", "收缩").on("click", function (a) {
+                    var b = $(this).parent("li.parent_li").find(" > ul > li");
+                    b.is(":visible") ? (b.hide("fast"), $(this).attr("title", "展开").find(" > i").addClass("fa-plus-circle").removeClass("fa-minus-circle")) : (b.show("fast"), $(this).attr("title", " 收缩").find(" > i").addClass("fa-minus-circle").removeClass("fa-plus-circle")), a.stopPropagation()
+                })
+            }, 1500);
+        });
+
         $rootScope.$on('$viewContentLoaded', function (event, next,  nextParams, fromState) {
             // 初始化全局控件
 //           pageSetUp();

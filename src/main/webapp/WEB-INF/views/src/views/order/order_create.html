@@ -604,13 +604,11 @@
 
 
 <script type="text/ng-template" id="tree_view_table.html">
-    <div ng-mouseenter="item.show=true" ng-mouseleave="item.show=false">
-		<span>
-			<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i>
-            <a ng-show="item.parentId != null" ng-click="getItemList(item.name)">{{item.name}}</a>
-            <lable ng-show="item.parentId == null" >{{item.name}}</lable>
-		</span>
-    </div>
+	<span ng-mouseenter="item.show=true" ng-mouseleave="item.show=false">
+		<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-minus-circle"></i>
+		<a ng-show="item.parentId != null" ng-click="getItemList(item.name)">{{item.name}}</a>
+		<lable ng-show="item.parentId == null" >{{item.name}}</lable>
+	</span>
     <ul ng-if="item.nodes && item.nodes.length > 0">
         <li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view_table.html'"></li>
     </ul>

@@ -2,7 +2,7 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "OrganizationAPI", "$modal", "$ugDialog", function($scope, OrganizationAPI, $modal, $ugDialog){
+    return ["$scope", "OrganizationAPI", "$modal", "$ugDialog", "$rootScope", function($scope, OrganizationAPI, $modal, $ugDialog, $rootScope){
         $scope.organizationList = [];
         $scope.queryParam = {};
         $scope.getOrganizationTree = function(){
@@ -10,7 +10,7 @@ define(function () {
                 id:$scope.queryParam.id
             }, function(data){
                 $scope.organizationList = data;
-                loadScript("js/plugin/bootstraptree/bootstrap-tree.min.js");
+                $rootScope.$broadcast("loadingTree");
             });
         };
         $scope.removeNode = function(item){

@@ -1,7 +1,7 @@
 /**
  */
 define(function () {
-    return ["$scope", "ItemCategoryAPI", "$modal", "$ugDialog", function($scope, ItemCategoryAPI, $modal, $ugDialog){
+    return ["$scope", "ItemCategoryAPI", "$modal", "$ugDialog", "$rootScope", function($scope, ItemCategoryAPI, $modal, $ugDialog, $rootScope){
         $scope.itemCategoryList = [];
         $scope.queryParam = {};
         $scope.getItemCategoryTree = function(){
@@ -9,6 +9,7 @@ define(function () {
                 id:$scope.queryParam.id
             }, function(data){
                 $scope.itemCategoryList = data;
+                $rootScope.$broadcast("loadingTree");
             });
         };
         $scope.removeNode = function(item){
@@ -91,6 +92,5 @@ define(function () {
 
         $scope.getItemCategoryTree();
 
-        loadScript("js/plugin/bootstraptree/bootstrap-tree.min.js");
     }];
 });
