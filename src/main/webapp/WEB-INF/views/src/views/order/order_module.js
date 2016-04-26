@@ -3,8 +3,9 @@
  */
 define([
     "views/order/order",
-    "views/order/order_create"
-],function (order, order_create) {
+    "views/order/order_create",
+    "views/order/purchase"
+],function (order, order_create, purchase) {
     angular.module('DMS.order', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -30,6 +31,18 @@ define([
                         redirectTo:"unauthorized"
                     }
                 }
+            })
+
+            .state('purchase', {
+                url: '/purchase',
+                templateUrl: 'views/order/purchase.html',
+                data:{
+                    permissions:{
+                        only:["USER_VIEW"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: purchase
             })
     }]);
 });

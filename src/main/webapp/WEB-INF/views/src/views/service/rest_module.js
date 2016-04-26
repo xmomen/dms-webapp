@@ -196,4 +196,11 @@ define(function () {
             update:{ method:"PUT", params:{id:"@id"}}
         });
     }]);
+
+    ngREST.factory("PurchaseAPI", ["$resource", function($resource){
+        return $resource("/purchase/:id", { id:"@id"}, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}}
+        });
+    }]);
 });

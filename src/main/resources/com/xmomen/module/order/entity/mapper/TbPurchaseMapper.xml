@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xmomen.module.base.entity.mapper.CdCouponCategoryMapper" >
-  <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdCouponCategory" >
+<mapper namespace="com.xmomen.module.order.entity.mapper.TbPurchaseMapper" >
+  <resultMap id="BaseResultMap" type="com.xmomen.module.order.entity.TbPurchase" >
     <id column="ID" property="id" jdbcType="INTEGER" />
-    <result column="CATEGORY_TYPE" property="categoryType" jdbcType="INTEGER" />
-    <result column="CATEGORY_NAME" property="categoryName" jdbcType="VARCHAR" />
+    <result column="PURCHASE_CODE" property="purchaseCode" jdbcType="VARCHAR" />
+    <result column="ITEM_CODE" property="itemCode" jdbcType="VARCHAR" />
+    <result column="TOTAL" property="total" jdbcType="DECIMAL" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="BUYER_ID" property="buyerId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -65,15 +68,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, CATEGORY_TYPE, CATEGORY_NAME
+    ID, PURCHASE_CODE, ITEM_CODE, TOTAL, CREATE_DATE, BUYER_ID
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdCouponCategoryExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbPurchaseExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cd_coupon_category
+    from tb_purchase
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -81,54 +84,81 @@
       order by ${orderByClause}
     </if>
   </select>
-  <delete id="deleteByExample" parameterType="com.xmomen.module.base.entity.CdCouponCategoryExample" >
-    delete from cd_coupon_category
+  <delete id="deleteByExample" parameterType="com.xmomen.module.order.entity.TbPurchaseExample" >
+    delete from tb_purchase
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdCouponCategory" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
-    insert into cd_coupon_category
+  <insert id="insertSelective" parameterType="com.xmomen.module.order.entity.TbPurchase" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
+    insert into tb_purchase
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         ID,
       </if>
-      <if test="categoryType != null" >
-        CATEGORY_TYPE,
+      <if test="purchaseCode != null" >
+        PURCHASE_CODE,
       </if>
-      <if test="categoryName != null" >
-        CATEGORY_NAME,
+      <if test="itemCode != null" >
+        ITEM_CODE,
+      </if>
+      <if test="total != null" >
+        TOTAL,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="buyerId != null" >
+        BUYER_ID,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="categoryType != null" >
-        #{categoryType,jdbcType=INTEGER},
+      <if test="purchaseCode != null" >
+        #{purchaseCode,jdbcType=VARCHAR},
       </if>
-      <if test="categoryName != null" >
-        #{categoryName,jdbcType=VARCHAR},
+      <if test="itemCode != null" >
+        #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=DECIMAL},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="buyerId != null" >
+        #{buyerId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.xmomen.module.base.entity.CdCouponCategoryExample" resultType="java.lang.Integer" >
-    select count(*) from cd_coupon_category
+  <select id="countByExample" parameterType="com.xmomen.module.order.entity.TbPurchaseExample" resultType="java.lang.Integer" >
+    select count(*) from tb_purchase
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update cd_coupon_category
+    update tb_purchase
     <set >
       <if test="record.id != null" >
         ID = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.categoryType != null" >
-        CATEGORY_TYPE = #{record.categoryType,jdbcType=INTEGER},
+      <if test="record.purchaseCode != null" >
+        PURCHASE_CODE = #{record.purchaseCode,jdbcType=VARCHAR},
       </if>
-      <if test="record.categoryName != null" >
-        CATEGORY_NAME = #{record.categoryName,jdbcType=VARCHAR},
+      <if test="record.itemCode != null" >
+        ITEM_CODE = #{record.itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.total != null" >
+        TOTAL = #{record.total,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.buyerId != null" >
+        BUYER_ID = #{record.buyerId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >
