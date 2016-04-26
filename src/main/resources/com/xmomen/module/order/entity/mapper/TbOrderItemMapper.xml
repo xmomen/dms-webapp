@@ -3,8 +3,8 @@
 <mapper namespace="com.xmomen.module.order.entity.mapper.TbOrderItemMapper" >
   <resultMap id="BaseResultMap" type="com.xmomen.module.order.entity.TbOrderItem" >
     <id column="ID" property="id" jdbcType="INTEGER" />
-    <result column="ITEM_ID" property="itemId" jdbcType="INTEGER" />
     <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+    <result column="ITEM_ID" property="itemId" jdbcType="INTEGER" />
     <result column="ITEM_CODE" property="itemCode" jdbcType="VARCHAR" />
     <result column="ITEM_NAME" property="itemName" jdbcType="VARCHAR" />
     <result column="ITEM_PRICE" property="itemPrice" jdbcType="DECIMAL" />
@@ -70,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, ITEM_ID, ORDER_NO, ITEM_CODE, ITEM_NAME, ITEM_PRICE, ITEM_QTY, ITEM_UNIT
+    ID, ORDER_NO, ITEM_ID, ITEM_CODE, ITEM_NAME, ITEM_PRICE, ITEM_QTY, ITEM_UNIT
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbOrderItemExample" >
     select
@@ -98,11 +98,11 @@
       <if test="id != null" >
         ID,
       </if>
-      <if test="itemId != null" >
-        ITEM_ID,
-      </if>
       <if test="orderNo != null" >
         ORDER_NO,
+      </if>
+      <if test="itemId != null" >
+        ITEM_ID,
       </if>
       <if test="itemCode != null" >
         ITEM_CODE,
@@ -124,11 +124,11 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="itemId != null" >
-        #{itemId,jdbcType=INTEGER},
-      </if>
       <if test="orderNo != null" >
         #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=INTEGER},
       </if>
       <if test="itemCode != null" >
         #{itemCode,jdbcType=VARCHAR},
@@ -159,11 +159,11 @@
       <if test="record.id != null" >
         ID = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.itemId != null" >
-        ITEM_ID = #{record.itemId,jdbcType=INTEGER},
-      </if>
       <if test="record.orderNo != null" >
         ORDER_NO = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemId != null" >
+        ITEM_ID = #{record.itemId,jdbcType=INTEGER},
       </if>
       <if test="record.itemCode != null" >
         ITEM_CODE = #{record.itemCode,jdbcType=VARCHAR},

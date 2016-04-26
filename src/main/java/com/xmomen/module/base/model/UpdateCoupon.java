@@ -19,11 +19,7 @@ public class UpdateCoupon implements Serializable {
     private Integer couponType;
     @NotNull
     private Integer couponCategory;
-    @NotNull
-    @NotBlank
     private String couponDesc;
-    @NotNull
-    @NotBlank
     private String couponNumber;
     private String couponPassword;
     private Date beginTime;

@@ -20,17 +20,17 @@ define(function () {
                 $scope.pageInfoSetting.loadData = $scope.getCouponList;
             });
         };
-        $scope.removeCoupon = function(index){
+        $scope.removeCoupon = function(coupon){
             $ugDialog.confirm("是否删除此卡券？").then(function(){
                 CouponAPI.delete({
-                    id: $scope.couponList[index].id
+                    id: coupon.id
                 }, function(){
                     $scope.getCouponList();
                 });
             })
         };
-        $scope.updateCoupon = function(index){
-            $scope.open(angular.copy($scope.couponList[index]));
+        $scope.updateCoupon = function(coupon){
+            $scope.open(coupon);
         };
         $scope.open = function (coupon) {
             var modalInstance = $modal.open({
@@ -44,7 +44,7 @@ define(function () {
                     $scope.coupon = {
                         couponType : 1,
                         isUsed : 0,
-                        isUseful : 1,
+                        isUseful : 0,
                         isGift : 0
                     };
                     if(CurrentCoupon){
@@ -129,6 +129,82 @@ define(function () {
                 $scope.getCouponList();
             });
         };
+
+        $scope.openSendCoupon = function(coupon){
+            var modalInstance = $modal.open({
+                templateUrl: 'sendOneCoupon.html',
+                resolve: {
+                    CurrentCoupon: function(){
+                        return coupon;
+                    }
+                },
+                controller: ["$scope", "CouponAPI","CurrentCoupon", "$modalInstance","CompanyAPI", function ($scope, CouponAPI, CurrentCoupon, $modalInstance,CompanyAPI) {
+                    $scope.companyList = [];
+                    CompanyAPI.getCompanyList({},function(data){
+                        $scope.companyList = data;
+                    });
+                    if(CurrentCoupon){
+                        $scope.coupon = CurrentCoupon;
+                    }
+                    $scope.errors = null;
+                    $scope.sendCouponForm = {};
+                    $scope.sendOneCoupon = function() {
+                        $scope.errors = null;
+                        if ($scope.sendCouponForm.validator.form()) {
+                            CouponAPI.sendOneCoupon({
+                                couponNumber:coupon.couponNumber,
+                                companyId:coupon.cdCompanyId,
+                                id:coupon.id
+                            }, function () {
+                                $modalInstance.close();
+                            }, function (data) {
+                                $scope.errors = data.data;
+                            })
+                        }
+                    }
+                    $scope.cancel = function () {
+                        $modalInstance.dismiss('cancel');
+                    };
+                }]
+            });
+            modalInstance.result.then(function () {
+                $scope.getCouponList();
+            });
+        }
+
+        $scope.openSendMoreCoupon = function(){
+            var modalInstance = $modal.open({
+                templateUrl: 'sendMoreCoupon.html',
+                controller: ["$scope", "CouponAPI", "$modalInstance","CompanyAPI", function ($scope, CouponAPI, $modalInstance,CompanyAPI) {
+                    $scope.companyList = [];
+                    CompanyAPI.getCompanyList({},function(data){
+                        $scope.companyList = data;
+                    });
+                    $scope.coupon = {};
+                    $scope.errors = null;
+                    $scope.sendMoreCouponForm = {};
+                    $scope.sendMoreCoupon = function() {
+                        $scope.errors = null;
+                        if ($scope.sendMoreCouponForm.validator.form()) {
+                            CouponAPI.sendMoreCoupon({
+                                couponNumberList:$scope.coupon.couponNumberList,
+                                companyId:$scope.coupon.cdCompanyId
+                            }, function () {
+                                $modalInstance.close();
+                            }, function (data) {
+                                $scope.errors = data.data;
+                            })
+                        }
+                    }
+                    $scope.cancel = function () {
+                        $modalInstance.dismiss('cancel');
+                    };
+                }]
+            });
+            modalInstance.result.then(function () {
+                $scope.getCouponList();
+            });
+        }
 
         $scope.getCouponList();
     }];

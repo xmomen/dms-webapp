@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.base.mapper.ActivityMapper" >
+
+<!--        查询消息    -->
+	<select id="getActivityList" resultType="com.xmomen.module.base.model.ActivityModel" parameterType="java.util.HashMap">
+        SELECT
+        	ca.*,
+			car.REF_VALUE as couponCategory,
+			carr.REF_VALUE as lowestPrice
+        FROM	
+        	cd_activity ca
+        left join 
+        	cd_activity_ref car on ca.id = car.CD_ACTIVITY_ID and car.REF_TYPE='COUPON'
+				left join 
+        	cd_activity_ref carr on ca.id = carr.CD_ACTIVITY_ID and carr.REF_TYPE='LOWEST_PRICE'
+        <where>
+              <if test="keyword">
+                  AND cc.activity_name LIKE CONCAT('%', #{keyword}, '%')
+              </if>
+         </where>
+    </select>
+    
+    <select id="getChoseItemList" resultType="com.xmomen.module.base.model.ItemChildModel" parameterType="java.util.HashMap">
+        SELECT
+			cm.id,
+        	cm.item_name,
+			cm.item_code,
+        	cc.category_name,
+        	cir.ref_count as count
+        FROM
+			cd_activity_ref cir
+		left join 
+			cd_item cm on cm.id = cir.REF_VALUE
+   		left join 
+        	cd_category cc on cm.cd_category_id = cc.id	
+        <where>
+        cir.REF_TYPE='GIFT_ITEM'
+             <if test = 'parentId'>
+             	AND cir.CD_ACTIVITY_ID = #{parentId}
+             </if>	
+        </where>
+    </select>
+</mapper>

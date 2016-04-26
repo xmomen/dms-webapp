@@ -1087,6 +1087,66 @@ public class TbOrderExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
+        public Criteria andAppointmentTimeIsNull() {
+            addCriterion("APPOINTMENT_TIME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointmentTimeIsNotNull() {
+            addCriterion("APPOINTMENT_TIME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointmentTimeEqualTo(Date value) {
+            addCriterion("APPOINTMENT_TIME =", value, "appointmentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointmentTimeNotEqualTo(Date value) {
+            addCriterion("APPOINTMENT_TIME <>", value, "appointmentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointmentTimeGreaterThan(Date value) {
+            addCriterion("APPOINTMENT_TIME >", value, "appointmentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointmentTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("APPOINTMENT_TIME >=", value, "appointmentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointmentTimeLessThan(Date value) {
+            addCriterion("APPOINTMENT_TIME <", value, "appointmentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointmentTimeLessThanOrEqualTo(Date value) {
+            addCriterion("APPOINTMENT_TIME <=", value, "appointmentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointmentTimeIn(List<Date> values) {
+            addCriterion("APPOINTMENT_TIME in", values, "appointmentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointmentTimeNotIn(List<Date> values) {
+            addCriterion("APPOINTMENT_TIME not in", values, "appointmentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointmentTimeBetween(Date value1, Date value2) {
+            addCriterion("APPOINTMENT_TIME between", value1, value2, "appointmentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointmentTimeNotBetween(Date value1, Date value2) {
+            addCriterion("APPOINTMENT_TIME not between", value1, value2, "appointmentTime");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateUserIdIsNull() {
             addCriterion("CREATE_USER_ID is null");
             return (Criteria) this;

@@ -225,6 +225,76 @@ public class CdCouponRefExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
+        public Criteria andCouponNumberIsNull() {
+            addCriterion("COUPON_NUMBER is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponNumberIsNotNull() {
+            addCriterion("COUPON_NUMBER is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponNumberEqualTo(String value) {
+            addCriterion("COUPON_NUMBER =", value, "couponNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponNumberNotEqualTo(String value) {
+            addCriterion("COUPON_NUMBER <>", value, "couponNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponNumberGreaterThan(String value) {
+            addCriterion("COUPON_NUMBER >", value, "couponNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponNumberGreaterThanOrEqualTo(String value) {
+            addCriterion("COUPON_NUMBER >=", value, "couponNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponNumberLessThan(String value) {
+            addCriterion("COUPON_NUMBER <", value, "couponNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponNumberLessThanOrEqualTo(String value) {
+            addCriterion("COUPON_NUMBER <=", value, "couponNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponNumberLike(String value) {
+            addCriterion("COUPON_NUMBER like", value, "couponNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponNumberNotLike(String value) {
+            addCriterion("COUPON_NUMBER not like", value, "couponNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponNumberIn(List<String> values) {
+            addCriterion("COUPON_NUMBER in", values, "couponNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponNumberNotIn(List<String> values) {
+            addCriterion("COUPON_NUMBER not in", values, "couponNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponNumberBetween(String value1, String value2) {
+            addCriterion("COUPON_NUMBER between", value1, value2, "couponNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponNumberNotBetween(String value1, String value2) {
+            addCriterion("COUPON_NUMBER not between", value1, value2, "couponNumber");
+            return (Criteria) this;
+        }
+
         public Criteria andRefTypeIsNull() {
             addCriterion("REF_TYPE is null");
             return (Criteria) this;

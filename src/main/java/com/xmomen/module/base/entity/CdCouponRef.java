@@ -22,6 +22,11 @@ public class CdCouponRef extends BaseMybatisModel {
     private Integer cdCouponId;
 
     /**
+     * 卡号
+     */
+    private String couponNumber;
+
+    /**
      * 拓展类型
      */
     private String refType;
@@ -64,6 +69,20 @@ public class CdCouponRef extends BaseMybatisModel {
               return;
         }
         addValidField("cdCouponId");
+    }
+
+    @Column(name = "COUPON_NUMBER")
+    public String getCouponNumber() {
+        return couponNumber;
+    }
+
+    public void setCouponNumber(String couponNumber) {
+        this.couponNumber = couponNumber;
+        if(couponNumber == null){
+              removeValidField("couponNumber");
+              return;
+        }
+        addValidField("couponNumber");
     }
 
     @Column(name = "REF_TYPE")

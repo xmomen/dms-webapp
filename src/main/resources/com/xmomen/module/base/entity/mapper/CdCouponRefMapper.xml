@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdCouponRef" >
     <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="CD_COUPON_ID" property="cdCouponId" jdbcType="INTEGER" />
+    <result column="COUPON_NUMBER" property="couponNumber" jdbcType="VARCHAR" />
     <result column="REF_TYPE" property="refType" jdbcType="VARCHAR" />
     <result column="REF_NAME" property="refName" jdbcType="VARCHAR" />
     <result column="REF_VALUE" property="refValue" jdbcType="VARCHAR" />
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, CD_COUPON_ID, REF_TYPE, REF_NAME, REF_VALUE
+    ID, CD_COUPON_ID, COUPON_NUMBER, REF_TYPE, REF_NAME, REF_VALUE
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdCouponRefExample" >
     select
@@ -98,6 +99,9 @@
       <if test="cdCouponId != null" >
         CD_COUPON_ID,
       </if>
+      <if test="couponNumber != null" >
+        COUPON_NUMBER,
+      </if>
       <if test="refType != null" >
         REF_TYPE,
       </if>
@@ -114,6 +118,9 @@
       </if>
       <if test="cdCouponId != null" >
         #{cdCouponId,jdbcType=INTEGER},
+      </if>
+      <if test="couponNumber != null" >
+        #{couponNumber,jdbcType=VARCHAR},
       </if>
       <if test="refType != null" >
         #{refType,jdbcType=VARCHAR},
@@ -140,6 +147,9 @@
       </if>
       <if test="record.cdCouponId != null" >
         CD_COUPON_ID = #{record.cdCouponId,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponNumber != null" >
+        COUPON_NUMBER = #{record.couponNumber,jdbcType=VARCHAR},
       </if>
       <if test="record.refType != null" >
         REF_TYPE = #{record.refType,jdbcType=VARCHAR},

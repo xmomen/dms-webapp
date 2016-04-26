@@ -89,6 +89,11 @@ public class TbOrder extends BaseMybatisModel {
     private Date createTime;
 
     /**
+     * 预约时间
+     */
+    private Date appointmentTime;
+
+    /**
      * 订单创建人ID
      */
     private Integer createUserId;
@@ -303,6 +308,20 @@ public class TbOrder extends BaseMybatisModel {
               return;
         }
         addValidField("createTime");
+    }
+
+    @Column(name = "APPOINTMENT_TIME")
+    public Date getAppointmentTime() {
+        return appointmentTime;
+    }
+
+    public void setAppointmentTime(Date appointmentTime) {
+        this.appointmentTime = appointmentTime;
+        if(appointmentTime == null){
+              removeValidField("appointmentTime");
+              return;
+        }
+        addValidField("appointmentTime");
     }
 
     @Column(name = "CREATE_USER_ID")

@@ -17,6 +17,7 @@
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
     <result column="TOTAL_AMOUNT" property="totalAmount" jdbcType="DECIMAL" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="APPOINTMENT_TIME" property="appointmentTime" jdbcType="TIMESTAMP" />
     <result column="CREATE_USER_ID" property="createUserId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -80,7 +81,7 @@
   <sql id="Base_Column_List" >
     ID, ORDER_NO, ORDER_TYPE, ORDER_SOURCE, PAYMENT_MODE, MEMBER_CODE, ORDER_STATUS, 
     CONSIGNEE_PHONE, CONSIGNEE_NAME, CONSIGNEE_ADDRESS, POSTCODE, TRANSPORT_MODE, REMARK, 
-    TOTAL_AMOUNT, CREATE_TIME, CREATE_USER_ID
+    TOTAL_AMOUNT, CREATE_TIME, APPOINTMENT_TIME, CREATE_USER_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbOrderExample" >
     select
@@ -150,6 +151,9 @@
       <if test="createTime != null" >
         CREATE_TIME,
       </if>
+      <if test="appointmentTime != null" >
+        APPOINTMENT_TIME,
+      </if>
       <if test="createUserId != null" >
         CREATE_USER_ID,
       </if>
@@ -199,6 +203,9 @@
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appointmentTime != null" >
+        #{appointmentTime,jdbcType=TIMESTAMP},
       </if>
       <if test="createUserId != null" >
         #{createUserId,jdbcType=INTEGER},
@@ -258,6 +265,9 @@
       </if>
       <if test="record.createTime != null" >
         CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.appointmentTime != null" >
+        APPOINTMENT_TIME = #{record.appointmentTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.createUserId != null" >
         CREATE_USER_ID = #{record.createUserId,jdbcType=INTEGER},

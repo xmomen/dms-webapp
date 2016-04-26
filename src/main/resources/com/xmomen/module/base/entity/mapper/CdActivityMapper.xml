@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.base.entity.mapper.CdActivityMapper" >
+  <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdActivity" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="ACTIVITY_NAME" property="activityName" jdbcType="VARCHAR" />
+    <result column="ACTIVITY_BEGIN_TIME" property="activityBeginTime" jdbcType="TIMESTAMP" />
+    <result column="ACTIVITY_END_TIME" property="activityEndTime" jdbcType="TIMESTAMP" />
+    <result column="ACTIVITY_DESCRIBE" property="activityDescribe" jdbcType="VARCHAR" />
+    <result column="ACTIVITY_TYPE" property="activityType" jdbcType="INTEGER" />
+    <result column="ACTIVITY_DAY" property="activityDay" jdbcType="INTEGER" />
+    <result column="AVAILABLE" property="available" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, ACTIVITY_NAME, ACTIVITY_BEGIN_TIME, ACTIVITY_END_TIME, ACTIVITY_DESCRIBE, ACTIVITY_TYPE, 
+    ACTIVITY_DAY, AVAILABLE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdActivityExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cd_activity
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.xmomen.module.base.entity.CdActivityExample" >
+    delete from cd_activity
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdActivity" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
+    insert into cd_activity
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="activityName != null" >
+        ACTIVITY_NAME,
+      </if>
+      <if test="activityBeginTime != null" >
+        ACTIVITY_BEGIN_TIME,
+      </if>
+      <if test="activityEndTime != null" >
+        ACTIVITY_END_TIME,
+      </if>
+      <if test="activityDescribe != null" >
+        ACTIVITY_DESCRIBE,
+      </if>
+      <if test="activityType != null" >
+        ACTIVITY_TYPE,
+      </if>
+      <if test="activityDay != null" >
+        ACTIVITY_DAY,
+      </if>
+      <if test="available != null" >
+        AVAILABLE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="activityName != null" >
+        #{activityName,jdbcType=VARCHAR},
+      </if>
+      <if test="activityBeginTime != null" >
+        #{activityBeginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activityEndTime != null" >
+        #{activityEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activityDescribe != null" >
+        #{activityDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="activityType != null" >
+        #{activityType,jdbcType=INTEGER},
+      </if>
+      <if test="activityDay != null" >
+        #{activityDay,jdbcType=INTEGER},
+      </if>
+      <if test="available != null" >
+        #{available,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xmomen.module.base.entity.CdActivityExample" resultType="java.lang.Integer" >
+    select count(*) from cd_activity
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cd_activity
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.activityName != null" >
+        ACTIVITY_NAME = #{record.activityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activityBeginTime != null" >
+        ACTIVITY_BEGIN_TIME = #{record.activityBeginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.activityEndTime != null" >
+        ACTIVITY_END_TIME = #{record.activityEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.activityDescribe != null" >
+        ACTIVITY_DESCRIBE = #{record.activityDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activityType != null" >
+        ACTIVITY_TYPE = #{record.activityType,jdbcType=INTEGER},
+      </if>
+      <if test="record.activityDay != null" >
+        ACTIVITY_DAY = #{record.activityDay,jdbcType=INTEGER},
+      </if>
+      <if test="record.available != null" >
+        AVAILABLE = #{record.available,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

@@ -42,10 +42,12 @@ public class MemberSercviceImpl implements MemberSercvice {
 		member.setCdCompanyId(createMember.getCdCompanyId());
 		member.setCdUserId(createMember.getCdUserId());
 		member = mybatisDao.insertByModel(member);
-		CdMemberCouponRelation cdMemberCouponRelation = new CdMemberCouponRelation();
-		cdMemberCouponRelation.setMemberCode(member.getMemberCode());
-		cdMemberCouponRelation.setCouponNumber(createMember.getCouponNumber());
-		mybatisDao.insert(cdMemberCouponRelation);
+		if(!StringUtils.isBlank(createMember.getCouponNumber())){
+			CdMemberCouponRelation cdMemberCouponRelation = new CdMemberCouponRelation();
+			cdMemberCouponRelation.setMemberCode(member.getMemberCode());
+			cdMemberCouponRelation.setCouponNumber(createMember.getCouponNumber());
+			mybatisDao.insert(cdMemberCouponRelation);
+		};
 	}
 	@Transactional
 	public void updateMember(Integer id,UpdateMember updateMember) {

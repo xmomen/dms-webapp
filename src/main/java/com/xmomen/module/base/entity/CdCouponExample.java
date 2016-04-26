@@ -926,6 +926,66 @@ public class CdCouponExample extends BaseMybatisExample {
             addCriterion("NOTES not between", value1, value2, "notes");
             return (Criteria) this;
         }
+
+        public Criteria andIsSendIsNull() {
+            addCriterion("IS_SEND is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSendIsNotNull() {
+            addCriterion("IS_SEND is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSendEqualTo(Integer value) {
+            addCriterion("IS_SEND =", value, "isSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSendNotEqualTo(Integer value) {
+            addCriterion("IS_SEND <>", value, "isSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSendGreaterThan(Integer value) {
+            addCriterion("IS_SEND >", value, "isSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSendGreaterThanOrEqualTo(Integer value) {
+            addCriterion("IS_SEND >=", value, "isSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSendLessThan(Integer value) {
+            addCriterion("IS_SEND <", value, "isSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSendLessThanOrEqualTo(Integer value) {
+            addCriterion("IS_SEND <=", value, "isSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSendIn(List<Integer> values) {
+            addCriterion("IS_SEND in", values, "isSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSendNotIn(List<Integer> values) {
+            addCriterion("IS_SEND not in", values, "isSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSendBetween(Integer value1, Integer value2) {
+            addCriterion("IS_SEND between", value1, value2, "isSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSendNotBetween(Integer value1, Integer value2) {
+            addCriterion("IS_SEND not between", value1, value2, "isSend");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

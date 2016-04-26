@@ -166,66 +166,6 @@ public class TbOrderItemExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andItemIdIsNull() {
-            addCriterion("ITEM_ID is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemIdIsNotNull() {
-            addCriterion("ITEM_ID is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemIdEqualTo(Integer value) {
-            addCriterion("ITEM_ID =", value, "itemId");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemIdNotEqualTo(Integer value) {
-            addCriterion("ITEM_ID <>", value, "itemId");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemIdGreaterThan(Integer value) {
-            addCriterion("ITEM_ID >", value, "itemId");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("ITEM_ID >=", value, "itemId");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemIdLessThan(Integer value) {
-            addCriterion("ITEM_ID <", value, "itemId");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemIdLessThanOrEqualTo(Integer value) {
-            addCriterion("ITEM_ID <=", value, "itemId");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemIdIn(List<Integer> values) {
-            addCriterion("ITEM_ID in", values, "itemId");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemIdNotIn(List<Integer> values) {
-            addCriterion("ITEM_ID not in", values, "itemId");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemIdBetween(Integer value1, Integer value2) {
-            addCriterion("ITEM_ID between", value1, value2, "itemId");
-            return (Criteria) this;
-        }
-
-        public Criteria andItemIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("ITEM_ID not between", value1, value2, "itemId");
-            return (Criteria) this;
-        }
-
         public Criteria andOrderNoIsNull() {
             addCriterion("ORDER_NO is null");
             return (Criteria) this;
@@ -293,6 +233,66 @@ public class TbOrderItemExample extends BaseMybatisExample {
 
         public Criteria andOrderNoNotBetween(String value1, String value2) {
             addCriterion("ORDER_NO not between", value1, value2, "orderNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemIdIsNull() {
+            addCriterion("ITEM_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemIdIsNotNull() {
+            addCriterion("ITEM_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemIdEqualTo(Integer value) {
+            addCriterion("ITEM_ID =", value, "itemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemIdNotEqualTo(Integer value) {
+            addCriterion("ITEM_ID <>", value, "itemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemIdGreaterThan(Integer value) {
+            addCriterion("ITEM_ID >", value, "itemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ITEM_ID >=", value, "itemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemIdLessThan(Integer value) {
+            addCriterion("ITEM_ID <", value, "itemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemIdLessThanOrEqualTo(Integer value) {
+            addCriterion("ITEM_ID <=", value, "itemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemIdIn(List<Integer> values) {
+            addCriterion("ITEM_ID in", values, "itemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemIdNotIn(List<Integer> values) {
+            addCriterion("ITEM_ID not in", values, "itemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemIdBetween(Integer value1, Integer value2) {
+            addCriterion("ITEM_ID between", value1, value2, "itemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("ITEM_ID not between", value1, value2, "itemId");
             return (Criteria) this;
         }
 

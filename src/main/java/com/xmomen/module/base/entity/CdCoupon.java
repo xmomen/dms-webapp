@@ -69,7 +69,7 @@ public class CdCoupon extends BaseMybatisModel {
     private Integer isUseful;
 
     /**
-     * 0-否，1-是
+     * 是否赠送。0-否，1-是
      */
     private Integer isGift;
 
@@ -77,6 +77,11 @@ public class CdCoupon extends BaseMybatisModel {
      * 
      */
     private String notes;
+
+    /**
+     * 是否发卡，0-未发，1-已发
+     */
+    private Integer isSend;
 
     @Column(name = "ID")
     @Id
@@ -260,5 +265,19 @@ public class CdCoupon extends BaseMybatisModel {
               return;
         }
         addValidField("notes");
+    }
+
+    @Column(name = "IS_SEND")
+    public Integer getIsSend() {
+        return isSend;
+    }
+
+    public void setIsSend(Integer isSend) {
+        this.isSend = isSend;
+        if(isSend == null){
+              removeValidField("isSend");
+              return;
+        }
+        addValidField("isSend");
     }
 }

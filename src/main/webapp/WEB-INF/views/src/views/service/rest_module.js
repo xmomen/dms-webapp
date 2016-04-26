@@ -148,7 +148,17 @@ define(function () {
     ngREST.factory("CouponAPI", ["$resource", function($resource){
         return $resource("/coupon/:id", { id:"@id" }, {
             query:{ isArray:false},
-            update:{ method:"PUT", params:{id:"@id"}}
+            update:{ method:"PUT", params:{id:"@id"}},
+            sendOneCoupon:{method:"GET",url:"/coupon/sendOneCoupon",params:{id:"@id",companyId:"@companyId",couponNumber:"@couponNumber"}},
+            sendMoreCoupon:{method:"GET",url:"/coupon/sendMoreCoupon",params:{companyId:"@companyId",couponNumberList:"@couponNumberList"}}
+        });
+    }]);
+
+    ngREST.factory("ActivityAPI", ["$resource", function($resource){
+        return $resource("/activity/:id", { id:"@id" }, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}},
+            getChoseItemList:{method:"GET",url:"/activity/getChoseItemList",isArray:true}
         });
     }]);
 
