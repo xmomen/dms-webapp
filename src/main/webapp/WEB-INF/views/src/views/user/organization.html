@@ -94,7 +94,7 @@
 <!-- end widget grid -->
 <script type="text/ng-template" id="tree_view.html">
 	<span ng-mouseenter="item.show=true" ng-mouseleave="item.show=false">
-		<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i> {{item.name}}（{{item.description}}）
+		<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-minus-circle"></i> {{item.name}}（{{item.description}}）
 		<a href="javascript:void(0);" ng-show="item.show" ng-click="updateChildOrganization(item)">修改</a>
 		<a ng-show="item.show" > | </a>
 		<a href="javascript:void(0);" ng-show="item.show" ng-click="removeNode(item)">删除</a>
