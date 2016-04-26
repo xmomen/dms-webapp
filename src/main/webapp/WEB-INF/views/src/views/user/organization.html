@@ -93,10 +93,8 @@
 </section>
 <!-- end widget grid -->
 <script type="text/ng-template" id="tree_view.html">
-	<div ng-mouseenter="item.show=true" ng-mouseleave="item.show=false">
-		<span>
-			<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i> {{item.name}}（{{item.description}}）
-		</span>
+	<span ng-mouseenter="item.show=true" ng-mouseleave="item.show=false">
+		<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i> {{item.name}}（{{item.description}}）
 		<a href="javascript:void(0);" ng-show="item.show" ng-click="updateChildOrganization(item)">修改</a>
 		<a ng-show="item.show" > | </a>
 		<a href="javascript:void(0);" ng-show="item.show" ng-click="removeNode(item)">删除</a>
@@ -104,8 +102,7 @@
 		<a href="javascript:void(0);" ng-show="item.show" ng-click="addChildOrganization(item)">添加下级组织</a>
 		<a ng-show="item.show" > | </a>
 		<a href="javascript:void(0);" ng-show="item.show" ng-click="openUserModel(item)">用户</a>
-
-	</div>
+	</span>
 	<ul ng-if="item.nodes && item.nodes.length > 0">
 		<li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view.html'"></li>
 	</ul>

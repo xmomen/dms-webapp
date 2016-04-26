@@ -10,6 +10,7 @@ define(function () {
                 id:$scope.queryParam.id
             }, function(data){
                 $scope.organizationList = data;
+                loadScript("js/plugin/bootstraptree/bootstrap-tree.min.js");
             });
         };
         $scope.removeNode = function(item){
@@ -134,8 +135,5 @@ define(function () {
         };
 
         $scope.getOrganizationTree();
-        setTimeout(function(){
-            loadScript("js/plugin/bootstraptree/bootstrap-tree.min.js");
-        }, 3000)
     }];
 });
