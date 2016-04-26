@@ -2,7 +2,8 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "OrderAPI", "ItemAPI", "MemberAPI", "ItemCategoryAPI","$modal", "$ugDialog", "$state", "CouponAPI", "$modalMemberAdd", function($scope, OrderAPI, ItemAPI, MemberAPI,ItemCategoryAPI, $modal, $ugDialog, $state, CouponAPI, $modalMemberAdd){
+    return ["$scope", "OrderAPI", "ItemAPI", "MemberAPI", "ItemCategoryAPI","$modal", "$ugDialog", "$state", "CouponAPI", "$modalMemberAdd", "$rootScope",
+        function($scope, OrderAPI, ItemAPI, MemberAPI,ItemCategoryAPI, $modal, $ugDialog, $state, CouponAPI, $modalMemberAdd, $rootScope){
         $scope.order = {
             orderType:0
         };
@@ -249,6 +250,8 @@ define(function () {
                 id:$scope.queryCategoryParam.id
             }, function(data){
                 $scope.itemCategoryList = data;
+                $rootScope.$broadcast("loadingTree");
+                //loadScript("js/plugin/bootstraptree/bootstrap-tree.min.js");
             });
         };
         $scope.getItemCategoryTree()
