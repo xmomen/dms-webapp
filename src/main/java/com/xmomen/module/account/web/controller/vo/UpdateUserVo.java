@@ -15,10 +15,10 @@ public class UpdateUserVo implements Serializable {
     private Integer id;
     @NotBlank
     private String username;
-    @Email
-    @NotNull
     private String email;
+    @NotBlank
     private String realName;
+    @NotNull
     private String phoneNumber;
     private Integer age;
     private String qq;

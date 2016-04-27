@@ -207,7 +207,7 @@ define(function () {
                         })
                     };
                     $scope.cancel = function () {
-                        window.location.reload();
+//                        window.location.reload();
                         $modalInstance.dismiss('cancel');
                     };
                 }],

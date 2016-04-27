@@ -15,10 +15,10 @@ public class CreateUserVo implements Serializable {
     private String username;
     @NotBlank
     private String password;
-    @Email
-    @NotNull
     private String email;
+    @NotBlank
     private String realName;
+    @NotBlank
     private String phoneNumber;
     private Integer age;
     private String qq;
