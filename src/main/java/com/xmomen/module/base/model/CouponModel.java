@@ -80,6 +80,12 @@ public class CouponModel implements Serializable {
      */
     private String managerName;
     
+    private String consignmentName;
+    
+    private String consignmentPhone;
+    
+    private String consignmentAddress;
+    
     public Integer getIsSend() {
 		return isSend;
 	}
@@ -220,5 +226,23 @@ public class CouponModel implements Serializable {
 	}
 	public void setManagerName(String managerName) {
 		this.managerName = managerName;
+	}
+	public String getConsignmentName() {
+		return consignmentName;
+	}
+	public void setConsignmentName(String consignmentName) {
+		this.consignmentName = consignmentName;
+	}
+	public String getConsignmentPhone() {
+		return consignmentPhone;
+	}
+	public void setConsignmentPhone(String consignmentPhone) {
+		this.consignmentPhone = consignmentPhone;
+	}
+	public String getConsignmentAddress() {
+		return consignmentAddress;
+	}
+	public void setConsignmentAddress(String consignmentAddress) {
+		this.consignmentAddress = consignmentAddress;
 	}
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
+import com.xmomen.module.base.entity.CdActivityAddress;
 import com.xmomen.module.base.entity.CdCoupon;
 import com.xmomen.module.base.mapper.CouponMapper;
 import com.xmomen.module.base.model.CouponModel;
@@ -172,6 +173,34 @@ public class CouponController {
     		coupon = mybatisDao.selectOneByModel(coupon);
     		if(coupon != null)
     		couponService.sendOneCoupon(coupon.getId(),companyId,customerMangerId,coupon.getCouponNumber());
+    	}
+    }
+    
+    /**
+     * @param id
+     */
+    @RequestMapping(value = "/coupon/activityAddress", method = RequestMethod.GET)
+    @Log(actionName = "活动送货地址信息")
+    public void activityAddress(
+    		@RequestParam(value="couponNumber") String couponNumber,
+    		@RequestParam(value="consignmentName", required = false)String consignmentName,
+    		@RequestParam(value="consignmentPhone", required = false) String consignmentPhone,
+    		@RequestParam(value="consignmentAddress", required = false) String consignmentAddress){
+    	CdActivityAddress activityAddress = new CdActivityAddress();
+    	activityAddress.setCouponNumber(couponNumber);
+    	activityAddress = mybatisDao.selectOneByModel(activityAddress);
+    	if(activityAddress == null){
+    		activityAddress = new CdActivityAddress();
+    		activityAddress.setConsignmentAddress(consignmentAddress);
+    		activityAddress.setConsignmentPhone(consignmentPhone);
+    		activityAddress.setConsignmentName(consignmentName);
+    		activityAddress.setCouponNumber(couponNumber);
+    		mybatisDao.save(activityAddress);
+    	}else{
+    		activityAddress.setConsignmentAddress(consignmentAddress);
+    		activityAddress.setConsignmentPhone(consignmentPhone);
+    		activityAddress.setConsignmentName(consignmentName);
+    		mybatisDao.update(activityAddress);
     	}
     }
 }

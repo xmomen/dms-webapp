@@ -18,7 +18,7 @@ define(function () {
         $scope.itemList = [];
         $scope.item = {};
         $scope.pageSetting = {
-            pageSize:10,
+            pageSize:25,
             pageNum:1
         };
         $scope.queryParam = {};

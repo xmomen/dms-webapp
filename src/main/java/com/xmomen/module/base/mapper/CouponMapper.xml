@@ -8,7 +8,10 @@
         cc.*,
 		ccc.CATEGORY_NAME,
 		cd_company.COMPANY_NAME,
-		su.realname as managerName
+		su.realname as managerName,
+		caa.consignment_name,
+		caa.consignment_phone,
+		caa.consignment_address
         FROM
         cd_coupon cc
         left join cd_coupon_category ccc on cc.COUPON_CATEGORY = ccc.id
@@ -16,6 +19,7 @@
         left join cd_company cd_company on ccr.ref_value = cd_company.id
         left join cd_coupon_ref ccrc on cc.id = ccrc.cd_coupon_id and ccrc.ref_type='SEND_CUSTOMER'
         left join sys_users su on ccrc.ref_value = su.id
+        left join cd_activity_address caa on cc.coupon_number = caa.coupon_number
         <where>
               <if test="keyword">
                   AND cc.COUPON_NUMBER LIKE CONCAT('%', #{keyword}, '%') or cc.COUPON_DESC LIKE CONCAT('%', #{keyword}, '%')
