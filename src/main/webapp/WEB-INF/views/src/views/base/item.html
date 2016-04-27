@@ -231,9 +231,9 @@
 						</div>
 					</div>
                     <div class="form-group">
-                        <label class="col-md-2 control-label">规格≥</label>
+                        <label class="col-md-2 control-label">规格≥<span class="vaild">*</span></label>
                         <div class="col-md-8">
-                            <input class="form-control" ng-model="item.spec" name="spec" placeholder="规格" type="text">
+                            <input class="form-control" required=""  data-rule-number="true" ng-model="item.spec" name="spec" placeholder="规格" type="text">
                         </div>
                         <label class="col-md-2"> <input class="form-control" ng-model="item.pricingManner" name="spec" placeholder="" type="text"></label>
                     </div>
@@ -267,7 +267,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">销售价格<span class="vaild">*</span></label>
                         <div class="col-md-10">
-                            <input class="form-control"required="" ng-model="item.sellPrice" name="sellPrice" placeholder="销售金额" type="text">
+                            <input class="form-control"required=""   data-rule-number="true" ng-model="item.sellPrice" name="sellPrice" placeholder="销售金额" type="text">
                         </div>
                     </div>
                     <div class="form-group">

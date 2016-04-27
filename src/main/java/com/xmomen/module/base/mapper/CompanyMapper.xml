@@ -28,7 +28,7 @@
     
     <select id="queryCompanyManagerList" resultType="com.xmomen.module.base.model.CompanyCustomerManager" parameterType="Integer">
 		select  
-			su.username as customerManger,
+			su.realName as customerManger,
 			su.id as customerMangerId
 		from 
 			cd_manager_company cmc 

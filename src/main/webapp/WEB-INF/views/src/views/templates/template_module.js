@@ -16,7 +16,8 @@ define([
                         currentMember : function(){
                             return params == undefined ? undefined : params.currentMember
                         }
-                    }
+                    },
+                    size : 'lg'
                 })
             }
         };

@@ -74,6 +74,12 @@ public class CouponModel implements Serializable {
      * 发放单位
      */
     private String companyName;
+    
+    /**
+     * 发放客户经理
+     */
+    private String managerName;
+    
     public Integer getIsSend() {
 		return isSend;
 	}
@@ -208,5 +214,11 @@ public class CouponModel implements Serializable {
 	}
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+	public String getManagerName() {
+		return managerName;
+	}
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
 	}
 }

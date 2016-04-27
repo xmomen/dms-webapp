@@ -5,11 +5,13 @@
     <!--    查询消息    -->
     <select id="getMemberList" resultType="com.xmomen.module.base.model.MemberModel" parameterType="java.util.HashMap">
         SELECT
-        cm.*,
-        cc.company_name
+        	cm.*,
+        	cc.company_name,
+        	su.realName as managerName
         FROM
-        cd_member cm
+        	cd_member cm
         left join cd_company cc on cm.cd_company_id = cc.id
+        left join sys_users su on cm.cd_user_id = su.id
         <where>
               <if test="keyword">
                   AND cm.member_code LIKE CONCAT('%', #{keyword}, '%') or cm.name LIKE CONCAT('%', #{keyword}, '%') or cm.phone_number like CONCAT('%', #{keyword}, '%')

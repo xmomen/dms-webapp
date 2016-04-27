@@ -50,11 +50,13 @@ public class CouponController {
                                   @RequestParam(value = "offset") Integer offset,
                                   @RequestParam(value = "couponNumber", required = false) String couponNumber,
                                   @RequestParam(value = "couponType",required = false) String couponType,
+                                  @RequestParam(value = "isSend",required = false) Integer isSend,
                                   @RequestParam(value = "keyword", required = false) String keyword){
    	    Map map = new HashMap<String,Object>();
         map.put("keyword", keyword);
         map.put("couponNumber", couponNumber);
         map.put("couponType",couponType);
+        map.put("isSend",isSend);
         return (Page<CouponModel>) mybatisDao.selectPage(CouponMapper.CouponMapperNameSpace + "getCouponList", map, limit, offset);
     }
 
@@ -145,8 +147,9 @@ public class CouponController {
     public void sendOneCoupon(
     		@RequestParam(value = "id") Integer id,
     		@RequestParam(value="companyId") Integer companyId,
+    		@RequestParam(value="customerMangerId") Integer customerMangerId,
     		@RequestParam(value="couponNumber") String couponNumber){
-    	couponService.sendOneCoupon(id,companyId,couponNumber);
+    	couponService.sendOneCoupon(id,companyId,customerMangerId,couponNumber);
     }
     
     /**
@@ -156,18 +159,19 @@ public class CouponController {
     @Log(actionName = "批量发放卡")
     public void sendMoreCoupon(
     		@RequestParam(value="companyId") Integer companyId,
+    		@RequestParam(value="customerMangerId")Integer customerMangerId,
     		@RequestParam(value="couponNumberList") String couponNumberList){
     	String[] couponNumbers = couponNumberList.split(",");
     	for(int i = 0,length = couponNumbers.length;i < length; i++){
     		String couponNumber = couponNumbers[i];
     		CdCoupon coupon = new CdCoupon();
     		coupon.setCouponNumber(couponNumber);
-    		coupon.setCouponType(1);
+//    		coupon.setCouponType(1);
     		coupon.setIsSend(0);
     		coupon.setIsUseful(0);
     		coupon = mybatisDao.selectOneByModel(coupon);
     		if(coupon != null)
-    		couponService.sendOneCoupon(coupon.getId(),companyId,coupon.getCouponNumber());
+    		couponService.sendOneCoupon(coupon.getId(),companyId,customerMangerId,coupon.getCouponNumber());
     	}
     }
 }
