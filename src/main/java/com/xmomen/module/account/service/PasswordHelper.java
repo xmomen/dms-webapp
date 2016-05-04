@@ -32,11 +32,11 @@ public class PasswordHelper {
         return randomNumberGenerator.nextBytes().toHex();
     }
 
-    public String encryptPassword(String password, String username, String salt) {
+    public String encryptPassword(String password, String salt) {
         return new SimpleHash(
                 algorithmName,
                 password,
-                ByteSource.Util.bytes(username + salt),
+                ByteSource.Util.bytes(salt),
                 hashIterations).toHex();
 
     }

@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
     public SysUsers createUser(CreateUser user) {
         //加密密码
         String salt = passwordHelper.getSalt();
-        String newPassword = passwordHelper.encryptPassword(user.getPassword(), user.getUsername(), salt);
+        String newPassword = passwordHelper.encryptPassword(user.getPassword(), salt);
         SysUsers sysUsers = new SysUsers();
         sysUsers.setSalt(UUID.randomUUID().toString().toUpperCase());
         sysUsers.setUsername(user.getUsername());
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
         String salt = passwordHelper.getSalt();
         user.setPassword(newPassword);
         user.setSalt(salt);
-        passwordHelper.encryptPassword(user.getPassword(), user.getUsername(), salt);
+        passwordHelper.encryptPassword(user.getPassword(), salt);
         mybatisDao.update(user);
     }
 
@@ -94,12 +94,12 @@ public class UserServiceImpl implements UserService {
         SysUsers sysUsers = new SysUsers();
         sysUsers.setUsername(username);
         sysUsers = mybatisDao.selectOneByModel(sysUsers);
-        String currentRealPwd = passwordHelper.encryptPassword(currentPassword, sysUsers.getUsername(), sysUsers.getSalt());
+        String currentRealPwd = passwordHelper.encryptPassword(currentPassword, sysUsers.getSalt());
         if(sysUsers == null || !sysUsers.getPassword().equals(currentRealPwd)){
             throw new IllegalArgumentException("当前密码错误");
         }
         String newSalt = passwordHelper.getSalt();
-        String newCurrentRealPwd = passwordHelper.encryptPassword(newPassword, sysUsers.getUsername(), newSalt);
+        String newCurrentRealPwd = passwordHelper.encryptPassword(newPassword, newSalt);
         userMapper.resetPassword(username, currentRealPwd, newCurrentRealPwd, newSalt);
     }
 
@@ -139,9 +139,11 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     public SysUsers findByUsername(String username) {
-        SysUsers sysUsers = new SysUsers();
-        sysUsers.setUsername(username);
-        return mybatisDao.selectOneByModel(sysUsers);
+        SysUsersExample sysUsersExample = new SysUsersExample();
+        sysUsersExample.createCriteria().andUsernameEqualTo(username);
+        sysUsersExample.or().andEmailEqualTo(username);
+        sysUsersExample.or().andPhoneNumberEqualTo(username);
+        return mybatisDao.selectOneByExample(sysUsersExample);
     }
 
     /**
