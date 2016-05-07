@@ -75,6 +75,12 @@ public class UserController {
             throw new ArgumentValidException(bindingResult);
         }
         CreateUser user = new CreateUser();
+        user.setAge(createUser.getAge());
+        user.setOfficeTel(createUser.getOfficeTel());
+        user.setPhoneNumber(createUser.getPhoneNumber());
+        user.setQq(createUser.getQq());
+        user.setRealname(createUser.getRealName());
+        user.setSex(createUser.getSex());
         user.setUsername(createUser.getUsername());
         user.setPassword(createUser.getPassword());
         user.setEmail(createUser.getEmail());

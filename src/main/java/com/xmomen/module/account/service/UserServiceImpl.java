@@ -46,6 +46,12 @@ public class UserServiceImpl implements UserService {
         sysUsers.setSalt(UUID.randomUUID().toString().toUpperCase());
         sysUsers.setUsername(user.getUsername());
         sysUsers.setEmail(user.getEmail());
+        sysUsers.setRealname(user.getRealname());
+        sysUsers.setAge(user.getAge());
+        sysUsers.setOfficeTel(user.getOfficeTel());
+        sysUsers.setPhoneNumber(user.getPhoneNumber());
+        sysUsers.setQq(user.getQq());
+        sysUsers.setSex(user.getSex());
         sysUsers.setSalt(salt);
         sysUsers.setPassword(newPassword);
         sysUsers.setLocked(user.getLocked() ? 1 : 0);
@@ -68,7 +74,7 @@ public class UserServiceImpl implements UserService {
         sysUsers.setAge(updateUserVo.getAge());
         sysUsers.setOfficeTel(updateUserVo.getOfficeTel());
         sysUsers.setPhoneNumber(updateUserVo.getPhoneNumber());
-        sysUsers.setSex(updateUserVo.getAge());
+        sysUsers.setSex(updateUserVo.getSex());
         sysUsers.setQq(updateUserVo.getQq());
         sysUsers.setRealname(updateUserVo.getRealName());
         mybatisDao.save(sysUsers);

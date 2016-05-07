@@ -158,7 +158,7 @@
 				<fieldset>
 
 					<div class="form-group">
-						<label class="col-md-2 control-label">用户名</label>
+						<label class="col-md-2 control-label">用户名<span class="vaild">*</span></label>
 						<div class="col-md-10">
 							<input class="form-control" ng-model="user.userId" name="id" type="hidden">
 							<input class="form-control" required="true" data-rule-minlength="6" data-rule-maxlength="20" ng-model="user.username" name="username" placeholder="用户名" type="text">
@@ -166,9 +166,9 @@
 					</div>
 
 					<div class="form-group">
-						<label class="col-md-2 control-label">真实姓名</label>
+						<label class="col-md-2 control-label">真实姓名<span class="vaild">*</span></label>
 						<div class="col-md-10">
-							<input class="form-control"  ng-model="user.realName" name="realName" placeholder="真实姓名" type="text">
+							<input class="form-control" required="true"  ng-model="user.realName" name="realName" placeholder="真实姓名" type="text">
 						</div>
 					</div>
 
@@ -208,9 +208,9 @@
 					</div>
 
 					<div class="form-group">
-						<label class="col-md-2 control-label">手机号码</label>
+						<label class="col-md-2 control-label">手机号码<span class="vaild">*</span></label>
 						<div class="col-md-10">
-							<input class="form-control"  ng-model="user.phoneNumber" name="phoneNumber" placeholder="手机号码" type="text">
+							<input class="form-control" required="" ng-model="user.phoneNumber" name="phoneNumber" placeholder="手机号码" type="text">
 						</div>
 					</div>
 
@@ -222,14 +222,14 @@
 					</div>
 
 					<div class="form-group" ng-if="user.id == null">
-						<label class="col-md-2 control-label">密码</label>
+						<label class="col-md-2 control-label">密码<span class="vaild">*</span></label>
 						<div class="col-md-10">
 							<input id="password" class="form-control" required="true" data-rule-minlength="6" data-rule-maxlength="20" ng-model="user.password" name="password" placeholder="密码" type="password" >
 						</div>
 					</div>
 
 					<div class="form-group" ng-if="user.id == null">
-						<label class="col-md-2 control-label">确认密码</label>
+						<label class="col-md-2 control-label">确认密码<span class="vaild">*</span></label>
 						<div class="col-md-10">
 							<input class="form-control" required="true" data-rule-equalTo="#password" data-rule-minlength="6" data-rule-maxlength="20" ng-model="user.confirmPassword" name="confirmPassword_{{$index}}" placeholder="确认密码" type="password">
 						</div>

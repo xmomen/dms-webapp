@@ -74,6 +74,18 @@ public class CouponModel implements Serializable {
      * 发放单位
      */
     private String companyName;
+    
+    /**
+     * 发放客户经理
+     */
+    private String managerName;
+    
+    private String consignmentName;
+    
+    private String consignmentPhone;
+    
+    private String consignmentAddress;
+    
     public Integer getIsSend() {
 		return isSend;
 	}
@@ -208,5 +220,29 @@ public class CouponModel implements Serializable {
 	}
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+	public String getManagerName() {
+		return managerName;
+	}
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
+	}
+	public String getConsignmentName() {
+		return consignmentName;
+	}
+	public void setConsignmentName(String consignmentName) {
+		this.consignmentName = consignmentName;
+	}
+	public String getConsignmentPhone() {
+		return consignmentPhone;
+	}
+	public void setConsignmentPhone(String consignmentPhone) {
+		this.consignmentPhone = consignmentPhone;
+	}
+	public String getConsignmentAddress() {
+		return consignmentAddress;
+	}
+	public void setConsignmentAddress(String consignmentAddress) {
+		this.consignmentAddress = consignmentAddress;
 	}
 }

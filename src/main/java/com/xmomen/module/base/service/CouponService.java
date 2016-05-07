@@ -45,7 +45,7 @@ public class CouponService {
 
     }
     @Transactional
-    public void sendOneCoupon(Integer id,Integer companyId,String couponNumber){
+    public void sendOneCoupon(Integer id,Integer companyId,Integer customerMangerId,String couponNumber){
     	//更新卡发放状态
     	CdCoupon coupon = new CdCoupon();
     	coupon.setIsSend(1);
@@ -63,5 +63,17 @@ public class CouponService {
     	couponRef.setRefValue(companyId+"");
     	couponRef.setCouponNumber(couponNumber);
     	mybatisDao.save(couponRef);
+    	//先删除再添加
+    	CdCouponRefExample couponRefCustomerExample = new CdCouponRefExample();
+    	couponRefCustomerExample.createCriteria().andCdCouponIdEqualTo(id)
+		.andRefTypeEqualTo("SEND_CUSTOMER");
+		mybatisDao.deleteByExample(couponRefCustomerExample);
+    	CdCouponRef couponCustomerRef = new CdCouponRef();
+    	couponCustomerRef.setCdCouponId(id);
+    	couponCustomerRef.setRefType("SEND_CUSTOMER");
+    	couponCustomerRef.setRefName("发放客户经理");
+    	couponCustomerRef.setRefValue(customerMangerId+"");
+    	couponCustomerRef.setCouponNumber(couponNumber);
+    	mybatisDao.save(couponCustomerRef);
     }
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
+import com.xmomen.module.base.entity.CdActivityAddress;
 import com.xmomen.module.base.entity.CdCoupon;
 import com.xmomen.module.base.mapper.CouponMapper;
 import com.xmomen.module.base.model.CouponModel;
@@ -50,11 +51,13 @@ public class CouponController {
                                   @RequestParam(value = "offset") Integer offset,
                                   @RequestParam(value = "couponNumber", required = false) String couponNumber,
                                   @RequestParam(value = "couponType",required = false) String couponType,
+                                  @RequestParam(value = "isSend",required = false) Integer isSend,
                                   @RequestParam(value = "keyword", required = false) String keyword){
    	    Map map = new HashMap<String,Object>();
         map.put("keyword", keyword);
         map.put("couponNumber", couponNumber);
         map.put("couponType",couponType);
+        map.put("isSend",isSend);
         return (Page<CouponModel>) mybatisDao.selectPage(CouponMapper.CouponMapperNameSpace + "getCouponList", map, limit, offset);
     }
 
@@ -145,8 +148,9 @@ public class CouponController {
     public void sendOneCoupon(
     		@RequestParam(value = "id") Integer id,
     		@RequestParam(value="companyId") Integer companyId,
+    		@RequestParam(value="customerMangerId") Integer customerMangerId,
     		@RequestParam(value="couponNumber") String couponNumber){
-    	couponService.sendOneCoupon(id,companyId,couponNumber);
+    	couponService.sendOneCoupon(id,companyId,customerMangerId,couponNumber);
     }
     
     /**
@@ -156,18 +160,47 @@ public class CouponController {
     @Log(actionName = "批量发放卡")
     public void sendMoreCoupon(
     		@RequestParam(value="companyId") Integer companyId,
+    		@RequestParam(value="customerMangerId")Integer customerMangerId,
     		@RequestParam(value="couponNumberList") String couponNumberList){
     	String[] couponNumbers = couponNumberList.split(",");
     	for(int i = 0,length = couponNumbers.length;i < length; i++){
     		String couponNumber = couponNumbers[i];
     		CdCoupon coupon = new CdCoupon();
     		coupon.setCouponNumber(couponNumber);
-    		coupon.setCouponType(1);
+//    		coupon.setCouponType(1);
     		coupon.setIsSend(0);
     		coupon.setIsUseful(0);
     		coupon = mybatisDao.selectOneByModel(coupon);
     		if(coupon != null)
-    		couponService.sendOneCoupon(coupon.getId(),companyId,coupon.getCouponNumber());
+    		couponService.sendOneCoupon(coupon.getId(),companyId,customerMangerId,coupon.getCouponNumber());
+    	}
+    }
+    
+    /**
+     * @param id
+     */
+    @RequestMapping(value = "/coupon/activityAddress", method = RequestMethod.GET)
+    @Log(actionName = "活动送货地址信息")
+    public void activityAddress(
+    		@RequestParam(value="couponNumber") String couponNumber,
+    		@RequestParam(value="consignmentName", required = false)String consignmentName,
+    		@RequestParam(value="consignmentPhone", required = false) String consignmentPhone,
+    		@RequestParam(value="consignmentAddress", required = false) String consignmentAddress){
+    	CdActivityAddress activityAddress = new CdActivityAddress();
+    	activityAddress.setCouponNumber(couponNumber);
+    	activityAddress = mybatisDao.selectOneByModel(activityAddress);
+    	if(activityAddress == null){
+    		activityAddress = new CdActivityAddress();
+    		activityAddress.setConsignmentAddress(consignmentAddress);
+    		activityAddress.setConsignmentPhone(consignmentPhone);
+    		activityAddress.setConsignmentName(consignmentName);
+    		activityAddress.setCouponNumber(couponNumber);
+    		mybatisDao.save(activityAddress);
+    	}else{
+    		activityAddress.setConsignmentAddress(consignmentAddress);
+    		activityAddress.setConsignmentPhone(consignmentPhone);
+    		activityAddress.setConsignmentName(consignmentName);
+    		mybatisDao.update(activityAddress);
     	}
     }
 }

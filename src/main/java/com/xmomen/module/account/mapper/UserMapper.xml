@@ -31,14 +31,14 @@
     <select id="findUsersByRolesId" resultType="com.xmomen.module.account.web.controller.vo.UserGroupRelation" parameterType="java.util.HashMap">
         SELECT
         u.ID as userId,
-        u.USERNAME,
+        u.realname as USERNAME,
         u.EMAIL
         FROM
         sys_users u
-        <!--<if test="id and chose">-->
+        <if test="id and chose">
             LEFT JOIN sys_users_roles ur
             ON u.ID = ur.USER_ID
-        <!--</if>-->
+        </if>
         <where>
             <if test="id and chose">
                 AND ur.ROLE_ID = #{id}
@@ -60,13 +60,12 @@
     <select id="findPermissionByRole" resultType="com.xmomen.module.account.web.controller.vo.GroupPermissionRelation" parameterType="java.util.HashMap">
         select p.ID as permissionId,
               p.PERMISSION as permissionCode,
-              p.DESCRIPTION as permissionDescription,
-              rp.ROLE_ID  as GROUP_ID
+              p.DESCRIPTION as permissionDescription
         from sys_permissions p
-        <!--<if test="id and chose">-->
+        <if test="id and chose">
             left join sys_roles_permissions rp
               on rp.PERMISSION_ID=p.ID
-        <!--</if>-->
+        </if>
         <where>
             <if test="id and chose">
                 AND rp.ROLE_ID = #{id}

@@ -177,7 +177,7 @@
                     <div class="col-md-4">
                         <select ug-select2 multiple style="width: 100%;" required="true" ng-model="company.customerManagerIds" name="manager" >
                             <option value="">--请选择--</option>
-                            <option value="{{customerManager.id}}" ng-repeat="customerManager in customerManagerList">{{customerManager.username}}</option>
+                            <option value="{{customerManager.id}}" ng-repeat="customerManager in customerManagerList">{{customerManager.realname}}</option>
                         </select>
                     </div>
 					<div class="form-group" ng-if="errors">

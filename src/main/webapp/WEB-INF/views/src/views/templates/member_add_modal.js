@@ -4,9 +4,30 @@
 define(function () {
     return ["$scope", "MemberAPI", "$modalInstance","currentMember","CompanyAPI", function ($scope, MemberAPI, $modalInstance,currentMember,CompanyAPI) {
         $scope.companyList = [];
-        CompanyAPI.getCompanyList({},function(data){
-            $scope.companyList = data;
-        });
+        $scope.pageSetting = {
+            pageSize:1000,
+            pageNum:1
+        };
+        $scope.getCompanyList = function(){
+            CompanyAPI.query({
+                limit:$scope.pageSetting.pageSize,
+                offset:$scope.pageSetting.pageNum
+            }, function(data){
+                $scope.companyList = data.data;
+                $scope.pageInfoSetting = data.pageInfo;
+                $scope.pageInfoSetting.loadData = $scope.getCompanyList;
+            });
+        };
+        $scope.getCompanyList();
+        $scope.changeCompany = function(id){
+            for(var i in $scope.companyList){
+                var company =  $scope.companyList[i]
+                if(company.id == parseInt(id)){
+                    $scope.companyCustomerManagers =  company.companyCustomerManagers;
+                }
+            }
+
+        }
         $scope.member = {};
         if(currentMember){
             if(currentMember.id && !currentMember.name){

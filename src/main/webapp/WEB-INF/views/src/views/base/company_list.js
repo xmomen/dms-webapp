@@ -4,15 +4,15 @@
 define(function () {
     return ["$scope", "CompanyAPI", "$modal", "$ugDialog", function($scope, CompanyAPI, $modal, $ugDialog){
         $scope.companyList = [];
-        $scope.pageSetting = {
+        $scope.pageInfoSetting = {
             pageSize:10,
             pageNum:1
         };
         $scope.queryParam = {};
         $scope.getCompanyList = function(){
             CompanyAPI.query({
-                limit:$scope.pageSetting.pageSize,
-                offset:$scope.pageSetting.pageNum,
+                limit:$scope.pageInfoSetting.pageSize,
+                offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword
             }, function(data){
                 $scope.companyList = data.data;

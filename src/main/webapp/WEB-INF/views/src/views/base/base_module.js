@@ -10,8 +10,9 @@ define([
     "views/base/itemCategory",
     "views/base/item",
     "views/base/contract",
-    "views/base/activity"
-],function (memberList,companyList,couponCategory,coupon,dictionary,itemCategory,item,contract,activity) {
+    "views/base/activity",
+    "views/base/couponActivity"
+],function (memberList,companyList,couponCategory,coupon,dictionary,itemCategory,item,contract,activity,couponActivity) {
     angular.module('DMS.base', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -114,6 +115,17 @@ define([
                     }
                 },
                 controller: activity
+            })
+            .state('couponActivity', {
+                url: '/couponActivity',
+                templateUrl: 'views/base/couponActivity.html',
+                data:{
+                    permissions:{
+                        only:["USER_VIEW"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: couponActivity
             })
     }]);
 });

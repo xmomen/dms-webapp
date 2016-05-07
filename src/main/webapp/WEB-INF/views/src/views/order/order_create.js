@@ -27,7 +27,7 @@ define(function () {
             //if($scope.addOrderForm.validator.form()){
             //}
         };
-        $scope.pageSetting = {
+        $scope.pageInfoSetting = {
             pageSize:10,
             pageNum:1
         };
@@ -47,8 +47,8 @@ define(function () {
             }
             debugger
             ItemAPI.query({
-                limit:$scope.pageSetting.pageSize,
-                offset:$scope.pageSetting.pageNum,
+                limit:$scope.pageInfoSetting.pageSize,
+                offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword,
                 sellStatus:1,
                 exclude_ids:choseItemId

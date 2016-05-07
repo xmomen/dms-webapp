@@ -11,6 +11,34 @@ public class CreateUser implements Serializable {
     private String username;
     private String email;
     private String password;
+    /**
+     * 真实姓名
+     */
+    private String realname;
+
+    /**
+     * 年龄
+     */
+    private Integer age;
+    /**
+     * 1-男，2女
+     */
+    private Integer sex;
+
+    /**
+     * QQ
+     */
+    private String qq;
+
+    /**
+     * 手机号
+     */
+    private String phoneNumber;
+
+    /**
+     * 办公室电话
+     */
+    private String officeTel;
 
     private Boolean locked = Boolean.FALSE;
 
@@ -53,5 +81,53 @@ public class CreateUser implements Serializable {
     public void setLocked(Boolean locked) {
         this.locked = locked;
     }
+
+	public String getRealname() {
+		return realname;
+	}
+
+	public void setRealname(String realname) {
+		this.realname = realname;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	public Integer getSex() {
+		return sex;
+	}
+
+	public void setSex(Integer sex) {
+		this.sex = sex;
+	}
+
+	public String getQq() {
+		return qq;
+	}
+
+	public void setQq(String qq) {
+		this.qq = qq;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getOfficeTel() {
+		return officeTel;
+	}
+
+	public void setOfficeTel(String officeTel) {
+		this.officeTel = officeTel;
+	}
 
 }

@@ -80,7 +80,7 @@ public class MemberModel implements Serializable{
     /**
      * 所属客服经理
      */
-    private String userName;
+    private String managerName;
 	public String getMemberCode() {
 		return memberCode;
 	}
@@ -223,12 +223,13 @@ public class MemberModel implements Serializable{
 	}
 
 
-	public String getUserName() {
-		return userName;
+	public String getManagerName() {
+		return managerName;
 	}
 
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
 	}
+	
 }

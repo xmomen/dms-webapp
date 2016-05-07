@@ -4,15 +4,15 @@
 define(function () {
     return ["$scope", "OrderAPI", "$modal", "$ugDialog", function($scope, OrderAPI, $modal, $ugDialog){
         $scope.orderList = [];
-        $scope.pageSetting = {
+        $scope.pageInfoSetting = {
             pageSize:10,
             pageNum:1
         };
         $scope.queryParam = {};
         $scope.getOrderList = function(){
             OrderAPI.query({
-                limit:$scope.pageSetting.pageSize,
-                offset:$scope.pageSetting.pageNum,
+                limit:$scope.pageInfoSetting.pageSize,
+                offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword
             }, function(data){
                 $scope.orderList = data.data;

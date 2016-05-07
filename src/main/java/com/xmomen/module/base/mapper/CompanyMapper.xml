@@ -18,17 +18,17 @@
        from cd_company cc
         <where>
               <if test="keyword">
-                  AND cm.companyCode LIKE CONCAT('%', #{keyword}, '%') or cm.company_name LIKE CONCAT('%', #{keyword}, '%')
+                  AND cc.company_Code LIKE CONCAT('%', #{keyword}, '%') or cc.company_name LIKE CONCAT('%', #{keyword}, '%')
               </if>
               <if test="id">
-                  AND cm.id = #{id}
+                  AND cc.id = #{id}
               </if>
           </where>
     </select>
     
     <select id="queryCompanyManagerList" resultType="com.xmomen.module.base.model.CompanyCustomerManager" parameterType="Integer">
 		select  
-			su.username as customerManger,
+			su.realName as customerManger,
 			su.id as customerMangerId
 		from 
 			cd_manager_company cmc 
