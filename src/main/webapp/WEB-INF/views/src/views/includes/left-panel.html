@@ -65,7 +65,7 @@ will not initialize.
             <nav:item ui-sref="purchase" title="采购计划" />
         </nav:group>
     </div>
-    <div >
+    <div permission only="'SYSTEM_MENU'">
         <nav:group data-icon="fa fa-fw fa-pencil" title="系统管理">
             <div permission only="'USER_VIEW'">
                 <nav:item ui-sref="user_list" title="用户管理"/>
