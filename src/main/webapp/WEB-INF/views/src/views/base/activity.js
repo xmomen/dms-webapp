@@ -4,15 +4,15 @@
 define(function () {
     return ["$scope", "ActivityAPI", "$modal", "$ugDialog", function($scope, ActivityAPI, $modal, $ugDialog){
         $scope.activityList = [];
-        $scope.pageSetting = {
+        $scope.pageInfoSetting = {
             pageSize:10,
             pageNum:1
         };
         $scope.queryParam = {};
         $scope.getActivityList = function(){
             ActivityAPI.query({
-                limit:$scope.pageSetting.pageSize,
-                offset:$scope.pageSetting.pageNum,
+                limit:$scope.pageInfoSetting.pageSize,
+                offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword
             }, function(data){
                 $scope.activityList = data.data;
@@ -109,15 +109,15 @@ define(function () {
                         });
                     };
                     $scope.getCategoryList = function(){
-                        $scope.pageSetting = {
+                        $scope.pageInfoSetting = {
                             pageSize:1000,
                             pageNum:1
                         };
                         $scope.queryParam = {};
                         $scope.categoryList = [];
                         CouponCategoryAPI.query({
-                            limit:$scope.pageSetting.pageSize,
-                            offset:$scope.pageSetting.pageNum,
+                            limit:$scope.pageInfoSetting.pageSize,
+                            offset:$scope.pageInfoSetting.pageNum,
                             categoryType : 1
                         }, function(data){
                             $scope.categoryList = data.data;

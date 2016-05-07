@@ -4,15 +4,15 @@
 define(function () {
     return ["$scope", "CouponAPI", "$modal", "$ugDialog", function($scope, CouponAPI, $modal, $ugDialog){
         $scope.couponList = [];
-        $scope.pageSetting = {
+        $scope.pageInfoSetting = {
             pageSize:25,
             pageNum:1
         };
         $scope.queryParam = {};
         $scope.getCouponList = function(){
             CouponAPI.query({
-                limit:$scope.pageSetting.pageSize,
-                offset:$scope.pageSetting.pageNum,
+                limit:$scope.pageInfoSetting.pageSize,
+                offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword
             }, function(data){
                 $scope.couponList = data.data;

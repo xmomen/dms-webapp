@@ -5,15 +5,15 @@ define(function () {
     return ["$scope", "CouponCategoryAPI", "$modal", "$ugDialog", function($scope, CouponCategoryAPI, $modal, $ugDialog){
         $scope.couponCategoryList = [];
         $scope.couponCategory = {};
-        $scope.pageSetting = {
+        $scope.pageInfoSetting = {
             pageSize:10,
             pageNum:1
         };
         $scope.queryParam = {};
         $scope.getCouponCategoryList = function(){
             CouponCategoryAPI.query({
-                limit:$scope.pageSetting.pageSize,
-                offset:$scope.pageSetting.pageNum,
+                limit:$scope.pageInfoSetting.pageSize,
+                offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword,
                 categoryType:$scope.queryParam.categoryType
             }, function(data){
@@ -87,7 +87,7 @@ define(function () {
                         $modalInstance.dismiss('cancel');
                     };
                     $scope.choseItemList = [];
-                    $scope.pageSetting = {
+                    $scope.pageInfoSetting = {
                         pageSize:1000,
                         pageNum:1
                     };
@@ -103,8 +103,8 @@ define(function () {
                             }
                         }
                         ItemAPI.query({
-                            limit:$scope.pageSetting.pageSize,
-                            offset:$scope.pageSetting.pageNum,
+                            limit:$scope.pageInfoSetting.pageSize,
+                            offset:$scope.pageInfoSetting.pageNum,
                             keyword:$scope.queryParam.keyword,
                             exclude_ids:choseItemId,
                             sellStatus : 1

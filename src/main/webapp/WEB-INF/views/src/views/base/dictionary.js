@@ -4,7 +4,7 @@
 define(function () {
     return ["$scope", "DictionaryGroupAPI", "DictionaryAPI", "$modal", "$ugDialog", function($scope, DictionaryGroupAPI, DictionaryAPI, $modal, $ugDialog){
         $scope.dictionaryGroupList = [];
-        $scope.pageSetting = {
+        $scope.pageInfoSetting = {
             pageSize:10,
             pageNum:1
         };
@@ -16,8 +16,8 @@ define(function () {
         }
         $scope.getDictionaryGroupList = function(){
             DictionaryGroupAPI.query({
-                limit:$scope.pageSetting.pageSize,
-                offset:$scope.pageSetting.pageNum,
+                limit:$scope.pageInfoSetting.pageSize,
+                offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword
             }, function(data){
                 $scope.dictionaryGroupList = data.data;

@@ -18,10 +18,10 @@
        from cd_company cc
         <where>
               <if test="keyword">
-                  AND cm.companyCode LIKE CONCAT('%', #{keyword}, '%') or cm.company_name LIKE CONCAT('%', #{keyword}, '%')
+                  AND cc.company_Code LIKE CONCAT('%', #{keyword}, '%') or cc.company_name LIKE CONCAT('%', #{keyword}, '%')
               </if>
               <if test="id">
-                  AND cm.id = #{id}
+                  AND cc.id = #{id}
               </if>
           </where>
     </select>

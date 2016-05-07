@@ -17,15 +17,15 @@ define(function () {
         $scope.getItemCategoryTree();
         $scope.itemList = [];
         $scope.item = {};
-        $scope.pageSetting = {
+        $scope.pageInfoSetting = {
             pageSize:25,
             pageNum:1
         };
         $scope.queryParam = {};
         $scope.getItemList = function(categoryName){
             ItemAPI.query({
-                limit:$scope.pageSetting.pageSize,
-                offset:$scope.pageSetting.pageNum,
+                limit:$scope.pageInfoSetting.pageSize,
+                offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword
             }, function(data){
                 $scope.itemList = data.data;
@@ -155,8 +155,8 @@ define(function () {
                             sellStatus : 1
                         }, function(data){
                             $scope.childItemList = data.data;
-                            $scope.pageInfoSetting = data.pageInfo;
-                            $scope.pageInfoSetting.loadData = $scope.getChildItemList;
+                            $scope.pageChildSetting = data.pageInfo;
+                            $scope.pageChildSetting.loadData = $scope.getChildItemList;
                         });
                     };
 

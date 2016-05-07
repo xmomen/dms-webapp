@@ -4,15 +4,15 @@
 define(function () {
     return ["$scope", "CouponAPI", "$modal", "$ugDialog", function($scope, CouponAPI, $modal, $ugDialog){
         $scope.couponList = [];
-        $scope.pageSetting = {
+        $scope.pageInfoSetting = {
             pageSize:10,
             pageNum:1
         };
         $scope.queryParam = {};
         $scope.getCouponList = function(){
             CouponAPI.query({
-                limit:$scope.pageSetting.pageSize,
-                offset:$scope.pageSetting.pageNum,
+                limit:$scope.pageInfoSetting.pageSize,
+                offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword
             }, function(data){
                 $scope.couponList = data.data;
@@ -73,15 +73,15 @@ define(function () {
                         $scope.coupon = CurrentCoupon;
                     }
                     $scope.getCategoryList = function(){
-                        $scope.pageSetting = {
+                        $scope.pageInfoSetting = {
                             pageSize:1000,
                             pageNum:1
                         };
                         $scope.queryParam = {};
                         $scope.categoryList = [];
                         CouponCategoryAPI.query({
-                            limit:$scope.pageSetting.pageSize,
-                            offset:$scope.pageSetting.pageNum,
+                            limit:$scope.pageInfoSetting.pageSize,
+                            offset:$scope.pageInfoSetting.pageNum,
                             categoryType :$scope.coupon.couponType
                         }, function(data){
                             $scope.categoryList = data.data;
@@ -162,14 +162,14 @@ define(function () {
                 },
                 controller: ["$scope", "CouponAPI","CurrentCoupon", "$modalInstance","CompanyAPI", function ($scope, CouponAPI, CurrentCoupon, $modalInstance,CompanyAPI) {
                     $scope.companyList = [];
-                    $scope.pageSetting = {
+                    $scope.pageInfoSetting = {
                         pageSize:1000,
                         pageNum:1
                     };
                     $scope.getCompanyList = function(){
                         CompanyAPI.query({
-                            limit:$scope.pageSetting.pageSize,
-                            offset:$scope.pageSetting.pageNum
+                            limit:$scope.pageInfoSetting.pageSize,
+                            offset:$scope.pageInfoSetting.pageNum
                         }, function(data){
                             $scope.companyList = data.data;
                             $scope.pageInfoSetting = data.pageInfo;
@@ -278,14 +278,14 @@ define(function () {
                     }
 
                     $scope.companyList = [];
-                    $scope.pageSetting = {
+                    $scope.pageInfoSetting = {
                         pageSize:1000,
                         pageNum:1
                     };
                     $scope.getCompanyList = function(){
                         CompanyAPI.query({
-                            limit:$scope.pageSetting.pageSize,
-                            offset:$scope.pageSetting.pageNum
+                            limit:$scope.pageInfoSetting.pageSize,
+                            offset:$scope.pageInfoSetting.pageNum
                         }, function(data){
                             $scope.companyList = data.data;
                             $scope.pageInfoSetting = data.pageInfo;
