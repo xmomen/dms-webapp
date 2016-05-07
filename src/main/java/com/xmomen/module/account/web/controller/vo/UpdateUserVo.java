@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
+
 import java.io.Serializable;
 
 /**
@@ -24,7 +25,10 @@ public class UpdateUserVo implements Serializable {
     private String qq;
     private String officeTel;
     private Boolean locked;
-
+    /**
+     * 1-男，2女
+     */
+    private Integer sex;
     public Integer getId() {
         return id;
     }
@@ -96,4 +100,12 @@ public class UpdateUserVo implements Serializable {
     public void setOfficeTel(String officeTel) {
         this.officeTel = officeTel;
     }
+
+	public Integer getSex() {
+		return sex;
+	}
+
+	public void setSex(Integer sex) {
+		this.sex = sex;
+	}
 }

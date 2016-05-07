@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
         sysUsers.setAge(updateUserVo.getAge());
         sysUsers.setOfficeTel(updateUserVo.getOfficeTel());
         sysUsers.setPhoneNumber(updateUserVo.getPhoneNumber());
-        sysUsers.setSex(updateUserVo.getAge());
+        sysUsers.setSex(updateUserVo.getSex());
         sysUsers.setQq(updateUserVo.getQq());
         sysUsers.setRealname(updateUserVo.getRealName());
         mybatisDao.save(sysUsers);
