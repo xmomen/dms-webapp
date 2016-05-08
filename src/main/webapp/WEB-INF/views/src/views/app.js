@@ -82,12 +82,20 @@ define([
                 post:httpPost
             };
         }]
-    }).directive("ugSelect2",[function(){
+    }).directive("ugSelect2",["CompanyAPI", "$rootScope", function(CompanyAPI, $rootScope){
         return {
             restrict:"A",
             require:"select",
+            scope:{ ugSelect2Config: '='},
             link: function(scope, element, attr, crtl){
-                $(element).select2();
+                var config = angular.extend(scope.ugSelect2Config, {
+                    initSelectData : function(data){
+                        setTimeout(function(){
+                            $select2.val(data).trigger("change");
+                        }, 100);
+                    }
+                });
+                var $select2 = $(element).select2(config);
             }
         }
     }]).controller("LeftPanelController",["$scope", "$rootScope", "$http", function($scope, $rootScope, $http){

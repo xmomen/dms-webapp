@@ -182,7 +182,7 @@
                     <div class="form-group" ng-show="activity.activityType == 1">
                         <label class="col-md-2 control-label">卡类型<span class="vaild">*</span></label>
                         <div class="col-md-10 input-group">
-                            <select ug-select2 style="width: 100%;" required="true" ng-model="activity.couponCategory" name="couponCategory" >
+                            <select ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;" required="true" ng-model="activity.couponCategory" name="couponCategory" >
                                 <option value="">--请选择--</option>
                                 <option value="{{category.id}}" ng-repeat="category in categoryList">{{category.categoryName}}</option>
                             </select>

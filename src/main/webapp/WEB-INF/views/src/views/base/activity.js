@@ -41,6 +41,7 @@ define(function () {
                     }
                 },
                 controller: ["$scope", "ActivityAPI","CurrentActivity","ItemAPI", "CouponCategoryAPI","$modalInstance", function ($scope, ActivityAPI, CurrentActivity, ItemAPI,CouponCategoryAPI,$modalInstance) {
+                    $scope.ugSelect2Config = {};
                     $scope.choseChildItemList = [];
                     $scope.activity = {
                         activityType : 1,

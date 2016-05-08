@@ -20,7 +20,6 @@ define(function () {
                 $scope.pageInfoSetting.loadData = $scope.getCouponList;
             });
         };
-
         $scope.chooseCoupon = [];
         $scope.checkedAllCoupon = function() {
             if($scope.isCheckCoupon == 0){
@@ -69,6 +68,7 @@ define(function () {
                         isUseful : 0,
                         isGift : 0
                     };
+                    $scope.ugSelect2Config = {};
                     if(CurrentCoupon){
                         $scope.coupon = CurrentCoupon;
                     }
@@ -87,6 +87,7 @@ define(function () {
                             $scope.categoryList = data.data;
                             $scope.pageInfoSetting = data.pageInfo;
                             $scope.pageInfoSetting.loadData = $scope.getCategoryList;
+                            $scope.ugSelect2Config.initSelectData($scope.coupon.couponCategory);
                         });
                     }
                     $scope.getCategoryList();
