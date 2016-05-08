@@ -486,6 +486,66 @@ public class TbPurchaseExample extends BaseMybatisExample {
             addCriterion("BUYER_ID not between", value1, value2, "buyerId");
             return (Criteria) this;
         }
+
+        public Criteria andTotalWeightIsNull() {
+            addCriterion("TOTAL_WEIGHT is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalWeightIsNotNull() {
+            addCriterion("TOTAL_WEIGHT is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalWeightEqualTo(BigDecimal value) {
+            addCriterion("TOTAL_WEIGHT =", value, "totalWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalWeightNotEqualTo(BigDecimal value) {
+            addCriterion("TOTAL_WEIGHT <>", value, "totalWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalWeightGreaterThan(BigDecimal value) {
+            addCriterion("TOTAL_WEIGHT >", value, "totalWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalWeightGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("TOTAL_WEIGHT >=", value, "totalWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalWeightLessThan(BigDecimal value) {
+            addCriterion("TOTAL_WEIGHT <", value, "totalWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalWeightLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("TOTAL_WEIGHT <=", value, "totalWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalWeightIn(List<BigDecimal> values) {
+            addCriterion("TOTAL_WEIGHT in", values, "totalWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalWeightNotIn(List<BigDecimal> values) {
+            addCriterion("TOTAL_WEIGHT not in", values, "totalWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalWeightBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("TOTAL_WEIGHT between", value1, value2, "totalWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalWeightNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("TOTAL_WEIGHT not between", value1, value2, "totalWeight");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

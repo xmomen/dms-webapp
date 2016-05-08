@@ -43,6 +43,11 @@ public class TbPurchase extends BaseMybatisModel {
      */
     private Integer buyerId;
 
+    /**
+     * 采购总重量
+     */
+    private BigDecimal totalWeight;
+
     @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
@@ -127,5 +132,19 @@ public class TbPurchase extends BaseMybatisModel {
               return;
         }
         addValidField("buyerId");
+    }
+
+    @Column(name = "TOTAL_WEIGHT")
+    public BigDecimal getTotalWeight() {
+        return totalWeight;
+    }
+
+    public void setTotalWeight(BigDecimal totalWeight) {
+        this.totalWeight = totalWeight;
+        if(totalWeight == null){
+              removeValidField("totalWeight");
+              return;
+        }
+        addValidField("totalWeight");
     }
 }

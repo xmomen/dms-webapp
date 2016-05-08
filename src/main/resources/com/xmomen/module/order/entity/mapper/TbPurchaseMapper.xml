@@ -8,6 +8,7 @@
     <result column="TOTAL" property="total" jdbcType="DECIMAL" />
     <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
     <result column="BUYER_ID" property="buyerId" jdbcType="INTEGER" />
+    <result column="TOTAL_WEIGHT" property="totalWeight" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, PURCHASE_CODE, ITEM_CODE, TOTAL, CREATE_DATE, BUYER_ID
+    ID, PURCHASE_CODE, ITEM_CODE, TOTAL, CREATE_DATE, BUYER_ID, TOTAL_WEIGHT
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbPurchaseExample" >
     select
@@ -111,6 +112,9 @@
       <if test="buyerId != null" >
         BUYER_ID,
       </if>
+      <if test="totalWeight != null" >
+        TOTAL_WEIGHT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -130,6 +134,9 @@
       </if>
       <if test="buyerId != null" >
         #{buyerId,jdbcType=INTEGER},
+      </if>
+      <if test="totalWeight != null" >
+        #{totalWeight,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -159,6 +166,9 @@
       </if>
       <if test="record.buyerId != null" >
         BUYER_ID = #{record.buyerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalWeight != null" >
+        TOTAL_WEIGHT = #{record.totalWeight,jdbcType=DECIMAL},
       </if>
     </set>
     <if test="_parameter != null" >

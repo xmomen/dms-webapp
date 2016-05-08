@@ -68,7 +68,9 @@ public class PurchaseService {
                 tbPurchaseMap.put(purchaseModel.getItemCode(), tbPurchase);
             }else{
                 BigDecimal total = tbPurchaseMap.get(purchaseModel.getItemCode()).getTotal().add(purchaseModel.getTotalItemQty());
+                BigDecimal totalWeight = tbPurchaseMap.get(purchaseModel.getItemCode()).getTotalWeight().add(purchaseModel.getTotalWeight());
                 tbPurchaseMap.get(purchaseModel.getItemCode()).setTotal(total);
+                tbPurchaseMap.get(purchaseModel.getItemCode()).setTotalWeight(totalWeight);
             }
             orderNoList.add(purchaseModel.getOrderNo());
         }
