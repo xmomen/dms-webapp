@@ -5,7 +5,10 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import com.xmomen.module.account.service.RoleService;
+import com.xmomen.module.base.constant.AppConstants;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +40,10 @@ public class MemberController {
     MemberMapper memberMapper;
     @Autowired
     MybatisDao mybatisDao;
+
+    @Autowired
+    RoleService roleService;
+
     /**
      * 查询客户信息
      * @param id
@@ -54,6 +61,10 @@ public class MemberController {
          map.put("keyword", keyword);
          if(StringUtils.trimToNull(phoneNumber) != null){
              map.put("phoneNumber", phoneNumber);
+         }
+         if(SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE)){
+            Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
+            map.put("managerId", userId);
          }
         return (Page<MemberModel>) mybatisDao.selectPage(MemberMapper.MemberMapperNameSpace + "getMemberList", map, limit, offset);
     }

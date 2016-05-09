@@ -89,7 +89,8 @@ define([
             require:"select",
             scope:{ ugSelect2Config: '='},
             link: function(scope, element, attr, crtl){
-                var config = angular.extend(scope.ugSelect2Config, {
+                var config = scope.ugSelect2Config || {};
+                 config = angular.extend(config, {
                     initSelectData : function(data){
                         setTimeout(function(){
                             $select2.val(data).trigger("change");

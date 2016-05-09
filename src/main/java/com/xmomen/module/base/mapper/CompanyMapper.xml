@@ -16,13 +16,18 @@
        select 
        	cc.*
        from cd_company cc
-        <where>
+		LEFT JOIN cd_manager_company mc
+			ON mc.CD_COMPANY_ID = cc.ID
+		<where>
               <if test="keyword">
                   AND cc.company_Code LIKE CONCAT('%', #{keyword}, '%') or cc.company_name LIKE CONCAT('%', #{keyword}, '%')
               </if>
               <if test="id">
                   AND cc.id = #{id}
               </if>
+			  <if test="managerId">
+				  AND mc.CD_MANAGER_ID = #{managerId}
+			  </if>
           </where>
     </select>
     
