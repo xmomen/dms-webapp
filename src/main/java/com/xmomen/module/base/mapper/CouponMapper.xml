@@ -33,8 +33,11 @@
               <if test="isSend != null">
               	AND cc.is_send = #{isSend}
               </if>
-              <if test="isUseful != null">
+              <if test="isUseful == 0">
               	AND cc.is_useful = #{isUseful}
+              </if>
+              <if test="isUseful == 3">
+              	AND cc.is_useful = 0 and cc.coupon_Value > 0
               </if>
               <if test="managerId">
                 AND su.ID = #{managerId}

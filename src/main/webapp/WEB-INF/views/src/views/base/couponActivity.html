@@ -60,12 +60,12 @@
 							<table class="table table-striped table-condensed table-hover smart-form has-tickbox">
 								<thead>
 								<tr>
-									<th>
-										<label class="checkbox">
-                                            <input type="checkbox" ng-model="isCheckCoupon" ng-true-value="0" ng-false-value="1" ng-change="checkedAllCoupon()" />
-											<i></i>
-										</label>
-									</th>
+									<!--<th>-->
+										<!--<label class="checkbox">-->
+                                            <!--<input type="checkbox" ng-model="isCheckCoupon" ng-true-value="0" ng-false-value="1" ng-change="checkedAllCoupon()" />-->
+											<!--<i></i>-->
+										<!--</label>-->
+									<!--</th>-->
 									<th>卡券类型</th>
                                     <th>卡劵类别</th>
 									<!--<th>描述</th>-->
@@ -80,15 +80,15 @@
 								</thead>
 								<tbody>
 								<tr ng-repeat="coupon in couponList  | orderBy:'couponType'"  ng-if="couponList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
-									<td>
-										<label class="checkbox">
-                                            <input type="checkbox"
-                                                   checklist-model="chooseCoupon"
-                                                   ng-change="changeCouponList()"
-                                                   checklist-value="coupon">
-											<i></i>
-										</label>
-									</td>
+									<!--<td>-->
+										<!--<label class="checkbox">-->
+                                            <!--<input type="checkbox"-->
+                                                   <!--checklist-model="chooseCoupon"-->
+                                                   <!--ng-change="changeCouponList()"-->
+                                                   <!--checklist-value="coupon">-->
+											<!--<i></i>-->
+										<!--</label>-->
+									<!--</td>-->
                                     <td><span ng-if="coupon.couponType == 1">卡</span><span ng-if="coupon.couponType == 2">消费劵</span></td>
                                     <td ng-bind="coupon.categoryName"></td>
 									<!--<td ng-bind="coupon.couponDesc"></td>-->
