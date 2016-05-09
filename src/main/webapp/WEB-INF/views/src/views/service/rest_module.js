@@ -204,4 +204,19 @@ define(function () {
             update:{ method:"PUT", params:{id:"@id"}}
         });
     }]);
+
+    ngREST.factory("BasePlanAPI", ["$resource", function($resource){
+        return $resource("/basePlan/:id", { id:"@id"}, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}},
+            getChoseItemList:{method:"GET",url:"/basePlan/getChosePlanItemList",isArray:true}
+        });
+    }]);
+
+    ngREST.factory("TablePlanAPI", ["$resource", function($resource){
+        return $resource("/tablePlan/:id", { id:"@id"}, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}}
+        });
+    }]);
 });

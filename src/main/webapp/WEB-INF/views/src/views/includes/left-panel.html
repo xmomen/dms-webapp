@@ -57,6 +57,16 @@ will not initialize.
             </div>
         </nav:group>
     </div>
+    <div permission only="'PLAN_MENU'">
+        <nav:group data-icon="fa fa-fw fa-shopping-cart" title="餐桌计划">
+            <div permission only="'BASE_PLAN'">
+                <nav:item ui-sref="basePlan" title="计划设定" />
+            </div>
+            <div permission only="'TABLE_PLAN'">
+                <nav:item ui-sref="tablePlan" title="餐桌计划查询" />
+            </div>
+        </nav:group>
+    </div>
     <div permission only="'ORDER_MENU'">
         <nav:group data-icon="fa fa-fw fa-shopping-cart" title="订单管理">
             <div permission only="'ORDER_VIEW'">

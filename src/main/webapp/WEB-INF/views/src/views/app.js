@@ -5,11 +5,12 @@ define([
     "views/dashboard",
     "views/base/base_module",
     "views/templates/template_module",
-    "views/checklist-model/checklist-model"
-],function (user_module,order_module,schedule_module, dashboard, base_module, template_module,checklist_model) {
+    "views/checklist-model/checklist-model",
+    "views/plan/plan_module"
+],function (user_module,order_module,schedule_module, dashboard, base_module, template_module,checklist_model,plan_module) {
     angular.module('DMS', [
         "smartApp", "ui.router", "DMS.schedule", "DMS.order", "DMS.tpls", "DMS.user","DMS.base", "ug.pagination", "EnvModule", "permission", "ug.validate","ug.dialog",
-        "DMS.REST","checklist-model"
+        "DMS.REST","checklist-model","DMS.plan"
     ]).factory({
         HttpInterceptor:["$q", function($q){
            return {

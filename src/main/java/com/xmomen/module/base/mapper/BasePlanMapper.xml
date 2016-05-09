@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.base.mapper.BasePlanMapper" >
+
+<!--        查询消息    -->
+	<select id="getChosePlanItemList" resultType="com.xmomen.module.base.model.ItemChildModel" parameterType="java.util.HashMap">
+        SELECT
+			cm.id,
+        	cm.item_name,
+			cm.item_code,
+        	cc.category_name,
+        	cir.COUNT_VALUE as count
+        FROM
+			cd_plan_item cir
+		left join 
+			cd_item cm on cm.id = cir.cd_item_id
+   		left join 
+        	cd_category cc on cm.cd_category_id = cc.id	
+        <where>
+             <if test = 'parentId'>
+             	AND cir.CD_PLAN_ID = #{parentId}
+             </if>	
+        </where>
+    </select>
+</mapper>
