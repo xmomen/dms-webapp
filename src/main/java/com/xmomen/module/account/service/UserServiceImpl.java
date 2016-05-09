@@ -1,16 +1,27 @@
 package com.xmomen.module.account.service;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
-import com.xmomen.module.account.mapper.UserMapper;
-import com.xmomen.module.account.model.CreateUser;
-import com.xmomen.module.account.web.controller.vo.UpdateUserVo;
-import com.xmomen.module.user.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
+import com.xmomen.module.account.mapper.UserMapper;
+import com.xmomen.module.account.model.CreateUser;
+import com.xmomen.module.account.web.controller.vo.UpdateUserVo;
+import com.xmomen.module.system.entity.SysUserOrganization;
+import com.xmomen.module.system.entity.SysUserOrganizationExample;
+import com.xmomen.module.user.entity.SysPermissions;
+import com.xmomen.module.user.entity.SysRoles;
+import com.xmomen.module.user.entity.SysUsers;
+import com.xmomen.module.user.entity.SysUsersExample;
+import com.xmomen.module.user.entity.SysUsersRoles;
+import com.xmomen.module.user.entity.SysUsersRolesExample;
 
 /**
  * <p>User: Zhang Kaitao
@@ -55,7 +66,16 @@ public class UserServiceImpl implements UserService {
         sysUsers.setSalt(salt);
         sysUsers.setPassword(newPassword);
         sysUsers.setLocked(user.getLocked() ? 1 : 0);
-        return mybatisDao.saveByModel(sysUsers);
+        sysUsers = mybatisDao.saveByModel(sysUsers);
+        SysUsersRoles userRoles = new SysUsersRoles();
+        userRoles.setRoleId(user.getUserGorupId());
+        userRoles.setUserId(sysUsers.getId());
+        mybatisDao.save(userRoles);
+        SysUserOrganization userOrganization = new SysUserOrganization();
+        userOrganization.setOrganizationId(user.getOrganizationId());
+        userOrganization.setUserId(sysUsers.getId());
+        mybatisDao.save(userOrganization);
+        return sysUsers;
     }
 
     /**
@@ -77,6 +97,21 @@ public class UserServiceImpl implements UserService {
         sysUsers.setSex(updateUserVo.getSex());
         sysUsers.setQq(updateUserVo.getQq());
         sysUsers.setRealname(updateUserVo.getRealName());
+        //更新权限
+        SysUsersRolesExample sysUsersRolesExample = new SysUsersRolesExample();
+        sysUsersRolesExample.createCriteria().andUserIdEqualTo(sysUsers.getId());
+		mybatisDao.deleteByExample(sysUsersRolesExample);
+        SysUsersRoles userRoles = new SysUsersRoles();
+        userRoles.setRoleId(updateUserVo.getUserGorupId());
+        userRoles.setUserId(sysUsers.getId());
+        mybatisDao.save(userRoles);
+        SysUserOrganizationExample sysUserOrganizationExample = new SysUserOrganizationExample();
+        sysUserOrganizationExample.createCriteria().andUserIdEqualTo(sysUsers.getId());
+		mybatisDao.deleteByExample(sysUserOrganizationExample);
+        SysUserOrganization userOrganization = new SysUserOrganization();
+        userOrganization.setOrganizationId(updateUserVo.getOrganizationId());
+        userOrganization.setUserId(sysUsers.getId());
+        mybatisDao.save(userOrganization);
         mybatisDao.save(sysUsers);
     }
 

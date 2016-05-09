@@ -16,7 +16,10 @@ public class User implements Serializable {
     private String officeTel;
     private Integer locked;
     private String email;
-
+    private String organization;//组织
+    private String userGorup;//用户组
+    private Integer organizationId;
+    private Integer userGorupId;
     public Integer getId() {
         return id;
     }
@@ -96,4 +99,36 @@ public class User implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+
+	public String getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(String organization) {
+		this.organization = organization;
+	}
+
+	public String getUserGorup() {
+		return userGorup;
+	}
+
+	public void setUserGorup(String userGorup) {
+		this.userGorup = userGorup;
+	}
+
+	public Integer getOrganizationId() {
+		return organizationId;
+	}
+
+	public void setOrganizationId(Integer organizationId) {
+		this.organizationId = organizationId;
+	}
+
+	public Integer getUserGorupId() {
+		return userGorupId;
+	}
+
+	public void setUserGorupId(Integer userGorupId) {
+		this.userGorupId = userGorupId;
+	}
 }

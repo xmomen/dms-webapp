@@ -14,15 +14,26 @@
         u.phone_number,
         u.age,
         u.sex,
-        u.office_tel
+        u.office_tel,
+        so.name as organization,
+        sr.DESCRIPTION as userGorup,
+        so.id as organization_id,
+        sr.id as user_Gorup_id
         FROM
         sys_users u
+        left join sys_user_organization suo on u.id = suo.user_id
+        left join sys_organization so on suo.organization_id = so.id
+        left join sys_users_roles sur on u.id = sur.user_id
+        left join sys_roles sr on sur.role_id = sr.id
         <where>
               <if test="keyword">
                   AND u.username LIKE CONCAT('%', #{keyword}, '%') or u.email like CONCAT('%', #{keyword}, '%')
               </if>
               <if test="id">
                   AND m.ID = #{id}
+              </if>
+              <if test="organizationId">
+              	suo.organization_id = #{organizationId}
               </if>
           </where>
     </select>

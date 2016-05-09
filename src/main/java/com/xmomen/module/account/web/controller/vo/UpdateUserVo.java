@@ -29,6 +29,12 @@ public class UpdateUserVo implements Serializable {
      * 1-男，2女
      */
     private Integer sex;
+    
+    private Integer organizationId;
+    
+    private Integer userGorupId;
+
+    
     public Integer getId() {
         return id;
     }
@@ -107,5 +113,21 @@ public class UpdateUserVo implements Serializable {
 
 	public void setSex(Integer sex) {
 		this.sex = sex;
+	}
+
+	public Integer getOrganizationId() {
+		return organizationId;
+	}
+
+	public void setOrganizationId(Integer organizationId) {
+		this.organizationId = organizationId;
+	}
+
+	public Integer getUserGorupId() {
+		return userGorupId;
+	}
+
+	public void setUserGorupId(Integer userGorupId) {
+		this.userGorupId = userGorupId;
 	}
 }

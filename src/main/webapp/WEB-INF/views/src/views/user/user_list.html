@@ -9,9 +9,52 @@
 
 	<!-- row -->
 	<div class="row">
+        <article class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            <div class="jarviswidget" id="wid-id-0">
+                <!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+                -->
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>组织</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body">
+                        <!--<div class="widget-body-toolbar bg-color-white">-->
+                        <!--<div class="row">-->
 
+                        <!--<div class="col-sm-12 col-md-2 text-align-right">-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <div class="tree">
+                            <ul>
+                                <li data-ng-repeat="organization in organizationList" data-ng-include="'tree_view_table.html'"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+        </article>
 		<!-- NEW WIDGET START -->
-		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<article class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
 
 			<!-- Widget ID (each widget will need unique ID)-->
 			<div class="jarviswidget" id="wid-id-4">
@@ -77,6 +120,8 @@
 									<th>年龄</th>
 									<th>手机号码</th>
 									<th>办公电话</th>
+                                    <th>用户组</th>
+                                    <th>组织</th>
 									<th>锁定</th>
 									<th width="80">操作</th>
 								</tr>
@@ -96,7 +141,9 @@
 									<td ng-bind="user.age"></td>
 									<td ng-bind="user.phoneNumber"></td>
 									<td ng-bind="user.officeTel"></td>
-									<td>
+                                    <td ng-bind="user.userGorup"></td>
+                                    <td ng-bind="user.organization"></td>
+                                    <td>
 										<label class="checkbox">
 											<input type="checkbox" ng-model="user.locked" name="checkbox-inline"
 												   ng-change="locked($index)"
@@ -234,7 +281,22 @@
 							<input class="form-control" required="true" data-rule-equalTo="#password" data-rule-minlength="6" data-rule-maxlength="20" ng-model="user.confirmPassword" name="confirmPassword_{{$index}}" placeholder="确认密码" type="password">
 						</div>
 					</div>
-
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">所属用户组<span class="vaild">*</span></label>
+                        <div class="col-md-10">
+                                <select ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;"
+                                        required="true" ng-model="user.userGorupId" name="userGorup" >
+                                    <option ng-value="">--请选择--</option>
+                                    <option ng-value="{{group.id}}" ng-repeat="group in groupList">{{group.description}}</option>
+                                </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">所属组织<span class="vaild">*</span></label>
+                        <div class="col-md-10">
+                            <input class="form-control" required="true"  ng-focus="chooseCategoryModel()" ng-model="user.organization" name="organization" placeholder="组织" type="text">
+                        </div>
+                    </div>
 					<div class="form-group">
 						<label class="col-md-2 control-label">禁用状态</label>
 						<div class="col-md-10">
@@ -264,4 +326,45 @@
 		</button>
 		<button class="btn btn-warning" ng-click="cancel()">关闭</button>
 	</div>
+</script>
+
+<script type="text/ng-template" id="tree_view_table.html">
+    <span ng-mouseenter="organization.show=true" ng-mouseleave="organization.show=false">
+        <i ng-if="organization.nodes && organization.nodes.length > 0" class="fa fa-lg fa-minus-circle"></i>
+        <a ng-show="organization.parentId != null" ng-click="getUserList(organization.id)">{{organization.name}}</a>
+        <lable ng-show="organization.parentId == null" >{{organization.name}}</lable>
+    </span>
+    <ul ng-if="organization.nodes && organization.nodes.length > 0">
+        <li data-ng-repeat="organization in organization.nodes" data-ng-include="'tree_view_table.html'"></li>
+    </ul>
+</script>
+
+<script type="text/ng-template" id="chooseCategory.html">
+    <div class="modal-header">
+        <h3 class="modal-title">选择组织</h3>
+    </div>
+    <div class="modal-body">
+        <div class="widget-body">
+            <div class="tree">
+                <ul>
+                    <li data-ng-repeat="item in organizationList" data-ng-include="'tree_view.html'"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="tree_view.html">
+    <div ng-mouseenter="item.show=true" ng-mouseleave="item.show=false">
+		<span>
+			<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i> {{item.name}}
+		</span>
+        <a href="javascript:void(0);" ng-show="item.show && item.parentId != null" ng-click="chooseCategory(item)">选择</a>
+    </div>
+    <ul ng-if="item.nodes && item.nodes.length > 0">
+        <li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view.html'"></li>
+    </ul>
 </script>
