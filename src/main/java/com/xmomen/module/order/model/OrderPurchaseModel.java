@@ -13,6 +13,7 @@ public class OrderPurchaseModel implements Serializable {
     private String itemCode;
     private String itemUnit;
     private BigDecimal totalItemQty;
+    private BigDecimal totalWeight;
 
     public String getOrderNo() {
         return orderNo;
@@ -52,5 +53,13 @@ public class OrderPurchaseModel implements Serializable {
 
     public void setTotalItemQty(BigDecimal totalItemQty) {
         this.totalItemQty = totalItemQty;
+    }
+
+    public BigDecimal getTotalWeight() {
+        return totalWeight;
+    }
+
+    public void setTotalWeight(BigDecimal totalWeight) {
+        this.totalWeight = totalWeight;
     }
 }

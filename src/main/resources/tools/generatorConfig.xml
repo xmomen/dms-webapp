@@ -3,8 +3,9 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
     <classPathEntry location="E:\MavenRepositories\mysql\mysql-connector-java\5.1.31\mysql-connector-java-5.1.31.jar" />
+    <!--<classPathEntry location="E:\work\repository\mysql\mysql-connector-java\5.1.31\mysql-connector-java-5.1.31.jar" />-->
 <!--     <classPathEntry location="E:\MavenRepositories\mysql\mysql-connector-java\5.1.31\mysql-connector-java-5.1.31.jar" /> -->
-    <!--<classPathEntry location="/Users/jeng/.m2/repository/mysql/mysql-connector-java/5.1.31/mysql-connector-java-5.1.31.jar" />-->
+    <classPathEntry location="/Users/jeng/.m2/repository/mysql/mysql-connector-java/5.1.31/mysql-connector-java-5.1.31.jar" />
 
     <context id="context1"
              targetRuntime="com.xmomen.maven.plugins.mybatis.generator.context.IntrospectedTableMyBatis3ImplExt">

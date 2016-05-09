@@ -41,7 +41,8 @@
             p.ITEM_CODE,
             i.ITEM_NAME,
             i.SELL_UNIT AS itemUnit,
-            p.TOTAL AS totalItemQty
+            p.TOTAL AS totalItemQty,
+            p.TOTAL_WEIGHT as totalWeight
         FROM
           tb_purchase p
         LEFT JOIN cd_item i
@@ -61,11 +62,14 @@
         SUM(i.ITEM_QTY) AS TOTAL_ITEM_QTY,
         i.ITEM_ID,
         i.ITEM_CODE,
-        i.ITEM_UNIT
+        i.ITEM_UNIT,
+        SUM(i.ITEM_QTY * m.spec) AS TOTAL_WEIGHT
         FROM
         tb_order_item i
         LEFT JOIN tb_order o
         ON o.ORDER_NO = i.ORDER_NO
+        left join cd_item m
+        ON m.item_code = i.item_code
         <where>
             o.ORDER_STATUS = 1
             <if test="startTime">

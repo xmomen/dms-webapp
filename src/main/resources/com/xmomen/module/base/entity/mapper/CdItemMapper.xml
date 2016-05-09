@@ -9,7 +9,7 @@
     <result column="ITEM_DESCRIBE" property="itemDescribe" jdbcType="VARCHAR" />
     <result column="ITEM_TYPE" property="itemType" jdbcType="INTEGER" />
     <result column="YIELDLY" property="yieldly" jdbcType="VARCHAR" />
-    <result column="SPEC" property="spec" jdbcType="VARCHAR" />
+    <result column="SPEC" property="spec" jdbcType="DECIMAL" />
     <result column="BASE_PRICE" property="basePrice" jdbcType="DECIMAL" />
     <result column="MEMBER_PRICE" property="memberPrice" jdbcType="DECIMAL" />
     <result column="PRICING_MANNER" property="pricingManner" jdbcType="VARCHAR" />
@@ -181,7 +181,7 @@
         #{yieldly,jdbcType=VARCHAR},
       </if>
       <if test="spec != null" >
-        #{spec,jdbcType=VARCHAR},
+        #{spec,jdbcType=DECIMAL},
       </if>
       <if test="basePrice != null" >
         #{basePrice,jdbcType=DECIMAL},
@@ -243,7 +243,7 @@
         YIELDLY = #{record.yieldly,jdbcType=VARCHAR},
       </if>
       <if test="record.spec != null" >
-        SPEC = #{record.spec,jdbcType=VARCHAR},
+        SPEC = #{record.spec,jdbcType=DECIMAL},
       </if>
       <if test="record.basePrice != null" >
         BASE_PRICE = #{record.basePrice,jdbcType=DECIMAL},
