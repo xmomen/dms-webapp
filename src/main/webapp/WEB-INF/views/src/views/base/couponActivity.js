@@ -5,7 +5,7 @@ define(function () {
     return ["$scope", "CouponAPI", "$modal", "$ugDialog", function($scope, CouponAPI, $modal, $ugDialog){
         $scope.couponList = [];
         $scope.pageInfoSetting = {
-            pageSize:25,
+            pageSize:50,
             pageNum:1
         };
         $scope.queryParam = {};
