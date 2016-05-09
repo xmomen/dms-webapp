@@ -25,6 +25,7 @@ import com.xmomen.module.base.model.CreateCoupon;
 import com.xmomen.module.base.model.UpdateCoupon;
 import com.xmomen.module.base.service.CouponService;
 import com.xmomen.module.logger.Log;
+import com.xmomen.module.plan.entity.TbTablePlan;
 
 /**
  * Created by Jeng on 2016/3/30.
@@ -52,12 +53,18 @@ public class CouponController {
                                   @RequestParam(value = "couponNumber", required = false) String couponNumber,
                                   @RequestParam(value = "couponType",required = false) String couponType,
                                   @RequestParam(value = "isSend",required = false) Integer isSend,
+                                  @RequestParam(value = "isUseful",required = false) Integer isUseful,
                                   @RequestParam(value = "keyword", required = false) String keyword){
-   	    Map map = new HashMap<String,Object>();
+   	    Map<String, Object> map = new HashMap<String,Object>();
         map.put("keyword", keyword);
         map.put("couponNumber", couponNumber);
         map.put("couponType",couponType);
         map.put("isSend",isSend);
+        map.put("isUseful",isUseful);
+        if(SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE)){
+            Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
+            map.put("managerId", userId);
+        }
         return (Page<CouponModel>) mybatisDao.selectPage(CouponMapper.CouponMapperNameSpace + "getCouponList", map, limit, offset);
     }
 
@@ -202,5 +209,19 @@ public class CouponController {
     		activityAddress.setConsignmentName(consignmentName);
     		mybatisDao.update(activityAddress);
     	}
+    }
+    
+    /**
+     *  审核金额
+     * @param id
+     */
+    @RequestMapping(value = "/coupon/{id}/audit", method = RequestMethod.PUT)
+    @Log(actionName = "暂停配送")
+    public void audit(@PathVariable(value = "id") Integer id,
+                           @RequestParam(value = "locked") Boolean locked){
+        CdCoupon coupon = new CdCoupon();
+        coupon.setIsUseful(locked ? 1 : 0);
+        coupon.setId(id);
+        mybatisDao.update(coupon);
     }
 }

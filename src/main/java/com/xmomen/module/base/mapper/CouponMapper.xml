@@ -30,8 +30,14 @@
               <if test="categoryType">
               	AND ccc.category_type = #{categoryType}
               </if>
-              <if test="isSend">
+              <if test="isSend != null">
               	AND cc.is_send = #{isSend}
+              </if>
+              <if test="isUseful != null">
+              	AND cc.is_useful = #{isUseful}
+              </if>
+              <if test="managerId">
+                AND su.ID = #{managerId}
               </if>
          </where>
     </select>

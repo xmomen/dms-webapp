@@ -13,7 +13,9 @@ define(function () {
             CouponAPI.query({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
-                keyword:$scope.queryParam.keyword
+                keyword:$scope.queryParam.keyword,
+                isUseful:0,
+                isSend:1
             }, function(data){
                 $scope.couponList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;
