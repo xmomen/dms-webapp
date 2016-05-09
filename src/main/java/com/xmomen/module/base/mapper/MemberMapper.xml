@@ -22,6 +22,9 @@
               <if test="phoneNumber">
                   AND cm.phone_number = #{phoneNumber}
               </if>
+              <if test="managerId">
+                  AND cm.cd_user_id = #{managerId}
+              </if>
           </where>
     </select>
 </mapper>

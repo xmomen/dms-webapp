@@ -33,6 +33,9 @@
               <if test="isSend">
               	AND cc.is_send = #{isSend}
               </if>
+              <if test="managerId">
+                AND su.ID = #{managerId}
+              </if>
          </where>
     </select>
 </mapper>
