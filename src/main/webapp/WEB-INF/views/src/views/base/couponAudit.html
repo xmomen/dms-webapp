@@ -1,0 +1,190 @@
+<!--
+	The ID "widget-grid" will start to initialize all widgets below 
+	You do not need to use widgets if you dont want to. Simply remove 
+	the <section></section> and you can use wells or panels instead 
+	-->
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget" id="wid-id-4">
+				<!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2>卡券审核列表</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- end widget edit box -->
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="dt-toolbar">
+							<div class="col-sm-4">
+								<div class="dataTables_filter">
+									<label>
+										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+										<input type="search" placeholder="卡号/券号/描述" data-ng-keyup="getCouponList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<button class="btn btn-primary" type="button" data-ng-click="getCouponList()">
+									<i class="fa fa-refresh"></i>
+									刷新
+								</button>
+							</div>
+						</div>
+						<div class="table-responsive">
+							<table class="table table-striped table-condensed table-hover smart-form has-tickbox">
+								<thead>
+								<tr>
+									<th>
+										<label class="checkbox">
+                                            <input type="checkbox" ng-model="isCheckCoupon" ng-true-value="0" ng-false-value="1" ng-change="checkedAllCoupon()" />
+											<i></i>
+										</label>
+									</th>
+									<th>卡券类型</th>
+                                    <th>卡劵类别</th>
+									<th>卡号/劵号</th>
+									<th>可用金额</th>
+                                    <th>发放单位</th>
+                                    <th>发放客户经理</th>
+                                    <th>审核激活</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat="coupon in couponList  | orderBy:'couponType'"  ng-if="couponList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+									<td>
+										<label class="checkbox">
+                                            <input type="checkbox"
+                                                   checklist-model="chooseCoupon"
+                                                   ng-change="changeCouponList()"
+                                                   checklist-value="coupon">
+											<i></i>
+										</label>
+									</td>
+                                    <td><span ng-if="coupon.couponType == 1">卡</span><span ng-if="coupon.couponType == 2">消费劵</span></td>
+                                    <td ng-bind="coupon.categoryName"></td>
+									<!--<td ng-bind="coupon.couponDesc"></td>-->
+									<td ng-bind="coupon.couponNumber"></td>
+                                    <td>{{coupon.couponValue}}</td>
+                                    <td ng-bind="coupon.companyName"></td>
+                                    <td ng-bind="coupon.managerName"></td>
+                                    <td>
+                                        <label class="checkbox">
+                                            <input type="checkbox" ng-model="coupon.isUseful" name="checkbox-inline"
+                                                   ng-change="audit($index)"
+                                                   data-ng-checked="coupon.isUseful == 1" data-ng-true-value="1" data-ng-false-value="0">
+                                            <i></i>
+                                        </label>
+                                    </td>
+                                </tr>
+								<tr ng-if="couponList == null || couponList.length == 0">
+									<td colspan="11">
+										<div>暂无数据</div>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="dt-toolbar-footer">
+							<div class="col-xs-12 col-sm-12">
+								<ug-pagination page-info="pageInfoSetting" ></ug-pagination>
+							</div>
+						</div>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- WIDGET END -->
+
+	</div>
+
+	<!-- end row -->
+
+</section>
+<!-- end widget grid -->
+<script type="text/ng-template" id="sendOneCoupon.html">
+    <div class="modal-header">
+        <h3 class="modal-title">单卡发放</h3>
+    </div>
+    <div class="modal-body">
+        <div class="widget-body">
+
+            <form class="form-horizontal" ug-validate="sendCouponForm" name="sendCouponForm" novalidate="">
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">卡号</label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control" required disabled ng-model="coupon.couponNumber" name="number" placeholder="卡号" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">卡类别</label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control" required disabled ng-model="coupon.categoryName" name="number" placeholder="卡类别" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">公司/单位<span class="vaild">*</span></label>
+                        <div class="col-md-10 input-group">
+                            <select ug-select2 style="width: 100%;" required="true" ng-model="coupon.cdCompanyId" name="company" ng-change="changeCompany(coupon.cdCompanyId)">
+                                <option value="">--请选择--</option>
+                                <option value="{{company.id}}" ng-repeat="company in companyList">{{company.companyName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">客户经理<span class="vaild">*</span></label>
+                        <div class="col-md-10 input-group">
+                            <select ug-select2 style="width: 100%;" required="true" ng-model="coupon.customerMangerId" name="customerManager" >
+                                <option value="">--请选择--</option>
+                                <option value="{{customerManager.customerMangerId}}" ng-repeat="customerManager in companyCustomerManagers">{{customerManager.customerManger}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="errors">
+                        <label class="col-md-2 control-label"></label>
+                        <div class="col-md-10 error">
+                            {{errors.message}}
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit" data-ng-click="sendOneCoupon()">
+            <i class="fa fa-save"></i>
+            发卡
+        </button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+</script>
