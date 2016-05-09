@@ -285,6 +285,126 @@ public class TbTablePlanExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsStopIsNull() {
+            addCriterion("IS_STOP is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStopIsNotNull() {
+            addCriterion("IS_STOP is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStopEqualTo(Integer value) {
+            addCriterion("IS_STOP =", value, "isStop");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStopNotEqualTo(Integer value) {
+            addCriterion("IS_STOP <>", value, "isStop");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStopGreaterThan(Integer value) {
+            addCriterion("IS_STOP >", value, "isStop");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStopGreaterThanOrEqualTo(Integer value) {
+            addCriterion("IS_STOP >=", value, "isStop");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStopLessThan(Integer value) {
+            addCriterion("IS_STOP <", value, "isStop");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStopLessThanOrEqualTo(Integer value) {
+            addCriterion("IS_STOP <=", value, "isStop");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStopIn(List<Integer> values) {
+            addCriterion("IS_STOP in", values, "isStop");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStopNotIn(List<Integer> values) {
+            addCriterion("IS_STOP not in", values, "isStop");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStopBetween(Integer value1, Integer value2) {
+            addCriterion("IS_STOP between", value1, value2, "isStop");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStopNotBetween(Integer value1, Integer value2) {
+            addCriterion("IS_STOP not between", value1, value2, "isStop");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdMemberIdIsNull() {
+            addCriterion("CD_MEMBER_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdMemberIdIsNotNull() {
+            addCriterion("CD_MEMBER_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdMemberIdEqualTo(Integer value) {
+            addCriterion("CD_MEMBER_ID =", value, "cdMemberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdMemberIdNotEqualTo(Integer value) {
+            addCriterion("CD_MEMBER_ID <>", value, "cdMemberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdMemberIdGreaterThan(Integer value) {
+            addCriterion("CD_MEMBER_ID >", value, "cdMemberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdMemberIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("CD_MEMBER_ID >=", value, "cdMemberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdMemberIdLessThan(Integer value) {
+            addCriterion("CD_MEMBER_ID <", value, "cdMemberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdMemberIdLessThanOrEqualTo(Integer value) {
+            addCriterion("CD_MEMBER_ID <=", value, "cdMemberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdMemberIdIn(List<Integer> values) {
+            addCriterion("CD_MEMBER_ID in", values, "cdMemberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdMemberIdNotIn(List<Integer> values) {
+            addCriterion("CD_MEMBER_ID not in", values, "cdMemberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdMemberIdBetween(Integer value1, Integer value2) {
+            addCriterion("CD_MEMBER_ID between", value1, value2, "cdMemberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdMemberIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("CD_MEMBER_ID not between", value1, value2, "cdMemberId");
+            return (Criteria) this;
+        }
+
         public Criteria andMemberCodeIsNull() {
             addCriterion("MEMBER_CODE is null");
             return (Criteria) this;
@@ -632,6 +752,126 @@ public class TbTablePlanExample extends BaseMybatisExample {
 
         public Criteria andPostcodeNotBetween(String value1, String value2) {
             addCriterion("POSTCODE not between", value1, value2, "postcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalSendValueIsNull() {
+            addCriterion("TOTAL_SEND_VALUE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalSendValueIsNotNull() {
+            addCriterion("TOTAL_SEND_VALUE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalSendValueEqualTo(Integer value) {
+            addCriterion("TOTAL_SEND_VALUE =", value, "totalSendValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalSendValueNotEqualTo(Integer value) {
+            addCriterion("TOTAL_SEND_VALUE <>", value, "totalSendValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalSendValueGreaterThan(Integer value) {
+            addCriterion("TOTAL_SEND_VALUE >", value, "totalSendValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalSendValueGreaterThanOrEqualTo(Integer value) {
+            addCriterion("TOTAL_SEND_VALUE >=", value, "totalSendValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalSendValueLessThan(Integer value) {
+            addCriterion("TOTAL_SEND_VALUE <", value, "totalSendValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalSendValueLessThanOrEqualTo(Integer value) {
+            addCriterion("TOTAL_SEND_VALUE <=", value, "totalSendValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalSendValueIn(List<Integer> values) {
+            addCriterion("TOTAL_SEND_VALUE in", values, "totalSendValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalSendValueNotIn(List<Integer> values) {
+            addCriterion("TOTAL_SEND_VALUE not in", values, "totalSendValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalSendValueBetween(Integer value1, Integer value2) {
+            addCriterion("TOTAL_SEND_VALUE between", value1, value2, "totalSendValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalSendValueNotBetween(Integer value1, Integer value2) {
+            addCriterion("TOTAL_SEND_VALUE not between", value1, value2, "totalSendValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendValueIsNull() {
+            addCriterion("SEND_VALUE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendValueIsNotNull() {
+            addCriterion("SEND_VALUE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendValueEqualTo(Integer value) {
+            addCriterion("SEND_VALUE =", value, "sendValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendValueNotEqualTo(Integer value) {
+            addCriterion("SEND_VALUE <>", value, "sendValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendValueGreaterThan(Integer value) {
+            addCriterion("SEND_VALUE >", value, "sendValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendValueGreaterThanOrEqualTo(Integer value) {
+            addCriterion("SEND_VALUE >=", value, "sendValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendValueLessThan(Integer value) {
+            addCriterion("SEND_VALUE <", value, "sendValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendValueLessThanOrEqualTo(Integer value) {
+            addCriterion("SEND_VALUE <=", value, "sendValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendValueIn(List<Integer> values) {
+            addCriterion("SEND_VALUE in", values, "sendValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendValueNotIn(List<Integer> values) {
+            addCriterion("SEND_VALUE not in", values, "sendValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendValueBetween(Integer value1, Integer value2) {
+            addCriterion("SEND_VALUE between", value1, value2, "sendValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendValueNotBetween(Integer value1, Integer value2) {
+            addCriterion("SEND_VALUE not between", value1, value2, "sendValue");
             return (Criteria) this;
         }
     }

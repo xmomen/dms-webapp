@@ -216,7 +216,15 @@ define(function () {
     ngREST.factory("TablePlanAPI", ["$resource", function($resource){
         return $resource("/tablePlan/:id", { id:"@id"}, {
             query:{ isArray:false},
-            update:{ method:"PUT", params:{id:"@id"}}
+            update:{ method:"PUT", params:{id:"@id"}},
+            stop:{
+                method:"PUT",
+                url:"/tablePlan/:id/stop" ,
+                params:{
+                    id:"@id",
+                    locked:"@locked"
+                }
+            }
         });
     }]);
 });

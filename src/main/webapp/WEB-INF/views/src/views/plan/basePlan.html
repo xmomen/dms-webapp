@@ -71,7 +71,12 @@
 								<tbody>
 								<tr ng-repeat="basePlan in basePlanList"   ng-if="basePlanList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
                                     <td ng-bind="basePlan.planName" width="80px"></td>
-                                    <td ng-bind="basePlan.deliveryType"></td>
+                                    <td>
+                                        <span ng-if="basePlan.deliveryType == 1">1周</span>
+                                        <span ng-if="basePlan.deliveryType == 2">2周</span>
+                                        <span ng-if="basePlan.deliveryType == 3">3周</span>
+                                        <span ng-if="basePlan.deliveryType == 4">4周</span>
+                                    </td>
                                     <td ng-bind="basePlan.deliveryTime"></td>
                                     <td ng-bind="basePlan.deliverCount"></td>
                                     <td>

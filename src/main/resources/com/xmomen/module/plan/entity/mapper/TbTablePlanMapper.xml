@@ -5,11 +5,15 @@
     <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="CD_PLAN_ID" property="cdPlanId" jdbcType="INTEGER" />
     <result column="AUDIT_STATUS" property="auditStatus" jdbcType="INTEGER" />
+    <result column="IS_STOP" property="isStop" jdbcType="INTEGER" />
+    <result column="CD_MEMBER_ID" property="cdMemberId" jdbcType="INTEGER" />
     <result column="MEMBER_CODE" property="memberCode" jdbcType="VARCHAR" />
     <result column="CONSIGNEE_PHONE" property="consigneePhone" jdbcType="VARCHAR" />
     <result column="CONSIGNEE_NAME" property="consigneeName" jdbcType="VARCHAR" />
     <result column="CONSIGNEE_ADDRESS" property="consigneeAddress" jdbcType="VARCHAR" />
     <result column="POSTCODE" property="postcode" jdbcType="VARCHAR" />
+    <result column="TOTAL_SEND_VALUE" property="totalSendValue" jdbcType="INTEGER" />
+    <result column="SEND_VALUE" property="sendValue" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -70,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, CD_PLAN_ID, AUDIT_STATUS, MEMBER_CODE, CONSIGNEE_PHONE, CONSIGNEE_NAME, CONSIGNEE_ADDRESS, 
-    POSTCODE
+    ID, CD_PLAN_ID, AUDIT_STATUS, IS_STOP, CD_MEMBER_ID, MEMBER_CODE, CONSIGNEE_PHONE, 
+    CONSIGNEE_NAME, CONSIGNEE_ADDRESS, POSTCODE, TOTAL_SEND_VALUE, SEND_VALUE
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.plan.entity.TbTablePlanExample" >
     select
@@ -105,6 +109,12 @@
       <if test="auditStatus != null" >
         AUDIT_STATUS,
       </if>
+      <if test="isStop != null" >
+        IS_STOP,
+      </if>
+      <if test="cdMemberId != null" >
+        CD_MEMBER_ID,
+      </if>
       <if test="memberCode != null" >
         MEMBER_CODE,
       </if>
@@ -120,6 +130,12 @@
       <if test="postcode != null" >
         POSTCODE,
       </if>
+      <if test="totalSendValue != null" >
+        TOTAL_SEND_VALUE,
+      </if>
+      <if test="sendValue != null" >
+        SEND_VALUE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -130,6 +146,12 @@
       </if>
       <if test="auditStatus != null" >
         #{auditStatus,jdbcType=INTEGER},
+      </if>
+      <if test="isStop != null" >
+        #{isStop,jdbcType=INTEGER},
+      </if>
+      <if test="cdMemberId != null" >
+        #{cdMemberId,jdbcType=INTEGER},
       </if>
       <if test="memberCode != null" >
         #{memberCode,jdbcType=VARCHAR},
@@ -145,6 +167,12 @@
       </if>
       <if test="postcode != null" >
         #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="totalSendValue != null" >
+        #{totalSendValue,jdbcType=INTEGER},
+      </if>
+      <if test="sendValue != null" >
+        #{sendValue,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -166,6 +194,12 @@
       <if test="record.auditStatus != null" >
         AUDIT_STATUS = #{record.auditStatus,jdbcType=INTEGER},
       </if>
+      <if test="record.isStop != null" >
+        IS_STOP = #{record.isStop,jdbcType=INTEGER},
+      </if>
+      <if test="record.cdMemberId != null" >
+        CD_MEMBER_ID = #{record.cdMemberId,jdbcType=INTEGER},
+      </if>
       <if test="record.memberCode != null" >
         MEMBER_CODE = #{record.memberCode,jdbcType=VARCHAR},
       </if>
@@ -180,6 +214,12 @@
       </if>
       <if test="record.postcode != null" >
         POSTCODE = #{record.postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalSendValue != null" >
+        TOTAL_SEND_VALUE = #{record.totalSendValue,jdbcType=INTEGER},
+      </if>
+      <if test="record.sendValue != null" >
+        SEND_VALUE = #{record.sendValue,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >

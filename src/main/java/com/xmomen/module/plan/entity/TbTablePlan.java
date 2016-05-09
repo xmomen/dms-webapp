@@ -27,6 +27,16 @@ public class TbTablePlan extends BaseMybatisModel {
     private Integer auditStatus;
 
     /**
+     * 是否暂停 0-不暂停，1-暂停
+     */
+    private Integer isStop;
+
+    /**
+     * 
+     */
+    private Integer cdMemberId;
+
+    /**
      * 客户编号
      */
     private String memberCode;
@@ -50,6 +60,16 @@ public class TbTablePlan extends BaseMybatisModel {
      * 邮政编码
      */
     private String postcode;
+
+    /**
+     * 总配送次数
+     */
+    private Integer totalSendValue;
+
+    /**
+     * 已配送次数
+     */
+    private Integer sendValue;
 
     @Column(name = "ID")
     @Id
@@ -93,6 +113,34 @@ public class TbTablePlan extends BaseMybatisModel {
               return;
         }
         addValidField("auditStatus");
+    }
+
+    @Column(name = "IS_STOP")
+    public Integer getIsStop() {
+        return isStop;
+    }
+
+    public void setIsStop(Integer isStop) {
+        this.isStop = isStop;
+        if(isStop == null){
+              removeValidField("isStop");
+              return;
+        }
+        addValidField("isStop");
+    }
+
+    @Column(name = "CD_MEMBER_ID")
+    public Integer getCdMemberId() {
+        return cdMemberId;
+    }
+
+    public void setCdMemberId(Integer cdMemberId) {
+        this.cdMemberId = cdMemberId;
+        if(cdMemberId == null){
+              removeValidField("cdMemberId");
+              return;
+        }
+        addValidField("cdMemberId");
     }
 
     @Column(name = "MEMBER_CODE")
@@ -163,5 +211,33 @@ public class TbTablePlan extends BaseMybatisModel {
               return;
         }
         addValidField("postcode");
+    }
+
+    @Column(name = "TOTAL_SEND_VALUE")
+    public Integer getTotalSendValue() {
+        return totalSendValue;
+    }
+
+    public void setTotalSendValue(Integer totalSendValue) {
+        this.totalSendValue = totalSendValue;
+        if(totalSendValue == null){
+              removeValidField("totalSendValue");
+              return;
+        }
+        addValidField("totalSendValue");
+    }
+
+    @Column(name = "SEND_VALUE")
+    public Integer getSendValue() {
+        return sendValue;
+    }
+
+    public void setSendValue(Integer sendValue) {
+        this.sendValue = sendValue;
+        if(sendValue == null){
+              removeValidField("sendValue");
+              return;
+        }
+        addValidField("sendValue");
     }
 }
