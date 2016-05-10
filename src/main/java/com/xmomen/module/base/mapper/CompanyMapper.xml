@@ -16,8 +16,10 @@
        select 
        	cc.*
        from cd_company cc
-		LEFT JOIN cd_manager_company mc
+        <if test="managerId != null">
+				LEFT JOIN cd_manager_company mc
 			ON mc.CD_COMPANY_ID = cc.ID
+		</if>
 		<where>
               <if test="keyword">
                   AND cc.company_Code LIKE CONCAT('%', #{keyword}, '%') or cc.company_name LIKE CONCAT('%', #{keyword}, '%')
