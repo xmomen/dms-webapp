@@ -3,9 +3,10 @@
 <mapper namespace="com.xmomen.module.base.mapper.PublicMapper" >
 
     <!--    查询消息    -->
-    <select id="getManagerList" resultType="com.xmomen.module.user.entity.SysUsers" parameterType="java.util.HashMap">
+    <select id="getManagerList" resultType="com.xmomen.module.base.model.CompanyCustomerManager" parameterType="java.util.HashMap">
        select 
-       	su.* 
+       	su.id as customerMangerId,
+       	su.realName as customerManger
        from sys_users su 
        left join sys_users_roles sur on sur.USER_ID = su.ID 
        left join sys_roles sr on sr.id = sur.ROLE_ID 

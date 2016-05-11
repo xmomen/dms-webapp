@@ -159,6 +159,22 @@ define(function () {
                     id:"@id",
                     locked:"@locked"
                   }
+            },
+            returnCoupon:{
+                method:"PUT",
+                url:"/coupon/:id/returnCoupon" ,
+                params:{
+                    id:"@id"
+                }
+            },
+            receivedPrice:{
+                method:"GET",
+                url:"/coupon/receivedPrice",
+                params:{
+                    couponId:"@couponId",
+                    couponNumber:"@couponNumber",
+                    receivedPrice:"@receivedPrice"
+                }
             }
         });
     }]);

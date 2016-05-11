@@ -76,4 +76,24 @@ public class CouponService {
     	couponCustomerRef.setCouponNumber(couponNumber);
     	mybatisDao.save(couponCustomerRef);
     }
+    
+    @Transactional
+    public void returnCoupon(Integer id){
+    	//先删除再添加
+    	CdCouponRefExample couponRefExample = new CdCouponRefExample();
+		couponRefExample.createCriteria().andCdCouponIdEqualTo(id)
+		.andRefTypeEqualTo("SEND_COMPANY");
+		mybatisDao.deleteByExample(couponRefExample);	
+		CdCouponRefExample couponRefCustomerExample = new CdCouponRefExample();
+    	couponRefCustomerExample.createCriteria().andCdCouponIdEqualTo(id)
+		.andRefTypeEqualTo("SEND_CUSTOMER");
+		mybatisDao.deleteByExample(couponRefCustomerExample);
+		//更新卡券为未发送
+    	CdCoupon coupon = new CdCoupon();
+    	coupon.setIsSend(0);
+    	coupon.setId(id);
+    	mybatisDao.updateByModel(coupon);
+    }
+    
+    
 }

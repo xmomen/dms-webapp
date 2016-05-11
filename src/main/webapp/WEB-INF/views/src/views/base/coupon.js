@@ -2,7 +2,26 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "CouponAPI", "$modal", "$ugDialog", function($scope, CouponAPI, $modal, $ugDialog){
+    return ["$scope", "CouponAPI", "$modal", "$ugDialog","CouponCategoryAPI", function($scope, CouponAPI, $modal, $ugDialog,CouponCategoryAPI){
+        $scope.ugSelect2Config = {};
+        $scope.getCategoryList = function(){
+            $scope.pageInfoSetting = {
+                pageSize:1000,
+                pageNum:1
+            };
+            $scope.queryParam = {};
+            $scope.categoryList = [];
+            CouponCategoryAPI.query({
+                limit:$scope.pageInfoSetting.pageSize,
+                offset:$scope.pageInfoSetting.pageNum
+            }, function(data){
+                $scope.categoryList = data.data;
+                $scope.pageInfoSetting = data.pageInfo;
+                $scope.pageInfoSetting.loadData = $scope.getCategoryList;
+            });
+        }
+        $scope.getCategoryList();
+
         $scope.couponList = [];
         $scope.pageInfoSetting = {
             pageSize:10,
@@ -13,7 +32,8 @@ define(function () {
             CouponAPI.query({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
-                keyword:$scope.queryParam.keyword
+                keyword:$scope.queryParam.keyword,
+                couponCategoryId:$scope.queryParam.couponCategoryId
             }, function(data){
                 $scope.couponList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;
@@ -222,6 +242,24 @@ define(function () {
             var modalInstance = $modal.open({
                 templateUrl: 'sendMoreCoupon.html',
                 controller: ["$scope", "CouponAPI", "$modalInstance","CompanyAPI", function ($scope, CouponAPI, $modalInstance,CompanyAPI) {
+                    $scope.ugSelect2Config = {};
+                    $scope.getCategoryList = function(){
+                        $scope.pageInfoSetting = {
+                            pageSize:1000,
+                            pageNum:1
+                        };
+                        $scope.categoryList = [];
+                        CouponCategoryAPI.query({
+                            limit:$scope.pageInfoSetting.pageSize,
+                            offset:$scope.pageInfoSetting.pageNum
+                        }, function(data){
+                            $scope.categoryList = data.data;
+                            $scope.pageInfoSetting = data.pageInfo;
+                            $scope.pageInfoSetting.loadData = $scope.getCategoryList;
+                        });
+                    }
+                    $scope.getCategoryList();
+
                     $scope.couponList = [];
                     $scope.pageCouponSetting = {
                         pageSize:30,
@@ -233,11 +271,12 @@ define(function () {
                             limit:$scope.pageCouponSetting.pageSize,
                             offset:$scope.pageCouponSetting.pageNum,
                             keyword:$scope.queryParam.keyword,
-                            isSend:0
+                            isSend:0,
+                            couponCategoryId:$scope.queryParam.couponCategoryId
                         }, function(data){
                             $scope.couponList = data.data;
-                            $scope.pageInfoSetting = data.pageInfo;
-                            $scope.pageInfoSetting.loadData = $scope.getCouponList;
+                            $scope.pageCouponSetting = data.pageInfo;
+                            $scope.pageCouponSetting.loadData = $scope.getCouponList;
                         });
                     };
                     $scope.getCouponList();

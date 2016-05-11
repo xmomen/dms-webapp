@@ -1,11 +1,11 @@
 package com.xmomen.module.base.controller;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.validation.Valid;
 
-import com.xmomen.module.base.constant.AppConstants;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -19,15 +19,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
+import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.base.entity.CdActivityAddress;
 import com.xmomen.module.base.entity.CdCoupon;
+import com.xmomen.module.base.entity.CdCouponRef;
+import com.xmomen.module.base.entity.CdCouponRefExample;
 import com.xmomen.module.base.mapper.CouponMapper;
 import com.xmomen.module.base.model.CouponModel;
 import com.xmomen.module.base.model.CreateCoupon;
 import com.xmomen.module.base.model.UpdateCoupon;
 import com.xmomen.module.base.service.CouponService;
 import com.xmomen.module.logger.Log;
-import com.xmomen.module.plan.entity.TbTablePlan;
 
 /**
  * Created by Jeng on 2016/3/30.
@@ -54,7 +56,10 @@ public class CouponController {
                                   @RequestParam(value = "offset") Integer offset,
                                   @RequestParam(value = "couponNumber", required = false) String couponNumber,
                                   @RequestParam(value = "couponType",required = false) String couponType,
+                                  @RequestParam(value = "couponCategoryId",required = false)Integer couponCategoryId,
                                   @RequestParam(value = "isSend",required = false) Integer isSend,
+                                  @RequestParam(value = "cdCompanyId",required = false) Integer cdCompanyId,
+                                  @RequestParam(value = "customerMangerId",required = false) Integer customerMangerId,
                                   @RequestParam(value = "isUseful",required = false) Integer isUseful,
                                   @RequestParam(value = "keyword", required = false) String keyword){
    	    Map<String, Object> map = new HashMap<String,Object>();
@@ -63,6 +68,9 @@ public class CouponController {
         map.put("couponType",couponType);
         map.put("isSend",isSend);
         map.put("isUseful",isUseful);
+        map.put("couponCategoryId", couponCategoryId);
+        map.put("customerMangerId",customerMangerId);
+        map.put("cdCompanyId", cdCompanyId);
         if(SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE)){
             Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
             map.put("managerId", userId);
@@ -218,12 +226,46 @@ public class CouponController {
      * @param id
      */
     @RequestMapping(value = "/coupon/{id}/audit", method = RequestMethod.PUT)
-    @Log(actionName = "暂停配送")
+    @Log(actionName = "审核金额")
     public void audit(@PathVariable(value = "id") Integer id,
-                           @RequestParam(value = "locked") Boolean locked){
+                      @RequestParam(value = "locked") Boolean locked){
         CdCoupon coupon = new CdCoupon();
         coupon.setIsUseful(locked ? 1 : 0);
         coupon.setId(id);
         mybatisDao.update(coupon);
     }
+    /**
+     *  退卡
+     * @param id
+     */
+    @RequestMapping(value = "/coupon/{id}/returnCoupon", method = RequestMethod.PUT)
+    @Log(actionName = "审核金额")
+    public void returnCoupon(@PathVariable(value = "id") Integer id){
+    	couponService.returnCoupon(id);
+    }
+    
+    @RequestMapping(value = "/coupon/receivedPrice", method = RequestMethod.GET)
+    @Log(actionName = "财务实收金额添加")
+    public void received(
+    		@RequestParam(value="couponId") Integer couponId,
+    		@RequestParam(value="couponNumber") String couponNumber,
+    		@RequestParam(value="receivedPrice", required = false)BigDecimal receivedPrice){
+    	CdCouponRefExample couponRefExample = new CdCouponRefExample();
+		couponRefExample.createCriteria().andCdCouponIdEqualTo(couponId)
+		.andRefTypeEqualTo("RECEIVED_PRICE");
+		CdCouponRef couponRef = mybatisDao.selectOneByExample(couponRefExample);
+		if(couponRef == null){
+			couponRef = new CdCouponRef();
+			couponRef.setCdCouponId(couponId);
+			couponRef.setCouponNumber(couponNumber);
+			couponRef.setRefName("财务实收金额");
+			couponRef.setRefType("RECEIVED_PRICE");
+			couponRef.setRefValue(receivedPrice.toString());
+			mybatisDao.save(couponRef);
+		}else{
+			couponRef.setRefValue(receivedPrice.toString());
+			mybatisDao.update(couponRef);
+		}
+    }
+    
 }

@@ -14,7 +14,7 @@ import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.base.entity.CdCompany;
 import com.xmomen.module.base.mapper.PublicMapper;
-import com.xmomen.module.user.entity.SysUsers;
+import com.xmomen.module.base.model.CompanyCustomerManager;
 
 @RestController
 public class PublicController {
@@ -34,13 +34,13 @@ public class PublicController {
 	
 	//查询客服经理
 	@RequestMapping(value = "/customerManagerList", method = RequestMethod.GET)
-	public List<SysUsers> getCustomerManager(){
+	public List<CompanyCustomerManager> getCustomerManager(){
 		 Map map = new HashMap<String,Object>();
 		 if(SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE)){
 	            Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
 	            map.put("managerId", userId);
 	        }
-		List<SysUsers> customerManagerList = mybatisDao.getSqlSessionTemplate().selectList(PublicMapper.PublicMapperNameSpace+"getManagerList", map);
+		List<CompanyCustomerManager> customerManagerList = mybatisDao.getSqlSessionTemplate().selectList(PublicMapper.PublicMapperNameSpace+"getManagerList", map);
 		return customerManagerList;
 	}
 }

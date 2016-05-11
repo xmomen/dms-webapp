@@ -11,7 +11,8 @@
 		su.realname as managerName,
 		caa.consignment_name,
 		caa.consignment_phone,
-		caa.consignment_address
+		caa.consignment_address,
+		price.ref_value as receivedPrice
         FROM
         cd_coupon cc
         left join cd_coupon_category ccc on cc.COUPON_CATEGORY = ccc.id
@@ -20,6 +21,7 @@
         left join cd_coupon_ref ccrc on cc.id = ccrc.cd_coupon_id and ccrc.ref_type='SEND_CUSTOMER'
         left join sys_users su on ccrc.ref_value = su.id
         left join cd_activity_address caa on cc.coupon_number = caa.coupon_number
+        left join cd_coupon_ref price on cc.id = price.cd_coupon_id and price.ref_type='RECEIVED_PRICE'
         <where>
               <if test="keyword">
                   AND cc.COUPON_NUMBER LIKE CONCAT('%', #{keyword}, '%') or cc.COUPON_DESC LIKE CONCAT('%', #{keyword}, '%')
@@ -30,10 +32,13 @@
               <if test="categoryType">
               	AND ccc.category_type = #{categoryType}
               </if>
+              <if test="couponCategoryId != null">
+              	AND cc.COUPON_CATEGORY = #{couponCategoryId}
+              </if>
               <if test="isSend != null">
               	AND cc.is_send = #{isSend}
               </if>
-              <if test="isUseful == 0">
+              <if test="isUseful == 0 || isUseful == 1">
               	AND cc.is_useful = #{isUseful}
               </if>
               <if test="isUseful == 3">
@@ -41,6 +46,12 @@
               </if>
               <if test="managerId">
                 AND su.ID = #{managerId}
+              </if>
+              <if test="customerMangerId != null">
+              	AND ccrc.ref_value = #{customerMangerId}
+              </if>
+              <if test="cdCompanyId != null">
+              	AND ccr.ref_value = #{cdCompanyId}
               </if>
          </where>
     </select>
