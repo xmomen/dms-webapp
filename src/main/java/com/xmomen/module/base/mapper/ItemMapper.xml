@@ -6,10 +6,20 @@
     <select id="getItemList" resultType="com.xmomen.module.base.model.ItemModel" parameterType="java.util.HashMap">
         SELECT
         cm.*,
+        <if test="companyId">
+            CASE
+            WHEN ci.CONTRACT_TYPE = 2 THEN ci.CONTRACT_VALUE*0.01*cm.SELL_PRICE
+            when ci.CONTRACT_TYPE = 1 THEN ci.CONTRACT_VALUE
+            END AS DISCOUNT_PRICE,
+        </if>
         cc.category_name
         FROM
         cd_item cm
         left join cd_category cc on cm.cd_category_id = cc.id
+        <if test="companyId">
+            left join cd_contract c on c.CD_COMPANY_ID= ${companyId}
+            left join cd_contract_item ci on ci.CD_ITEM_ID=cm.ID
+        </if>
         <where>
               <if test="keyword">
                   AND (cm.item_Code LIKE CONCAT('%', #{keyword}, '%') or cm.item_name LIKE CONCAT('%', #{keyword}, '%') or cc.CATEGORY_NAME LIKE CONCAT('%',#{keyword}, '%'))

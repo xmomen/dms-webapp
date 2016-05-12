@@ -33,7 +33,6 @@ define(function () {
         };
         $scope.queryParam = {};
         $scope.getItemList = function(categoryName){
-            debugger
             var choseItemId = null;
             if($scope.choseOrderItemList && $scope.choseOrderItemList.length > 0){
                 choseItemId = []
@@ -45,8 +44,8 @@ define(function () {
             if(categoryName){
                 $scope.queryParam.keyword = categoryName;
             }
-            debugger
             ItemAPI.query({
+                companyId:$scope.order.cdCompanyId,
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword,
@@ -226,6 +225,12 @@ define(function () {
                 $scope.choseItem(index, parseFloat(data.number));
             });
         };
+        $scope.totalItemPrice = function(obj){
+            if(obj.discountPrice){
+                return obj.itemQty * obj.discountPrice;
+            }
+            return obj.itemQty * obj.sellPrice;
+        };
         $scope.calTotalItem = function(){
             $scope.totalItem = {};
             var totalNumber = 0;
@@ -233,7 +238,11 @@ define(function () {
             for (var i = 0; i < $scope.choseOrderItemList.length; i++) {
                 var obj = $scope.choseOrderItemList[i];
                 totalNumber += obj.itemQty;
-                totalPrice += (obj.itemQty * obj.sellPrice);
+                if(obj.discountPrice){
+                    totalPrice += (obj.itemQty * obj.discountPrice);
+                }else{
+                    totalPrice += (obj.itemQty * obj.sellPrice);
+                }
             }
             $scope.totalItem.totalNumber = totalNumber;
             $scope.totalItem.totalPrice = totalPrice;
@@ -251,7 +260,6 @@ define(function () {
             }, function(data){
                 $scope.itemCategoryList = data;
                 $rootScope.$broadcast("loadingTree");
-                //loadScript("js/plugin/bootstraptree/bootstrap-tree.min.js");
             });
         };
         $scope.getItemCategoryTree()
