@@ -26,7 +26,7 @@ public class MemberSercviceImpl implements MemberSercvice {
 	@Transactional
 	public void createMember(CreateMember createMember) {
 		CdMember member = new CdMember();
-		member.setMemberCode(StringUtilsExt.random(12));
+//		member.setMemberCode(StringUtilsExt.random(12));
 		member.setMemberType(createMember.getMemberType());
 		member.setName(createMember.getName());
 		member.setPhoneNumber(createMember.getPhoneNumber());
@@ -44,7 +44,7 @@ public class MemberSercviceImpl implements MemberSercvice {
 		member = mybatisDao.insertByModel(member);
 		if(!StringUtils.isBlank(createMember.getCouponNumber())){
 			CdMemberCouponRelation cdMemberCouponRelation = new CdMemberCouponRelation();
-			cdMemberCouponRelation.setMemberCode(member.getMemberCode());
+			cdMemberCouponRelation.setCdMemberId(member.getId());
 			cdMemberCouponRelation.setCouponNumber(createMember.getCouponNumber());
 			mybatisDao.insert(cdMemberCouponRelation);
 		};
@@ -53,7 +53,7 @@ public class MemberSercviceImpl implements MemberSercvice {
 	public void updateMember(Integer id,UpdateMember updateMember) {
 		CdMember member = new CdMember();
 		member.setId(id);
-		member.setMemberCode(updateMember.getMemberCode());
+//		member.setMemberCode(updateMember.getMemberCode());
 		member.setMemberType(updateMember.getMemberType());
 		member.setName(updateMember.getName());
 		member.setPhoneNumber(updateMember.getPhoneNumber());

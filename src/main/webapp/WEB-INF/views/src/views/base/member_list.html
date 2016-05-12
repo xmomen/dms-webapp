@@ -72,6 +72,7 @@
 									<th>地址</th>
                                     <th>所属单位</th>
                                     <th>客户经理</th>
+                                    <th>绑定卡号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;可用金额</th>
 									<th width="80">操作</th>
 								</tr>
 								</thead>
@@ -89,6 +90,9 @@
 									<td ng-bind="member.address"></td>
                                     <td ng-bind="member.companyName"></td>
                                     <td ng-bind="member.managerName"></td>
+                                    <td>
+                                        <span ng-repeat="couponNumber in member.couponNumbers" >{{couponNumber.couponNumber}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{couponNumber.userPrice}}<br></span>
+                                    </td>
                                     <td>
                                         <div ng-show="show">
                                             <a href="javascript:void(0);" data-ng-click="removeMember($index)" title="删除：{{member.name}}">

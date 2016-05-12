@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xmomen.module.base.mapper.MemberMapper" >
-
+	
+	<resultMap type="com.xmomen.module.base.model.MemberModel" id="Memeber">
+		 	<id column="id" property="id"/>
+			<collection property="couponNumbers" ofType="com.xmomen.module.base.model.MemberCouponModel" column="id" select="queryCouponNumberList"></collection>
+    </resultMap>
+	
     <!--    查询消息    -->
-    <select id="getMemberList" resultType="com.xmomen.module.base.model.MemberModel" parameterType="java.util.HashMap">
+    <select id="getMemberList" resultMap="Memeber" parameterType="java.util.HashMap">
         SELECT
         	cm.*,
         	cc.company_name,
@@ -27,4 +32,17 @@
               </if>
           </where>
     </select>
+    
+     <select id="queryCouponNumberList" resultType="com.xmomen.module.base.model.MemberCouponModel" parameterType="Integer">
+		select  
+			cmcr.COUPON_NUMBER,
+			cc.user_price
+		from 
+			cd_member_coupon_relation cmcr
+		left join 
+			cd_coupon cc on cmcr.coupon_number = cc.coupon_number 
+		where 
+			cmcr.cd_member_id = #{id}
+	</select>
+	
 </mapper>
