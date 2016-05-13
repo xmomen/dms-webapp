@@ -160,6 +160,14 @@ define(function () {
                     locked:"@locked"
                   }
             },
+            overCoupon:{
+                method:"PUT",
+                url:"/coupon/:id/overCoupon" ,
+                params:{
+                    id:"@id",
+                    isOver:"@isOver"
+                }
+            },
             returnCoupon:{
                 method:"PUT",
                 url:"/coupon/:id/returnCoupon" ,

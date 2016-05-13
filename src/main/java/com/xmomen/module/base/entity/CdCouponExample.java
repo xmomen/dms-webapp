@@ -287,76 +287,6 @@ public class CdCouponExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andCouponDescIsNull() {
-            addCriterion("COUPON_DESC is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponDescIsNotNull() {
-            addCriterion("COUPON_DESC is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponDescEqualTo(String value) {
-            addCriterion("COUPON_DESC =", value, "couponDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponDescNotEqualTo(String value) {
-            addCriterion("COUPON_DESC <>", value, "couponDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponDescGreaterThan(String value) {
-            addCriterion("COUPON_DESC >", value, "couponDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponDescGreaterThanOrEqualTo(String value) {
-            addCriterion("COUPON_DESC >=", value, "couponDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponDescLessThan(String value) {
-            addCriterion("COUPON_DESC <", value, "couponDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponDescLessThanOrEqualTo(String value) {
-            addCriterion("COUPON_DESC <=", value, "couponDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponDescLike(String value) {
-            addCriterion("COUPON_DESC like", value, "couponDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponDescNotLike(String value) {
-            addCriterion("COUPON_DESC not like", value, "couponDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponDescIn(List<String> values) {
-            addCriterion("COUPON_DESC in", values, "couponDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponDescNotIn(List<String> values) {
-            addCriterion("COUPON_DESC not in", values, "couponDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponDescBetween(String value1, String value2) {
-            addCriterion("COUPON_DESC between", value1, value2, "couponDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponDescNotBetween(String value1, String value2) {
-            addCriterion("COUPON_DESC not between", value1, value2, "couponDesc");
-            return (Criteria) this;
-        }
-
         public Criteria andCouponNumberIsNull() {
             addCriterion("COUPON_NUMBER is null");
             return (Criteria) this;
@@ -497,183 +427,63 @@ public class CdCouponExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeIsNull() {
-            addCriterion("BEGIN_TIME is null");
+        public Criteria andUserPriceIsNull() {
+            addCriterion("USER_PRICE is null");
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeIsNotNull() {
-            addCriterion("BEGIN_TIME is not null");
+        public Criteria andUserPriceIsNotNull() {
+            addCriterion("USER_PRICE is not null");
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeEqualTo(Date value) {
-            addCriterion("BEGIN_TIME =", value, "beginTime");
+        public Criteria andUserPriceEqualTo(BigDecimal value) {
+            addCriterion("USER_PRICE =", value, "userPrice");
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeNotEqualTo(Date value) {
-            addCriterion("BEGIN_TIME <>", value, "beginTime");
+        public Criteria andUserPriceNotEqualTo(BigDecimal value) {
+            addCriterion("USER_PRICE <>", value, "userPrice");
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeGreaterThan(Date value) {
-            addCriterion("BEGIN_TIME >", value, "beginTime");
+        public Criteria andUserPriceGreaterThan(BigDecimal value) {
+            addCriterion("USER_PRICE >", value, "userPrice");
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("BEGIN_TIME >=", value, "beginTime");
+        public Criteria andUserPriceGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("USER_PRICE >=", value, "userPrice");
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeLessThan(Date value) {
-            addCriterion("BEGIN_TIME <", value, "beginTime");
+        public Criteria andUserPriceLessThan(BigDecimal value) {
+            addCriterion("USER_PRICE <", value, "userPrice");
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeLessThanOrEqualTo(Date value) {
-            addCriterion("BEGIN_TIME <=", value, "beginTime");
+        public Criteria andUserPriceLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("USER_PRICE <=", value, "userPrice");
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeIn(List<Date> values) {
-            addCriterion("BEGIN_TIME in", values, "beginTime");
+        public Criteria andUserPriceIn(List<BigDecimal> values) {
+            addCriterion("USER_PRICE in", values, "userPrice");
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeNotIn(List<Date> values) {
-            addCriterion("BEGIN_TIME not in", values, "beginTime");
+        public Criteria andUserPriceNotIn(List<BigDecimal> values) {
+            addCriterion("USER_PRICE not in", values, "userPrice");
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeBetween(Date value1, Date value2) {
-            addCriterion("BEGIN_TIME between", value1, value2, "beginTime");
+        public Criteria andUserPriceBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("USER_PRICE between", value1, value2, "userPrice");
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeNotBetween(Date value1, Date value2) {
-            addCriterion("BEGIN_TIME not between", value1, value2, "beginTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeIsNull() {
-            addCriterion("END_TIME is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeIsNotNull() {
-            addCriterion("END_TIME is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeEqualTo(Date value) {
-            addCriterion("END_TIME =", value, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeNotEqualTo(Date value) {
-            addCriterion("END_TIME <>", value, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeGreaterThan(Date value) {
-            addCriterion("END_TIME >", value, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("END_TIME >=", value, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeLessThan(Date value) {
-            addCriterion("END_TIME <", value, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeLessThanOrEqualTo(Date value) {
-            addCriterion("END_TIME <=", value, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeIn(List<Date> values) {
-            addCriterion("END_TIME in", values, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeNotIn(List<Date> values) {
-            addCriterion("END_TIME not in", values, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeBetween(Date value1, Date value2) {
-            addCriterion("END_TIME between", value1, value2, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeNotBetween(Date value1, Date value2) {
-            addCriterion("END_TIME not between", value1, value2, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueIsNull() {
-            addCriterion("COUPON_VALUE is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueIsNotNull() {
-            addCriterion("COUPON_VALUE is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueEqualTo(BigDecimal value) {
-            addCriterion("COUPON_VALUE =", value, "couponValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueNotEqualTo(BigDecimal value) {
-            addCriterion("COUPON_VALUE <>", value, "couponValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueGreaterThan(BigDecimal value) {
-            addCriterion("COUPON_VALUE >", value, "couponValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("COUPON_VALUE >=", value, "couponValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueLessThan(BigDecimal value) {
-            addCriterion("COUPON_VALUE <", value, "couponValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("COUPON_VALUE <=", value, "couponValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueIn(List<BigDecimal> values) {
-            addCriterion("COUPON_VALUE in", values, "couponValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueNotIn(List<BigDecimal> values) {
-            addCriterion("COUPON_VALUE not in", values, "couponValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("COUPON_VALUE between", value1, value2, "couponValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("COUPON_VALUE not between", value1, value2, "couponValue");
+        public Criteria andUserPriceNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("USER_PRICE not between", value1, value2, "userPrice");
             return (Criteria) this;
         }
 
@@ -857,6 +667,316 @@ public class CdCouponExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsSendIsNull() {
+            addCriterion("IS_SEND is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSendIsNotNull() {
+            addCriterion("IS_SEND is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSendEqualTo(Integer value) {
+            addCriterion("IS_SEND =", value, "isSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSendNotEqualTo(Integer value) {
+            addCriterion("IS_SEND <>", value, "isSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSendGreaterThan(Integer value) {
+            addCriterion("IS_SEND >", value, "isSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSendGreaterThanOrEqualTo(Integer value) {
+            addCriterion("IS_SEND >=", value, "isSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSendLessThan(Integer value) {
+            addCriterion("IS_SEND <", value, "isSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSendLessThanOrEqualTo(Integer value) {
+            addCriterion("IS_SEND <=", value, "isSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSendIn(List<Integer> values) {
+            addCriterion("IS_SEND in", values, "isSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSendNotIn(List<Integer> values) {
+            addCriterion("IS_SEND not in", values, "isSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSendBetween(Integer value1, Integer value2) {
+            addCriterion("IS_SEND between", value1, value2, "isSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSendNotBetween(Integer value1, Integer value2) {
+            addCriterion("IS_SEND not between", value1, value2, "isSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescIsNull() {
+            addCriterion("COUPON_DESC is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescIsNotNull() {
+            addCriterion("COUPON_DESC is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescEqualTo(String value) {
+            addCriterion("COUPON_DESC =", value, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescNotEqualTo(String value) {
+            addCriterion("COUPON_DESC <>", value, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescGreaterThan(String value) {
+            addCriterion("COUPON_DESC >", value, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescGreaterThanOrEqualTo(String value) {
+            addCriterion("COUPON_DESC >=", value, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescLessThan(String value) {
+            addCriterion("COUPON_DESC <", value, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescLessThanOrEqualTo(String value) {
+            addCriterion("COUPON_DESC <=", value, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescLike(String value) {
+            addCriterion("COUPON_DESC like", value, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescNotLike(String value) {
+            addCriterion("COUPON_DESC not like", value, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescIn(List<String> values) {
+            addCriterion("COUPON_DESC in", values, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescNotIn(List<String> values) {
+            addCriterion("COUPON_DESC not in", values, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescBetween(String value1, String value2) {
+            addCriterion("COUPON_DESC between", value1, value2, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponDescNotBetween(String value1, String value2) {
+            addCriterion("COUPON_DESC not between", value1, value2, "couponDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeIsNull() {
+            addCriterion("BEGIN_TIME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeIsNotNull() {
+            addCriterion("BEGIN_TIME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeEqualTo(Date value) {
+            addCriterion("BEGIN_TIME =", value, "beginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeNotEqualTo(Date value) {
+            addCriterion("BEGIN_TIME <>", value, "beginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeGreaterThan(Date value) {
+            addCriterion("BEGIN_TIME >", value, "beginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("BEGIN_TIME >=", value, "beginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeLessThan(Date value) {
+            addCriterion("BEGIN_TIME <", value, "beginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeLessThanOrEqualTo(Date value) {
+            addCriterion("BEGIN_TIME <=", value, "beginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeIn(List<Date> values) {
+            addCriterion("BEGIN_TIME in", values, "beginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeNotIn(List<Date> values) {
+            addCriterion("BEGIN_TIME not in", values, "beginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeBetween(Date value1, Date value2) {
+            addCriterion("BEGIN_TIME between", value1, value2, "beginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeNotBetween(Date value1, Date value2) {
+            addCriterion("BEGIN_TIME not between", value1, value2, "beginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueIsNull() {
+            addCriterion("COUPON_VALUE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueIsNotNull() {
+            addCriterion("COUPON_VALUE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueEqualTo(BigDecimal value) {
+            addCriterion("COUPON_VALUE =", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueNotEqualTo(BigDecimal value) {
+            addCriterion("COUPON_VALUE <>", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueGreaterThan(BigDecimal value) {
+            addCriterion("COUPON_VALUE >", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("COUPON_VALUE >=", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueLessThan(BigDecimal value) {
+            addCriterion("COUPON_VALUE <", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("COUPON_VALUE <=", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueIn(List<BigDecimal> values) {
+            addCriterion("COUPON_VALUE in", values, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueNotIn(List<BigDecimal> values) {
+            addCriterion("COUPON_VALUE not in", values, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("COUPON_VALUE between", value1, value2, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("COUPON_VALUE not between", value1, value2, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeIsNull() {
+            addCriterion("END_TIME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeIsNotNull() {
+            addCriterion("END_TIME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeEqualTo(Date value) {
+            addCriterion("END_TIME =", value, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeNotEqualTo(Date value) {
+            addCriterion("END_TIME <>", value, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeGreaterThan(Date value) {
+            addCriterion("END_TIME >", value, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("END_TIME >=", value, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeLessThan(Date value) {
+            addCriterion("END_TIME <", value, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeLessThanOrEqualTo(Date value) {
+            addCriterion("END_TIME <=", value, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeIn(List<Date> values) {
+            addCriterion("END_TIME in", values, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeNotIn(List<Date> values) {
+            addCriterion("END_TIME not in", values, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeBetween(Date value1, Date value2) {
+            addCriterion("END_TIME between", value1, value2, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndTimeNotBetween(Date value1, Date value2) {
+            addCriterion("END_TIME not between", value1, value2, "endTime");
+            return (Criteria) this;
+        }
+
         public Criteria andNotesIsNull() {
             addCriterion("NOTES is null");
             return (Criteria) this;
@@ -927,63 +1047,63 @@ public class CdCouponExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsSendIsNull() {
-            addCriterion("IS_SEND is null");
+        public Criteria andIsOverIsNull() {
+            addCriterion("IS_OVER is null");
             return (Criteria) this;
         }
 
-        public Criteria andIsSendIsNotNull() {
-            addCriterion("IS_SEND is not null");
+        public Criteria andIsOverIsNotNull() {
+            addCriterion("IS_OVER is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIsSendEqualTo(Integer value) {
-            addCriterion("IS_SEND =", value, "isSend");
+        public Criteria andIsOverEqualTo(Integer value) {
+            addCriterion("IS_OVER =", value, "isOver");
             return (Criteria) this;
         }
 
-        public Criteria andIsSendNotEqualTo(Integer value) {
-            addCriterion("IS_SEND <>", value, "isSend");
+        public Criteria andIsOverNotEqualTo(Integer value) {
+            addCriterion("IS_OVER <>", value, "isOver");
             return (Criteria) this;
         }
 
-        public Criteria andIsSendGreaterThan(Integer value) {
-            addCriterion("IS_SEND >", value, "isSend");
+        public Criteria andIsOverGreaterThan(Integer value) {
+            addCriterion("IS_OVER >", value, "isOver");
             return (Criteria) this;
         }
 
-        public Criteria andIsSendGreaterThanOrEqualTo(Integer value) {
-            addCriterion("IS_SEND >=", value, "isSend");
+        public Criteria andIsOverGreaterThanOrEqualTo(Integer value) {
+            addCriterion("IS_OVER >=", value, "isOver");
             return (Criteria) this;
         }
 
-        public Criteria andIsSendLessThan(Integer value) {
-            addCriterion("IS_SEND <", value, "isSend");
+        public Criteria andIsOverLessThan(Integer value) {
+            addCriterion("IS_OVER <", value, "isOver");
             return (Criteria) this;
         }
 
-        public Criteria andIsSendLessThanOrEqualTo(Integer value) {
-            addCriterion("IS_SEND <=", value, "isSend");
+        public Criteria andIsOverLessThanOrEqualTo(Integer value) {
+            addCriterion("IS_OVER <=", value, "isOver");
             return (Criteria) this;
         }
 
-        public Criteria andIsSendIn(List<Integer> values) {
-            addCriterion("IS_SEND in", values, "isSend");
+        public Criteria andIsOverIn(List<Integer> values) {
+            addCriterion("IS_OVER in", values, "isOver");
             return (Criteria) this;
         }
 
-        public Criteria andIsSendNotIn(List<Integer> values) {
-            addCriterion("IS_SEND not in", values, "isSend");
+        public Criteria andIsOverNotIn(List<Integer> values) {
+            addCriterion("IS_OVER not in", values, "isOver");
             return (Criteria) this;
         }
 
-        public Criteria andIsSendBetween(Integer value1, Integer value2) {
-            addCriterion("IS_SEND between", value1, value2, "isSend");
+        public Criteria andIsOverBetween(Integer value1, Integer value2) {
+            addCriterion("IS_OVER between", value1, value2, "isOver");
             return (Criteria) this;
         }
 
-        public Criteria andIsSendNotBetween(Integer value1, Integer value2) {
-            addCriterion("IS_SEND not between", value1, value2, "isSend");
+        public Criteria andIsOverNotBetween(Integer value1, Integer value2) {
+            addCriterion("IS_OVER not between", value1, value2, "isOver");
             return (Criteria) this;
         }
     }
