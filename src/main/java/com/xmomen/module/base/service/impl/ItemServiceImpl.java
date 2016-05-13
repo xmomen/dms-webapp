@@ -1,5 +1,8 @@
 package com.xmomen.module.base.service.impl;
 
+import com.xmomen.framework.mybatis.page.Page;
+import com.xmomen.module.base.mapper.ItemMapper;
+import com.xmomen.module.base.model.*;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,15 +13,25 @@ import com.xmomen.module.base.entity.CdCouponCategoryRef;
 import com.xmomen.module.base.entity.CdItem;
 import com.xmomen.module.base.entity.CdItemRef;
 import com.xmomen.module.base.entity.CdItemRefExample;
-import com.xmomen.module.base.model.CouponCategoryRefModel;
-import com.xmomen.module.base.model.CreateItem;
-import com.xmomen.module.base.model.ItemChildModel;
-import com.xmomen.module.base.model.UpdateItem;
 import com.xmomen.module.base.service.ItemService;
+
+import java.util.List;
+
 @Service
 public class ItemServiceImpl implements ItemService {
 	@Autowired
 	MybatisDao mybatisDao;
+
+	@Override
+	public List<ItemModel> queryItemList(ItemQuery itemQuery) {
+		return mybatisDao.getSqlSessionTemplate().selectList(ItemMapper.ItemMapperNameSpace + "getItemList", itemQuery);
+	}
+
+	@Override
+	public Page<ItemModel> queryItemList(ItemQuery itemQuery, Integer offset, Integer limit) {
+		return (Page<ItemModel>) mybatisDao.selectPage(ItemMapper.ItemMapperNameSpace + "getItemList", itemQuery, limit, offset);
+	}
+
 	@Override
 	@Transactional
 	public void createItem(CreateItem createItem) {

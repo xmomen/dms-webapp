@@ -22,6 +22,8 @@ public class CouponModel implements Serializable {
     private String couponTypeDesc;
     
     private Integer couponCategory;
+
+	private Integer memberId;
     
     private String categoryName;
 
@@ -35,8 +37,13 @@ public class CouponModel implements Serializable {
      */
     private String couponNumber;
 
+	/**
+	 * 可用金额/可用次数
+	 */
+	private BigDecimal userPrice;
+
     /**
-     * 卡值：可用金额,可用次数
+     * 卡值：初始金额,初始次数
      */
     private BigDecimal couponValue;
 
@@ -251,5 +258,21 @@ public class CouponModel implements Serializable {
 	}
 	public void setReceivedPrice(String receivedPrice) {
 		this.receivedPrice = receivedPrice;
+	}
+
+	public Integer getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(Integer memberId) {
+		this.memberId = memberId;
+	}
+
+	public BigDecimal getUserPrice() {
+		return userPrice;
+	}
+
+	public void setUserPrice(BigDecimal userPrice) {
+		this.userPrice = userPrice;
 	}
 }

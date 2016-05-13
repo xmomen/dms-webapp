@@ -89,34 +89,39 @@ define(function () {
                 }, function(data){
                     if(data.data && data.data.length > 0){
                         var member = data.data[0];
-                        $scope.order.memberId = member.id;
-                        $scope.order.cdCompanyId = member.cdCompanyId;
-                        $scope.order.name = member.name;
-                        $scope.order.companyId = member.companyId;
-                        $scope.order.companyName = member.companyName;
-                        $scope.order.phone = member.phoneNumber;
-                        $scope.order.addressChose = 1;
-                        $scope.order.consigneeAddress = member.address;
-                        $scope.order.consigneeName = member.name;
-                        $scope.order.consigneePhone = member.phoneNumber;
-                        $scope.order.spareAddress = member.spareAddress;
-                        $scope.order.spareName = member.spareName;
-                        $scope.order.spareTel = member.spareTel;
-                        $scope.order.spareAddress2 = member.spareAddress2;
-                        $scope.order.spareName2 = member.spareName2;
-                        $scope.order.spareTel2 = member.spareTel2;
-                        if($scope.order.spareName){
-                            $scope.setting.disablesSpareName = false;
-                        }
-                        if($scope.order.spareName2){
-                            $scope.setting.disablesSpareName2 = false;
-                        }
+                        setMemberInfo(member);
                     }else{
                         $ugDialog.confirm("未找到匹配手机号的客户，是否新增客户？").then(function(){
                             bindMember();
                         });
                     }
                 })
+            }
+        };
+        var setMemberInfo = function(member){
+            $scope.order.memberId = member.id;
+            $scope.order.cdCompanyId = member.cdCompanyId;
+            $scope.order.name = member.name;
+            $scope.order.companyId = member.companyId;
+            $scope.order.companyName = member.companyName;
+            $scope.order.cdUserId = member.cdUserId;
+            $scope.order.managerName = member.managerName;
+            $scope.order.phone = member.phoneNumber;
+            $scope.order.addressChose = 1;
+            $scope.order.consigneeAddress = member.address;
+            $scope.order.consigneeName = member.name;
+            $scope.order.consigneePhone = member.phoneNumber;
+            $scope.order.spareAddress = member.spareAddress;
+            $scope.order.spareName = member.spareName;
+            $scope.order.spareTel = member.spareTel;
+            $scope.order.spareAddress2 = member.spareAddress2;
+            $scope.order.spareName2 = member.spareName2;
+            $scope.order.spareTel2 = member.spareTel2;
+            if($scope.order.spareName){
+                $scope.setting.disablesSpareName = false;
+            }
+            if($scope.order.spareName2){
+                $scope.setting.disablesSpareName2 = false;
             }
         };
         $scope.card = {};
@@ -132,7 +137,14 @@ define(function () {
                         var coupon = data.data[0];
                         $scope.card.id = coupon.id;
                         $scope.card.password = coupon.couponPassword;
-                        $scope.card.amount = coupon.couponValue;
+                        $scope.card.amount = coupon.userPrice;
+                        if(coupon.memberId){
+                            MemberAPI.get({
+                                id:coupon.memberId
+                            },function(data){
+                                setMemberInfo(data);
+                            })
+                        }
                         //存在是否绑定客户 没有则填写客户信息
                     }else{
                         $ugDialog.alert("卡号不存在！");
@@ -262,7 +274,7 @@ define(function () {
                 $rootScope.$broadcast("loadingTree");
             });
         };
-        $scope.getItemCategoryTree()
+        $scope.getItemCategoryTree();
         $scope.order = {};
         $scope.order.discount = 100;
         $scope.order.orderType = 1;

@@ -3,9 +3,9 @@ package com.xmomen.module.order.service;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.utils.DateUtils;
-import com.xmomen.framework.utils.StringUtilsExt;
-import com.xmomen.module.base.entity.CdItem;
-import com.xmomen.module.base.entity.CdItemExample;
+import com.xmomen.module.base.model.ItemModel;
+import com.xmomen.module.base.model.ItemQuery;
+import com.xmomen.module.base.service.ItemService;
 import com.xmomen.module.order.entity.TbOrder;
 import com.xmomen.module.order.entity.TbOrderItem;
 import com.xmomen.module.order.entity.TbOrderRelation;
@@ -27,6 +27,9 @@ public class OrderService {
 
     @Autowired
     MybatisDao mybatisDao;
+
+    @Autowired
+    ItemService itemService;
 
     /**
      * 查询订单
@@ -52,11 +55,12 @@ public class OrderService {
         for (CreateOrder.OrderItem orderItem : createOrder.getOrderItemList()) {
             itemIdList.add(orderItem.getOrderItemId());
         }
-        CdItemExample cdItemExample = new CdItemExample();
-        cdItemExample.createCriteria().andIdIn(itemIdList);
-        List<CdItem> itemList = mybatisDao.selectByExample(cdItemExample);
+        ItemQuery itemQuery = new ItemQuery();
+        Integer[] array = new Integer[itemIdList.size()];
+        itemQuery.setIds(itemIdList.toArray(array));
+        List<ItemModel> itemList = itemService.queryItemList(itemQuery);
         BigDecimal totalAmount = BigDecimal.ZERO;
-        for (CdItem cdItem : itemList) {
+        for (ItemModel cdItem : itemList) {
             for (CreateOrder.OrderItem orderItem : createOrder.getOrderItemList()) {
                 if(cdItem.getId().equals(orderItem.getOrderItemId())){
                     TbOrderItem tbOrderItem = new TbOrderItem();
@@ -64,9 +68,13 @@ public class OrderService {
                     tbOrderItem.setItemCode(cdItem.getItemCode());
                     tbOrderItem.setItemId(cdItem.getId());
                     tbOrderItem.setItemName(cdItem.getItemName());
-                    tbOrderItem.setItemPrice(cdItem.getSellPrice());
                     tbOrderItem.setItemQty(orderItem.getItemQty());
                     tbOrderItem.setItemUnit(cdItem.getPricingManner());
+                    if(cdItem.getDiscountPrice() != null){
+                        tbOrderItem.setItemPrice(cdItem.getDiscountPrice());
+                    }else{
+                        tbOrderItem.setItemPrice(cdItem.getSellPrice());
+                    }
                     totalAmount = totalAmount.add(tbOrderItem.getItemPrice().multiply(orderItem.getItemQty()));
                     mybatisDao.insert(tbOrderItem);
                 }
