@@ -3,9 +3,6 @@ package com.xmomen.module.order.service;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.utils.DateUtils;
-import com.xmomen.framework.utils.StringUtilsExt;
-import com.xmomen.module.base.entity.CdItem;
-import com.xmomen.module.base.entity.CdItemExample;
 import com.xmomen.module.base.model.ItemModel;
 import com.xmomen.module.base.model.ItemQuery;
 import com.xmomen.module.base.service.ItemService;
@@ -15,8 +12,6 @@ import com.xmomen.module.order.entity.TbOrderRelation;
 import com.xmomen.module.order.mapper.OrderMapper;
 import com.xmomen.module.order.model.CreateOrder;
 import com.xmomen.module.order.model.OrderModel;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,7 +56,8 @@ public class OrderService {
             itemIdList.add(orderItem.getOrderItemId());
         }
         ItemQuery itemQuery = new ItemQuery();
-        itemQuery.setIds((Integer[]) itemIdList.toArray());
+        Integer[] array = new Integer[itemIdList.size()];
+        itemQuery.setIds(itemIdList.toArray(array));
         List<ItemModel> itemList = itemService.queryItemList(itemQuery);
         BigDecimal totalAmount = BigDecimal.ZERO;
         for (ItemModel cdItem : itemList) {

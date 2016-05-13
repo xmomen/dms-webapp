@@ -526,11 +526,12 @@
 											<table class="table table-bordered">
 												<thead>
 												<tr>
-													<th colspan="4">已选购产品</th>
+													<th colspan="5">已选购产品</th>
 												</tr>
 												<tr>
 													<th>名称</th>
 													<th class="text-align-right">单价</th>
+													<th class="text-align-right">折扣价</th>
 													<th class="text-align-right">份数</th>
 													<th class="text-align-right">总价</th>
 												</tr>
@@ -539,13 +540,14 @@
 												<tr ng-repeat="choseItem in choseOrderItemList">
 													<td>{{choseItem.itemName}}</td>
 													<td class="text-align-right">{{choseItem.sellPrice | number:2}}</td>
+													<td class="text-align-right">{{choseItem.discountPrice | number:2}}</td>
 													<td class="text-align-right">{{choseItem.itemQty | number:2}}</td>
-													<td class="text-align-right">{{choseItem.sellPrice * choseItem.itemQty | number:2}}</td>
+													<td class="text-align-right">{{totalItemPrice(choseItem) | number:2}}</td>
 												</tr>
 												</tbody>
 												<tfoot>
 												<tr>
-													<td colspan="2">合计</td>
+													<td colspan="3">合计</td>
 													<td class="text-align-right">{{totalItem.totalNumber | number:2}}</td>
 													<td class="text-align-right">{{totalItem.totalPrice | number:2}}</td>
 												</tr>
