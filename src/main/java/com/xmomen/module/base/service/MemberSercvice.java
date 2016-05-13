@@ -9,4 +9,5 @@ public interface MemberSercvice {
 	public void updateMember(Integer id,UpdateMember updateMember);
 	
 	public void delete(Integer id);
+
 }

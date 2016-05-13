@@ -2,10 +2,30 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "CouponAPI", "$modal", "$ugDialog", function($scope, CouponAPI, $modal, $ugDialog){
+    return ["$scope", "CouponAPI", "$modal", "$ugDialog","CouponCategoryAPI", function($scope, CouponAPI, $modal, $ugDialog,CouponCategoryAPI){
+
+        $scope.ugSelect2Config = {};
+        $scope.getCategoryList = function(){
+            $scope.pageInfoSetting = {
+                pageSize:1000,
+                pageNum:1
+            };
+            $scope.queryParam = {};
+            $scope.categoryList = [];
+            CouponCategoryAPI.query({
+                limit:$scope.pageInfoSetting.pageSize,
+                offset:$scope.pageInfoSetting.pageNum
+            }, function(data){
+                $scope.categoryList = data.data;
+                $scope.pageInfoSetting = data.pageInfo;
+                $scope.pageInfoSetting.loadData = $scope.getCategoryList;
+            });
+        }
+        $scope.getCategoryList();
+
         $scope.couponList = [];
         $scope.pageInfoSetting = {
-            pageSize:25,
+            pageSize:50,
             pageNum:1
         };
         $scope.queryParam = {};
@@ -13,7 +33,10 @@ define(function () {
             CouponAPI.query({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
-                keyword:$scope.queryParam.keyword
+                keyword:$scope.queryParam.keyword,
+                isUseful:0,
+                isSend:1,
+                couponCategoryId:$scope.queryParam.couponCategoryId
             }, function(data){
                 $scope.couponList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;
@@ -40,5 +63,17 @@ define(function () {
                 $scope.errors = data.data;
             })
         }
+
+        //退卡
+        $scope.returnCoupon = function(coupon){
+            $ugDialog.confirm("是否退卡/券？").then(function(){
+                CouponAPI.returnCoupon({
+                    id: coupon.id
+                }, function(){
+                    $ugDialog.alert("退卡成功");
+                    $scope.getCouponList();
+                });
+            })
+        };
     }];
 });

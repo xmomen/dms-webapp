@@ -12,6 +12,7 @@ import com.xmomen.module.user.entity.SysUsers;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
 import com.xmomen.module.logger.Log;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -45,10 +46,12 @@ public class UserController {
     public Page<User> getUserList(@RequestParam(value = "limit") Integer limit,
                                   @RequestParam(value = "offset") Integer offset,
                                   @RequestParam(value = "id", required = false) Integer id,
-                                  @RequestParam(value = "keyword", required = false) String keyword){
-        Map map = new HashMap<String,Object>();
+                                  @RequestParam(value = "keyword", required = false) String keyword,
+                                  @RequestParam(value = "organizationId",required = false) Integer organizationId){
+        Map<String, Object> map = new HashMap<String,Object>();
         map.put("id", id);
         map.put("keyword", keyword);
+        map.put("organizationId", organizationId);
         return (Page<User>) mybatisDao.selectPage(UserMapper.UserMapperNameSpace + "getUsers", map, limit, offset);
     }
 
@@ -85,6 +88,8 @@ public class UserController {
         user.setPassword(createUser.getPassword());
         user.setEmail(createUser.getEmail());
         user.setLocked(createUser.getLocked() != null && createUser.getLocked() == true ? true : false);
+        user.setUserGorupId(createUser.getUserGorupId());
+        user.setOrganizationId(createUser.getOrganizationId());
         return userService.createUser(user);
     }
 

@@ -42,14 +42,15 @@
 					<!-- widget content -->
 					<div class="widget-body no-padding">
 						<div class="dt-toolbar">
-							<div class="col-xs-5 col-sm-5">
+							<div class="col-xs-3 col-sm-3">
 								<div class="dataTables_filter">
 									<label>
 										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
 										<input type="search" placeholder="名称" data-ng-keyup="getCouponCategoryList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic">
                                     </label>
 								</div>
-
+							</div>
+                            <div class="col-xs-3 col-sm-3">
                                 <div class="dataTables_filter">
                                     <label>
                                         <select ug-select2 style="width: 250px;" ng-change="getCouponCategoryList()" ng-model="queryParam.categoryType" name="categoryType">
@@ -59,8 +60,8 @@
                                         </select>
                                     </label>
                                 </div>
-							</div>
-							<div class="col-xs-2 col-sm-2">
+                            </div>
+							<div class="col-xs-12 col-sm-12">
 								<button class="btn btn-primary" type="button" data-ng-click="open()">
 									<i class="fa fa-plus"></i>
 									新增

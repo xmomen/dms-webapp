@@ -151,7 +151,31 @@ define(function () {
             update:{ method:"PUT", params:{id:"@id"}},
             sendOneCoupon:{method:"GET",url:"/coupon/sendOneCoupon",params:{id:"@id",companyId:"@companyId",couponNumber:"@couponNumber"}},
             sendMoreCoupon:{method:"GET",url:"/coupon/sendMoreCoupon",params:{companyId:"@companyId",couponNumberList:"@couponNumberList"}},
-            activityAddress:{method:"GET",url:"/coupon/activityAddress",params:{couponNumber:"@couponNumber",consignmentName:"@consignmentName",consignmentPhone:"@consignmentPhone",consignmentAddress:"@consignmentAddress"}}
+            activityAddress:{method:"GET",url:"/coupon/activityAddress",params:{couponNumber:"@couponNumber",consignmentName:"@consignmentName",consignmentPhone:"@consignmentPhone",consignmentAddress:"@consignmentAddress"}},
+            audit:{
+                method:"PUT",
+                    url:"/coupon/:id/audit" ,
+                    params:{
+                    id:"@id",
+                    locked:"@locked"
+                  }
+            },
+            returnCoupon:{
+                method:"PUT",
+                url:"/coupon/:id/returnCoupon" ,
+                params:{
+                    id:"@id"
+                }
+            },
+            receivedPrice:{
+                method:"GET",
+                url:"/coupon/receivedPrice",
+                params:{
+                    couponId:"@couponId",
+                    couponNumber:"@couponNumber",
+                    receivedPrice:"@receivedPrice"
+                }
+            }
         });
     }]);
 

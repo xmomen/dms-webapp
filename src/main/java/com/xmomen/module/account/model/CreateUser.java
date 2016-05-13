@@ -41,6 +41,10 @@ public class CreateUser implements Serializable {
     private String officeTel;
 
     private Boolean locked = Boolean.FALSE;
+    
+    private Integer organizationId;
+    
+    private Integer userGorupId;
 
     public CreateUser() {
     }
@@ -128,6 +132,22 @@ public class CreateUser implements Serializable {
 
 	public void setOfficeTel(String officeTel) {
 		this.officeTel = officeTel;
+	}
+
+	public Integer getOrganizationId() {
+		return organizationId;
+	}
+
+	public void setOrganizationId(Integer organizationId) {
+		this.organizationId = organizationId;
+	}
+
+	public Integer getUserGorupId() {
+		return userGorupId;
+	}
+
+	public void setUserGorupId(Integer userGorupId) {
+		this.userGorupId = userGorupId;
 	}
 
 }

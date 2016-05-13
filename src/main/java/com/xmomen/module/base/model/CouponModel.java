@@ -86,6 +86,7 @@ public class CouponModel implements Serializable {
     
     private String consignmentAddress;
     
+    private String receivedPrice;
     public Integer getIsSend() {
 		return isSend;
 	}
@@ -244,5 +245,11 @@ public class CouponModel implements Serializable {
 	}
 	public void setConsignmentAddress(String consignmentAddress) {
 		this.consignmentAddress = consignmentAddress;
+	}
+	public String getReceivedPrice() {
+		return receivedPrice;
+	}
+	public void setReceivedPrice(String receivedPrice) {
+		this.receivedPrice = receivedPrice;
 	}
 }

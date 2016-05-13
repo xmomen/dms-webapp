@@ -179,7 +179,7 @@
 							<select multiple ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;"
 									required="true" ng-model="company.customerManagerIds" name="manager" >
 								<option ng-value="">--请选择--</option>
-								<option ng-value="{{customerManager.id}}" ng-repeat="customerManager in customerManagerList">{{customerManager.realname}}</option>
+								<option ng-value="{{customerManager.customerMangerId}}" ng-repeat="customerManager in customerManagerList">{{customerManager.customerManger}}</option>
 							</select>
 						</div>
 					</div>

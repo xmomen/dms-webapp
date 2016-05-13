@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import com.xmomen.module.base.constant.AppConstants;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,6 +47,10 @@ public class CompanyController {
     	 Map map = new HashMap<String,Object>();
          map.put("id", id);
          map.put("keyword", keyword);
+        if(SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE)){
+            Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
+            map.put("managerId", userId);
+        }
         return (Page<CompanyModel>) mybatisDao.selectPage(CompanyMapper.CompanyMapperNameSpace + "getCompanyList", map, limit, offset);
     }
     @RequestMapping(value = "/company", method = RequestMethod.POST)

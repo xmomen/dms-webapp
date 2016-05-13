@@ -2,18 +2,31 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "UserAPI", "$modal", "$ugDialog", function($scope, UserAPI, $modal, $ugDialog){
+    return ["$scope", "UserAPI", "$modal", "$ugDialog","OrganizationAPI","$rootScope",function($scope, UserAPI, $modal, $ugDialog,OrganizationAPI,$rootScope){
+
+        $scope.organizationList = [];
+        $scope.queryParam = {};
+        $scope.getOrganizationTree = function(){
+            OrganizationAPI.query({
+                id:$scope.queryParam.id
+            }, function(data){
+                $scope.organizationList = data;
+                $rootScope.$broadcast("loadingTree");
+            });
+        };
+        $scope.getOrganizationTree();
         $scope.userList = [];
         $scope.pageInfoSetting = {
             pageSize:10,
             pageNum:1
         };
         $scope.queryParam = {};
-        $scope.getUserList = function(){
+        $scope.getUserList = function(organizationId){
             UserAPI.query({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
-                keyword:$scope.queryParam.keyword
+                keyword:$scope.queryParam.keyword,
+                organizationId : organizationId
             }, function(data){
                 $scope.userList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;
@@ -46,11 +59,31 @@ define(function () {
                         return user;
                     }
                 },
-                controller: ["$scope", "UserAPI", "CurrentUser", "$modalInstance", function ($scope, UserAPI, CurrentUser, $modalInstance) {
+                controller: ["$scope", "UserAPI", "CurrentUser", "$modalInstance","UserGroupAPI", function ($scope, UserAPI, CurrentUser, $modalInstance,UserGroupAPI) {
                     $scope.user = {};
                     if(CurrentUser){
                         $scope.user = CurrentUser;
                     }
+                    $scope.ugSelect2Config = {};
+                    $scope.groupList = [];
+                    $scope.pageInfoSetting = {
+                        pageSize:1000,
+                        pageNum:1
+                    };
+                    $scope.queryParam = {};
+                    $scope.getGroupList = function(){
+                        UserGroupAPI.query({
+                            limit:$scope.pageInfoSetting.pageSize,
+                            offset:$scope.pageInfoSetting.pageNum,
+                            keyword:$scope.queryParam.keyword
+                        }, function(data){
+                            $scope.groupList = data.data;
+                            $scope.pageInfoSetting = data.pageInfo;
+                            $scope.pageInfoSetting.loadData = $scope.getGroupList;
+                            $scope.ugSelect2Config.initSelectData($scope.user.userGorupId);
+                        });
+                    };
+                    $scope.getGroupList();
                     $scope.errors = null;
                     $scope.addUserForm = {};
                     $scope.saveUser = function(){
@@ -74,6 +107,31 @@ define(function () {
                     $scope.cancel = function () {
                         $modalInstance.dismiss('cancel');
                     };
+                    $scope.chooseCategoryModel = function(){
+                        var modalInstance = $modal.open({
+                            templateUrl: 'chooseCategory.html',
+                            controller: ["$scope", "OrganizationAPI", "$modalInstance", function ($scope, OrganizationAPI, $modalInstance) {
+                                $scope.organizationList = [];
+                                $scope.queryParam = {};
+                                OrganizationAPI.query({
+                                    id:$scope.queryParam.id
+                                }, function(data){
+                                    $scope.organizationList = data;
+                                    $rootScope.$broadcast("loadingTree");
+                                });
+                                $scope.cancel = function () {
+                                    $modalInstance.dismiss('cancel');
+                                };
+                                $scope.chooseCategory = function(category){
+                                    $modalInstance.close(category);
+                                }
+                            }]
+                        });
+                        modalInstance.result.then(function (category) {
+                            $scope.user.organization = category.name;
+                            $scope.user.organizationId = category.id;
+                        });
+                    }
                 }]
             });
             modalInstance.result.then(function () {

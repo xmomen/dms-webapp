@@ -100,8 +100,8 @@
 		<a href="javascript:void(0);" ng-show="item.show" ng-click="removeNode(item)">删除</a>
 		<a ng-show="item.show" > | </a>
 		<a href="javascript:void(0);" ng-show="item.show" ng-click="addChildOrganization(item)">添加下级组织</a>
-		<a ng-show="item.show" > | </a>
-		<a href="javascript:void(0);" ng-show="item.show" ng-click="openUserModel(item)">用户</a>
+		<!--<a ng-show="item.show" > | </a>-->
+		<!--<a href="javascript:void(0);" ng-show="item.show" ng-click="openUserModel(item)">用户</a>-->
 	</span>
 	<ul ng-if="item.nodes && item.nodes.length > 0">
 		<li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view.html'"></li>
