@@ -120,6 +120,7 @@ define(function () {
                 keyword:$scope.queryParamAudit.keyword,
                 isUseful:1,
                 isSend:1,
+                isOver:0,
                 cdCompanyId:$scope.queryParamAudit.cdCompanyId,
                 customerMangerId:$scope.queryParamAudit.customerMangerId,
                 couponCategoryId:$scope.queryParamAudit.couponCategoryId
@@ -139,6 +140,17 @@ define(function () {
                 $scope.getCouponList();
                 $scope.getCouponAuditList();
             });
+        };
+
+        $scope.overCoupon = function(coupon){
+            $ugDialog.confirm("确定卡完结，完结之后不能做任何修改？").then(function(){
+                CouponAPI.overCoupon({
+                    id: coupon.id,
+                    isOver: 1
+                },function(data){
+                    $scope.getCouponAuditList();
+                });
+            })
         };
 
         $scope.receivedPrice = function(coupon){

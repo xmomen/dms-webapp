@@ -1,6 +1,7 @@
 package com.xmomen.module.base.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class MemberModel implements Serializable{
 	/**
@@ -81,6 +82,9 @@ public class MemberModel implements Serializable{
      * 所属客服经理
      */
     private String managerName;
+    
+    private List<MemberCouponModel> couponNumbers;
+    
 	public String getMemberCode() {
 		return memberCode;
 	}
@@ -230,6 +234,16 @@ public class MemberModel implements Serializable{
 
 	public void setManagerName(String managerName) {
 		this.managerName = managerName;
+	}
+
+
+	public List<MemberCouponModel> getCouponNumbers() {
+		return couponNumbers;
+	}
+
+
+	public void setCouponNumbers(List<MemberCouponModel> couponNumbers) {
+		this.couponNumbers = couponNumbers;
 	}
 	
 }

@@ -19,7 +19,7 @@ public class CdMemberCouponRelation extends BaseMybatisModel {
     /**
      * 客户代码
      */
-    private String memberCode;
+    private Integer cdMemberId;
 
     /**
      * 卡号
@@ -42,18 +42,18 @@ public class CdMemberCouponRelation extends BaseMybatisModel {
         addValidField("id");
     }
 
-    @Column(name = "MEMBER_CODE")
-    public String getMemberCode() {
-        return memberCode;
+    @Column(name = "CD_MEMBER_ID")
+    public Integer getCdMemberId() {
+        return cdMemberId;
     }
 
-    public void setMemberCode(String memberCode) {
-        this.memberCode = memberCode;
-        if(memberCode == null){
-              removeValidField("memberCode");
+    public void setCdMemberId(Integer cdMemberId) {
+        this.cdMemberId = cdMemberId;
+        if(cdMemberId == null){
+              removeValidField("cdMemberId");
               return;
         }
-        addValidField("memberCode");
+        addValidField("cdMemberId");
     }
 
     @Column(name = "COUPON_NUMBER")

@@ -17,11 +17,6 @@ public class CdMember extends BaseMybatisModel {
     private Integer id;
 
     /**
-     * 会员编号
-     */
-    private String memberCode;
-
-    /**
      * 姓名
      */
     private String name;
@@ -32,12 +27,27 @@ public class CdMember extends BaseMybatisModel {
     private String phoneNumber;
 
     /**
+     * 收货地址
+     */
+    private String address;
+
+    /**
+     * 所属单位
+     */
+    private Integer cdCompanyId;
+
+    /**
+     * 所属客服经理
+     */
+    private Integer cdUserId;
+
+    /**
      * 备用收货人
      */
     private String spareName;
 
     /**
-     * 备用收货人
+     * 备用收货人2
      */
     private String spareName2;
 
@@ -62,11 +72,6 @@ public class CdMember extends BaseMybatisModel {
     private String officeTel;
 
     /**
-     * 收货地址
-     */
-    private String address;
-
-    /**
      * 备用地址1
      */
     private String spareAddress;
@@ -80,16 +85,6 @@ public class CdMember extends BaseMybatisModel {
      * 1-潜在客户，2-普通客户，3-优质客户
      */
     private Integer memberType;
-
-    /**
-     * 所属单位
-     */
-    private Integer cdCompanyId;
-
-    /**
-     * 所属客服经理
-     */
-    private Integer cdUserId;
 
     @Column(name = "ID")
     @Id
@@ -105,20 +100,6 @@ public class CdMember extends BaseMybatisModel {
               return;
         }
         addValidField("id");
-    }
-
-    @Column(name = "MEMBER_CODE")
-    public String getMemberCode() {
-        return memberCode;
-    }
-
-    public void setMemberCode(String memberCode) {
-        this.memberCode = memberCode;
-        if(memberCode == null){
-              removeValidField("memberCode");
-              return;
-        }
-        addValidField("memberCode");
     }
 
     @Column(name = "NAME")
@@ -147,6 +128,48 @@ public class CdMember extends BaseMybatisModel {
               return;
         }
         addValidField("phoneNumber");
+    }
+
+    @Column(name = "ADDRESS")
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+        if(address == null){
+              removeValidField("address");
+              return;
+        }
+        addValidField("address");
+    }
+
+    @Column(name = "CD_COMPANY_ID")
+    public Integer getCdCompanyId() {
+        return cdCompanyId;
+    }
+
+    public void setCdCompanyId(Integer cdCompanyId) {
+        this.cdCompanyId = cdCompanyId;
+        if(cdCompanyId == null){
+              removeValidField("cdCompanyId");
+              return;
+        }
+        addValidField("cdCompanyId");
+    }
+
+    @Column(name = "CD_USER_ID")
+    public Integer getCdUserId() {
+        return cdUserId;
+    }
+
+    public void setCdUserId(Integer cdUserId) {
+        this.cdUserId = cdUserId;
+        if(cdUserId == null){
+              removeValidField("cdUserId");
+              return;
+        }
+        addValidField("cdUserId");
     }
 
     @Column(name = "SPARE_NAME")
@@ -233,20 +256,6 @@ public class CdMember extends BaseMybatisModel {
         addValidField("officeTel");
     }
 
-    @Column(name = "ADDRESS")
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-        if(address == null){
-              removeValidField("address");
-              return;
-        }
-        addValidField("address");
-    }
-
     @Column(name = "SPARE_ADDRESS")
     public String getSpareAddress() {
         return spareAddress;
@@ -287,33 +296,5 @@ public class CdMember extends BaseMybatisModel {
               return;
         }
         addValidField("memberType");
-    }
-
-    @Column(name = "CD_COMPANY_ID")
-    public Integer getCdCompanyId() {
-        return cdCompanyId;
-    }
-
-    public void setCdCompanyId(Integer cdCompanyId) {
-        this.cdCompanyId = cdCompanyId;
-        if(cdCompanyId == null){
-              removeValidField("cdCompanyId");
-              return;
-        }
-        addValidField("cdCompanyId");
-    }
-
-    @Column(name = "CD_USER_ID")
-    public Integer getCdUserId() {
-        return cdUserId;
-    }
-
-    public void setCdUserId(Integer cdUserId) {
-        this.cdUserId = cdUserId;
-        if(cdUserId == null){
-              removeValidField("cdUserId");
-              return;
-        }
-        addValidField("cdUserId");
     }
 }

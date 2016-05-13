@@ -3,19 +3,20 @@
 <mapper namespace="com.xmomen.module.base.entity.mapper.CdMemberMapper" >
   <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdMember" >
     <id column="ID" property="id" jdbcType="INTEGER" />
-    <result column="MEMBER_CODE" property="memberCode" jdbcType="VARCHAR" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="PHONE_NUMBER" property="phoneNumber" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="CD_COMPANY_ID" property="cdCompanyId" jdbcType="INTEGER" />
+    <result column="CD_USER_ID" property="cdUserId" jdbcType="INTEGER" />
+    <result column="SPARE_NAME" property="spareName" jdbcType="VARCHAR" />
+    <result column="SPARE_NAME2" property="spareName2" jdbcType="VARCHAR" />
     <result column="SPARE_TEL" property="spareTel" jdbcType="VARCHAR" />
     <result column="SPARE_TEL2" property="spareTel2" jdbcType="VARCHAR" />
     <result column="TEL_NUMBER" property="telNumber" jdbcType="VARCHAR" />
     <result column="OFFICE_TEL" property="officeTel" jdbcType="VARCHAR" />
-    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
     <result column="SPARE_ADDRESS" property="spareAddress" jdbcType="VARCHAR" />
     <result column="SPARE_ADDRESS2" property="spareAddress2" jdbcType="VARCHAR" />
     <result column="MEMBER_TYPE" property="memberType" jdbcType="INTEGER" />
-    <result column="CD_COMPANY_ID" property="cdCompanyId" jdbcType="INTEGER" />
-    <result column="CD_USER_ID" property="cdUserId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -76,8 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, MEMBER_CODE, NAME, PHONE_NUMBER, SPARE_TEL, SPARE_TEL2, TEL_NUMBER, OFFICE_TEL, 
-    ADDRESS, SPARE_ADDRESS, SPARE_ADDRESS2, MEMBER_TYPE, CD_COMPANY_ID, CD_USER_ID
+    ID, NAME, PHONE_NUMBER, ADDRESS, CD_COMPANY_ID, CD_USER_ID, SPARE_NAME, SPARE_NAME2, 
+    SPARE_TEL, SPARE_TEL2, TEL_NUMBER, OFFICE_TEL, SPARE_ADDRESS, SPARE_ADDRESS2, MEMBER_TYPE
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdMemberExample" >
     select
@@ -105,14 +106,26 @@
       <if test="id != null" >
         ID,
       </if>
-      <if test="memberCode != null" >
-        MEMBER_CODE,
-      </if>
       <if test="name != null" >
         NAME,
       </if>
       <if test="phoneNumber != null" >
         PHONE_NUMBER,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="cdCompanyId != null" >
+        CD_COMPANY_ID,
+      </if>
+      <if test="cdUserId != null" >
+        CD_USER_ID,
+      </if>
+      <if test="spareName != null" >
+        SPARE_NAME,
+      </if>
+      <if test="spareName2 != null" >
+        SPARE_NAME2,
       </if>
       <if test="spareTel != null" >
         SPARE_TEL,
@@ -126,9 +139,6 @@
       <if test="officeTel != null" >
         OFFICE_TEL,
       </if>
-      <if test="address != null" >
-        ADDRESS,
-      </if>
       <if test="spareAddress != null" >
         SPARE_ADDRESS,
       </if>
@@ -138,25 +148,31 @@
       <if test="memberType != null" >
         MEMBER_TYPE,
       </if>
-      <if test="cdCompanyId != null" >
-        CD_COMPANY_ID,
-      </if>
-      <if test="cdUserId != null" >
-        CD_USER_ID,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
-      </if>
-      <if test="memberCode != null" >
-        #{memberCode,jdbcType=VARCHAR},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="phoneNumber != null" >
         #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="cdCompanyId != null" >
+        #{cdCompanyId,jdbcType=INTEGER},
+      </if>
+      <if test="cdUserId != null" >
+        #{cdUserId,jdbcType=INTEGER},
+      </if>
+      <if test="spareName != null" >
+        #{spareName,jdbcType=VARCHAR},
+      </if>
+      <if test="spareName2 != null" >
+        #{spareName2,jdbcType=VARCHAR},
       </if>
       <if test="spareTel != null" >
         #{spareTel,jdbcType=VARCHAR},
@@ -170,9 +186,6 @@
       <if test="officeTel != null" >
         #{officeTel,jdbcType=VARCHAR},
       </if>
-      <if test="address != null" >
-        #{address,jdbcType=VARCHAR},
-      </if>
       <if test="spareAddress != null" >
         #{spareAddress,jdbcType=VARCHAR},
       </if>
@@ -181,12 +194,6 @@
       </if>
       <if test="memberType != null" >
         #{memberType,jdbcType=INTEGER},
-      </if>
-      <if test="cdCompanyId != null" >
-        #{cdCompanyId,jdbcType=INTEGER},
-      </if>
-      <if test="cdUserId != null" >
-        #{cdUserId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -202,14 +209,26 @@
       <if test="record.id != null" >
         ID = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.memberCode != null" >
-        MEMBER_CODE = #{record.memberCode,jdbcType=VARCHAR},
-      </if>
       <if test="record.name != null" >
         NAME = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.phoneNumber != null" >
         PHONE_NUMBER = #{record.phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        ADDRESS = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cdCompanyId != null" >
+        CD_COMPANY_ID = #{record.cdCompanyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cdUserId != null" >
+        CD_USER_ID = #{record.cdUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.spareName != null" >
+        SPARE_NAME = #{record.spareName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spareName2 != null" >
+        SPARE_NAME2 = #{record.spareName2,jdbcType=VARCHAR},
       </if>
       <if test="record.spareTel != null" >
         SPARE_TEL = #{record.spareTel,jdbcType=VARCHAR},
@@ -223,9 +242,6 @@
       <if test="record.officeTel != null" >
         OFFICE_TEL = #{record.officeTel,jdbcType=VARCHAR},
       </if>
-      <if test="record.address != null" >
-        ADDRESS = #{record.address,jdbcType=VARCHAR},
-      </if>
       <if test="record.spareAddress != null" >
         SPARE_ADDRESS = #{record.spareAddress,jdbcType=VARCHAR},
       </if>
@@ -234,12 +250,6 @@
       </if>
       <if test="record.memberType != null" >
         MEMBER_TYPE = #{record.memberType,jdbcType=INTEGER},
-      </if>
-      <if test="record.cdCompanyId != null" >
-        CD_COMPANY_ID = #{record.cdCompanyId,jdbcType=INTEGER},
-      </if>
-      <if test="record.cdUserId != null" >
-        CD_USER_ID = #{record.cdUserId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >

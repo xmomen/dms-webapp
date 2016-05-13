@@ -165,73 +165,63 @@ public class CdMemberCouponRelationExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeIsNull() {
-            addCriterion("MEMBER_CODE is null");
+        public Criteria andCdMemberIdIsNull() {
+            addCriterion("CD_MEMBER_ID is null");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeIsNotNull() {
-            addCriterion("MEMBER_CODE is not null");
+        public Criteria andCdMemberIdIsNotNull() {
+            addCriterion("CD_MEMBER_ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeEqualTo(String value) {
-            addCriterion("MEMBER_CODE =", value, "memberCode");
+        public Criteria andCdMemberIdEqualTo(Integer value) {
+            addCriterion("CD_MEMBER_ID =", value, "cdMemberId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeNotEqualTo(String value) {
-            addCriterion("MEMBER_CODE <>", value, "memberCode");
+        public Criteria andCdMemberIdNotEqualTo(Integer value) {
+            addCriterion("CD_MEMBER_ID <>", value, "cdMemberId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeGreaterThan(String value) {
-            addCriterion("MEMBER_CODE >", value, "memberCode");
+        public Criteria andCdMemberIdGreaterThan(Integer value) {
+            addCriterion("CD_MEMBER_ID >", value, "cdMemberId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeGreaterThanOrEqualTo(String value) {
-            addCriterion("MEMBER_CODE >=", value, "memberCode");
+        public Criteria andCdMemberIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("CD_MEMBER_ID >=", value, "cdMemberId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeLessThan(String value) {
-            addCriterion("MEMBER_CODE <", value, "memberCode");
+        public Criteria andCdMemberIdLessThan(Integer value) {
+            addCriterion("CD_MEMBER_ID <", value, "cdMemberId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeLessThanOrEqualTo(String value) {
-            addCriterion("MEMBER_CODE <=", value, "memberCode");
+        public Criteria andCdMemberIdLessThanOrEqualTo(Integer value) {
+            addCriterion("CD_MEMBER_ID <=", value, "cdMemberId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeLike(String value) {
-            addCriterion("MEMBER_CODE like", value, "memberCode");
+        public Criteria andCdMemberIdIn(List<Integer> values) {
+            addCriterion("CD_MEMBER_ID in", values, "cdMemberId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeNotLike(String value) {
-            addCriterion("MEMBER_CODE not like", value, "memberCode");
+        public Criteria andCdMemberIdNotIn(List<Integer> values) {
+            addCriterion("CD_MEMBER_ID not in", values, "cdMemberId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeIn(List<String> values) {
-            addCriterion("MEMBER_CODE in", values, "memberCode");
+        public Criteria andCdMemberIdBetween(Integer value1, Integer value2) {
+            addCriterion("CD_MEMBER_ID between", value1, value2, "cdMemberId");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeNotIn(List<String> values) {
-            addCriterion("MEMBER_CODE not in", values, "memberCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberCodeBetween(String value1, String value2) {
-            addCriterion("MEMBER_CODE between", value1, value2, "memberCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberCodeNotBetween(String value1, String value2) {
-            addCriterion("MEMBER_CODE not between", value1, value2, "memberCode");
+        public Criteria andCdMemberIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("CD_MEMBER_ID not between", value1, value2, "cdMemberId");
             return (Criteria) this;
         }
 

@@ -66,12 +66,14 @@
 											<i></i>
 										</label>
 									</th>
+                                    <th>绑定卡号</th>
                                     <!--<th width="120">会员编号</th>-->
 									<th width="120">姓名</th>
 									<th>手机号</th>
 									<th>地址</th>
                                     <th>所属单位</th>
                                     <th>客户经理</th>
+                                    <th>可用金额</th>
 									<th width="80">操作</th>
 								</tr>
 								</thead>
@@ -83,12 +85,17 @@
 											<i></i>
 										</label>
 									</td>
-									<!--<td ng-bind="member.memberCode"></td>-->
+                                    <td>
+                                        <span ng-repeat="couponNumber in member.couponNumbers" >{{couponNumber.couponNumber}}<br></span>
+                                    </td>
 									<td ng-bind="member.name"></td>
 									<td ng-bind="member.phoneNumber"></td>
 									<td ng-bind="member.address"></td>
                                     <td ng-bind="member.companyName"></td>
                                     <td ng-bind="member.managerName"></td>
+                                    <td>
+                                        <span ng-repeat="couponNumber in member.couponNumbers" >{{couponNumber.userPrice}}<br></span>
+                                    </td>
                                     <td>
                                         <div ng-show="show">
                                             <a href="javascript:void(0);" data-ng-click="removeMember($index)" title="删除：{{member.name}}">

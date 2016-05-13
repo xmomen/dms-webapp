@@ -61,6 +61,7 @@ public class CouponController {
                                   @RequestParam(value = "cdCompanyId",required = false) Integer cdCompanyId,
                                   @RequestParam(value = "customerMangerId",required = false) Integer customerMangerId,
                                   @RequestParam(value = "isUseful",required = false) Integer isUseful,
+                                  @RequestParam(value = "isOver",required = false) Integer isOver,
                                   @RequestParam(value = "keyword", required = false) String keyword){
    	    Map<String, Object> map = new HashMap<String,Object>();
         map.put("keyword", keyword);
@@ -71,6 +72,7 @@ public class CouponController {
         map.put("couponCategoryId", couponCategoryId);
         map.put("customerMangerId",customerMangerId);
         map.put("cdCompanyId", cdCompanyId);
+        map.put("isOver", isOver);
         if(SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE)){
             Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
             map.put("managerId", userId);
@@ -239,9 +241,22 @@ public class CouponController {
      * @param id
      */
     @RequestMapping(value = "/coupon/{id}/returnCoupon", method = RequestMethod.PUT)
-    @Log(actionName = "审核金额")
+    @Log(actionName = "退卡")
     public void returnCoupon(@PathVariable(value = "id") Integer id){
     	couponService.returnCoupon(id);
+    }
+    /**
+     *  完结卡
+     * @param id
+     */
+    @RequestMapping(value = "/coupon/{id}/overCoupon", method = RequestMethod.PUT)
+    @Log(actionName = "完结卡")
+    public void overCoupon(@PathVariable(value = "id") Integer id,
+                      @RequestParam(value = "isOver") Integer isOver){
+        CdCoupon coupon = new CdCoupon();
+        coupon.setIsOver(isOver);
+        coupon.setId(id);
+        mybatisDao.update(coupon);
     }
     
     @RequestMapping(value = "/coupon/receivedPrice", method = RequestMethod.GET)
