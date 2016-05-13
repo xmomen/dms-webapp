@@ -40,6 +40,8 @@
                              targetProject="./src/main/java" type="XMLMAPPER" >
         </javaClientGenerator>
         <!--    用户模块    -->
-        <table tableName="cd_activity_address" />
+        <table tableName="cd_plan" />
+        <table tableName="cd_plan_item" />
+        <table tableName="tb_table_plan" />
     </context>
 </generatorConfiguration>
