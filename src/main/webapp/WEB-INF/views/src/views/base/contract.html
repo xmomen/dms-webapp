@@ -156,7 +156,7 @@
 					<div class="form-group">
 						<label class="col-md-2 control-label">签约单位</label>
                         <div class="col-md-10 input-group">
-                            <select ug-select2 style="width: 100%;" required="true" ng-model="contract.cdCompanyId" name="company" >
+                            <select ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;" required="true" ng-model="contract.cdCompanyId" name="company" >
                                 <option value="">--请选择--</option>
                                 <option value="{{company.id}}" ng-repeat="company in companyList">{{company.companyName}}</option>
                             </select>

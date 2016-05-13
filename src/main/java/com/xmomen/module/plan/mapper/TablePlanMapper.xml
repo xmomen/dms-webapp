@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.plan.mapper.TablePlanMapper" >
+
+    <!--    查询消息    -->
+    <select id="getTablePlanList" resultType="com.xmomen.module.plan.model.TablePlanModel" parameterType="java.util.HashMap">
+        SELECT
+        	ttp.*,
+        	cp.plan_name,
+        	cc.company_name,
+        	su.realName as managerName
+        FROM
+        	tb_table_plan  ttp
+        left join cd_plan cp on ttp.cd_plan_id = cp.id
+        left join cd_member cm on ttp.cd_member_id = cm.id  
+        left join cd_company cc on cm.cd_company_id = cc.id
+        left join sys_users su on cm.cd_user_id = su.id
+        <where>
+              <if test="keyword">
+                  AND ttp.member_code LIKE CONCAT('%', #{keyword}, '%') or ttp.consignee_Name LIKE CONCAT('%', #{keyword}, '%') or ttp.CONSIGNEE_PHONE like CONCAT('%', #{keyword}, '%')
+              </if>
+              <if test="id">
+                  AND ttp.id = #{id}
+              </if>
+          </where>
+    </select>
+</mapper>

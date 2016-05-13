@@ -1,0 +1,334 @@
+<!--
+	The ID "widget-grid" will start to initialize all widgets below 
+	You do not need to use widgets if you dont want to. Simply remove 
+	the <section></section> and you can use wells or panels instead 
+	-->
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need uniqu e ID)-->
+			<div class="jarviswidget" id="wid-id-4">
+				<!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2>计划设定</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- end widget edit box -->
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="dt-toolbar">
+							<div class="col-xs-5 col-sm-5">
+								<div class="dataTables_filter">
+									<label>
+										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+										<input type="search" placeholder="计划名称" data-ng-keyup="getBasePlanList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic">
+                                    </label>
+								</div>
+							</div>
+							<div class="col-xs-2 col-sm-2">
+								<button class="btn btn-primary" type="button" data-ng-click="open()">
+									<i class="fa fa-plus"></i>
+									新增
+								</button>
+							</div>
+						</div>
+						<div class="table-responsive">
+							<table class="table table-striped table-condensed table-hover smart-form has-tickbox">
+								<thead>
+								<tr>
+                                    <th>计划名称</th>
+                                    <th>配送频率（周）</th>
+									<th>配送时间（星期）</th>
+                                    <th>配送次数</th>
+                                    <th>操作</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat="basePlan in basePlanList"   ng-if="basePlanList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+                                    <td ng-bind="basePlan.planName" width="80px"></td>
+                                    <td>
+                                        <span ng-if="basePlan.deliveryType == 1">1周</span>
+                                        <span ng-if="basePlan.deliveryType == 2">2周</span>
+                                        <span ng-if="basePlan.deliveryType == 3">3周</span>
+                                        <span ng-if="basePlan.deliveryType == 4">4周</span>
+                                    </td>
+                                    <td ng-bind="basePlan.deliveryTime"></td>
+                                    <td ng-bind="basePlan.deliverCount"></td>
+                                    <td>
+                                        <div ng-show="show">
+                                            <a href="javascript:void(0);" data-ng-click="removeBasePlan(basePlan)" title="删除：{{basePlan.planName}}">
+                                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                            </a>
+                                            <span> | </span>
+                                            <a href="javascript:void(0);" data-ng-click="open(basePlan)" title="编辑：{{basePlan.planName}}">
+                                                <span class="fa fa-pencil"></span>
+                                            </a>
+                                        </div>
+                                    </td>
+								</tr>
+								<tr ng-if="basePlanList == null || basePlanList.length == 0">
+									<td colspan="3">
+										<div>暂无消息数据</div>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="dt-toolbar-footer">
+							<div class="col-xs-12 col-sm-12">
+								<ug-pagination page-info="pageInfoSetting" ></ug-pagination>
+							</div>
+						</div>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- WIDGET END -->
+
+	</div>
+
+	<!-- end row -->
+
+</section>
+<!-- end widget grid -->
+
+<script type="text/ng-template" id="addBasePlan.html">
+	<div class="modal-header">
+		<h3 class="modal-title">新增/更新计划</h3>
+	</div>
+	<div class="modal-body">
+		<div class="widget-body">
+
+			<form class="form-horizontal" ug-validate="addBasePlanForm" name="addBasePlanForm" novalidate="">
+
+				<fieldset>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">计划名称<span class="vaild">*</span></label>
+                        <div class="col-md-10">
+                            <input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="20" ng-model="basePlan.planName" name="name" placeholder="计划名称" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">配送频率<span class="vaild">*</span></label>
+                        <div class="col-md-10">
+                            <label class="radio radio-inline">
+                                <input type="radio" class="radiobox" value="1" ng-model="basePlan.deliveryType" ng-checked="basePlan.deliveryType == 1" name="deliveryType">
+                                <span>1周</span>
+                            </label>
+                            <label class="radio radio-inline">
+                                <input type="radio" class="radiobox" value="2" ng-model="basePlan.deliveryType" ng-checked="basePlan.deliveryType == 2" name="deliveryType">
+                                <span>2周</span>
+                            </label>
+                            <label class="radio radio-inline">
+                                <input type="radio" class="radiobox" value="3" ng-model="basePlan.deliveryType" ng-checked="basePlan.deliveryType == 3" name="deliveryType">
+                                <span>3周</span>
+                            </label>
+                            <label class="radio radio-inline">
+                                <input type="radio" class="radiobox" value="4" ng-model="basePlan.deliveryType" ng-checked="basePlan.deliveryType == 4" name="deliveryType">
+                                <span>4周</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">配送时间<span class="vaild">*</span></label>
+                        <div class="col-md-10">
+                            <input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="20" ng-model="basePlan.deliveryTime" name="name" placeholder="配送时间(1-7代表周一至周天,分号分隔)" type="text">
+                            <!--<label class="radio radio-inline">-->
+                                <!--<input type="checkbox" class="checkbox" ng-model="basePlan.deliveryTimes.one" name="deliveryTime">-->
+                                <!--<span>星期一</span>-->
+                            <!--</label>-->
+                            <!--<label class="radio radio-inline">-->
+                                <!--<input type="checkbox" class="checkbox" ng-model="basePlan.deliveryTimes.two" name="deliveryTime">-->
+                                <!--<span>星期二</span>-->
+                            <!--</label>-->
+                            <!--<label class="radio radio-inline">-->
+                                <!--<input type="checkbox" class="checkbox" ng-model="basePlan.deliveryTimes.three" name="deliveryTime">-->
+                                <!--<span>星期三</span>-->
+                            <!--</label>-->
+                            <!--<label class="radio radio-inline">-->
+                                <!--<input type="checkbox" class="checkbox" ng-model="basePlan.deliveryTimes.four"  name="deliveryTime">-->
+                                <!--<span>星期四</span>-->
+                            <!--</label>-->
+                            <!--<label class="radio radio-inline">-->
+                                <!--<input type="checkbox" class="checkbox" ng-model="basePlan.deliveryTimes.five"  name="deliveryTime">-->
+                                <!--<span>星期五</span>-->
+                            <!--</label>-->
+                            <!--<label class="radio radio-inline">-->
+                                <!--<input type="checkbox" class="checkbox"  ng-model="basePlan.deliveryTimes.six" name="deliveryTime">-->
+                                <!--<span>星期六</span>-->
+                            <!--</label>-->
+                            <!--<label class="checkbox checkbox-inline">-->
+                                <!--<input type="checkbox" class="checkbox" ng-model="basePlan.deliveryTimes.seven"  name="deliveryTime">-->
+                                <!--<span>星期天</span>-->
+                            <!--</label>-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">配送次数<span class="vaild">*</span></label>
+                        <div class="col-md-10">
+                            <input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="20" ng-model="basePlan.deliverCount" name="name" placeholder="配送次数" type="text">
+                        </div>
+                    </div>
+                    <fieldset class="demo-switcher-1">
+                        <legend>选择配送产品</legend>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-xs-11 col-sm-10">
+                                    <div class="dataTables_filter" style="width : 35%;">
+                                        <label>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                                            <input type="search" placeholder="产品分类/编号/名称" data-ng-keyup="getItemList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive col-md-6">
+
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="4">可选择产品</th>
+                                    </tr>
+                                    </thead>
+                                    <thead>
+                                    <tr>
+                                        <th>分类</th>
+                                        <th>编号</th>
+                                        <th>名称</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr data-ng-repeat="item in itemList">
+                                        <td>{{item.categoryName}}</td>
+                                        <td>{{item.itemCode}}</td>
+                                        <td>{{item.itemName}}</td>
+                                        <td>
+                                            <div>
+                                                <a href="javascript:void(0);" data-ng-click="openItemNumber($index)" title="订购：{{basePlan.basePlanName}}">
+                                                    <span class="fa fa-plus"></span>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <div class="table-responsive col-md-6">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="5">已选择产品</th>
+                                    </tr>
+                                    <tr>
+                                        <th>分类</th>
+                                        <th>编号</th>
+                                        <th>名称</th>
+                                        <th>份数</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="choseItem in choseItemList">
+                                        <td>{{choseItem.categoryName}}</td>
+                                        <td>{{choseItem.itemCode}}</td>
+                                        <td>{{choseItem.itemName}}</td>
+                                        <td>{{choseItem.count}}</td>
+                                        <td>
+                                            <div>
+                                                <a href="javascript:void(0);" data-ng-click="removeItem($index)" title="移除：{{choseItem.itemName}}">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </fieldset>
+					<div class="form-group" ng-if="errors">
+						<label class="col-md-2 control-label"></label>
+						<div class="col-md-10 error">
+							{{errors.message}}
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="submit" data-ng-click="saveOrUpdateBasePlan()">
+			<i class="fa fa-save"></i>
+			保存
+		</button>
+		<button class="btn btn-warning" ng-click="cancel()">关闭</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="addItemNumber.html">
+    <div class="modal-header">
+        <h3 class="modal-title">【{{orderItem.itemName}}】</h3>
+    </div>
+    <div class="modal-body">
+        <div class="widget-body">
+
+            <form class="form-horizontal" ug-validate="addItemNumberForm" name="addItemNumberForm" novalidate="">
+
+                <fieldset>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">配送份数</label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control" required data-rule-number="true" ng-model="orderItem.number" name="number" placeholder="配送份数" type="text">
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="errors">
+                        <label class="col-md-2 control-label"></label>
+                        <div class="col-md-10 error">
+                            {{errors.message}}
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit" data-ng-click="saveItemNumber()">
+            <i class="fa fa-save"></i>
+            确定
+        </button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+</script>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.job.entity.mapper.TbJobMapper" >
+  <resultMap id="BaseResultMap" type="com.xmomen.module.job.entity.TbJob" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="PURCHASE_CODE" property="purchaseCode" jdbcType="VARCHAR" />
+    <result column="JOB_TYPE" property="jobType" jdbcType="INTEGER" />
+    <result column="JOB_STATUS" property="jobStatus" jdbcType="INTEGER" />
+    <result column="JOB_USER" property="jobUser" jdbcType="INTEGER" />
+    <result column="JOB_CREATE_TIME" property="jobCreateTime" jdbcType="TIMESTAMP" />
+    <result column="CD_ITEM_ID" property="cdItemId" jdbcType="INTEGER" />
+    <result column="COUNT_VALUE" property="countValue" jdbcType="INTEGER" />
+    <result column="FINISH_VALUE" property="finishValue" jdbcType="INTEGER" />
+    <result column="FINISH_TIME" property="finishTime" jdbcType="TIMESTAMP" />
+    <result column="JOB_CREATE_USER" property="jobCreateUser" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, PURCHASE_CODE, JOB_TYPE, JOB_STATUS, JOB_USER, JOB_CREATE_TIME, CD_ITEM_ID, COUNT_VALUE, 
+    FINISH_VALUE, FINISH_TIME, JOB_CREATE_USER
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.job.entity.TbJobExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_job
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.xmomen.module.job.entity.TbJobExample" >
+    delete from tb_job
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insertSelective" parameterType="com.xmomen.module.job.entity.TbJob" useGeneratedKeys="true" keyProperty="id" keyColumn="id" >
+    insert into tb_job
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="purchaseCode != null" >
+        PURCHASE_CODE,
+      </if>
+      <if test="jobType != null" >
+        JOB_TYPE,
+      </if>
+      <if test="jobStatus != null" >
+        JOB_STATUS,
+      </if>
+      <if test="jobUser != null" >
+        JOB_USER,
+      </if>
+      <if test="jobCreateTime != null" >
+        JOB_CREATE_TIME,
+      </if>
+      <if test="cdItemId != null" >
+        CD_ITEM_ID,
+      </if>
+      <if test="countValue != null" >
+        COUNT_VALUE,
+      </if>
+      <if test="finishValue != null" >
+        FINISH_VALUE,
+      </if>
+      <if test="finishTime != null" >
+        FINISH_TIME,
+      </if>
+      <if test="jobCreateUser != null" >
+        JOB_CREATE_USER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseCode != null" >
+        #{purchaseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="jobType != null" >
+        #{jobType,jdbcType=INTEGER},
+      </if>
+      <if test="jobStatus != null" >
+        #{jobStatus,jdbcType=INTEGER},
+      </if>
+      <if test="jobUser != null" >
+        #{jobUser,jdbcType=INTEGER},
+      </if>
+      <if test="jobCreateTime != null" >
+        #{jobCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cdItemId != null" >
+        #{cdItemId,jdbcType=INTEGER},
+      </if>
+      <if test="countValue != null" >
+        #{countValue,jdbcType=INTEGER},
+      </if>
+      <if test="finishValue != null" >
+        #{finishValue,jdbcType=INTEGER},
+      </if>
+      <if test="finishTime != null" >
+        #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jobCreateUser != null" >
+        #{jobCreateUser,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xmomen.module.job.entity.TbJobExample" resultType="java.lang.Integer" >
+    select count(*) from tb_job
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_job
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.purchaseCode != null" >
+        PURCHASE_CODE = #{record.purchaseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobType != null" >
+        JOB_TYPE = #{record.jobType,jdbcType=INTEGER},
+      </if>
+      <if test="record.jobStatus != null" >
+        JOB_STATUS = #{record.jobStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.jobUser != null" >
+        JOB_USER = #{record.jobUser,jdbcType=INTEGER},
+      </if>
+      <if test="record.jobCreateTime != null" >
+        JOB_CREATE_TIME = #{record.jobCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cdItemId != null" >
+        CD_ITEM_ID = #{record.cdItemId,jdbcType=INTEGER},
+      </if>
+      <if test="record.countValue != null" >
+        COUNT_VALUE = #{record.countValue,jdbcType=INTEGER},
+      </if>
+      <if test="record.finishValue != null" >
+        FINISH_VALUE = #{record.finishValue,jdbcType=INTEGER},
+      </if>
+      <if test="record.finishTime != null" >
+        FINISH_TIME = #{record.finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.jobCreateUser != null" >
+        JOB_CREATE_USER = #{record.jobCreateUser,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

@@ -32,15 +32,23 @@ define(function () {
         $scope.open = function (index) {
             var modalInstance = $modal.open({
                 templateUrl: 'addCompany.html',
-                controller: ["$scope", "CompanyAPI", "$modalInstance","currentCompany","UserAPI", function ($scope, CompanyAPI, $modalInstance,currentCompany,UserAPI) {
+                controller: ["$scope", "CompanyAPI", "$modalInstance","currentCompany","UserAPI", "$rootScope", function ($scope, CompanyAPI, $modalInstance,currentCompany,UserAPI,$rootScope) {
                     $scope.customerManagerList = [];
+                    $scope.ugSelect2Config = {};
                     UserAPI.getCustomerManagerList({},function(data){
                         $scope.customerManagerList = data;
+                        $scope.ugSelect2Config.initSelectData($scope.company.customerManagerIds);
                     });
                     $scope.company = {};
                     if(currentCompany){
                         $scope.company = currentCompany;
-                        $scope.company.customerManagerIds = ["1","2"];
+                        if($scope.company.companyCustomerManagers && $scope.company.companyCustomerManagers.length > 0){
+                            $scope.company.customerManagerIds = [];
+                            for (var i = 0; i < $scope.company.companyCustomerManagers.length; i++) {
+                                var obj = $scope.company.companyCustomerManagers[i];
+                                $scope.company.customerManagerIds.push(obj.customerMangerId);
+                            }
+                        }
                     }
                     $scope.errors = null;
                     $scope.addCompanyForm = {};

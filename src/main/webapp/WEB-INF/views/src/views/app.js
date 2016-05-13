@@ -5,11 +5,12 @@ define([
     "views/dashboard",
     "views/base/base_module",
     "views/templates/template_module",
-    "views/checklist-model/checklist-model"
-],function (user_module,order_module,schedule_module, dashboard, base_module, template_module,checklist_model) {
+    "views/checklist-model/checklist-model",
+    "views/plan/plan_module"
+],function (user_module,order_module,schedule_module, dashboard, base_module, template_module,checklist_model,plan_module) {
     angular.module('DMS', [
         "smartApp", "ui.router", "DMS.schedule", "DMS.order", "DMS.tpls", "DMS.user","DMS.base", "ug.pagination", "EnvModule", "permission", "ug.validate","ug.dialog",
-        "DMS.REST","checklist-model"
+        "DMS.REST","checklist-model","DMS.plan"
     ]).factory({
         HttpInterceptor:["$q", function($q){
            return {
@@ -82,12 +83,20 @@ define([
                 post:httpPost
             };
         }]
-    }).directive("ugSelect2",[function(){
+    }).directive("ugSelect2",["CompanyAPI", "$rootScope", function(CompanyAPI, $rootScope){
         return {
             restrict:"A",
             require:"select",
+            scope:{ ugSelect2Config: '='},
             link: function(scope, element, attr, crtl){
-                $(element).select2();
+                var config = angular.extend(scope.ugSelect2Config, {
+                    initSelectData : function(data){
+                        setTimeout(function(){
+                            $select2.val(data).trigger("change");
+                        }, 100);
+                    }
+                });
+                var $select2 = $(element).select2(config);
             }
         }
     }]).controller("LeftPanelController",["$scope", "$rootScope", "$http", function($scope, $rootScope, $http){

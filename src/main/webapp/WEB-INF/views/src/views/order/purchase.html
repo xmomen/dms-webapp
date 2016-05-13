@@ -64,18 +64,22 @@
 							<table class="table table-striped table-condensed table-hover smart-form has-tickbox">
 								<thead>
 								<tr>
+									<th></th>
 									<th width="80">需求日期</th>
 									<th>产品名称</th>
 									<th>单位</th>
 									<th>数量</th>
+									<th>重量</th>
 								</tr>
 								</thead>
 								<tbody>
 								<tr ng-repeat="purchase in purchaseList"  ng-if="purchaseList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+									<td></td>
 									<td ng-bind="purchase.purchaseCode"></td>
 									<td ng-bind="purchase.itemName"></td>
 									<td ng-bind="purchase.itemUnit"></td>
 									<td ng-bind="purchase.totalItemQty"></td>
+									<td ng-bind="purchase.weight"></td>
 								</tr>
 								<tr ng-if="purchaseList == null || purchaseList.length == 0">
 									<td colspan="11">

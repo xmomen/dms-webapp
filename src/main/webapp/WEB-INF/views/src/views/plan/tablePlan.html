@@ -1,0 +1,207 @@
+<!--
+	The ID "widget-grid" will start to initialize all widgets below 
+	You do not need to use widgets if you dont want to. Simply remove 
+	the <section></section> and you can use wells or panels instead 
+	-->
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+    <!-- row -->
+    <div class="row">
+
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-4">
+                <!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>餐桌计划列表</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+                        <div class="dt-toolbar">
+                            <div class="col-xs-11 col-sm-10">
+                                <div class="dataTables_filter">
+                                    <label>
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                                        <input type="search" placeholder="姓名/手机号" data-ng-keyup="getTablePlanList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+                                </div>
+                            </div>
+                            <div class="col-xs-1 col-sm-2">
+                                <button class="btn btn-primary" type="button" data-ng-click="open()">
+                                    <i class="fa fa-plus"></i>
+                                    新增
+                                </button>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-condensed table-hover smart-form has-tickbox">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        <label class="checkbox">
+                                            <input type="checkbox" name="checkbox-inline">
+                                            <i></i>
+                                        </label>
+                                    </th>
+                                    <th width="120">餐桌计划</th>
+                                    <th width="120">收货人姓名</th>
+                                    <th>手机号</th>
+                                    <th>地址</th>
+                                    <th>所属单位</th>
+                                    <th>客户经理</th>
+                                    <th>总配送次数</th>
+                                    <th>已配送次数</th>
+                                    <th>是否暂停</th>
+                                    <th width="80">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="tablePlan in tablePlanList"  ng-if="tablePlanList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+                                    <td>
+                                        <label class="checkbox">
+                                            <input type="checkbox" name="checkbox-inline">
+                                            <i></i>
+                                        </label>
+                                    </td>
+                                    <td ng-bind="tablePlan.planName"></td>
+                                    <td ng-bind="tablePlan.consigneeName"></td>
+                                    <td ng-bind="tablePlan.consigneePhone"></td>
+                                    <td ng-bind="tablePlan.consigneeAddress"></td>
+                                    <td ng-bind="tablePlan.companyName"></td>
+                                    <td ng-bind="tablePlan.managerName"></td>
+                                    <td ng-bind="tablePlan.totalSendValue"></td>
+                                    <td ng-bind="tablePlan.sendValue"></td>
+                                    <td>
+                                        <label class="checkbox">
+                                            <input type="checkbox" ng-model="tablePlan.isStop" name="checkbox-inline"
+                                                   ng-change="stop($index)"
+                                                   data-ng-checked="tablePlan.isStop == 1" data-ng-true-value="1" data-ng-false-value="0">
+                                            <i></i>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <div ng-show="show">
+                                            <a href="javascript:void(0);" data-ng-click="removeTablePlan($index)" title="删除：{{tablePlan.consigneeName}}">
+                                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                            </a>
+                                            <span> | </span>
+                                            <a href="javascript:void(0);" data-ng-click="open($index)" title="编辑：{{tablePlan.consigneeName}}">
+                                                <span class="fa fa-pencil"></span>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr ng-if="tablePlanList == null || tablePlanList.length == 0">
+                                    <td colspan="3">
+                                        <div>暂无消息数据</div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="dt-toolbar-footer">
+                            <div class="col-xs-12 col-sm-12">
+                                <ug-pagination page-info="pageInfoSetting" ></ug-pagination>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+            <!-- end widget -->
+
+        </article>
+        <!-- WIDGET END -->
+
+    </div>
+
+    <!-- end row -->
+
+</section>
+<!-- end widget grid -->
+<script type="text/ng-template" id="addTablePlan.html">
+    <div class="modal-header">
+        <h3 class="modal-title">新增/更新计划</h3>
+    </div>
+    <div class="modal-body">
+        <div class="widget-body">
+
+            <form class="form-horizontal" ug-validate="addTablePlanForm" name="addTablePlanForm" novalidate="">
+
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">餐桌计划<span class="vaild">*</span></label>
+                        <div class="col-md-10 input-group">
+                            <select ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;" required="true" ng-model="tablePlan.cdPlanId" name="cdPlanId" >
+                                <option value="">--请选择--</option>
+                                <option value="{{basePlan.id}}" ng-repeat="basePlan in basePlanList">{{basePlan.planName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">客户手机号<span class="vaild">*</span></label>
+                        <div class="input-group input-group-md">
+                            <input type="text" ng-model="tablePlan.phone"  required="true" placeholder="手机号" name="cardNumber" class="form-control">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" data-ng-click="queryMemberByPhoneNumber()" type="button">查询</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">收货人<span class="vaild">*</span></label>
+                        <div class="col-md-4">
+                            <input class="form-control" required="true" ng-model="tablePlan.consigneeName" name="" placeholder="收货人" type="text">
+                        </div>
+                        <label class="col-md-2 control-label">收货手机号<span class="vaild">*</span></label>
+                        <div class="col-md-4">
+                            <input class="form-control" required="true" ng-model="tablePlan.consigneePhone" name="phoneNumber" data-rule-telephone="true" placeholder="手机号"  type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">收货地址<span class="vaild">*</span></label>
+                        <div class="col-md-10">
+                            <input class="form-control" required="true" ng-model="tablePlan.consigneeAddress" name="address" placeholder="收货地址" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="errors">
+                        <label class="col-md-2 control-label"></label>
+                        <div class="col-md-10 error">
+                            {{errors.message}}
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit" data-ng-click="saveOrUpdateTablePlan()">
+            <i class="fa fa-save"></i>
+            保存
+        </button>
+        <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+    </div>
+</script>

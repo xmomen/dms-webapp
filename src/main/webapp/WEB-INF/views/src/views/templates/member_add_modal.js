@@ -2,8 +2,9 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "MemberAPI", "$modalInstance","currentMember","CompanyAPI", function ($scope, MemberAPI, $modalInstance,currentMember,CompanyAPI) {
+    return ["$scope", "MemberAPI", "$modalInstance","currentMember","CompanyAPI", "UserAPI", function ($scope, MemberAPI, $modalInstance,currentMember,CompanyAPI,UserAPI) {
         $scope.companyList = [];
+        $scope.ugSelect2Config = {};
         $scope.pageSetting = {
             pageSize:1000,
             pageNum:1
@@ -16,18 +17,20 @@ define(function () {
                 $scope.companyList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;
                 $scope.pageInfoSetting.loadData = $scope.getCompanyList;
+                $scope.ugSelect2Config.initSelectData($scope.member.cdCompanyId);
+                $scope.managerUgSelect2Config.initSelectData($scope.member.cdUserId);
             });
         };
+        $scope.managerUgSelect2Config = {};
         $scope.getCompanyList();
         $scope.changeCompany = function(id){
             for(var i in $scope.companyList){
-                var company =  $scope.companyList[i]
+                var company =  $scope.companyList[i];
                 if(company.id == parseInt(id)){
                     $scope.companyCustomerManagers =  company.companyCustomerManagers;
                 }
             }
-
-        }
+        };
         $scope.member = {};
         if(currentMember){
             if(currentMember.id && !currentMember.name){

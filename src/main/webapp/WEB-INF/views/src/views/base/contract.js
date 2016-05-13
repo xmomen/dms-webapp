@@ -35,8 +35,10 @@ define(function () {
                 templateUrl: 'addContract.html',
                 controller: ["$scope", "ContractAPI", "$modalInstance","currentContract","CompanyAPI", function ($scope, ContractAPI, $modalInstance,currentContract,CompanyAPI) {
                     $scope.companyList = [];
+                    $scope.ugSelect2Config = {};
                     CompanyAPI.getCompanyList({},function(data){
                         $scope.companyList = data;
+                        $scope.ugSelect2Config.initSelectData($scope.contract.cdCompanyId);
                     })
                     $scope.contract = {};
                     if(currentContract){

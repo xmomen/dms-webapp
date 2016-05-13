@@ -66,7 +66,7 @@ public class OrderService {
                     tbOrderItem.setItemName(cdItem.getItemName());
                     tbOrderItem.setItemPrice(cdItem.getSellPrice());
                     tbOrderItem.setItemQty(orderItem.getItemQty());
-                    tbOrderItem.setItemUnit(cdItem.getSellUnit());
+                    tbOrderItem.setItemUnit(cdItem.getPricingManner());
                     totalAmount = totalAmount.add(tbOrderItem.getItemPrice().multiply(orderItem.getItemQty()));
                     mybatisDao.insert(tbOrderItem);
                 }

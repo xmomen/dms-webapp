@@ -173,13 +173,16 @@
                             <input class="form-control" ng-model="company.companyAddress" name="companyAddress" placeholder="地址" type="text">
                         </div>
                     </div>
-                    <label class="col-md-2 control-label">客服经理<span class="vaild">*</span></label>
-                    <div class="col-md-4">
-                        <select ug-select2 multiple style="width: 100%;" required="true" ng-model="company.customerManagerIds" name="manager" >
-                            <option value="">--请选择--</option>
-                            <option value="{{customerManager.id}}" ng-repeat="customerManager in customerManagerList">{{customerManager.realname}}</option>
-                        </select>
-                    </div>
+					<div class="form-group">
+						<label class="col-md-2 control-label">客服经理<span class="vaild">*</span></label>
+						<div class="col-md-10">
+							<select multiple ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;"
+									required="true" ng-model="company.customerManagerIds" name="manager" >
+								<option ng-value="">--请选择--</option>
+								<option ng-value="{{customerManager.id}}" ng-repeat="customerManager in customerManagerList">{{customerManager.realname}}</option>
+							</select>
+						</div>
+					</div>
 					<div class="form-group" ng-if="errors">
 						<label class="col-md-2 control-label"></label>
 						<div class="col-md-10 error">
