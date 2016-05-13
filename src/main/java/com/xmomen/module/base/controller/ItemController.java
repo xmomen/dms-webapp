@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import com.xmomen.module.base.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,10 +21,6 @@ import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
 import com.xmomen.module.base.mapper.ItemMapper;
-import com.xmomen.module.base.model.CreateItem;
-import com.xmomen.module.base.model.ItemChildModel;
-import com.xmomen.module.base.model.ItemModel;
-import com.xmomen.module.base.model.UpdateItem;
 import com.xmomen.module.base.service.ItemService;
 import com.xmomen.module.logger.Log;
 @RestController
@@ -49,22 +46,22 @@ public class ItemController {
             @RequestParam(value = "sellStatus", required = false) Integer sellStatus,
             @RequestParam(value = "itemType", required = false) Integer itemType,
             @RequestParam(value = "exclude_ids", required = false) Integer[] exclude_ids){
-		 Map map = new HashMap<String,Object>();
-	     map.put("id", id);
-	     map.put("keyword", keyword);
+        ItemQuery itemQuery = new ItemQuery();
+        itemQuery.setId(id);
+        itemQuery.setKeyword(keyword);
          if(companyId != null){
-             map.put("companyId", companyId);
+             itemQuery.setCompanyId(companyId);
          }
 	     if(sellStatus != null){
-	    	 map.put("sellStatus",sellStatus);
+             itemQuery.setSellStatus(sellStatus);
 	     }
 	     if(itemType != null){
-	    	 map.put("itemType",itemType);
+             itemQuery.setItemType(itemType);
 	     }
         if(exclude_ids != null){
-            map.put("exclude_ids", exclude_ids);
+            itemQuery.setExcludeIds(exclude_ids);
         }
-        return (Page<ItemModel>) mybatisDao.selectPage(ItemMapper.ItemMapperNameSpace + "getItemList", map, limit, offset);
+        return itemService.queryItemList(itemQuery, offset, limit);
     }
     @RequestMapping(value = "/item", method = RequestMethod.POST)
     @Log(actionName = "新增产品")
