@@ -53,6 +53,9 @@
               <if test="cdCompanyId != null">
               	AND ccr.ref_value = #{cdCompanyId}
               </if>
+              <if test="isOver != null">
+              	AND cc.is_over = #{isOver}
+              </if>
          </where>
     </select>
 </mapper>

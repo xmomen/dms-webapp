@@ -253,6 +253,7 @@
                                     <th>发放客户经理</th>
                                     <th>实收金额</th>
                                     <th>审核作废</th>
+                                    <th>操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -282,6 +283,13 @@
                                                    data-ng-checked="coupon.isUseful == 1" data-ng-true-value="1" data-ng-false-value="0">
                                             <i></i>
                                         </label>
+                                    </td>
+                                    <td>
+                                        <div ng-show="show">
+                                            <a href="javascript:void(0);" data-ng-click="overCoupon(coupon)" title="完结：{{coupon.couponNumber}}">
+                                                <span class="fa fa-pencil"></span>
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr ng-if="couponAuditList == null || couponAuditList.length == 0">

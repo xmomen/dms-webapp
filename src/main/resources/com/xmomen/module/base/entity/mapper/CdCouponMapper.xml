@@ -5,17 +5,19 @@
     <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="COUPON_TYPE" property="couponType" jdbcType="INTEGER" />
     <result column="COUPON_CATEGORY" property="couponCategory" jdbcType="INTEGER" />
-    <result column="COUPON_DESC" property="couponDesc" jdbcType="VARCHAR" />
     <result column="COUPON_NUMBER" property="couponNumber" jdbcType="VARCHAR" />
     <result column="COUPON_PASSWORD" property="couponPassword" jdbcType="VARCHAR" />
-    <result column="BEGIN_TIME" property="beginTime" jdbcType="TIMESTAMP" />
-    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
-    <result column="COUPON_VALUE" property="couponValue" jdbcType="DECIMAL" />
+    <result column="USER_PRICE" property="userPrice" jdbcType="DECIMAL" />
     <result column="IS_USED" property="isUsed" jdbcType="INTEGER" />
     <result column="IS_USEFUL" property="isUseful" jdbcType="INTEGER" />
     <result column="IS_GIFT" property="isGift" jdbcType="INTEGER" />
-    <result column="NOTES" property="notes" jdbcType="VARCHAR" />
     <result column="IS_SEND" property="isSend" jdbcType="INTEGER" />
+    <result column="COUPON_DESC" property="couponDesc" jdbcType="VARCHAR" />
+    <result column="BEGIN_TIME" property="beginTime" jdbcType="TIMESTAMP" />
+    <result column="COUPON_VALUE" property="couponValue" jdbcType="DECIMAL" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="NOTES" property="notes" jdbcType="VARCHAR" />
+    <result column="IS_OVER" property="isOver" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -76,8 +78,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, COUPON_TYPE, COUPON_CATEGORY, COUPON_DESC, COUPON_NUMBER, COUPON_PASSWORD, BEGIN_TIME, 
-    END_TIME, COUPON_VALUE, IS_USED, IS_USEFUL, IS_GIFT, NOTES, IS_SEND
+    ID, COUPON_TYPE, COUPON_CATEGORY, COUPON_NUMBER, COUPON_PASSWORD, USER_PRICE, IS_USED, 
+    IS_USEFUL, IS_GIFT, IS_SEND, COUPON_DESC, BEGIN_TIME, COUPON_VALUE, END_TIME, NOTES, 
+    IS_OVER
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdCouponExample" >
     select
@@ -111,23 +114,14 @@
       <if test="couponCategory != null" >
         COUPON_CATEGORY,
       </if>
-      <if test="couponDesc != null" >
-        COUPON_DESC,
-      </if>
       <if test="couponNumber != null" >
         COUPON_NUMBER,
       </if>
       <if test="couponPassword != null" >
         COUPON_PASSWORD,
       </if>
-      <if test="beginTime != null" >
-        BEGIN_TIME,
-      </if>
-      <if test="endTime != null" >
-        END_TIME,
-      </if>
-      <if test="couponValue != null" >
-        COUPON_VALUE,
+      <if test="userPrice != null" >
+        USER_PRICE,
       </if>
       <if test="isUsed != null" >
         IS_USED,
@@ -138,11 +132,26 @@
       <if test="isGift != null" >
         IS_GIFT,
       </if>
+      <if test="isSend != null" >
+        IS_SEND,
+      </if>
+      <if test="couponDesc != null" >
+        COUPON_DESC,
+      </if>
+      <if test="beginTime != null" >
+        BEGIN_TIME,
+      </if>
+      <if test="couponValue != null" >
+        COUPON_VALUE,
+      </if>
+      <if test="endTime != null" >
+        END_TIME,
+      </if>
       <if test="notes != null" >
         NOTES,
       </if>
-      <if test="isSend != null" >
-        IS_SEND,
+      <if test="isOver != null" >
+        IS_OVER,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -155,23 +164,14 @@
       <if test="couponCategory != null" >
         #{couponCategory,jdbcType=INTEGER},
       </if>
-      <if test="couponDesc != null" >
-        #{couponDesc,jdbcType=VARCHAR},
-      </if>
       <if test="couponNumber != null" >
         #{couponNumber,jdbcType=VARCHAR},
       </if>
       <if test="couponPassword != null" >
         #{couponPassword,jdbcType=VARCHAR},
       </if>
-      <if test="beginTime != null" >
-        #{beginTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null" >
-        #{endTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="couponValue != null" >
-        #{couponValue,jdbcType=DECIMAL},
+      <if test="userPrice != null" >
+        #{userPrice,jdbcType=DECIMAL},
       </if>
       <if test="isUsed != null" >
         #{isUsed,jdbcType=INTEGER},
@@ -182,11 +182,26 @@
       <if test="isGift != null" >
         #{isGift,jdbcType=INTEGER},
       </if>
+      <if test="isSend != null" >
+        #{isSend,jdbcType=INTEGER},
+      </if>
+      <if test="couponDesc != null" >
+        #{couponDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="beginTime != null" >
+        #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponValue != null" >
+        #{couponValue,jdbcType=DECIMAL},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="notes != null" >
         #{notes,jdbcType=VARCHAR},
       </if>
-      <if test="isSend != null" >
-        #{isSend,jdbcType=INTEGER},
+      <if test="isOver != null" >
+        #{isOver,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -208,23 +223,14 @@
       <if test="record.couponCategory != null" >
         COUPON_CATEGORY = #{record.couponCategory,jdbcType=INTEGER},
       </if>
-      <if test="record.couponDesc != null" >
-        COUPON_DESC = #{record.couponDesc,jdbcType=VARCHAR},
-      </if>
       <if test="record.couponNumber != null" >
         COUPON_NUMBER = #{record.couponNumber,jdbcType=VARCHAR},
       </if>
       <if test="record.couponPassword != null" >
         COUPON_PASSWORD = #{record.couponPassword,jdbcType=VARCHAR},
       </if>
-      <if test="record.beginTime != null" >
-        BEGIN_TIME = #{record.beginTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.endTime != null" >
-        END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.couponValue != null" >
-        COUPON_VALUE = #{record.couponValue,jdbcType=DECIMAL},
+      <if test="record.userPrice != null" >
+        USER_PRICE = #{record.userPrice,jdbcType=DECIMAL},
       </if>
       <if test="record.isUsed != null" >
         IS_USED = #{record.isUsed,jdbcType=INTEGER},
@@ -235,11 +241,26 @@
       <if test="record.isGift != null" >
         IS_GIFT = #{record.isGift,jdbcType=INTEGER},
       </if>
+      <if test="record.isSend != null" >
+        IS_SEND = #{record.isSend,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponDesc != null" >
+        COUPON_DESC = #{record.couponDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beginTime != null" >
+        BEGIN_TIME = #{record.beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.couponValue != null" >
+        COUPON_VALUE = #{record.couponValue,jdbcType=DECIMAL},
+      </if>
+      <if test="record.endTime != null" >
+        END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.notes != null" >
         NOTES = #{record.notes,jdbcType=VARCHAR},
       </if>
-      <if test="record.isSend != null" >
-        IS_SEND = #{record.isSend,jdbcType=INTEGER},
+      <if test="record.isOver != null" >
+        IS_OVER = #{record.isOver,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >
