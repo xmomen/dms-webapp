@@ -73,6 +73,11 @@ public class ItemModel implements Serializable {
      */
     private BigDecimal sellPrice;
 
+	/**
+	 * 折扣价格
+	 */
+	private BigDecimal discountPrice;
+
 
     /**
      * 0-未审核，1-审核
@@ -231,5 +236,13 @@ public class ItemModel implements Serializable {
 
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
+	}
+
+	public BigDecimal getDiscountPrice() {
+		return discountPrice;
+	}
+
+	public void setDiscountPrice(BigDecimal discountPrice) {
+		this.discountPrice = discountPrice;
 	}
 }

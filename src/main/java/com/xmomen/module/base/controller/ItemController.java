@@ -44,6 +44,7 @@ public class ItemController {
     public Page<ItemModel> getMemberList(@RequestParam(value = "limit") Integer limit,
             @RequestParam(value = "offset") Integer offset,
             @RequestParam(value = "id", required = false) Integer id,
+             @RequestParam(value = "companyId", required = false) Integer companyId,
             @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(value = "sellStatus", required = false) Integer sellStatus,
             @RequestParam(value = "itemType", required = false) Integer itemType,
@@ -51,6 +52,9 @@ public class ItemController {
 		 Map map = new HashMap<String,Object>();
 	     map.put("id", id);
 	     map.put("keyword", keyword);
+         if(companyId != null){
+             map.put("companyId", companyId);
+         }
 	     if(sellStatus != null){
 	    	 map.put("sellStatus",sellStatus);
 	     }
