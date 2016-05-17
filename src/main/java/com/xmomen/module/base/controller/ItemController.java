@@ -45,6 +45,7 @@ public class ItemController {
             @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(value = "sellStatus", required = false) Integer sellStatus,
             @RequestParam(value = "itemType", required = false) Integer itemType,
+            @RequestParam(value = "ids", required = false) Integer[] ids,
             @RequestParam(value = "exclude_ids", required = false) Integer[] exclude_ids){
         ItemQuery itemQuery = new ItemQuery();
         itemQuery.setId(id);
@@ -61,8 +62,18 @@ public class ItemController {
         if(exclude_ids != null){
             itemQuery.setExcludeIds(exclude_ids);
         }
+        if(ids != null){
+            itemQuery.setIds(ids);
+        }
         return itemService.queryItemList(itemQuery, offset, limit);
     }
+
+    /**
+     * 新增产品
+     * @param createItem
+     * @param bindingResult
+     * @throws ArgumentValidException
+     */
     @RequestMapping(value = "/item", method = RequestMethod.POST)
     @Log(actionName = "新增产品")
     public void createCompany(@RequestBody @Valid CreateItem createItem, BindingResult bindingResult) throws ArgumentValidException {

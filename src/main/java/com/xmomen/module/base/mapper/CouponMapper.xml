@@ -2,8 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xmomen.module.base.mapper.CouponMapper" >
 
-<!--        查询消息    -->
-	<select id="getCouponList" resultType="com.xmomen.module.base.model.CouponModel" parameterType="java.util.HashMap">
+    <resultMap type="com.xmomen.module.base.model.CouponModel" id="couponModelMap" autoMapping="true" >
+        <collection property="relationItemList" ofType="com.xmomen.module.base.model.CouponRelationItem" column="coupon_category" select="queryRelationItemList"></collection>
+    </resultMap>
+
+    <select id="queryRelationItemList" resultType="com.xmomen.module.base.model.CouponRelationItem" parameterType="Integer">
+       SELECT 
+          cccr.REF_VALUE AS itemId,
+          cccr.REF_COUNT AS itemNumber 
+        FROM
+          cd_coupon_category ccc 
+          LEFT JOIN cd_coupon_category_ref cccr 
+            ON cccr.CD_COUPON_CATEGORY_ID = ccc.ID 
+        WHERE ccc.ID = #{coupon_category}
+    </select>
+
+    <!--        查询消息    -->
+	<select id="getCouponList" resultMap="couponModelMap" parameterType="com.xmomen.module.base.model.CouponQuery">
         SELECT
         cc.*,
 		ccc.CATEGORY_NAME,

@@ -1,5 +1,6 @@
 package com.xmomen.module.base.service.impl;
 
+import com.xmomen.module.base.mapper.CouponCategoryMapper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,7 +47,7 @@ public class CouponCategoryServiceImpl implements CouponCategoryService {
 			for(CouponCategoryRefModel categoryRefVo : createCouponCategory.getCategoryRefs()){
 				CdCouponCategoryRef categoryRef = new CdCouponCategoryRef();
 				categoryRef.setCdCouponCategoryId(category.getId());
-				categoryRef.setRefType("TICKET_ITEM");
+				categoryRef.setRefType(CouponCategoryMapper.COUPON_RELATION_ITEM_CODE);
 				categoryRef.setRefValue(categoryRefVo.getCdItemId()+"");
 				categoryRef.setRefName("消费劵固定产品");
 				categoryRef.setRefCount(categoryRefVo.getCount());
@@ -70,7 +71,7 @@ public class CouponCategoryServiceImpl implements CouponCategoryService {
 			for(CouponCategoryRefModel categoryRefVo : updateCouponCategory.getCategoryRefs()){
 				CdCouponCategoryRef categoryRef = new CdCouponCategoryRef();
 				categoryRef.setCdCouponCategoryId(category.getId());
-				categoryRef.setRefType("TICKET_ITEM");
+				categoryRef.setRefType(CouponCategoryMapper.COUPON_RELATION_ITEM_CODE);
 				categoryRef.setRefValue(categoryRefVo.getCdItemId()+"");
 				categoryRef.setRefName("消费劵固定产品");
 				categoryRef.setRefCount(categoryRefVo.getCount());

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import com.xmomen.module.base.model.CouponQuery;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -63,21 +64,21 @@ public class CouponController {
                                   @RequestParam(value = "isUseful",required = false) Integer isUseful,
                                   @RequestParam(value = "isOver",required = false) Integer isOver,
                                   @RequestParam(value = "keyword", required = false) String keyword){
-   	    Map<String, Object> map = new HashMap<String,Object>();
-        map.put("keyword", keyword);
-        map.put("couponNumber", couponNumber);
-        map.put("couponType",couponType);
-        map.put("isSend",isSend);
-        map.put("isUseful",isUseful);
-        map.put("couponCategoryId", couponCategoryId);
-        map.put("customerMangerId",customerMangerId);
-        map.put("cdCompanyId", cdCompanyId);
-        map.put("isOver", isOver);
+        CouponQuery couponQuery = new CouponQuery();
+        couponQuery.setKeyword(keyword);
+        couponQuery.setCdCompanyId(cdCompanyId);
+        couponQuery.setCouponCategoryId(couponCategoryId);
+        couponQuery.setCouponNumber(couponNumber);
+        couponQuery.setCouponType(couponType);
+        couponQuery.setCustomerMangerId(customerMangerId);
+        couponQuery.setIsOver(isOver);
+        couponQuery.setIsSend(isSend);
+        couponQuery.setIsUseful(isUseful);
         if(SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE)){
             Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
-            map.put("managerId", userId);
+            couponQuery.setManagerId(userId);
         }
-        return (Page<CouponModel>) mybatisDao.selectPage(CouponMapper.CouponMapperNameSpace + "getCouponList", map, limit, offset);
+        return couponService.queryCoupon(couponQuery, limit, offset);
     }
 
     /**

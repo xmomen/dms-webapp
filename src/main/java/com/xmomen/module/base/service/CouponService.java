@@ -1,5 +1,12 @@
 package com.xmomen.module.base.service;
 
+import com.xmomen.module.base.entity.*;
+import com.xmomen.module.base.mapper.CouponCategoryMapper;
+import com.xmomen.module.base.mapper.CouponMapper;
+import com.xmomen.module.base.model.CouponModel;
+import com.xmomen.module.base.model.CouponQuery;
+import com.xmomen.module.base.model.ItemModel;
+import com.xmomen.module.base.model.ItemQuery;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,10 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
-import com.xmomen.module.base.entity.CdCoupon;
-import com.xmomen.module.base.entity.CdCouponExample;
-import com.xmomen.module.base.entity.CdCouponRef;
-import com.xmomen.module.base.entity.CdCouponRefExample;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Jeng on 2016/3/30.
@@ -20,6 +27,20 @@ public class CouponService {
 
     @Autowired
     MybatisDao mybatisDao;
+
+	@Autowired
+	ItemService itemService;
+
+	/**
+	 * 查询卡券信息
+	 * @param couponQuery
+	 * @param limit
+	 * @param offset
+	 * @return
+	 */
+	public Page<CouponModel> queryCoupon(CouponQuery couponQuery, Integer limit, Integer offset){
+		return (Page<CouponModel>) mybatisDao.selectPage(CouponMapper.CouponMapperNameSpace + "getCouponList", couponQuery, limit, offset);
+	}
 
     @Transactional
     public CdCoupon createCoupon(CdCoupon cdCoupon){

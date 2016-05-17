@@ -1,8 +1,11 @@
 package com.xmomen.module.base.model;
 
+import com.xmomen.framework.mybatis.page.Page;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Jeng on 2016/3/30.
@@ -115,6 +118,17 @@ public class CouponModel implements Serializable {
      *
      */
     private String notes;
+
+	private List<CouponRelationItem> relationItemList;
+
+	public List<CouponRelationItem> getRelationItemList() {
+		return relationItemList;
+	}
+
+	public void setRelationItemList(List<CouponRelationItem> relationItemList) {
+		this.relationItemList = relationItemList;
+	}
+
 	public Integer getId() {
 		return id;
 	}
