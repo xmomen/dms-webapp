@@ -28,7 +28,7 @@ aside{ background: #e8e8e8}
 
 .header-dropdown-list,.ribbon-button-alignment,.minifyme{ display: none}
 #fullscreen,#demo-setting{ display: none}
-div.error {
+.error {
     color: red;
 }
 

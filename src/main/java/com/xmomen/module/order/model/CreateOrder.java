@@ -93,6 +93,11 @@ public class CreateOrder implements Serializable {
      */
     private Integer createUserId;
 
+    /**
+     * 单位
+     */
+    private Integer companyId;
+
     private Date appointmentTime;
     @NotNull
     @NotEmpty
@@ -248,4 +253,12 @@ public class CreateOrder implements Serializable {
 	public void setAppointmentTime(Date appointmentTime) {
 		this.appointmentTime = appointmentTime;
 	}
+
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
+    }
 }

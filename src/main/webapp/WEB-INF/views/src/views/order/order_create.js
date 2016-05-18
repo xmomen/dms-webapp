@@ -9,7 +9,7 @@ define(function () {
                 disablesSpareName:true,
                 disablesChoseItems:false,
                 disablesUpdateChoseItems:false,
-                disablesChosePayMode:false
+                disablesChosePayMode:true
             };
             var resetOrder = function(){
                 $scope.setting = {
@@ -28,11 +28,14 @@ define(function () {
                 };
             };
             $scope.order = {
-                orderType:0
+                orderType:1,
+                discount:100,
+                paymentMode:5
             };
             $scope.addOrderForm = {};
             $scope.errors = null;
             $scope.saveOrder = function(){
+                $scope.errors = null;
                 $scope.order.orderItemList = [];
                 for (var i = 0; i < $scope.choseOrderItemList.length; i++) {
                     var obj = $scope.choseOrderItemList[i];
@@ -90,7 +93,7 @@ define(function () {
                     $scope.queryParam.keyword = categoryName;
                 }
                 ItemAPI.query({
-                    companyId:$scope.order.cdCompanyId,
+                    companyId:$scope.order.companyId,
                     limit:$scope.pageInfoSetting.pageSize,
                     offset:$scope.pageInfoSetting.pageNum,
                     keyword:$scope.queryParam.keyword,
@@ -141,9 +144,8 @@ define(function () {
             };
             var setMemberInfo = function(member){
                 $scope.order.memberId = member.id;
-                $scope.order.cdCompanyId = member.cdCompanyId;
+                $scope.order.companyId = member.cdCompanyId;
                 $scope.order.name = member.name;
-                $scope.order.companyId = member.companyId;
                 $scope.order.companyName = member.companyName;
                 $scope.order.cdUserId = member.cdUserId;
                 $scope.order.managerName = member.managerName;
@@ -179,6 +181,7 @@ define(function () {
                             $scope.card.id = coupon.id;
                             $scope.card.password = coupon.couponPassword;
                             $scope.card.amount = coupon.userPrice;
+                            $scope.order.paymentRelationNo = coupon.couponNumber;
                             if(coupon.memberId){
                                 MemberAPI.get({
                                     id:coupon.memberId
@@ -207,6 +210,7 @@ define(function () {
                             var coupon = data.data[0];
                             $scope.coupon.id = coupon.id;
                             $scope.coupon.isUsed = coupon.isUsed;
+                            $scope.order.paymentRelationNo = coupon.couponNumber;
                             if(coupon.memberId){
                                 MemberAPI.get({
                                     id:coupon.memberId
@@ -222,7 +226,7 @@ define(function () {
                                 }
                                 //  固定产品
                                 ItemAPI.query({
-                                    companyId:$scope.order.cdCompanyId,
+                                    companyId:$scope.order.companyId,
                                     limit:1000,
                                     offset:1,
                                     sellStatus:1,
@@ -351,9 +355,6 @@ define(function () {
                 });
             };
             $scope.getItemCategoryTree();
-            $scope.order = {};
-            $scope.order.discount = 100;
-            $scope.order.orderType = 1;
 
             $scope.datepickerSetting = {
                 datepickerPopupConfig:{

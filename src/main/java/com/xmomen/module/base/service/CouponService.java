@@ -42,6 +42,10 @@ public class CouponService {
 		return (Page<CouponModel>) mybatisDao.selectPage(CouponMapper.CouponMapperNameSpace + "getCouponList", couponQuery, limit, offset);
 	}
 
+	public CouponModel queryOneCoupon(CouponQuery couponQuery){
+		return mybatisDao.getSqlSessionTemplate().selectOne(CouponMapper.CouponMapperNameSpace + "getCouponList", couponQuery);
+	}
+
     @Transactional
     public CdCoupon createCoupon(CdCoupon cdCoupon){
         return mybatisDao.saveByModel(cdCoupon);
