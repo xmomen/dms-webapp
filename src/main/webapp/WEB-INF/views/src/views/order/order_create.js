@@ -44,14 +44,14 @@ define(function () {
                         itemQty: obj.itemQty
                     });
                 }
-                OrderAPI.save($scope.order, function(){
-                    $ugDialog.alert("订单提交成功！");
-                    $state.go("order");
-                }, function(data){
-                    $scope.errors = data.data;
-                });
-                //if($scope.addOrderForm.validator.form()){
-                //}
+                if($scope.addOrderForm.validator.form()){
+                    OrderAPI.save($scope.order, function(){
+                        $ugDialog.alert("订单提交成功！");
+                        $state.go("order");
+                    }, function(data){
+                        $scope.errors = data.data;
+                    });
+                }
             };
             $scope.changeOrderType = function(){
                 if($scope.order.orderType == 1){
