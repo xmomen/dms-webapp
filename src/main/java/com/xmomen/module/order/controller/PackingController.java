@@ -9,7 +9,6 @@ import com.xmomen.module.order.model.CreatePacking;
 import com.xmomen.module.order.model.PackingModel;
 import com.xmomen.module.order.model.PackingQuery;
 import com.xmomen.module.order.service.PackingService;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -56,8 +55,6 @@ public class PackingController {
         if(bindingResult != null && bindingResult.hasErrors()){
             throw new ArgumentValidException(bindingResult);
         }
-        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("user_id");
-        createPacking.setCreateUserId(userId);
         return packingService.create(createPacking);
     }
 

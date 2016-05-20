@@ -5,8 +5,9 @@ define([
     "views/order/order",
     "views/order/order_create",
     "views/order/purchase",
-    "views/order/packing"
-],function (order, order_create, purchase, packing) {
+    "views/order/packing",
+    "views/order/order_packing"
+],function (order, order_create, purchase, packing, order_packing) {
     angular.module('DMS.order', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -56,7 +57,7 @@ define([
                         redirectTo:"unauthorized"
                     }
                 },
-                controller: order
+                controller: packing
             })
 
             .state('order_packing', {
@@ -68,7 +69,7 @@ define([
                         redirectTo:"unauthorized"
                     }
                 },
-                controller: order
+                controller: order_packing
             })
     }]);
 });

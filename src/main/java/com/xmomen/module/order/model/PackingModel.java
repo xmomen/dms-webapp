@@ -3,6 +3,7 @@ package com.xmomen.module.order.model;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by Jeng on 16/4/6.
@@ -10,8 +11,9 @@ import java.io.Serializable;
 public @Data
 class PackingModel implements Serializable {
 
-    /**
-     * 订单类型
-     */
-    private Integer orderType;
+    private Integer id;
+    private String packingNo;
+    private Date packingTime;
+    private Integer packingStatus;
+    private String packingStatusDesc;
 }

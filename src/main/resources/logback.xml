@@ -55,13 +55,26 @@
 		</filter>
     </appender>
 
+    <appender name="LOGSTASH" class="com.cwbase.logback.RedisAppender">
+        <source>mySource</source>
+        <sourcePath>mySourcePath</sourcePath>
+        <type>DMS-WEBAPP</type>
+        <tags>production</tags>
+        <host>192.168.8.220</host>
+        <port>6379</port>
+        <key>logstash</key>
+    </appender>
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="LOGSTASH" />
+    </appender>
+
     <logger name="org.apache.activemq.transport.AbstractInactivityMonitor" level="INFO"></logger>
 
     <root level="${LOG_LEVEL}">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE-ERROR" />
 		<appender-ref ref="FILE-INFO" />
-		<appender-ref ref="FILE-ALL" />
+        <appender-ref ref="ASYNC" />
     </root>
 
 

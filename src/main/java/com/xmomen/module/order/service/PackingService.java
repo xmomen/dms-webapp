@@ -30,7 +30,7 @@ public class PackingService {
     MybatisDao mybatisDao;
 
     public Page<PackingModel> getPackingList(PackingQuery packingQuery, Integer limit, Integer offset){
-        return null;
+        return (Page<PackingModel>) mybatisDao.selectPage(OrderMapper.ORDER_MAPPER_NAMESPACE + "queryPackingModel", packingQuery, limit, offset);
     }
 
     @Transactional

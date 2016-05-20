@@ -1,5 +1,7 @@
 package com.xmomen.module.order.model;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -7,7 +9,11 @@ import java.util.Date;
 /**
  * Created by Jeng on 16/4/6.
  */
-public class PackingQuery implements Serializable {
+public @Data
+class PackingQuery implements Serializable {
 
+    private String keyword;
+    private String packingStatus;
+    private String packingNo;
 
 }

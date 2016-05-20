@@ -2,22 +2,36 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "PackingAPI", "$modal", "$ugDialog", function($scope, PackingAPI, $modal, $ugDialog){
+    return ["$scope", "PackingAPI", "OrderAPI", "$modal", "$ugDialog", function($scope, PackingAPI, OrderAPI, $modal, $ugDialog){
         $scope.packingList = [];
         $scope.pageInfoSetting = {
             pageSize:10,
             pageNum:1
         };
         $scope.queryParam = {};
-        $scope.getPackingList = function(){
-            PackingAPI.query({
+        $scope.orderList = [];
+        $scope.getOrderList = function(){
+            OrderAPI.query({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
+                orderStatus:1,
                 keyword:$scope.queryParam.keyword
             }, function(data){
-                $scope.packingList = data.data;
+                $scope.orderList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;
-                $scope.pageInfoSetting.loadData = $scope.getPackingList;
+                $scope.pageInfoSetting.loadData = $scope.getOrderList;
+            });
+        };
+        $scope.getItemList = function(){
+            OrderAPI.query({
+                limit:$scope.pageInfoSetting.pageSize,
+                offset:$scope.pageInfoSetting.pageNum,
+                orderStatus:1,
+                keyword:$scope.queryParam.keyword
+            }, function(data){
+                $scope.orderList = data.data;
+                $scope.pageInfoSetting = data.pageInfo;
+                $scope.pageInfoSetting.loadData = $scope.getOrderList;
             });
         };
         $scope.removePacking = function(index){
@@ -75,6 +89,6 @@ define(function () {
             });
         };
 
-        $scope.getPackingList();
+        $scope.getOrderList();
     }];
 });

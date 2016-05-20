@@ -46,11 +46,11 @@
 								<div class="dataTables_filter">
 									<label>
 										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-										<input type="search" placeholder="装箱记录编号/手机号码/收货人" data-ng-keyup="getOrderList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+										<input type="search" placeholder="装箱记录编号/手机号码/收货人" data-ng-keyup="getPackingList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
 								</div>
 							</div>
 							<div class="col-sm-2">
-								<button class="btn btn-primary" type="button" data-ng-click="getOrderList()">
+								<button class="btn btn-primary" type="button" data-ng-click="getPackingList()">
 									<i class="fa fa-refresh"></i>
 									刷新
 								</button>
@@ -89,7 +89,7 @@
 									<td ng-bind="order.orderStatusDesc"></td>
 									<td>
 										<!--<div ng-show="show">-->
-											<!--<a href="javascript:void(0);" data-ng-click="updateOrder($index)" title="编辑：{{order.orderDesc}}">-->
+											<!--<a href="javascript:void(0);" data-ng-click="updatePacking($index)" title="编辑：{{order.orderDesc}}">-->
 												<!--<span class="fa fa-pencil"></span>-->
 											<!--</a>-->
 										<!--</div>-->

@@ -14,6 +14,7 @@ import com.xmomen.module.order.entity.TbOrderRelation;
 import com.xmomen.module.order.mapper.OrderMapper;
 import com.xmomen.module.order.model.CreateOrder;
 import com.xmomen.module.order.model.OrderModel;
+import com.xmomen.module.order.model.OrderQuery;
 import com.xmomen.module.order.model.PayOrder;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,15 +38,13 @@ public class OrderService {
 
     /**
      * 查询订单
-     * @param keyword
+     * @param orderQuery
      * @param limit
      * @param offset
      * @return
      */
-    public Page<OrderModel> getOrderList(String keyword, Integer limit, Integer offset){
-        Map param = new HashMap();
-        param.put("keyword", keyword);
-        return (Page<OrderModel>) mybatisDao.selectPage(OrderMapper.ORDER_MAPPER_NAMESPACE + "getOrderList", param, limit, offset);
+    public Page<OrderModel> getOrderList(OrderQuery orderQuery, Integer limit, Integer offset){
+        return (Page<OrderModel>) mybatisDao.selectPage(OrderMapper.ORDER_MAPPER_NAMESPACE + "getOrderList", orderQuery, limit, offset);
     }
 
     /**
