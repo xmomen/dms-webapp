@@ -22,6 +22,9 @@
             <if test="viewType == 'view'">
             	and (tj.job_status = 0 or tj.job_status =1)
             </if>
+            <if test="userId != null">
+            	and tj.job_user = #{userId}
+            </if>
 		</where>
 		order by tj.job_create_time
     </select>
