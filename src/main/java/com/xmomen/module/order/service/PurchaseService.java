@@ -11,6 +11,7 @@ import com.xmomen.module.order.mapper.OrderMapper;
 import com.xmomen.module.order.model.CreatePurchase;
 import com.xmomen.module.order.model.OrderPurchaseModel;
 import com.xmomen.module.order.model.PurchaseModel;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,9 +36,7 @@ public class PurchaseService {
      * @param offset
      * @return
      */
-    public Page<PurchaseModel> getPurchaseList(String keyword, Integer limit, Integer offset){
-        Map param = new HashMap();
-        param.put("keyword", keyword);
+    public Page<PurchaseModel> getPurchaseList(Map param, Integer limit, Integer offset){
         return (Page<PurchaseModel>) mybatisDao.selectPage(OrderMapper.ORDER_MAPPER_NAMESPACE + "getPurchaseList", param, limit, offset);
     }
 

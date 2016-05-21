@@ -35,7 +35,9 @@ define(function () {
                 controller: ["$scope", "CompanyAPI", "$modalInstance","currentCompany","UserAPI", "$rootScope", function ($scope, CompanyAPI, $modalInstance,currentCompany,UserAPI,$rootScope) {
                     $scope.customerManagerList = [];
                     $scope.ugSelect2Config = {};
-                    UserAPI.getCustomerManagerList({},function(data){
+                    UserAPI.getCustomerManagerList({
+                        userType:"customer_manager"
+                    },function(data){
                         $scope.customerManagerList = data;
                         $scope.ugSelect2Config.initSelectData($scope.company.customerManagerIds);
                     });

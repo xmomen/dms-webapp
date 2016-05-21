@@ -4,12 +4,14 @@
   <resultMap id="BaseResultMap" type="com.xmomen.module.job.entity.TbJob" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="PURCHASE_CODE" property="purchaseCode" jdbcType="VARCHAR" />
+    <result column="PURCHASE_ID" property="purchaseId" jdbcType="INTEGER" />
     <result column="JOB_TYPE" property="jobType" jdbcType="INTEGER" />
     <result column="JOB_STATUS" property="jobStatus" jdbcType="INTEGER" />
     <result column="JOB_USER" property="jobUser" jdbcType="INTEGER" />
     <result column="JOB_CREATE_TIME" property="jobCreateTime" jdbcType="TIMESTAMP" />
     <result column="CD_ITEM_ID" property="cdItemId" jdbcType="INTEGER" />
     <result column="COUNT_VALUE" property="countValue" jdbcType="INTEGER" />
+    <result column="JOB_BEGIN_TIME" property="jobBeginTime" jdbcType="TIMESTAMP" />
     <result column="FINISH_VALUE" property="finishValue" jdbcType="INTEGER" />
     <result column="FINISH_TIME" property="finishTime" jdbcType="TIMESTAMP" />
     <result column="JOB_CREATE_USER" property="jobCreateUser" jdbcType="INTEGER" />
@@ -73,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, PURCHASE_CODE, JOB_TYPE, JOB_STATUS, JOB_USER, JOB_CREATE_TIME, CD_ITEM_ID, COUNT_VALUE, 
-    FINISH_VALUE, FINISH_TIME, JOB_CREATE_USER
+    id, PURCHASE_CODE, PURCHASE_ID, JOB_TYPE, JOB_STATUS, JOB_USER, JOB_CREATE_TIME, 
+    CD_ITEM_ID, COUNT_VALUE, JOB_BEGIN_TIME, FINISH_VALUE, FINISH_TIME, JOB_CREATE_USER
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.job.entity.TbJobExample" >
     select
@@ -105,6 +107,9 @@
       <if test="purchaseCode != null" >
         PURCHASE_CODE,
       </if>
+      <if test="purchaseId != null" >
+        PURCHASE_ID,
+      </if>
       <if test="jobType != null" >
         JOB_TYPE,
       </if>
@@ -123,6 +128,9 @@
       <if test="countValue != null" >
         COUNT_VALUE,
       </if>
+      <if test="jobBeginTime != null" >
+        JOB_BEGIN_TIME,
+      </if>
       <if test="finishValue != null" >
         FINISH_VALUE,
       </if>
@@ -139,6 +147,9 @@
       </if>
       <if test="purchaseCode != null" >
         #{purchaseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseId != null" >
+        #{purchaseId,jdbcType=INTEGER},
       </if>
       <if test="jobType != null" >
         #{jobType,jdbcType=INTEGER},
@@ -157,6 +168,9 @@
       </if>
       <if test="countValue != null" >
         #{countValue,jdbcType=INTEGER},
+      </if>
+      <if test="jobBeginTime != null" >
+        #{jobBeginTime,jdbcType=TIMESTAMP},
       </if>
       <if test="finishValue != null" >
         #{finishValue,jdbcType=INTEGER},
@@ -184,6 +198,9 @@
       <if test="record.purchaseCode != null" >
         PURCHASE_CODE = #{record.purchaseCode,jdbcType=VARCHAR},
       </if>
+      <if test="record.purchaseId != null" >
+        PURCHASE_ID = #{record.purchaseId,jdbcType=INTEGER},
+      </if>
       <if test="record.jobType != null" >
         JOB_TYPE = #{record.jobType,jdbcType=INTEGER},
       </if>
@@ -201,6 +218,9 @@
       </if>
       <if test="record.countValue != null" >
         COUNT_VALUE = #{record.countValue,jdbcType=INTEGER},
+      </if>
+      <if test="record.jobBeginTime != null" >
+        JOB_BEGIN_TIME = #{record.jobBeginTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.finishValue != null" >
         FINISH_VALUE = #{record.finishValue,jdbcType=INTEGER},

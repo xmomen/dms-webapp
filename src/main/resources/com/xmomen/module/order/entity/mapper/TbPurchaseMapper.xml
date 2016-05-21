@@ -9,6 +9,9 @@
     <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
     <result column="BUYER_ID" property="buyerId" jdbcType="INTEGER" />
     <result column="TOTAL_WEIGHT" property="totalWeight" jdbcType="DECIMAL" />
+    <result column="DISTRIBUTE_VALUE" property="distributeValue" jdbcType="INTEGER" />
+    <result column="PACKAGE_VALUE" property="packageValue" jdbcType="INTEGER" />
+    <result column="PACKING_VALUE" property="packingValue" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, PURCHASE_CODE, ITEM_CODE, TOTAL, CREATE_DATE, BUYER_ID, TOTAL_WEIGHT
+    ID, PURCHASE_CODE, ITEM_CODE, TOTAL, CREATE_DATE, BUYER_ID, TOTAL_WEIGHT, DISTRIBUTE_VALUE, 
+    PACKAGE_VALUE, PACKING_VALUE
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbPurchaseExample" >
     select
@@ -115,6 +119,15 @@
       <if test="totalWeight != null" >
         TOTAL_WEIGHT,
       </if>
+      <if test="distributeValue != null" >
+        DISTRIBUTE_VALUE,
+      </if>
+      <if test="packageValue != null" >
+        PACKAGE_VALUE,
+      </if>
+      <if test="packingValue != null" >
+        PACKING_VALUE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -137,6 +150,15 @@
       </if>
       <if test="totalWeight != null" >
         #{totalWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="distributeValue != null" >
+        #{distributeValue,jdbcType=INTEGER},
+      </if>
+      <if test="packageValue != null" >
+        #{packageValue,jdbcType=INTEGER},
+      </if>
+      <if test="packingValue != null" >
+        #{packingValue,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -169,6 +191,15 @@
       </if>
       <if test="record.totalWeight != null" >
         TOTAL_WEIGHT = #{record.totalWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.distributeValue != null" >
+        DISTRIBUTE_VALUE = #{record.distributeValue,jdbcType=INTEGER},
+      </if>
+      <if test="record.packageValue != null" >
+        PACKAGE_VALUE = #{record.packageValue,jdbcType=INTEGER},
+      </if>
+      <if test="record.packingValue != null" >
+        PACKING_VALUE = #{record.packingValue,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >

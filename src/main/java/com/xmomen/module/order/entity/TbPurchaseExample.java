@@ -546,6 +546,186 @@ public class TbPurchaseExample extends BaseMybatisExample {
             addCriterion("TOTAL_WEIGHT not between", value1, value2, "totalWeight");
             return (Criteria) this;
         }
+
+        public Criteria andDistributeValueIsNull() {
+            addCriterion("DISTRIBUTE_VALUE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeValueIsNotNull() {
+            addCriterion("DISTRIBUTE_VALUE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeValueEqualTo(Integer value) {
+            addCriterion("DISTRIBUTE_VALUE =", value, "distributeValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeValueNotEqualTo(Integer value) {
+            addCriterion("DISTRIBUTE_VALUE <>", value, "distributeValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeValueGreaterThan(Integer value) {
+            addCriterion("DISTRIBUTE_VALUE >", value, "distributeValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeValueGreaterThanOrEqualTo(Integer value) {
+            addCriterion("DISTRIBUTE_VALUE >=", value, "distributeValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeValueLessThan(Integer value) {
+            addCriterion("DISTRIBUTE_VALUE <", value, "distributeValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeValueLessThanOrEqualTo(Integer value) {
+            addCriterion("DISTRIBUTE_VALUE <=", value, "distributeValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeValueIn(List<Integer> values) {
+            addCriterion("DISTRIBUTE_VALUE in", values, "distributeValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeValueNotIn(List<Integer> values) {
+            addCriterion("DISTRIBUTE_VALUE not in", values, "distributeValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeValueBetween(Integer value1, Integer value2) {
+            addCriterion("DISTRIBUTE_VALUE between", value1, value2, "distributeValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andDistributeValueNotBetween(Integer value1, Integer value2) {
+            addCriterion("DISTRIBUTE_VALUE not between", value1, value2, "distributeValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageValueIsNull() {
+            addCriterion("PACKAGE_VALUE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageValueIsNotNull() {
+            addCriterion("PACKAGE_VALUE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageValueEqualTo(Integer value) {
+            addCriterion("PACKAGE_VALUE =", value, "packageValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageValueNotEqualTo(Integer value) {
+            addCriterion("PACKAGE_VALUE <>", value, "packageValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageValueGreaterThan(Integer value) {
+            addCriterion("PACKAGE_VALUE >", value, "packageValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageValueGreaterThanOrEqualTo(Integer value) {
+            addCriterion("PACKAGE_VALUE >=", value, "packageValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageValueLessThan(Integer value) {
+            addCriterion("PACKAGE_VALUE <", value, "packageValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageValueLessThanOrEqualTo(Integer value) {
+            addCriterion("PACKAGE_VALUE <=", value, "packageValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageValueIn(List<Integer> values) {
+            addCriterion("PACKAGE_VALUE in", values, "packageValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageValueNotIn(List<Integer> values) {
+            addCriterion("PACKAGE_VALUE not in", values, "packageValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageValueBetween(Integer value1, Integer value2) {
+            addCriterion("PACKAGE_VALUE between", value1, value2, "packageValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageValueNotBetween(Integer value1, Integer value2) {
+            addCriterion("PACKAGE_VALUE not between", value1, value2, "packageValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingValueIsNull() {
+            addCriterion("PACKING_VALUE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingValueIsNotNull() {
+            addCriterion("PACKING_VALUE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingValueEqualTo(Integer value) {
+            addCriterion("PACKING_VALUE =", value, "packingValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingValueNotEqualTo(Integer value) {
+            addCriterion("PACKING_VALUE <>", value, "packingValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingValueGreaterThan(Integer value) {
+            addCriterion("PACKING_VALUE >", value, "packingValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingValueGreaterThanOrEqualTo(Integer value) {
+            addCriterion("PACKING_VALUE >=", value, "packingValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingValueLessThan(Integer value) {
+            addCriterion("PACKING_VALUE <", value, "packingValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingValueLessThanOrEqualTo(Integer value) {
+            addCriterion("PACKING_VALUE <=", value, "packingValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingValueIn(List<Integer> values) {
+            addCriterion("PACKING_VALUE in", values, "packingValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingValueNotIn(List<Integer> values) {
+            addCriterion("PACKING_VALUE not in", values, "packingValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingValueBetween(Integer value1, Integer value2) {
+            addCriterion("PACKING_VALUE between", value1, value2, "packingValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingValueNotBetween(Integer value1, Integer value2) {
+            addCriterion("PACKING_VALUE not between", value1, value2, "packingValue");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

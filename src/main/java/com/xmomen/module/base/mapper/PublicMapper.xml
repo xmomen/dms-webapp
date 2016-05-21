@@ -5,16 +5,18 @@
     <!--    查询消息    -->
     <select id="getManagerList" resultType="com.xmomen.module.base.model.CompanyCustomerManager" parameterType="java.util.HashMap">
        select 
-       	su.id as customerMangerId,
-       	su.realName as customerManger
+       su.id as customerMangerId,
+       su.realName as customerManger
        from sys_users su 
        left join sys_users_roles sur on sur.USER_ID = su.ID 
        left join sys_roles sr on sr.id = sur.ROLE_ID 
        <where>
-       		sr.ROLE ='customer_manager'
-       		 <if test="managerId">
+       		<if test="userType">
+       			sr.ROLE =#{userType}
+       		</if>
+       		<if test="managerId">
 				  AND su.id = #{managerId}
-			  </if>
+			</if>
        </where>
     </select>
     

@@ -1,5 +1,8 @@
 package com.xmomen.module.order.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
@@ -8,6 +11,7 @@ import com.xmomen.module.order.entity.TbPurchase;
 import com.xmomen.module.order.model.CreatePurchase;
 import com.xmomen.module.order.model.PurchaseModel;
 import com.xmomen.module.order.service.PurchaseService;
+
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -38,8 +42,12 @@ public class PurchaseController {
     @Log(actionName = "查询采购单列表")
     public Page<PurchaseModel> getUserList(@RequestParam(value = "limit") Integer limit,
                                   @RequestParam(value = "offset") Integer offset,
-                                  @RequestParam(value = "keyword", required = false) String keyword){
-        return purchaseService.getPurchaseList(keyword, limit, offset);
+                                  @RequestParam(value = "keyword", required = false) String keyword,
+                                  @RequestParam(value = "isDistribute", required = false) Integer isDistribute){
+    	 Map param = new HashMap();
+         param.put("keyword", keyword);
+         param.put("isDistribute", isDistribute);
+        return purchaseService.getPurchaseList(param, limit, offset);
     }
 
     /**
