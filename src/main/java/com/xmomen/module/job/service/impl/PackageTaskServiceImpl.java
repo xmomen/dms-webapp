@@ -82,6 +82,7 @@ public class PackageTaskServiceImpl implements PackageTaskService {
 		jobOperationLog.setJobTime(currentTime);
 		jobOperationLog.setJobUser(packageTask.getJobUser());
 		mybatisDao.save(jobOperationLog);
+		//更新包装数
 	}
 
 }

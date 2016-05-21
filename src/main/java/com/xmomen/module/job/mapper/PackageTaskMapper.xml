@@ -19,6 +19,9 @@
             <if test="packageTaskId">
                   AND tj.id = #{packageTaskId}
             </if>
+            <if test="viewType == 'view'">
+            	and (tj.job_status = 0 or tj.job_status =1)
+            </if>
 		</where>
 		order by tj.job_create_time
     </select>

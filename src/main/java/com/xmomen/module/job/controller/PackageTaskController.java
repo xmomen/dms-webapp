@@ -48,10 +48,12 @@ public class PackageTaskController {
     public Page<PackageTaskModel> getUserList(@RequestParam(value = "limit") Integer limit,
                                   @RequestParam(value = "offset") Integer offset,
                                   @RequestParam(value = "keyword", required = false) String keyword,
+                                  @RequestParam(value = "viewType", required = false) String viewType,
                                   @RequestParam(value = "packageTaskId", required = false) Integer packageTaskId){
     	 Map param = new HashMap();
          param.put("keyword", keyword);
          param.put("packageTaskId", packageTaskId);
+         param.put("viewType",viewType);
          if(SecurityUtils.getSubject().hasRole(AppConstants.PACKAGE_PERMISSION_CODE)){
              Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
              param.put("userId", userId);
