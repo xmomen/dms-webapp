@@ -3,22 +3,12 @@ package com.xmomen.module.order.service;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.utils.DateUtils;
-import com.xmomen.module.base.entity.CdCoupon;
-import com.xmomen.module.base.entity.CdCouponExample;
-import com.xmomen.module.base.model.ItemModel;
-import com.xmomen.module.base.model.ItemQuery;
-import com.xmomen.module.base.service.ItemService;
 import com.xmomen.module.order.entity.*;
 import com.xmomen.module.order.mapper.OrderMapper;
 import com.xmomen.module.order.model.*;
-import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.config.Ini;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 /**
  * Created by Jeng on 16/4/5.
@@ -35,9 +25,16 @@ public class PackingService {
 
     @Transactional
     public TbPacking create(CreatePacking createPacking){
-        TbPackingRecordExample tbPackingRecordExample = new TbPackingRecordExample();
-        //tbPackingRecordExample.createCriteria().andPackingNoEqualTo();
-        return null;
+        TbPacking tbPacking = new TbPacking();
+        tbPacking.setPackingNo(DateUtils.getDateTimeString());
+        tbPacking.setPackingStatus(0);
+        tbPacking = mybatisDao.insertByModel(tbPacking);
+        TbOrderRelation tbOrderRelation = new TbOrderRelation();
+        tbOrderRelation.setOrderNo(createPacking.getOrderNo());
+        tbOrderRelation.setRefType(OrderMapper.ORDER_PACKING_RELATION_CODE);
+        tbOrderRelation.setRefValue(tbPacking.getPackingNo());
+        mybatisDao.insert(tbOrderRelation);
+        return tbPacking;
     }
 
     @Transactional
@@ -46,5 +43,13 @@ public class PackingService {
         tbPackingRecordExample.createCriteria().andPackingIdEqualTo(packingId);
         mybatisDao.deleteByExample(tbPackingRecordExample);
         mybatisDao.deleteByPrimaryKey(TbPacking.class, packingId);
+    }
+
+    public Page<PackingOrderModel> queryPackingOrder(PackingOrderQuery packingOrderQuery, Integer limit, Integer offset){
+        return (Page<PackingOrderModel>) mybatisDao.selectPage(OrderMapper.ORDER_MAPPER_NAMESPACE + "queryPackingOrderItemModel", packingOrderQuery, limit, offset);
+    }
+
+    public Page<PackingRecordModel> queryPackingRecord(PackingRecordQuery queryPackingRecord, Integer limit, Integer offset){
+        return (Page<PackingRecordModel>) mybatisDao.selectPage(OrderMapper.ORDER_MAPPER_NAMESPACE + "queryPackingRecordModel", queryPackingRecord, limit, offset);
     }
 }

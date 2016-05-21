@@ -74,14 +74,4 @@ public class OrderController {
         orderService.deleteOrder(id);
     }
 
-    public Page<OrderModel> getOrderItemList(@RequestParam(value = "limit") Integer limit,
-                                        @RequestParam(value = "offset") Integer offset,
-                                        @RequestParam(value = "orderStatus", required = false) Integer orderStatus,
-                                        @RequestParam(value = "keyword", required = false) String keyword){
-        OrderQuery orderQuery = new OrderQuery();
-        orderQuery.setKeyword(keyword);
-        orderQuery.setOrderStatus(orderStatus);
-        return orderService.getOrderList(orderQuery, limit, offset);
-    }
-
 }

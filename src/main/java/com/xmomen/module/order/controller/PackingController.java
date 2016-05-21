@@ -5,9 +5,7 @@ import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
 import com.xmomen.module.logger.Log;
 import com.xmomen.module.order.entity.TbPacking;
-import com.xmomen.module.order.model.CreatePacking;
-import com.xmomen.module.order.model.PackingModel;
-import com.xmomen.module.order.model.PackingQuery;
+import com.xmomen.module.order.model.*;
 import com.xmomen.module.order.service.PackingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -38,8 +36,13 @@ public class PackingController {
     @Log(actionName = "查询装箱记录列表")
     public Page<PackingModel> getUserList(@RequestParam(value = "limit") Integer limit,
                                   @RequestParam(value = "offset") Integer offset,
-                                  @RequestParam(value = "keyword", required = false) String keyword){
+                                  @RequestParam(value = "keyword", required = false) String keyword,
+                                  @RequestParam(value = "orderNo", required = false) String orderNo,
+                                  @RequestParam(value = "packingNo", required = false) String packingNo){
         PackingQuery packingQuery = new PackingQuery();
+        packingQuery.setKeyword(keyword);
+        packingQuery.setPackingNo(packingNo);
+        packingQuery.setOrderNo(orderNo);
         return packingService.getPackingList(packingQuery, limit, offset);
     }
 
@@ -68,4 +71,36 @@ public class PackingController {
         packingService.delete(id);
     }
 
+    /**
+     * 商品装箱汇总
+     * @param packingId
+     * @param orderId
+     * @param limit
+     * @param offset
+     * @return
+     */
+    @RequestMapping(value = "/packing/{id}/order")
+    public Page<PackingOrderModel> queryPackingOrder(@PathVariable(value = "id") Integer packingId,
+                                                        @RequestParam(value = "orderId") Integer orderId,
+                                                        @RequestParam(value = "keyword", required = false) String keyword,
+                                                        @RequestParam(value = "limit") Integer limit,
+                                                        @RequestParam(value = "offset") Integer offset){
+        PackingOrderQuery packingOrderQuery = new PackingOrderQuery();
+        packingOrderQuery.setKeyword(keyword);
+        packingOrderQuery.setOrderId(orderId);
+        return packingService.queryPackingOrder(packingOrderQuery, limit, offset);
+    }
+
+    @RequestMapping(value = "/packing/{id}/record")
+    public Page<PackingRecordModel> queryPackingRecord(@PathVariable(value = "id") Integer packingId,
+                                                     @RequestParam(value = "orderItemId") Integer orderItemId,
+                                                     @RequestParam(value = "keyword", required = false) String keyword,
+                                                    @RequestParam(value = "limit") Integer limit,
+                                                    @RequestParam(value = "offset") Integer offset){
+        PackingRecordQuery packingRecordQuery = new PackingRecordQuery();
+        packingRecordQuery.setKeyword(keyword);
+        packingRecordQuery.setOrderItemId(orderItemId);
+        //packingRecordQuery.setId(packingId);
+        return packingService.queryPackingRecord(packingRecordQuery, limit, offset);
+    }
 }

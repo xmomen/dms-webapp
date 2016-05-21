@@ -103,12 +103,71 @@
           LEFT JOIN sys_dictionary_parameter sdp
             ON sd.ID = sdp.SYS_DICTIONARY_ID
             AND sdp.REAL_VALUE = p.PACKING_STATUS
+          LEFT JOIN tb_order_relation tor
+            ON tor.REF_TYPE = 'ORDER_PACKING_RELATION'
+            AND tor.REF_VALUE = p.PACKING_NO
         <where>
+            <if test="orderNo">
+                AND tor.ORDER_NO = #{orderNo}
+            </if>
             <if test="packingNo">
                 AND p.PACKING_NO = #{packingNo}
             </if>
             <if test="packingStatus">
                 AND p.PACKING_STATUS = #{packingStatus}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryPackingOrderItemModel" resultType="com.xmomen.module.order.model.PackingOrderModel" parameterType="com.xmomen.module.order.model.PackingOrderQuery" >
+        SELECT
+        oi.id AS orderItemId,
+        p.PACKING_NO,
+        oi.ITEM_NAME,
+        oi.ITEM_QTY,
+        COUNT(pr.ID) AS packedItemQty,
+        CASE
+        WHEN COUNT(pr.ID) = 0
+        THEN '未开始'
+        WHEN COUNT(pr.ID) = oi.item_qty
+        THEN '已完成'
+        ELSE '待完成'
+        END AS packing_status_desc
+        FROM
+        tb_order_item oi
+        LEFT JOIN tb_order o
+        ON o.ORDER_NO = oi.ORDER_NO
+        LEFT JOIN tb_packing_record pr
+        ON pr.ORDER_ITEM_ID = oi.ID
+        LEFT JOIN tb_packing p
+        ON p.ID = pr.PACKING_ID
+        <where>
+            <if test="orderId">
+                AND o.id = #{orderId}
+            </if>
+            <if test="keyword">
+                AND p.PACKING_NO LIKE CONCAT('%', #{keyword}, '%') OR oi.ITEM_NAME LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="queryPackingRecordModel" resultType="com.xmomen.module.order.model.PackingRecordModel" parameterType="com.xmomen.module.order.model.PackingRecordQuery">
+        SELECT 
+          oi.ITEM_NAME,
+          pr.* 
+        FROM
+          tb_packing_record pr 
+          LEFT JOIN tb_order_item oi 
+            ON oi.ID = pr.ORDER_ITEM_ID
+        <where>
+            <if test="id">
+                AND pr.ID = #{id}
+            </if>
+            <if test="orderItemId">
+                AND pr.ORDER_ITEM_ID = #{orderItemId}
+            </if>
+            <if test="keyword">
+               AND pr.UPC LIKE CONCAT('%', #{keyword}, '%') OR oi.ITEM_NAME LIKE CONCAT('%', #{keyword}, '%')
             </if>
         </where>
     </select>

@@ -12,6 +12,7 @@ import java.util.Date;
 public @Data
 class PackingQuery implements Serializable {
 
+    private String orderNo;
     private String keyword;
     private String packingStatus;
     private String packingNo;
