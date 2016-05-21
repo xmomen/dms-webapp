@@ -48,6 +48,21 @@ public class TbPurchase extends BaseMybatisModel {
      */
     private BigDecimal totalWeight;
 
+    /**
+     * 分配数量
+     */
+    private Integer distributeValue;
+
+    /**
+     * 已包装数
+     */
+    private Integer packageValue;
+
+    /**
+     * 已装箱数
+     */
+    private Integer packingValue;
+
     @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
@@ -146,5 +161,47 @@ public class TbPurchase extends BaseMybatisModel {
               return;
         }
         addValidField("totalWeight");
+    }
+
+    @Column(name = "DISTRIBUTE_VALUE")
+    public Integer getDistributeValue() {
+        return distributeValue;
+    }
+
+    public void setDistributeValue(Integer distributeValue) {
+        this.distributeValue = distributeValue;
+        if(distributeValue == null){
+              removeValidField("distributeValue");
+              return;
+        }
+        addValidField("distributeValue");
+    }
+
+    @Column(name = "PACKAGE_VALUE")
+    public Integer getPackageValue() {
+        return packageValue;
+    }
+
+    public void setPackageValue(Integer packageValue) {
+        this.packageValue = packageValue;
+        if(packageValue == null){
+              removeValidField("packageValue");
+              return;
+        }
+        addValidField("packageValue");
+    }
+
+    @Column(name = "PACKING_VALUE")
+    public Integer getPackingValue() {
+        return packingValue;
+    }
+
+    public void setPackingValue(Integer packingValue) {
+        this.packingValue = packingValue;
+        if(packingValue == null){
+              removeValidField("packingValue");
+              return;
+        }
+        addValidField("packingValue");
     }
 }

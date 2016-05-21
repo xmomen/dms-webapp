@@ -236,6 +236,66 @@ public class TbJobExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
+        public Criteria andPurchaseIdIsNull() {
+            addCriterion("PURCHASE_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseIdIsNotNull() {
+            addCriterion("PURCHASE_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseIdEqualTo(Integer value) {
+            addCriterion("PURCHASE_ID =", value, "purchaseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseIdNotEqualTo(Integer value) {
+            addCriterion("PURCHASE_ID <>", value, "purchaseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseIdGreaterThan(Integer value) {
+            addCriterion("PURCHASE_ID >", value, "purchaseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("PURCHASE_ID >=", value, "purchaseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseIdLessThan(Integer value) {
+            addCriterion("PURCHASE_ID <", value, "purchaseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseIdLessThanOrEqualTo(Integer value) {
+            addCriterion("PURCHASE_ID <=", value, "purchaseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseIdIn(List<Integer> values) {
+            addCriterion("PURCHASE_ID in", values, "purchaseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseIdNotIn(List<Integer> values) {
+            addCriterion("PURCHASE_ID not in", values, "purchaseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseIdBetween(Integer value1, Integer value2) {
+            addCriterion("PURCHASE_ID between", value1, value2, "purchaseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("PURCHASE_ID not between", value1, value2, "purchaseId");
+            return (Criteria) this;
+        }
+
         public Criteria andJobTypeIsNull() {
             addCriterion("JOB_TYPE is null");
             return (Criteria) this;
@@ -593,6 +653,66 @@ public class TbJobExample extends BaseMybatisExample {
 
         public Criteria andCountValueNotBetween(Integer value1, Integer value2) {
             addCriterion("COUNT_VALUE not between", value1, value2, "countValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobBeginTimeIsNull() {
+            addCriterion("JOB_BEGIN_TIME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobBeginTimeIsNotNull() {
+            addCriterion("JOB_BEGIN_TIME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobBeginTimeEqualTo(Date value) {
+            addCriterion("JOB_BEGIN_TIME =", value, "jobBeginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobBeginTimeNotEqualTo(Date value) {
+            addCriterion("JOB_BEGIN_TIME <>", value, "jobBeginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobBeginTimeGreaterThan(Date value) {
+            addCriterion("JOB_BEGIN_TIME >", value, "jobBeginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobBeginTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("JOB_BEGIN_TIME >=", value, "jobBeginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobBeginTimeLessThan(Date value) {
+            addCriterion("JOB_BEGIN_TIME <", value, "jobBeginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobBeginTimeLessThanOrEqualTo(Date value) {
+            addCriterion("JOB_BEGIN_TIME <=", value, "jobBeginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobBeginTimeIn(List<Date> values) {
+            addCriterion("JOB_BEGIN_TIME in", values, "jobBeginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobBeginTimeNotIn(List<Date> values) {
+            addCriterion("JOB_BEGIN_TIME not in", values, "jobBeginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobBeginTimeBetween(Date value1, Date value2) {
+            addCriterion("JOB_BEGIN_TIME between", value1, value2, "jobBeginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobBeginTimeNotBetween(Date value1, Date value2) {
+            addCriterion("JOB_BEGIN_TIME not between", value1, value2, "jobBeginTime");
             return (Criteria) this;
         }
 
