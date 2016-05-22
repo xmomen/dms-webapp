@@ -3,6 +3,7 @@ package com.xmomen.module.order.model;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * Created by Jeng on 2016/5/21.
@@ -14,7 +15,7 @@ class PackingOrderModel implements Serializable {
     private String packingNo;
     private String itemName;
     private String packingStatusDesc;
-    private String itemQty;
-    private String packedItemQty;
+    private BigDecimal itemQty;
+    private BigDecimal packedItemQty;
 
 }

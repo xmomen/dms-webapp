@@ -65,7 +65,6 @@ define(function () {
             });
             return defer.promise;
         };
-        $scope.currentPacking = {};
         $scope.startPacking = function(){
             if($scope.choseOrder && $scope.choseOrder.orderNo){
                 getPackingList().then(function(){
@@ -73,10 +72,10 @@ define(function () {
                         PackingAPI.save({
                             orderNo:$scope.choseOrder.orderNo
                         }, function(data){
-                            $scope.currentPacking = data;
+                            $scope.choseOrder.currentPacking = data;
                         })
                     }else{
-                        $scope.currentPacking = $scope.choseOrder.packingList[0];
+                        $scope.choseOrder.currentPacking = $scope.choseOrder.packingList[0];
                     }
                 });
             }else{
@@ -84,15 +83,23 @@ define(function () {
             }
         };
         $scope.changePacking = function(){
-
+            PackingAPI.save({
+                orderNo:$scope.choseOrder.orderNo
+            }, function(data){
+                $scope.choseOrder.currentPacking = data;
+            })
         };
         $scope.scanItem = function(orderItemId){
+            if(!$scope.choseOrder.currentPacking || !$scope.choseOrder.currentPacking.id){
+                $ugDialog.warn("请点击开始装箱")
+                return;
+            }
             var modalInstance = $modal.open({
                 templateUrl: 'scanItem.html',
                 resolve: {
                     CurrentItem: function(){
                         return {
-                            id:$scope.currentPacking.id,
+                            id:$scope.choseOrder.currentPacking.id,
                             orderItemId:orderItemId
                         };
                     }
@@ -150,10 +157,12 @@ define(function () {
         };
         $scope.removePacking = function(index){
             $ugDialog.confirm("是否删除此装箱记录？").then(function(){
-                PackingAPI.delete({
-                    id: $scope.packingList[index].id
+                PackingAPI.removePackingRecord({
+                    id: $scope.choseOrder.currentPacking.id,
+                    recordId: $scope.packingRecordList[index].id
                 }, function(){
-                    $scope.getPackingList();
+                    $scope.getPackingRecordList();
+                    $scope.getPackingOrderItemList();
                 });
             })
         };

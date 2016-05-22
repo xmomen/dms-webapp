@@ -238,6 +238,7 @@ define(function () {
             update:{ method:"PUT", params:{id:"@id"}},
             getPackingOrderItemList:{method:"GET",url:"/packing/:id/order",isArray:false},
             getPackingRecordList:{method:"GET",url:"/packing/:id/record",isArray:false},
+            removePackingRecord:{method:"DELETE",url:"/packing/:id/record/:recordId"},
             scanItem:{method:"POST",url:"/packing/:id/record"}
         });
     }]);

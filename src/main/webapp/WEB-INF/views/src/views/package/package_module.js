@@ -4,9 +4,9 @@
 define([
     "views/package/packageTaskDown",
     "views/package/packageTaskList",
-    "views/package/packageWorking",
-    "views/package/packageTaskView"
-],function (packageTaskDown,packageTaskList,packageWorking,packageTaskView) {
+    "views/package/packageWorking"
+    //"views/package/packageTaskView"
+],function (packageTaskDown,packageTaskList,packageWorking) {
     angular.module('DMS.package', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -44,16 +44,16 @@ define([
                 },
                 controller: packageWorking
             })
-            .state('packageTaskView', {
-                url: '/packageTaskView',
-                templateUrl: 'views/package/packageTaskView.html',
-                data:{
-                    permissions:{
-                        only:["PACKAGE_TASK_VIEW"],
-                        redirectTo:"unauthorized"
-                    }
-                },
-                controller: packageTaskView
-            })
+            //.state('packageTaskView', {
+            //    url: '/packageTaskView',
+            //    templateUrl: 'views/package/packageTaskView.html',
+            //    data:{
+            //        permissions:{
+            //            only:["PACKAGE_TASK_VIEW"],
+            //            redirectTo:"unauthorized"
+            //        }
+            //    },
+            //    controller: packageTaskView
+            //})
     }]);
 });

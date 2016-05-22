@@ -116,5 +116,12 @@ public class PackingController {
         return packingService.createRecord(createPackingRecord);
     }
 
+    @RequestMapping(value = "/packing/{id}/record/{recordId}", method = RequestMethod.DELETE)
+    @Log(actionName = "删除装箱记录")
+    public void createPackingRecord(@PathVariable(value = "id") Integer id,
+                                               @PathVariable(value = "recordId") Integer recordId){
+        packingService.deleteRecord(recordId);
+    }
+
 
 }

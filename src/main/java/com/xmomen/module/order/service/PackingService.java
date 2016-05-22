@@ -39,6 +39,12 @@ public class PackingService {
 
     @Transactional
     public TbPackingRecord createRecord(CreatePackingRecord createPackingRecord){
+        PackingOrderQuery packingOrderQuery = new PackingOrderQuery();
+        packingOrderQuery.setOrderItemId(createPackingRecord.getOrderItemId());
+        PackingOrderModel packingRecordModel = getOnePackingOrder(packingOrderQuery);
+        if(packingRecordModel != null && packingRecordModel.getItemQty().compareTo(packingRecordModel.getPackedItemQty()) == 0){
+            throw new IllegalArgumentException("装箱数量已到达订单采购数量");
+        }
         TbPackingRecord tbPackingRecord = new TbPackingRecord();
         tbPackingRecord.setPackingId(createPackingRecord.getPackingId());
         tbPackingRecord.setScanTime(mybatisDao.getSysdate());
@@ -53,6 +59,15 @@ public class PackingService {
         tbPackingRecordExample.createCriteria().andPackingIdEqualTo(packingId);
         mybatisDao.deleteByExample(tbPackingRecordExample);
         mybatisDao.deleteByPrimaryKey(TbPacking.class, packingId);
+    }
+
+    @Transactional
+    public void deleteRecord(Integer recordId){
+        mybatisDao.deleteByPrimaryKey(TbPackingRecord.class, recordId);
+    }
+
+    public PackingOrderModel getOnePackingOrder(PackingOrderQuery packingOrderQuery){
+        return mybatisDao.getSqlSessionTemplate().selectOne(OrderMapper.ORDER_MAPPER_NAMESPACE + "queryPackingOrderItemModel", packingOrderQuery);
     }
 
     public Page<PackingOrderModel> queryPackingOrder(PackingOrderQuery packingOrderQuery, Integer limit, Integer offset){

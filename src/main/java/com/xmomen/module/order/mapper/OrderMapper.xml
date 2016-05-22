@@ -153,10 +153,14 @@
             <if test="orderId">
                 AND o.id = #{orderId}
             </if>
+            <if test="orderItemId">
+                AND oi.id = #{orderItemId}
+            </if>
             <if test="keyword">
                 AND p.PACKING_NO LIKE CONCAT('%', #{keyword}, '%') OR oi.ITEM_NAME LIKE CONCAT('%', #{keyword}, '%')
             </if>
         </where>
+        GROUP BY oi.ID
     </select>
 
     <select id="queryPackingRecordModel" resultType="com.xmomen.module.order.model.PackingRecordModel" parameterType="com.xmomen.module.order.model.PackingRecordQuery">
