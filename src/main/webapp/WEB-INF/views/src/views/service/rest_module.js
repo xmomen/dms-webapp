@@ -26,7 +26,9 @@ define(function () {
                     password:"@password"
                 }
             },
-            getCustomerManagerList:{method:"GET",url:"/customerManagerList",isArray:true}
+            getCustomerManagerList:{method:"GET",url:"/customerManagerList",
+                params:{userType:"@userType"},
+                isArray:true}
         });
     }]);
     ngREST.factory("MessageAPI", ["$resource", function($resource){
@@ -252,6 +254,21 @@ define(function () {
             query:{ isArray:false},
             update:{ method:"PUT", params:{id:"@id"}},
             getChoseItemList:{method:"GET",url:"/basePlan/getChosePlanItemList",isArray:true}
+        });
+    }]);
+
+    ngREST.factory("PackageTaskAPI", ["$resource", function($resource){
+        return $resource("/packageTask/:id", { id:"@id"}, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}},
+            packageWorking:{
+                method:"PUT",
+                url:"/packageTask/:id/packageWorking" ,
+                params:{
+                    id:"@id",
+                    barCode:"@barCode"
+                }
+            }
         });
     }]);
 

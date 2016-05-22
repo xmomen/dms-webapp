@@ -40,12 +40,17 @@
 
     <select id="getPurchaseList" resultType="com.xmomen.module.order.model.PurchaseModel" parameterType="java.util.HashMap">
         SELECT
+        	p.id as purchaseId,
             p.PURCHASE_CODE,
             p.ITEM_CODE,
             i.ITEM_NAME,
             i.SELL_UNIT AS itemUnit,
+            i.id as cdItemId,
             p.TOTAL AS totalItemQty,
-            p.TOTAL_WEIGHT as totalWeight
+            p.TOTAL_WEIGHT as totalWeight,
+       		p.DISTRIBUTE_VALUE,
+			p.PACKAGE_VALUE,
+			p.PACKING_VALUE
         FROM
           tb_purchase p
         LEFT JOIN cd_item i
@@ -54,6 +59,9 @@
               <if test="keyword">
                   AND i.ITEM_NAME LIKE CONCAT('%', #{keyword}, '%')
                   OR p.ITEM_CODE LIKE CONCAT('%', #{keyword}, '%')
+              </if>
+              <if test="isDistribute == 1">
+              	AND (p.TOTAL - p.DISTRIBUTE_VALUE) > 0
               </if>
           </where>
         ORDER BY p.CREATE_DATE DESC

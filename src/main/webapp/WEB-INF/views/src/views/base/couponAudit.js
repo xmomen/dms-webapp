@@ -38,7 +38,9 @@ define(function () {
 
         $scope.companyCustomerManagers = [];
         $scope.getCustomerManagersList = function(){
-            UserAPI.getCustomerManagerList({},function(data){
+            UserAPI.getCustomerManagerList({
+                userType:"customer_manager"
+            },function(data){
                 $scope.companyCustomerManagers = data;
             });
         }
