@@ -23,6 +23,11 @@ public class TbPackingRecord extends BaseMybatisModel {
     private String upc;
 
     /**
+     * 订单商品ID
+     */
+    private Integer orderItemId;
+
+    /**
      * 扫描时间
      */
     private Date scanTime;
@@ -60,6 +65,20 @@ public class TbPackingRecord extends BaseMybatisModel {
               return;
         }
         addValidField("upc");
+    }
+
+    @Column(name = "ORDER_ITEM_ID")
+    public Integer getOrderItemId() {
+        return orderItemId;
+    }
+
+    public void setOrderItemId(Integer orderItemId) {
+        this.orderItemId = orderItemId;
+        if(orderItemId == null){
+              removeValidField("orderItemId");
+              return;
+        }
+        addValidField("orderItemId");
     }
 
     @Column(name = "SCAN_TIME")

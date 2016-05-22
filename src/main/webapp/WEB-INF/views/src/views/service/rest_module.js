@@ -235,7 +235,8 @@ define(function () {
             query:{ isArray:false},
             update:{ method:"PUT", params:{id:"@id"}},
             getPackingOrderItemList:{method:"GET",url:"/packing/:id/order",isArray:false},
-            getPackingRecordList:{method:"GET",url:"/packing/:id/record",isArray:false}
+            getPackingRecordList:{method:"GET",url:"/packing/:id/record",isArray:false},
+            scanItem:{method:"POST",url:"/packing/:id/record"}
         });
     }]);
 

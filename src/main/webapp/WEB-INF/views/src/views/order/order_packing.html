@@ -78,10 +78,13 @@
 									<td ng-bind="order.createTime | date: 'yyyy-MM-dd hh:mm:ss'"></td>
 									<td ng-bind="order.orderStatusDesc"></td>
 									<td>
-										<div ng-show="show">
-										<a href="javascript:void(0);" data-ng-click="choseOrderPacking($index)" title="装箱：{{order.orderDesc}}">
-										<span class="fa fa-pencil"></span>
-										</a>
+										<div >
+											<a href="javascript:void(0);" ng-if="choseOrder.id==order.id" data-ng-click="choseOrderPacking($index)">
+												<span class="fa fa-inbox"> 正在装箱</span>
+											</a>
+											<a href="javascript:void(0);" ng-if="choseOrder.id!=order.id" data-ng-click="choseOrderPacking($index)">
+												<span class="fa fa-inbox"> 装箱</span>
+											</a>
 										</div>
 									</td>
 								</tr>
@@ -156,22 +159,22 @@
 									刷新
 								</button>
 							</div>
-							<div class="col-sm-2">
+							<div class="col-sm-2" ng-if="!currentPacking.packingNo">
 								<button class="btn btn-primary" type="button" data-ng-click="startPacking()">
 									<i class="fa fa-refresh"></i>
 									开始装箱
 								</button>
 							</div>
-							<div class="col-sm-2">
+							<!--<div class="col-sm-2" ng-if="currentPacking.packingNo">-->
+								<!--<button class="btn btn-primary" type="button" data-ng-click="scanItem()">-->
+									<!--<i class="fa fa-refresh"></i>-->
+									<!--扫描商品-->
+								<!--</button>-->
+							<!--</div>-->
+							<div class="col-sm-2" ng-if="currentPacking.packingNo">
 								<button class="btn btn-primary" type="button" data-ng-click="changePacking()">
 									<i class="fa fa-refresh"></i>
 									换箱
-								</button>
-							</div>
-							<div class="col-sm-2">
-								<button class="btn btn-primary" type="button" data-ng-click="scanItem()">
-									<i class="fa fa-refresh"></i>
-									扫描商品
 								</button>
 							</div>
 						</div>
@@ -184,6 +187,7 @@
 									<th>商品名称</th>
 									<th>商品装箱状态</th>
 									<th style="text-align: center">已装数量/总数量</th>
+									<th>操作</th>
 								</tr>
 								</thead>
 								<tbody>
@@ -195,6 +199,13 @@
 									<td ng-bind="packingOrderItem.itemName"></td>
 									<td ng-bind="packingOrderItem.packingStatusDesc"></td>
 									<td style="text-align: center" ng-bind="packingOrderItem.packedItemQty +'/' + packingOrderItem.itemQty"></td>
+									<td>
+										<div >
+											<a href="javascript:void(0);" data-ng-click="scanItem(packingOrderItem.orderItemId)">
+												<span class="fa fa-inbox">扫描</span>
+											</a>
+										</div>
+									</td>
 								</tr>
 								<tr ng-if="packingOrderItemList == null || packingOrderItemList.length == 0">
 									<td colspan="5">
@@ -319,3 +330,43 @@
 
 </section>
 <!-- end widget grid -->
+
+
+<script type="text/ng-template" id="scanItem.html">
+	<div class="modal-header">
+		<h3 class="modal-title">扫描商品</h3>
+	</div>
+	<div class="modal-body">
+		<div class="widget-body">
+
+			<form class="form-horizontal" ug-validate="scanItemForm" name="scanItemForm" novalidate="">
+
+				<fieldset>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">商品UPC</label>
+						<div class="col-md-10 input-group">
+							<input ng-model="item.id" name="id" type="hidden">
+							<input ng-model="item.orderItemId" name="orderItemId" type="hidden">
+							<input class="form-control"  ng-model="item.upc" name="upc" placeholder="商品UPC" type="text">
+						</div>
+					</div>
+
+					<div class="form-group" ng-if="errors">
+						<label class="col-md-2 control-label"></label>
+						<div class="col-md-10 error">
+							{{errors.message}}
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="submit" data-ng-click="saveScanItem()">
+			<i class="fa fa-save"></i>
+			保存
+		</button>
+		<button class="btn btn-warning" ng-click="cancel()">关闭</button>
+	</div>
+</script>

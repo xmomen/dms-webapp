@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.xmomen.module.order.entity.TbPackingRecord" >
     <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="UPC" property="upc" jdbcType="VARCHAR" />
+    <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="INTEGER" />
     <result column="SCAN_TIME" property="scanTime" jdbcType="TIMESTAMP" />
     <result column="PACKING_ID" property="packingId" jdbcType="INTEGER" />
   </resultMap>
@@ -66,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, UPC, SCAN_TIME, PACKING_ID
+    ID, UPC, ORDER_ITEM_ID, SCAN_TIME, PACKING_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbPackingRecordExample" >
     select
@@ -97,6 +98,9 @@
       <if test="upc != null" >
         UPC,
       </if>
+      <if test="orderItemId != null" >
+        ORDER_ITEM_ID,
+      </if>
       <if test="scanTime != null" >
         SCAN_TIME,
       </if>
@@ -110,6 +114,9 @@
       </if>
       <if test="upc != null" >
         #{upc,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItemId != null" >
+        #{orderItemId,jdbcType=INTEGER},
       </if>
       <if test="scanTime != null" >
         #{scanTime,jdbcType=TIMESTAMP},
@@ -133,6 +140,9 @@
       </if>
       <if test="record.upc != null" >
         UPC = #{record.upc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderItemId != null" >
+        ORDER_ITEM_ID = #{record.orderItemId,jdbcType=INTEGER},
       </if>
       <if test="record.scanTime != null" >
         SCAN_TIME = #{record.scanTime,jdbcType=TIMESTAMP},

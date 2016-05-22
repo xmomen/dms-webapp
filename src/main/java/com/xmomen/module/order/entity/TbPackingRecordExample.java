@@ -236,6 +236,66 @@ public class TbPackingRecordExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
+        public Criteria andOrderItemIdIsNull() {
+            addCriterion("ORDER_ITEM_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderItemIdIsNotNull() {
+            addCriterion("ORDER_ITEM_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderItemIdEqualTo(Integer value) {
+            addCriterion("ORDER_ITEM_ID =", value, "orderItemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderItemIdNotEqualTo(Integer value) {
+            addCriterion("ORDER_ITEM_ID <>", value, "orderItemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderItemIdGreaterThan(Integer value) {
+            addCriterion("ORDER_ITEM_ID >", value, "orderItemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderItemIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ORDER_ITEM_ID >=", value, "orderItemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderItemIdLessThan(Integer value) {
+            addCriterion("ORDER_ITEM_ID <", value, "orderItemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderItemIdLessThanOrEqualTo(Integer value) {
+            addCriterion("ORDER_ITEM_ID <=", value, "orderItemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderItemIdIn(List<Integer> values) {
+            addCriterion("ORDER_ITEM_ID in", values, "orderItemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderItemIdNotIn(List<Integer> values) {
+            addCriterion("ORDER_ITEM_ID not in", values, "orderItemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderItemIdBetween(Integer value1, Integer value2) {
+            addCriterion("ORDER_ITEM_ID between", value1, value2, "orderItemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderItemIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("ORDER_ITEM_ID not between", value1, value2, "orderItemId");
+            return (Criteria) this;
+        }
+
         public Criteria andScanTimeIsNull() {
             addCriterion("SCAN_TIME is null");
             return (Criteria) this;

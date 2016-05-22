@@ -38,6 +38,16 @@ public class PackingService {
     }
 
     @Transactional
+    public TbPackingRecord createRecord(CreatePackingRecord createPackingRecord){
+        TbPackingRecord tbPackingRecord = new TbPackingRecord();
+        tbPackingRecord.setPackingId(createPackingRecord.getPackingId());
+        tbPackingRecord.setScanTime(mybatisDao.getSysdate());
+        tbPackingRecord.setUpc(createPackingRecord.getUpc());
+        tbPackingRecord.setOrderItemId(createPackingRecord.getOrderItemId());
+        return mybatisDao.insertByModel(tbPackingRecord);
+    }
+
+    @Transactional
     public void delete(Integer packingId){
         TbPackingRecordExample tbPackingRecordExample = new TbPackingRecordExample();
         tbPackingRecordExample.createCriteria().andPackingIdEqualTo(packingId);

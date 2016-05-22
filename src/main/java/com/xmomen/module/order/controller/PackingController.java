@@ -5,6 +5,7 @@ import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
 import com.xmomen.module.logger.Log;
 import com.xmomen.module.order.entity.TbPacking;
+import com.xmomen.module.order.entity.TbPackingRecord;
 import com.xmomen.module.order.model.*;
 import com.xmomen.module.order.service.PackingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,16 +92,29 @@ public class PackingController {
         return packingService.queryPackingOrder(packingOrderQuery, limit, offset);
     }
 
-    @RequestMapping(value = "/packing/{id}/record")
+    @RequestMapping(value = "/packing/{id}/record", method = RequestMethod.GET)
     public Page<PackingRecordModel> queryPackingRecord(@PathVariable(value = "id") Integer packingId,
-                                                     @RequestParam(value = "orderItemId") Integer orderItemId,
-                                                     @RequestParam(value = "keyword", required = false) String keyword,
-                                                    @RequestParam(value = "limit") Integer limit,
-                                                    @RequestParam(value = "offset") Integer offset){
+                                                       @RequestParam(value = "orderItemId") Integer orderItemId,
+                                                       @RequestParam(value = "keyword", required = false) String keyword,
+                                                       @RequestParam(value = "limit") Integer limit,
+                                                       @RequestParam(value = "offset") Integer offset){
         PackingRecordQuery packingRecordQuery = new PackingRecordQuery();
         packingRecordQuery.setKeyword(keyword);
         packingRecordQuery.setOrderItemId(orderItemId);
         //packingRecordQuery.setId(packingId);
         return packingService.queryPackingRecord(packingRecordQuery, limit, offset);
     }
+
+    @RequestMapping(value = "/packing/{id}/record", method = RequestMethod.POST)
+    @Log(actionName = "新增装箱记录")
+    public TbPackingRecord createPackingRecord(@PathVariable(value = "id") Integer id,
+                                         @RequestBody @Valid CreatePackingRecord createPackingRecord, BindingResult bindingResult) throws ArgumentValidException {
+        if(bindingResult != null && bindingResult.hasErrors()){
+            throw new ArgumentValidException(bindingResult);
+        }
+        createPackingRecord.setPackingId(id);
+        return packingService.createRecord(createPackingRecord);
+    }
+
+
 }

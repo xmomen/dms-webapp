@@ -2,7 +2,7 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "PackingAPI", "OrderAPI", "$modal", "$ugDialog", function($scope, PackingAPI, OrderAPI, $modal, $ugDialog){
+    return ["$scope", "PackingAPI", "OrderAPI", "$modal", "$ugDialog", "$q", function($scope, PackingAPI, OrderAPI, $modal, $ugDialog, $q){
         $scope.packingList = [];
         $scope.pageInfoSetting = {
             pageSize:10,
@@ -53,14 +53,32 @@ define(function () {
                 $ugDialog.warn("请先在【待装箱订单列表】中选择需要查询的订单")
             }
         };
+        var getPackingList = function(){
+            var defer = $q.defer();
+            PackingAPI.query({
+                limit:100,
+                offset:1,
+                orderNo:$scope.choseOrder.orderNo
+            }, function(data){
+                $scope.choseOrder.packingList = data.data;
+                return defer.resolve();
+            });
+            return defer.promise;
+        };
         $scope.currentPacking = {};
         $scope.startPacking = function(){
-            if(!$scope.currentPacking.packingNo && $scope.choseOrder){
-                PackingAPI.save({
-                    orderNo:$scope.choseOrder.orderNo
-                }, function(data){
-                    $scope.currentPacking = data;
-                })
+            if($scope.choseOrder && $scope.choseOrder.orderNo){
+                getPackingList().then(function(){
+                    if($scope.choseOrder.packingList && $scope.choseOrder.packingList.length == 0){
+                        PackingAPI.save({
+                            orderNo:$scope.choseOrder.orderNo
+                        }, function(data){
+                            $scope.currentPacking = data;
+                        })
+                    }else{
+                        $scope.currentPacking = $scope.choseOrder.packingList[0];
+                    }
+                });
             }else{
                 $ugDialog.warn("请先在【待装箱订单列表】中选择需要装箱的订单")
             }
@@ -68,8 +86,44 @@ define(function () {
         $scope.changePacking = function(){
 
         };
-        $scope.scanItem = function(){
-
+        $scope.scanItem = function(orderItemId){
+            var modalInstance = $modal.open({
+                templateUrl: 'scanItem.html',
+                resolve: {
+                    CurrentItem: function(){
+                        return {
+                            id:$scope.currentPacking.id,
+                            orderItemId:orderItemId
+                        };
+                    }
+                },
+                controller: ["$scope", "PackingAPI", "CurrentItem", "$modalInstance", function ($scope, PackingAPI, CurrentItem, $modalInstance) {
+                    $scope.item = {};
+                    if(CurrentItem){
+                        $scope.item.id = CurrentItem.id;
+                        $scope.item.orderItemId = CurrentItem.orderItemId;
+                    }
+                    $scope.errors = null;
+                    $scope.scanItemForm = {};
+                    $scope.saveScanItem = function(){
+                        $scope.errors = null;
+                        if($scope.scanItemForm.validator.form()){
+                            PackingAPI.scanItem($scope.item, function(){
+                                $modalInstance.close();
+                            }, function(data){
+                                $scope.errors = data.data;
+                            })
+                        }
+                    };
+                    $scope.cancel = function () {
+                        $modalInstance.dismiss('cancel');
+                    };
+                }]
+            });
+            modalInstance.result.then(function () {
+                $scope.getPackingOrderItemList();
+                $scope.getPackingRecordList();
+            });
         };
         $scope.choseOrderItem = function(index){
             $scope.choseOrder.choseOrderItem = $scope.packingOrderItemList[index];
