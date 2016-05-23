@@ -31,4 +31,6 @@ aside{ background: #e8e8e8}
 .error {
     color: red;
 }
-
+.chose-tr {
+    background-color: #CECE07!important;
+}

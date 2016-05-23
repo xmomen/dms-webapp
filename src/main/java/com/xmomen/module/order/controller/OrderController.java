@@ -7,6 +7,7 @@ import com.xmomen.module.logger.Log;
 import com.xmomen.module.order.entity.TbOrder;
 import com.xmomen.module.order.model.CreateOrder;
 import com.xmomen.module.order.model.OrderModel;
+import com.xmomen.module.order.model.OrderQuery;
 import com.xmomen.module.order.service.OrderService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +39,12 @@ public class OrderController {
     @Log(actionName = "查询订单列表")
     public Page<OrderModel> getUserList(@RequestParam(value = "limit") Integer limit,
                                   @RequestParam(value = "offset") Integer offset,
+                                  @RequestParam(value = "orderStatus", required = false) Integer orderStatus,
                                   @RequestParam(value = "keyword", required = false) String keyword){
-        return orderService.getOrderList(keyword, limit, offset);
+        OrderQuery orderQuery = new OrderQuery();
+        orderQuery.setKeyword(keyword);
+        orderQuery.setOrderStatus(orderStatus);
+        return orderService.getOrderList(orderQuery, limit, offset);
     }
 
     /**
@@ -63,7 +68,7 @@ public class OrderController {
      *  删除订单
      * @param id
      */
-    @RequestMapping(value = "/order/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/order/{id}/item", method = RequestMethod.DELETE)
     @Log(actionName = "删除订单")
     public void deleteOrder(@PathVariable(value = "id") Integer id){
         orderService.deleteOrder(id);
