@@ -31,7 +31,7 @@ public class PackageTaskServiceImpl implements PackageTaskService {
 		 packageTask.setJobCreateUser(userId);
 		 packageTask.setJobType(1);
 		 packageTask.setJobStatus(0);
-		 packageTask.setJobCreateTime(DateUtils.getCurrentGMTDate());
+		 packageTask.setJobCreateTime(DateUtils.getCurrentGMTDate(new Date()));
 		 packageTask.setJobUser(createPackageTask.getJobUser());
 		 packageTask.setPurchaseCode(createPackageTask.getPurchaseCode());
 		 packageTask.setPurchaseId(createPackageTask.getPurchaseId());
@@ -59,7 +59,7 @@ public class PackageTaskServiceImpl implements PackageTaskService {
 	@Override
 	public void packageWorking(Integer id, String barCode) {
 		TbJob packageTask = mybatisDao.selectByPrimaryKey(TbJob.class, id);
-		Date currentTime = DateUtils.getCurrentGMTDate();
+		Date currentTime = DateUtils.getCurrentGMTDate(new Date());
 		Integer finishValue = packageTask.getFinishValue();
 		Integer countValue = packageTask.getCountValue();
 		Integer currentFinishValue = finishValue + 1;

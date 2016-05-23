@@ -18,6 +18,9 @@ import com.xmomen.module.base.model.CreatePlan;
 import com.xmomen.module.base.model.PlanItemModel;
 import com.xmomen.module.base.model.UpdatePlan;
 import com.xmomen.module.base.service.BasePlanService;
+
+import java.util.Date;
+
 @Service
 public class BasePlanServiceImpl implements BasePlanService {
 	@Autowired
@@ -37,7 +40,7 @@ public class BasePlanServiceImpl implements BasePlanService {
 	@Transactional
 	public CdPlan createPlan(CreatePlan createPlan) {
 		CdPlan plan = new CdPlan();
-		plan.setCreateTime(DateUtils.getCurrentGMTDate());
+		plan.setCreateTime(DateUtils.getCurrentGMTDate(new Date()));
 		String username = (String) SecurityUtils.getSubject().getPrincipal();
 		plan.setCreateUser(username);
 		plan.setDeliverCount(createPlan.getDeliverCount());
