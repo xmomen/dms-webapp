@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.job.mapper.PackageTaskMapper" >
+
+	<select id="getPackageTaskList" resultType="com.xmomen.module.job.model.PackageTaskModel" parameterType="java.util.HashMap">
+		SELECT 
+			TJ.*,
+			(tj.COUNT_VALUE-tj.FINISH_value) as noFinishValue,
+			CI.ITEM_CODE,
+			CI.ITEM_NAME,
+			SU.REALNAME as jobUserName
+		FROM tb_job TJ
+		LEFT JOIN cd_item CI ON TJ.CD_ITEM_ID = CI.ID
+		LEFT JOIN sys_users SU ON TJ.JOB_USER = SU.ID
+		<where>
+			<if test="keyword">
+                  AND tj.PURCHASE_CODE LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="packageTaskId">
+                  AND tj.id = #{packageTaskId}
+            </if>
+            <if test="viewType == 'view'">
+            	and (tj.job_status = 0 or tj.job_status =1)
+            </if>
+            <if test="userId != null">
+            	and tj.job_user = #{userId}
+            </if>
+		</where>
+		order by tj.job_create_time
+    </select>
+</mapper>

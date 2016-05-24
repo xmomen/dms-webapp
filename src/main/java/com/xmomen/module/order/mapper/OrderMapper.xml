@@ -3,7 +3,7 @@
 <mapper namespace="com.xmomen.module.order.mapper.OrderMapper" >
 
     <!--    查询订单    -->
-    <select id="getOrderList" resultType="com.xmomen.module.order.model.OrderModel" parameterType="java.util.HashMap">
+    <select id="getOrderList" resultType="com.xmomen.module.order.model.OrderModel" parameterType="com.xmomen.module.order.model.OrderQuery">
         SELECT
         sp.SHOW_VALUE AS orderTypeDesc,
         ssp.SHOW_VALUE AS orderStatusDesc,
@@ -24,11 +24,14 @@
         LEFT JOIN sys_dictionary oss on oss.DICTIONARY_CODE='ORDER_SOURCE'
         left join sys_dictionary_parameter osp on osp.SYS_DICTIONARY_ID=oss.ID and tb.ORDER_SOURCE = osp.REAL_VALUE
         <where>
-              <if test="keyword">
-                  AND tb.order_no LIKE CONCAT('%', #{keyword}, '%')
-                  or tb.consignee_phone LIKE CONCAT('%', #{keyword}, '%')
-                  or tb.consignee_name like CONCAT('%', #{keyword}, '%')
+              <if test="orderStatus">
+                  AND tb.order_status = #{orderStatus}
               </if>
+            <if test="keyword">
+                AND tb.order_no LIKE CONCAT('%', #{keyword}, '%')
+                or tb.consignee_phone LIKE CONCAT('%', #{keyword}, '%')
+                or tb.consignee_name like CONCAT('%', #{keyword}, '%')
+            </if>
               <if test="id">
                   AND tb.id = #{id}
               </if>
@@ -37,12 +40,17 @@
 
     <select id="getPurchaseList" resultType="com.xmomen.module.order.model.PurchaseModel" parameterType="java.util.HashMap">
         SELECT
+        	p.id as purchaseId,
             p.PURCHASE_CODE,
             p.ITEM_CODE,
             i.ITEM_NAME,
             i.SELL_UNIT AS itemUnit,
+            i.id as cdItemId,
             p.TOTAL AS totalItemQty,
-            p.TOTAL_WEIGHT as totalWeight
+            p.TOTAL_WEIGHT as totalWeight,
+       		p.DISTRIBUTE_VALUE,
+			p.PACKAGE_VALUE,
+			p.PACKING_VALUE
         FROM
           tb_purchase p
         LEFT JOIN cd_item i
@@ -51,6 +59,9 @@
               <if test="keyword">
                   AND i.ITEM_NAME LIKE CONCAT('%', #{keyword}, '%')
                   OR p.ITEM_CODE LIKE CONCAT('%', #{keyword}, '%')
+              </if>
+              <if test="isDistribute == 1">
+              	AND (p.TOTAL - p.DISTRIBUTE_VALUE) > 0
               </if>
           </where>
         ORDER BY p.CREATE_DATE DESC
@@ -84,5 +95,92 @@
             </if>
         </where>
         GROUP BY o.ORDER_NO,i.item_id
+    </select>
+
+    <select id="queryPackingModel" resultType="com.xmomen.module.order.model.PackingModel" parameterType="com.xmomen.module.order.model.PackingQuery">
+        SELECT
+          p.ID,
+          p.PACKING_NO,
+          p.PACKING_TIME,
+          p.PACKING_STATUS,
+          sdp.SHOW_VALUE AS PACKING_STATUS_desc
+        FROM
+          tb_packing p
+          LEFT JOIN sys_dictionary sd
+            ON sd.DICTIONARY_CODE = 'PACKING_STATUS'
+          LEFT JOIN sys_dictionary_parameter sdp
+            ON sd.ID = sdp.SYS_DICTIONARY_ID
+            AND sdp.REAL_VALUE = p.PACKING_STATUS
+          LEFT JOIN tb_order_relation tor
+            ON tor.REF_TYPE = 'ORDER_PACKING_RELATION'
+            AND tor.REF_VALUE = p.PACKING_NO
+        <where>
+            <if test="orderNo">
+                AND tor.ORDER_NO = #{orderNo}
+            </if>
+            <if test="packingNo">
+                AND p.PACKING_NO = #{packingNo}
+            </if>
+            <if test="packingStatus">
+                AND p.PACKING_STATUS = #{packingStatus}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryPackingOrderItemModel" resultType="com.xmomen.module.order.model.PackingOrderModel" parameterType="com.xmomen.module.order.model.PackingOrderQuery" >
+        SELECT
+        oi.id AS orderItemId,
+        p.PACKING_NO,
+        oi.ITEM_NAME,
+        oi.ITEM_QTY,
+        COUNT(pr.ID) AS packedItemQty,
+        CASE
+        WHEN COUNT(pr.ID) = 0
+        THEN '未开始'
+        WHEN COUNT(pr.ID) = oi.item_qty
+        THEN '已完成'
+        ELSE '待完成'
+        END AS packing_status_desc
+        FROM
+        tb_order_item oi
+        LEFT JOIN tb_order o
+        ON o.ORDER_NO = oi.ORDER_NO
+        LEFT JOIN tb_packing_record pr
+        ON pr.ORDER_ITEM_ID = oi.ID
+        LEFT JOIN tb_packing p
+        ON p.ID = pr.PACKING_ID
+        <where>
+            <if test="orderId">
+                AND o.id = #{orderId}
+            </if>
+            <if test="orderItemId">
+                AND oi.id = #{orderItemId}
+            </if>
+            <if test="keyword">
+                AND p.PACKING_NO LIKE CONCAT('%', #{keyword}, '%') OR oi.ITEM_NAME LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+        GROUP BY oi.ID
+    </select>
+
+    <select id="queryPackingRecordModel" resultType="com.xmomen.module.order.model.PackingRecordModel" parameterType="com.xmomen.module.order.model.PackingRecordQuery">
+        SELECT 
+          oi.ITEM_NAME,
+          pr.* 
+        FROM
+          tb_packing_record pr 
+          LEFT JOIN tb_order_item oi 
+            ON oi.ID = pr.ORDER_ITEM_ID
+        <where>
+            <if test="id">
+                AND pr.ID = #{id}
+            </if>
+            <if test="orderItemId">
+                AND pr.ORDER_ITEM_ID = #{orderItemId}
+            </if>
+            <if test="keyword">
+               AND pr.UPC LIKE CONCAT('%', #{keyword}, '%') OR oi.ITEM_NAME LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
     </select>
 </mapper>

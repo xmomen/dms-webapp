@@ -11,10 +11,10 @@
 
 	<repositories>
         <repository>
-            <id>public</id>
-            <name>Public Repositories</name>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Nexus Snapshots Repository</name>
             <layout>default</layout>
-            <url>http://192.168.8.200:8082/nexus/content/groups/public</url>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
             <snapshots>
                 <enabled>true</enabled>
                 <updatePolicy>always</updatePolicy>
@@ -27,10 +27,10 @@
     </repositories>
     <pluginRepositories>
         <pluginRepository>
-            <id>public</id>
-            <name>Public Repositories</name>
-            <url>http://192.168.8.200:8082/nexus/content/groups/public</url>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Nexus Snapshots Repository</name>
             <layout>default</layout>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
             <snapshots>
                 <enabled>true</enabled>
                 <updatePolicy>always</updatePolicy>

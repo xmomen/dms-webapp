@@ -1,0 +1,109 @@
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget" id="wid-id-4">
+				<!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2>包装页面</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- end widget edit box -->
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+                        <form class="form-horizontal">
+                            <fieldset class="demo-switcher-1">
+                                <legend>任务信息</legend>
+                                <div class="form-group">
+                                    <label class="col-md-1 control-label">产品名称：</label>
+                                    <div class="col-md-2">
+                                        <span style=" font-weight:bold;font-size:26px">{{packageTask.itemName}}</span>
+                                    </div>
+                                    <label class="col-md-1 control-label">产品编码：</label>
+                                    <div class="col-md-2">
+                                        <span style=" font-weight:bold;font-size:26px">{{packageTask.itemCode}}</span>
+                                    </div>
+
+                                </div>
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">任务数：</label>
+                                <div class="col-md-2">
+                                    <span style=" font-weight:bold;font-size:26px">{{packageTask.countValue}}</span>
+                                </div>
+                                <label class="col-md-1 control-label">已完成数：</label>
+                                <div class="col-md-2">
+                                    <span style="color:green; font-weight:bold;font-size:26px">{{packageTask.finishValue}}</span>
+                                </div>
+                                <label class="col-md-1 control-label">未完成数：</label>
+                                <div class="col-md-2">
+                                    <span style="color:red; font-weight:bold;font-size:26px">{{packageTask.noFinishValue}}</span>
+                                </div>
+                            </div>
+                            </fieldset>
+                            <fieldset class="demo-switcher-1">
+                                <legend>工作区</legend>
+                                <div class="form-group">
+                                    <label class="col-md-1 control-label">重量：</label>
+                                    <div class="col-md-2">
+                                        <div class="input-group input-group-md">
+                                            <input type="text"  ng-model="packageTask.weight" placeholder="输入重量回车自动打印条码" name="weight" class="form-control" id="weight">
+						                    <span class="input-group-btn">
+						                        <button  class="btn btn-default" data-ng-click="printBarCode()" type="button">打印</button>
+						                    </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2" ng-show="packageTask.noFinishValue == 0">
+                                        <button class="btn btn-primary" type="button" ng-click="nextPackageTask">
+                                            <i class="fa fa-refresh"></i>
+                                            下一个任务
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-2"  ng-show="packageTask.noFinishValue == 0">
+                                        <button class="btn btn-primary" type="button" ui-sref="packageTask">
+                                            <i class="fa fa-refresh"></i>
+                                            返回任务列表
+                                        </button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- WIDGET END -->
+
+	</div>
+
+	<!-- end row -->
+
+</section>
+<!-- end widget grid -->

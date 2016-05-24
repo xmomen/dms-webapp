@@ -23,6 +23,11 @@ public class TbJob extends BaseMybatisModel {
     private String purchaseCode;
 
     /**
+     * 采购明细ID
+     */
+    private Integer purchaseId;
+
+    /**
      * 1-包装任务，2-装箱任务
      */
     private Integer jobType;
@@ -51,6 +56,11 @@ public class TbJob extends BaseMybatisModel {
      * 需要包装的份数
      */
     private Integer countValue;
+
+    /**
+     * 任务开始时间
+     */
+    private Date jobBeginTime;
 
     /**
      * 包装完成的份数
@@ -95,6 +105,20 @@ public class TbJob extends BaseMybatisModel {
               return;
         }
         addValidField("purchaseCode");
+    }
+
+    @Column(name = "PURCHASE_ID")
+    public Integer getPurchaseId() {
+        return purchaseId;
+    }
+
+    public void setPurchaseId(Integer purchaseId) {
+        this.purchaseId = purchaseId;
+        if(purchaseId == null){
+              removeValidField("purchaseId");
+              return;
+        }
+        addValidField("purchaseId");
     }
 
     @Column(name = "JOB_TYPE")
@@ -179,6 +203,20 @@ public class TbJob extends BaseMybatisModel {
               return;
         }
         addValidField("countValue");
+    }
+
+    @Column(name = "JOB_BEGIN_TIME")
+    public Date getJobBeginTime() {
+        return jobBeginTime;
+    }
+
+    public void setJobBeginTime(Date jobBeginTime) {
+        this.jobBeginTime = jobBeginTime;
+        if(jobBeginTime == null){
+              removeValidField("jobBeginTime");
+              return;
+        }
+        addValidField("jobBeginTime");
     }
 
     @Column(name = "FINISH_VALUE")

@@ -40,17 +40,21 @@ will not initialize.
             <div permission only="'PRODUCT_CATEGORY_VIEW'">
                 <nav:item ui-sref="itemCategory" title="产品分类"/>
             </div>
-            <div permission only="'COUPON_VIEW'">
-                <nav:item ui-sref="couponCategory" title="卡劵类型"/>
-            </div>
-            <div permission only="'COUPON_VIEW'">
-                <nav:item ui-sref="coupon" title="卡券管理"/>
-            </div>
             <div permission only="'CONTRACT_VIEW'">
                 <nav:item ui-sref="contract" title="合同管理"/>
             </div>
             <div permission only="'ACTIVITY_VIEW'">
                 <nav:item ui-sref="activity" title="活动管理"/>
+            </div>
+        </nav:group>
+    </div>
+    <div permission only="'COUPON_MENU'">
+        <nav:group data-icon="fa fa-fw fa-shopping-cart" title="卡劵管理">
+            <div permission only="'COUPON_VIEW'">
+                <nav:item ui-sref="couponCategory" title="卡劵类型"/>
+            </div>
+            <div permission only="'COUPON_VIEW'">
+                <nav:item ui-sref="coupon" title="卡券管理"/>
             </div>
             <div permission only="'COUPON_ACTIVITY_VIEW'">
                 <nav:item ui-sref="couponActivity" title="预付款卡金额回填"/>
@@ -76,6 +80,20 @@ will not initialize.
                 <nav:item ui-sref="order" title="订单列表" />
             </div>
             <nav:item ui-sref="purchase" title="采购计划" />
+            <nav:item ui-sref="packing" title="装箱" />
+        </nav:group>
+    </div>
+    <div permission only="'PACKAGE_MENU'">
+        <nav:group data-icon="fa fa-fw fa-shopping-cart" title="包装管理">
+            <div permission only="'PACKAGE_TASK_DOWN'">
+                <nav:item ui-sref="packageTaskDown" title="任务下发" />
+            </div>
+            <div permission only="'PACKAGE_TASK'">
+                <nav:item ui-sref="packageTask" title="包装任务" />
+            </div>
+            <div permission only="'PACKAGE_TASK_VIEW'">
+                <nav:item ui-sref="packageTaskView" title="任务进度看板" />
+            </div>
         </nav:group>
     </div>
     <div permission only="'SYSTEM_MENU'">

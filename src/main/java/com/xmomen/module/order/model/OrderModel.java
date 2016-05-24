@@ -1,5 +1,7 @@
 package com.xmomen.module.order.model;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -7,7 +9,13 @@ import java.util.Date;
 /**
  * Created by Jeng on 16/4/6.
  */
-public class OrderModel implements Serializable {
+public @Data
+class OrderModel implements Serializable {
+
+    /**
+     * 订单ID
+     */
+    private Integer id;
 
     /**
      * 订单类型

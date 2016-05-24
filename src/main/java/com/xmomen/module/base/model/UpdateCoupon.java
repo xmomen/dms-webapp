@@ -25,6 +25,7 @@ public class UpdateCoupon implements Serializable {
     private Date beginTime;
     private Date endTime;
     private BigDecimal couponValue;
+    private BigDecimal userPrice;
     private Integer isUsed;
     private Integer isUseful;
     private Integer isGift;
@@ -132,6 +133,14 @@ public class UpdateCoupon implements Serializable {
 
 	public void setCouponCategory(Integer couponCategory) {
 		this.couponCategory = couponCategory;
+	}
+
+	public BigDecimal getUserPrice() {
+		return userPrice;
+	}
+
+	public void setUserPrice(BigDecimal userPrice) {
+		this.userPrice = userPrice;
 	}
 
 	
