@@ -1,4 +1,4 @@
-package com.xmomen.module.packing.controller;
+package com.xmomen.module.order.controller;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;

@@ -145,6 +145,7 @@ public class CouponController {
         cdCoupon.setCouponValue(updateCoupon.getCouponValue());
         cdCoupon.setIsGift(updateCoupon.getIsGift());
         cdCoupon.setIsUsed(updateCoupon.getIsUsed());
+        cdCoupon.setUserPrice(updateCoupon.getUserPrice());
         cdCoupon.setIsUseful(updateCoupon.getIsUseful());
         cdCoupon.setNotes(updateCoupon.getNotes());
         couponService.updateCoupon(cdCoupon);

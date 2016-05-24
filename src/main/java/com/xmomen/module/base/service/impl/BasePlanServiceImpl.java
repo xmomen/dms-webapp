@@ -40,7 +40,7 @@ public class BasePlanServiceImpl implements BasePlanService {
 	@Transactional
 	public CdPlan createPlan(CreatePlan createPlan) {
 		CdPlan plan = new CdPlan();
-		plan.setCreateTime(DateUtils.getCurrentGMTDate(new Date()));
+		plan.setCreateTime(mybatisDao.getGMTDate());
 		String username = (String) SecurityUtils.getSubject().getPrincipal();
 		plan.setCreateUser(username);
 		plan.setDeliverCount(createPlan.getDeliverCount());
