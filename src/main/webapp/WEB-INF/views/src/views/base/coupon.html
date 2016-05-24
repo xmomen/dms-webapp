@@ -88,7 +88,8 @@
                                     <th>卡劵类别</th>
 									<th>描述</th>
 									<th>卡号/劵号</th>
-									<th>可用金额/可用次数</th>
+									<th>面值</th>
+                                    <th>余额</th>
 									<th>有效日期</th>
 									<th>使用状态</th>
 									<th>激活状态</th>
@@ -116,6 +117,7 @@
 									<td ng-bind="coupon.couponDesc"></td>
 									<td ng-bind="coupon.couponNumber"></td>
 									<td ng-bind="coupon.couponValue"></td>
+                                    <td ng-bind="coupon.userPrice"></td>
 									<td>{{coupon.beginTime | date: 'yyyy-MM-dd'}} 至 {{coupon.endTime | date: 'yyyy-MM-dd'}}</td>
                                     <td><span ng-if="coupon.isUsed == 0">未使用</span><span ng-if="coupon.isUsed == 1">已使用</span></td>
                                     <td><span ng-if="coupon.isUseful == 0">未激活</span><span ng-if="coupon.isUseful == 1">已激活</span></td>
@@ -225,12 +227,17 @@
                         </div>
                     </div>
 					<div class="form-group">
-						<label class="col-md-2 control-label">数值</label>
+						<label class="col-md-2 control-label">面值</label>
 						<div class="col-md-10 input-group">
-							<input class="form-control"  ng-disabled="coupon.couponType == 2" ng-model="coupon.couponValue" name="couponValue" placeholder="可用金额/可用次数" type="text">
+							<input class="form-control"  ng-disabled="coupon.id != null" ng-model="coupon.couponValue" name="couponValue" placeholder="面值" type="text">
 						</div>
 					</div>
-
+                    <div class="form-group" ng-show="coupon.couponType == 1">
+                        <label class="col-md-2 control-label">余额</label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control" ng-model="coupon.userPrice" name="couponValue" placeholder="余额" type="text">
+                        </div>
+                    </div>
 					<div class="form-group">
 						<label class="col-md-2 control-label">起始时间</label>
 						<div class="col-md-10 input-group">

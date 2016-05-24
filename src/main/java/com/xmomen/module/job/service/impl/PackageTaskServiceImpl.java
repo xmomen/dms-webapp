@@ -31,7 +31,7 @@ public class PackageTaskServiceImpl implements PackageTaskService {
 		 packageTask.setJobCreateUser(userId);
 		 packageTask.setJobType(1);
 		 packageTask.setJobStatus(0);
-		 packageTask.setJobCreateTime(DateUtils.getCurrentGMTDate(new Date()));
+		 packageTask.setJobCreateTime(mybatisDao.getSysdate());
 		 packageTask.setJobUser(createPackageTask.getJobUser());
 		 packageTask.setPurchaseCode(createPackageTask.getPurchaseCode());
 		 packageTask.setPurchaseId(createPackageTask.getPurchaseId());
@@ -45,21 +45,9 @@ public class PackageTaskServiceImpl implements PackageTaskService {
 	}
 
 	@Override
-	public void updatePackageTask(Integer id, UpdateItem updatePackageTask) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void delete(Integer id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void packageWorking(Integer id, String barCode) {
 		TbJob packageTask = mybatisDao.selectByPrimaryKey(TbJob.class, id);
-		Date currentTime = DateUtils.getCurrentGMTDate(new Date());
+		Date currentTime = mybatisDao.getSysdate();
 		Integer finishValue = packageTask.getFinishValue();
 		Integer countValue = packageTask.getCountValue();
 		Integer currentFinishValue = finishValue + 1;
@@ -83,6 +71,18 @@ public class PackageTaskServiceImpl implements PackageTaskService {
 		jobOperationLog.setJobUser(packageTask.getJobUser());
 		mybatisDao.save(jobOperationLog);
 		//更新包装数
+	}
+
+	@Override
+	public void updatePackageTask(Integer id, UpdateItem updatePackageTask) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(Integer id) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
