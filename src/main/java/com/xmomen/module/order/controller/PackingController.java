@@ -8,11 +8,14 @@ import com.xmomen.module.order.entity.TbPacking;
 import com.xmomen.module.order.entity.TbPackingRecord;
 import com.xmomen.module.order.model.*;
 import com.xmomen.module.order.service.PackingService;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Jeng on 2016/3/30.
@@ -60,6 +63,36 @@ public class PackingController {
             throw new ArgumentValidException(bindingResult);
         }
         return packingService.create(createPacking);
+    }
+
+    /**
+     * 分配装箱任务
+     * @param packingTask
+     * @param bindingResult
+     * @return
+     */
+    @RequestMapping(value = "/packing/task/bind", method = RequestMethod.PUT)
+    @Log(actionName = "分配装箱任务")
+    public void createPacking(@RequestBody @Valid PackingTask packingTask, BindingResult bindingResult) throws ArgumentValidException {
+        if(bindingResult != null && bindingResult.hasErrors()){
+            throw new ArgumentValidException(bindingResult);
+        }
+        packingService.dispatchPackingTask(packingTask);
+    }
+
+    /**
+     * 分配装箱任务
+     * @param orderNoList
+     * @param bindingResult
+     * @throws ArgumentValidException
+     */
+    @RequestMapping(value = "/packing/task/unbind", method = RequestMethod.PUT)
+    @Log(actionName = "分配装箱任务")
+    public void createPacking(@RequestParam(value = "orderNos", required = true)String[] orderNoList) throws ArgumentValidException {
+        if(orderNoList != null && orderNoList.length <= 0){
+            return;
+        }
+        packingService.cancelPackingTask(orderNoList);
     }
 
     /**

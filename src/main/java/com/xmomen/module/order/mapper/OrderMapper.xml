@@ -31,17 +31,20 @@
         LEFT JOIN tb_order_relation tor ON tor.ORDER_NO = tb.ORDER_NO AND tor.REF_TYPE = 'ORDER_PACKING_TASK_RELATION'
         LEFT JOIN sys_users u ON u.id = tor.ref_value
         <where>
-              <if test="orderStatus">
+            <if test="orderStatus">
                   AND tb.order_status = #{orderStatus}
-              </if>
+            </if>
             <if test="keyword">
                 AND tb.order_no LIKE CONCAT('%', #{keyword}, '%')
                 or tb.consignee_phone LIKE CONCAT('%', #{keyword}, '%')
                 or tb.consignee_name like CONCAT('%', #{keyword}, '%')
             </if>
-              <if test="id">
+            <if test="id">
                   AND tb.id = #{id}
-              </if>
+            </if>
+            <if test="packingTaskUserId">
+                AND tor.REF_VALUE = #{packingTaskUserId}
+            </if>
           </where>
     </select>
 

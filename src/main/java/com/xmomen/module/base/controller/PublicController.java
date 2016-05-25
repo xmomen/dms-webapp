@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,14 +37,17 @@ public class PublicController {
 	//查询客服经理
 	@RequestMapping(value = "/customerManagerList", method = RequestMethod.GET)
 	public List<CompanyCustomerManager> getCustomerManager(
-			@RequestParam(value = "userType", required = false) String userType
-			){
+			@RequestParam(value = "userType", required = false) String userType,
+			@RequestParam(value = "keyword", required = false) String keyword){
 		 Map map = new HashMap<String,Object>();
 		 map.put("userType", userType);
 		 if(SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE)){
-	            Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
-	            map.put("managerId", userId);
-	        }
+			 Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
+			 map.put("managerId", userId);
+		 }
+		if(StringUtils.trimToNull(keyword) != null){
+			map.put("keyword", StringUtils.trimToEmpty(keyword));
+		}
 		List<CompanyCustomerManager> customerManagerList = mybatisDao.getSqlSessionTemplate().selectList(PublicMapper.PublicMapperNameSpace+"getManagerList", map);
 		return customerManagerList;
 	}

@@ -13,4 +13,5 @@ class OrderQuery implements Serializable {
     private Integer id;
     private String keyword;
     private Integer orderStatus;
+    private Integer packingTaskUserId;
 }

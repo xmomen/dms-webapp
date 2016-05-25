@@ -2,7 +2,7 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "OrderAPI", "$modal", "$ugDialog", "UserAPI", function($scope, OrderAPI, $modal, $ugDialog, UserAPI){
+    return ["$scope", "OrderAPI", "$modal", "$ugDialog", "UserAPI", "PackingAPI", function($scope, OrderAPI, $modal, $ugDialog, UserAPI, PackingAPI){
         $scope.orderList = [];
         $scope.pageInfoSetting = {
             pageSize:10,
@@ -21,12 +21,43 @@ define(function () {
                 $scope.pageInfoSetting.loadData = $scope.getOrderList;
             });
         };
+        $scope.currentCustomer = {};
+        $scope.resetCurrentCustomer = function(){
+            $scope.currentCustomer = {};
+        };
+        $scope.chosePackingCustomer = function(index){
+            $scope.currentCustomer = $scope.companyCustomerManagers[index];
+        };
         $scope.getCustomerManagersList = function(){
             UserAPI.getCustomerManagerList({
-                userType:"zhuangxiangzu"
+                userType:"zhuangxiangzu",
+                keyword:$scope.queryParam.customerKeyword
             },function(data){
                 $scope.companyCustomerManagers = data;
             });
+        };
+        $scope.bindPackingTask = function(index){
+            if(!$scope.currentCustomer.customerMangerId){
+                $ugDialog.warn("请选择需要分配的责任人");
+                return;
+            }
+            var orderNos = [];
+            orderNos.push($scope.orderList[index].orderNo);
+            PackingAPI.bindPackingTask({
+                packingTaskUserId:$scope.currentCustomer.customerMangerId,
+                orderNos:orderNos
+            }, function(){
+                $scope.getOrderList();
+            })
+        };
+        $scope.unbindPackingTask = function(index){
+            var orderNos = [];
+            orderNos.push($scope.orderList[index].orderNo);
+            PackingAPI.unbindPackingTask({
+                orderNos:orderNos
+            }, function(){
+                $scope.getOrderList();
+            })
         }
         $scope.removePacking = function(index){
             $ugDialog.confirm("是否删除此装箱记录？").then(function(){
@@ -40,49 +71,6 @@ define(function () {
         $scope.updatePacking = function(index){
             $scope.open(angular.copy($scope.packingList[index]));
         };
-        $scope.dispatchTask = function (order) {
-            var modalInstance = $modal.open({
-                templateUrl: 'dispatch_task.html',
-                resolve: {
-                    CurrentOrder: function(){
-                        return order;
-                    }
-                },
-                controller: ["$scope", "PackingAPI", "CurrentOrder", "$modalInstance", function ($scope, PackingAPI, CurrentOrder, $modalInstance) {
-                    $scope.packing = {};
-                    if(CurrentOrder){
-                        $scope.packing = CurrentOrder;
-                    }
-                    $scope.errors = null;
-                    $scope.addPackingForm = {};
-                    $scope.savePacking = function(){
-                        $scope.errors = null;
-                        if($scope.addPackingForm.validator.form()){
-                            if($scope.packing.id){
-                                PackingAPI.update($scope.packing, function(){
-                                    $modalInstance.close();
-                                }, function(data){
-                                    $scope.errors = data.data;
-                                })
-                            }else{
-                                PackingAPI.save($scope.packing, function(){
-                                    $modalInstance.close();
-                                }, function(data){
-                                    $scope.errors = data.data;
-                                })
-                            }
-                        }
-                    };
-                    $scope.cancel = function () {
-                        $modalInstance.dismiss('cancel');
-                    };
-                }]
-            });
-            modalInstance.result.then(function () {
-                $scope.getOrderList();
-            });
-        };
-
         $scope.getCustomerManagersList();
         $scope.getOrderList();
     }];

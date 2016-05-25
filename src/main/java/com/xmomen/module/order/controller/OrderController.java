@@ -3,6 +3,7 @@ package com.xmomen.module.order.controller;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
+import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.logger.Log;
 import com.xmomen.module.order.entity.TbOrder;
 import com.xmomen.module.order.model.CreateOrder;
@@ -44,6 +45,10 @@ public class OrderController {
         OrderQuery orderQuery = new OrderQuery();
         orderQuery.setKeyword(keyword);
         orderQuery.setOrderStatus(orderStatus);
+        if(SecurityUtils.getSubject().hasRole(AppConstants.PACKING_PERMISSION_CODE)){
+            Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
+            orderQuery.setPackingTaskUserId(userId);
+        }
         return orderService.getOrderList(orderQuery, limit, offset);
     }
 

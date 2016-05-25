@@ -9,4 +9,5 @@ public interface OrderMapper {
 
     public static final String ORDER_PAY_RELATION_CODE = "ORDER_PAY_RELATION";
     public static final String ORDER_PACKING_RELATION_CODE = "ORDER_PACKING_RELATION";
+    public static final String ORDER_PACKING_TASK_RELATION_CODE = "ORDER_PACKING_TASK_RELATION";
 }

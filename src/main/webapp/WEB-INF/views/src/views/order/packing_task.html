@@ -46,43 +46,43 @@
 								<div class="dataTables_filter">
 									<label>
 										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-										<input type="search" placeholder="订单号" data-ng-keyup="getOrderList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+										<input type="search" placeholder="姓名" data-ng-keyup="getCustomerManagersList()" ng-model="queryParam.customerKeyword" class="form-control" aria-controls="dt_basic"></label>
 								</div>
 							</div>
 							<div class="col-sm-2">
-								<button class="btn btn-primary" type="button" data-ng-click="getOrderList()">
+								<button class="btn btn-primary" type="button" data-ng-click="getCustomerManagersList()">
 									<i class="fa fa-refresh"></i>
 									刷新
 								</button>
 							</div>
 						</div>
 						<div class="table-responsive">
-							<table class="table table-striped table-condensed table-hover smart-form has-tickbox">
+							<table class="table table-condensed table-hover smart-form has-tickbox">
 								<thead>
 								<tr>
 									<th>序号</th>
-									<th width="120">订单编号</th>
-									<th>下单时间</th>
-									<th>订单状态</th>
+									<th width="120">姓名</th>
+									<th>已分配数量</th>
 									<th width="80">操作</th>
 								</tr>
 								</thead>
 								<tbody>
-								<tr ng-repeat="order in orderList"  ng-if="orderList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+								<tr ng-repeat="companyCustomer in companyCustomerManagers"
+									ng-click="chosePackingCustomer($index)"
+									ng-class="{'chose-tr':companyCustomer.customerMangerId==currentCustomer.customerMangerId}"
+									title="点击选择为当前装箱负责人"
+									ng-if="companyCustomerManagers.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
 									<td ng-bind="$index*pageInfoSetting.pageNum + 1"></td>
-									<td ng-bind="order.orderNo"></td>
-									<td ng-bind="order.createTime | date: 'yyyy-MM-dd hh:mm:ss'"></td>
-									<td ng-bind="order.orderStatusDesc"></td>
+									<td ng-bind="companyCustomer.customerManger"></td>
+									<td ng-bind="companyCustomer.taskNumber"></td>
 									<td>
 										<div >
-											<a href="javascript:void(0);" data-ng-click="dispatchTask($index)">
-												<span class="fa fa-inbox"> 分配</span>
-											</a>
+
 										</div>
 									</td>
 								</tr>
-								<tr ng-if="orderList == null || orderList.length == 0">
-									<td colspan="5">
+								<tr ng-if="companyCustomerManagers == null || companyCustomerManagers.length == 0">
+									<td colspan="4">
 										<div>暂无数据</div>
 									</td>
 								</tr>
@@ -135,6 +135,9 @@
 					<!-- end widget edit box -->
 					<!-- widget content -->
 					<div class="widget-body no-padding">
+						<div class="alert alert-info no-margin fade in">
+							<label>装箱负责人：{{currentCustomer.customerManger}}     <a ng-show="currentCustomer.customerManger" href="#" ng-click="resetCurrentCustomer()">重选</a></label>
+						</div>
 						<div class="dt-toolbar">
 							<div class="col-sm-4">
 								<div class="dataTables_filter">
@@ -151,12 +154,12 @@
 							</div>
 						</div>
 						<div class="table-responsive">
-							<table class="table table-striped table-condensed table-hover smart-form has-tickbox">
+							<table class="table table-condensed table-hover smart-form has-tickbox">
 								<thead>
 								<tr>
 									<th>序号</th>
 									<th width="120">订单编号</th>
-									<th>下单时间</th>
+									<th>装箱任务负责人</th>
 									<th>订单状态</th>
 									<th width="80">操作</th>
 								</tr>
@@ -165,12 +168,17 @@
 								<tr ng-repeat="order in orderList"  ng-if="orderList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
 									<td ng-bind="$index*pageInfoSetting.pageNum + 1"></td>
 									<td ng-bind="order.orderNo"></td>
-									<td ng-bind="order.createTime | date: 'yyyy-MM-dd hh:mm:ss'"></td>
-									<td ng-bind="order.orderStatusDesc"></td>
+									<td ng-bind="order.packingTaskUsername"></td>
+									<td ng-bind="order.packingTaskStatusDesc"></td>
 									<td>
-										<div >
-											<a href="javascript:void(0);" data-ng-click="dispatchTask($index)">
+										<div ng-show="order.packingTaskStatus == 0" >
+											<a href="javascript:void(0);" data-ng-click="bindPackingTask($index)">
 												<span class="fa fa-inbox"> 分配</span>
+											</a>
+										</div>
+										<div ng-show="order.packingTaskStatus == 1" >
+											<a href="javascript:void(0);" data-ng-click="unbindPackingTask($index)">
+												<span class="fa fa-inbox"> 取消</span>
 											</a>
 										</div>
 									</td>

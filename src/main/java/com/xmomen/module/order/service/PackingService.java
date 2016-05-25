@@ -6,9 +6,11 @@ import com.xmomen.framework.utils.DateUtils;
 import com.xmomen.module.order.entity.*;
 import com.xmomen.module.order.mapper.OrderMapper;
 import com.xmomen.module.order.model.*;
+import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 /**
  * Created by Jeng on 16/4/5.
@@ -35,6 +37,24 @@ public class PackingService {
         tbOrderRelation.setRefValue(tbPacking.getPackingNo());
         mybatisDao.insert(tbOrderRelation);
         return tbPacking;
+    }
+
+    @Transactional
+    public void dispatchPackingTask(PackingTask packingTask){
+        for (String orderNo : packingTask.getOrderNos()) {
+            TbOrderRelation tbOrderRelation = new TbOrderRelation();
+            tbOrderRelation.setOrderNo(orderNo);
+            tbOrderRelation.setRefType(OrderMapper.ORDER_PACKING_TASK_RELATION_CODE);
+            tbOrderRelation.setRefValue(String.valueOf(packingTask.getPackingTaskUserId()));
+            mybatisDao.insert(tbOrderRelation);
+        }
+    }
+
+    @Transactional
+    public void cancelPackingTask(String[] orderNoArray){
+        TbOrderRelationExample tbOrderRelationExample = new TbOrderRelationExample();
+        tbOrderRelationExample.createCriteria().andOrderNoIn(CollectionUtils.arrayToList(orderNoArray)).andRefTypeEqualTo(OrderMapper.ORDER_PACKING_TASK_RELATION_CODE);
+        mybatisDao.deleteByExample(tbOrderRelationExample);
     }
 
     @Transactional
