@@ -6,8 +6,9 @@ define([
     "views/order/order_create",
     "views/order/purchase",
     "views/order/packing",
-    "views/order/order_packing"
-],function (order, order_create, purchase, packing, order_packing) {
+    "views/order/order_packing",
+    "views/order/packing_task"
+],function (order, order_create, purchase, packing, order_packing, packing_task) {
     angular.module('DMS.order', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -58,6 +59,12 @@ define([
                     }
                 },
                 controller: packing
+            })
+
+            .state('packing_task', {
+                url: '/packing/task',
+                templateUrl: 'views/order/packing_task.html',
+                controller: packing_task
             })
 
             .state('order_packing', {

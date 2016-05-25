@@ -9,6 +9,10 @@
         ssp.SHOW_VALUE AS orderStatusDesc,
         paymentp.SHOW_VALUE AS paymentModeDesc,
         osp.SHOW_VALUE AS orderSourceDesc,
+        tor.REF_VALUE AS packingTaskUserId,
+        u.realname AS packingTaskUsername,
+        CASE WHEN tor.REF_VALUE IS NOT NULL THEN 1 ELSE 0 END AS packingTaskStatus,
+        CASE WHEN tor.REF_VALUE IS NOT NULL THEN '已分配' ELSE '待分配' END AS packingTaskStatusDesc,
         tb.*
         FROM
         tb_order tb
@@ -23,6 +27,9 @@
 
         LEFT JOIN sys_dictionary oss on oss.DICTIONARY_CODE='ORDER_SOURCE'
         left join sys_dictionary_parameter osp on osp.SYS_DICTIONARY_ID=oss.ID and tb.ORDER_SOURCE = osp.REAL_VALUE
+
+        LEFT JOIN tb_order_relation tor ON tor.ORDER_NO = tb.ORDER_NO AND tor.REF_TYPE = 'ORDER_PACKING_TASK_RELATION'
+        LEFT JOIN sys_users u ON u.id = tor.ref_value
         <where>
               <if test="orderStatus">
                   AND tb.order_status = #{orderStatus}
