@@ -96,6 +96,8 @@ public class CouponModel implements Serializable {
     
     private String consignmentAddress;
     
+    private Date sendTime;
+    
     private String receivedPrice;
     public Integer getIsSend() {
 		return isSend;
@@ -288,5 +290,11 @@ public class CouponModel implements Serializable {
 
 	public void setUserPrice(BigDecimal userPrice) {
 		this.userPrice = userPrice;
+	}
+	public Date getSendTime() {
+		return sendTime;
+	}
+	public void setSendTime(Date sendTime) {
+		this.sendTime = sendTime;
 	}
 }

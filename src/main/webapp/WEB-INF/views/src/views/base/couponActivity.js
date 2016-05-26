@@ -45,6 +45,7 @@ define(function () {
         };
         $scope.getCouponList();
         $scope.updateValue = function(coupon){
+            coupon.userPrice = coupon.couponValue;
             CouponAPI.update(coupon, function(){
             }, function(data){
                 $scope.errors = data.data;
@@ -56,7 +57,8 @@ define(function () {
                 couponNumber:coupon.couponNumber,
                 consignmentName:coupon.consignmentName,
                 consignmentPhone:coupon.consignmentPhone,
-                consignmentAddress:coupon.consignmentAddress
+                consignmentAddress:coupon.consignmentAddress,
+                sendTime:coupon.sendTime
             },function(){
 
             }, function(data){

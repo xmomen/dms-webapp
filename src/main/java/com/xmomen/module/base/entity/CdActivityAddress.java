@@ -1,12 +1,14 @@
 package com.xmomen.module.base.entity;
 
-import com.xmomen.framework.mybatis.model.BaseMybatisModel;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Version;
+
+import com.xmomen.framework.mybatis.model.BaseMybatisModel;
 
 @Entity
 @Table(name = "cd_activity_address")
@@ -35,6 +37,11 @@ public class CdActivityAddress extends BaseMybatisModel {
      * 收货地址
      */
     private String consignmentAddress;
+    
+    /**
+     * 赠送时间
+     */
+    private Date sendTime;
 
     @Column(name = "ID")
     @Id
@@ -106,5 +113,18 @@ public class CdActivityAddress extends BaseMybatisModel {
               return;
         }
         addValidField("consignmentAddress");
+    }
+    @Column(name = "SEND_TIME")
+    public Date getSendTime() {
+        return sendTime;
+    }
+
+    public void setSendTime(Date sendTime) {
+        this.sendTime = sendTime;
+        if(sendTime == null){
+              removeValidField("sendTime");
+              return;
+        }
+        addValidField("sendTime");
     }
 }

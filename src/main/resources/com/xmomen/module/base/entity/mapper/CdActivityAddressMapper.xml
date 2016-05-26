@@ -7,6 +7,7 @@
     <result column="CONSIGNMENT_NAME" property="consignmentName" jdbcType="VARCHAR" />
     <result column="CONSIGNMENT_PHONE" property="consignmentPhone" jdbcType="VARCHAR" />
     <result column="CONSIGNMENT_ADDRESS" property="consignmentAddress" jdbcType="VARCHAR" />
+    <result column="SEND_TIME" property="sendTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, COUPON_NUMBER, CONSIGNMENT_NAME, CONSIGNMENT_PHONE, CONSIGNMENT_ADDRESS
+    ID, COUPON_NUMBER, CONSIGNMENT_NAME, CONSIGNMENT_PHONE, CONSIGNMENT_ADDRESS,SEND_TIME
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdActivityAddressExample" >
     select
@@ -107,6 +108,9 @@
       <if test="consignmentAddress != null" >
         CONSIGNMENT_ADDRESS,
       </if>
+      <if test="sendTime != null" >
+       	SEND_TIME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -123,6 +127,9 @@
       </if>
       <if test="consignmentAddress != null" >
         #{consignmentAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -149,6 +156,9 @@
       </if>
       <if test="record.consignmentAddress != null" >
         CONSIGNMENT_ADDRESS = #{record.consignmentAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendTime != null" >
+        SEND_TIME = #{record.sendTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null" >

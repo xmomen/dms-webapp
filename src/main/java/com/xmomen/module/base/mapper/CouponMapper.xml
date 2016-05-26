@@ -28,6 +28,7 @@
 		caa.consignment_name,
 		caa.consignment_phone,
 		caa.consignment_address,
+		caa.send_time,
 		price.ref_value as receivedPrice
         FROM
         cd_coupon cc
