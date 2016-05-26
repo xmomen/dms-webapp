@@ -86,6 +86,7 @@
                                     <th>收货人</th>
                                     <th >手机号</th>
                                     <th  width="420px">收货地址</th>
+                                    <th>赠送日期</th>
                                     <th>操作</th>
 								</tr>
 								</thead>
@@ -114,6 +115,8 @@
                                     <td ng-show="!show">{{coupon.consignmentPhone}}</td>
                                     <td ng-show="show"><input type="text" placeholder="输入完按回车" ng-blur="updateAddress(coupon)" ng-model="coupon.consignmentAddress" class="form-control" aria-controls="dt_basic"></td>
                                     <td ng-show="!show">{{coupon.consignmentAddress}}</td>
+                                    <td ng-show="show"><input type="text" placeholder="输入完按回车（格式：YYYY-MM-DD)" ng-blur="updateAddress(coupon)" ng-model="coupon.sendTime" class="form-control" aria-controls="dt_basic"></td>
+                                    <td ng-show="!show">{{coupon.sendTime | date: 'yyyy-MM-dd'}}</td>
                                     <td>
                                         <div ng-show="show">
                                             <a href="javascript:void(0);" data-ng-click="returnCoupon(coupon)" title="退卡：{{coupon.couponNumber}}">
@@ -150,61 +153,3 @@
 	<!-- end row -->
 
 </section>
-<!-- end widget grid -->
-<script type="text/ng-template" id="sendOneCoupon.html">
-    <div class="modal-header">
-        <h3 class="modal-title">单卡发放</h3>
-    </div>
-    <div class="modal-body">
-        <div class="widget-body">
-
-            <form class="form-horizontal" ug-validate="sendCouponForm" name="sendCouponForm" novalidate="">
-                <fieldset>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">卡号</label>
-                        <div class="col-md-10 input-group">
-                            <input class="form-control" required disabled ng-model="coupon.couponNumber" name="number" placeholder="卡号" type="text">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">卡类别</label>
-                        <div class="col-md-10 input-group">
-                            <input class="form-control" required disabled ng-model="coupon.categoryName" name="number" placeholder="卡类别" type="text">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">公司/单位<span class="vaild">*</span></label>
-                        <div class="col-md-10 input-group">
-                            <select ug-select2 style="width: 100%;" required="true" ng-model="coupon.cdCompanyId" name="company" ng-change="changeCompany(coupon.cdCompanyId)">
-                                <option value="">--请选择--</option>
-                                <option value="{{company.id}}" ng-repeat="company in companyList">{{company.companyName}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">客户经理<span class="vaild">*</span></label>
-                        <div class="col-md-10 input-group">
-                            <select ug-select2 style="width: 100%;" required="true" ng-model="coupon.customerMangerId" name="customerManager" >
-                                <option value="">--请选择--</option>
-                                <option value="{{customerManager.customerMangerId}}" ng-repeat="customerManager in companyCustomerManagers">{{customerManager.customerManger}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group" ng-if="errors">
-                        <label class="col-md-2 control-label"></label>
-                        <div class="col-md-10 error">
-                            {{errors.message}}
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-primary" type="submit" data-ng-click="sendOneCoupon()">
-            <i class="fa fa-save"></i>
-            发卡
-        </button>
-        <button class="btn btn-warning" ng-click="cancel()">取消</button>
-    </div>
-</script>

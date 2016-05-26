@@ -1,12 +1,13 @@
 package com.xmomen.module.base.controller;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.validation.Valid;
 
-import com.xmomen.module.base.model.CouponQuery;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -25,8 +26,8 @@ import com.xmomen.module.base.entity.CdActivityAddress;
 import com.xmomen.module.base.entity.CdCoupon;
 import com.xmomen.module.base.entity.CdCouponRef;
 import com.xmomen.module.base.entity.CdCouponRefExample;
-import com.xmomen.module.base.mapper.CouponMapper;
 import com.xmomen.module.base.model.CouponModel;
+import com.xmomen.module.base.model.CouponQuery;
 import com.xmomen.module.base.model.CreateCoupon;
 import com.xmomen.module.base.model.UpdateCoupon;
 import com.xmomen.module.base.service.CouponService;
@@ -199,6 +200,7 @@ public class CouponController {
     
     /**
      * @param id
+     * @throws ParseException 
      */
     @RequestMapping(value = "/coupon/activityAddress", method = RequestMethod.GET)
     @Log(actionName = "活动送货地址信息")
@@ -206,7 +208,13 @@ public class CouponController {
     		@RequestParam(value="couponNumber") String couponNumber,
     		@RequestParam(value="consignmentName", required = false)String consignmentName,
     		@RequestParam(value="consignmentPhone", required = false) String consignmentPhone,
-    		@RequestParam(value="consignmentAddress", required = false) String consignmentAddress){
+    		@RequestParam(value="consignmentAddress", required = false) String consignmentAddress,
+    		@RequestParam(value="sendTime",required = false) String sendTime) throws ParseException{
+    	Date sendTimeDate = null;
+    	if(!StringUtils.isBlank(sendTime)){
+    		 SimpleDateFormat sFormat = new SimpleDateFormat("yyyy-MM-dd");
+    		 sendTimeDate = sFormat.parse(sendTime);
+    	}
     	CdActivityAddress activityAddress = new CdActivityAddress();
     	activityAddress.setCouponNumber(couponNumber);
     	activityAddress = mybatisDao.selectOneByModel(activityAddress);
@@ -216,11 +224,13 @@ public class CouponController {
     		activityAddress.setConsignmentPhone(consignmentPhone);
     		activityAddress.setConsignmentName(consignmentName);
     		activityAddress.setCouponNumber(couponNumber);
+    		activityAddress.setSendTime(sendTimeDate);
     		mybatisDao.save(activityAddress);
     	}else{
     		activityAddress.setConsignmentAddress(consignmentAddress);
     		activityAddress.setConsignmentPhone(consignmentPhone);
     		activityAddress.setConsignmentName(consignmentName);
+    		activityAddress.setSendTime(sendTimeDate);
     		mybatisDao.update(activityAddress);
     	}
     }
