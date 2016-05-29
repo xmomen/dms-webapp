@@ -83,7 +83,6 @@ public class PackingController {
     /**
      * 分配装箱任务
      * @param orderNoList
-     * @param bindingResult
      * @throws ArgumentValidException
      */
     @RequestMapping(value = "/packing/task/unbind", method = RequestMethod.PUT)
@@ -93,6 +92,14 @@ public class PackingController {
             return;
         }
         packingService.cancelPackingTask(orderNoList);
+    }
+
+    @RequestMapping(value = "/packing/order", method = RequestMethod.GET)
+    @Log(actionName = "装箱订单列表")
+    public void queryPackingOrder(@RequestParam(value = "limit") Integer limit,
+                              @RequestParam(value = "offset") Integer offset,
+                              @RequestParam(value = "keyword", required = false) String keyword,
+                              @RequestParam(value = "orderNo", required = false) String orderNo) {
     }
 
     /**

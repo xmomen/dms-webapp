@@ -15,7 +15,7 @@ public class AppConstants implements Serializable {
     public static final String PACKAGE_PERMISSION_CODE = "baozhuangzu";
 
     public static final String PACKING_PERMISSION_CODE = "zhuangxiangzu";
-    
+
     /**
      * 用户sessionUserId键值
      */
