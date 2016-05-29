@@ -30,7 +30,7 @@
                 -->
 				<header>
 					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
-					<h2>装箱记录列表</h2>
+					<h2>订单装箱列表</h2>
 				</header>
 				<!-- widget div-->
 				<div>
@@ -70,23 +70,25 @@
 											<i></i>
 										</label>
 									</th>
-									<th width="120">装箱编号</th>
-									<th>装箱时间</th>
+									<th width="120">订单编号</th>
+									<th>装箱编号</th>
+									<th>装箱开始时间</th>
 									<th>装箱状态</th>
 									<th width="80">操作</th>
 								</tr>
 								</thead>
 								<tbody>
-								<tr ng-repeat="order in orderList"  ng-if="orderList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+								<tr ng-repeat="packing in packingList"  ng-if="packingList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
 									<td>
 										<label class="checkbox">
 											<input type="checkbox" name="checkbox-inline">
 											<i></i>
 										</label>
 									</td>
-									<td ng-bind="order.orderNo"></td>
-									<td ng-bind="order.createTime | date: 'yyyy-MM-dd hh:mm:ss'"></td>
-									<td ng-bind="order.orderStatusDesc"></td>
+									<td ng-bind="packing.orderNo"></td>
+									<td ng-bind="packing.packingNo"></td>
+									<td ng-bind="packing.packingTime | date: 'yyyy-MM-dd hh:mm:ss'"></td>
+									<td ng-bind="packing.packingStatusDesc"></td>
 									<td>
 										<!--<div ng-show="show">-->
 											<!--<a href="javascript:void(0);" data-ng-click="updatePacking($index)" title="编辑：{{order.orderDesc}}">-->
@@ -95,7 +97,7 @@
 										<!--</div>-->
 									</td>
 								</tr>
-								<tr ng-if="orderList == null || orderList.length == 0">
+								<tr ng-if="packingList == null || packingList.length == 0">
 									<td colspan="5">
 										<div>暂无数据</div>
 									</td>

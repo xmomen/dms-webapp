@@ -3,11 +3,14 @@ package com.xmomen.module.order.controller;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
+import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.logger.Log;
 import com.xmomen.module.order.entity.TbPacking;
 import com.xmomen.module.order.entity.TbPackingRecord;
 import com.xmomen.module.order.model.*;
+import com.xmomen.module.order.service.OrderService;
 import com.xmomen.module.order.service.PackingService;
+import org.apache.shiro.SecurityUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -25,6 +28,9 @@ public class PackingController {
 
     @Autowired
     PackingService packingService;
+
+    @Autowired
+    OrderService orderService;
 
     @Autowired
     MybatisDao mybatisDao;
@@ -96,10 +102,17 @@ public class PackingController {
 
     @RequestMapping(value = "/packing/order", method = RequestMethod.GET)
     @Log(actionName = "装箱订单列表")
-    public void queryPackingOrder(@RequestParam(value = "limit") Integer limit,
+    public Page<OrderModel> queryPackingOrder(@RequestParam(value = "limit") Integer limit,
                               @RequestParam(value = "offset") Integer offset,
-                              @RequestParam(value = "keyword", required = false) String keyword,
-                              @RequestParam(value = "orderNo", required = false) String orderNo) {
+                              @RequestParam(value = "keyword", required = false) String keyword) {
+        OrderQuery orderQuery = new OrderQuery();
+        orderQuery.setKeyword(keyword);
+        orderQuery.setOrderStatus(1);
+        if(SecurityUtils.getSubject().hasRole(AppConstants.PACKING_PERMISSION_CODE)){
+            Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
+            orderQuery.setPackingTaskUserId(userId);
+        }
+        return orderService.getOrderList(orderQuery, limit, offset);
     }
 
     /**

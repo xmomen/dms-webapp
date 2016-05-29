@@ -45,10 +45,6 @@ public class OrderController {
         OrderQuery orderQuery = new OrderQuery();
         orderQuery.setKeyword(keyword);
         orderQuery.setOrderStatus(orderStatus);
-        if(SecurityUtils.getSubject().hasRole(AppConstants.PACKING_PERMISSION_CODE)){
-            Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
-            orderQuery.setPackingTaskUserId(userId);
-        }
         return orderService.getOrderList(orderQuery, limit, offset);
     }
 

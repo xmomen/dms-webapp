@@ -88,7 +88,10 @@ will not initialize.
                 <nav:item ui-sref="packing_task" title="任务分配" />
             </div>
             <div permission only="'PACKING_VIEW'">
-                <nav:item ui-sref="packing" title="订单装箱" />
+                <nav:item ui-sref="order_packing" title="装箱任务" />
+            </div>
+            <div permission only="'PACKING_VIEW'">
+                <nav:item ui-sref="packing" title="装箱列表" />
             </div>
         </nav:group>
     </div>

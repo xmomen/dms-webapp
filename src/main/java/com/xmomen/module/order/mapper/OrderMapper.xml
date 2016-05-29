@@ -113,6 +113,7 @@
           p.PACKING_NO,
           p.PACKING_TIME,
           p.PACKING_STATUS,
+          tor.ORDER_NO,
           sdp.SHOW_VALUE AS PACKING_STATUS_desc
         FROM
           tb_packing p
