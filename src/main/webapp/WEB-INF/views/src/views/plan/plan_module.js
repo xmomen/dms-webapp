@@ -13,7 +13,7 @@ define([
                 templateUrl: 'views/plan/basePlan.html',
                 data:{
                     permissions:{
-                        only:["USER_VIEW"],
+                        only:["BASE_PLAN"],
                         redirectTo:"unauthorized"
                     }
                 },
@@ -24,7 +24,7 @@ define([
                 templateUrl: 'views/plan/tablePlan.html',
                 data:{
                     permissions:{
-                        only:["USER_VIEW"],
+                        only:["TABLE_PLAN"],
                         redirectTo:"unauthorized"
                     }
                 },
