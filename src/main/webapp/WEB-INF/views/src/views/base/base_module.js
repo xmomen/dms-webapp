@@ -23,7 +23,7 @@ define([
                 templateUrl: 'views/base/member_list.html',
                 data:{
                     permissions:{
-                        only:["USER_VIEW"],
+                        only:["MEMBER_VIEW"],
                         redirectTo:"unauthorized"
                     }
                 },
@@ -34,7 +34,7 @@ define([
                 templateUrl: 'views/base/company_list.html',
                 data:{
                     permissions:{
-                        only:["USER_VIEW"],
+                        only:["COMPANY_VIEW"],
                         redirectTo:"unauthorized"
                     }
                 },
@@ -45,7 +45,7 @@ define([
                 templateUrl: 'views/base/couponCategory.html',
                 data:{
                     permissions:{
-                        only:["USER_VIEW"],
+                        only:["COUPON_CATEGORY_VIEW"],
                         redirectTo:"unauthorized"
                     }
                 },
@@ -56,7 +56,7 @@ define([
                 templateUrl: 'views/base/coupon.html',
                 data:{
                     permissions:{
-                        only:["USER_VIEW"],
+                        only:["COUPON_VIEW"],
                         redirectTo:"unauthorized"
                     }
                 },
@@ -67,7 +67,7 @@ define([
                 templateUrl: 'views/base/dictionary.html',
                 data:{
                     permissions:{
-                        only:["USER_VIEW"],
+                        only:["DICTIONARY_VIEW"],
                         redirectTo:"unauthorized"
                     }
                 },
@@ -78,7 +78,7 @@ define([
                 templateUrl: 'views/base/itemCategory.html',
                 data:{
                     permissions:{
-                        only:["USER_VIEW"],
+                        only:["PRODUCT_CATEGORY_VIEW"],
                         redirectTo:"unauthorized"
                     }
                 },
@@ -89,7 +89,7 @@ define([
                 templateUrl: 'views/base/item.html',
                 data:{
                     permissions:{
-                        only:["USER_VIEW"],
+                        only:["PRODUCT_VIEW"],
                         redirectTo:"unauthorized"
                     }
                 },
@@ -100,7 +100,7 @@ define([
                 templateUrl: 'views/base/contract.html',
                 data:{
                     permissions:{
-                        only:["USER_VIEW"],
+                        only:["CONTRACT_VIEW"],
                         redirectTo:"unauthorized"
                     }
                 },
@@ -111,7 +111,7 @@ define([
                 templateUrl: 'views/base/activity.html',
                 data:{
                     permissions:{
-                        only:["USER_VIEW"],
+                        only:["ACTIVITY_VIEW"],
                         redirectTo:"unauthorized"
                     }
                 },
@@ -122,7 +122,7 @@ define([
                 templateUrl: 'views/base/couponActivity.html',
                 data:{
                     permissions:{
-                        only:["USER_VIEW"],
+                        only:["COUPON_ACTIVITY_VIEW"],
                         redirectTo:"unauthorized"
                     }
                 },
@@ -133,7 +133,7 @@ define([
                 templateUrl: 'views/base/couponAudit.html',
                 data:{
                     permissions:{
-                        only:["USER_VIEW"],
+                        only:["COUPON_AUDIT_VIEW"],
                         redirectTo:"unauthorized"
                     }
                 },

@@ -18,7 +18,7 @@ define([
                 templateUrl: 'views/order/order.html',
                 data:{
                     permissions:{
-                        only:["USER_VIEW"],
+                        only:["ORDER_VIEW"],
                         redirectTo:"unauthorized"
                     }
                 },
@@ -42,7 +42,7 @@ define([
                 templateUrl: 'views/order/purchase.html',
                 data:{
                     permissions:{
-                        only:["USER_VIEW"],
+                        only:["PURCHASE_VIEW"],
                         redirectTo:"unauthorized"
                     }
                 },
@@ -54,7 +54,7 @@ define([
                 templateUrl: 'views/order/packing.html',
                 data:{
                     permissions:{
-                        only:["USER_VIEW"],
+                        only:["PACKING_LIST_VIEW"],
                         redirectTo:"unauthorized"
                     }
                 },
@@ -64,6 +64,12 @@ define([
             .state('packing_task', {
                 url: '/packing/task',
                 templateUrl: 'views/order/packing_task.html',
+                data:{
+                    permissions:{
+                        only:["PACKING_TASK"],
+                        redirectTo:"unauthorized"
+                    }
+                },
                 controller: packing_task
             })
 
@@ -72,7 +78,7 @@ define([
                 templateUrl: 'views/order/order_packing.html',
                 data:{
                     permissions:{
-                        only:["USER_VIEW"],
+                        only:["PACKING_VIEW"],
                         redirectTo:"unauthorized"
                     }
                 },

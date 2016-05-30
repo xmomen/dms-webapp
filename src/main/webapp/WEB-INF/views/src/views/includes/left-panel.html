@@ -50,7 +50,7 @@ will not initialize.
     </div>
     <div permission only="'COUPON_MENU'">
         <nav:group data-icon="fa fa-fw fa-shopping-cart" title="卡劵管理">
-            <div permission only="'COUPON_VIEW'">
+            <div permission only="'COUPON_CATEGORY_VIEW'">
                 <nav:item ui-sref="couponCategory" title="卡劵类型"/>
             </div>
             <div permission only="'COUPON_VIEW'">
@@ -79,7 +79,9 @@ will not initialize.
             <div permission only="'ORDER_VIEW'">
                 <nav:item ui-sref="order" title="订单列表" />
             </div>
-            <nav:item ui-sref="purchase" title="采购计划" />
+            <div permission only="'PURCHASE_VIEW'">
+                <nav:item ui-sref="purchase" title="采购计划" />
+            </div>
         </nav:group>
     </div>
     <div permission only="'PACKING_MENU'">
@@ -90,7 +92,7 @@ will not initialize.
             <div permission only="'PACKING_VIEW'">
                 <nav:item ui-sref="order_packing" title="装箱任务" />
             </div>
-            <div permission only="'PACKING_VIEW'">
+            <div permission only="'PACKING_LIST_VIEW'">
                 <nav:item ui-sref="packing" title="装箱列表" />
             </div>
         </nav:group>
