@@ -12,6 +12,7 @@ public @Data
 class PackingModel implements Serializable {
 
     private Integer id;
+    private String orderNo;
     private String packingNo;
     private Date packingTime;
     private Integer packingStatus;

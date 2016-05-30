@@ -9,6 +9,10 @@
         ssp.SHOW_VALUE AS orderStatusDesc,
         paymentp.SHOW_VALUE AS paymentModeDesc,
         osp.SHOW_VALUE AS orderSourceDesc,
+        tor.REF_VALUE AS packingTaskUserId,
+        u.realname AS packingTaskUsername,
+        CASE WHEN tor.REF_VALUE IS NOT NULL THEN 1 ELSE 0 END AS packingTaskStatus,
+        CASE WHEN tor.REF_VALUE IS NOT NULL THEN '已分配' ELSE '待分配' END AS packingTaskStatusDesc,
         tb.*
         FROM
         tb_order tb
@@ -23,18 +27,24 @@
 
         LEFT JOIN sys_dictionary oss on oss.DICTIONARY_CODE='ORDER_SOURCE'
         left join sys_dictionary_parameter osp on osp.SYS_DICTIONARY_ID=oss.ID and tb.ORDER_SOURCE = osp.REAL_VALUE
+
+        LEFT JOIN tb_order_relation tor ON tor.ORDER_NO = tb.ORDER_NO AND tor.REF_TYPE = 'ORDER_PACKING_TASK_RELATION'
+        LEFT JOIN sys_users u ON u.id = tor.ref_value
         <where>
-              <if test="orderStatus">
+            <if test="orderStatus">
                   AND tb.order_status = #{orderStatus}
-              </if>
+            </if>
             <if test="keyword">
                 AND tb.order_no LIKE CONCAT('%', #{keyword}, '%')
                 or tb.consignee_phone LIKE CONCAT('%', #{keyword}, '%')
                 or tb.consignee_name like CONCAT('%', #{keyword}, '%')
             </if>
-              <if test="id">
+            <if test="id">
                   AND tb.id = #{id}
-              </if>
+            </if>
+            <if test="packingTaskUserId">
+                AND tor.REF_VALUE = #{packingTaskUserId}
+            </if>
           </where>
     </select>
 
@@ -103,6 +113,7 @@
           p.PACKING_NO,
           p.PACKING_TIME,
           p.PACKING_STATUS,
+          tor.ORDER_NO,
           sdp.SHOW_VALUE AS PACKING_STATUS_desc
         FROM
           tb_packing p

@@ -55,6 +55,9 @@ public class LoggerAspect {
         Method method = getMethodByClassAndName(target.getClass(), methodName);    //得到拦截的方法
         Object[] args = joinPoint.getArgs();     //方法的参数
         Log an = (Log)getAnnotationByMethod(method ,Log.class );
+        if(an == null){
+            return;
+        }
         String actionName = an.actionName();
         Integer user_id =(Integer) SecurityUtils.getSubject().getSession().getAttribute("user_id");
         //创建日志对象

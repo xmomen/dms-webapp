@@ -58,6 +58,24 @@ class OrderModel implements Serializable {
     private String orderStatus;
 
     /**
+     *  装箱任务负责人名称
+     */
+    private String packingTaskUsername;
+    /**
+     * 装箱任务负责人ID
+     */
+    private Integer packingTaskUserId;
+
+    /**
+     * 订单装箱任务状态
+     */
+    private Integer packingTaskStatus;
+    /**
+     * 装箱任务状态描述
+     */
+    private String packingTaskStatusDesc;
+
+    /**
      * 订单状态描述
      */
     private String orderStatusDesc;
@@ -102,139 +120,4 @@ class OrderModel implements Serializable {
      */
     private Integer createUserId;
 
-    public Integer getOrderType() {
-        return orderType;
-    }
-
-    public void setOrderType(Integer orderType) {
-        this.orderType = orderType;
-    }
-
-    public String getOrderTypeDesc() {
-        return orderTypeDesc;
-    }
-
-    public void setOrderTypeDesc(String orderTypeDesc) {
-        this.orderTypeDesc = orderTypeDesc;
-    }
-
-    public String getOrderStatus() {
-        return orderStatus;
-    }
-
-    public void setOrderStatus(String orderStatus) {
-        this.orderStatus = orderStatus;
-    }
-
-    public String getConsigneePhone() {
-        return consigneePhone;
-    }
-
-    public void setConsigneePhone(String consigneePhone) {
-        this.consigneePhone = consigneePhone;
-    }
-
-    public String getConsigneeName() {
-        return consigneeName;
-    }
-
-    public void setConsigneeName(String consigneeName) {
-        this.consigneeName = consigneeName;
-    }
-
-    public String getConsigneeAddress() {
-        return consigneeAddress;
-    }
-
-    public void setConsigneeAddress(String consigneeAddress) {
-        this.consigneeAddress = consigneeAddress;
-    }
-
-    public String getOrderStatusDesc() {
-        return orderStatusDesc;
-    }
-
-    public void setOrderStatusDesc(String orderStatusDesc) {
-        this.orderStatusDesc = orderStatusDesc;
-    }
-
-    public Integer getTransportMode() {
-        return transportMode;
-    }
-
-    public void setTransportMode(Integer transportMode) {
-        this.transportMode = transportMode;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    public BigDecimal getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(BigDecimal totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getCreateUserId() {
-        return createUserId;
-    }
-
-    public void setCreateUserId(Integer createUserId) {
-        this.createUserId = createUserId;
-    }
-
-    public Integer getOrderSource() {
-        return orderSource;
-    }
-
-    public void setOrderSource(Integer orderSource) {
-        this.orderSource = orderSource;
-    }
-
-    public Integer getPaymentMode() {
-        return paymentMode;
-    }
-
-    public void setPaymentMode(Integer paymentMode) {
-        this.paymentMode = paymentMode;
-    }
-
-    public String getOrderNo() {
-        return orderNo;
-    }
-
-    public void setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
-    }
-
-    public String getOrderSourceDesc() {
-        return orderSourceDesc;
-    }
-
-    public void setOrderSourceDesc(String orderSourceDesc) {
-        this.orderSourceDesc = orderSourceDesc;
-    }
-
-    public String getPaymentModeDesc() {
-        return paymentModeDesc;
-    }
-
-    public void setPaymentModeDesc(String paymentModeDesc) {
-        this.paymentModeDesc = paymentModeDesc;
-    }
 }

@@ -27,7 +27,7 @@ define(function () {
                 }
             },
             getCustomerManagerList:{method:"GET",url:"/customerManagerList",
-                params:{userType:"@userType"},
+                params:{userType:"@userType",keyword:"@keyword"},
                 isArray:true}
         });
     }]);
@@ -238,7 +238,12 @@ define(function () {
             update:{ method:"PUT", params:{id:"@id"}},
             getPackingOrderItemList:{method:"GET",url:"/packing/:id/order",isArray:false},
             getPackingRecordList:{method:"GET",url:"/packing/:id/record",isArray:false},
+            getPackingOrderList:{method:"GET",url:"/packing/order",isArray:false},
             removePackingRecord:{method:"DELETE",url:"/packing/:id/record/:recordId"},
+            bindPackingTask:{method:"PUT",url:"/packing/task/bind"},
+            unbindPackingTask:{method:"PUT",url:"/packing/task/unbind", params:{
+                orderNos:"@orderNos"
+            }},
             scanItem:{method:"POST",url:"/packing/:id/record"}
         });
     }]);

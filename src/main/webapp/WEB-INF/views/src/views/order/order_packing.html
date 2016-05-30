@@ -57,7 +57,7 @@
 							</div>
 						</div>
 						<div class="table-responsive">
-							<table class="table table-striped table-condensed table-hover smart-form has-tickbox">
+							<table class="table table-condensed table-hover smart-form has-tickbox">
 								<thead>
 								<tr>
 									<th>
@@ -146,34 +146,37 @@
 							<label>当前箱号：{{choseOrder.currentPacking.packingNo}}</label>
 						</div>
 						<div class="dt-toolbar">
-							<div class="col-sm-4">
+							<div class="col-sm-12">
 								<div class="dataTables_filter">
 									<label>
 										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
 										<input type="search" placeholder="装箱记录编号/手机号码/收货人" data-ng-keyup="getPackingOrderItemList()" ng-model="queryParam.packingOrderKeyword" class="form-control" aria-controls="dt_basic"></label>
 								</div>
-							</div>
-							<div class="col-sm-2">
 								<button class="btn btn-primary" type="button" data-ng-click="getPackingOrderItemList()">
 									<i class="fa fa-refresh"></i>
 									刷新
 								</button>
-							</div>
-							<div class="col-sm-2" ng-if="!choseOrder.currentPacking.packingNo">
-								<button class="btn btn-primary" type="button" data-ng-click="startPacking()">
+								<button ng-if="!choseOrder.currentPacking.packingNo" class="btn btn-primary" type="button" data-ng-click="startPacking()">
 									<i class="fa fa-refresh"></i>
 									开始装箱
 								</button>
-							</div>
-							<div class="col-sm-2" ng-if="choseOrder.currentPacking.packingNo">
-								<button class="btn btn-primary" type="button" data-ng-click="changePacking()">
+								<button ng-if="choseOrder.currentPacking.packingNo" class="btn btn-primary" type="button" data-ng-click="changePacking()">
 									<i class="fa fa-refresh"></i>
 									换箱
 								</button>
 							</div>
+							<!--<div class="col-sm-2">-->
+								<!-- -->
+							<!--</div>-->
+							<!--<div class="col-sm-2">-->
+								<!-- -->
+							<!--</div>-->
+							<!--<div class="col-sm-2" >-->
+								<!-- -->
+							<!--</div>-->
 						</div>
 						<div class="table-responsive">
-							<table class="table table-striped table-condensed table-hover smart-form has-tickbox">
+							<table class="table table-condensed table-hover smart-form has-tickbox">
 								<thead>
 								<tr>
 									<th>序号</th>
@@ -186,7 +189,7 @@
 								</thead>
 								<tbody>
 								<tr ng-repeat="packingOrderItem in packingOrderItemList"
-									ng-class="{'chose-tr':choseOrder.id==packingOrderItem.id}"
+									ng-class="{'chose-tr':choseOrder.choseOrderItem.orderItemId==packingOrderItem.orderItemId}"
 									ng-click="choseOrderItem($index)" ng-if="packingOrderItemList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
 									<td ng-bind="$index*orderItemPageInfoSetting.pageNum + 1"></td>
 									<td ng-bind="packingOrderItem.packingNo"></td>

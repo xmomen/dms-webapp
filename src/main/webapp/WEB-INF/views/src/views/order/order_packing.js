@@ -19,10 +19,9 @@ define(function () {
         $scope.queryParam = {};
         $scope.orderList = [];
         $scope.getOrderList = function(){
-            OrderAPI.query({
+            PackingAPI.getPackingOrderList({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
-                orderStatus:1,
                 keyword:$scope.queryParam.orderKeyword
             }, function(data){
                 $scope.orderList = data.data;

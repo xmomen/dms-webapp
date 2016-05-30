@@ -3,16 +3,22 @@ package com.xmomen.module.order.controller;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
+import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.logger.Log;
 import com.xmomen.module.order.entity.TbPacking;
 import com.xmomen.module.order.entity.TbPackingRecord;
 import com.xmomen.module.order.model.*;
+import com.xmomen.module.order.service.OrderService;
 import com.xmomen.module.order.service.PackingService;
+import org.apache.shiro.SecurityUtils;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Jeng on 2016/3/30.
@@ -22,6 +28,9 @@ public class PackingController {
 
     @Autowired
     PackingService packingService;
+
+    @Autowired
+    OrderService orderService;
 
     @Autowired
     MybatisDao mybatisDao;
@@ -60,6 +69,50 @@ public class PackingController {
             throw new ArgumentValidException(bindingResult);
         }
         return packingService.create(createPacking);
+    }
+
+    /**
+     * 分配装箱任务
+     * @param packingTask
+     * @param bindingResult
+     * @return
+     */
+    @RequestMapping(value = "/packing/task/bind", method = RequestMethod.PUT)
+    @Log(actionName = "分配装箱任务")
+    public void createPacking(@RequestBody @Valid PackingTask packingTask, BindingResult bindingResult) throws ArgumentValidException {
+        if(bindingResult != null && bindingResult.hasErrors()){
+            throw new ArgumentValidException(bindingResult);
+        }
+        packingService.dispatchPackingTask(packingTask);
+    }
+
+    /**
+     * 分配装箱任务
+     * @param orderNoList
+     * @throws ArgumentValidException
+     */
+    @RequestMapping(value = "/packing/task/unbind", method = RequestMethod.PUT)
+    @Log(actionName = "分配装箱任务")
+    public void createPacking(@RequestParam(value = "orderNos", required = true)String[] orderNoList) throws ArgumentValidException {
+        if(orderNoList != null && orderNoList.length <= 0){
+            return;
+        }
+        packingService.cancelPackingTask(orderNoList);
+    }
+
+    @RequestMapping(value = "/packing/order", method = RequestMethod.GET)
+    @Log(actionName = "装箱订单列表")
+    public Page<OrderModel> queryPackingOrder(@RequestParam(value = "limit") Integer limit,
+                              @RequestParam(value = "offset") Integer offset,
+                              @RequestParam(value = "keyword", required = false) String keyword) {
+        OrderQuery orderQuery = new OrderQuery();
+        orderQuery.setKeyword(keyword);
+        orderQuery.setOrderStatus(1);
+        if(SecurityUtils.getSubject().hasRole(AppConstants.PACKING_PERMISSION_CODE)){
+            Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
+            orderQuery.setPackingTaskUserId(userId);
+        }
+        return orderService.getOrderList(orderQuery, limit, offset);
     }
 
     /**

@@ -29,6 +29,13 @@ define(function () {
                 });
             })
         };
+        $scope.createPlan = function(){
+            PurchaseAPI.save({
+                orderDate:new Date()
+            }, function(data){
+                $scope.getPurchaseList();
+            });
+        }
         $scope.updatePurchase = function(index){
             $scope.open(angular.copy($scope.purchaseList[index]));
         };

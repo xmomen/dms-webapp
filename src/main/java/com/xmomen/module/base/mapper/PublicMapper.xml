@@ -11,11 +11,14 @@
        left join sys_users_roles sur on sur.USER_ID = su.ID 
        left join sys_roles sr on sr.id = sur.ROLE_ID 
        <where>
+           <if test="keyword">
+               AND su.realName LIKE CONCAT('%', #{keyword}, '%')
+           </if>
        		<if test="userType">
-       			sr.ROLE =#{userType}
+       			AND sr.ROLE =#{userType}
        		</if>
        		<if test="managerId">
-				  AND su.id = #{managerId}
+				AND su.id = #{managerId}
 			</if>
        </where>
     </select>
