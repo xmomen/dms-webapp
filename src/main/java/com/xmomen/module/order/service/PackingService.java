@@ -6,11 +6,16 @@ import com.xmomen.framework.utils.DateUtils;
 import com.xmomen.module.order.entity.*;
 import com.xmomen.module.order.mapper.OrderMapper;
 import com.xmomen.module.order.model.*;
+import com.xmomen.module.system.entity.SysTask;
+import com.xmomen.module.system.model.CreateTask;
+import com.xmomen.module.system.service.TaskService;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+
+import java.util.List;
 
 /**
  * Created by Jeng on 16/4/5.
@@ -20,6 +25,9 @@ public class PackingService {
 
     @Autowired
     MybatisDao mybatisDao;
+
+    @Autowired
+    TaskService taskService;
 
     public Page<PackingModel> getPackingList(PackingQuery packingQuery, Integer limit, Integer offset){
         return (Page<PackingModel>) mybatisDao.selectPage(OrderMapper.ORDER_MAPPER_NAMESPACE + "queryPackingModel", packingQuery, limit, offset);
@@ -42,10 +50,14 @@ public class PackingService {
     @Transactional
     public void dispatchPackingTask(PackingTask packingTask){
         for (String orderNo : packingTask.getOrderNos()) {
+            CreateTask createTask = new CreateTask();
+            createTask.setTaskHeadId(1);
+            createTask.setExecutorId(packingTask.getPackingTaskUserId());
+            SysTask sysTask = taskService.createTask(createTask);
             TbOrderRelation tbOrderRelation = new TbOrderRelation();
             tbOrderRelation.setOrderNo(orderNo);
             tbOrderRelation.setRefType(OrderMapper.ORDER_PACKING_TASK_RELATION_CODE);
-            tbOrderRelation.setRefValue(String.valueOf(packingTask.getPackingTaskUserId()));
+            tbOrderRelation.setRefValue(String.valueOf(sysTask.getId()));
             mybatisDao.insert(tbOrderRelation);
         }
     }
@@ -54,7 +66,13 @@ public class PackingService {
     public void cancelPackingTask(String[] orderNoArray){
         TbOrderRelationExample tbOrderRelationExample = new TbOrderRelationExample();
         tbOrderRelationExample.createCriteria().andOrderNoIn(CollectionUtils.arrayToList(orderNoArray)).andRefTypeEqualTo(OrderMapper.ORDER_PACKING_TASK_RELATION_CODE);
-        mybatisDao.deleteByExample(tbOrderRelationExample);
+        List<TbOrderRelation> tbOrderRelationList = mybatisDao.selectByExample(tbOrderRelationExample);
+        Integer[] taskIds = {tbOrderRelationList.size()};
+        for (int i = 0; i < tbOrderRelationList.size(); i++) {
+            TbOrderRelation tbOrderRelation = tbOrderRelationList.get(i);
+            taskIds[i] = Integer.valueOf(tbOrderRelation.getRefValue());
+        }
+        taskService.cancelTask(taskIds);
     }
 
     @Transactional
@@ -78,7 +96,6 @@ public class PackingService {
         TbPackingRecordExample tbPackingRecordExample = new TbPackingRecordExample();
         tbPackingRecordExample.createCriteria().andPackingIdEqualTo(packingId);
         mybatisDao.deleteByExample(tbPackingRecordExample);
-        mybatisDao.deleteByPrimaryKey(TbPacking.class, packingId);
     }
 
     @Transactional

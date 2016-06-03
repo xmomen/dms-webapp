@@ -9,12 +9,45 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-	<repositories>
+	<!--<repositories>-->
+        <!--<repository>-->
+            <!--<id>sonatype-nexus-snapshots</id>-->
+            <!--<name>Nexus Snapshots Repository</name>-->
+            <!--<layout>default</layout>-->
+            <!--<url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+            <!--<snapshots>-->
+                <!--<enabled>true</enabled>-->
+                <!--<updatePolicy>always</updatePolicy>-->
+            <!--</snapshots>-->
+            <!--<releases>-->
+                <!--<enabled>true</enabled>-->
+                <!--<updatePolicy>always</updatePolicy>-->
+            <!--</releases>-->
+        <!--</repository>-->
+    <!--</repositories>-->
+    <!--<pluginRepositories>-->
+        <!--<pluginRepository>-->
+            <!--<id>sonatype-nexus-snapshots</id>-->
+            <!--<name>Nexus Snapshots Repository</name>-->
+            <!--<layout>default</layout>-->
+            <!--<url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+            <!--<snapshots>-->
+                <!--<enabled>true</enabled>-->
+                <!--<updatePolicy>always</updatePolicy>-->
+            <!--</snapshots>-->
+            <!--<releases>-->
+                <!--<enabled>true</enabled>-->
+                <!--<updatePolicy>always</updatePolicy>-->
+            <!--</releases>-->
+        <!--</pluginRepository>-->
+    <!--</pluginRepositories>-->
+
+    <repositories>
         <repository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Nexus Snapshots Repository</name>
+            <id>public</id>
+            <name>Public Repositories</name>
             <layout>default</layout>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <url>http://192.168.8.200:8082/nexus/content/groups/public</url>
             <snapshots>
                 <enabled>true</enabled>
                 <updatePolicy>always</updatePolicy>
@@ -27,10 +60,10 @@
     </repositories>
     <pluginRepositories>
         <pluginRepository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Nexus Snapshots Repository</name>
+            <id>public</id>
+            <name>Public Repositories</name>
+            <url>http://192.168.8.200:8082/nexus/content/groups/public</url>
             <layout>default</layout>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
             <snapshots>
                 <enabled>true</enabled>
                 <updatePolicy>always</updatePolicy>
@@ -48,6 +81,9 @@
             <properties>
                 <env>dev</env>
             </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
         </profile>
         <profile>
             <id>prd</id>
@@ -60,9 +96,6 @@
             <properties>
                 <env>rls</env>
             </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
         </profile>
     </profiles>
     <build>
@@ -171,11 +204,6 @@
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.cwbase</groupId>
-            <artifactId>logback-redis-appender</artifactId>
-            <version>1.0.0</version>
-        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
