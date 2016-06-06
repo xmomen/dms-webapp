@@ -76,4 +76,24 @@
               </if>
          </where>
     </select>
+    
+    <select id="getCouponByCouponNo" resultType="com.xmomen.module.base.model.ReadCardVo" parameterType="com.xmomen.module.base.model.CouponQuery">
+        select 
+        	cc.COUPON_NUMBER as couponNo,
+        	cc.USER_PRICE as couponPrice,
+        	cm.`NAME` as userName,
+        	cm.PHONE_NUMBER 
+        from cd_coupon cc
+		left join cd_member_coupon_relation cmcr on cc.COUPON_NUMBER = cmcr.COUPON_NUMBER
+		left join cd_member cm on cmcr.CD_MEMBER_ID = cm.ID
+        <where>
+          <if test="couponNumber != null">
+              	AND cc.COUPON_NUMBER = #{couponNumber}
+          </if>  
+          <if test="password != null">
+              	AND cc.COUPON_PASSWORD = #{password}
+          </if>  
+         </where>
+    </select>
+    
 </mapper>

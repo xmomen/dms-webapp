@@ -26,9 +26,11 @@ import com.xmomen.module.base.entity.CdActivityAddress;
 import com.xmomen.module.base.entity.CdCoupon;
 import com.xmomen.module.base.entity.CdCouponRef;
 import com.xmomen.module.base.entity.CdCouponRefExample;
+import com.xmomen.module.base.mapper.CouponMapper;
 import com.xmomen.module.base.model.CouponModel;
 import com.xmomen.module.base.model.CouponQuery;
 import com.xmomen.module.base.model.CreateCoupon;
+import com.xmomen.module.base.model.ReadCardVo;
 import com.xmomen.module.base.model.UpdateCoupon;
 import com.xmomen.module.base.service.CouponService;
 import com.xmomen.module.logger.Log;
@@ -294,5 +296,15 @@ public class CouponController {
 			mybatisDao.update(couponRef);
 		}
     }
-    
+    @RequestMapping(value = "/coupon/readCard", method = RequestMethod.GET)
+    @Log(actionName ="读卡")
+    public ReadCardVo readCard(
+    		@RequestParam(value="couponNo") String couponNo,
+    		@RequestParam(value="password") String password
+    		){
+    	CouponQuery couponQuery = new CouponQuery();
+    	couponQuery.setCouponNumber(couponNo);
+    	couponQuery.setPassword(password);
+    	return mybatisDao.getSqlSessionTemplate().selectOne(CouponMapper.CouponMapperNameSpace + "getCouponByCouponNo", couponQuery);
+    }
 }
