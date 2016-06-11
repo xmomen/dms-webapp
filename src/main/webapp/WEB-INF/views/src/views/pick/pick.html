@@ -1,0 +1,129 @@
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget" id="wid-id-4">
+				<!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2>结算</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- end widget edit box -->
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+                        <form class="form-horizontal">
+                            <fieldset class="demo-switcher-1">
+                                <button class="btn btn-primary" data-ng-click="readCard()">
+                                    <i class="fa fa-download"></i>
+                                    读卡
+                                </button>
+                            </fieldset>
+                            <fieldset class="demo-switcher-1">
+                                <legend>卡信息</legend>
+                                <div class="form-group">
+                                    <label class="col-md-1 control-label">卡号：</label>
+                                    <div class="col-md-2">
+                                        <span style=" font-weight:bold;font-size:26px">{{pick.couponNo}}</span>
+                                    </div>
+                                    <label class="col-md-1 control-label">卡内余额：</label>
+                                    <div class="col-md-2">
+                                        <span style=" font-weight:bold;font-size:26px">{{pick.couponPrice}}</span>
+                                    </div>
+                                </div>
+                                <legend>持卡人信息</legend>
+                                <div class="form-group">
+                                    <label class="col-md-1 control-label">姓名：</label>
+                                    <div class="col-md-2">
+                                        <span style=" font-weight:bold;font-size:26px">{{pick.userName}}</span>
+                                    </div>
+                                    <label class="col-md-1 control-label">手机号码：</label>
+                                    <div class="col-md-2">
+                                        <span style="color:green; font-weight:bold;font-size:26px">{{pick.phoneNumber}}</span>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            </form>
+                            <form class="form-horizontal" ug-validate="pickForm" name="pickForm" novalidate="">
+                            <fieldset class="demo-switcher-1">
+                                <legend>工作区</legend>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">采摘重量<span class="vaild">*</span></label>
+                                    <div class="col-md-6">
+                                        <input class="form-control"required=""   data-rule-number="true" ng-model="pick.pickWeight" name="sellPrice" placeholder="采摘重量" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">采摘金额<span class="vaild">*</span></label>
+                                    <div class="col-md-6">
+                                        <input class="form-control"required=""   data-rule-number="true" ng-model="pick.pickPrice" name="sellPrice" placeholder="采摘金额" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">付款方式：</label>
+                                    <div class="col-md-10">
+                                        <label class="radio radio-inline">
+                                            <input type="radio" class="radiobox" value="1" ng-model="pick.pickPayType" ng-checked="pick.pickPayType == 1" name="pickPayType">
+                                            <span>刷卡</span>
+                                        </label>
+                                        <label class="radio radio-inline">
+                                            <input type="radio" class="radiobox"  value="2" ng-model="pick.pickPayType" ng-checked="pick.pickPayType == 2" name="pickPayType">
+                                            <span>刷卡+现金</span>
+                                        </label>
+                                        <label class="radio radio-inline">
+                                            <input type="radio" class="radiobox" value="3" ng-model="pick.pickPayType" ng-checked="pick.pickPayType == 3" name="pickPayType">
+                                            <span>全部现金</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-if="pick.pickPayType != 1">
+                                    <label class="col-md-2 control-label">现金<span class="vaild">*</span></label>
+                                    <div class="col-md-6">
+                                        <input class="form-control"required=""   data-rule-number="true" ng-model="pick.pickCasePrice" name="sellPrice" placeholder="现金" type="text">
+                                    </div>
+                                </div>
+                            </fieldset>
+                                <div class="widget-footer">
+                                    <button class="btn btn-primary" type="submit" data-ng-click="pickSave()">
+                                        <i class="fa fa-save"></i>
+                                        结算
+                                    </button>
+                                </div>
+                        </form>
+					</div>
+
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- WIDGET END -->
+	</div>
+	<!-- end row -->
+</section>
+<!-- end widget grid -->

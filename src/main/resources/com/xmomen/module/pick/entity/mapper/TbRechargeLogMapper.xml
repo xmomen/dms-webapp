@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.pick.entity.mapper.TbRechargeLogMapper" >
+  <resultMap id="BaseResultMap" type="com.xmomen.module.pick.entity.TbRechargeLog" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="COUPON_NO" property="couponNo" jdbcType="VARCHAR" />
+    <result column="RECHARGE_PRICE" property="rechargePrice" jdbcType="DECIMAL" />
+    <result column="RECHARGE_DATE" property="rechargeDate" jdbcType="TIMESTAMP" />
+    <result column="RECHARGE_USER" property="rechargeUser" jdbcType="INTEGER" />
+    <result column="RECHARGE_PLACE" property="rechargePlace" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, COUPON_NO, RECHARGE_PRICE, RECHARGE_DATE, RECHARGE_USER, RECHARGE_PLACE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.pick.entity.TbRechargeLogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_recharge_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.xmomen.module.pick.entity.TbRechargeLogExample" >
+    delete from tb_recharge_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insertSelective" parameterType="com.xmomen.module.pick.entity.TbRechargeLog" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
+    insert into tb_recharge_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="couponNo != null" >
+        COUPON_NO,
+      </if>
+      <if test="rechargePrice != null" >
+        RECHARGE_PRICE,
+      </if>
+      <if test="rechargeDate != null" >
+        RECHARGE_DATE,
+      </if>
+      <if test="rechargeUser != null" >
+        RECHARGE_USER,
+      </if>
+      <if test="rechargePlace != null" >
+        RECHARGE_PLACE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="couponNo != null" >
+        #{couponNo,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargePrice != null" >
+        #{rechargePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="rechargeDate != null" >
+        #{rechargeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rechargeUser != null" >
+        #{rechargeUser,jdbcType=INTEGER},
+      </if>
+      <if test="rechargePlace != null" >
+        #{rechargePlace,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xmomen.module.pick.entity.TbRechargeLogExample" resultType="java.lang.Integer" >
+    select count(*) from tb_recharge_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_recharge_log
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponNo != null" >
+        COUPON_NO = #{record.couponNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rechargePrice != null" >
+        RECHARGE_PRICE = #{record.rechargePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.rechargeDate != null" >
+        RECHARGE_DATE = #{record.rechargeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.rechargeUser != null" >
+        RECHARGE_USER = #{record.rechargeUser,jdbcType=INTEGER},
+      </if>
+      <if test="record.rechargePlace != null" >
+        RECHARGE_PLACE = #{record.rechargePlace,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>
