@@ -185,6 +185,15 @@ define(function () {
                     couponNumber:"@couponNumber",
                     receivedPrice:"@receivedPrice"
                 }
+            },
+            readCard:{
+                method:"GET",
+                url:"/coupon/readCard",
+                params:{
+                    couponNo:"@couponNo",
+                    password:"@password"
+                }
+
             }
         });
     }]);

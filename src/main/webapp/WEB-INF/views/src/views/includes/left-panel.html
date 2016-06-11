@@ -110,6 +110,19 @@ will not initialize.
             </div>
         </nav:group>
     </div>
+    <div permission only="'PICK_MENU'">
+        <nav:group data-icon="fa fa-fw fa-shopping-cart" title="采摘管理">
+            <div permission only="'PICK'">
+                <nav:item ui-sref="pick" title="采摘结算" />
+            </div>
+            <div permission only="'PICK_CARD'">
+                <nav:item ui-sref="pickCard" title="办卡" />
+            </div>
+            <div permission only="'CARD_RECHARGE'">
+                <nav:item ui-sref="cardRecharge" title="充值" />
+            </div>
+        </nav:group>
+    </div>
     <div permission only="'SYSTEM_MENU'">
         <nav:group data-icon="fa fa-fw fa-pencil" title="系统管理">
             <div permission only="'USER_VIEW'">
