@@ -41,7 +41,7 @@ public class TbRechargeLog extends BaseMybatisModel {
     /**
      * 充值地点
      */
-    private String rechargePlace;
+    private Integer rechargePlace;
 
     @Column(name = "ID")
     @Id
@@ -116,11 +116,11 @@ public class TbRechargeLog extends BaseMybatisModel {
     }
 
     @Column(name = "RECHARGE_PLACE")
-    public String getRechargePlace() {
+    public Integer getRechargePlace() {
         return rechargePlace;
     }
 
-    public void setRechargePlace(String rechargePlace) {
+    public void setRechargePlace(Integer rechargePlace) {
         this.rechargePlace = rechargePlace;
         if(rechargePlace == null){
               removeValidField("rechargePlace");

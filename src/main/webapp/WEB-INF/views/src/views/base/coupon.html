@@ -139,6 +139,10 @@
                                             <a href="javascript:void(0);" ng-show="coupon.couponType == 1 && coupon.isSend == 0 && coupon.isUseful == 0 " data-ng-click="openSendCoupon(coupon)" title="发卡：{{coupon.couponDesc}}">
                                                 <span class="fa fa-puzzle-piece"></span>
                                             </a>
+                                            <span> | </span>
+                                            <a href="javascript:void(0);" data-ng-click="writeCard(coupon)" title="写卡：{{coupon.couponDesc}}">
+                                                <span class="fa fa-upload"></span>
+                                            </a>
 										</div>
 									</td>
 								</tr>
@@ -362,6 +366,12 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-md-2 control-label">批次</label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control" required ng-model="coupon.batch" name="batch" placeholder="批次" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-md-2 control-label">公司/单位<span class="vaild">*</span></label>
                         <div class="col-md-10 input-group">
                             <select ug-select2 style="width: 100%;" required="true" ng-model="coupon.cdCompanyId" name="company" ng-change="changeCompany(coupon.cdCompanyId)">
@@ -499,6 +509,12 @@
                         <div class="col-md-10 input-group">
                             <textarea ng-model="coupon.couponNumberList" placeholder="选择的卡/劵号" rows="10" cols="100" readonly>
                             </textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">批次</label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control" required ng-model="coupon.batch" name="batch" placeholder="批次" type="text">
                         </div>
                     </div>
                     <div class="form-group">

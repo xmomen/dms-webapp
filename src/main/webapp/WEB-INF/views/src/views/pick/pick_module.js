@@ -2,8 +2,9 @@
  * Created by Administrator on 2016/1/15.
  */
 define([
-    "views/pick/pick"
-],function (pick) {
+    "views/pick/pick",
+    "views/pick/cardRecharge"
+],function (pick,cardRecharge) {
     angular.module('DMS.pick', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -18,6 +19,17 @@ define([
                     }
                 },
                 controller: pick
+            })
+            .state('cardRecharge', {
+                url: '/cardRecharge',
+                templateUrl: 'views/pick/cardRecharge.html',
+                data:{
+                    permissions:{
+                        only:["CARD_RECHARGE"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: cardRecharge
             })
     }]);
 });

@@ -36,7 +36,8 @@ define(function () {
                 keyword:$scope.queryParam.keyword,
                 isUseful:0,
                 isSend:1,
-                couponCategoryId:$scope.queryParam.couponCategoryId
+                couponCategoryId:$scope.queryParam.couponCategoryId,
+                batch:$scope.queryParam.batch
             }, function(data){
                 $scope.couponList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;

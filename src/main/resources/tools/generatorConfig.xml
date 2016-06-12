@@ -2,8 +2,8 @@
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
-    <classPathEntry location="E:\MavenRepositories\mysql\mysql-connector-java\5.1.31\mysql-connector-java-5.1.31.jar" />
-<!--     <classPathEntry location="E:\work\repository\mysql\mysql-connector-java\5.1.31\mysql-connector-java-5.1.31.jar" /> -->
+<!--     <classPathEntry location="E:\MavenRepositories\mysql\mysql-connector-java\5.1.31\mysql-connector-java-5.1.31.jar" /> -->
+    <classPathEntry location="E:\work\repository\mysql\mysql-connector-java\5.1.31\mysql-connector-java-5.1.31.jar" />
 <!--      <classPathEntry location="E:\MavenRepositories\mysql\mysql-connector-java\5.1.31\mysql-connector-java-5.1.31.jar" /> -->
     <!--<classPathEntry location="E:\work\repository\mysql\mysql-connector-java\5.1.31\mysql-connector-java-5.1.31.jar" />-->
 <!--     <classPathEntry location="E:\MavenRepositories\mysql\mysql-connector-java\5.1.31\mysql-connector-java-5.1.31.jar" /> -->
@@ -32,18 +32,17 @@
 
         <javaTypeResolver type="com.xmomen.maven.plugins.mybatis.generator.plugins.types.JavaTypeResolverDefaultImplExt"></javaTypeResolver>
 
-        <javaModelGenerator targetPackage="com.xmomen.module.system.entity"
+        <javaModelGenerator targetPackage="com.xmomen.module.base.entity"
                             targetProject="./src/main/java" >
             <property name="rootClass" value="com.xmomen.framework.mybatis.model.BaseMybatisModel" />
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="com.xmomen.module.system.entity.mapper"
+        <sqlMapGenerator targetPackage="com.xmomen.module.base.entity.mapper"
                          targetProject="./src/main/resources" />
-        <javaClientGenerator targetPackage="com.xmomen.module.system.entity.mapper"
+        <javaClientGenerator targetPackage="com.xmomen.module.base.entity.mapper"
                              targetProject="./src/main/java" type="XMLMAPPER" >
         </javaClientGenerator>
         <!--    用户模块    -->
-        <table tableName="sys_task_head" />
-        <table tableName="sys_task" />
+        <table tableName="cd_coupon" />
     </context>
 </generatorConfiguration>

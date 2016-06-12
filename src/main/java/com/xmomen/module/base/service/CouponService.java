@@ -1,23 +1,26 @@
 package com.xmomen.module.base.service;
 
-import com.xmomen.module.base.entity.*;
-import com.xmomen.module.base.mapper.CouponCategoryMapper;
-import com.xmomen.module.base.mapper.CouponMapper;
-import com.xmomen.module.base.model.CouponModel;
-import com.xmomen.module.base.model.CouponQuery;
-import com.xmomen.module.base.model.ItemModel;
-import com.xmomen.module.base.model.ItemQuery;
+import java.math.BigDecimal;
+
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.xmomen.framework.utils.AssertExt;
+import com.xmomen.module.base.constant.AppConstants;
+import com.xmomen.module.base.entity.CdCoupon;
+import com.xmomen.module.base.entity.CdCouponExample;
+import com.xmomen.module.base.entity.CdCouponRef;
+import com.xmomen.module.base.entity.CdCouponRefExample;
+import com.xmomen.module.base.mapper.CouponMapper;
+import com.xmomen.module.base.model.CouponModel;
+import com.xmomen.module.base.model.CouponQuery;
+import com.xmomen.module.pick.entity.TbRechargeLog;
+import com.xmomen.module.system.entity.SysUserOrganization;
 
 /**
  * Created by Jeng on 2016/3/30.
@@ -70,11 +73,12 @@ public class CouponService {
 
     }
     @Transactional
-    public void sendOneCoupon(Integer id,Integer companyId,Integer customerMangerId,String couponNumber){
+    public void sendOneCoupon(Integer id,Integer companyId,Integer customerMangerId,String couponNumber,String batch){
     	//更新卡发放状态
     	CdCoupon coupon = new CdCoupon();
     	coupon.setIsSend(1);
     	coupon.setId(id);
+    	coupon.setBatch(batch);
     	mybatisDao.updateByModel(coupon);
     	//先删除再添加
     	CdCouponRefExample couponRefExample = new CdCouponRefExample();
@@ -120,5 +124,25 @@ public class CouponService {
     	mybatisDao.updateByModel(coupon);
     }
     
-    
+    @Transactional
+    public void cardRecharge(String couponNo,BigDecimal rechargePrice){
+    	CdCoupon coupon = new CdCoupon();
+		coupon.setCouponNumber(couponNo);
+		coupon = mybatisDao.selectOneByModel(coupon);
+		AssertExt.notNull(coupon,"卡号不存在！");
+		coupon.setUserPrice(coupon.getUserPrice().add(rechargePrice));
+		mybatisDao.update(coupon);
+		
+		Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
+		SysUserOrganization userOrganization = new SysUserOrganization();
+		userOrganization.setUserId(userId);
+		userOrganization = mybatisDao.selectOneByModel(userOrganization);
+		TbRechargeLog rechargeLog = new TbRechargeLog();
+		rechargeLog.setCouponNo(couponNo);
+		rechargeLog.setRechargeDate(mybatisDao.getSysdate());
+		rechargeLog.setRechargePlace(userOrganization.getOrganizationId());
+		rechargeLog.setRechargePrice(rechargePrice);
+		rechargeLog.setRechargeUser(userId);
+		mybatisDao.save(rechargeLog);
+    }
 }

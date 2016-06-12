@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
+import com.xmomen.framework.utils.AssertExt;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.base.entity.CdActivityAddress;
@@ -66,6 +67,7 @@ public class CouponController {
                                   @RequestParam(value = "customerMangerId",required = false) Integer customerMangerId,
                                   @RequestParam(value = "isUseful",required = false) Integer isUseful,
                                   @RequestParam(value = "isOver",required = false) Integer isOver,
+                                  @RequestParam(value = "batch",required = false) String batch,
                                   @RequestParam(value = "keyword", required = false) String keyword){
         CouponQuery couponQuery = new CouponQuery();
         couponQuery.setKeyword(keyword);
@@ -77,6 +79,9 @@ public class CouponController {
         couponQuery.setIsOver(isOver);
         couponQuery.setIsSend(isSend);
         couponQuery.setIsUseful(isUseful);
+        if(!StringUtils.isBlank(batch)){
+            couponQuery.setBatch(batch);
+        }
         if(SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE)){
             Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
             couponQuery.setManagerId(userId);
@@ -173,8 +178,9 @@ public class CouponController {
     		@RequestParam(value = "id") Integer id,
     		@RequestParam(value="companyId") Integer companyId,
     		@RequestParam(value="customerMangerId") Integer customerMangerId,
-    		@RequestParam(value="couponNumber") String couponNumber){
-    	couponService.sendOneCoupon(id,companyId,customerMangerId,couponNumber);
+    		@RequestParam(value="couponNumber") String couponNumber,
+    		@RequestParam(value="batch") String batch){
+    	couponService.sendOneCoupon(id,companyId,customerMangerId,couponNumber,batch);
     }
     
     /**
@@ -185,7 +191,8 @@ public class CouponController {
     public void sendMoreCoupon(
     		@RequestParam(value="companyId") Integer companyId,
     		@RequestParam(value="customerMangerId")Integer customerMangerId,
-    		@RequestParam(value="couponNumberList") String couponNumberList){
+    		@RequestParam(value="couponNumberList") String couponNumberList,
+    		@RequestParam(value="batch") String batch){
     	String[] couponNumbers = couponNumberList.split(",");
     	for(int i = 0,length = couponNumbers.length;i < length; i++){
     		String couponNumber = couponNumbers[i];
@@ -196,7 +203,7 @@ public class CouponController {
     		coupon.setIsUseful(0);
     		coupon = mybatisDao.selectOneByModel(coupon);
     		if(coupon != null)
-    		couponService.sendOneCoupon(coupon.getId(),companyId,customerMangerId,coupon.getCouponNumber());
+    		couponService.sendOneCoupon(coupon.getId(),companyId,customerMangerId,coupon.getCouponNumber(),batch);
     	}
     }
     
@@ -307,4 +314,16 @@ public class CouponController {
     	couponQuery.setPassword(password);
     	return mybatisDao.getSqlSessionTemplate().selectOne(CouponMapper.CouponMapperNameSpace + "getCouponByCouponNo", couponQuery);
     }
+    
+    @RequestMapping(value = "/coupon/cardRecharge", method = RequestMethod.GET)
+    @Log(actionName ="充值")
+    public void cardRecharge(
+    		@RequestParam(value="couponNo") String couponNo,
+    		@RequestParam(value="rechargePrice") BigDecimal rechargePrice
+    		){
+    	AssertExt.notNull("couponNo", "卡号不能为空");
+    	AssertExt.notNull("rechargePrice", "充值金额不能为空");
+    	couponService.cardRecharge(couponNo,rechargePrice);
+    }
+    
 }

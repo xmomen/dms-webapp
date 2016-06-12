@@ -10,7 +10,8 @@
     <result column="PICK_CRAD_PRICE" property="pickCradPrice" jdbcType="DECIMAL" />
     <result column="PICK_CASE_PRICE" property="pickCasePrice" jdbcType="DECIMAL" />
     <result column="PICK_DATE" property="pickDate" jdbcType="TIMESTAMP" />
-    <result column="PICK_PLACE" property="pickPlace" jdbcType="VARCHAR" />
+    <result column="PICK_PLACE" property="pickPlace" jdbcType="INTEGER" />
+    <result column="PICK_PLACE_USER" property="pickPlaceUser" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -72,7 +73,7 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, COUPON_NO, PICK_WEIGHT, PICK_PAY_TYPE, PICK_TOTAL_PRICE, PICK_CRAD_PRICE, PICK_CASE_PRICE, 
-    PICK_DATE, PICK_PLACE
+    PICK_DATE, PICK_PLACE, PICK_PLACE_USER
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.pick.entity.TbPickExample" >
     select
@@ -124,6 +125,9 @@
       <if test="pickPlace != null" >
         PICK_PLACE,
       </if>
+      <if test="pickPlaceUser != null" >
+        PICK_PLACE_USER,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -151,7 +155,10 @@
         #{pickDate,jdbcType=TIMESTAMP},
       </if>
       <if test="pickPlace != null" >
-        #{pickPlace,jdbcType=VARCHAR},
+        #{pickPlace,jdbcType=INTEGER},
+      </if>
+      <if test="pickPlaceUser != null" >
+        #{pickPlaceUser,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -189,7 +196,10 @@
         PICK_DATE = #{record.pickDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.pickPlace != null" >
-        PICK_PLACE = #{record.pickPlace,jdbcType=VARCHAR},
+        PICK_PLACE = #{record.pickPlace,jdbcType=INTEGER},
+      </if>
+      <if test="record.pickPlaceUser != null" >
+        PICK_PLACE_USER = #{record.pickPlaceUser,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >

@@ -7,7 +7,7 @@
     <result column="RECHARGE_PRICE" property="rechargePrice" jdbcType="DECIMAL" />
     <result column="RECHARGE_DATE" property="rechargeDate" jdbcType="TIMESTAMP" />
     <result column="RECHARGE_USER" property="rechargeUser" jdbcType="INTEGER" />
-    <result column="RECHARGE_PLACE" property="rechargePlace" jdbcType="VARCHAR" />
+    <result column="RECHARGE_PLACE" property="rechargePlace" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -129,7 +129,7 @@
         #{rechargeUser,jdbcType=INTEGER},
       </if>
       <if test="rechargePlace != null" >
-        #{rechargePlace,jdbcType=VARCHAR},
+        #{rechargePlace,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -158,7 +158,7 @@
         RECHARGE_USER = #{record.rechargeUser,jdbcType=INTEGER},
       </if>
       <if test="record.rechargePlace != null" >
-        RECHARGE_PLACE = #{record.rechargePlace,jdbcType=VARCHAR},
+        RECHARGE_PLACE = #{record.rechargePlace,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >

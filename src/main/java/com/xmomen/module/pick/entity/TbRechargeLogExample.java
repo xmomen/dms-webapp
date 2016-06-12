@@ -427,62 +427,52 @@ public class TbRechargeLogExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andRechargePlaceEqualTo(String value) {
+        public Criteria andRechargePlaceEqualTo(Integer value) {
             addCriterion("RECHARGE_PLACE =", value, "rechargePlace");
             return (Criteria) this;
         }
 
-        public Criteria andRechargePlaceNotEqualTo(String value) {
+        public Criteria andRechargePlaceNotEqualTo(Integer value) {
             addCriterion("RECHARGE_PLACE <>", value, "rechargePlace");
             return (Criteria) this;
         }
 
-        public Criteria andRechargePlaceGreaterThan(String value) {
+        public Criteria andRechargePlaceGreaterThan(Integer value) {
             addCriterion("RECHARGE_PLACE >", value, "rechargePlace");
             return (Criteria) this;
         }
 
-        public Criteria andRechargePlaceGreaterThanOrEqualTo(String value) {
+        public Criteria andRechargePlaceGreaterThanOrEqualTo(Integer value) {
             addCriterion("RECHARGE_PLACE >=", value, "rechargePlace");
             return (Criteria) this;
         }
 
-        public Criteria andRechargePlaceLessThan(String value) {
+        public Criteria andRechargePlaceLessThan(Integer value) {
             addCriterion("RECHARGE_PLACE <", value, "rechargePlace");
             return (Criteria) this;
         }
 
-        public Criteria andRechargePlaceLessThanOrEqualTo(String value) {
+        public Criteria andRechargePlaceLessThanOrEqualTo(Integer value) {
             addCriterion("RECHARGE_PLACE <=", value, "rechargePlace");
             return (Criteria) this;
         }
 
-        public Criteria andRechargePlaceLike(String value) {
-            addCriterion("RECHARGE_PLACE like", value, "rechargePlace");
-            return (Criteria) this;
-        }
-
-        public Criteria andRechargePlaceNotLike(String value) {
-            addCriterion("RECHARGE_PLACE not like", value, "rechargePlace");
-            return (Criteria) this;
-        }
-
-        public Criteria andRechargePlaceIn(List<String> values) {
+        public Criteria andRechargePlaceIn(List<Integer> values) {
             addCriterion("RECHARGE_PLACE in", values, "rechargePlace");
             return (Criteria) this;
         }
 
-        public Criteria andRechargePlaceNotIn(List<String> values) {
+        public Criteria andRechargePlaceNotIn(List<Integer> values) {
             addCriterion("RECHARGE_PLACE not in", values, "rechargePlace");
             return (Criteria) this;
         }
 
-        public Criteria andRechargePlaceBetween(String value1, String value2) {
+        public Criteria andRechargePlaceBetween(Integer value1, Integer value2) {
             addCriterion("RECHARGE_PLACE between", value1, value2, "rechargePlace");
             return (Criteria) this;
         }
 
-        public Criteria andRechargePlaceNotBetween(String value1, String value2) {
+        public Criteria andRechargePlaceNotBetween(Integer value1, Integer value2) {
             addCriterion("RECHARGE_PLACE not between", value1, value2, "rechargePlace");
             return (Criteria) this;
         }
