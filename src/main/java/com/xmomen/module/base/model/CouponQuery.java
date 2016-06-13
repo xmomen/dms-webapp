@@ -22,4 +22,5 @@ class CouponQuery implements Serializable {
     private Integer isUseful;
     private Integer isOver;
     private Integer managerId;
+    private String batch;
 }

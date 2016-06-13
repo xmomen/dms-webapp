@@ -1,8 +1,6 @@
 package com.xmomen.module.pick.entity;
 
 import com.xmomen.framework.mybatis.model.BaseMybatisModel;
-import java.math.BigDecimal;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,35 +9,40 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 @Entity
-@Table(name = "tb_recharge_log")
-public class TbRechargeLog extends BaseMybatisModel {
+@Table(name = "tb_exchange_card_log")
+public class TbExchangeCardLog extends BaseMybatisModel {
     /**
-     * 充值记录
+     * 主键
      */
     private Integer id;
 
     /**
-     * 充值的卡号
+     * 旧卡ID
      */
-    private String couponNo;
+    private Integer oldCouponId;
 
     /**
-     * 充值金额
+     * 旧卡卡号
      */
-    private BigDecimal rechargePrice;
+    private String oldCouponNo;
 
     /**
-     * 充值时间
+     * 
      */
-    private Date rechargeDate;
+    private Integer newCouponId;
 
     /**
-     * 充值人
+     * 
+     */
+    private String newCouponNo;
+
+    /**
+     * 换卡操作者
      */
     private Integer rechargeUser;
 
     /**
-     * 充值地点
+     * 换卡采摘点
      */
     private Integer rechargePlace;
 
@@ -59,46 +62,60 @@ public class TbRechargeLog extends BaseMybatisModel {
         addValidField("id");
     }
 
-    @Column(name = "COUPON_NO")
-    public String getCouponNo() {
-        return couponNo;
+    @Column(name = "OLD_COUPON_ID")
+    public Integer getOldCouponId() {
+        return oldCouponId;
     }
 
-    public void setCouponNo(String couponNo) {
-        this.couponNo = couponNo;
-        if(couponNo == null){
-              removeValidField("couponNo");
+    public void setOldCouponId(Integer oldCouponId) {
+        this.oldCouponId = oldCouponId;
+        if(oldCouponId == null){
+              removeValidField("oldCouponId");
               return;
         }
-        addValidField("couponNo");
+        addValidField("oldCouponId");
     }
 
-    @Column(name = "RECHARGE_PRICE")
-    public BigDecimal getRechargePrice() {
-        return rechargePrice;
+    @Column(name = "OLD_COUPON_NO")
+    public String getOldCouponNo() {
+        return oldCouponNo;
     }
 
-    public void setRechargePrice(BigDecimal rechargePrice) {
-        this.rechargePrice = rechargePrice;
-        if(rechargePrice == null){
-              removeValidField("rechargePrice");
+    public void setOldCouponNo(String oldCouponNo) {
+        this.oldCouponNo = oldCouponNo;
+        if(oldCouponNo == null){
+              removeValidField("oldCouponNo");
               return;
         }
-        addValidField("rechargePrice");
+        addValidField("oldCouponNo");
     }
 
-    @Column(name = "RECHARGE_DATE")
-    public Date getRechargeDate() {
-        return rechargeDate;
+    @Column(name = "NEW_COUPON_ID")
+    public Integer getNewCouponId() {
+        return newCouponId;
     }
 
-    public void setRechargeDate(Date rechargeDate) {
-        this.rechargeDate = rechargeDate;
-        if(rechargeDate == null){
-              removeValidField("rechargeDate");
+    public void setNewCouponId(Integer newCouponId) {
+        this.newCouponId = newCouponId;
+        if(newCouponId == null){
+              removeValidField("newCouponId");
               return;
         }
-        addValidField("rechargeDate");
+        addValidField("newCouponId");
+    }
+
+    @Column(name = "NEW_COUPON_NO")
+    public String getNewCouponNo() {
+        return newCouponNo;
+    }
+
+    public void setNewCouponNo(String newCouponNo) {
+        this.newCouponNo = newCouponNo;
+        if(newCouponNo == null){
+              removeValidField("newCouponNo");
+              return;
+        }
+        addValidField("newCouponNo");
     }
 
     @Column(name = "RECHARGE_USER")

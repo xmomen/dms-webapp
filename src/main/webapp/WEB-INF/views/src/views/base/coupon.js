@@ -89,6 +89,7 @@ define(function () {
                         isGift : 0
                     };
                     $scope.ugSelect2Config = {};
+                    debugger;
                     if(CurrentCoupon){
                         $scope.coupon = CurrentCoupon;
                     }
@@ -107,7 +108,7 @@ define(function () {
                             $scope.categoryList = data.data;
                             $scope.pageInfoSetting = data.pageInfo;
                             $scope.pageInfoSetting.loadData = $scope.getCategoryList;
-                            $scope.ugSelect2Config.initSelectData($scope.coupon.couponCategory);
+                            $scope.ugSelect2Config.initSelectData($scope.coupon.couponCategoryId);
                         });
                     }
                     $scope.getCategoryList();
@@ -160,7 +161,7 @@ define(function () {
                     $scope.selectCategory = function(){
                         $scope.coupon.couponCategory = null;
                         if($scope.coupon.couponType == 2){
-                             $scope.coupon.couponValue = 1;
+                             $scope.coupon.couponValue = "";
                          }else{
                              $scope.coupon.couponValue = "";
                          }
@@ -210,6 +211,7 @@ define(function () {
                                 couponNumber:coupon.couponNumber,
                                 companyId:coupon.cdCompanyId,
                                 customerMangerId:coupon.customerMangerId,
+                                batch:coupon.batch,
                                 id:coupon.id
                             }, function () {
                                 $modalInstance.close();
@@ -351,7 +353,8 @@ define(function () {
                             CouponAPI.sendMoreCoupon({
                                 couponNumberList:$scope.coupon.couponNumberList,
                                 customerMangerId:$scope.coupon.customerMangerId,
-                                companyId:$scope.coupon.cdCompanyId
+                                companyId:$scope.coupon.cdCompanyId,
+                                batch:$scope.coupon.batch
                             }, function () {
                                 $modalInstance.close();
                             }, function (data) {
@@ -371,5 +374,101 @@ define(function () {
         }
 
         $scope.getCouponList();
+
+        //写卡
+        $scope.writeCard = function(coupon){
+            var strls = "";
+            var errorno = "";
+            var BLOCK0_EN = 0x01;//读第一块的(16个字节)
+            var BLOCK1_EN = 0x02;//读第二块的(16个字节)
+            var BLOCK2_EN = 0x04;//读第四块的(16个字节)
+
+            var EXTERNKEY = 0x10;//用明码认证密码,产品开发完成后，建议把密码放到设备的只写区，然后用该区的密码后台认证，这样谁都不知道密码是多少，需要这方面支持请联系
+            //指定控制字
+            var myctrlword=BLOCK0_EN + BLOCK1_EN + BLOCK2_EN + EXTERNKEY;
+            //指定区号
+            var myareano = 8; //指定为第8区
+            //批定密码模式
+            var authmode = 1; //大于0表示用A密码认证，推荐用A密码认证
+
+            //指定序列号，未知卡序列号时可指定为8个0
+            var  mypiccserial="00000000";
+
+            //指定密码，以下密码为厂家出厂密码
+            var mypicckey = "ffffffffffff";
+
+            //指定写卡内容，长度为48个字节，其中每个字节以两个字符表示为十六进制数
+            debugger;
+            var cardNoValue = coupon.couponNumber;
+            while(cardNoValue.length < 32){
+                cardNoValue = cardNoValue + 'F';
+            }
+            var passwordValue = coupon.couponPassword;
+            while(passwordValue.length < 32){
+                passwordValue = passwordValue + 'F';
+            }
+            piccdata0_2 = cardNoValue+passwordValue+'00000000000000000000000000000000';
+            strls=IcCardReader.piccwriteex(myctrlword, mypiccserial,myareano,authmode,mypicckey,piccdata0_2);
+            errorno = strls.substr(0,4);
+            switch(errorno)
+            {
+                case "ER08":
+                    alert("寻不到卡");
+                    break;
+                case "ER09":
+                    alert("寻不到卡");
+                    break;
+                case "ER10":
+                    alert("寻不到卡");
+                    break;
+                case "ER11":
+                    alert("密码认证错误");
+                    break;
+                case "ER12":
+                    alert("密码认证错误");
+                    break;
+                case "ER13":
+                    alert("读卡错误");
+                    break;
+
+                case "ER14":
+                    alert("写卡错误");
+                    break;
+
+                case "ER21":
+                    alert("没找到动态库");
+                    break;
+
+                case "ER22":
+                    alert("动态库或驱动程序异常");
+                    break;
+
+                case "ER23":
+                    alert("读卡器未插上或动态库或驱动程序异常");
+                    break;
+                case "ER24":
+                    alert("操作超时，一般是动态库没有反应");
+                    break;
+                case "ER25":
+                    alert("发送字数不够");
+                    break;
+                case "ER26":
+                    alert("发送的CRC错");
+                    break;
+                case "ER27":
+                    alert("接收的字数不够");
+                    break;
+                case "ER28":
+                    alert("接收的CRC错");
+                    break;
+                case "ER29":
+                    alert("函数输入参数格式错误,请仔细查看");
+                    break;
+                default ://写卡成功,其中ER00表示完全成功,ER01表示完全没写到卡数据，ER02表示仅写该卡的第一块成功,，ER02表示仅写该卡的第一二块成功，这是刷卡太快原因
+                    IcCardReader.pcdbeep(300);//100表示响100毫秒
+                    alert("写卡成功");
+                    break;
+            }
+        }
     }];
 });

@@ -2,8 +2,33 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "PickAPI", "CouponAPI","$modal", "$ugDialog","$stateParams", function($scope, PickAPI, CouponAPI,$modal, $ugDialog,$stateParams){
-
+    return ["$scope", "CouponAPI","$modal", "$ugDialog","$stateParams", function($scope, CouponAPI,$modal, $ugDialog,$stateParams){
+        $scope.readOldCard = function(){
+            debugger
+            if($scope.pick.couponNo && $scope.pick.password){
+                //查找卡信息
+                CouponAPI.readCard({
+                    couponNo:$scope.pick.couponNo,
+                    password:$scope.pick.password
+                }, function (data) {
+                    debugger;
+                    if(data.userName == null || data.userName == undefined){
+                        $ugDialog.warn("卡号或者密码错误!");
+                        $scope.pick.couponNo = "";
+                        $scope.pick.password = "";
+                        $("#couponNo").focus();
+                        $("#couponNo").select();
+                        return;
+                    };
+                    $scope.pick.userName = data.userName;
+                    $scope.pick.phoneNumber = data.phoneNumber;
+                    $scope.pick.couponNo = data.couponNo;
+                    $scope.pick.couponPrice = data.couponPrice;
+                }, function (data) {
+                    $ugDialog.warn(data.data.error);
+                })
+            }
+        }
         $scope.readCard = function(){
                 var strls = "";
                 var errorno = "";
@@ -24,6 +49,7 @@ define(function () {
 
                 //指定密码，以下密码为厂家出厂密码
                 var mypicckey = "ffffffffffff";
+                debugger;
                 strls=IcCardReader.piccreadex(myctrlword, mypiccserial,myareano,authmode,mypicckey);
                 errorno = strls.substr(0,4);
                 switch(errorno)
@@ -83,47 +109,28 @@ define(function () {
                     default :
                         //读卡成功,其中ER00表示完全成功,ER01表示完全没读到卡数据，ER02表示仅读该卡的第一块成功,，ER02表示仅读该卡的第一二块成功，这是刷卡太快原因
                         var e=new RegExp("F","g");
-                        $scope.pick.couponNo = strls.substr(14,32).replace(e,"");
-                        $scope.pick.password = strls.substr(46,32).replace(e,"");
-                        break;
-                }
-                if($scope.pick.couponNo){
-                    //查找卡信息
-                    CouponAPI.readCard({
-                        couponNo:$scope.pick.couponNo,
-                        password:$scope.pick.password
-                    }, function (data) {
-                        if(data.userName == null || data.userName == undefined){
-                            $ugDialog.warn("卡不能识别!");
-                            $scope.pick.couponNo = "";
-                            $scope.pick.password = "";
-                            return;
-                        };
-                        $scope.pick.userName = data.userName;
-                        $scope.pick.phoneNumber = data.phoneNumber;
-                        $scope.pick.couponNo = data.couponNo;
-                        $scope.pick.couponPrice = data.couponPrice;
+                        $scope.pick.newCouponNo = strls.substr(14,32).replace(e,"");
+                        $scope.pick.newPassword = strls.substr(46,32).replace(e,"");
                         IcCardReader.pcdbeep(200);//100表示响100毫秒
-                        $("#pickWeight").focus();
-                        $("#pickWeight").select();
-                    }, function (data) {
-                        $ugDialog.warn(data.data.error);
-                    })
+                        break;
                 }
             }
 
 
         $scope.pickForm = {};
-        $scope.pickSave = function(){
-            if($scope.pick.couponNo == "" || $scope.pick.couponNo == null || $scope.pick.couponNo == undefined  ){
+        $scope.exchangeCard = function(){
+            if($scope.pick.couponNo == "" || $scope.pick.couponNo == null || $scope.pick.couponNo == undefined ||  $scope.pick.newCouponNo == "" || $scope.pick.newCouponNo == null || $scope.pick.newCouponNo == undefined){
                 $ugDialog.alert("请刷卡");
                 return;
             }
-            PickAPI.settleAccounts($scope.pick,function(){
-                $ugDialog.alert("结算成功");
-                $scope.pick = {
-                    pickPayType:1
-                }
+            CouponAPI.exchangeCard({
+                oldCouponNo:$scope.pick.couponNo,
+                oldPassword:$scope.pick.password,
+                newCouponNo:$scope.pick.newCouponNo,
+                newPassword:$scope.pick.newPassword
+            },function(){
+                $ugDialog.alert("换卡成功");
+                $scope.pick = {}
             }, function(data){
                 IcCardReader.pcdbeep(200);//100表示响100毫秒
                 $ugDialog.warn(data.data.error);
@@ -131,9 +138,9 @@ define(function () {
         }
 
         var initialize = function(){
-            $scope.pick={
-                pickPayType:1
-            }
+            $scope.pick = {};
+            $("#couponNo").focus();
+            $("#couponNo").select();
         }
         initialize();
     }];

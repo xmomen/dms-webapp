@@ -75,6 +75,13 @@
 										<input type="search" placeholder="卡号/券号/描述" data-ng-keyup="getCouponList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
 								</div>
 							</div>
+                            <div class="col-sm-3">
+                                <div class="dataTables_filter">
+                                    <label>
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                                        <input type="search" placeholder="批号" data-ng-keyup="getCouponList()" ng-model="queryParam.batch" class="form-control" aria-controls="dt_basic"></label>
+                                </div>
+                            </div>
 							<div class="col-sm-12">
 								<button class="btn btn-primary" type="button" data-ng-click="getCouponList()">
 									<i class="fa fa-refresh"></i>
@@ -99,6 +106,7 @@
 									<th>卡券类型</th>
                                     <th>卡劵类别</th>
 									<th>卡号/劵号</th>
+                                    <th>批号</th>
 									<th>充值金额</th>
                                     <th>发放单位</th>
                                     <th>发放客户经理</th>
@@ -121,6 +129,7 @@
                                     <td ng-bind="coupon.categoryName"></td>
 									<!--<td ng-bind="coupon.couponDesc"></td>-->
 									<td ng-bind="coupon.couponNumber"></td>
+                                    <td ng-bind="coupon.batch"></td>
                                     <td>{{coupon.couponValue}}</td>
                                     <td ng-bind="coupon.companyName"></td>
                                     <td ng-bind="coupon.managerName"></td>
@@ -228,6 +237,13 @@
                                         <input type="search" placeholder="卡号/券号/描述" data-ng-keyup="getCouponAuditList()" ng-model="queryParamAudit.keyword" class="form-control" aria-controls="dt_basic"></label>
                                 </div>
                             </div>
+                            <div class="col-sm-3">
+                                <div class="dataTables_filter">
+                                    <label>
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                                        <input type="search" placeholder="批号" data-ng-keyup="getCouponAuditList()" ng-model="queryParamAudit.batch" class="form-control" aria-controls="dt_basic"></label>
+                                </div>
+                            </div>
                             <div class="col-sm-12">
                                 <button class="btn btn-primary" type="button" data-ng-click="getCouponAuditList()">
                                     <i class="fa fa-refresh"></i>
@@ -248,6 +264,7 @@
                                     <th>卡券类型</th>
                                     <th>卡劵类别</th>
                                     <th>卡号/劵号</th>
+                                    <th>批号</th>
                                     <th>充值金额</th>
                                     <th>发放单位</th>
                                     <th>发放客户经理</th>
@@ -271,6 +288,7 @@
                                     <td ng-bind="coupon.categoryName"></td>
                                     <!--<td ng-bind="coupon.couponDesc"></td>-->
                                     <td ng-bind="coupon.couponNumber"></td>
+                                    <td ng-bind="coupon.batch"></td>
                                     <td>{{coupon.couponValue}}</td>
                                     <td ng-bind="coupon.companyName"></td>
                                     <td ng-bind="coupon.managerName"></td>

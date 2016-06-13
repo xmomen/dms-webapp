@@ -18,6 +18,7 @@
     <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
     <result column="NOTES" property="notes" jdbcType="VARCHAR" />
     <result column="IS_OVER" property="isOver" jdbcType="INTEGER" />
+    <result column="BATCH" property="batch" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -80,7 +81,7 @@
   <sql id="Base_Column_List" >
     ID, COUPON_TYPE, COUPON_CATEGORY, COUPON_NUMBER, COUPON_PASSWORD, USER_PRICE, IS_USED, 
     IS_USEFUL, IS_GIFT, IS_SEND, COUPON_DESC, BEGIN_TIME, COUPON_VALUE, END_TIME, NOTES, 
-    IS_OVER
+    IS_OVER, BATCH
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdCouponExample" >
     select
@@ -153,6 +154,9 @@
       <if test="isOver != null" >
         IS_OVER,
       </if>
+      <if test="batch != null" >
+        BATCH,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -202,6 +206,9 @@
       </if>
       <if test="isOver != null" >
         #{isOver,jdbcType=INTEGER},
+      </if>
+      <if test="batch != null" >
+        #{batch,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -261,6 +268,9 @@
       </if>
       <if test="record.isOver != null" >
         IS_OVER = #{record.isOver,jdbcType=INTEGER},
+      </if>
+      <if test="record.batch != null" >
+        BATCH = #{record.batch,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >

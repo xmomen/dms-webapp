@@ -91,7 +91,8 @@ define(function () {
                 isSend:1,
                 cdCompanyId:$scope.queryParam.cdCompanyId,
                 customerMangerId:$scope.queryParam.customerMangerId,
-                couponCategoryId:$scope.queryParam.couponCategoryId
+                couponCategoryId:$scope.queryParam.couponCategoryId,
+                batch:$scope.queryParam.batch
             }, function(data){
                 $scope.couponList = data.data;
                 $scope.pageInfoNoAuditSetting = data.pageInfo;
@@ -125,7 +126,8 @@ define(function () {
                 isOver:0,
                 cdCompanyId:$scope.queryParamAudit.cdCompanyId,
                 customerMangerId:$scope.queryParamAudit.customerMangerId,
-                couponCategoryId:$scope.queryParamAudit.couponCategoryId
+                couponCategoryId:$scope.queryParamAudit.couponCategoryId,
+                batch:$scope.queryParamAudit.batch
             }, function(data){
                 $scope.couponAuditList = data.data;
                 $scope.pageInfoAuditSetting = data.pageInfo;

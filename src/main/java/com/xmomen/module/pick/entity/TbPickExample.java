@@ -607,63 +607,113 @@ public class TbPickExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andPickPlaceEqualTo(String value) {
+        public Criteria andPickPlaceEqualTo(Integer value) {
             addCriterion("PICK_PLACE =", value, "pickPlace");
             return (Criteria) this;
         }
 
-        public Criteria andPickPlaceNotEqualTo(String value) {
+        public Criteria andPickPlaceNotEqualTo(Integer value) {
             addCriterion("PICK_PLACE <>", value, "pickPlace");
             return (Criteria) this;
         }
 
-        public Criteria andPickPlaceGreaterThan(String value) {
+        public Criteria andPickPlaceGreaterThan(Integer value) {
             addCriterion("PICK_PLACE >", value, "pickPlace");
             return (Criteria) this;
         }
 
-        public Criteria andPickPlaceGreaterThanOrEqualTo(String value) {
+        public Criteria andPickPlaceGreaterThanOrEqualTo(Integer value) {
             addCriterion("PICK_PLACE >=", value, "pickPlace");
             return (Criteria) this;
         }
 
-        public Criteria andPickPlaceLessThan(String value) {
+        public Criteria andPickPlaceLessThan(Integer value) {
             addCriterion("PICK_PLACE <", value, "pickPlace");
             return (Criteria) this;
         }
 
-        public Criteria andPickPlaceLessThanOrEqualTo(String value) {
+        public Criteria andPickPlaceLessThanOrEqualTo(Integer value) {
             addCriterion("PICK_PLACE <=", value, "pickPlace");
             return (Criteria) this;
         }
 
-        public Criteria andPickPlaceLike(String value) {
-            addCriterion("PICK_PLACE like", value, "pickPlace");
-            return (Criteria) this;
-        }
-
-        public Criteria andPickPlaceNotLike(String value) {
-            addCriterion("PICK_PLACE not like", value, "pickPlace");
-            return (Criteria) this;
-        }
-
-        public Criteria andPickPlaceIn(List<String> values) {
+        public Criteria andPickPlaceIn(List<Integer> values) {
             addCriterion("PICK_PLACE in", values, "pickPlace");
             return (Criteria) this;
         }
 
-        public Criteria andPickPlaceNotIn(List<String> values) {
+        public Criteria andPickPlaceNotIn(List<Integer> values) {
             addCriterion("PICK_PLACE not in", values, "pickPlace");
             return (Criteria) this;
         }
 
-        public Criteria andPickPlaceBetween(String value1, String value2) {
+        public Criteria andPickPlaceBetween(Integer value1, Integer value2) {
             addCriterion("PICK_PLACE between", value1, value2, "pickPlace");
             return (Criteria) this;
         }
 
-        public Criteria andPickPlaceNotBetween(String value1, String value2) {
+        public Criteria andPickPlaceNotBetween(Integer value1, Integer value2) {
             addCriterion("PICK_PLACE not between", value1, value2, "pickPlace");
+            return (Criteria) this;
+        }
+
+        public Criteria andPickPlaceUserIsNull() {
+            addCriterion("PICK_PLACE_USER is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPickPlaceUserIsNotNull() {
+            addCriterion("PICK_PLACE_USER is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPickPlaceUserEqualTo(Integer value) {
+            addCriterion("PICK_PLACE_USER =", value, "pickPlaceUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andPickPlaceUserNotEqualTo(Integer value) {
+            addCriterion("PICK_PLACE_USER <>", value, "pickPlaceUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andPickPlaceUserGreaterThan(Integer value) {
+            addCriterion("PICK_PLACE_USER >", value, "pickPlaceUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andPickPlaceUserGreaterThanOrEqualTo(Integer value) {
+            addCriterion("PICK_PLACE_USER >=", value, "pickPlaceUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andPickPlaceUserLessThan(Integer value) {
+            addCriterion("PICK_PLACE_USER <", value, "pickPlaceUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andPickPlaceUserLessThanOrEqualTo(Integer value) {
+            addCriterion("PICK_PLACE_USER <=", value, "pickPlaceUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andPickPlaceUserIn(List<Integer> values) {
+            addCriterion("PICK_PLACE_USER in", values, "pickPlaceUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andPickPlaceUserNotIn(List<Integer> values) {
+            addCriterion("PICK_PLACE_USER not in", values, "pickPlaceUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andPickPlaceUserBetween(Integer value1, Integer value2) {
+            addCriterion("PICK_PLACE_USER between", value1, value2, "pickPlaceUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andPickPlaceUserNotBetween(Integer value1, Integer value2) {
+            addCriterion("PICK_PLACE_USER not between", value1, value2, "pickPlaceUser");
             return (Criteria) this;
         }
     }

@@ -151,8 +151,8 @@ define(function () {
         return $resource("/coupon/:id", { id:"@id" }, {
             query:{ isArray:false},
             update:{ method:"PUT", params:{id:"@id"}},
-            sendOneCoupon:{method:"GET",url:"/coupon/sendOneCoupon",params:{id:"@id",companyId:"@companyId",couponNumber:"@couponNumber"}},
-            sendMoreCoupon:{method:"GET",url:"/coupon/sendMoreCoupon",params:{companyId:"@companyId",couponNumberList:"@couponNumberList"}},
+            sendOneCoupon:{method:"GET",url:"/coupon/sendOneCoupon",params:{id:"@id",companyId:"@companyId",couponNumber:"@couponNumber",batch:"@batch"}},
+            sendMoreCoupon:{method:"GET",url:"/coupon/sendMoreCoupon",params:{companyId:"@companyId",couponNumberList:"@couponNumberList",batch:"@batch"}},
             activityAddress:{method:"GET",url:"/coupon/activityAddress",params:{couponNumber:"@couponNumber",consignmentName:"@consignmentName",consignmentPhone:"@consignmentPhone",consignmentAddress:"@consignmentAddress"}},
             audit:{
                 method:"PUT",
@@ -193,7 +193,24 @@ define(function () {
                     couponNo:"@couponNo",
                     password:"@password"
                 }
-
+            },
+            cardRecharge:{
+                method:"GET",
+                url:"/coupon/cardRecharge",
+                params:{
+                    couponNo:"@couponNo",
+                    rechargePrice:"@rechargePrice"
+                }
+            },
+            exchangeCard:{
+                method:"GET",
+                url:"/coupon/exchangeCard",
+                params:{
+                    oldCouponNo:"@oldCouponNo",
+                    oldPassword:"@oldPassword",
+                    newCouponNo:"@newCouponNo",
+                    newPassword:"@newPassword"
+                }
             }
         });
     }]);
@@ -299,6 +316,15 @@ define(function () {
                     locked:"@locked"
                 }
             }
+        });
+    }]);
+
+    ngREST.factory("PickAPI", ["$resource", function($resource){
+        return $resource("/pick/:id", { id:"@id"}, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}},
+            settleAccounts:{method:"PUT",url:"/pick/settleAccounts"},
+            pickCard:{method:"PUT",url:"/pick/pickCard"}
         });
     }]);
 });

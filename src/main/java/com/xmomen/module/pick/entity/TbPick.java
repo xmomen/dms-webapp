@@ -56,7 +56,12 @@ public class TbPick extends BaseMybatisModel {
     /**
      * 采摘点
      */
-    private String pickPlace;
+    private Integer pickPlace;
+
+    /**
+     * 结算人
+     */
+    private Integer pickPlaceUser;
 
     @Column(name = "ID")
     @Id
@@ -173,16 +178,30 @@ public class TbPick extends BaseMybatisModel {
     }
 
     @Column(name = "PICK_PLACE")
-    public String getPickPlace() {
+    public Integer getPickPlace() {
         return pickPlace;
     }
 
-    public void setPickPlace(String pickPlace) {
+    public void setPickPlace(Integer pickPlace) {
         this.pickPlace = pickPlace;
         if(pickPlace == null){
               removeValidField("pickPlace");
               return;
         }
         addValidField("pickPlace");
+    }
+
+    @Column(name = "PICK_PLACE_USER")
+    public Integer getPickPlaceUser() {
+        return pickPlaceUser;
+    }
+
+    public void setPickPlaceUser(Integer pickPlaceUser) {
+        this.pickPlaceUser = pickPlaceUser;
+        if(pickPlaceUser == null){
+              removeValidField("pickPlaceUser");
+              return;
+        }
+        addValidField("pickPlaceUser");
     }
 }
