@@ -325,5 +325,16 @@ public class CouponController {
     	AssertExt.notNull("rechargePrice", "充值金额不能为空");
     	couponService.cardRecharge(couponNo,rechargePrice);
     }
-    
+    @RequestMapping(value = "/coupon/exchangeCard", method = RequestMethod.GET)
+    @Log(actionName ="换卡")
+    public void exchangeCard(
+    		@RequestParam(value="oldCouponNo") String oldCouponNo,
+    		@RequestParam(value="oldPassword") String oldPassword,
+    		@RequestParam(value="newCouponNo") String newCouponNo,
+    		@RequestParam(value="newPassword") String newPassword
+    		){
+    	AssertExt.notNull("couponNo", "卡号不能为空");
+    	AssertExt.notNull("rechargePrice", "充值金额不能为空");
+    	couponService.exchangeCard(oldCouponNo,oldPassword,newCouponNo,newPassword);
+    }
 }

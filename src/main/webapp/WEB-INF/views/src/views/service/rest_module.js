@@ -201,6 +201,16 @@ define(function () {
                     couponNo:"@couponNo",
                     rechargePrice:"@rechargePrice"
                 }
+            },
+            exchangeCard:{
+                method:"GET",
+                url:"/coupon/exchangeCard",
+                params:{
+                    oldCouponNo:"@oldCouponNo",
+                    oldPassword:"@oldPassword",
+                    newCouponNo:"@newCouponNo",
+                    newPassword:"@newPassword"
+                }
             }
         });
     }]);

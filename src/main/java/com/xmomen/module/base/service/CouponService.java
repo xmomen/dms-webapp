@@ -1,6 +1,7 @@
 package com.xmomen.module.base.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -16,9 +17,11 @@ import com.xmomen.module.base.entity.CdCoupon;
 import com.xmomen.module.base.entity.CdCouponExample;
 import com.xmomen.module.base.entity.CdCouponRef;
 import com.xmomen.module.base.entity.CdCouponRefExample;
+import com.xmomen.module.base.entity.CdMemberCouponRelation;
 import com.xmomen.module.base.mapper.CouponMapper;
 import com.xmomen.module.base.model.CouponModel;
 import com.xmomen.module.base.model.CouponQuery;
+import com.xmomen.module.pick.entity.TbExchangeCardLog;
 import com.xmomen.module.pick.entity.TbRechargeLog;
 import com.xmomen.module.system.entity.SysUserOrganization;
 
@@ -144,5 +147,57 @@ public class CouponService {
 		rechargeLog.setRechargePrice(rechargePrice);
 		rechargeLog.setRechargeUser(userId);
 		mybatisDao.save(rechargeLog);
+    }
+    
+    public void exchangeCard(String oldCouponNo,String oldPassword,String newCouponNo,String newPassword){
+    	CdCoupon oldCoupon = new CdCoupon();
+    	oldCoupon.setCouponNumber(oldCouponNo);
+    	oldCoupon.setCouponPassword(oldPassword);
+    	oldCoupon = mybatisDao.selectOneByModel(oldCoupon);
+		AssertExt.notNull(oldCoupon,"老卡卡号错误或者密码错误！");
+		CdCoupon newCoupon = new CdCoupon();
+		newCoupon.setCouponNumber(newCouponNo);
+		newCoupon.setCouponPassword(newPassword);
+		newCoupon = mybatisDao.selectOneByModel(newCoupon);
+		AssertExt.notNull(oldCoupon,"新卡卡号错误或者密码错误！");
+		if(1 == newCoupon.getIsSend()){
+			AssertExt.notNull(newCoupon,"新卡已经发卡不能再次换卡！");
+		}
+		//将老卡的所有关系转移给新卡
+		//转移余额
+		newCoupon.setUserPrice(oldCoupon.getUserPrice());
+		newCoupon.setIsSend(1);
+		newCoupon.setIsUsed(1);
+		newCoupon.setIsOver(1);
+		newCoupon.setIsUseful(1);
+		mybatisDao.update(newCoupon);
+		//卡客户关系
+		CdMemberCouponRelation memberCouponRelation = new CdMemberCouponRelation();
+		memberCouponRelation.setCouponNumber(oldCoupon.getCouponNumber());
+		memberCouponRelation = mybatisDao.selectOneByModel(memberCouponRelation);
+		memberCouponRelation.setCouponNumber(newCoupon.getCouponNumber());
+		mybatisDao.update(memberCouponRelation);
+		//卡劵的发放单位和客户经理
+		CdCouponRef couponRef = new CdCouponRef();
+		couponRef.setCouponNumber(oldCoupon.getCouponNumber());
+		List<CdCouponRef> couponRefs = mybatisDao.selectByModel(couponRef);
+		for(CdCouponRef couponRefdb : couponRefs){
+			couponRefdb.setCdCouponId(newCoupon.getId());
+			couponRefdb.setCouponNumber(newCoupon.getCouponNumber());
+			mybatisDao.update(couponRefdb);
+		}
+		//记录换卡记录
+		Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
+		SysUserOrganization userOrganization = new SysUserOrganization();
+		userOrganization.setUserId(userId);
+		userOrganization = mybatisDao.selectOneByModel(userOrganization);
+		TbExchangeCardLog exchangeCardLog = new TbExchangeCardLog();
+		exchangeCardLog.setNewCouponId(newCoupon.getId());
+		exchangeCardLog.setNewCouponNo(newCouponNo);
+		exchangeCardLog.setOldCouponId(oldCoupon.getId());
+		exchangeCardLog.setOldCouponNo(oldCouponNo);
+		exchangeCardLog.setRechargePlace(userOrganization.getOrganizationId());
+		exchangeCardLog.setRechargeUser(userId);
+		mybatisDao.save(exchangeCardLog);
     }
 }
