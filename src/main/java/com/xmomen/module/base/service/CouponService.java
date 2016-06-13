@@ -133,7 +133,8 @@ public class CouponService {
 		coupon.setCouponNumber(couponNo);
 		coupon = mybatisDao.selectOneByModel(coupon);
 		AssertExt.notNull(coupon,"卡号不存在！");
-		coupon.setUserPrice(coupon.getUserPrice().add(rechargePrice));
+		BigDecimal userPrice = coupon.getUserPrice()==null?BigDecimal.ZERO:coupon.getUserPrice();
+		coupon.setUserPrice(userPrice.add(rechargePrice));
 		mybatisDao.update(coupon);
 		
 		Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
@@ -163,9 +164,13 @@ public class CouponService {
 		if(1 == newCoupon.getIsSend()){
 			AssertExt.notNull(newCoupon,"新卡已经发卡不能再次换卡！");
 		}
+		//老卡作废
+		oldCoupon.setIsUsed(3);
+		mybatisDao.update(oldCoupon);
 		//将老卡的所有关系转移给新卡
 		//转移余额
-		newCoupon.setUserPrice(oldCoupon.getUserPrice());
+		BigDecimal userPrice = newCoupon.getUserPrice()==null?BigDecimal.ZERO:newCoupon.getUserPrice();
+		newCoupon.setUserPrice(userPrice.add(oldCoupon.getUserPrice()));
 		newCoupon.setIsSend(1);
 		newCoupon.setIsUsed(1);
 		newCoupon.setIsOver(1);

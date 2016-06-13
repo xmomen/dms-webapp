@@ -4,8 +4,9 @@
 define([
     "views/pick/pick",
     "views/pick/cardRecharge",
-    "views/pick/exchangeCard"
-],function (pick,cardRecharge,exchangeCard) {
+    "views/pick/exchangeCard",
+    "views/pick/pickCard"
+],function (pick,cardRecharge,exchangeCard,pickCard) {
     angular.module('DMS.pick', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -42,6 +43,17 @@ define([
                     }
                 },
                 controller: exchangeCard
+            })
+            .state('pickCard', {
+                url: '/pickCard',
+                templateUrl: 'views/pick/pickCard.html',
+                data:{
+                    permissions:{
+                        only:["PICK_CARD"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: pickCard
             })
     }]);
 });

@@ -323,7 +323,8 @@ define(function () {
         return $resource("/pick/:id", { id:"@id"}, {
             query:{ isArray:false},
             update:{ method:"PUT", params:{id:"@id"}},
-            settleAccounts:{method:"PUT",url:"/pick/settleAccounts"}
+            settleAccounts:{method:"PUT",url:"/pick/settleAccounts"},
+            pickCard:{method:"PUT",url:"/pick/pickCard"}
         });
     }]);
 });

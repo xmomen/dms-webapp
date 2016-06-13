@@ -19,7 +19,7 @@
         left join sys_users su on cm.cd_user_id = su.id
         <where>
               <if test="keyword">
-                  AND cm.member_code LIKE CONCAT('%', #{keyword}, '%') or cm.name LIKE CONCAT('%', #{keyword}, '%') or cm.phone_number like CONCAT('%', #{keyword}, '%')
+                  AND cm.name LIKE CONCAT('%', #{keyword}, '%') or cm.phone_number like CONCAT('%', #{keyword}, '%')
               </if>
               <if test="id">
                   AND cm.id = #{id}
