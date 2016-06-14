@@ -88,7 +88,7 @@ define(function () {
                 $scope.choseOrder.currentPacking = data;
             })
         };
-        $scope.scanItem = function(orderItemId){
+        $scope.scanItem = function(){
             if(!$scope.choseOrder.currentPacking || !$scope.choseOrder.currentPacking.id){
                 $ugDialog.warn("请点击开始装箱")
                 return;
@@ -99,7 +99,7 @@ define(function () {
                     CurrentItem: function(){
                         return {
                             id:$scope.choseOrder.currentPacking.id,
-                            orderItemId:orderItemId
+                            orderNo:$scope.choseOrder.orderNo
                         };
                     }
                 },
@@ -107,7 +107,7 @@ define(function () {
                     $scope.item = {};
                     if(CurrentItem){
                         $scope.item.id = CurrentItem.id;
-                        $scope.item.orderItemId = CurrentItem.orderItemId;
+                        $scope.item.orderNo = CurrentItem.orderNo;
                     }
                     $scope.errors = null;
                     $scope.scanItemForm = {};

@@ -16,6 +16,14 @@ define([
     ]).factory({
         HttpInterceptor:["$q", function($q){
            return {
+               request: function (config) {
+                   if(config.method=='GET'){
+                       if(config.params){
+                           config.params._noCache = new Date().getTime();
+                       }
+                   }
+                   return config;
+               },
                responseError:function(response){
                    if(response.status == 401){
                        //未找到用户
@@ -127,6 +135,7 @@ define([
     }]).config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function ($stateProvider, $urlRouterProvider, $httpProvider) {
         $httpProvider.interceptors.push('HttpInterceptor');
         $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
         $urlRouterProvider.otherwise('/dashboard');
 
         $stateProvider

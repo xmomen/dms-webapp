@@ -72,6 +72,23 @@ public class PackingController {
     }
 
     /**
+     * 装箱记录列表
+     * @param limit
+     * @param offset
+     * @param keyword
+     * @return
+     */
+    @RequestMapping(value = "/packing/task", method = RequestMethod.GET)
+    @Log(actionName = "查询装箱任务统计列表")
+    public Page<PackingTaskCount> getPackingTaskList(@RequestParam(value = "limit") Integer limit,
+                                          @RequestParam(value = "offset") Integer offset,
+                                          @RequestParam(value = "keyword", required = false) String keyword,
+                                          @RequestParam(value = "orderNo", required = false) String orderNo,
+                                          @RequestParam(value = "packingNo", required = false) String packingNo){
+        return packingService.getPackingTaskCountList(null, limit, offset);
+    }
+
+    /**
      * 分配装箱任务
      * @param packingTask
      * @param bindingResult

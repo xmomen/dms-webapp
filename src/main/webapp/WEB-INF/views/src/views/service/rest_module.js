@@ -249,6 +249,7 @@ define(function () {
             getPackingRecordList:{method:"GET",url:"/packing/:id/record",isArray:false},
             getPackingOrderList:{method:"GET",url:"/packing/order",isArray:false},
             removePackingRecord:{method:"DELETE",url:"/packing/:id/record/:recordId"},
+            getPackingTaskList:{method:"GET",url:"/packing/task",isArray:false},
             bindPackingTask:{method:"PUT",url:"/packing/task/bind"},
             unbindPackingTask:{method:"PUT",url:"/packing/task/unbind", params:{
                 orderNos:"@orderNos"

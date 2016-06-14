@@ -27,26 +27,35 @@ define(function () {
         $scope.chosePackingCustomer = function(index){
             $scope.currentCustomer = $scope.companyCustomerManagers[index];
         };
+        $scope.packingTaskPageInfoSetting = {
+            pageSize:10,
+            pageNum:1
+        };
         $scope.getCustomerManagersList = function(){
-            UserAPI.getCustomerManagerList({
+            PackingAPI.getPackingTaskList({
                 userType:"zhuangxiangzu",
-                keyword:$scope.queryParam.customerKeyword
+                keyword:$scope.queryParam.customerKeyword,
+                limit:$scope.packingTaskPageInfoSetting.pageSize,
+                offset:$scope.packingTaskPageInfoSetting.pageNum
             },function(data){
-                $scope.companyCustomerManagers = data;
+                $scope.companyCustomerManagers = data.data;
+                $scope.packingTaskPageInfoSetting = data.pageInfo;
+                $scope.packingTaskPageInfoSetting.loadData = $scope.getCustomerManagersList;
             });
         };
         $scope.bindPackingTask = function(index){
-            if(!$scope.currentCustomer.customerMangerId){
+            if(!$scope.currentCustomer.actorId){
                 $ugDialog.warn("请选择需要分配的责任人");
                 return;
             }
             var orderNos = [];
             orderNos.push($scope.orderList[index].orderNo);
             PackingAPI.bindPackingTask({
-                packingTaskUserId:$scope.currentCustomer.customerMangerId,
+                packingTaskUserId:$scope.currentCustomer.actorId,
                 orderNos:orderNos
             }, function(){
                 $scope.getOrderList();
+                $scope.getCustomerManagersList();
             })
         };
         $scope.unbindPackingTask = function(index){
@@ -56,6 +65,7 @@ define(function () {
                 orderNos:orderNos
             }, function(){
                 $scope.getOrderList();
+                $scope.getCustomerManagersList();
             })
         }
         $scope.removePacking = function(index){

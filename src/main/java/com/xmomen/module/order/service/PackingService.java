@@ -3,6 +3,8 @@ package com.xmomen.module.order.service;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.utils.DateUtils;
+import com.xmomen.module.base.entity.CdItem;
+import com.xmomen.module.base.entity.CdItemExample;
 import com.xmomen.module.order.entity.*;
 import com.xmomen.module.order.mapper.OrderMapper;
 import com.xmomen.module.order.model.*;
@@ -15,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Jeng on 16/4/5.
@@ -28,6 +32,12 @@ public class PackingService {
 
     @Autowired
     TaskService taskService;
+
+    public Page<PackingTaskCount> getPackingTaskCountList(Object o, Integer limit, Integer offset){
+        Map map = new HashMap();
+        map.put("roleType", "zhuangxiangzu");
+        return (Page<PackingTaskCount>) mybatisDao.selectPage(OrderMapper.ORDER_MAPPER_NAMESPACE + "countPackingTask", map, limit, offset);
+    }
 
     public Page<PackingModel> getPackingList(PackingQuery packingQuery, Integer limit, Integer offset){
         return (Page<PackingModel>) mybatisDao.selectPage(OrderMapper.ORDER_MAPPER_NAMESPACE + "queryPackingModel", packingQuery, limit, offset);
@@ -70,6 +80,7 @@ public class PackingService {
         Integer[] taskIds = {tbOrderRelationList.size()};
         for (int i = 0; i < tbOrderRelationList.size(); i++) {
             TbOrderRelation tbOrderRelation = tbOrderRelationList.get(i);
+            mybatisDao.deleteByPrimaryKey(TbOrderRelation.class, tbOrderRelation.getId());
             taskIds[i] = Integer.valueOf(tbOrderRelation.getRefValue());
         }
         taskService.cancelTask(taskIds);
@@ -78,7 +89,21 @@ public class PackingService {
     @Transactional
     public TbPackingRecord createRecord(CreatePackingRecord createPackingRecord){
         PackingOrderQuery packingOrderQuery = new PackingOrderQuery();
-        packingOrderQuery.setOrderItemId(createPackingRecord.getOrderItemId());
+        String itemCode = createPackingRecord.getUpc().substring(0, 5);
+        CdItem cdItem = new CdItem();
+        cdItem.setItemCode(itemCode);
+        cdItem = mybatisDao.selectOneByModel(cdItem);
+        if(cdItem == null){
+            throw new IllegalArgumentException("非法的UPC号码，未找到匹配商品编号");
+        }
+        TbOrderItem tbOrderItem = new TbOrderItem();
+        tbOrderItem.setItemCode(itemCode);
+        tbOrderItem.setOrderNo(createPackingRecord.getOrderNo());
+        tbOrderItem = mybatisDao.selectOneByModel(tbOrderItem);
+        if(tbOrderItem == null){
+            throw new IllegalArgumentException("此订单未订购此商品");
+        }
+        packingOrderQuery.setOrderItemId(tbOrderItem.getId());
         PackingOrderModel packingRecordModel = getOnePackingOrder(packingOrderQuery);
         if(packingRecordModel != null && packingRecordModel.getItemQty().compareTo(packingRecordModel.getPackedItemQty()) == 0){
             throw new IllegalArgumentException("装箱数量已到达订单采购数量");
@@ -87,7 +112,7 @@ public class PackingService {
         tbPackingRecord.setPackingId(createPackingRecord.getPackingId());
         tbPackingRecord.setScanTime(mybatisDao.getSysdate());
         tbPackingRecord.setUpc(createPackingRecord.getUpc());
-        tbPackingRecord.setOrderItemId(createPackingRecord.getOrderItemId());
+        tbPackingRecord.setOrderItemId(tbOrderItem.getId());
         return mybatisDao.insertByModel(tbPackingRecord);
     }
 
