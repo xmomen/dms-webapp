@@ -43,10 +43,10 @@
                 or tb.consignee_name like CONCAT('%', #{keyword}, '%')
             </if>
             <if test="id">
-                  AND tb.id = #{id}
+                AND tb.id = #{id}
             </if>
             <if test="packingTaskUserId">
-                AND tor.REF_VALUE = #{packingTaskUserId}
+                AND st.EXECUTOR_ID = #{packingTaskUserId}
             </if>
           </where>
     </select>
@@ -166,6 +166,9 @@
         <where>
             <if test="orderId">
                 AND o.id = #{orderId}
+            </if>
+            <if test="orderNo">
+                AND o.ORDER_NO = #{orderNo}
             </if>
             <if test="orderItemId">
                 AND oi.id = #{orderItemId}

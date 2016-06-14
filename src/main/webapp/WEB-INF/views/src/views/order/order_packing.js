@@ -33,6 +33,7 @@ define(function () {
         $scope.choseOrderPacking = function(index){
             $scope.choseOrder = $scope.orderList[index];
             $scope.getPackingOrderItemList();
+            $scope.packingRecordList = [];
         };
         $scope.getPackingOrderItemList = function(){
             if($scope.choseOrder &&
@@ -129,6 +130,7 @@ define(function () {
             modalInstance.result.then(function () {
                 $scope.getPackingOrderItemList();
                 $scope.getPackingRecordList();
+                $scope.getOrderList();
             });
         };
         $scope.choseOrderItem = function(index){
@@ -162,6 +164,7 @@ define(function () {
                 }, function(){
                     $scope.getPackingRecordList();
                     $scope.getPackingOrderItemList();
+                    $scope.getOrderList();
                 });
             })
         };

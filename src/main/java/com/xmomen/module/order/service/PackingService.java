@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,7 +88,7 @@ public class PackingService {
     }
 
     @Transactional
-    public TbPackingRecord createRecord(CreatePackingRecord createPackingRecord){
+    public TbPackingRecord createRecord(CreatePackingRecord createPackingRecord) {
         PackingOrderQuery packingOrderQuery = new PackingOrderQuery();
         String itemCode = createPackingRecord.getUpc().substring(0, 5);
         CdItem cdItem = new CdItem();
@@ -103,6 +104,21 @@ public class PackingService {
         if(tbOrderItem == null){
             throw new IllegalArgumentException("此订单未订购此商品");
         }
+        TbOrderRelation tbOrderRelation = new TbOrderRelation();
+        tbOrderRelation.setOrderNo(createPackingRecord.getOrderNo());
+        tbOrderRelation.setRefType(OrderMapper.ORDER_PACKING_TASK_RELATION_CODE);
+        tbOrderRelation = mybatisDao.selectOneByModel(tbOrderRelation);
+        if(tbOrderRelation == null){
+            throw new IllegalArgumentException(MessageFormat.format("此订单未分配装箱任务，订单编号：{0}", createPackingRecord.getOrderNo()));
+        }
+        SysTask sysTask = mybatisDao.selectByPrimaryKey(SysTask.class, Integer.valueOf(tbOrderRelation.getRefValue()));
+        if(sysTask == null){
+            throw new IllegalArgumentException(MessageFormat.format("此订单未分配装箱任务，订单编号：{0}", createPackingRecord.getOrderNo()));
+        }else if(sysTask.getTaskStatus() == 0){
+            sysTask.setTaskStatus(1);
+            sysTask.setStartTime(mybatisDao.getSysdate());
+            mybatisDao.update(sysTask);
+        }
         packingOrderQuery.setOrderItemId(tbOrderItem.getId());
         PackingOrderModel packingRecordModel = getOnePackingOrder(packingOrderQuery);
         if(packingRecordModel != null && packingRecordModel.getItemQty().compareTo(packingRecordModel.getPackedItemQty()) == 0){
@@ -113,7 +129,26 @@ public class PackingService {
         tbPackingRecord.setScanTime(mybatisDao.getSysdate());
         tbPackingRecord.setUpc(createPackingRecord.getUpc());
         tbPackingRecord.setOrderItemId(tbOrderItem.getId());
-        return mybatisDao.insertByModel(tbPackingRecord);
+        tbPackingRecord = mybatisDao.insertByModel(tbPackingRecord);
+        PackingOrderQuery packingOrderQuery1 = new PackingOrderQuery();
+        packingOrderQuery1.setOrderNo(createPackingRecord.getOrderNo());
+        List<PackingOrderModel> packingOrderModelList = queryPackingOrder(packingOrderQuery1);
+        boolean isFinished = true;
+        for (PackingOrderModel packingOrderModel : packingOrderModelList) {
+            if("未完成".equals(packingOrderModel.getPackingStatusDesc()) || "待完成".equals(packingOrderModel.getPackingStatusDesc())){
+                isFinished = false;
+                break;
+            }
+        }
+        if(isFinished){
+            sysTask.setFinishTime(mybatisDao.getSysdate());
+            sysTask.setTaskStatus(2);//已完成装箱
+            mybatisDao.update(sysTask);
+        }else if(!isFinished && sysTask.getTaskStatus() != 1){
+            sysTask.setTaskStatus(1);//待完成装箱
+            mybatisDao.update(sysTask);
+        }
+        return tbPackingRecord;
     }
 
     @Transactional
@@ -125,11 +160,26 @@ public class PackingService {
 
     @Transactional
     public void deleteRecord(Integer recordId){
+        TbPackingRecord tbPackingRecord = mybatisDao.selectByPrimaryKey(TbPackingRecord.class, recordId);
+        if(tbPackingRecord != null){
+            TbOrderItem tbOrderItem = mybatisDao.selectByPrimaryKey(TbOrderItem.class, tbPackingRecord.getOrderItemId());
+            TbOrderRelation tbOrderRelation = new TbOrderRelation();
+            tbOrderRelation.setOrderNo(tbOrderItem.getOrderNo());
+            tbOrderRelation.setRefType(OrderMapper.ORDER_PACKING_TASK_RELATION_CODE);
+            tbOrderRelation = mybatisDao.selectOneByModel(tbOrderRelation);
+            SysTask sysTask = mybatisDao.selectByPrimaryKey(SysTask.class, Integer.valueOf(tbOrderRelation.getRefValue()));
+            sysTask.setTaskStatus(1);
+            mybatisDao.update(sysTask);
+        }
         mybatisDao.deleteByPrimaryKey(TbPackingRecord.class, recordId);
     }
 
     public PackingOrderModel getOnePackingOrder(PackingOrderQuery packingOrderQuery){
         return mybatisDao.getSqlSessionTemplate().selectOne(OrderMapper.ORDER_MAPPER_NAMESPACE + "queryPackingOrderItemModel", packingOrderQuery);
+    }
+
+    public List<PackingOrderModel> queryPackingOrder(PackingOrderQuery packingOrderQuery){
+        return mybatisDao.getSqlSessionTemplate().selectList(OrderMapper.ORDER_MAPPER_NAMESPACE + "queryPackingOrderItemModel", packingOrderQuery);
     }
 
     public Page<PackingOrderModel> queryPackingOrder(PackingOrderQuery packingOrderQuery, Integer limit, Integer offset){
