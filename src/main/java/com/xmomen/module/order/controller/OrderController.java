@@ -6,6 +6,7 @@ import com.xmomen.framework.web.exceptions.ArgumentValidException;
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.logger.Log;
 import com.xmomen.module.order.entity.TbOrder;
+import com.xmomen.module.order.entity.TbOrderItem;
 import com.xmomen.module.order.model.CreateOrder;
 import com.xmomen.module.order.model.OrderModel;
 import com.xmomen.module.order.model.OrderQuery;
@@ -16,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created by Jeng on 2016/3/30.
@@ -49,6 +51,22 @@ public class OrderController {
     }
 
     /**
+     * 订单明细
+     * @return
+     */
+    @RequestMapping(value = "/order/{id}", method = RequestMethod.GET)
+    @Log(actionName = "查询订单列表")
+    public OrderModel getOrderDetail(@PathVariable(value = "id") Integer id){
+        OrderQuery orderQuery = new OrderQuery();
+        orderQuery.setId(id);
+        List<OrderModel> orderModelList = orderService.getOrderList(orderQuery);
+        if(orderModelList != null && !orderModelList.isEmpty() && orderModelList.size() == 1){
+            return orderModelList.get(0);
+        }
+        return null;
+    }
+
+    /**
      * 新增订单
      * @param createOrder
      * @param bindingResult
@@ -63,6 +81,23 @@ public class OrderController {
         Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("user_id");
         createOrder.setCreateUserId(userId);
         return orderService.createOrder(createOrder);
+    }
+
+    /**
+     * 订单商品列表
+     * @param limit
+     * @param offset
+     * @param keyword
+     * @return
+     */
+    @RequestMapping(value = "/order/{id}/item", method = RequestMethod.GET)
+    @Log(actionName = "查询订单商品列表")
+    public Page<TbOrderItem> getUserList(@RequestParam(value = "limit") Integer limit,
+                                        @RequestParam(value = "offset") Integer offset,
+                                         @RequestParam(value = "orderNo", required = false) String orderNo){
+        TbOrderItem tbOrderItem = new TbOrderItem();
+        tbOrderItem.setOrderNo(orderNo);
+        return mybatisDao.selectPageByModel(tbOrderItem, limit, offset);
     }
 
     /**

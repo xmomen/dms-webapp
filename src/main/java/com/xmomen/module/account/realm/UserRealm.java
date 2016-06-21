@@ -14,6 +14,8 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
+import java.util.Set;
+
 
 /**
  * <p>User: Zhang Kaitao
@@ -31,9 +33,10 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         String username = (String)principals.getPrimaryPrincipal();
-
+        Set<String> roles = userService.findRoles(username);
+        roles.add("user");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        authorizationInfo.setRoles(userService.findRoles(username));
+        authorizationInfo.setRoles(roles);
         authorizationInfo.setStringPermissions(userService.findPermissions(username));
         return authorizationInfo;
     }

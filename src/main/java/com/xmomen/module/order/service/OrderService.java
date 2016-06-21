@@ -48,6 +48,15 @@ public class OrderService {
     }
 
     /**
+     * 查询订单
+     * @param orderQuery
+     * @return
+     */
+    public List<OrderModel> getOrderList(OrderQuery orderQuery){
+        return mybatisDao.getSqlSessionTemplate().selectList(OrderMapper.ORDER_MAPPER_NAMESPACE + "getOrderList", orderQuery);
+    }
+
+    /**
      * 创建订单
      * @param createOrder
      * @return

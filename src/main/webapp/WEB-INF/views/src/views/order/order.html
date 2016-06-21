@@ -98,9 +98,14 @@
 									<td ng-bind="order.consigneeName"></td>
 									<td ng-bind="order.remark"></td>
 									<td>
+										<div ng-show="show">
+											<a href="javascript:void(0);" data-ng-click="viewOrder($index)" title="查看：{{order.orderDesc}}">
+												<span class="fa fa-eye">查看</span>
+											</a>
+										</div>
 										<!--<div ng-show="show">-->
 											<!--<a href="javascript:void(0);" data-ng-click="updateOrder($index)" title="编辑：{{order.orderDesc}}">-->
-												<!--<span class="fa fa-pencil"></span>-->
+												<!--<span class="fa fa-edit">编辑</span>-->
 											<!--</a>-->
 										<!--</div>-->
 									</td>
@@ -134,6 +139,117 @@
 
 </section>
 <!-- end widget grid -->
+
+
+<script type="text/ng-template" id="viewOrderDetail.html">
+	<div class="modal-header">
+		<h3 class="modal-title">订单明细</h3>
+	</div>
+	<div class="modal-body">
+		<div class="widget-body">
+
+			<form class="form-horizontal">
+				<div class="form-group">
+					<div class="col-md-12">
+						<label class="control-label col-md-2">订单类型：</label>
+						<div class="col-md-4">
+							<label class="control-label" ng-bind="order.orderTypeDesc"></label>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<label class="control-label col-md-2">订单状态：</label>
+						<div class="col-md-4">
+							<label class="control-label" ng-bind="order.orderStatusDesc"></label>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<label class="control-label col-md-2">订购时间：</label>
+						<div class="col-md-4">
+							<label class="control-label" ng-bind="order.createTime | date: 'yyyy-MM-dd HH:mm:ss'"></label>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<label class="control-label col-md-2">客户姓名：</label>
+						<div class="col-md-4">
+							<label class="control-label" ng-bind="order.consigneeName"></label>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<label class="control-label col-md-2">客户手机：</label>
+						<div class="col-md-4">
+							<label class="control-label" ng-bind="order.consigneePhone"></label>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<label class="control-label col-md-2">收货人：</label>
+						<div class="col-md-4">
+							<label class="control-label" ng-bind="order.consigneeName"></label>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<label class="control-label col-md-2">联系方式：</label>
+						<div class="col-md-4">
+							<label class="control-label" ng-bind="order.consigneePhone"></label>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<label class="control-label col-md-2">收货地址：</label>
+						<div class="col-md-10">
+							<label class="control-label" ng-bind="order.consigneeAddress"></label>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<label class="control-label col-md-2">付款方式：</label>
+						<div class="col-md-10">
+							<label class="control-label" ng-bind="order.paymentModeDesc"></label>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<label class="control-label col-md-2">客户要求：</label>
+						<div class="col-md-10">
+							<label class="control-label" ng-bind="order.remark1"></label>
+							<label class="control-label" ng-bind="order.remark2"></label>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<label class="control-label col-md-2">产品详情：</label>
+						<div class="table-responsive col-md-10" style="padding-top: 10px;">
+							<table class="table table-bordered">
+								<thead>
+								<tr>
+									<th>名称</th>
+									<th class="text-align-right">单价</th>
+									<th class="text-align-right">份数</th>
+									<th class="text-align-right">总价</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat="choseItem in order.itemList">
+									<td>{{choseItem.itemName}}</td>
+									<td class="text-align-right">{{choseItem.itemPrice | number:2}}</td>
+									<td class="text-align-right">{{choseItem.itemQty | number:2}}</td>
+									<td class="text-align-right">{{choseItem.itemQty * choseItem.itemPrice | number:2}}</td>
+								</tr>
+								</tbody>
+								<tfoot>
+								<tr>
+									<td colspan="2">合计</td>
+									<td class="text-align-right">{{totalItem.totalNumber | number:2}}</td>
+									<td class="text-align-right">{{totalItem.totalPrice | number:2}}</td>
+								</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-warning" ng-click="cancel()">关闭</button>
+	</div>
+</script>
+
 
 <script type="text/ng-template" id="addOrder.html">
 	<div class="modal-header">
