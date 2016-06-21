@@ -59,6 +59,13 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="col-sm-3">
+                                <div class="dataTables_filter">
+                                    <label>
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                                        <input type="search" placeholder="批号" data-ng-keyup="getCouponList()" ng-model="queryParam.batch" class="form-control" aria-controls="dt_basic"></label>
+                                </div>
+                            </div>
 							<div class="col-sm-12">
 								<button class="btn btn-primary" type="button" data-ng-click="getCouponList()">
 									<i class="fa fa-refresh"></i>
@@ -80,6 +87,7 @@
                                     <th>卡劵类别</th>
 									<!--<th>描述</th>-->
 									<th>卡号/劵号</th>
+                                    <th>批号</th>
 									<th>可用金额</th>
                                     <th>发放单位</th>
                                     <th>发放客户经理</th>
@@ -105,6 +113,7 @@
                                     <td ng-bind="coupon.categoryName"></td>
 									<!--<td ng-bind="coupon.couponDesc"></td>-->
 									<td ng-bind="coupon.couponNumber"></td>
+                                    <td ng-bind="coupon.batch"></td>
 									<td ng-show="coupon.isUseful == 0 && show"><input type="text" placeholder="金额(输入回车更新)" ng-blur="updateValue(coupon)"  ng-model="coupon.couponValue" class="form-control" aria-controls="dt_basic"></td>
                                     <td ng-show="!show">{{coupon.couponValue}}</td>
                                     <td ng-bind="coupon.companyName"></td>

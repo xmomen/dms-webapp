@@ -93,6 +93,11 @@ public class CdCoupon extends BaseMybatisModel {
      */
     private Integer isOver;
 
+    /**
+     * 发卡批次
+     */
+    private String batch;
+
     @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
@@ -317,5 +322,19 @@ public class CdCoupon extends BaseMybatisModel {
               return;
         }
         addValidField("isOver");
+    }
+
+    @Column(name = "BATCH")
+    public String getBatch() {
+        return batch;
+    }
+
+    public void setBatch(String batch) {
+        this.batch = batch;
+        if(batch == null){
+              removeValidField("batch");
+              return;
+        }
+        addValidField("batch");
     }
 }

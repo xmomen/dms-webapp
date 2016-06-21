@@ -17,7 +17,6 @@ public class UpdateCoupon implements Serializable {
     private Integer id;
     @NotNull
     private Integer couponType;
-    @NotNull
     private Integer couponCategory;
     private String couponDesc;
     private String couponNumber;

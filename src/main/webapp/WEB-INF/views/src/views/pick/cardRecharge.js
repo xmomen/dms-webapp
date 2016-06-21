@@ -2,7 +2,7 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "PickAPI", "CouponAPI","$modal", "$ugDialog","$stateParams", function($scope, PickAPI, CouponAPI,$modal, $ugDialog,$stateParams){
+    return ["$scope", "CouponAPI","$modal", "$ugDialog","$stateParams", function($scope, CouponAPI,$modal, $ugDialog,$stateParams){
 
         $scope.readCard = function(){
                 var strls = "";
@@ -24,6 +24,7 @@ define(function () {
 
                 //指定密码，以下密码为厂家出厂密码
                 var mypicckey = "ffffffffffff";
+                debugger;
                 strls=IcCardReader.piccreadex(myctrlword, mypiccserial,myareano,authmode,mypicckey);
                 errorno = strls.substr(0,4);
                 switch(errorno)
@@ -104,8 +105,8 @@ define(function () {
                         $scope.pick.couponNo = data.couponNo;
                         $scope.pick.couponPrice = data.couponPrice;
                         IcCardReader.pcdbeep(200);//100表示响100毫秒
-                        $("#pickWeight").focus();
-                        $("#pickWeight").select();
+                        $("#rechargePrice").focus();
+                        $("#rechargePrice").select();
                     }, function (data) {
                         $ugDialog.warn(data.data.error);
                     })
@@ -114,16 +115,18 @@ define(function () {
 
 
         $scope.pickForm = {};
-        $scope.pickSave = function(){
+        $scope.cardRecharge = function(){
+            debugger;
             if($scope.pick.couponNo == "" || $scope.pick.couponNo == null || $scope.pick.couponNo == undefined  ){
                 $ugDialog.alert("请刷卡");
                 return;
             }
-            PickAPI.settleAccounts($scope.pick,function(){
-                $ugDialog.alert("结算成功");
-                $scope.pick = {
-                    pickPayType:1
-                }
+            CouponAPI.cardRecharge({
+                couponNo : $scope.pick.couponNo,
+                rechargePrice : $scope.pick.rechargePrice
+            },function(){
+                $ugDialog.alert("充值成功");
+                $scope.pick = {}
             }, function(data){
                 IcCardReader.pcdbeep(200);//100表示响100毫秒
                 $ugDialog.warn(data.data.error);
@@ -131,9 +134,7 @@ define(function () {
         }
 
         var initialize = function(){
-            $scope.pick={
-                pickPayType:1
-            }
+            $scope.pick = {};
         }
         initialize();
     }];

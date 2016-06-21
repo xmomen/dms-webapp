@@ -1,19 +1,17 @@
 package com.xmomen.module.pick.entity;
 
 import com.xmomen.framework.mybatis.model.BaseMybatisExample;
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class TbRechargeLogExample extends BaseMybatisExample {
+public class TbExchangeCardLogExample extends BaseMybatisExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public TbRechargeLogExample() {
+    public TbExchangeCardLogExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -167,193 +165,263 @@ public class TbRechargeLogExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andCouponNoIsNull() {
-            addCriterion("COUPON_NO is null");
+        public Criteria andOldCouponIdIsNull() {
+            addCriterion("OLD_COUPON_ID is null");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNoIsNotNull() {
-            addCriterion("COUPON_NO is not null");
+        public Criteria andOldCouponIdIsNotNull() {
+            addCriterion("OLD_COUPON_ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNoEqualTo(String value) {
-            addCriterion("COUPON_NO =", value, "couponNo");
+        public Criteria andOldCouponIdEqualTo(Integer value) {
+            addCriterion("OLD_COUPON_ID =", value, "oldCouponId");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNoNotEqualTo(String value) {
-            addCriterion("COUPON_NO <>", value, "couponNo");
+        public Criteria andOldCouponIdNotEqualTo(Integer value) {
+            addCriterion("OLD_COUPON_ID <>", value, "oldCouponId");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNoGreaterThan(String value) {
-            addCriterion("COUPON_NO >", value, "couponNo");
+        public Criteria andOldCouponIdGreaterThan(Integer value) {
+            addCriterion("OLD_COUPON_ID >", value, "oldCouponId");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNoGreaterThanOrEqualTo(String value) {
-            addCriterion("COUPON_NO >=", value, "couponNo");
+        public Criteria andOldCouponIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("OLD_COUPON_ID >=", value, "oldCouponId");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNoLessThan(String value) {
-            addCriterion("COUPON_NO <", value, "couponNo");
+        public Criteria andOldCouponIdLessThan(Integer value) {
+            addCriterion("OLD_COUPON_ID <", value, "oldCouponId");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNoLessThanOrEqualTo(String value) {
-            addCriterion("COUPON_NO <=", value, "couponNo");
+        public Criteria andOldCouponIdLessThanOrEqualTo(Integer value) {
+            addCriterion("OLD_COUPON_ID <=", value, "oldCouponId");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNoLike(String value) {
-            addCriterion("COUPON_NO like", value, "couponNo");
+        public Criteria andOldCouponIdIn(List<Integer> values) {
+            addCriterion("OLD_COUPON_ID in", values, "oldCouponId");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNoNotLike(String value) {
-            addCriterion("COUPON_NO not like", value, "couponNo");
+        public Criteria andOldCouponIdNotIn(List<Integer> values) {
+            addCriterion("OLD_COUPON_ID not in", values, "oldCouponId");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNoIn(List<String> values) {
-            addCriterion("COUPON_NO in", values, "couponNo");
+        public Criteria andOldCouponIdBetween(Integer value1, Integer value2) {
+            addCriterion("OLD_COUPON_ID between", value1, value2, "oldCouponId");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNoNotIn(List<String> values) {
-            addCriterion("COUPON_NO not in", values, "couponNo");
+        public Criteria andOldCouponIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("OLD_COUPON_ID not between", value1, value2, "oldCouponId");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNoBetween(String value1, String value2) {
-            addCriterion("COUPON_NO between", value1, value2, "couponNo");
+        public Criteria andOldCouponNoIsNull() {
+            addCriterion("OLD_COUPON_NO is null");
             return (Criteria) this;
         }
 
-        public Criteria andCouponNoNotBetween(String value1, String value2) {
-            addCriterion("COUPON_NO not between", value1, value2, "couponNo");
+        public Criteria andOldCouponNoIsNotNull() {
+            addCriterion("OLD_COUPON_NO is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRechargePriceIsNull() {
-            addCriterion("RECHARGE_PRICE is null");
+        public Criteria andOldCouponNoEqualTo(String value) {
+            addCriterion("OLD_COUPON_NO =", value, "oldCouponNo");
             return (Criteria) this;
         }
 
-        public Criteria andRechargePriceIsNotNull() {
-            addCriterion("RECHARGE_PRICE is not null");
+        public Criteria andOldCouponNoNotEqualTo(String value) {
+            addCriterion("OLD_COUPON_NO <>", value, "oldCouponNo");
             return (Criteria) this;
         }
 
-        public Criteria andRechargePriceEqualTo(BigDecimal value) {
-            addCriterion("RECHARGE_PRICE =", value, "rechargePrice");
+        public Criteria andOldCouponNoGreaterThan(String value) {
+            addCriterion("OLD_COUPON_NO >", value, "oldCouponNo");
             return (Criteria) this;
         }
 
-        public Criteria andRechargePriceNotEqualTo(BigDecimal value) {
-            addCriterion("RECHARGE_PRICE <>", value, "rechargePrice");
+        public Criteria andOldCouponNoGreaterThanOrEqualTo(String value) {
+            addCriterion("OLD_COUPON_NO >=", value, "oldCouponNo");
             return (Criteria) this;
         }
 
-        public Criteria andRechargePriceGreaterThan(BigDecimal value) {
-            addCriterion("RECHARGE_PRICE >", value, "rechargePrice");
+        public Criteria andOldCouponNoLessThan(String value) {
+            addCriterion("OLD_COUPON_NO <", value, "oldCouponNo");
             return (Criteria) this;
         }
 
-        public Criteria andRechargePriceGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("RECHARGE_PRICE >=", value, "rechargePrice");
+        public Criteria andOldCouponNoLessThanOrEqualTo(String value) {
+            addCriterion("OLD_COUPON_NO <=", value, "oldCouponNo");
             return (Criteria) this;
         }
 
-        public Criteria andRechargePriceLessThan(BigDecimal value) {
-            addCriterion("RECHARGE_PRICE <", value, "rechargePrice");
+        public Criteria andOldCouponNoLike(String value) {
+            addCriterion("OLD_COUPON_NO like", value, "oldCouponNo");
             return (Criteria) this;
         }
 
-        public Criteria andRechargePriceLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("RECHARGE_PRICE <=", value, "rechargePrice");
+        public Criteria andOldCouponNoNotLike(String value) {
+            addCriterion("OLD_COUPON_NO not like", value, "oldCouponNo");
             return (Criteria) this;
         }
 
-        public Criteria andRechargePriceIn(List<BigDecimal> values) {
-            addCriterion("RECHARGE_PRICE in", values, "rechargePrice");
+        public Criteria andOldCouponNoIn(List<String> values) {
+            addCriterion("OLD_COUPON_NO in", values, "oldCouponNo");
             return (Criteria) this;
         }
 
-        public Criteria andRechargePriceNotIn(List<BigDecimal> values) {
-            addCriterion("RECHARGE_PRICE not in", values, "rechargePrice");
+        public Criteria andOldCouponNoNotIn(List<String> values) {
+            addCriterion("OLD_COUPON_NO not in", values, "oldCouponNo");
             return (Criteria) this;
         }
 
-        public Criteria andRechargePriceBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("RECHARGE_PRICE between", value1, value2, "rechargePrice");
+        public Criteria andOldCouponNoBetween(String value1, String value2) {
+            addCriterion("OLD_COUPON_NO between", value1, value2, "oldCouponNo");
             return (Criteria) this;
         }
 
-        public Criteria andRechargePriceNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("RECHARGE_PRICE not between", value1, value2, "rechargePrice");
+        public Criteria andOldCouponNoNotBetween(String value1, String value2) {
+            addCriterion("OLD_COUPON_NO not between", value1, value2, "oldCouponNo");
             return (Criteria) this;
         }
 
-        public Criteria andRechargeDateIsNull() {
-            addCriterion("RECHARGE_DATE is null");
+        public Criteria andNewCouponIdIsNull() {
+            addCriterion("NEW_COUPON_ID is null");
             return (Criteria) this;
         }
 
-        public Criteria andRechargeDateIsNotNull() {
-            addCriterion("RECHARGE_DATE is not null");
+        public Criteria andNewCouponIdIsNotNull() {
+            addCriterion("NEW_COUPON_ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRechargeDateEqualTo(Date value) {
-            addCriterion("RECHARGE_DATE =", value, "rechargeDate");
+        public Criteria andNewCouponIdEqualTo(Integer value) {
+            addCriterion("NEW_COUPON_ID =", value, "newCouponId");
             return (Criteria) this;
         }
 
-        public Criteria andRechargeDateNotEqualTo(Date value) {
-            addCriterion("RECHARGE_DATE <>", value, "rechargeDate");
+        public Criteria andNewCouponIdNotEqualTo(Integer value) {
+            addCriterion("NEW_COUPON_ID <>", value, "newCouponId");
             return (Criteria) this;
         }
 
-        public Criteria andRechargeDateGreaterThan(Date value) {
-            addCriterion("RECHARGE_DATE >", value, "rechargeDate");
+        public Criteria andNewCouponIdGreaterThan(Integer value) {
+            addCriterion("NEW_COUPON_ID >", value, "newCouponId");
             return (Criteria) this;
         }
 
-        public Criteria andRechargeDateGreaterThanOrEqualTo(Date value) {
-            addCriterion("RECHARGE_DATE >=", value, "rechargeDate");
+        public Criteria andNewCouponIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("NEW_COUPON_ID >=", value, "newCouponId");
             return (Criteria) this;
         }
 
-        public Criteria andRechargeDateLessThan(Date value) {
-            addCriterion("RECHARGE_DATE <", value, "rechargeDate");
+        public Criteria andNewCouponIdLessThan(Integer value) {
+            addCriterion("NEW_COUPON_ID <", value, "newCouponId");
             return (Criteria) this;
         }
 
-        public Criteria andRechargeDateLessThanOrEqualTo(Date value) {
-            addCriterion("RECHARGE_DATE <=", value, "rechargeDate");
+        public Criteria andNewCouponIdLessThanOrEqualTo(Integer value) {
+            addCriterion("NEW_COUPON_ID <=", value, "newCouponId");
             return (Criteria) this;
         }
 
-        public Criteria andRechargeDateIn(List<Date> values) {
-            addCriterion("RECHARGE_DATE in", values, "rechargeDate");
+        public Criteria andNewCouponIdIn(List<Integer> values) {
+            addCriterion("NEW_COUPON_ID in", values, "newCouponId");
             return (Criteria) this;
         }
 
-        public Criteria andRechargeDateNotIn(List<Date> values) {
-            addCriterion("RECHARGE_DATE not in", values, "rechargeDate");
+        public Criteria andNewCouponIdNotIn(List<Integer> values) {
+            addCriterion("NEW_COUPON_ID not in", values, "newCouponId");
             return (Criteria) this;
         }
 
-        public Criteria andRechargeDateBetween(Date value1, Date value2) {
-            addCriterion("RECHARGE_DATE between", value1, value2, "rechargeDate");
+        public Criteria andNewCouponIdBetween(Integer value1, Integer value2) {
+            addCriterion("NEW_COUPON_ID between", value1, value2, "newCouponId");
             return (Criteria) this;
         }
 
-        public Criteria andRechargeDateNotBetween(Date value1, Date value2) {
-            addCriterion("RECHARGE_DATE not between", value1, value2, "rechargeDate");
+        public Criteria andNewCouponIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("NEW_COUPON_ID not between", value1, value2, "newCouponId");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewCouponNoIsNull() {
+            addCriterion("NEW_COUPON_NO is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewCouponNoIsNotNull() {
+            addCriterion("NEW_COUPON_NO is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewCouponNoEqualTo(String value) {
+            addCriterion("NEW_COUPON_NO =", value, "newCouponNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewCouponNoNotEqualTo(String value) {
+            addCriterion("NEW_COUPON_NO <>", value, "newCouponNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewCouponNoGreaterThan(String value) {
+            addCriterion("NEW_COUPON_NO >", value, "newCouponNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewCouponNoGreaterThanOrEqualTo(String value) {
+            addCriterion("NEW_COUPON_NO >=", value, "newCouponNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewCouponNoLessThan(String value) {
+            addCriterion("NEW_COUPON_NO <", value, "newCouponNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewCouponNoLessThanOrEqualTo(String value) {
+            addCriterion("NEW_COUPON_NO <=", value, "newCouponNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewCouponNoLike(String value) {
+            addCriterion("NEW_COUPON_NO like", value, "newCouponNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewCouponNoNotLike(String value) {
+            addCriterion("NEW_COUPON_NO not like", value, "newCouponNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewCouponNoIn(List<String> values) {
+            addCriterion("NEW_COUPON_NO in", values, "newCouponNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewCouponNoNotIn(List<String> values) {
+            addCriterion("NEW_COUPON_NO not in", values, "newCouponNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewCouponNoBetween(String value1, String value2) {
+            addCriterion("NEW_COUPON_NO between", value1, value2, "newCouponNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewCouponNoNotBetween(String value1, String value2) {
+            addCriterion("NEW_COUPON_NO not between", value1, value2, "newCouponNo");
             return (Criteria) this;
         }
 
