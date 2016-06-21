@@ -1,0 +1,169 @@
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget" id="wid-id-4">
+				<!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2>办新卡</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- end widget edit box -->
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+                      <form class="form-horizontal">
+                      </form>
+                        <form class="form-horizontal" ug-validate="pickCardForm" name="pickCardFormName" novalidate="">
+                            <fieldset class="demo-switcher-1">
+                                <legend>工作区</legend>
+                            </fieldset>
+                            <fieldset class="demo-switcher-1">
+                                <button class="btn btn-primary" data-ng-click="readCard()">
+                                    <i class="fa fa-download"></i>
+                                    读卡
+                                </button>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">新卡卡号<span class="vaild">*</span></label>
+                                    <div class="col-md-6">
+                                        <input class="form-control"required=""  readonly   data-rule-number="true" ng-model="member.newCouponNo" id="newCouponNo" name="newCouponNo" placeholder="新卡卡号" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">新卡密码<span class="vaild">*</span></label>
+                                    <div class="col-md-6">
+                                        <input class="form-control"required="" readonly   data-rule-number="true" ng-model="member.newPassword" id="newPassword" name="newPassword" placeholder="新卡密码" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">充值金额<span class="vaild">*</span></label>
+                                    <div class="col-md-6">
+                                        <input class="form-control"required=""  data-rule-number="true" ng-model="member.userPrice" id="userPrice" name="userPrice" placeholder="充值金额" type="text">
+                                    </div>
+                                </div>
+                            </fieldset>
+                             <fieldset>
+                                 <legend>客户信息</legend>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">客户姓名<span class="vaild">*</span></label>
+                                    <div class="col-md-4">
+                                        <input class="form-control" required="true" data-rule-minlength="2" data-rule-maxlength="20" ng-model="member.name" name="name" placeholder="客户姓名" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">公司/单位<span class="vaild">*</span></label>
+                                    <div class="col-md-4">
+                                        <select ug-select2   style="width: 100%;" required="true" ng-model="member.cdCompanyId" name="company"  ng-change="changeCompany(member.cdCompanyId)">
+                                            <option value="">--请选择--</option>
+                                            <option value="{{company.id}}" ng-repeat="company in companyList">{{company.companyName}}</option>
+                                        </select>
+                                    </div>
+                                    <label class="col-md-2 control-label">客户经理<span class="vaild">*</span></label>
+                                    <div class="col-md-4">
+                                        <select ug-select2  style="width: 100%;" required="true" ng-model="member.cdUserId" name="customerManager" >
+                                            <option value="">--请选择--</option>
+                                            <option value="{{customerManager.customerMangerId}}" ng-repeat="customerManager in companyCustomerManagers">{{customerManager.customerManger}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">收货人</label>
+                                    <div class="col-md-4">
+                                        <!--<input class="form-control" required="true" ng-model="" name="" placeholder="收货人" type="text">-->
+                                        {{member.name}}
+                                    </div>
+                                    <label class="col-md-2 control-label">手机号<span class="vaild">*</span></label>
+                                    <div class="col-md-4">
+                                        <input class="form-control" required="true" ng-model="member.phoneNumber" name="phoneNumber" data-rule-telephone="true" placeholder="手机号"  type="text">
+                                    </div>
+                                </div>
+                                 <div class="form-group">
+                                     <label class="col-md-2 control-label">收货地址<span class="vaild">*</span></label>
+                                     <div class="col-md-10">
+                                         <input class="form-control" required="true" ng-model="member.address" name="address" placeholder="收货地址" type="text">
+                                     </div>
+                                 </div>
+                                 <div class="form-group">
+                                     <label class="col-md-2 control-label">家庭固话</label>
+                                     <div class="col-md-4">
+                                         <input class="form-control" ng-model="member.telNumber" name="telNumber" placeholder="家庭固话" type="text">
+                                     </div>
+                                     <label class="col-md-2 control-label">办公室电话</label>
+                                     <div class="col-md-4">
+                                         <input class="form-control" ng-model="member.officeTel" name="officeTel" placeholder="办公室电话" type="text">
+                                     </div>
+                                 </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">收货人</label>
+                                    <div class="col-md-4">
+                                        <input class="form-control" ng-model="member.spareName" name="spareName" placeholder="备用收货人" type="text">
+                                    </div>
+                                    <label class="col-md-2 control-label">手机号</label>
+                                    <div class="col-md-4">
+                                        <input class="form-control" ng-model="member.spareTel" name="spareTel" placeholder="备用手机号" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">收货地址</label>
+                                    <div class="col-md-10">
+                                        <input class="form-control" ng-model="member.spareAddress" name="spareAddress" placeholder="备用收货地址" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">收货人</label>
+                                    <div class="col-md-4">
+                                        <input class="form-control" ng-model="member.spareName2" name="spareName2" placeholder="备用收货人" type="text">
+                                    </div>
+                                    <label class="col-md-2 control-label">手机号</label>
+                                    <div class="col-md-4">
+                                        <input class="form-control" ng-model="member.spareTel2" name="spareTel2"  placeholder="备用手机号" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">备用地址</label>
+                                    <div class="col-md-10">
+                                        <input class="form-control"  ng-model="member.spareAddress2" name="spareAddress2" placeholder="备用收货地址" type="text">
+                                    </div>
+                                </div>
+                                <div class="widget-footer">
+                                    <button class="btn btn-primary" data-ng-click="pickCard()">
+                                        <i class="fa fa-save"></i>
+                                        办卡
+                                    </button>
+                                </div>
+                                </fieldset>
+                        </form>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- WIDGET END -->
+	</div>
+	<!-- end row -->
+</section>
+<!-- end widget grid -->
