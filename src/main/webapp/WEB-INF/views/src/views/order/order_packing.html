@@ -66,6 +66,7 @@
 									<th width="120">订单编号</th>
 									<th>创建时间</th>
 									<th>订单状态</th>
+									<th>任务状态</th>
 									<th width="80">操作</th>
 								</tr>
 								</thead>
@@ -77,6 +78,7 @@
 									<td ng-bind="order.orderNo"></td>
 									<td ng-bind="order.createTime | date: 'yyyy-MM-dd hh:mm:ss'"></td>
 									<td ng-bind="order.orderStatusDesc"></td>
+									<td ng-bind="order.packingTaskStatusDesc"></td>
 									<td>
 										<div >
 											<a href="javascript:void(0);" ng-if="choseOrder.id==order.id" data-ng-click="choseOrderPacking($index)">
@@ -147,11 +149,9 @@
 						</div>
 						<div class="dt-toolbar">
 							<div class="col-sm-12">
-								<div class="dataTables_filter">
-									<label>
-										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-										<input type="search" placeholder="装箱记录编号/手机号码/收货人" data-ng-keyup="getPackingOrderItemList()" ng-model="queryParam.packingOrderKeyword" class="form-control" aria-controls="dt_basic"></label>
-								</div>
+								<label>
+									<input type="search" placeholder="装箱记录编号/手机号码/收货人" data-ng-keyup="getPackingOrderItemList()" ng-model="queryParam.packingOrderKeyword" class="form-control" aria-controls="dt_basic">
+								</label>
 								<button class="btn btn-primary" type="button" data-ng-click="getPackingOrderItemList()">
 									<i class="fa fa-refresh"></i>
 									刷新
@@ -163,6 +163,10 @@
 								<button ng-if="choseOrder.currentPacking.packingNo" class="btn btn-primary" type="button" data-ng-click="changePacking()">
 									<i class="fa fa-refresh"></i>
 									换箱
+								</button>
+								<button ng-show="choseOrder.orderNo" class="btn btn-primary" type="button" data-ng-click="scanItem()">
+									<i class="fa fa-refresh"></i>
+									扫描
 								</button>
 							</div>
 							<!--<div class="col-sm-2">-->
@@ -197,11 +201,6 @@
 									<td ng-bind="packingOrderItem.packingStatusDesc"></td>
 									<td style="text-align: center" ng-bind="packingOrderItem.packedItemQty +'/' + packingOrderItem.itemQty"></td>
 									<td>
-										<div ng-hide="packingOrderItem.packedItemQty == packingOrderItem.itemQty">
-											<a href="javascript:void(0);" data-ng-click="scanItem(packingOrderItem.orderItemId)">
-												<span class="fa fa-inbox">扫描</span>
-											</a>
-										</div>
 									</td>
 								</tr>
 								<tr ng-if="packingOrderItemList == null || packingOrderItemList.length == 0">
@@ -293,7 +292,7 @@
 									<td>
 										<div ng-show="show">
 										<a href="javascript:void(0);" data-ng-click="removePacking($index)" title="删除">
-										<span class="fa fa-trash-o"></span>
+											<span class="fa fa-trash-o"></span>
 										</a>
 										</div>
 									</td>

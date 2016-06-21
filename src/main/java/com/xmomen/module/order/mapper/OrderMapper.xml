@@ -9,10 +9,10 @@
         ssp.SHOW_VALUE AS orderStatusDesc,
         paymentp.SHOW_VALUE AS paymentModeDesc,
         osp.SHOW_VALUE AS orderSourceDesc,
-        tor.REF_VALUE AS packingTaskUserId,
+        st.EXECUTOR_ID AS packingTaskUserId,
         u.realname AS packingTaskUsername,
-        CASE WHEN tor.REF_VALUE IS NOT NULL THEN 1 ELSE 0 END AS packingTaskStatus,
-        CASE WHEN tor.REF_VALUE IS NOT NULL THEN '已分配' ELSE '待分配' END AS packingTaskStatusDesc,
+        st.TASK_STATUS as packingTaskStatus,
+        stsdp.show_value as packingTaskStatusDesc,
         tb.*
         FROM
         tb_order tb
@@ -29,7 +29,10 @@
         left join sys_dictionary_parameter osp on osp.SYS_DICTIONARY_ID=oss.ID and tb.ORDER_SOURCE = osp.REAL_VALUE
 
         LEFT JOIN tb_order_relation tor ON tor.ORDER_NO = tb.ORDER_NO AND tor.REF_TYPE = 'ORDER_PACKING_TASK_RELATION'
-        LEFT JOIN sys_users u ON u.id = tor.ref_value
+        LEFT JOIN sys_task st on st.ID= tor.REF_VALUE
+        LEFT JOIN sys_users u ON u.id = st.EXECUTOR_ID
+        LEFT JOIN sys_dictionary stsd on stsd.DICTIONARY_CODE='JOB_STATUS'
+        left join sys_dictionary_parameter stsdp on stsdp.SYS_DICTIONARY_ID=stsd.ID and st.TASK_STATUS = stsdp.REAL_VALUE
         <where>
             <if test="orderStatus">
                   AND tb.order_status = #{orderStatus}
@@ -40,10 +43,10 @@
                 or tb.consignee_name like CONCAT('%', #{keyword}, '%')
             </if>
             <if test="id">
-                  AND tb.id = #{id}
+                AND tb.id = #{id}
             </if>
             <if test="packingTaskUserId">
-                AND tor.REF_VALUE = #{packingTaskUserId}
+                AND st.EXECUTOR_ID = #{packingTaskUserId}
             </if>
           </where>
     </select>
@@ -164,6 +167,9 @@
             <if test="orderId">
                 AND o.id = #{orderId}
             </if>
+            <if test="orderNo">
+                AND o.ORDER_NO = #{orderNo}
+            </if>
             <if test="orderItemId">
                 AND oi.id = #{orderItemId}
             </if>
@@ -193,5 +199,80 @@
                AND pr.UPC LIKE CONCAT('%', #{keyword}, '%') OR oi.ITEM_NAME LIKE CONCAT('%', #{keyword}, '%')
             </if>
         </where>
+    </select>
+
+    <select id="countPackingTask" resultType="com.xmomen.module.order.model.PackingTaskCount" parameterType="java.util.HashMap">
+    <![CDATA[
+         select t.actorId,
+                t.actorName,
+                MAX(CASE WHEN t.type = 'TOTAL' then t.number else 0 END) as totalCount,
+                MAX(CASE WHEN t.type = 'READY' then t.number else 0 END) as readyCount,
+                MAX(CASE WHEN t.type = 'EXECUTING' then t.number else 0 END) as executingCount,
+                MAX(CASE WHEN t.type = 'FINISHED' then t.number else 0 END) as finishedCount
+                from (
+                -- 待操作
+                SELECT
+                    su.id AS actorId,
+                    su.realName AS actorName,
+                    'TOTAL' as type,
+                    count(st.id) as number
+                FROM
+                    sys_users su
+                LEFT JOIN sys_users_roles sur ON sur.USER_ID = su.ID
+                LEFT JOIN sys_roles sr ON sr.id = sur.ROLE_ID
+                left join sys_task st on st.EXECUTOR_ID = su.id
+                 and st.TASK_STATUS IN (0,1,2)
+                WHERE
+                    sr.ROLE = #{roleType} group by su.id
+
+                UNION ALL
+                -- 待操作
+                SELECT
+                    su.id AS actorId,
+                    su.realName AS actorName,
+                    'READY' as type,
+                    count(st.id) as number
+                FROM
+                    sys_users su
+                LEFT JOIN sys_users_roles sur ON sur.USER_ID = su.ID
+                LEFT JOIN sys_roles sr ON sr.id = sur.ROLE_ID
+                left join sys_task st on st.EXECUTOR_ID = su.id
+                 and st.TASK_STATUS=0
+                WHERE
+                    sr.ROLE = #{roleType} group by su.id
+
+                union alL
+                    -- 操作中
+                SELECT
+                    su.id AS actorId,
+                    su.realName AS actorName,
+                    'EXECUTING' as type,
+                    count(st.id) as number
+                FROM
+                    sys_users su
+                LEFT JOIN sys_users_roles sur ON sur.USER_ID = su.ID
+                LEFT JOIN sys_roles sr ON sr.id = sur.ROLE_ID
+                left join sys_task st on st.EXECUTOR_ID = su.id
+                 and st.TASK_STATUS=1
+                WHERE
+                    sr.ROLE = #{roleType} group by su.id
+
+                union all
+                    -- 已完成
+                SELECT
+                    su.id AS actorId,
+                    su.realName AS actorName,
+                    'FINISHED' as type,
+                    count(st.id) as number
+                FROM
+                    sys_users su
+                LEFT JOIN sys_users_roles sur ON sur.USER_ID = su.ID
+                LEFT JOIN sys_roles sr ON sr.id = sur.ROLE_ID
+                left join sys_task st on st.EXECUTOR_ID = su.id
+                 and st.TASK_STATUS=2
+                WHERE
+                    sr.ROLE = #{roleType} group by su.id
+                    ) t group by actorId
+        ]]>
     </select>
 </mapper>

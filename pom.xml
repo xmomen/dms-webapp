@@ -42,6 +42,39 @@
         </pluginRepository>
     </pluginRepositories>
 
+    <!--<repositories>-->
+        <!--<repository>-->
+            <!--<id>public</id>-->
+            <!--<name>Public Repositories</name>-->
+            <!--<layout>default</layout>-->
+            <!--<url>http://192.168.8.200:8082/nexus/content/groups/public</url>-->
+            <!--<snapshots>-->
+                <!--<enabled>true</enabled>-->
+                <!--<updatePolicy>always</updatePolicy>-->
+            <!--</snapshots>-->
+            <!--<releases>-->
+                <!--<enabled>true</enabled>-->
+                <!--<updatePolicy>always</updatePolicy>-->
+            <!--</releases>-->
+        <!--</repository>-->
+    <!--</repositories>-->
+    <!--<pluginRepositories>-->
+        <!--<pluginRepository>-->
+            <!--<id>public</id>-->
+            <!--<name>Public Repositories</name>-->
+            <!--<url>http://192.168.8.200:8082/nexus/content/groups/public</url>-->
+            <!--<layout>default</layout>-->
+            <!--<snapshots>-->
+                <!--<enabled>true</enabled>-->
+                <!--<updatePolicy>always</updatePolicy>-->
+            <!--</snapshots>-->
+            <!--<releases>-->
+                <!--<enabled>true</enabled>-->
+                <!--<updatePolicy>always</updatePolicy>-->
+            <!--</releases>-->
+        <!--</pluginRepository>-->
+    <!--</pluginRepositories>-->
+
     <profiles>
         <profile>
             <id>dev</id>

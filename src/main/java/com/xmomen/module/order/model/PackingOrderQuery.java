@@ -11,6 +11,7 @@ public @Data
 class PackingOrderQuery implements Serializable {
 
     private Integer orderId;
+    private String orderNo;
     private Integer orderItemId;
     private String keyword;
 
