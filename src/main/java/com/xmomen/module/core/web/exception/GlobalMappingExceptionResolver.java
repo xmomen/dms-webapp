@@ -34,6 +34,7 @@ public class GlobalMappingExceptionResolver extends SimpleMappingExceptionResolv
         response.setCharacterEncoding("UTF-8");
         RestError restError = new RestError(ex, request);
         restError.setStatus(status);
+        restError.setMessage("系统异常，请联系管理员");
         try {
             response.getWriter().write(JSONObject.toJSONString(restError));
         } catch (IOException e) {

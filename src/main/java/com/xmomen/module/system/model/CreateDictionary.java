@@ -1,5 +1,6 @@
 package com.xmomen.module.system.model;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
