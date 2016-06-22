@@ -103,11 +103,11 @@
 												<span class="fa fa-eye">查看</span>
 											</a>
 										</div>
-										<!--<div ng-show="show">-->
-											<!--<a href="javascript:void(0);" data-ng-click="updateOrder($index)" title="编辑：{{order.orderDesc}}">-->
-												<!--<span class="fa fa-edit">编辑</span>-->
-											<!--</a>-->
-										<!--</div>-->
+										<div ng-show="show">
+											<a href="javascript:void(0);" ui-sref="order_update({id:order.id, orderNo:order.orderNo})" title="编辑：{{order.orderDesc}}">
+												<span class="fa fa-edit">编辑</span>
+											</a>
+										</div>
 									</td>
 								</tr>
 								<tr ng-if="orderList == null || orderList.length == 0">

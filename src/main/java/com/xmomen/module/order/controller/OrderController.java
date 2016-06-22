@@ -10,6 +10,7 @@ import com.xmomen.module.order.entity.TbOrderItem;
 import com.xmomen.module.order.model.CreateOrder;
 import com.xmomen.module.order.model.OrderModel;
 import com.xmomen.module.order.model.OrderQuery;
+import com.xmomen.module.order.model.UpdateOrder;
 import com.xmomen.module.order.service.OrderService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,25 @@ public class OrderController {
         Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("user_id");
         createOrder.setCreateUserId(userId);
         return orderService.createOrder(createOrder);
+    }
+
+    /**
+     * 更新订单
+     * @param updateOrder
+     * @param bindingResult
+     * @return
+     */
+    @RequestMapping(value = "/order/{id}", method = RequestMethod.PUT)
+    @Log(actionName = "新增订单")
+    public TbOrder createOrder(
+            @PathVariable(value = "id") Integer id,
+            @RequestBody @Valid UpdateOrder updateOrder, BindingResult bindingResult) throws ArgumentValidException {
+        if(bindingResult != null && bindingResult.hasErrors()){
+            throw new ArgumentValidException(bindingResult);
+        }
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("user_id");
+        updateOrder.setCreateUserId(userId);
+        return orderService.updateOrder(updateOrder);
     }
 
     /**

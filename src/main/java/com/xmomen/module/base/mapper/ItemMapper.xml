@@ -33,12 +33,18 @@
                     #{listItem}
                   </foreach>
               </if>
-            <if test="ids">
-                AND cm.id IN
-                <foreach collection="ids" item="listItem" open="(" close=")" separator="," >
+              <if test="ids">
+                  AND cm.id IN
+                  <foreach collection="ids" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
-                </foreach>
-            </if>
+                  </foreach>
+              </if>
+              <if test="itemCodes">
+                  AND cm.item_code IN
+                  <foreach collection="itemCodes" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+              </if>
               <if test="sellStatus">
               		AND cm.sell_status = #{sellStatus}
               </if>

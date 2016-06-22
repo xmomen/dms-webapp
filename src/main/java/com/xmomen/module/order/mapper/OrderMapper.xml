@@ -5,6 +5,7 @@
     <!--    查询订单    -->
     <select id="getOrderList" resultType="com.xmomen.module.order.model.OrderModel" parameterType="com.xmomen.module.order.model.OrderQuery">
         SELECT
+        torp.REF_VALUE as couponNumber,
         sp.SHOW_VALUE AS orderTypeDesc,
         ssp.SHOW_VALUE AS orderStatusDesc,
         paymentp.SHOW_VALUE AS paymentModeDesc,
@@ -29,6 +30,7 @@
         left join sys_dictionary_parameter osp on osp.SYS_DICTIONARY_ID=oss.ID and tb.ORDER_SOURCE = osp.REAL_VALUE
 
         LEFT JOIN tb_order_relation tor ON tor.ORDER_NO = tb.ORDER_NO AND tor.REF_TYPE = 'ORDER_PACKING_TASK_RELATION'
+        LEFT JOIN tb_order_relation torp ON torp.ORDER_NO = tb.ORDER_NO AND torp.REF_TYPE = 'ORDER_PAY_RELATION'
         LEFT JOIN sys_task st on st.ID= tor.REF_VALUE
         LEFT JOIN sys_users u ON u.id = st.EXECUTOR_ID
         LEFT JOIN sys_dictionary stsd on stsd.DICTIONARY_CODE='JOB_STATUS'

@@ -8,14 +8,9 @@ import com.xmomen.module.base.entity.CdCouponExample;
 import com.xmomen.module.base.model.ItemModel;
 import com.xmomen.module.base.model.ItemQuery;
 import com.xmomen.module.base.service.ItemService;
-import com.xmomen.module.order.entity.TbOrder;
-import com.xmomen.module.order.entity.TbOrderItem;
-import com.xmomen.module.order.entity.TbOrderRelation;
+import com.xmomen.module.order.entity.*;
 import com.xmomen.module.order.mapper.OrderMapper;
-import com.xmomen.module.order.model.CreateOrder;
-import com.xmomen.module.order.model.OrderModel;
-import com.xmomen.module.order.model.OrderQuery;
-import com.xmomen.module.order.model.PayOrder;
+import com.xmomen.module.order.model.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,7 +75,7 @@ public class OrderService {
                     TbOrderItem tbOrderItem = new TbOrderItem();
                     tbOrderItem.setOrderNo(orderNo);
                     tbOrderItem.setItemCode(cdItem.getItemCode());
-                    tbOrderItem.setItemId(cdItem.getId());
+//                    tbOrderItem.setItemId(cdItem.getId());
                     tbOrderItem.setItemName(cdItem.getItemName());
                     tbOrderItem.setItemQty(orderItem.getItemQty());
                     tbOrderItem.setItemUnit(cdItem.getPricingManner());
@@ -119,9 +114,85 @@ public class OrderService {
             tbOrderRelation.setRefValue(createOrder.getPaymentRelationNo());
             mybatisDao.insert(tbOrderRelation);
         }
-        PayOrder payOrder = new PayOrder();
-        payOrder.setOrderNo(tbOrder.getOrderNo());
-        payOrder(payOrder);
+//        PayOrder payOrder = new PayOrder();
+//        payOrder.setOrderNo(tbOrder.getOrderNo());
+//        payOrder(payOrder);
+        return tbOrder;
+    }
+
+    /**
+     * 更新订单
+     * @param updateOrder
+     * @return
+     */
+    @Transactional
+    public TbOrder updateOrder(UpdateOrder updateOrder){
+        String orderNo = updateOrder.getOrderNo();
+        List<String> itemCodeList = new ArrayList<String>();
+        for (UpdateOrder.OrderItem orderItem : updateOrder.getOrderItemList()) {
+            itemCodeList.add(orderItem.getItemCode());
+        }
+        ItemQuery itemQuery = new ItemQuery();
+        String[] array = new String[itemCodeList.size()];
+        itemQuery.setItemCodes(itemCodeList.toArray(array));
+        itemQuery.setCompanyId(updateOrder.getCompanyId());
+        List<ItemModel> itemList = itemService.queryItemList(itemQuery);
+        BigDecimal totalAmount = BigDecimal.ZERO;
+        TbOrderItemExample tbOrderItemExample = new TbOrderItemExample();
+        tbOrderItemExample.createCriteria().andOrderNoEqualTo(orderNo);
+        mybatisDao.deleteByExample(tbOrderItemExample);
+        for (ItemModel cdItem : itemList) {
+            for (UpdateOrder.OrderItem orderItem : updateOrder.getOrderItemList()) {
+                if(cdItem.getId().equals(orderItem.getOrderItemId())){
+                    TbOrderItem tbOrderItem = new TbOrderItem();
+                    //tbOrderItem.setId(orderItem.getId());
+                    tbOrderItem.setOrderNo(orderNo);
+                    tbOrderItem.setItemCode(cdItem.getItemCode());
+                    tbOrderItem.setItemId(cdItem.getId());
+                    tbOrderItem.setItemName(cdItem.getItemName());
+                    tbOrderItem.setItemQty(orderItem.getItemQty());
+                    tbOrderItem.setItemUnit(cdItem.getSpec());
+                    if(cdItem.getDiscountPrice() != null){
+                        tbOrderItem.setItemPrice(cdItem.getDiscountPrice());
+                    }else{
+                        tbOrderItem.setItemPrice(cdItem.getSellPrice());
+                    }
+                    totalAmount = totalAmount.add(tbOrderItem.getItemPrice().multiply(orderItem.getItemQty()));
+                    mybatisDao.save(tbOrderItem);
+                }
+            }
+        }
+        TbOrder tbOrder = new TbOrder();
+        tbOrder.setId(updateOrder.getId());
+        //tbOrder.setOrderStatus("1");// 订单新建
+        tbOrder.setTransportMode(1);// 默认快递
+        tbOrder.setConsigneeName(updateOrder.getConsigneeName());
+        tbOrder.setConsigneeAddress(updateOrder.getConsigneeAddress());
+        tbOrder.setConsigneePhone(updateOrder.getConsigneePhone());
+        //tbOrder.setCreateTime(mybatisDao.getSysdate());
+        tbOrder.setOrderSource(updateOrder.getOrderSource());
+        tbOrder.setPaymentMode(updateOrder.getPaymentMode());
+        tbOrder.setMemberCode(updateOrder.getMemberCode());
+        tbOrder.setRemark(updateOrder.getRemark());
+        tbOrder.setOrderType(updateOrder.getOrderType());
+        //tbOrder.setOrderNo(orderNo);
+        tbOrder.setOrderSource(updateOrder.getOrderSource());
+        //tbOrder.setCreateUserId(updateOrder.getCreateUserId());
+        tbOrder.setTotalAmount(totalAmount);
+        tbOrder.setAppointmentTime(updateOrder.getAppointmentTime());
+        mybatisDao.update(tbOrder);
+        if(StringUtils.trimToNull(updateOrder.getPaymentRelationNo()) != null){
+            TbOrderRelationExample tbOrderRelationExample = new TbOrderRelationExample();
+            tbOrderRelationExample.createCriteria()
+                    .andOrderNoEqualTo(orderNo)
+                    .andRefTypeEqualTo(OrderMapper.ORDER_PAY_RELATION_CODE);
+            TbOrderRelation tbOrderRelation = new TbOrderRelation();
+            tbOrderRelation.setRefValue(updateOrder.getPaymentRelationNo());
+            mybatisDao.updateOneByExampleSelective(tbOrderRelation, tbOrderRelationExample);
+        }
+//        PayOrder payOrder = new PayOrder();
+//        payOrder.setOrderNo(tbOrder.getOrderNo());
+//        payOrder(payOrder);
         return tbOrder;
     }
 

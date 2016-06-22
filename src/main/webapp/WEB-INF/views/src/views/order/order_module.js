@@ -4,11 +4,12 @@
 define([
     "views/order/order",
     "views/order/order_create",
+    "views/order/order_update",
     "views/order/purchase",
     "views/order/packing",
     "views/order/order_packing",
     "views/order/packing_task"
-],function (order, order_create, purchase, packing, order_packing, packing_task) {
+],function (order, order_create,order_update, purchase, packing, order_packing, packing_task) {
     angular.module('DMS.order', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -29,6 +30,19 @@ define([
                 url: '/order/create',
                 templateUrl: 'views/order/order_create.html',
                 controller:order_create,
+                data:{
+                    permissions:{
+                        only:["USER_VIEW"],
+                        redirectTo:"unauthorized"
+                    }
+                }
+            })
+
+            .state('order_update', {
+                url: '/order/:id/update/:orderNo',
+                templateUrl: 'views/order/order_update.html',
+                controller:order_update,
+                //params:{order:{}},
                 data:{
                     permissions:{
                         only:["USER_VIEW"],

@@ -120,4 +120,14 @@ class OrderModel implements Serializable {
      */
     private Integer createUserId;
 
+    /**
+     * 配送时间
+     */
+    private Date appointmentTime;
+
+    /**
+     * 支付卡（券）号
+     */
+    private String couponNumber;
+
 }

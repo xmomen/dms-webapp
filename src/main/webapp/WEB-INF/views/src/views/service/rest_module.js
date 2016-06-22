@@ -254,6 +254,7 @@ define(function () {
     ngREST.factory("OrderAPI", ["$resource", function($resource){
         return $resource("/order/:id", { id:"@id"}, {
             query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}},
             getItemList:{
                 method:"GET",
                 url:"/order/:id/item",
