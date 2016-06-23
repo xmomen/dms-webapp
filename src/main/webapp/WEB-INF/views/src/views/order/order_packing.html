@@ -150,7 +150,7 @@
 						<div class="dt-toolbar">
 							<div class="col-sm-12">
 								<label>
-									<input type="search" placeholder="装箱记录编号/手机号码/收货人" data-ng-keyup="getPackingOrderItemList()" ng-model="queryParam.packingOrderKeyword" class="form-control" aria-controls="dt_basic">
+									<input type="search" placeholder="装箱记录编号/收货人" data-ng-keyup="getPackingOrderItemList()" ng-model="queryParam.packingOrderKeyword" class="form-control" aria-controls="dt_basic">
 								</label>
 								<button class="btn btn-primary" type="button" data-ng-click="getPackingOrderItemList()">
 									<i class="fa fa-refresh"></i>
@@ -164,20 +164,27 @@
 									<i class="fa fa-refresh"></i>
 									换箱
 								</button>
-								<button ng-show="choseOrder.orderNo" class="btn btn-primary" type="button" data-ng-click="scanItem()">
-									<i class="fa fa-refresh"></i>
-									扫描
-								</button>
 							</div>
-							<!--<div class="col-sm-2">-->
-								<!-- -->
-							<!--</div>-->
-							<!--<div class="col-sm-2">-->
-								<!-- -->
-							<!--</div>-->
-							<!--<div class="col-sm-2" >-->
-								<!-- -->
-							<!--</div>-->
+							<div class="col-sm-12" ng-show="choseOrder.currentPacking.packingNo" >
+								<form ug-validate="scanItemForm" name="scanItemForm2" novalidate="">
+								<div class="input-group">
+									<input class="form-control" type="text" ng-model="item.upc" placeholder="商品UPC">
+									<div class="input-group-btn">
+										<button class="btn btn-default btn-primary" data-ng-click="scanItem()" type="button">
+											<i class="fa fa-search"></i> 扫描
+										</button>
+									</div>
+
+								</div>
+								</form>
+							</div>
+							<div class="col-sm-12" ng-show="errors" >
+								<div class="form-group">
+									<div class="col-md-12 error">
+										{{errors.message}}
+									</div>
+								</div>
+							</div>
 						</div>
 						<div class="table-responsive">
 							<table class="table table-condensed table-hover smart-form has-tickbox">
@@ -261,7 +268,6 @@
 							<div class="col-sm-4">
 								<div class="dataTables_filter">
 									<label>
-										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
 										<input type="search" placeholder="UPC" data-ng-keyup="getPackingRecordList()" ng-model="queryParam.packingRecordKeyword" class="form-control" aria-controls="dt_basic"></label>
 								</div>
 							</div>
@@ -328,41 +334,41 @@
 <!-- end widget grid -->
 
 
-<script type="text/ng-template" id="scanItem.html">
-	<div class="modal-header">
-		<h3 class="modal-title">扫描商品</h3>
-	</div>
-	<div class="modal-body">
-		<div class="widget-body">
+<!--<script type="text/ng-template" id="scanItem.html">-->
+	<!--<div class="modal-header">-->
+		<!--<h3 class="modal-title">扫描商品</h3>-->
+	<!--</div>-->
+	<!--<div class="modal-body">-->
+		<!--<div class="widget-body">-->
 
-			<form class="form-horizontal" ug-validate="scanItemForm" name="scanItemForm" novalidate="">
+			<!--<form class="form-horizontal" ug-validate="scanItemForm" name="scanItemForm" novalidate="">-->
 
-				<fieldset>
+				<!--<fieldset>-->
 
-					<div class="form-group">
-						<label class="col-md-2 control-label">商品UPC</label>
-						<div class="col-md-10 input-group">
-							<input ng-model="item.id" name="id" type="hidden">
-							<input ng-model="item.orderItemId" name="orderItemId" type="hidden">
-							<input class="form-control"  ng-model="item.upc" name="upc" placeholder="商品UPC" type="text">
-						</div>
-					</div>
+					<!--<div class="form-group">-->
+						<!--<label class="col-md-2 control-label">商品UPC</label>-->
+						<!--<div class="col-md-10 input-group">-->
+							<!--<input ng-model="item.id" name="id" type="hidden">-->
+							<!--<input ng-model="item.orderItemId" name="orderItemId" type="hidden">-->
+							<!--<input class="form-control"  ng-model="item.upc" name="upc" placeholder="商品UPC" type="text">-->
+						<!--</div>-->
+					<!--</div>-->
 
-					<div class="form-group" ng-if="errors">
-						<label class="col-md-2 control-label"></label>
-						<div class="col-md-10 error">
-							{{errors.message}}
-						</div>
-					</div>
-				</fieldset>
-			</form>
-		</div>
-	</div>
-	<div class="modal-footer">
-		<button class="btn btn-primary" type="submit" data-ng-click="saveScanItem()">
-			<i class="fa fa-save"></i>
-			保存
-		</button>
-		<button class="btn btn-warning" ng-click="cancel()">关闭</button>
-	</div>
-</script>
+					<!--<div class="form-group" ng-if="errors">-->
+						<!--<label class="col-md-2 control-label"></label>-->
+						<!--<div class="col-md-10 error">-->
+							<!--{{errors.message}}-->
+						<!--</div>-->
+					<!--</div>-->
+				<!--</fieldset>-->
+			<!--</form>-->
+		<!--</div>-->
+	<!--</div>-->
+	<!--<div class="modal-footer">-->
+		<!--<button class="btn btn-primary" type="submit" data-ng-click="saveScanItem()">-->
+			<!--<i class="fa fa-save"></i>-->
+			<!--保存-->
+		<!--</button>-->
+		<!--<button class="btn btn-warning" ng-click="cancel()">关闭</button>-->
+	<!--</div>-->
+<!--</script>-->

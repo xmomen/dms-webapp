@@ -114,9 +114,9 @@ public class OrderService {
             tbOrderRelation.setRefValue(createOrder.getPaymentRelationNo());
             mybatisDao.insert(tbOrderRelation);
         }
-//        PayOrder payOrder = new PayOrder();
-//        payOrder.setOrderNo(tbOrder.getOrderNo());
-//        payOrder(payOrder);
+        PayOrder payOrder = new PayOrder();
+        payOrder.setOrderNo(tbOrder.getOrderNo());
+        payOrder(payOrder);
         return tbOrder;
     }
 

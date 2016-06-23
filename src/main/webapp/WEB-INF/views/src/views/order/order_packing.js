@@ -34,6 +34,7 @@ define(function () {
             $scope.choseOrder = $scope.orderList[index];
             $scope.getPackingOrderItemList();
             $scope.packingRecordList = [];
+            $scope.errors = null;
         };
         $scope.getPackingOrderItemList = function(){
             if($scope.choseOrder &&
@@ -89,49 +90,27 @@ define(function () {
                 $scope.choseOrder.currentPacking = data;
             })
         };
+        $scope.scanItemForm = {};
+        $scope.item = {};
         $scope.scanItem = function(){
             if(!$scope.choseOrder.currentPacking || !$scope.choseOrder.currentPacking.id){
                 $ugDialog.warn("请点击开始装箱")
                 return;
             }
-            var modalInstance = $modal.open({
-                templateUrl: 'scanItem.html',
-                resolve: {
-                    CurrentItem: function(){
-                        return {
-                            id:$scope.choseOrder.currentPacking.id,
-                            orderNo:$scope.choseOrder.orderNo
-                        };
-                    }
-                },
-                controller: ["$scope", "PackingAPI", "CurrentItem", "$modalInstance", function ($scope, PackingAPI, CurrentItem, $modalInstance) {
-                    $scope.item = {};
-                    if(CurrentItem){
-                        $scope.item.id = CurrentItem.id;
-                        $scope.item.orderNo = CurrentItem.orderNo;
-                    }
-                    $scope.errors = null;
-                    $scope.scanItemForm = {};
-                    $scope.saveScanItem = function(){
-                        $scope.errors = null;
-                        if($scope.scanItemForm.validator.form()){
-                            PackingAPI.scanItem($scope.item, function(){
-                                $modalInstance.close();
-                            }, function(data){
-                                $scope.errors = data.data;
-                            })
-                        }
-                    };
-                    $scope.cancel = function () {
-                        $modalInstance.dismiss('cancel');
-                    };
-                }]
-            });
-            modalInstance.result.then(function () {
-                $scope.getPackingOrderItemList();
-                $scope.getPackingRecordList();
-                $scope.getOrderList();
-            });
+            $scope.errors = null;
+            if($scope.scanItemForm.validator.form()){
+                PackingAPI.scanItem({
+                    id:$scope.choseOrder.currentPacking.id,
+                    orderNo:$scope.choseOrder.orderNo,
+                    upc:$scope.item.upc
+                }, function(){
+                    $scope.getPackingOrderItemList();
+                    $scope.getPackingRecordList();
+                    $scope.getOrderList();
+                }, function(data){
+                    $scope.errors = data.data;
+                })
+            }
         };
         $scope.choseOrderItem = function(index){
             $scope.choseOrder.choseOrderItem = $scope.packingOrderItemList[index];
