@@ -75,7 +75,7 @@ public class OrderService {
                     TbOrderItem tbOrderItem = new TbOrderItem();
                     tbOrderItem.setOrderNo(orderNo);
                     tbOrderItem.setItemCode(cdItem.getItemCode());
-//                    tbOrderItem.setItemId(cdItem.getId());
+                    tbOrderItem.setItemId(cdItem.getId());
                     tbOrderItem.setItemName(cdItem.getItemName());
                     tbOrderItem.setItemQty(orderItem.getItemQty());
                     tbOrderItem.setItemUnit(cdItem.getPricingManner());
@@ -91,6 +91,7 @@ public class OrderService {
         }
         TbOrder tbOrder = new TbOrder();
         tbOrder.setOrderStatus("1");// 订单新建
+        tbOrder.setPayStatus(0);//待支付
         tbOrder.setTransportMode(1);// 默认快递
         tbOrder.setConsigneeName(createOrder.getConsigneeName());
         tbOrder.setConsigneeAddress(createOrder.getConsigneeAddress());
@@ -114,9 +115,10 @@ public class OrderService {
             tbOrderRelation.setRefValue(createOrder.getPaymentRelationNo());
             mybatisDao.insert(tbOrderRelation);
         }
-//        PayOrder payOrder = new PayOrder();
-//        payOrder.setOrderNo(tbOrder.getOrderNo());
-//        payOrder(payOrder);
+        PayOrder payOrder = new PayOrder();
+        payOrder.setOrderNo(tbOrder.getOrderNo());
+        payOrder.setAmount(totalAmount);
+        payOrder(payOrder);
         return tbOrder;
     }
 
@@ -128,6 +130,9 @@ public class OrderService {
     @Transactional
     public TbOrder updateOrder(UpdateOrder updateOrder){
         String orderNo = updateOrder.getOrderNo();
+        TbOrder oldTbOrder = new TbOrder();
+        oldTbOrder.setOrderNo(updateOrder.getOrderNo());
+        oldTbOrder = mybatisDao.selectOneByModel(oldTbOrder);
         List<String> itemCodeList = new ArrayList<String>();
         for (UpdateOrder.OrderItem orderItem : updateOrder.getOrderItemList()) {
             itemCodeList.add(orderItem.getItemCode());
@@ -145,7 +150,6 @@ public class OrderService {
             for (UpdateOrder.OrderItem orderItem : updateOrder.getOrderItemList()) {
                 if(cdItem.getId().equals(orderItem.getOrderItemId())){
                     TbOrderItem tbOrderItem = new TbOrderItem();
-                    //tbOrderItem.setId(orderItem.getId());
                     tbOrderItem.setOrderNo(orderNo);
                     tbOrderItem.setItemCode(cdItem.getItemCode());
                     tbOrderItem.setItemId(cdItem.getId());
@@ -164,20 +168,16 @@ public class OrderService {
         }
         TbOrder tbOrder = new TbOrder();
         tbOrder.setId(updateOrder.getId());
-        //tbOrder.setOrderStatus("1");// 订单新建
         tbOrder.setTransportMode(1);// 默认快递
         tbOrder.setConsigneeName(updateOrder.getConsigneeName());
         tbOrder.setConsigneeAddress(updateOrder.getConsigneeAddress());
         tbOrder.setConsigneePhone(updateOrder.getConsigneePhone());
-        //tbOrder.setCreateTime(mybatisDao.getSysdate());
         tbOrder.setOrderSource(updateOrder.getOrderSource());
         tbOrder.setPaymentMode(updateOrder.getPaymentMode());
         tbOrder.setMemberCode(updateOrder.getMemberCode());
         tbOrder.setRemark(updateOrder.getRemark());
         tbOrder.setOrderType(updateOrder.getOrderType());
-        //tbOrder.setOrderNo(orderNo);
         tbOrder.setOrderSource(updateOrder.getOrderSource());
-        //tbOrder.setCreateUserId(updateOrder.getCreateUserId());
         tbOrder.setTotalAmount(totalAmount);
         tbOrder.setAppointmentTime(updateOrder.getAppointmentTime());
         mybatisDao.update(tbOrder);
@@ -190,9 +190,15 @@ public class OrderService {
             tbOrderRelation.setRefValue(updateOrder.getPaymentRelationNo());
             mybatisDao.updateOneByExampleSelective(tbOrderRelation, tbOrderRelationExample);
         }
-//        PayOrder payOrder = new PayOrder();
-//        payOrder.setOrderNo(tbOrder.getOrderNo());
-//        payOrder(payOrder);
+        RefundOrder refundOrder = new RefundOrder();
+        refundOrder.setOrderNo(oldTbOrder.getOrderNo());
+        refundOrder.setAmount(oldTbOrder.getTotalAmount());
+        refundOrder.setRemark("订单更新，金额变更");
+        refundOrder(refundOrder);
+        PayOrder payOrder = new PayOrder();
+        payOrder.setOrderNo(oldTbOrder.getOrderNo());
+        payOrder.setAmount(BigDecimal.valueOf(-1).multiply(oldTbOrder.getTotalAmount()));
+        payOrder(payOrder);
         return tbOrder;
     }
 
@@ -202,6 +208,24 @@ public class OrderService {
      */
     public void deleteOrder(Integer id){
         mybatisDao.deleteByPrimaryKey(TbOrder.class, id);
+    }
+
+    /**
+     * 订单退款／冲销
+     * @param refundOrder
+     */
+    public void refundOrder(RefundOrder refundOrder){
+        TbTradeRecord tbTradeRecord = new TbTradeRecord();
+        tbTradeRecord.setAmount(refundOrder.getAmount());
+        tbTradeRecord.setTradeNo(refundOrder.getOrderNo());
+        tbTradeRecord.setTradeType("REFUND");
+        tbTradeRecord.setCreateTime(mybatisDao.getSysdate());
+        mybatisDao.insert(tbTradeRecord);
+        TbOrderExample tbOrderExample = new TbOrderExample();
+        tbOrderExample.createCriteria().andOrderNoEqualTo(refundOrder.getOrderNo());
+        TbOrder tbOrder1 = new TbOrder();
+        tbOrder1.setPayStatus(0);//待支付
+        mybatisDao.updateOneByExampleSelective(tbOrder1, tbOrderExample);
     }
 
     /**
@@ -234,6 +258,12 @@ public class OrderService {
             CdCoupon updateCdCoupon = new CdCoupon();
             updateCdCoupon.setUserPrice(amount);
             mybatisDao.updateOneByExampleSelective(updateCdCoupon, cdCouponExample);
+            TbTradeRecord tbTradeRecord = new TbTradeRecord();
+            tbTradeRecord.setAmount(payOrder.getAmount());
+            tbTradeRecord.setCreateTime(mybatisDao.getSysdate());
+            tbTradeRecord.setTradeNo(payOrder.getOrderNo());
+            tbTradeRecord.setTradeType("CARD");
+            mybatisDao.insert(tbTradeRecord);
         }else if(tbOrder.getOrderType() == 2){
             Date now = mybatisDao.getSysdate();
             if(now.before(cdCoupon.getBeginTime())){
@@ -253,6 +283,18 @@ public class OrderService {
             CdCoupon updateCdCoupon = new CdCoupon();
             updateCdCoupon.setIsUsed(1);
             mybatisDao.updateOneByExampleSelective(updateCdCoupon, cdCouponExample);
+            TbTradeRecord tbTradeRecord = new TbTradeRecord();
+            tbTradeRecord.setAmount(payOrder.getAmount());
+            tbTradeRecord.setCreateTime(mybatisDao.getSysdate());
+            tbTradeRecord.setTradeNo(payOrder.getOrderNo());
+            tbTradeRecord.setTradeType("COUPON");
+            mybatisDao.insert(tbTradeRecord);
         }
+        TbOrderExample tbOrderExample = new TbOrderExample();
+        tbOrderExample.createCriteria().andOrderNoEqualTo(payOrder.getOrderNo());
+        TbOrder tbOrder1 = new TbOrder();
+        tbOrder1.setPayStatus(1);//已支付
+        mybatisDao.updateOneByExampleSelective(tbOrder1, tbOrderExample);
     }
+
 }

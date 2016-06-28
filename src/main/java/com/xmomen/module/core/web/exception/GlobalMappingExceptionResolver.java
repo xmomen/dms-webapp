@@ -25,16 +25,23 @@ public class GlobalMappingExceptionResolver extends SimpleMappingExceptionResolv
             return super.doResolveException(request, response, handler, ex);
         }
         ModelAndView mv = new ModelAndView();
-        //设置状态码
-        int status = HttpStatus.INTERNAL_SERVER_ERROR.value();
-        response.setStatus(status);
         //设置ContentType
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         //避免乱码
         response.setCharacterEncoding("UTF-8");
         RestError restError = new RestError(ex, request);
+        //设置状态码
+        int status = HttpStatus.INTERNAL_SERVER_ERROR.value();
+        String message = "";
+        if(ex instanceof IllegalArgumentException){
+            status = HttpStatus.BAD_REQUEST.value();
+            message = ex.getMessage();
+        }else{
+            message = "系统异常，请联系管理员";
+        }
+        response.setStatus(status);
         restError.setStatus(status);
-        restError.setMessage("系统异常，请联系管理员");
+        restError.setMessage(message);
         try {
             response.getWriter().write(JSONObject.toJSONString(restError));
         } catch (IOException e) {

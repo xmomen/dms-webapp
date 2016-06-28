@@ -6,12 +6,13 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * Created by Jeng on 2016/5/18.
+ * Created by tanxinzheng on 16/6/27.
  */
 public @Data
-class PayOrder implements Serializable {
+class RefundOrder implements Serializable{
 
     private String orderNo;
     private BigDecimal amount;
+    private String remark;
 
 }

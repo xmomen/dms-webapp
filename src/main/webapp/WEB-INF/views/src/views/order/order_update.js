@@ -43,9 +43,9 @@ define(function () {
                         $scope.getCouponByCouponNo();
                     }else if($scope.order.orderType == 2){
                         $scope.getCouponByJuanNo();
-                    }else if($scope.order.orderType == 3){
+                    }else if($scope.order.orderType == 0){
                         $scope.order.phone = $scope.order.consigneePhone;
-                        bindMember();
+                        $scope.queryMemberByPhoneNumber();
                     }
                 });
                 OrderAPI.getItemList({

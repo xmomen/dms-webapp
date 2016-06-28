@@ -24,13 +24,15 @@ define(function () {
                 $scope.totalItem = {};
                 $scope.order = {
                     discount : 100,
+                    orderSource:3,
                     appointmentTime : $scope.showTime(1)
                 };
             };
             $scope.order = {
                 orderType:1,
                 discount:100,
-                paymentMode:5
+                paymentMode:5,
+                orderSource:3
             };
             $scope.addOrderForm = {};
             $scope.errors = null;

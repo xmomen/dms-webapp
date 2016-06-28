@@ -58,7 +58,7 @@
 
     <!-- rememberMe管理器 -->
     <bean id="rememberMeManager"
-          class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+          class="com.xmomen.module.core.web.mgt.RememberMeManagerExt">
         <property name="cookie" ref="rememberMeCookie"/>
     </bean>
 

@@ -3,7 +3,6 @@ package com.xmomen.module.order.controller;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
-import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.logger.Log;
 import com.xmomen.module.order.entity.TbOrder;
 import com.xmomen.module.order.entity.TbOrderItem;
