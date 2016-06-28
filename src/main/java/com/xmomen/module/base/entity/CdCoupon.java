@@ -44,7 +44,7 @@ public class CdCoupon extends BaseMybatisModel {
     private BigDecimal userPrice;
 
     /**
-     * 0-未使用，1-已使用
+     * 0-未使用，1-已使用,2-已作废
      */
     private Integer isUsed;
 
@@ -64,6 +64,21 @@ public class CdCoupon extends BaseMybatisModel {
     private Integer isSend;
 
     /**
+     * 固定金额
+     */
+    private BigDecimal couponValue;
+
+    /**
+     * 所属单位
+     */
+    private Integer cdCompanyId;
+
+    /**
+     * 客服经理
+     */
+    private Integer cdUserId;
+
+    /**
      * 描述
      */
     private String couponDesc;
@@ -72,11 +87,6 @@ public class CdCoupon extends BaseMybatisModel {
      * 有效开始时间
      */
     private Date beginTime;
-
-    /**
-     * 固定金额
-     */
-    private BigDecimal couponValue;
 
     /**
      * 有效结束时间
@@ -240,6 +250,48 @@ public class CdCoupon extends BaseMybatisModel {
         addValidField("isSend");
     }
 
+    @Column(name = "COUPON_VALUE")
+    public BigDecimal getCouponValue() {
+        return couponValue;
+    }
+
+    public void setCouponValue(BigDecimal couponValue) {
+        this.couponValue = couponValue;
+        if(couponValue == null){
+              removeValidField("couponValue");
+              return;
+        }
+        addValidField("couponValue");
+    }
+
+    @Column(name = "CD_COMPANY_ID")
+    public Integer getCdCompanyId() {
+        return cdCompanyId;
+    }
+
+    public void setCdCompanyId(Integer cdCompanyId) {
+        this.cdCompanyId = cdCompanyId;
+        if(cdCompanyId == null){
+              removeValidField("cdCompanyId");
+              return;
+        }
+        addValidField("cdCompanyId");
+    }
+
+    @Column(name = "CD_USER_ID")
+    public Integer getCdUserId() {
+        return cdUserId;
+    }
+
+    public void setCdUserId(Integer cdUserId) {
+        this.cdUserId = cdUserId;
+        if(cdUserId == null){
+              removeValidField("cdUserId");
+              return;
+        }
+        addValidField("cdUserId");
+    }
+
     @Column(name = "COUPON_DESC")
     public String getCouponDesc() {
         return couponDesc;
@@ -266,20 +318,6 @@ public class CdCoupon extends BaseMybatisModel {
               return;
         }
         addValidField("beginTime");
-    }
-
-    @Column(name = "COUPON_VALUE")
-    public BigDecimal getCouponValue() {
-        return couponValue;
-    }
-
-    public void setCouponValue(BigDecimal couponValue) {
-        this.couponValue = couponValue;
-        if(couponValue == null){
-              removeValidField("couponValue");
-              return;
-        }
-        addValidField("couponValue");
     }
 
     @Column(name = "END_TIME")

@@ -16,10 +16,10 @@
 			<!-- Widget ID (each widget will need unique ID)-->
 			<div class="jarviswidget" id="wid-id-4">
 				<!-- widget options:
-                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-button="false">
 
                 data-widget-colorbutton="false"
-                data-widget-editbutton="false"
+                data-widget-button="false"
                 data-widget-togglebutton="false"
                 data-widget-deletebutton="false"
                 data-widget-fullscreenbutton="false"
@@ -34,11 +34,11 @@
 				</header>
 				<!-- widget div-->
 				<div>
-					<!-- widget edit box -->
-					<div class="jarviswidget-editbox">
-						<!-- This area used as dropdown edit box -->
+					<!-- widget  box -->
+					<div class="jarviswidget-box">
+						<!-- This area used as dropdown  box -->
 					</div>
-					<!-- end widget edit box -->
+					<!-- end widget  box -->
 					<!-- widget content -->
 					<div class="widget-body no-padding">
 						<div class="dt-toolbar">
@@ -114,7 +114,7 @@
 									<!--<td ng-bind="coupon.couponDesc"></td>-->
 									<td ng-bind="coupon.couponNumber"></td>
                                     <td ng-bind="coupon.batch"></td>
-									<td ng-show="coupon.isUseful == 0 && show"><input type="text" placeholder="金额(输入回车更新)" ng-blur="updateValue(coupon)"  ng-model="coupon.couponValue" class="form-control" aria-controls="dt_basic"></td>
+									<td ng-show="show"><input type="text" placeholder="金额(输入回车更新)" ng-blur="updateValue(coupon)"  ng-model="coupon.couponValue" class="form-control" aria-controls="dt_basic"></td>
                                     <td ng-show="!show">{{coupon.couponValue}}</td>
                                     <td ng-bind="coupon.companyName"></td>
                                     <td ng-bind="coupon.managerName"></td>

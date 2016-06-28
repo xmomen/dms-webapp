@@ -82,51 +82,30 @@ public class CouponService {
     	coupon.setIsSend(1);
     	coupon.setId(id);
     	coupon.setBatch(batch);
+    	coupon.setCdCompanyId(companyId);
+    	coupon.setCdUserId(customerMangerId);
     	mybatisDao.updateByModel(coupon);
-    	//先删除再添加
-    	CdCouponRefExample couponRefExample = new CdCouponRefExample();
-		couponRefExample.createCriteria().andCdCouponIdEqualTo(id)
-		.andRefTypeEqualTo("SEND_COMPANY");
-		mybatisDao.deleteByExample(couponRefExample);
-    	CdCouponRef couponRef = new CdCouponRef();
-    	couponRef.setCdCouponId(id);
-    	couponRef.setRefType("SEND_COMPANY");
-    	couponRef.setRefName("发放单位");
-    	couponRef.setRefValue(companyId+"");
-    	couponRef.setCouponNumber(couponNumber);
-    	mybatisDao.save(couponRef);
-    	//先删除再添加
-    	CdCouponRefExample couponRefCustomerExample = new CdCouponRefExample();
-    	couponRefCustomerExample.createCriteria().andCdCouponIdEqualTo(id)
-		.andRefTypeEqualTo("SEND_CUSTOMER");
-		mybatisDao.deleteByExample(couponRefCustomerExample);
-    	CdCouponRef couponCustomerRef = new CdCouponRef();
-    	couponCustomerRef.setCdCouponId(id);
-    	couponCustomerRef.setRefType("SEND_CUSTOMER");
-    	couponCustomerRef.setRefName("发放客户经理");
-    	couponCustomerRef.setRefValue(customerMangerId+"");
-    	couponCustomerRef.setCouponNumber(couponNumber);
-    	mybatisDao.save(couponCustomerRef);
     }
-    
+    /**
+     * 退卡
+     * @param id
+     */
     @Transactional
     public void returnCoupon(Integer id){
-    	//先删除再添加
-    	CdCouponRefExample couponRefExample = new CdCouponRefExample();
-		couponRefExample.createCriteria().andCdCouponIdEqualTo(id)
-		.andRefTypeEqualTo("SEND_COMPANY");
-		mybatisDao.deleteByExample(couponRefExample);	
-		CdCouponRefExample couponRefCustomerExample = new CdCouponRefExample();
-    	couponRefCustomerExample.createCriteria().andCdCouponIdEqualTo(id)
-		.andRefTypeEqualTo("SEND_CUSTOMER");
-		mybatisDao.deleteByExample(couponRefCustomerExample);
 		//更新卡券为未发送
     	CdCoupon coupon = new CdCoupon();
     	coupon.setIsSend(0);
     	coupon.setId(id);
+    	coupon.setCdCompanyId(null);
+    	coupon.setCdUserId(null);
     	mybatisDao.updateByModel(coupon);
     }
     
+    /**
+     * 卡充值
+     * @param couponNo
+     * @param rechargePrice
+     */
     @Transactional
     public void cardRecharge(String couponNo,BigDecimal rechargePrice){
     	CdCoupon coupon = new CdCoupon();
@@ -150,6 +129,13 @@ public class CouponService {
 		mybatisDao.save(rechargeLog);
     }
     
+    /**
+     * 换卡
+     * @param oldCouponNo
+     * @param oldPassword
+     * @param newCouponNo
+     * @param newPassword
+     */
     public void exchangeCard(String oldCouponNo,String oldPassword,String newCouponNo,String newPassword){
     	CdCoupon oldCoupon = new CdCoupon();
     	oldCoupon.setCouponNumber(oldCouponNo);
