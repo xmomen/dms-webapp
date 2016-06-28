@@ -627,6 +627,66 @@ public class TbOrderExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
+        public Criteria andPayStatusIsNull() {
+            addCriterion("PAY_STATUS is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusIsNotNull() {
+            addCriterion("PAY_STATUS is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusEqualTo(Integer value) {
+            addCriterion("PAY_STATUS =", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusNotEqualTo(Integer value) {
+            addCriterion("PAY_STATUS <>", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusGreaterThan(Integer value) {
+            addCriterion("PAY_STATUS >", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("PAY_STATUS >=", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusLessThan(Integer value) {
+            addCriterion("PAY_STATUS <", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("PAY_STATUS <=", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusIn(List<Integer> values) {
+            addCriterion("PAY_STATUS in", values, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusNotIn(List<Integer> values) {
+            addCriterion("PAY_STATUS not in", values, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusBetween(Integer value1, Integer value2) {
+            addCriterion("PAY_STATUS between", value1, value2, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("PAY_STATUS not between", value1, value2, "payStatus");
+            return (Criteria) this;
+        }
+
         public Criteria andConsigneeNameIsNull() {
             addCriterion("CONSIGNEE_NAME is null");
             return (Criteria) this;

@@ -6,6 +6,8 @@ import com.xmomen.module.core.web.WebCommonUtils;
 import com.xmomen.module.user.entity.SysUsers;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
@@ -34,6 +36,11 @@ public class FormAuthenticationFilterExt extends FormAuthenticationFilter {
     UserService userService;
 
     private static Logger logger = LoggerFactory.getLogger(FormAuthenticationFilterExt.class);
+
+    private void initUserContext(String username, Subject subject){
+        SysUsers sysUsers = userService.findByUsername(username);
+        subject.getSession().setAttribute("user_id", sysUsers.getId());
+    }
 
     private void buildJSONMessage(String message, ServletRequest request, ServletResponse response){
         try {
@@ -103,8 +110,7 @@ public class FormAuthenticationFilterExt extends FormAuthenticationFilter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         String username = (String) subject.getPrincipal();
-        SysUsers sysUsers = userService.findByUsername(username);
-        subject.getSession().setAttribute("user_id", sysUsers.getId());
+        initUserContext(username, subject);
         if (!WebCommonUtils.isJSON(request)) {// 不是ajax请求
             issueSuccessRedirect(request, response);
         } else {

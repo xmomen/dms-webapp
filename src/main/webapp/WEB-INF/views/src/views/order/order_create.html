@@ -59,7 +59,7 @@
 										</label>
                                         <label class="radio radio-inline">
                                             <!--	3-客服下单	-->
-                                            <input type="hidden" ng-init="order.orderSource=3" ng-model="order.orderSource" name="orderSource">
+                                            <input type="hidden" value="3" ng-model="order.orderSource" name="orderSource">
                                             <input type="radio" class="radiobox" required="true" value="0" ng-model="order.orderType" ng-checked="order.orderType==0" name="orderType">
                                             <span>常规订单</span>
                                         </label>
@@ -240,7 +240,8 @@
                                 <div class="form-group">
                                     <label class="col-md-2 control-label">预约时间</label>
                                     <div class="col-md-4">
-                                        <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
+										<div class="input-group">
+                                        	<input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
                                                placeholder="预约时间"
                                                ng-model="order.appointmentTime"
                                                close-text="关闭"
@@ -248,9 +249,10 @@
                                                clear-text="清除"
                                                is-open="datepickerSetting.appointmentTime.opened"
                                                ng-required="true" />
-                                            <span class="input-group-btn">
+                                            <div class="input-group-btn">
                                                 <button type="button" class="btn btn-default" ng-click="open($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                            </span>
+                                            </div>
+										</div>
                                     </div>
                                 </div>
 								<div class="form-group">

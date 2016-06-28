@@ -19,12 +19,12 @@ public class TbOrder extends BaseMybatisModel {
     private Integer id;
 
     /**
-     * 卡号
+     * 订单编号
      */
     private String orderNo;
 
     /**
-     * 1-卡，2-劵，3-常规
+     * 1-卡，2-劵，3-常规，4-活动
      */
     private Integer orderType;
 
@@ -52,6 +52,11 @@ public class TbOrder extends BaseMybatisModel {
      * 收货人手机
      */
     private String consigneePhone;
+
+    /**
+     * 交易状态：0-待支付，1-已支付
+     */
+    private Integer payStatus;
 
     /**
      * 收货人姓名
@@ -210,6 +215,20 @@ public class TbOrder extends BaseMybatisModel {
               return;
         }
         addValidField("consigneePhone");
+    }
+
+    @Column(name = "PAY_STATUS")
+    public Integer getPayStatus() {
+        return payStatus;
+    }
+
+    public void setPayStatus(Integer payStatus) {
+        this.payStatus = payStatus;
+        if(payStatus == null){
+              removeValidField("payStatus");
+              return;
+        }
+        addValidField("payStatus");
     }
 
     @Column(name = "CONSIGNEE_NAME")
