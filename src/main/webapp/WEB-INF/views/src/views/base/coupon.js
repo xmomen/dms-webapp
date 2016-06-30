@@ -84,6 +84,7 @@ define(function () {
                 controller: ["$scope", "CouponAPI","CouponCategoryAPI","CurrentCoupon", "$modalInstance", function ($scope, CouponAPI,CouponCategoryAPI, CurrentCoupon, $modalInstance) {
                     $scope.coupon = {
                         couponType : 1,
+                        paymentType :1,
                         isUsed : 0,
                         isUseful : 0,
                         isGift : 0
@@ -160,10 +161,10 @@ define(function () {
 
                     $scope.selectCategory = function(){
                         $scope.coupon.couponCategory = null;
+                        $scope.coupon.couponValue = "";
+
                         if($scope.coupon.couponType == 2){
-                             $scope.coupon.couponValue = "";
-                         }else{
-                             $scope.coupon.couponValue = "";
+                             $scope.coupon.paymentType = 2;
                          }
                         $scope.getCategoryList();
                     };

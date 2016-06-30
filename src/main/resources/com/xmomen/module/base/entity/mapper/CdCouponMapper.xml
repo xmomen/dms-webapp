@@ -7,12 +7,13 @@
     <result column="COUPON_CATEGORY" property="couponCategory" jdbcType="INTEGER" />
     <result column="COUPON_NUMBER" property="couponNumber" jdbcType="VARCHAR" />
     <result column="COUPON_PASSWORD" property="couponPassword" jdbcType="VARCHAR" />
+    <result column="COUPON_VALUE" property="couponValue" jdbcType="DECIMAL" />
     <result column="USER_PRICE" property="userPrice" jdbcType="DECIMAL" />
     <result column="IS_USED" property="isUsed" jdbcType="INTEGER" />
     <result column="IS_USEFUL" property="isUseful" jdbcType="INTEGER" />
     <result column="IS_GIFT" property="isGift" jdbcType="INTEGER" />
     <result column="IS_SEND" property="isSend" jdbcType="INTEGER" />
-    <result column="COUPON_VALUE" property="couponValue" jdbcType="DECIMAL" />
+    <result column="PAYMENT_TYPE" property="paymentType" jdbcType="INTEGER" />
     <result column="CD_COMPANY_ID" property="cdCompanyId" jdbcType="INTEGER" />
     <result column="CD_USER_ID" property="cdUserId" jdbcType="INTEGER" />
     <result column="COUPON_DESC" property="couponDesc" jdbcType="VARCHAR" />
@@ -81,8 +82,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, COUPON_TYPE, COUPON_CATEGORY, COUPON_NUMBER, COUPON_PASSWORD, USER_PRICE, IS_USED, 
-    IS_USEFUL, IS_GIFT, IS_SEND, COUPON_VALUE, CD_COMPANY_ID, CD_USER_ID, COUPON_DESC, 
+    ID, COUPON_TYPE, COUPON_CATEGORY, COUPON_NUMBER, COUPON_PASSWORD, COUPON_VALUE, USER_PRICE, 
+    IS_USED, IS_USEFUL, IS_GIFT, IS_SEND, PAYMENT_TYPE, CD_COMPANY_ID, CD_USER_ID, COUPON_DESC, 
     BEGIN_TIME, END_TIME, NOTES, IS_OVER, BATCH
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdCouponExample" >
@@ -123,6 +124,9 @@
       <if test="couponPassword != null" >
         COUPON_PASSWORD,
       </if>
+      <if test="couponValue != null" >
+        COUPON_VALUE,
+      </if>
       <if test="userPrice != null" >
         USER_PRICE,
       </if>
@@ -138,8 +142,8 @@
       <if test="isSend != null" >
         IS_SEND,
       </if>
-      <if test="couponValue != null" >
-        COUPON_VALUE,
+      <if test="paymentType != null" >
+        PAYMENT_TYPE,
       </if>
       <if test="cdCompanyId != null" >
         CD_COMPANY_ID,
@@ -182,6 +186,9 @@
       <if test="couponPassword != null" >
         #{couponPassword,jdbcType=VARCHAR},
       </if>
+      <if test="couponValue != null" >
+        #{couponValue,jdbcType=DECIMAL},
+      </if>
       <if test="userPrice != null" >
         #{userPrice,jdbcType=DECIMAL},
       </if>
@@ -197,8 +204,8 @@
       <if test="isSend != null" >
         #{isSend,jdbcType=INTEGER},
       </if>
-      <if test="couponValue != null" >
-        #{couponValue,jdbcType=DECIMAL},
+      <if test="paymentType != null" >
+        #{paymentType,jdbcType=INTEGER},
       </if>
       <if test="cdCompanyId != null" >
         #{cdCompanyId,jdbcType=INTEGER},
@@ -250,6 +257,9 @@
       <if test="record.couponPassword != null" >
         COUPON_PASSWORD = #{record.couponPassword,jdbcType=VARCHAR},
       </if>
+      <if test="record.couponValue != null" >
+        COUPON_VALUE = #{record.couponValue,jdbcType=DECIMAL},
+      </if>
       <if test="record.userPrice != null" >
         USER_PRICE = #{record.userPrice,jdbcType=DECIMAL},
       </if>
@@ -265,8 +275,8 @@
       <if test="record.isSend != null" >
         IS_SEND = #{record.isSend,jdbcType=INTEGER},
       </if>
-      <if test="record.couponValue != null" >
-        COUPON_VALUE = #{record.couponValue,jdbcType=DECIMAL},
+      <if test="record.paymentType != null" >
+        PAYMENT_TYPE = #{record.paymentType,jdbcType=INTEGER},
       </if>
       <if test="record.cdCompanyId != null" >
         CD_COMPANY_ID = #{record.cdCompanyId,jdbcType=INTEGER},

@@ -39,6 +39,11 @@ public class CdCoupon extends BaseMybatisModel {
     private String couponPassword;
 
     /**
+     * 固定金额
+     */
+    private BigDecimal couponValue;
+
+    /**
      * 可用余额
      */
     private BigDecimal userPrice;
@@ -64,9 +69,9 @@ public class CdCoupon extends BaseMybatisModel {
     private Integer isSend;
 
     /**
-     * 固定金额
+     * 是否预付款 1-预付款,2-后付款
      */
-    private BigDecimal couponValue;
+    private Integer paymentType;
 
     /**
      * 所属单位
@@ -180,6 +185,20 @@ public class CdCoupon extends BaseMybatisModel {
         addValidField("couponPassword");
     }
 
+    @Column(name = "COUPON_VALUE")
+    public BigDecimal getCouponValue() {
+        return couponValue;
+    }
+
+    public void setCouponValue(BigDecimal couponValue) {
+        this.couponValue = couponValue;
+        if(couponValue == null){
+              removeValidField("couponValue");
+              return;
+        }
+        addValidField("couponValue");
+    }
+
     @Column(name = "USER_PRICE")
     public BigDecimal getUserPrice() {
         return userPrice;
@@ -250,18 +269,18 @@ public class CdCoupon extends BaseMybatisModel {
         addValidField("isSend");
     }
 
-    @Column(name = "COUPON_VALUE")
-    public BigDecimal getCouponValue() {
-        return couponValue;
+    @Column(name = "PAYMENT_TYPE")
+    public Integer getPaymentType() {
+        return paymentType;
     }
 
-    public void setCouponValue(BigDecimal couponValue) {
-        this.couponValue = couponValue;
-        if(couponValue == null){
-              removeValidField("couponValue");
+    public void setPaymentType(Integer paymentType) {
+        this.paymentType = paymentType;
+        if(paymentType == null){
+              removeValidField("paymentType");
               return;
         }
-        addValidField("couponValue");
+        addValidField("paymentType");
     }
 
     @Column(name = "CD_COMPANY_ID")

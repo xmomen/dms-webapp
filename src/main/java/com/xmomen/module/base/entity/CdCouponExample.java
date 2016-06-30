@@ -427,6 +427,66 @@ public class CdCouponExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
+        public Criteria andCouponValueIsNull() {
+            addCriterion("COUPON_VALUE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueIsNotNull() {
+            addCriterion("COUPON_VALUE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueEqualTo(BigDecimal value) {
+            addCriterion("COUPON_VALUE =", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueNotEqualTo(BigDecimal value) {
+            addCriterion("COUPON_VALUE <>", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueGreaterThan(BigDecimal value) {
+            addCriterion("COUPON_VALUE >", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("COUPON_VALUE >=", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueLessThan(BigDecimal value) {
+            addCriterion("COUPON_VALUE <", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("COUPON_VALUE <=", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueIn(List<BigDecimal> values) {
+            addCriterion("COUPON_VALUE in", values, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueNotIn(List<BigDecimal> values) {
+            addCriterion("COUPON_VALUE not in", values, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("COUPON_VALUE between", value1, value2, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("COUPON_VALUE not between", value1, value2, "couponValue");
+            return (Criteria) this;
+        }
+
         public Criteria andUserPriceIsNull() {
             addCriterion("USER_PRICE is null");
             return (Criteria) this;
@@ -727,63 +787,63 @@ public class CdCouponExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andCouponValueIsNull() {
-            addCriterion("COUPON_VALUE is null");
+        public Criteria andPaymentTypeIsNull() {
+            addCriterion("PAYMENT_TYPE is null");
             return (Criteria) this;
         }
 
-        public Criteria andCouponValueIsNotNull() {
-            addCriterion("COUPON_VALUE is not null");
+        public Criteria andPaymentTypeIsNotNull() {
+            addCriterion("PAYMENT_TYPE is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCouponValueEqualTo(BigDecimal value) {
-            addCriterion("COUPON_VALUE =", value, "couponValue");
+        public Criteria andPaymentTypeEqualTo(Integer value) {
+            addCriterion("PAYMENT_TYPE =", value, "paymentType");
             return (Criteria) this;
         }
 
-        public Criteria andCouponValueNotEqualTo(BigDecimal value) {
-            addCriterion("COUPON_VALUE <>", value, "couponValue");
+        public Criteria andPaymentTypeNotEqualTo(Integer value) {
+            addCriterion("PAYMENT_TYPE <>", value, "paymentType");
             return (Criteria) this;
         }
 
-        public Criteria andCouponValueGreaterThan(BigDecimal value) {
-            addCriterion("COUPON_VALUE >", value, "couponValue");
+        public Criteria andPaymentTypeGreaterThan(Integer value) {
+            addCriterion("PAYMENT_TYPE >", value, "paymentType");
             return (Criteria) this;
         }
 
-        public Criteria andCouponValueGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("COUPON_VALUE >=", value, "couponValue");
+        public Criteria andPaymentTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("PAYMENT_TYPE >=", value, "paymentType");
             return (Criteria) this;
         }
 
-        public Criteria andCouponValueLessThan(BigDecimal value) {
-            addCriterion("COUPON_VALUE <", value, "couponValue");
+        public Criteria andPaymentTypeLessThan(Integer value) {
+            addCriterion("PAYMENT_TYPE <", value, "paymentType");
             return (Criteria) this;
         }
 
-        public Criteria andCouponValueLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("COUPON_VALUE <=", value, "couponValue");
+        public Criteria andPaymentTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("PAYMENT_TYPE <=", value, "paymentType");
             return (Criteria) this;
         }
 
-        public Criteria andCouponValueIn(List<BigDecimal> values) {
-            addCriterion("COUPON_VALUE in", values, "couponValue");
+        public Criteria andPaymentTypeIn(List<Integer> values) {
+            addCriterion("PAYMENT_TYPE in", values, "paymentType");
             return (Criteria) this;
         }
 
-        public Criteria andCouponValueNotIn(List<BigDecimal> values) {
-            addCriterion("COUPON_VALUE not in", values, "couponValue");
+        public Criteria andPaymentTypeNotIn(List<Integer> values) {
+            addCriterion("PAYMENT_TYPE not in", values, "paymentType");
             return (Criteria) this;
         }
 
-        public Criteria andCouponValueBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("COUPON_VALUE between", value1, value2, "couponValue");
+        public Criteria andPaymentTypeBetween(Integer value1, Integer value2) {
+            addCriterion("PAYMENT_TYPE between", value1, value2, "paymentType");
             return (Criteria) this;
         }
 
-        public Criteria andCouponValueNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("COUPON_VALUE not between", value1, value2, "couponValue");
+        public Criteria andPaymentTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("PAYMENT_TYPE not between", value1, value2, "paymentType");
             return (Criteria) this;
         }
 
