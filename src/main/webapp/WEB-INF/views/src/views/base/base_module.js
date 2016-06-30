@@ -12,8 +12,9 @@ define([
     "views/base/contract",
     "views/base/activity",
     "views/base/couponActivity",
-    "views/base/couponAudit"
-],function (memberList,companyList,couponCategory,coupon,dictionary,itemCategory,item,contract,activity,couponActivity,couponAudit) {
+    "views/base/couponAudit",
+    "views/base/couponAuditBack"
+],function (memberList,companyList,couponCategory,coupon,dictionary,itemCategory,item,contract,activity,couponActivity,couponAudit,couponAuditBack) {
     angular.module('DMS.base', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -134,6 +135,17 @@ define([
                 data:{
                     permissions:{
                         only:["COUPON_AUDIT_VIEW"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: couponAudit
+            })
+            .state('couponAuditBack', {
+                url: '/couponAuditBack',
+                templateUrl: 'views/base/couponAuditBack.html',
+                data:{
+                    permissions:{
+                        only:["COUPON_AUDIT_BACK_VIEW"],
                         redirectTo:"unauthorized"
                     }
                 },

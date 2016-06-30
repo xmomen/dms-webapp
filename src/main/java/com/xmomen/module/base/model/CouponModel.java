@@ -123,7 +123,11 @@ public @Data class CouponModel implements Serializable {
      *
      */
     private String notes;
-
+    /**
+     * 活动id
+     */
+    private int cdActivityId;
+    
 	private List<CouponRelationItem> relationItemList;
 
 }

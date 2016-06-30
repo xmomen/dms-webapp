@@ -85,7 +85,6 @@
 									<!--</th>-->
 									<th>卡券类型</th>
                                     <th>卡劵类别</th>
-									<!--<th>描述</th>-->
 									<th>卡号/劵号</th>
                                     <th>批号</th>
 									<th>可用金额</th>
@@ -100,36 +99,25 @@
 								</thead>
 								<tbody>
 								<tr ng-repeat="coupon in couponList  | orderBy:'couponType'"  ng-if="couponList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
-									<!--<td>-->
-										<!--<label class="checkbox">-->
-                                            <!--<input type="checkbox"-->
-                                                   <!--checklist-model="chooseCoupon"-->
-                                                   <!--ng-change="changeCouponList()"-->
-                                                   <!--checklist-value="coupon">-->
-											<!--<i></i>-->
-										<!--</label>-->
-									<!--</td>-->
                                     <td><span ng-if="coupon.couponType == 1">卡</span><span ng-if="coupon.couponType == 2">消费劵</span></td>
                                     <td ng-bind="coupon.categoryName"></td>
-									<!--<td ng-bind="coupon.couponDesc"></td>-->
 									<td ng-bind="coupon.couponNumber"></td>
                                     <td ng-bind="coupon.batch"></td>
 									<td ng-show="show"><input type="text" placeholder="金额(输入回车更新)" ng-blur="updateValue(coupon)"  ng-model="coupon.couponValue" class="form-control" aria-controls="dt_basic"></td>
                                     <td ng-show="!show">{{coupon.couponValue}}</td>
                                     <td ng-bind="coupon.companyName"></td>
                                     <td ng-bind="coupon.managerName"></td>
-                                    <td ng-show="show"><input type="text" placeholder="输入完按回车" ng-blur="updateAddress(coupon)" ng-model="coupon.consignmentName" class="form-control" aria-controls="dt_basic"></td>
-                                    <td ng-show="!show">{{coupon.consignmentName}}</td>
-                                    <td ng-show="show"><input type="text" placeholder="输入完按回车" ng-blur="updateAddress(coupon)" ng-model="coupon.consignmentPhone" class="form-control" aria-controls="dt_basic"></td>
-                                    <td ng-show="!show">{{coupon.consignmentPhone}}</td>
-                                    <td ng-show="show"><input type="text" placeholder="输入完按回车" ng-blur="updateAddress(coupon)" ng-model="coupon.consignmentAddress" class="form-control" aria-controls="dt_basic"></td>
-                                    <td ng-show="!show">{{coupon.consignmentAddress}}</td>
-                                    <td ng-show="show"><input type="text" placeholder="输入完按回车（格式：YYYY-MM-DD)" ng-blur="updateAddress(coupon)" ng-model="coupon.sendTime" class="form-control" aria-controls="dt_basic"></td>
-                                    <td ng-show="!show">{{coupon.sendTime | date: 'yyyy-MM-dd'}}</td>
+                                    <td>{{coupon.consignmentName}}</td>
+                                    <td>{{coupon.consignmentPhone}}</td>
+                                    <td>{{coupon.consignmentAddress}}</td>
+                                    <td>{{coupon.sendTime | date: 'yyyy-MM-dd'}}</td>
                                     <td>
+                                        <a ng-show="show" ng-if="coupon.cdActivityId != 0" data-ng-click="openEditAddress(coupon)" title="编辑：{{order.orderDesc}}">
+                                            <span class="fa fa-edit">送货信息</span>
+                                        </a>
                                         <div ng-show="show">
                                             <a href="javascript:void(0);" data-ng-click="returnCoupon(coupon)" title="退卡：{{coupon.couponNumber}}">
-                                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                                <span class="glyphicon glyphicon-remove-circle">退卡</span>
                                             </a>
                                         </div>
                                     </td>
@@ -162,3 +150,67 @@
 	<!-- end row -->
 
 </section>
+
+
+<script type="text/ng-template" id="editAddress.html">
+    <div class="modal-header">
+        <h3 class="modal-title">送货地址及时间</h3>
+    </div>
+    <div class="modal-body">
+        <div class="widget-body">
+
+            <form class="form-horizontal" ug-validate="editAddressForm" name="editAddressFormName" novalidate="">
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">收货人</label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control" required ng-model="couponEdit.consignmentName" name="number" placeholder="收货人" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">手机号</label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control" required ng-model="couponEdit.consignmentPhone" name="number" placeholder="手机号" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">收货地址</label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control" required ng-model="couponEdit.consignmentAddress" name="batch" placeholder="收货地址" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">赠送日期</label>
+                        <div class="col-md-10 input-group">
+                                <input type="text" class="form-control"
+                                       datepicker-popup="yyyy-MM-dd"
+                                       placeholder="赠送时间"
+                                       ng-model="couponEdit.sendTime"
+                                       close-text="关闭"
+                                       current-text="今日"
+                                       clear-text="清除"
+                                       is-open="datepickerSetting.beginTime.opened"
+                                       ng-required="true" />
+							<span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="open($event, 0)"><i class="glyphicon glyphicon-calendar"></i></button>
+							</span>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="errors">
+                        <label class="col-md-2 control-label"></label>
+                        <div class="col-md-10 error">
+                            {{errors.message}}
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit" data-ng-click="updateAddress()">
+            <i class="fa fa-save"></i>
+            保存
+        </button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+</script>

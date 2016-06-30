@@ -47,7 +47,17 @@ public class CouponService {
 	public Page<CouponModel> queryCoupon(CouponQuery couponQuery, Integer limit, Integer offset){
 		return (Page<CouponModel>) mybatisDao.selectPage(CouponMapper.CouponMapperNameSpace + "getCouponList", couponQuery, limit, offset);
 	}
-
+	/**
+	 * 查询卡券信息
+	 * @param couponQuery
+	 * @param limit
+	 * @param offset
+	 * @return
+	 */
+	public Page<CouponModel> queryCouponActivity(CouponQuery couponQuery, Integer limit, Integer offset){
+		return (Page<CouponModel>) mybatisDao.selectPage(CouponMapper.CouponMapperNameSpace + "getCouponActivityList", couponQuery, limit, offset);
+	}
+	
 	public CouponModel queryOneCoupon(CouponQuery couponQuery){
 		return mybatisDao.getSqlSessionTemplate().selectOne(CouponMapper.CouponMapperNameSpace + "getCouponList", couponQuery);
 	}
