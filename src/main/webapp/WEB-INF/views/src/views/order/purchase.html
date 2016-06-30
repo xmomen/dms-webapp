@@ -43,21 +43,60 @@
 					<div class="widget-body no-padding">
 						<div class="dt-toolbar">
 							<div class="col-sm-4">
-								<div class="dataTables_filter">
+								<div class="input-group">
 									<label>
-										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-										<input type="search" placeholder="产品名称" data-ng-keyup="getPurchaseList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+										<select ug-select2 style="width: 250px;" ng-change="getPurchaseList()" ng-model="queryParam.purchaseStatus" name="purchaseStatus">
+											<option value="">--请选择--</option>
+											<option value="0">待采购</option>
+											<option value="1">已采购</option>
+										</select>
+									</label>
 								</div>
 							</div>
-							<div class="col-sm-2">
-								<button class="btn btn-primary" type="button" data-ng-click="getPurchaseList()">
-									<i class="fa fa-refresh"></i>
-									刷新
-								</button>
-								<button class="btn btn-primary" type="button" ng-click="createPlan()">
-									<i class="fa fa-plus"></i>
-									生成今日采购计划
-								</button>
+							<div class="col-sm-4">
+								<div class="input-group">
+									<input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
+										   placeholder="采购起始日期"
+										   ng-model="queryParam.startTime"
+										   close-text="关闭"
+										   current-text="今日"
+										   clear-text="清除"
+										   is-open="datepickerSetting.startTime.opened"
+										   ng-required="true" />
+									<div class="input-group-btn">
+										<button type="button" class="btn btn-default" ng-click="openDatepicker($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="input-group">
+									<input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
+										   placeholder="采购截止日期"
+										   ng-model="queryParam.endTime"
+										   close-text="关闭"
+										   current-text="今日"
+										   clear-text="清除"
+										   is-open="datepickerSetting.endTime.opened"
+										   ng-required="true" />
+									<div class="input-group-btn">
+										<button type="button" class="btn btn-default" ng-click="openDatepicker($event, 2)"><i class="glyphicon glyphicon-calendar"></i></button>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<div class="input-group">
+									<input type="search" placeholder="产品名称" data-ng-keyup="getPurchaseList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+									<div class="input-group-btn">
+										<button class="btn btn-primary" type="button" data-ng-click="getPurchaseList()">
+											<i class="fa fa-refresh"></i>
+											刷新
+										</button>
+										<button class="btn btn-primary" type="button" ng-click="createPlan()">
+											<i class="fa fa-plus"></i>
+											生成今日采购计划
+										</button>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="table-responsive">
@@ -67,9 +106,11 @@
 									<th></th>
 									<th width="80">需求日期</th>
 									<th>产品名称</th>
+									<th>采购状态</th>
 									<th>单位</th>
 									<th>数量</th>
 									<th>重量</th>
+									<th>操作</th>
 								</tr>
 								</thead>
 								<tbody>
@@ -77,9 +118,18 @@
 									<td></td>
 									<td ng-bind="purchase.purchaseCode"></td>
 									<td ng-bind="purchase.itemName"></td>
+									<td ng-bind="purchase.purchaseStatusDesc"></td>
 									<td ng-bind="purchase.itemUnit"></td>
 									<td ng-bind="purchase.totalItemQty"></td>
 									<td ng-bind="purchase.weight"></td>
+									<td width="180">
+										<a ng-show="show" ng-if="purchase.purchaseStatus == 0" href="javascript:void(0);" data-ng-click="finish($index)" title="采购完成">
+											<span class="fa fa-edit">采购完成</span>
+										</a>
+										<!--<a ng-show="show" ng-if="purchase.purchaseStatus != 1" href="javascript:void(0);" data-ng-click="cancel($index)" title="取消">-->
+											<!--<span class="fa fa-recycle">取消</span>-->
+										<!--</a>-->
+									</td>
 								</tr>
 								<tr ng-if="purchaseList == null || purchaseList.length == 0">
 									<td colspan="11">

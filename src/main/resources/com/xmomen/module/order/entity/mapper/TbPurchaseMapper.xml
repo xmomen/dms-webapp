@@ -12,6 +12,7 @@
     <result column="DISTRIBUTE_VALUE" property="distributeValue" jdbcType="INTEGER" />
     <result column="PACKAGE_VALUE" property="packageValue" jdbcType="INTEGER" />
     <result column="PACKING_VALUE" property="packingValue" jdbcType="INTEGER" />
+    <result column="PURCHASE_STATUS" property="purchaseStatus" jdbcType="BIT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -73,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, PURCHASE_CODE, ITEM_CODE, TOTAL, CREATE_DATE, BUYER_ID, TOTAL_WEIGHT, DISTRIBUTE_VALUE, 
-    PACKAGE_VALUE, PACKING_VALUE
+    PACKAGE_VALUE, PACKING_VALUE, PURCHASE_STATUS
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbPurchaseExample" >
     select
@@ -128,6 +129,9 @@
       <if test="packingValue != null" >
         PACKING_VALUE,
       </if>
+      <if test="purchaseStatus != null" >
+        PURCHASE_STATUS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -159,6 +163,9 @@
       </if>
       <if test="packingValue != null" >
         #{packingValue,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseStatus != null" >
+        #{purchaseStatus,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -200,6 +207,9 @@
       </if>
       <if test="record.packingValue != null" >
         PACKING_VALUE = #{record.packingValue,jdbcType=INTEGER},
+      </if>
+      <if test="record.purchaseStatus != null" >
+        PURCHASE_STATUS = #{record.purchaseStatus,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null" >

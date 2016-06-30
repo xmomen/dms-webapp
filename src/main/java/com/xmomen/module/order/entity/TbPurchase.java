@@ -63,6 +63,11 @@ public class TbPurchase extends BaseMybatisModel {
      */
     private Integer packingValue;
 
+    /**
+     * 采购状态：0-待采购，1-已采购
+     */
+    private Integer purchaseStatus;
+
     @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
@@ -203,5 +208,19 @@ public class TbPurchase extends BaseMybatisModel {
               return;
         }
         addValidField("packingValue");
+    }
+
+    @Column(name = "PURCHASE_STATUS")
+    public Integer getPurchaseStatus() {
+        return purchaseStatus;
+    }
+
+    public void setPurchaseStatus(Integer purchaseStatus) {
+        this.purchaseStatus = purchaseStatus;
+        if(purchaseStatus == null){
+              removeValidField("purchaseStatus");
+              return;
+        }
+        addValidField("purchaseStatus");
     }
 }

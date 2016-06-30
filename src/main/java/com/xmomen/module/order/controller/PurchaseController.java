@@ -1,10 +1,13 @@
 package com.xmomen.module.order.controller;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
+import com.xmomen.framework.utils.DateUtils;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
 import com.xmomen.module.logger.Log;
 import com.xmomen.module.order.entity.TbPurchase;
@@ -12,6 +15,7 @@ import com.xmomen.module.order.model.CreatePurchase;
 import com.xmomen.module.order.model.PurchaseModel;
 import com.xmomen.module.order.service.PurchaseService;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -43,10 +47,20 @@ public class PurchaseController {
     public Page<PurchaseModel> getUserList(@RequestParam(value = "limit") Integer limit,
                                   @RequestParam(value = "offset") Integer offset,
                                   @RequestParam(value = "keyword", required = false) String keyword,
+                                   @RequestParam(value = "purchaseStatus", required = false) Integer purchaseStatus,
+                                   @RequestParam(value = "startTime", required = false) Long startTime,
+                                   @RequestParam(value = "endTime", required = false) Long endTime,
                                   @RequestParam(value = "isDistribute", required = false) Integer isDistribute){
     	 Map param = new HashMap();
          param.put("keyword", keyword);
          param.put("isDistribute", isDistribute);
+         param.put("purchaseStatus", purchaseStatus);
+        if(startTime != null) {
+            param.put("startTime", new Date(startTime));
+        }
+        if(endTime != null){
+            param.put("endTime", new Date(endTime));
+        }
         return purchaseService.getPurchaseList(param, limit, offset);
     }
 
@@ -64,6 +78,20 @@ public class PurchaseController {
         }
         purchaseService.createPurchase(createPurchase);
     }
+
+    /**
+     * 修改采购状态
+     * @param id
+     * @param purchaseStatus
+     */
+    @RequestMapping(value = "/purchase/{id}", method = RequestMethod.PUT)
+    @Log(actionName = "修改采购状态")
+    public void createPurchase(@PathVariable(value = "id") Integer id,
+                               @RequestParam(value = "purchaseStatus") Integer purchaseStatus) {
+        purchaseService.updatePurchaseStatus(id, purchaseStatus);
+    }
+
+
 
     /**
      *  删除采购单

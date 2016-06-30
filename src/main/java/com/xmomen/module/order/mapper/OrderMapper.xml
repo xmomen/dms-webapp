@@ -57,6 +57,8 @@
         SELECT
         	p.id as purchaseId,
             p.PURCHASE_CODE,
+            p.PURCHASE_STATUS,
+            stsdp.show_value as purchaseStatusDesc,
             p.ITEM_CODE,
             i.ITEM_NAME,
             i.SELL_UNIT AS itemUnit,
@@ -70,10 +72,25 @@
           tb_purchase p
         LEFT JOIN cd_item i
           ON i.ITEM_CODE = p.ITEM_CODE
+        LEFT JOIN sys_dictionary stsd on stsd.DICTIONARY_CODE='PURCHASE_STATUS'
+        left join sys_dictionary_parameter stsdp on stsdp.SYS_DICTIONARY_ID=stsd.ID and p.PURCHASE_STATUS = stsdp.REAL_VALUE
           <where>
               <if test="keyword">
                   AND i.ITEM_NAME LIKE CONCAT('%', #{keyword}, '%')
                   OR p.ITEM_CODE LIKE CONCAT('%', #{keyword}, '%')
+              </if>
+              <if test="purchaseStatus != null">
+                  AND p.PURCHASE_STATUS = #{purchaseStatus}
+              </if>
+              <if test="startTime">
+                  <![CDATA[
+                  AND p.CREATE_DATE >= #{startTime}
+                ]]>
+              </if>
+              <if test="endTime">
+                  <![CDATA[
+                  AND p.CREATE_DATE <= #{endTime}
+                ]]>
               </if>
               <if test="isDistribute == 1">
               	AND (p.TOTAL - p.DISTRIBUTE_VALUE) > 0

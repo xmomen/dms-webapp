@@ -27,8 +27,8 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://192.168.99.100:3306/dms_dev?useUnicode=true&amp;characterEncoding=UTF-8"
-                        userId="root" password="admin" />
+                        connectionURL="jdbc:mysql://121.40.156.26:3306/dms_dev?useUnicode=true&amp;characterEncoding=UTF-8"
+                        userId="root" password="fuckyoumysql" />
 
         <javaTypeResolver type="com.xmomen.maven.plugins.mybatis.generator.plugins.types.JavaTypeResolverDefaultImplExt"></javaTypeResolver>
 
@@ -43,6 +43,6 @@
                              targetProject="./src/main/java" type="XMLMAPPER" >
         </javaClientGenerator>
         <!--    用户模块    -->
-        <table tableName="tb_trade_record" />
+        <table tableName="tb_purchase" />
     </context>
 </generatorConfiguration>

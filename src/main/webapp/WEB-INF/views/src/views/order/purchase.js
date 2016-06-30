@@ -10,7 +10,18 @@ define(function () {
         };
         $scope.queryParam = {};
         $scope.getPurchaseList = function(){
+            var startTime = null;
+            if($scope.queryParam.startTime != null){
+                startTime = new Date($scope.queryParam.startTime).getTime();
+            }
+            var endTime = null;
+            if($scope.queryParam.endTime != null){
+                endTime = new Date($scope.queryParam.endTime).getTime();
+            }
             PurchaseAPI.query({
+                startTime: startTime,
+                endTime:endTime,
+                purchaseStatus:$scope.queryParam.purchaseStatus,
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword
@@ -20,10 +31,43 @@ define(function () {
                 $scope.pageInfoSetting.loadData = $scope.getPurchaseList;
             });
         };
+        $scope.datepickerSetting = {
+            datepickerPopupConfig:{
+                "current-text":"今天",
+                "clear-text":"清除",
+                "close-text":"关闭",
+                "format":"yyyy-MM-dd"
+            },
+            startTime:{
+                opened:false
+            },
+            endTime:{
+                opened:false
+            }
+        };
+        $scope.openDatepicker = function($event, index) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            if(index == 1){
+                $scope.datepickerSetting.startTime.opened = true;
+            }else if(index == 2){
+                $scope.datepickerSetting.endTime.opened = true;
+            }
+        };
+        $scope.finish = function(index){
+            $ugDialog.confirm("是否已完成此产品的采购？").then(function(){
+                PurchaseAPI.update({
+                    id: $scope.purchaseList[index].purchaseId,
+                    purchaseStatus:1
+                }, function(){
+                    $scope.getPurchaseList();
+                });
+            })
+        };
         $scope.removePurchase = function(index){
             $ugDialog.confirm("是否删除此订单？").then(function(){
                 PurchaseAPI.delete({
-                    id: $scope.purchaseList[index].id
+                    id: $scope.purchaseList[index].purchaseId
                 }, function(){
                     $scope.getPurchaseList();
                 });
@@ -34,6 +78,8 @@ define(function () {
                 orderDate:new Date()
             }, function(data){
                 $scope.getPurchaseList();
+            }, function(data){
+                $ugDialog.warn(data.data.message);
             });
         }
         $scope.updatePurchase = function(index){
