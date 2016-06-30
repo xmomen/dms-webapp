@@ -330,11 +330,11 @@
 
 <script type="text/ng-template" id="tree_view_table.html">
     <span ng-mouseenter="organization.show=true" ng-mouseleave="organization.show=false">
-        <i ng-if="organization.nodes && organization.nodes.length > 0" class="fa fa-lg fa-minus-circle"></i>
+        <i ng-if="organization.nodes && organization.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i>
         <a ng-show="organization.parentId != null" ng-click="getUserList(organization.id)">{{organization.name}}</a>
         <lable ng-show="organization.parentId == null" >{{organization.name}}</lable>
     </span>
-    <ul ng-if="organization.nodes && organization.nodes.length > 0">
+    <ul ng-if="organization.nodes && organization.nodes.length > 0" class="tree-hide">
         <li data-ng-repeat="organization in organization.nodes" data-ng-include="'tree_view_table.html'"></li>
     </ul>
 </script>
@@ -364,7 +364,7 @@
 		</span>
         <a href="javascript:void(0);" ng-show="item.show && item.parentId != null" ng-click="chooseCategory(item)">选择</a>
     </div>
-    <ul ng-if="item.nodes && item.nodes.length > 0">
+    <ul ng-if="item.nodes && item.nodes.length > 0" class="tree-hide">
         <li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view.html'"></li>
     </ul>
 </script>
