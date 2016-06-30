@@ -211,6 +211,18 @@ public class OrderService {
     }
 
     /**
+     * 取消订单
+     * @param id
+     */
+    public void cancelOrder(Integer id){
+        TbOrderExample tbOrderExample = new TbOrderExample();
+        tbOrderExample.createCriteria().andIdEqualTo(id);
+        TbOrder tbOrder = new TbOrder();
+        tbOrder.setOrderStatus("9");
+        mybatisDao.updateOneByExampleSelective(tbOrder, tbOrderExample);
+    }
+
+    /**
      * 订单退款／冲销
      * @param refundOrder
      */
