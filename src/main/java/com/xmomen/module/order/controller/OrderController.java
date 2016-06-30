@@ -120,13 +120,13 @@ public class OrderController {
     }
 
     /**
-     *  删除订单
+     *  取消订单
      * @param id
      */
-    @RequestMapping(value = "/order/{id}/item", method = RequestMethod.DELETE)
-    @Log(actionName = "删除订单")
-    public void deleteOrder(@PathVariable(value = "id") Integer id){
-        orderService.deleteOrder(id);
+    @RequestMapping(value = "/order/{id}", method = RequestMethod.DELETE)
+    @Log(actionName = "取消订单")
+    public void cancelOrder(@PathVariable(value = "id") Integer id){
+        orderService.cancelOrder(id);
     }
 
 }

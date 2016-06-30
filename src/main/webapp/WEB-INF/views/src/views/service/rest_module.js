@@ -255,12 +255,12 @@ define(function () {
         return $resource("/order/:id", { id:"@id"}, {
             query:{ isArray:false},
             update:{ method:"PUT", params:{id:"@id"}},
+            cancel:{method:"DELETE",url:"/order/:id"},
             getItemList:{
                 method:"GET",
                 url:"/order/:id/item",
                 params:{id:"@id"}
-            },
-            update:{ method:"PUT", params:{id:"@id"}}
+            }
         });
     }]);
 

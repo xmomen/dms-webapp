@@ -20,9 +20,9 @@ define(function () {
                 $scope.pageInfoSetting.loadData = $scope.getOrderList;
             });
         };
-        $scope.removeOrder = function(index){
-            $ugDialog.confirm("是否删除此订单？").then(function(){
-                OrderAPI.delete({
+        $scope.cancelOrder = function(index){
+            $ugDialog.confirm("是否取消此订单？").then(function(){
+                OrderAPI.cancel({
                     id: $scope.orderList[index].id
                 }, function(){
                     $scope.getOrderList();
