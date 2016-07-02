@@ -115,6 +115,10 @@ define(function () {
             //保存合同
             $scope.addContractForm = {};
             $scope.saveContract = function(){
+                if($scope.choseItemList.length <=  0){
+                    $ugDialog.alert("请选择产品");
+                    return false;
+                }
                 if($scope.addContractForm.validator.form()){
                     $ugDialog.confirm("確定保存該合同？").then(function(){
                         $scope.contract.contractItemList = $scope.choseItemList;

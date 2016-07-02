@@ -132,3 +132,79 @@
 
 </section>
 <!-- end widget grid -->
+
+
+<script type="text/ng-template" id="viewContractDetail.html">
+    <div class="modal-header">
+        <h3 class="modal-title">合同</h3>
+    </div>
+    <div class="modal-body">
+        <div class="widget-body">
+
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="control-label col-md-2">合同编号：</label>
+                        <div class="col-md-4">
+                            <label class="control-label" ng-bind="contract.contractCode"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="control-label col-md-2">合同名称：</label>
+                        <div class="col-md-4">
+                            <label class="control-label" ng-bind="contract.contractName"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="control-label col-md-2">签约单位：</label>
+                        <div class="col-md-4">
+                            <label class="control-label" ng-bind="contract.companyName"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="control-label col-md-2">起始日期：</label>
+                        <div class="col-md-4">
+                            <label class="control-label" ng-bind="contract.beginTime  | date: 'yyyy-MM-dd'"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="control-label col-md-2">截止日期：</label>
+                        <div class="col-md-4">
+                            <label class="control-label" ng-bind="contract.endTime  | date: 'yyyy-MM-dd'"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="control-label col-md-2">已优惠产品：</label>
+                        <div class="table-responsive col-md-10" style="padding-top: 10px;">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>产品编号</th>
+                                    <th>名称</th>
+                                    <th class="text-align-right">单价</th>
+                                    <th class="text-align-right">优惠方式</th>
+                                    <th class="text-align-right">折扣</th>
+                                    <th class="text-align-right">优惠后金额</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="choseItem in choseItemList">
+                                    <td>{{choseItem.itemCode}}</td>
+                                    <td>{{choseItem.itemName}}</td>
+                                    <td class="text-align-right">{{choseItem.sellPrice | number:2}}</td>
+                                    <td class="text-align-right">{{choseItem.contractTypeName}}</td>
+                                    <td class="text-align-right">{{choseItem.discountText}}</td>
+                                    <td class="text-align-right"  ng-class="{'vaild':choseItem.contractValue > choseItem.sellPrice}" >{{choseItem.contractValue | number:2}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+    </div>
+</script>

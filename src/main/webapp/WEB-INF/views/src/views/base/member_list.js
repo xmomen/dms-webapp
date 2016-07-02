@@ -13,7 +13,8 @@ define(function () {
             MemberAPI.query({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
-                keyword:$scope.queryParam.keyword
+                keyword:$scope.queryParam.keyword,
+                couponNumber:$scope.queryParam.couponNumber
             }, function(data){
                 $scope.memberList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;
