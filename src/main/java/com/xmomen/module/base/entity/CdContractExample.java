@@ -167,76 +167,6 @@ public class CdContractExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andContractNameIsNull() {
-            addCriterion("CONTRACT_NAME is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNameIsNotNull() {
-            addCriterion("CONTRACT_NAME is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNameEqualTo(String value) {
-            addCriterion("CONTRACT_NAME =", value, "contractName");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNameNotEqualTo(String value) {
-            addCriterion("CONTRACT_NAME <>", value, "contractName");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNameGreaterThan(String value) {
-            addCriterion("CONTRACT_NAME >", value, "contractName");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNameGreaterThanOrEqualTo(String value) {
-            addCriterion("CONTRACT_NAME >=", value, "contractName");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNameLessThan(String value) {
-            addCriterion("CONTRACT_NAME <", value, "contractName");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNameLessThanOrEqualTo(String value) {
-            addCriterion("CONTRACT_NAME <=", value, "contractName");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNameLike(String value) {
-            addCriterion("CONTRACT_NAME like", value, "contractName");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNameNotLike(String value) {
-            addCriterion("CONTRACT_NAME not like", value, "contractName");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNameIn(List<String> values) {
-            addCriterion("CONTRACT_NAME in", values, "contractName");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNameNotIn(List<String> values) {
-            addCriterion("CONTRACT_NAME not in", values, "contractName");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNameBetween(String value1, String value2) {
-            addCriterion("CONTRACT_NAME between", value1, value2, "contractName");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNameNotBetween(String value1, String value2) {
-            addCriterion("CONTRACT_NAME not between", value1, value2, "contractName");
-            return (Criteria) this;
-        }
-
         public Criteria andContractCodeIsNull() {
             addCriterion("CONTRACT_CODE is null");
             return (Criteria) this;
@@ -304,6 +234,76 @@ public class CdContractExample extends BaseMybatisExample {
 
         public Criteria andContractCodeNotBetween(String value1, String value2) {
             addCriterion("CONTRACT_CODE not between", value1, value2, "contractCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameIsNull() {
+            addCriterion("CONTRACT_NAME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameIsNotNull() {
+            addCriterion("CONTRACT_NAME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameEqualTo(String value) {
+            addCriterion("CONTRACT_NAME =", value, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameNotEqualTo(String value) {
+            addCriterion("CONTRACT_NAME <>", value, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameGreaterThan(String value) {
+            addCriterion("CONTRACT_NAME >", value, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameGreaterThanOrEqualTo(String value) {
+            addCriterion("CONTRACT_NAME >=", value, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameLessThan(String value) {
+            addCriterion("CONTRACT_NAME <", value, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameLessThanOrEqualTo(String value) {
+            addCriterion("CONTRACT_NAME <=", value, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameLike(String value) {
+            addCriterion("CONTRACT_NAME like", value, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameNotLike(String value) {
+            addCriterion("CONTRACT_NAME not like", value, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameIn(List<String> values) {
+            addCriterion("CONTRACT_NAME in", values, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameNotIn(List<String> values) {
+            addCriterion("CONTRACT_NAME not in", values, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameBetween(String value1, String value2) {
+            addCriterion("CONTRACT_NAME between", value1, value2, "contractName");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNameNotBetween(String value1, String value2) {
+            addCriterion("CONTRACT_NAME not between", value1, value2, "contractName");
             return (Criteria) this;
         }
 
@@ -664,6 +664,66 @@ public class CdContractExample extends BaseMybatisExample {
 
         public Criteria andEndTimeNotBetween(Date value1, Date value2) {
             addCriterion("END_TIME not between", value1, value2, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDelIsNull() {
+            addCriterion("IS_DEL is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDelIsNotNull() {
+            addCriterion("IS_DEL is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDelEqualTo(Integer value) {
+            addCriterion("IS_DEL =", value, "isDel");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDelNotEqualTo(Integer value) {
+            addCriterion("IS_DEL <>", value, "isDel");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDelGreaterThan(Integer value) {
+            addCriterion("IS_DEL >", value, "isDel");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDelGreaterThanOrEqualTo(Integer value) {
+            addCriterion("IS_DEL >=", value, "isDel");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDelLessThan(Integer value) {
+            addCriterion("IS_DEL <", value, "isDel");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDelLessThanOrEqualTo(Integer value) {
+            addCriterion("IS_DEL <=", value, "isDel");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDelIn(List<Integer> values) {
+            addCriterion("IS_DEL in", values, "isDel");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDelNotIn(List<Integer> values) {
+            addCriterion("IS_DEL not in", values, "isDel");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDelBetween(Integer value1, Integer value2) {
+            addCriterion("IS_DEL between", value1, value2, "isDel");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDelNotBetween(Integer value1, Integer value2) {
+            addCriterion("IS_DEL not between", value1, value2, "isDel");
             return (Criteria) this;
         }
 

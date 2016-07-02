@@ -3,8 +3,11 @@ package com.xmomen.module.base.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
-public class ContractModel implements Serializable {
+import lombok.Data;
+
+public @Data class ContractModel implements Serializable {
 	private Integer id;
 	/**
      * 合同名称
@@ -41,104 +44,16 @@ public class ContractModel implements Serializable {
      * 合同开始时间
      */
     private Date beginTime;
-
-    public Date getBeginTime() {
-		return beginTime;
-	}
-
-	public void setBeginTime(Date beginTime) {
-		this.beginTime = beginTime;
-	}
-
-	/**
-     * 合同结束时间
+    
+    /**
+     * 合同开始时间
      */
     private Date endTime;
-
+    
     /**
-     * 0-未审核，1-审核
+     * 是否作废
      */
-    private Integer isAuditor;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Integer getCdMemberId() {
-		return cdMemberId;
-	}
-
-	public String getContractCode() {
-		return contractCode;
-	}
-
-	public void setContractCode(String contractCode) {
-		this.contractCode = contractCode;
-	}
-
-	public void setCdMemberId(Integer cdMemberId) {
-		this.cdMemberId = cdMemberId;
-	}
-
-	public Integer getCdCompanyId() {
-		return cdCompanyId;
-	}
-
-	public void setCdCompanyId(Integer cdCompanyId) {
-		this.cdCompanyId = cdCompanyId;
-	}
-
-	public Integer getScope() {
-		return scope;
-	}
-
-	public void setScope(Integer scope) {
-		this.scope = scope;
-	}
-
-	public BigDecimal getContractPrice() {
-		return contractPrice;
-	}
-
-	public void setContractPrice(BigDecimal contractPrice) {
-		this.contractPrice = contractPrice;
-	}
-
-	public Date getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
-
-	public Integer getIsAuditor() {
-		return isAuditor;
-	}
-
-	public void setIsAuditor(Integer isAuditor) {
-		this.isAuditor = isAuditor;
-	}
-
-	public String getContractName() {
-		return contractName;
-	}
-
-	public void setContractName(String contractName) {
-		this.contractName = contractName;
-	}
-
-	public String getCompanyName() {
-		return companyName;
-	}
-
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
-	}
-    
-    
+    private int isDel;
+     
+    private List<ContractItemModel> contractItemList;
 }

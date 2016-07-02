@@ -32,7 +32,7 @@ define([
                 controller:order_create,
                 data:{
                     permissions:{
-                        only:["USER_VIEW"],
+                        only:["ORDER_VIEW"],
                         redirectTo:"unauthorized"
                     }
                 }
@@ -45,7 +45,7 @@ define([
                 //params:{order:{}},
                 data:{
                     permissions:{
-                        only:["USER_VIEW"],
+                        only:["ORDER_VIEW"],
                         redirectTo:"unauthorized"
                     }
                 }

@@ -19,4 +19,45 @@
               </if>
           </where>
     </select>
+    
+    <resultMap type="com.xmomen.module.base.model.ContractModel" id="ContractModel">
+			<collection property="contractItemList" ofType="com.xmomen.module.base.model.ContractItemModel" column="id" select="queryContractItemList"></collection>
+    </resultMap>
+    
+    <select id="getContractListAndDetail" resultMap="ContractModel" parameterType="java.util.HashMap">
+        SELECT
+        cc.*,
+        cco.company_name
+        FROM
+        cd_contract cc
+        left join cd_company cco on cc.cd_company_id = cco.id
+        <where>
+              <if test="id">
+                  AND cc.id = #{id}
+              </if>
+          </where>
+    </select>
+    
+    <select id="queryContractItemList" resultType="com.xmomen.module.base.model.ContractItemModel" parameterType="Integer">
+		select cci.*,
+			ci.item_code,
+			ci.ITEM_NAME,
+			ci.SELL_PRICE,
+			CASE
+				WHEN cci.CONTRACT_TYPE = 1
+				THEN '无'
+				ELSE cci.discount
+			end as contractTypeName,
+			CASE
+				WHEN cci.CONTRACT_TYPE = 1
+				THEN '按固定金额'
+				ELSE '按固定折扣' 
+			end as discountText
+ 		from 
+			cd_contract_item cci
+		left join cd_item  ci on cci.CD_ITEM_ID = ci.ID
+		where 
+			cci.CD_CONTRACT_ID = #{id}
+	</select>
+    
 </mapper>
