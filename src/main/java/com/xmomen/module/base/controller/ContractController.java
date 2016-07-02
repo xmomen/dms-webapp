@@ -1,6 +1,7 @@
 package com.xmomen.module.base.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -17,10 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
+import com.xmomen.module.base.entity.CdContract;
 import com.xmomen.module.base.mapper.ContractMapper;
 import com.xmomen.module.base.model.ContractModel;
 import com.xmomen.module.base.model.CreateContract;
-import com.xmomen.module.base.model.CreateContractItem;
 import com.xmomen.module.base.model.UpdateContract;
 import com.xmomen.module.base.service.ContractService;
 import com.xmomen.module.logger.Log;
@@ -55,6 +56,23 @@ public class ContractController {
             throw new ArgumentValidException(bindingResult);
         }
         contractService.createContract(createContract);
+    }
+    
+    /**
+     * 合同查看
+     * @return
+     */
+    @RequestMapping(value = "/contract/{id}", method = RequestMethod.GET)
+    @Log(actionName = "查询合同")
+    public ContractModel getContractDetail(@PathVariable(value = "id") Integer id){
+    	//查询合同
+    	 Map map = new HashMap<String,Object>();
+         map.put("id", id);
+    	 List<ContractModel> contracts = mybatisDao.getSqlSessionTemplate().selectList(ContractMapper.ContractMapperNameSpace + "getContractListAndDetail", map);
+    	 if(contracts != null && !contracts.isEmpty() && contracts.size() == 1){
+             return contracts.get(0);
+         }
+    	 return null;
     }
     
     /**

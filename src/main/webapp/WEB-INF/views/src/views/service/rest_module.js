@@ -153,7 +153,7 @@ define(function () {
             update:{ method:"PUT", params:{id:"@id"}},
             sendOneCoupon:{method:"GET",url:"/coupon/sendOneCoupon",params:{id:"@id",companyId:"@companyId",couponNumber:"@couponNumber",batch:"@batch"}},
             sendMoreCoupon:{method:"GET",url:"/coupon/sendMoreCoupon",params:{companyId:"@companyId",couponNumberList:"@couponNumberList",batch:"@batch"}},
-            activityAddress:{method:"GET",url:"/coupon/activityAddress",params:{couponNumber:"@couponNumber",consignmentName:"@consignmentName",consignmentPhone:"@consignmentPhone",consignmentAddress:"@consignmentAddress"}},
+            activityAddress:{method:"POST",url:"/coupon/activityAddress"},
             audit:{
                 method:"PUT",
                     url:"/coupon/:id/audit" ,
@@ -215,6 +215,11 @@ define(function () {
         });
     }]);
 
+    ngREST.factory("CouponActivityAPI", ["$resource", function($resource){
+        return $resource("/couponActivity/:id", { id:"@id" }, {
+            query:{ isArray:false}
+        });
+    }]);
     ngREST.factory("ActivityAPI", ["$resource", function($resource){
         return $resource("/activity/:id", { id:"@id" }, {
             query:{ isArray:false},

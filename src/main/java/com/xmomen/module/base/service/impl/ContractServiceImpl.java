@@ -28,8 +28,19 @@ public class ContractServiceImpl implements ContractService {
 		contract.setContractCode(createContract.getContractCode());
 		contract.setContractName(createContract.getContractName());
 		contract.setCdMemberId(createContract.getCdMemberId());
-		contract.setIsAuditor(0);
-		mybatisDao.save(contract);
+		contract.setIsAuditor(1);
+		contract.setIsDel(0);
+		contract = mybatisDao.saveByModel(contract);
+		//保存合同明细
+		for(CreateContractItem createContractItem : createContract.getContractItemList()){
+			CdContractItem contractItem = new CdContractItem();
+			contractItem.setCdItemId(createContractItem.getCdItemId());
+			contractItem.setCdContractId(contract.getId());
+			contractItem.setContractType(createContractItem.getContractType());
+			contractItem.setDiscount(createContractItem.getDiscount());
+			contractItem.setContractValue(createContractItem.getContractValue());
+			mybatisDao.save(contractItem);
+		}
 	}
 	@Transactional
 	public void updateContract(Integer id, UpdateContract updateContract) {
@@ -42,10 +53,28 @@ public class ContractServiceImpl implements ContractService {
 		contract.setContractName(updateContract.getContractName());
 		contract.setCdMemberId(updateContract.getCdMemberId());
 		mybatisDao.update(contract);
+		
+		CdContractItem contractItemdb = new CdContractItem();
+		contractItemdb.setCdContractId(id);
+		List<CdContractItem> contractItemdbs = mybatisDao.selectByModel(contractItemdb);
+		mybatisDao.deleteAllByModel(contractItemdbs);
+		//保存合同明细
+		for(CreateContractItem createContractItem : updateContract.getContractItemList()){
+			CdContractItem contractItem = new CdContractItem();
+			contractItem.setCdItemId(createContractItem.getCdItemId());
+			contractItem.setCdContractId(contract.getId());
+			contractItem.setContractType(createContractItem.getContractType());
+			contractItem.setDiscount(createContractItem.getDiscount());
+			contractItem.setContractValue(createContractItem.getContractValue());
+			mybatisDao.save(contractItem);
+		}
+				
 	}
 	@Transactional
 	public void delete(Integer id) {
-		 mybatisDao.deleteByPrimaryKey(CdContract.class, id);		
+		CdContract contract = mybatisDao.selectByPrimaryKey(CdContract.class, id);
+		contract.setIsDel(1);
+		mybatisDao.update(contract);
 	}
 
 }

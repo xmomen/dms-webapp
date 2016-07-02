@@ -2,7 +2,7 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "CouponAPI", "$modal", "$ugDialog","CouponCategoryAPI", function($scope, CouponAPI, $modal, $ugDialog,CouponCategoryAPI){
+    return ["$scope", "CouponAPI", "$modal", "$ugDialog","CouponCategoryAPI","CouponActivityAPI",function($scope, CouponAPI, $modal, $ugDialog,CouponCategoryAPI,CouponActivityAPI){
 
         $scope.ugSelect2Config = {};
         $scope.getCategoryList = function(){
@@ -30,7 +30,7 @@ define(function () {
         };
         $scope.queryParam = {};
         $scope.getCouponList = function(){
-            CouponAPI.query({
+            CouponActivityAPI.query({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword,
@@ -53,20 +53,6 @@ define(function () {
             })
         }
 
-        $scope.updateAddress = function(coupon){
-            CouponAPI.activityAddress({
-                couponNumber:coupon.couponNumber,
-                consignmentName:coupon.consignmentName,
-                consignmentPhone:coupon.consignmentPhone,
-                consignmentAddress:coupon.consignmentAddress,
-                sendTime:coupon.sendTime
-            },function(){
-
-            }, function(data){
-                $scope.errors = data.data;
-            })
-        }
-
         //退卡
         $scope.returnCoupon = function(coupon){
             $ugDialog.confirm("是否退卡/券？").then(function(){
@@ -78,5 +64,68 @@ define(function () {
                 });
             })
         };
+
+        //填写送货地址
+        $scope.openEditAddress = function(coupon){
+            var modalInstance = $modal.open({
+                templateUrl: 'editAddress.html',
+                resolve: {
+                    CurrentCoupon: function(){
+                        return coupon;
+                    }
+                },
+                controller: ["$scope", "CouponAPI","CurrentCoupon", "$modalInstance", function ($scope, CouponAPI, CurrentCoupon, $modalInstance) {
+                    if(CurrentCoupon){
+                        $scope.couponEdit = angular.copy(CurrentCoupon);
+                    }
+                    $scope.datepickerSetting = {
+                        datepickerPopupConfig:{
+                            "current-text":"今天",
+                            "clear-text":"清除",
+                            "close-text":"关闭"
+                        },
+                        beginTime:{
+                            opened:false
+                        }
+                    };
+                    $scope.open = function($event, index) {
+                        $event.preventDefault();
+                        $event.stopPropagation();
+                        if(index == 0){
+                            $scope.datepickerSetting.beginTime.opened = true;
+                        }
+                    };
+                    $scope.errors = null;
+                    $scope.editAddressForm = {};
+                    $scope.updateAddress = function(coupon) {
+                        $scope.errors = null;
+                        if ($scope.editAddressForm.validator.form()) {
+                                CouponAPI.activityAddress({
+                                    couponNumber:$scope.couponEdit.couponNumber,
+                                    consignmentName:$scope.couponEdit.consignmentName,
+                                    consignmentPhone:$scope.couponEdit.consignmentPhone,
+                                    consignmentAddress:$scope.couponEdit.consignmentAddress,
+                                    sendTime:$scope.couponEdit.sendTime
+                                },function(){
+                                    CurrentCoupon.couponNumber = $scope.couponEdit.couponNumber;
+                                    CurrentCoupon.consignmentName = $scope.couponEdit.consignmentName;
+                                    CurrentCoupon.consignmentPhone = $scope.couponEdit.consignmentPhone;
+                                    CurrentCoupon.consignmentAddress = $scope.couponEdit.consignmentAddress;
+                                    CurrentCoupon.sendTime = $scope.couponEdit.sendTime;
+                                    $modalInstance.dismiss('cancel');
+                                }, function(data){
+                                    $scope.errors = data.data;
+                                })
+                        }
+                    }
+                    $scope.cancel = function () {
+                        $modalInstance.dismiss('cancel');
+                    };
+                }]
+            });
+            modalInstance.result.then(function () {
+                $scope.getCouponList();
+            });
+        }
     }];
 });

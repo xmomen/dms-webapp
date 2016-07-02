@@ -1,0 +1,281 @@
+<!--
+	The ID "widget-grid" will start to initialize all widgets below 
+	You do not need to use widgets if you dont want to. Simply remove 
+	the <section></section> and you can use wells or panels instead 
+	-->
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget" id="wid-id-4">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2>创建合同</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- end widget edit box -->
+					<!-- widget content -->
+					<div class="widget-body">
+						<form class="form-horizontal"  ug-validate="addContractForm" name="addContractForm2" novalidate="">
+
+							<fieldset class="demo-switcher-1">
+								<legend>合同信息</legend>
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">合同编号<span class="vaild">*</span></label>
+                                        <div class="col-md-4">
+                                            <input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="20" ng-model="contract.contractCode" name="contractCode" placeholder="合同编号" type="text">
+                                        </div>
+                                        <label class="col-md-2 control-label">合同名称<span class="vaild">*</span></label>
+                                        <div class="col-md-4">
+                                            <input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="20" ng-model="contract.contractName" name="name" placeholder="合同名称" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">签约单位</label>
+                                        <div class="col-md-4">
+                                            <select ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;" required="true" ng-model="contract.cdCompanyId" name="company" >
+                                                <option value="">--请选择--</option>
+                                                <option value="{{company.id}}" ng-repeat="company in companyList">{{company.companyName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">起始日期</label>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
+                                                       placeholder="起始日期"
+                                                       ng-model="contract.beginTime"
+                                                       close-text="关闭"
+                                                       current-text="今日"
+                                                       clear-text="清除"
+                                                       is-open="datepickerSetting.beginTime.opened"
+                                                       ng-required="true" />
+                                                <div class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" ng-click="open($event, 0)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <label class="col-md-2 control-label">截止日期</label>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
+                                                       placeholder="截止日期"
+                                                       ng-model="contract.endTime"
+                                                       close-text="关闭"
+                                                       current-text="今日"
+                                                       clear-text="清除"
+                                                       is-open="datepickerSetting.endTime.opened"
+                                                       ng-required="true" />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" ng-click="open($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+							</fieldset>
+
+							<fieldset class="demo-switcher-1">
+								<legend>合同详情</legend>
+                                <fieldset>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">优惠方式<span class="vaild">*</span></label>
+                                        <div class="col-md-4 input-group">
+                                            <label class="radio radio-inline">
+                                                <input type="radio" class="radiobox" value="1" ng-model="addContractItem.contractType" ng-checked="addContractItem.contractType == 1" ng-change="changeContractType()" name="contractType">
+                                                <span>按固定金额</span>
+                                            </label>
+                                            <label class="radio radio-inline">
+                                                <input type="radio" class="radiobox" value="2" ng-model="addContractItem.contractType" ng-checked="addContractItem.contractType == 2" ng-change="changeContractType()" name="contractType">
+                                                <span>按固定折扣</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-if="addContractItem.contractType == '1'">
+                                        <label class="col-md-2 control-label">金额<span class="vaild">*</span></label>
+                                        <div class="col-md-4 input-group">
+                                            <input class="form-control" required="true" data-rule-number="true"  ng-model="addContractItem.contractValue" name="contractValue" placeholder="金额" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-if="addContractItem.contractType == '2'">
+                                        <label class="col-md-2 control-label" >折扣<span class="vaild">*</span></label>
+                                        <div class="col-md-4 input-group">
+                                            <input class="form-control" required="true" data-rule-number="true" ng-model="addContractItem.contractValue" name="contractValue" placeholder="折扣" type="text">
+                                            <span class="vaild">折扣输入示例（如95折输入0.95）不打折则输入1</span>
+                                        </div>
+                                    </div>
+                                </fieldset>
+								<div class="row">
+                                    <div class="row">
+                                        <div class="table-responsive col-md-2">
+                                            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="jarviswidget" id="wid-id-0">
+                                                    <header>
+                                                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                                                        <h2>产品分类</h2>
+                                                    </header>
+                                                    <div>
+                                                        <div class="jarviswidget-editbox">
+                                                        </div>
+                                                        <div class="widget-body">
+                                                            <div class="tree">
+                                                                <ul>
+                                                                    <li data-ng-repeat="item in itemCategoryList" data-ng-include="'tree_view_table.html'"></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        </div>
+                                        <div class="table-responsive col-md-3">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+													<div class="input-group">
+														<input class="form-control" type="text" ng-model="queryParam.keyword"  data-ng-keyup="getItemList()" placeholder="产品分类/名称/编号">
+														<div class="input-group-btn">
+															<button class="btn btn-default btn-primary" data-ng-click="getItemList()" type="button">
+																<i class="fa fa-search"></i> 查询
+															</button>
+														</div>
+													</div>
+                                                </div>
+                                            </div>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th colspan="5">可选择产品</th>
+                                                </tr>
+                                                </thead>
+                                                <thead>
+                                                <tr>
+                                                    <th>产品编号</th>
+                                                    <th>名称</th>
+                                                    <th class="text-align-right">单价</th>
+                                                    <th>操作</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr data-ng-repeat="item in itemList">
+                                                    <td>{{item.itemCode}}</td>
+                                                    <td>{{item.itemName}}</td>
+                                                    <td class="text-align-right">{{item.sellPrice | number:2}}</td>
+                                                    <td>
+                                                        <div>
+                                                            <a href="javascript:void(0);" data-ng-click="chooseItem($index,item)" title="选择：{{item.itemName}}">
+                                                                <span class="fa fa-plus"></span>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                <tr>
+                                                    <td colspan="5">
+                                                        <ug-pagination page-info="pageInfoSetting" ></ug-pagination>
+                                                    </td>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                            </div>
+                                            <div class="table-responsive col-md-7">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th colspan="7">已优惠产品<span class="vaild">*</span></th>
+                                                </tr>
+                                                <tr>
+                                                    <th>操作</th>
+                                                    <th>产品编号</th>
+                                                    <th>名称</th>
+                                                    <th class="text-align-right">单价</th>
+                                                    <th class="text-align-right">优惠方式</th>
+                                                    <th class="text-align-right">折扣</th>
+                                                    <th class="text-align-right">优惠后金额</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="choseItem in choseItemList">
+                                                    <td>
+                                                        <div>
+                                                            <a href="javascript:void(0);" data-ng-click="removeChoseItem($index,choseItem)" title="移除：{{choseItem.itemName}}">
+                                                                <span class="glyphicon glyphicon-trash"></span>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                    <td>{{choseItem.itemCode}}</td>
+                                                    <td>{{choseItem.itemName}}</td>
+                                                    <td class="text-align-right">{{choseItem.sellPrice | number:2}}</td>
+                                                    <td class="text-align-right">{{choseItem.contractTypeName}}</td>
+                                                    <td class="text-align-right">{{choseItem.discountText}}</td>
+                                                    <td class="text-align-right"  ng-class="{'vaild':choseItem.contractValue > choseItem.sellPrice}" >{{choseItem.contractValue | number:2}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+								</div>
+							</fieldset>
+
+
+							<fieldset class="demo-switcher-1" ng-if="errors">
+								<legend class="error">错误信息</legend>
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="error">{{errors.message}}</div>
+									</div>
+								</div>
+							</fieldset>
+							<div class="form-actions">
+								<div class="row">
+									<div class="col-md-12">
+										<button class="btn btn-default" type="button"  ui-sref ="contract">
+											取消
+										</button>
+										<button class="btn btn-primary" data-ng-click="saveContract()" type="submit">
+											<i class="fa fa-save"></i>
+											提交
+										</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- WIDGET END -->
+
+	</div>
+
+	<!-- end row -->
+
+</section>
+<!-- end widget grid -->
+<script type="text/ng-template" id="tree_view_table.html">
+    <span ng-mouseenter="item.show=true" ng-mouseleave="item.show=false">
+		<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i>
+		<a ng-show="item.parentId != null" ng-click="getItemList(item.name)">{{item.name}}</a>
+		<lable ng-show="item.parentId == null" >{{item.name}}</lable>
+	</span>
+    <ul ng-if="item.nodes && item.nodes.length > 0" class="tree-hide">
+        <li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view_table.html'"></li>
+    </ul>
+</script>

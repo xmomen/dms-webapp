@@ -28,6 +28,7 @@ import com.xmomen.module.base.entity.CdCoupon;
 import com.xmomen.module.base.entity.CdCouponRef;
 import com.xmomen.module.base.entity.CdCouponRefExample;
 import com.xmomen.module.base.mapper.CouponMapper;
+import com.xmomen.module.base.model.CouponActivityAddress;
 import com.xmomen.module.base.model.CouponModel;
 import com.xmomen.module.base.model.CouponQuery;
 import com.xmomen.module.base.model.CreateCoupon;
@@ -57,7 +58,7 @@ public class CouponController {
      */
     @RequestMapping(value = "/coupon", method = RequestMethod.GET)
     @Log(actionName = "查询卡券列表")
-    public Page<CouponModel> getUserList(@RequestParam(value = "limit") Integer limit,
+    public Page<CouponModel> getCouponList(@RequestParam(value = "limit") Integer limit,
                                   @RequestParam(value = "offset") Integer offset,
                                   @RequestParam(value = "couponNumber", required = false) String couponNumber,
                                   @RequestParam(value = "couponType",required = false) String couponType,
@@ -211,35 +212,26 @@ public class CouponController {
      * @param id
      * @throws ParseException 
      */
-    @RequestMapping(value = "/coupon/activityAddress", method = RequestMethod.GET)
+    @RequestMapping(value = "/coupon/activityAddress", method = RequestMethod.POST)
     @Log(actionName = "活动送货地址信息")
-    public void activityAddress(
-    		@RequestParam(value="couponNumber") String couponNumber,
-    		@RequestParam(value="consignmentName", required = false)String consignmentName,
-    		@RequestParam(value="consignmentPhone", required = false) String consignmentPhone,
-    		@RequestParam(value="consignmentAddress", required = false) String consignmentAddress,
-    		@RequestParam(value="sendTime",required = false) String sendTime) throws ParseException{
-    	Date sendTimeDate = null;
-    	if(!StringUtils.isBlank(sendTime)){
-    		 SimpleDateFormat sFormat = new SimpleDateFormat("yyyy-MM-dd");
-    		 sendTimeDate = sFormat.parse(sendTime);
-    	}
+    public void activityAddress(@RequestBody CouponActivityAddress couponActivityAddress) throws ParseException{
+    	
     	CdActivityAddress activityAddress = new CdActivityAddress();
-    	activityAddress.setCouponNumber(couponNumber);
+    	activityAddress.setCouponNumber(couponActivityAddress.getCouponNumber());
     	activityAddress = mybatisDao.selectOneByModel(activityAddress);
     	if(activityAddress == null){
     		activityAddress = new CdActivityAddress();
-    		activityAddress.setConsignmentAddress(consignmentAddress);
-    		activityAddress.setConsignmentPhone(consignmentPhone);
-    		activityAddress.setConsignmentName(consignmentName);
-    		activityAddress.setCouponNumber(couponNumber);
-    		activityAddress.setSendTime(sendTimeDate);
+    		activityAddress.setConsignmentAddress(couponActivityAddress.getConsignmentAddress());
+    		activityAddress.setConsignmentPhone(couponActivityAddress.getConsignmentPhone());
+    		activityAddress.setConsignmentName(couponActivityAddress.getConsignmentName());
+    		activityAddress.setCouponNumber(couponActivityAddress.getCouponNumber());
+    		activityAddress.setSendTime(couponActivityAddress.getSendTime());
     		mybatisDao.save(activityAddress);
     	}else{
-    		activityAddress.setConsignmentAddress(consignmentAddress);
-    		activityAddress.setConsignmentPhone(consignmentPhone);
-    		activityAddress.setConsignmentName(consignmentName);
-    		activityAddress.setSendTime(sendTimeDate);
+    		activityAddress.setConsignmentAddress(couponActivityAddress.getConsignmentAddress());
+    		activityAddress.setConsignmentPhone(couponActivityAddress.getConsignmentPhone());
+    		activityAddress.setConsignmentName(couponActivityAddress.getConsignmentName());
+    		activityAddress.setSendTime(couponActivityAddress.getSendTime());
     		mybatisDao.update(activityAddress);
     	}
     }

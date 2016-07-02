@@ -166,66 +166,6 @@ public class CdContractItemExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andContractTypeIsNull() {
-            addCriterion("CONTRACT_TYPE is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractTypeIsNotNull() {
-            addCriterion("CONTRACT_TYPE is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractTypeEqualTo(Integer value) {
-            addCriterion("CONTRACT_TYPE =", value, "contractType");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractTypeNotEqualTo(Integer value) {
-            addCriterion("CONTRACT_TYPE <>", value, "contractType");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractTypeGreaterThan(Integer value) {
-            addCriterion("CONTRACT_TYPE >", value, "contractType");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractTypeGreaterThanOrEqualTo(Integer value) {
-            addCriterion("CONTRACT_TYPE >=", value, "contractType");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractTypeLessThan(Integer value) {
-            addCriterion("CONTRACT_TYPE <", value, "contractType");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractTypeLessThanOrEqualTo(Integer value) {
-            addCriterion("CONTRACT_TYPE <=", value, "contractType");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractTypeIn(List<Integer> values) {
-            addCriterion("CONTRACT_TYPE in", values, "contractType");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractTypeNotIn(List<Integer> values) {
-            addCriterion("CONTRACT_TYPE not in", values, "contractType");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractTypeBetween(Integer value1, Integer value2) {
-            addCriterion("CONTRACT_TYPE between", value1, value2, "contractType");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractTypeNotBetween(Integer value1, Integer value2) {
-            addCriterion("CONTRACT_TYPE not between", value1, value2, "contractType");
-            return (Criteria) this;
-        }
-
         public Criteria andCdContractIdIsNull() {
             addCriterion("CD_CONTRACT_ID is null");
             return (Criteria) this;
@@ -286,6 +226,66 @@ public class CdContractItemExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
+        public Criteria andContractTypeIsNull() {
+            addCriterion("CONTRACT_TYPE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeIsNotNull() {
+            addCriterion("CONTRACT_TYPE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeEqualTo(Integer value) {
+            addCriterion("CONTRACT_TYPE =", value, "contractType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeNotEqualTo(Integer value) {
+            addCriterion("CONTRACT_TYPE <>", value, "contractType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeGreaterThan(Integer value) {
+            addCriterion("CONTRACT_TYPE >", value, "contractType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("CONTRACT_TYPE >=", value, "contractType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeLessThan(Integer value) {
+            addCriterion("CONTRACT_TYPE <", value, "contractType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("CONTRACT_TYPE <=", value, "contractType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeIn(List<Integer> values) {
+            addCriterion("CONTRACT_TYPE in", values, "contractType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeNotIn(List<Integer> values) {
+            addCriterion("CONTRACT_TYPE not in", values, "contractType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeBetween(Integer value1, Integer value2) {
+            addCriterion("CONTRACT_TYPE between", value1, value2, "contractType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("CONTRACT_TYPE not between", value1, value2, "contractType");
+            return (Criteria) this;
+        }
+
         public Criteria andCdItemIdIsNull() {
             addCriterion("CD_ITEM_ID is null");
             return (Criteria) this;
@@ -343,6 +343,66 @@ public class CdContractItemExample extends BaseMybatisExample {
 
         public Criteria andCdItemIdNotBetween(Integer value1, Integer value2) {
             addCriterion("CD_ITEM_ID not between", value1, value2, "cdItemId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountIsNull() {
+            addCriterion("DISCOUNT is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountIsNotNull() {
+            addCriterion("DISCOUNT is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountEqualTo(BigDecimal value) {
+            addCriterion("DISCOUNT =", value, "discount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountNotEqualTo(BigDecimal value) {
+            addCriterion("DISCOUNT <>", value, "discount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountGreaterThan(BigDecimal value) {
+            addCriterion("DISCOUNT >", value, "discount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("DISCOUNT >=", value, "discount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountLessThan(BigDecimal value) {
+            addCriterion("DISCOUNT <", value, "discount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("DISCOUNT <=", value, "discount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountIn(List<BigDecimal> values) {
+            addCriterion("DISCOUNT in", values, "discount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountNotIn(List<BigDecimal> values) {
+            addCriterion("DISCOUNT not in", values, "discount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("DISCOUNT between", value1, value2, "discount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("DISCOUNT not between", value1, value2, "discount");
             return (Criteria) this;
         }
 

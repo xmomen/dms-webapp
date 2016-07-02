@@ -25,21 +25,12 @@
 		ccc.CATEGORY_NAME,
 		cd_company.COMPANY_NAME,
         r.CD_MEMBER_ID AS memberId,
-		su.realname as managerName,
-		caa.consignment_name,
-		caa.consignment_phone,
-		caa.consignment_address,
-		caa.send_time,
-		price.ref_value as receivedPrice
+		su.realname as managerName
         FROM
         cd_coupon cc
         left join cd_coupon_category ccc on cc.COUPON_CATEGORY = ccc.id
-        left join cd_coupon_ref ccr on cc.id = ccr.cd_coupon_id and ccr.ref_type='SEND_COMPANY'
-        left join cd_company cd_company on ccr.ref_value = cd_company.id
-        left join cd_coupon_ref ccrc on cc.id = ccrc.cd_coupon_id and ccrc.ref_type='SEND_CUSTOMER'
-        left join sys_users su on ccrc.ref_value = su.id
-        left join cd_activity_address caa on cc.coupon_number = caa.coupon_number
-        left join cd_coupon_ref price on cc.id = price.cd_coupon_id and price.ref_type='RECEIVED_PRICE'
+        left join cd_company cd_company on cc.cd_company_id = cd_company.id
+        left join sys_users su on cc.cd_user_id = su.id
         LEFT JOIN cd_member_coupon_relation r ON r.COUPON_NUMBER = cc.COUPON_NUMBER
         <where>
        			<![CDATA[ (cc.IS_USED = 0 or cc.IS_USED = 1) ]]>  
@@ -70,8 +61,70 @@
               <if test="managerId">
                 AND su.ID = #{managerId}
               </if>
-              <if test="customerMangerId != null">
-              	AND ccrc.ref_value = #{customerMangerId}
+              <if test="cdCompanyId != null">
+              	AND ccr.ref_value = #{cdCompanyId}
+              </if>
+              <if test="isOver != null">
+              	AND cc.is_over = #{isOver}
+              </if>
+         </where>
+    </select>
+    
+    <!--金额回填查询-->
+	<select id="getCouponActivityList" resultMap="couponModelMap" parameterType="com.xmomen.module.base.model.CouponQuery">
+        SELECT
+			car.CD_ACTIVITY_ID,
+	        cc.COUPON_TYPE,
+	        cc.USER_PRICE,
+	        cc.COUPON_NUMBER,
+	        cc.BATCH,
+	        cc.COUPON_CATEGORY as couponCategoryId,
+			ccc.CATEGORY_NAME,
+			cd_company.COMPANY_NAME,
+	        r.CD_MEMBER_ID AS memberId,
+			su.realname as managerName,
+			caa.consignment_name,
+			caa.consignment_phone,
+			caa.consignment_address,
+			caa.send_time,
+			price.ref_value as receivedPrice
+        FROM
+	        cd_coupon cc
+	        left join cd_coupon_category ccc on cc.COUPON_CATEGORY = ccc.id
+	        left join cd_company cd_company on cc.cd_company_id = cd_company.id
+	        left join sys_users su on cc.cd_user_id = su.id
+	        left join cd_activity_address caa on cc.coupon_number = caa.coupon_number
+	        left join cd_coupon_ref price on cc.id = price.cd_coupon_id and price.ref_type='RECEIVED_PRICE'
+	        LEFT JOIN cd_member_coupon_relation r ON r.COUPON_NUMBER = cc.COUPON_NUMBER
+			left join cd_activity_ref car on cc.COUPON_CATEGORY = car.REF_VALUE and car.REF_TYPE ='COUPON'
+        <where>
+       			<![CDATA[ (cc.IS_USED = 0 or cc.IS_USED = 1) ]]>  
+              <if test="keyword !=null and keyword !=''">
+                  AND (cc.COUPON_NUMBER LIKE CONCAT('%', #{keyword}, '%'))
+              </if>
+              <if test="couponNumber !=null and couponNumber !=''">
+                  AND cc.COUPON_NUMBER = #{couponNumber}
+              </if>
+              <if test="categoryType">
+              	AND ccc.category_type = #{categoryType}
+              </if>
+              <if test="couponCategoryId != null">
+              	AND cc.COUPON_CATEGORY = #{couponCategoryId}
+              </if>
+              <if test="isSend != null">
+              	AND cc.is_send = #{isSend}
+              </if>
+                <if test="batch">
+              	AND cc.batch = #{batch}
+              </if>
+              <if test="isUseful == 0 || isUseful == 1">
+              	AND cc.is_useful = #{isUseful}
+              </if>
+              <if test="isUseful == 3">
+              	AND cc.is_useful = 0 and cc.coupon_Value > 0
+              </if>
+              <if test="managerId">
+                AND su.ID = #{managerId}
               </if>
               <if test="cdCompanyId != null">
               	AND ccr.ref_value = #{cdCompanyId}

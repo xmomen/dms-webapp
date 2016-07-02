@@ -10,10 +10,13 @@ define([
     "views/base/itemCategory",
     "views/base/item",
     "views/base/contract",
+    "views/base/contract_create",
+    "views/base/contract_update",
     "views/base/activity",
     "views/base/couponActivity",
-    "views/base/couponAudit"
-],function (memberList,companyList,couponCategory,coupon,dictionary,itemCategory,item,contract,activity,couponActivity,couponAudit) {
+    "views/base/couponAudit",
+    "views/base/couponAuditBack"
+],function (memberList,companyList,couponCategory,coupon,dictionary,itemCategory,item,contract,contract_create,contract_update,activity,couponActivity,couponAudit,couponAuditBack) {
     angular.module('DMS.base', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -106,6 +109,30 @@ define([
                 },
                 controller: contract
             })
+            .state('contract_create', {
+                url: '/contract/create',
+                templateUrl: 'views/base/contract_create.html',
+                data:{
+                    permissions:{
+                        only:["CONTRACT_VIEW"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: contract_create
+            })
+
+            .state('contract_update', {
+                url: '/contract/:id/update/',
+                templateUrl: 'views/base/contract_update.html',
+                controller:contract_update,
+                data:{
+                    permissions:{
+                        only:["CONTRACT_VIEW"],
+                        redirectTo:"unauthorized"
+                    }
+                }
+            })
+
             .state('activity', {
                 url: '/activity',
                 templateUrl: 'views/base/activity.html',
@@ -134,6 +161,17 @@ define([
                 data:{
                     permissions:{
                         only:["COUPON_AUDIT_VIEW"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: couponAudit
+            })
+            .state('couponAuditBack', {
+                url: '/couponAuditBack',
+                templateUrl: 'views/base/couponAuditBack.html',
+                data:{
+                    permissions:{
+                        only:["COUPON_AUDIT_BACK_VIEW"],
                         redirectTo:"unauthorized"
                     }
                 },

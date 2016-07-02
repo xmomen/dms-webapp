@@ -86,6 +86,7 @@
 									</th>
 									<th width="120">卡券类型</th>
                                     <th>卡劵类别</th>
+                                    <th>付费方式</th>
 									<th>描述</th>
 									<th>卡号/劵号</th>
 									<th>面值</th>
@@ -114,7 +115,8 @@
 									</td>
                                     <td><span ng-if="coupon.couponType == 1">卡</span><span ng-if="coupon.couponType == 2">消费劵</span></td>
                                     <td ng-bind="coupon.categoryName"></td>
-									<td ng-bind="coupon.couponDesc"></td>
+                                    <td><span ng-if="coupon.paymentType == 1">预付款</span><span ng-if="coupon.paymentType == 2">后付款</span></td>
+                                    <td ng-bind="coupon.couponDesc"></td>
 									<td ng-bind="coupon.couponNumber"></td>
 									<td ng-bind="coupon.couponValue"></td>
                                     <td ng-bind="coupon.userPrice"></td>
@@ -201,6 +203,19 @@
 						</div>
 					</div>
                     <div class="form-group">
+                        <label class="col-md-2 control-label">付费类型</label>
+                        <div class="col-md-10 input-group">
+                            <label class="radio radio-inline">
+                                <input type="radio" class="radiobox" ng-model="coupon.paymentType" ng-disabled="coupon.couponType == 2" value="1" ng-checked="coupon.paymentType==1"  name="paymentType">
+                                <span>预付款</span>
+                            </label>
+                            <label class="radio radio-inline">
+                                <input type="radio" class="radiobox" ng-model="coupon.paymentType" ng-disabled="coupon.couponType == 2" value="2" ng-checked="coupon.paymentType==2" name="paymentType">
+                                <span>后付款</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-md-2 control-label">类别<span class="vaild">*</span></label>
                         <div class="col-md-10 input-group">
                             <select ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;" required="true" ng-model="coupon.couponCategory" name="couponCategory" >
@@ -239,7 +254,7 @@
                     <div class="form-group" ng-show="coupon.couponType == 1">
                         <label class="col-md-2 control-label">余额</label>
                         <div class="col-md-10 input-group">
-                            <input class="form-control" ng-model="coupon.userPrice" name="couponValue" placeholder="余额" type="text">
+                            <input class="form-control" ng-disabled="coupon.id != null" ng-model="coupon.userPrice" name="couponValue" placeholder="余额" type="text">
                         </div>
                     </div>
 					<div class="form-group">

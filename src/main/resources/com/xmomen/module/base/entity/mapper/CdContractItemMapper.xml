@@ -3,9 +3,10 @@
 <mapper namespace="com.xmomen.module.base.entity.mapper.CdContractItemMapper" >
   <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdContractItem" >
     <id column="ID" property="id" jdbcType="INTEGER" />
-    <result column="CONTRACT_TYPE" property="contractType" jdbcType="INTEGER" />
     <result column="CD_CONTRACT_ID" property="cdContractId" jdbcType="INTEGER" />
+    <result column="CONTRACT_TYPE" property="contractType" jdbcType="INTEGER" />
     <result column="CD_ITEM_ID" property="cdItemId" jdbcType="INTEGER" />
+    <result column="DISCOUNT" property="discount" jdbcType="DOUBLE" />
     <result column="CONTRACT_VALUE" property="contractValue" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, CONTRACT_TYPE, CD_CONTRACT_ID, CD_ITEM_ID, CONTRACT_VALUE
+    ID, CD_CONTRACT_ID, CONTRACT_TYPE, CD_ITEM_ID, DISCOUNT, CONTRACT_VALUE
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdContractItemExample" >
     select
@@ -95,14 +96,17 @@
       <if test="id != null" >
         ID,
       </if>
-      <if test="contractType != null" >
-        CONTRACT_TYPE,
-      </if>
       <if test="cdContractId != null" >
         CD_CONTRACT_ID,
       </if>
+      <if test="contractType != null" >
+        CONTRACT_TYPE,
+      </if>
       <if test="cdItemId != null" >
         CD_ITEM_ID,
+      </if>
+      <if test="discount != null" >
+        DISCOUNT,
       </if>
       <if test="contractValue != null" >
         CONTRACT_VALUE,
@@ -112,14 +116,17 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="contractType != null" >
-        #{contractType,jdbcType=INTEGER},
-      </if>
       <if test="cdContractId != null" >
         #{cdContractId,jdbcType=INTEGER},
       </if>
+      <if test="contractType != null" >
+        #{contractType,jdbcType=INTEGER},
+      </if>
       <if test="cdItemId != null" >
         #{cdItemId,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DOUBLE},
       </if>
       <if test="contractValue != null" >
         #{contractValue,jdbcType=DECIMAL},
@@ -138,14 +145,17 @@
       <if test="record.id != null" >
         ID = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.contractType != null" >
-        CONTRACT_TYPE = #{record.contractType,jdbcType=INTEGER},
-      </if>
       <if test="record.cdContractId != null" >
         CD_CONTRACT_ID = #{record.cdContractId,jdbcType=INTEGER},
       </if>
+      <if test="record.contractType != null" >
+        CONTRACT_TYPE = #{record.contractType,jdbcType=INTEGER},
+      </if>
       <if test="record.cdItemId != null" >
         CD_ITEM_ID = #{record.cdItemId,jdbcType=INTEGER},
+      </if>
+      <if test="record.discount != null" >
+        DISCOUNT = #{record.discount,jdbcType=DOUBLE},
       </if>
       <if test="record.contractValue != null" >
         CONTRACT_VALUE = #{record.contractValue,jdbcType=DECIMAL},

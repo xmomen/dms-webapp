@@ -19,14 +19,14 @@ public class CdContract extends BaseMybatisModel {
     private Integer id;
 
     /**
-     * 合同名称
-     */
-    private String contractName;
-
-    /**
      * 合同编号
      */
     private String contractCode;
+
+    /**
+     * 合同名称
+     */
+    private String contractName;
 
     /**
      * 合同价的客户
@@ -59,6 +59,11 @@ public class CdContract extends BaseMybatisModel {
     private Date endTime;
 
     /**
+     * 0-未作废，1-作废
+     */
+    private Integer isDel;
+
+    /**
      * 0-未审核，1-审核
      */
     private Integer isAuditor;
@@ -79,20 +84,6 @@ public class CdContract extends BaseMybatisModel {
         addValidField("id");
     }
 
-    @Column(name = "CONTRACT_NAME")
-    public String getContractName() {
-        return contractName;
-    }
-
-    public void setContractName(String contractName) {
-        this.contractName = contractName;
-        if(contractName == null){
-              removeValidField("contractName");
-              return;
-        }
-        addValidField("contractName");
-    }
-
     @Column(name = "CONTRACT_CODE")
     public String getContractCode() {
         return contractCode;
@@ -105,6 +96,20 @@ public class CdContract extends BaseMybatisModel {
               return;
         }
         addValidField("contractCode");
+    }
+
+    @Column(name = "CONTRACT_NAME")
+    public String getContractName() {
+        return contractName;
+    }
+
+    public void setContractName(String contractName) {
+        this.contractName = contractName;
+        if(contractName == null){
+              removeValidField("contractName");
+              return;
+        }
+        addValidField("contractName");
     }
 
     @Column(name = "CD_MEMBER_ID")
@@ -189,6 +194,20 @@ public class CdContract extends BaseMybatisModel {
               return;
         }
         addValidField("endTime");
+    }
+
+    @Column(name = "IS_DEL")
+    public Integer getIsDel() {
+        return isDel;
+    }
+
+    public void setIsDel(Integer isDel) {
+        this.isDel = isDel;
+        if(isDel == null){
+              removeValidField("isDel");
+              return;
+        }
+        addValidField("isDel");
     }
 
     @Column(name = "IS_AUDITOR")
