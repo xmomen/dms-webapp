@@ -726,6 +726,66 @@ public class TbPurchaseExample extends BaseMybatisExample {
             addCriterion("PACKING_VALUE not between", value1, value2, "packingValue");
             return (Criteria) this;
         }
+
+        public Criteria andPurchaseStatusIsNull() {
+            addCriterion("PURCHASE_STATUS is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseStatusIsNotNull() {
+            addCriterion("PURCHASE_STATUS is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseStatusEqualTo(Integer value) {
+            addCriterion("PURCHASE_STATUS =", value, "purchaseStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseStatusNotEqualTo(Integer value) {
+            addCriterion("PURCHASE_STATUS <>", value, "purchaseStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseStatusGreaterThan(Integer value) {
+            addCriterion("PURCHASE_STATUS >", value, "purchaseStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("PURCHASE_STATUS >=", value, "purchaseStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseStatusLessThan(Integer value) {
+            addCriterion("PURCHASE_STATUS <", value, "purchaseStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("PURCHASE_STATUS <=", value, "purchaseStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseStatusIn(List<Integer> values) {
+            addCriterion("PURCHASE_STATUS in", values, "purchaseStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseStatusNotIn(List<Integer> values) {
+            addCriterion("PURCHASE_STATUS not in", values, "purchaseStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseStatusBetween(Integer value1, Integer value2) {
+            addCriterion("PURCHASE_STATUS between", value1, value2, "purchaseStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("PURCHASE_STATUS not between", value1, value2, "purchaseStatus");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

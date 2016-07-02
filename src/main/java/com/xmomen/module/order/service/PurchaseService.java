@@ -3,10 +3,7 @@ package com.xmomen.module.order.service;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.utils.DateUtils;
-import com.xmomen.module.order.entity.TbOrder;
-import com.xmomen.module.order.entity.TbOrderExample;
-import com.xmomen.module.order.entity.TbOrderRelation;
-import com.xmomen.module.order.entity.TbPurchase;
+import com.xmomen.module.order.entity.*;
 import com.xmomen.module.order.mapper.OrderMapper;
 import com.xmomen.module.order.model.CreatePurchase;
 import com.xmomen.module.order.model.OrderPurchaseModel;
@@ -52,7 +49,7 @@ public class PurchaseService {
         param.put("endTime", createPurchase.getOrderDate());
         List<OrderPurchaseModel> purchaseModelList = mybatisDao.getSqlSessionTemplate().selectList(OrderMapper.ORDER_MAPPER_NAMESPACE + "getOrderPurchaseList", param);
         if(CollectionUtils.isEmpty(purchaseModelList)){
-            return;
+            throw new IllegalArgumentException("今天没有需要生成的采购计划");
         }
         Map<String, TbPurchase> tbPurchaseMap = new HashMap<String, TbPurchase>();
         List<String> orderNoList = new ArrayList<String>();
@@ -62,6 +59,7 @@ public class PurchaseService {
                 TbPurchase tbPurchase = new TbPurchase();
                 tbPurchase.setPurchaseCode(purchaseCode);
                 tbPurchase.setCreateDate(mybatisDao.getSysdate());
+                tbPurchase.setPurchaseStatus(0);
                 tbPurchase.setItemCode(purchaseModel.getItemCode());
                 tbPurchase.setTotal(purchaseModel.getTotalItemQty());
                 tbPurchaseMap.put(purchaseModel.getItemCode(), tbPurchase);
@@ -90,6 +88,15 @@ public class PurchaseService {
             tbOrderRelation.setRefValue(purchaseCode);
             mybatisDao.insert(tbOrderRelation);
         }
+    }
+
+    @Transactional
+    public void updatePurchaseStatus(Integer id, Integer purchaseStatus){
+        TbPurchaseExample tbPurchaseExample = new TbPurchaseExample();
+        tbPurchaseExample.createCriteria().andIdEqualTo(id);
+        TbPurchase tbPurchase = new TbPurchase();
+        tbPurchase.setPurchaseStatus(purchaseStatus);
+        mybatisDao.updateOneByExampleSelective(tbPurchase, tbPurchaseExample);
     }
 
     /**

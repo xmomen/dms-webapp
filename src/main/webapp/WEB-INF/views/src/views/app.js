@@ -93,7 +93,45 @@ define([
                 post:httpPost
             };
         }]
-    }).directive("ugSelect2",["CompanyAPI", "$rootScope", function(CompanyAPI, $rootScope){
+    }).directive('datepickerLocaldate', ['$filter', function ($filter) {
+        /**
+         * change model to iso format (yyyy-MM-dd)
+         */
+        return {
+            require: 'ngModel',
+            link:  function link(scope, element, attr, ngModel) {
+
+                ngModel.$parsers.push(function toModel(date) {
+                    if (!date) {
+                        return undefined;
+                    }
+                    return $filter('date')(date, 'yyyy-MM-dd');
+                });
+
+                var converted = false;
+                scope.$watch(function(){
+                        return ngModel.$modelValue;
+                    },
+                    function(modelValue){
+
+                        // convert to localDate (remove timezone if necessary), this is for datepicker to synchronize with the good date for negative timezone (https://github.com/angular-ui/bootstrap/issues/2072)
+                        if(!converted && modelValue){
+
+                            var dt = new Date(modelValue);
+                            if(dt.getTimezoneOffset() > 0)
+                                dt.setMinutes(dt.getMinutes() + dt.getTimezoneOffset());
+
+                            ngModel.$modelValue = dt;
+
+                            ngModel.$render();
+
+                            converted=true;
+
+                        }
+                    });
+            }
+        };
+    }]).directive("ugSelect2",["CompanyAPI", "$rootScope", function(CompanyAPI, $rootScope){
         return {
             restrict:"A",
             require:"select",
