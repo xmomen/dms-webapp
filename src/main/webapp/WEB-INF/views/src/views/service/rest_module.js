@@ -154,6 +154,15 @@ define(function () {
             sendOneCoupon:{method:"GET",url:"/coupon/sendOneCoupon",params:{id:"@id",companyId:"@companyId",couponNumber:"@couponNumber",batch:"@batch"}},
             sendMoreCoupon:{method:"GET",url:"/coupon/sendMoreCoupon",params:{companyId:"@companyId",couponNumberList:"@couponNumberList",batch:"@batch"}},
             activityAddress:{method:"POST",url:"/coupon/activityAddress"},
+            updateUserPrice:{
+                method:"GET",
+                url:"/coupon/updateBalance" ,
+                params:{
+                    couponNo:"@couponNo",
+                    updatePrice:"@updatePrice",
+                    couponNo:"@remark"
+                }
+            },
             audit:{
                 method:"PUT",
                     url:"/coupon/:id/audit" ,

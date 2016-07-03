@@ -94,6 +94,7 @@
               </if>
               <if test="isDistribute == 1">
               	AND (p.TOTAL - p.DISTRIBUTE_VALUE) > 0
+              	AND p.PURCHASE_STATUS = 1
               </if>
           </where>
         ORDER BY p.CREATE_DATE DESC

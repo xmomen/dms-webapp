@@ -7,6 +7,8 @@
     <result column="TRADE_NO" property="tradeNo" jdbcType="VARCHAR" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="TRADE_TYPE" property="tradeType" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="RECORD_USER" property="recordUser" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -67,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, AMOUNT, TRADE_NO, CREATE_TIME, TRADE_TYPE
+    ID, AMOUNT, TRADE_NO, CREATE_TIME, TRADE_TYPE, REMARK, RECORD_USER
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbTradeRecordExample" >
     select
@@ -107,6 +109,12 @@
       <if test="tradeType != null" >
         TRADE_TYPE,
       </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="recordUser != null" >
+        RECORD_USER,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -123,6 +131,12 @@
       </if>
       <if test="tradeType != null" >
         #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="recordUser != null" >
+        #{recordUser,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -149,6 +163,12 @@
       </if>
       <if test="record.tradeType != null" >
         TRADE_TYPE = #{record.tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recordUser != null" >
+        RECORD_USER = #{record.recordUser,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >

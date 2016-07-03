@@ -87,6 +87,19 @@ will not initialize.
             </div>
         </nav:group>
     </div>
+    <div permission only="'PACKAGE_MENU'">
+        <nav:group data-icon="fa fa-fw fa-shopping-cart" title="包装管理">
+            <div permission only="'PACKAGE_TASK_DOWN'">
+                <nav:item ui-sref="packageTaskDown" title="任务下发" />
+            </div>
+            <div permission only="'PACKAGE_TASK'">
+                <nav:item ui-sref="packageTask" title="包装任务" />
+            </div>
+            <div permission only="'PACKAGE_TASK_VIEW'">
+                <nav:item ui-sref="packageTaskView" title="任务进度看板" />
+            </div>
+        </nav:group>
+    </div>
     <div permission only="'PACKING_MENU'">
         <nav:group data-icon="fa fa-fw fa-shopping-cart" title="装箱管理">
             <div permission only="'PACKING_TASK'">
@@ -100,16 +113,10 @@ will not initialize.
             </div>
         </nav:group>
     </div>
-    <div permission only="'PACKAGE_MENU'">
-        <nav:group data-icon="fa fa-fw fa-shopping-cart" title="包装管理">
-            <div permission only="'PACKAGE_TASK_DOWN'">
-                <nav:item ui-sref="packageTaskDown" title="任务下发" />
-            </div>
-            <div permission only="'PACKAGE_TASK'">
-                <nav:item ui-sref="packageTask" title="包装任务" />
-            </div>
-            <div permission only="'PACKAGE_TASK_VIEW'">
-                <nav:item ui-sref="packageTaskView" title="任务进度看板" />
+    <div permission only="'DESPATCH_MENU'">
+        <nav:group data-icon="fa fa-fw fa-shopping-cart" title="发运管理">
+            <div permission only="'DESPATCH_JOB'">
+                <nav:item ui-sref="packing_task" title="发运分配" />
             </div>
         </nav:group>
     </div>
