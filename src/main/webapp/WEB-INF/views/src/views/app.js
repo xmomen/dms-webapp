@@ -8,11 +8,12 @@ define([
     "views/checklist-model/checklist-model",
     "views/plan/plan_module",
     "views/package/package_module",
-    "views/pick/pick_module"
-],function (user_module,order_module,schedule_module, dashboard, base_module, template_module,checklist_model,plan_module,package_module) {
+    "views/pick/pick_module",
+    "views/despatch/despatch_module"
+],function (user_module,order_module,schedule_module, dashboard, base_module, template_module,checklist_model,plan_module,package_module,despatch_module) {
     angular.module('DMS', [
         "smartApp", "ui.router", "DMS.schedule", "DMS.order", "DMS.tpls", "DMS.user","DMS.base", "ug.pagination", "EnvModule", "permission", "ug.validate","ug.dialog",
-        "DMS.REST","checklist-model","DMS.plan","DMS.package","DMS.pick"
+        "DMS.REST","checklist-model","DMS.plan","DMS.package","DMS.pick","DMS.despatch"
     ]).factory({
         HttpInterceptor:["$q", function($q){
            return {

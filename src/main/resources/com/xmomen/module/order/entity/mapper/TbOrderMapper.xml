@@ -9,8 +9,8 @@
     <result column="PAYMENT_MODE" property="paymentMode" jdbcType="INTEGER" />
     <result column="MEMBER_CODE" property="memberCode" jdbcType="VARCHAR" />
     <result column="ORDER_STATUS" property="orderStatus" jdbcType="VARCHAR" />
-    <result column="CONSIGNEE_PHONE" property="consigneePhone" jdbcType="VARCHAR" />
     <result column="PAY_STATUS" property="payStatus" jdbcType="INTEGER" />
+    <result column="CONSIGNEE_PHONE" property="consigneePhone" jdbcType="VARCHAR" />
     <result column="CONSIGNEE_NAME" property="consigneeName" jdbcType="VARCHAR" />
     <result column="CONSIGNEE_ADDRESS" property="consigneeAddress" jdbcType="VARCHAR" />
     <result column="POSTCODE" property="postcode" jdbcType="VARCHAR" />
@@ -20,6 +20,7 @@
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="APPOINTMENT_TIME" property="appointmentTime" jdbcType="TIMESTAMP" />
     <result column="CREATE_USER_ID" property="createUserId" jdbcType="INTEGER" />
+    <result column="DESPATCH_EXPRESS_ID" property="despatchExpressId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -81,8 +82,8 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, ORDER_NO, ORDER_TYPE, ORDER_SOURCE, PAYMENT_MODE, MEMBER_CODE, ORDER_STATUS, 
-    CONSIGNEE_PHONE, PAY_STATUS, CONSIGNEE_NAME, CONSIGNEE_ADDRESS, POSTCODE, TRANSPORT_MODE, 
-    REMARK, TOTAL_AMOUNT, CREATE_TIME, APPOINTMENT_TIME, CREATE_USER_ID
+    PAY_STATUS, CONSIGNEE_PHONE, CONSIGNEE_NAME, CONSIGNEE_ADDRESS, POSTCODE, TRANSPORT_MODE, 
+    REMARK, TOTAL_AMOUNT, CREATE_TIME, APPOINTMENT_TIME, CREATE_USER_ID, DESPATCH_EXPRESS_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbOrderExample" >
     select
@@ -128,11 +129,11 @@
       <if test="orderStatus != null" >
         ORDER_STATUS,
       </if>
-      <if test="consigneePhone != null" >
-        CONSIGNEE_PHONE,
-      </if>
       <if test="payStatus != null" >
         PAY_STATUS,
+      </if>
+      <if test="consigneePhone != null" >
+        CONSIGNEE_PHONE,
       </if>
       <if test="consigneeName != null" >
         CONSIGNEE_NAME,
@@ -161,6 +162,9 @@
       <if test="createUserId != null" >
         CREATE_USER_ID,
       </if>
+      <if test="despatchExpressId != null" >
+        DESPATCH_EXPRESS_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -184,11 +188,11 @@
       <if test="orderStatus != null" >
         #{orderStatus,jdbcType=VARCHAR},
       </if>
-      <if test="consigneePhone != null" >
-        #{consigneePhone,jdbcType=VARCHAR},
-      </if>
       <if test="payStatus != null" >
         #{payStatus,jdbcType=INTEGER},
+      </if>
+      <if test="consigneePhone != null" >
+        #{consigneePhone,jdbcType=VARCHAR},
       </if>
       <if test="consigneeName != null" >
         #{consigneeName,jdbcType=VARCHAR},
@@ -216,6 +220,9 @@
       </if>
       <if test="createUserId != null" >
         #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="despatchExpressId != null" >
+        #{despatchExpressId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -249,11 +256,11 @@
       <if test="record.orderStatus != null" >
         ORDER_STATUS = #{record.orderStatus,jdbcType=VARCHAR},
       </if>
-      <if test="record.consigneePhone != null" >
-        CONSIGNEE_PHONE = #{record.consigneePhone,jdbcType=VARCHAR},
-      </if>
       <if test="record.payStatus != null" >
         PAY_STATUS = #{record.payStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.consigneePhone != null" >
+        CONSIGNEE_PHONE = #{record.consigneePhone,jdbcType=VARCHAR},
       </if>
       <if test="record.consigneeName != null" >
         CONSIGNEE_NAME = #{record.consigneeName,jdbcType=VARCHAR},
@@ -281,6 +288,9 @@
       </if>
       <if test="record.createUserId != null" >
         CREATE_USER_ID = #{record.createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.despatchExpressId != null" >
+        DESPATCH_EXPRESS_ID = #{record.despatchExpressId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >

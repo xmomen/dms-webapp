@@ -129,5 +129,11 @@ class OrderModel implements Serializable {
      * 支付卡（券）号
      */
     private String couponNumber;
-
+    
+    /**
+     * 快递商
+     */
+    private String expressName;
+    
+    private Integer despatchExpressId;
 }

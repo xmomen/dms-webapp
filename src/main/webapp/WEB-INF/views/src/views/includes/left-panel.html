@@ -46,6 +46,9 @@ will not initialize.
             <div permission only="'ACTIVITY_VIEW'">
                 <nav:item ui-sref="activity" title="活动管理"/>
             </div>
+            <div permission only="'EXPRESS_LIST'">
+                <nav:item ui-sref="expressList" title="快递商管理"/>
+            </div>
         </nav:group>
     </div>
     <div permission only="'COUPON_MENU'">
@@ -113,13 +116,15 @@ will not initialize.
             </div>
         </nav:group>
     </div>
+
     <div permission only="'DESPATCH_MENU'">
         <nav:group data-icon="fa fa-fw fa-shopping-cart" title="发运管理">
             <div permission only="'DESPATCH_JOB'">
-                <nav:item ui-sref="packing_task" title="发运分配" />
+                <nav:item ui-sref="despatch_job" title="发运分配" />
             </div>
         </nav:group>
     </div>
+
     <div permission only="'PICK_MENU'">
         <nav:group data-icon="fa fa-fw fa-shopping-cart" title="采摘管理">
             <div permission only="'PICK'">

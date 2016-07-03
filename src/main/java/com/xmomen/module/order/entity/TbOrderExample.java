@@ -557,6 +557,66 @@ public class TbOrderExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
+        public Criteria andPayStatusIsNull() {
+            addCriterion("PAY_STATUS is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusIsNotNull() {
+            addCriterion("PAY_STATUS is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusEqualTo(Integer value) {
+            addCriterion("PAY_STATUS =", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusNotEqualTo(Integer value) {
+            addCriterion("PAY_STATUS <>", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusGreaterThan(Integer value) {
+            addCriterion("PAY_STATUS >", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("PAY_STATUS >=", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusLessThan(Integer value) {
+            addCriterion("PAY_STATUS <", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("PAY_STATUS <=", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusIn(List<Integer> values) {
+            addCriterion("PAY_STATUS in", values, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusNotIn(List<Integer> values) {
+            addCriterion("PAY_STATUS not in", values, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusBetween(Integer value1, Integer value2) {
+            addCriterion("PAY_STATUS between", value1, value2, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("PAY_STATUS not between", value1, value2, "payStatus");
+            return (Criteria) this;
+        }
+
         public Criteria andConsigneePhoneIsNull() {
             addCriterion("CONSIGNEE_PHONE is null");
             return (Criteria) this;
@@ -624,66 +684,6 @@ public class TbOrderExample extends BaseMybatisExample {
 
         public Criteria andConsigneePhoneNotBetween(String value1, String value2) {
             addCriterion("CONSIGNEE_PHONE not between", value1, value2, "consigneePhone");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayStatusIsNull() {
-            addCriterion("PAY_STATUS is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayStatusIsNotNull() {
-            addCriterion("PAY_STATUS is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayStatusEqualTo(Integer value) {
-            addCriterion("PAY_STATUS =", value, "payStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayStatusNotEqualTo(Integer value) {
-            addCriterion("PAY_STATUS <>", value, "payStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayStatusGreaterThan(Integer value) {
-            addCriterion("PAY_STATUS >", value, "payStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayStatusGreaterThanOrEqualTo(Integer value) {
-            addCriterion("PAY_STATUS >=", value, "payStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayStatusLessThan(Integer value) {
-            addCriterion("PAY_STATUS <", value, "payStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayStatusLessThanOrEqualTo(Integer value) {
-            addCriterion("PAY_STATUS <=", value, "payStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayStatusIn(List<Integer> values) {
-            addCriterion("PAY_STATUS in", values, "payStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayStatusNotIn(List<Integer> values) {
-            addCriterion("PAY_STATUS not in", values, "payStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayStatusBetween(Integer value1, Integer value2) {
-            addCriterion("PAY_STATUS between", value1, value2, "payStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayStatusNotBetween(Integer value1, Integer value2) {
-            addCriterion("PAY_STATUS not between", value1, value2, "payStatus");
             return (Criteria) this;
         }
 
@@ -1264,6 +1264,66 @@ public class TbOrderExample extends BaseMybatisExample {
 
         public Criteria andCreateUserIdNotBetween(Integer value1, Integer value2) {
             addCriterion("CREATE_USER_ID not between", value1, value2, "createUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDespatchExpressIdIsNull() {
+            addCriterion("DESPATCH_EXPRESS_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDespatchExpressIdIsNotNull() {
+            addCriterion("DESPATCH_EXPRESS_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDespatchExpressIdEqualTo(Integer value) {
+            addCriterion("DESPATCH_EXPRESS_ID =", value, "despatchExpressId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDespatchExpressIdNotEqualTo(Integer value) {
+            addCriterion("DESPATCH_EXPRESS_ID <>", value, "despatchExpressId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDespatchExpressIdGreaterThan(Integer value) {
+            addCriterion("DESPATCH_EXPRESS_ID >", value, "despatchExpressId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDespatchExpressIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("DESPATCH_EXPRESS_ID >=", value, "despatchExpressId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDespatchExpressIdLessThan(Integer value) {
+            addCriterion("DESPATCH_EXPRESS_ID <", value, "despatchExpressId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDespatchExpressIdLessThanOrEqualTo(Integer value) {
+            addCriterion("DESPATCH_EXPRESS_ID <=", value, "despatchExpressId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDespatchExpressIdIn(List<Integer> values) {
+            addCriterion("DESPATCH_EXPRESS_ID in", values, "despatchExpressId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDespatchExpressIdNotIn(List<Integer> values) {
+            addCriterion("DESPATCH_EXPRESS_ID not in", values, "despatchExpressId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDespatchExpressIdBetween(Integer value1, Integer value2) {
+            addCriterion("DESPATCH_EXPRESS_ID between", value1, value2, "despatchExpressId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDespatchExpressIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("DESPATCH_EXPRESS_ID not between", value1, value2, "despatchExpressId");
             return (Criteria) this;
         }
     }

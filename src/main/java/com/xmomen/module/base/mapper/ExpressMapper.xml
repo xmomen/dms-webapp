@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.base.mapper.ExpressMapper" >
+
+    <!--    查询消息    -->
+    <select id="getExpressList" resultType="com.xmomen.module.base.entity.CdExpress" parameterType="java.util.HashMap">
+       select 
+       	cc.*
+       from cd_express cc
+		<where>
+              <if test="keyword">
+                  AND cc.express_code LIKE CONCAT('%', #{keyword}, '%') or cc.express_name LIKE CONCAT('%', #{keyword}, '%')
+              </if>
+              <if test="id">
+                  AND cc.id = #{id}
+              </if>
+        </where>
+    </select>
+</mapper>
+

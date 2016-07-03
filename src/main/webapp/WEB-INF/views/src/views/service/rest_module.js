@@ -348,4 +348,15 @@ define(function () {
             pickCard:{method:"PUT",url:"/pick/pickCard"}
         });
     }]);
+
+    ngREST.factory("ExpressAPI", ["$resource", function($resource){
+        return $resource("/express/:id", { id:"@id" }, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}},
+            bindExpress:{method:"PUT",url:"/express/order/bind"},
+            unbindExpress:{method:"PUT",url:"/express/order/unbind", params:{
+                orderNos:"@orderNos"
+            }},
+        });
+    }]);
 });

@@ -49,14 +49,14 @@ public class TbOrder extends BaseMybatisModel {
     private String orderStatus;
 
     /**
-     * 收货人手机
-     */
-    private String consigneePhone;
-
-    /**
      * 交易状态：0-待支付，1-已支付
      */
     private Integer payStatus;
+
+    /**
+     * 收货人手机
+     */
+    private String consigneePhone;
 
     /**
      * 收货人姓名
@@ -102,6 +102,11 @@ public class TbOrder extends BaseMybatisModel {
      * 订单创建人ID
      */
     private Integer createUserId;
+
+    /**
+     * 发运快递
+     */
+    private Integer despatchExpressId;
 
     @Column(name = "ID")
     @Id
@@ -203,20 +208,6 @@ public class TbOrder extends BaseMybatisModel {
         addValidField("orderStatus");
     }
 
-    @Column(name = "CONSIGNEE_PHONE")
-    public String getConsigneePhone() {
-        return consigneePhone;
-    }
-
-    public void setConsigneePhone(String consigneePhone) {
-        this.consigneePhone = consigneePhone;
-        if(consigneePhone == null){
-              removeValidField("consigneePhone");
-              return;
-        }
-        addValidField("consigneePhone");
-    }
-
     @Column(name = "PAY_STATUS")
     public Integer getPayStatus() {
         return payStatus;
@@ -229,6 +220,20 @@ public class TbOrder extends BaseMybatisModel {
               return;
         }
         addValidField("payStatus");
+    }
+
+    @Column(name = "CONSIGNEE_PHONE")
+    public String getConsigneePhone() {
+        return consigneePhone;
+    }
+
+    public void setConsigneePhone(String consigneePhone) {
+        this.consigneePhone = consigneePhone;
+        if(consigneePhone == null){
+              removeValidField("consigneePhone");
+              return;
+        }
+        addValidField("consigneePhone");
     }
 
     @Column(name = "CONSIGNEE_NAME")
@@ -355,5 +360,19 @@ public class TbOrder extends BaseMybatisModel {
               return;
         }
         addValidField("createUserId");
+    }
+
+    @Column(name = "DESPATCH_EXPRESS_ID")
+    public Integer getDespatchExpressId() {
+        return despatchExpressId;
+    }
+
+    public void setDespatchExpressId(Integer despatchExpressId) {
+        this.despatchExpressId = despatchExpressId;
+        if(despatchExpressId == null){
+              removeValidField("despatchExpressId");
+              return;
+        }
+        addValidField("despatchExpressId");
     }
 }
