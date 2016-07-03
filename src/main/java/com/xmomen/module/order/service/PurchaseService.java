@@ -74,6 +74,10 @@ public class PurchaseService {
         for (TbPurchase tbPurchase : tbPurchaseMap.values()) {
             mybatisDao.insert(tbPurchase);
         }
+        //去除重复的订单号
+        HashSet h = new HashSet(orderNoList);  
+        orderNoList.clear();  
+        orderNoList.addAll(h);  
         TbOrder tbOrder = new TbOrder();
         tbOrder.setOrderStatus("6");// 待采购
         TbOrderExample tbOrderExample = new TbOrderExample();

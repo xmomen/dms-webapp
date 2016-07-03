@@ -138,7 +138,7 @@ public class PackingController {
                               @RequestParam(value = "keyword", required = false) String keyword) {
         OrderQuery orderQuery = new OrderQuery();
         orderQuery.setKeyword(keyword);
-        orderQuery.setOrderStatus(1);
+        orderQuery.setOrderStatus(7);//待装箱
         if(SecurityUtils.getSubject().hasRole(AppConstants.PACKING_PERMISSION_CODE)){
             Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
             orderQuery.setPackingTaskUserId(userId);
