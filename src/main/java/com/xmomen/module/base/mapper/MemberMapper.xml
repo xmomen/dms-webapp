@@ -17,6 +17,7 @@
         	cd_member cm
         left join cd_company cc on cm.cd_company_id = cc.id
         left join sys_users su on cm.cd_user_id = su.id
+        left join cd_member_coupon_relation cmcr on cmcr.CD_MEMBER_ID = cm.id 
         <where>
               <if test="keyword">
                   AND cm.name LIKE CONCAT('%', #{keyword}, '%') or cm.phone_number like CONCAT('%', #{keyword}, '%')
@@ -29,6 +30,9 @@
               </if>
               <if test="managerId">
                   AND cm.cd_user_id = #{managerId}
+              </if>
+              <if test="couponNumber">
+                  AND cmcr.coupon_number = #{couponNumber}
               </if>
           </where>
     </select>

@@ -2,7 +2,7 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "PurchaseAPI", "$modal", "$ugDialog", function($scope, PurchaseAPI, $modal, $ugDialog){
+    return ["$scope", "PurchaseAPI", "$modal", "$ugDialog","UserAPI", function($scope, PurchaseAPI, $modal, $ugDialog,UserAPI){
         $scope.purchaseList = [];
         $scope.pageInfoSetting = {
             pageSize:100,
@@ -21,8 +21,23 @@ define(function () {
                 $scope.pageInfoSetting.loadData = $scope.getPurchaseList;
             });
         };
+        //查询包装工
+        $scope.packageUserList = [];
+        UserAPI.getCustomerManagerList({
+            userType:"baozhuangzu"
+        },function(data){
+            $scope.packageUserList = data;
+        });
+        //选择包装工
+        $scope.chosePackageUser = function(index){
+            $scope.currentCustomer = $scope.packageUserList[index];
+        };
 
         $scope.openDistributeModal = function (currentPurchase) {
+            if($scope.currentCustomer == null){
+                $ugDialog.alert("请选择包装工人");
+                return false;
+            }
             var modalInstance = $modal.open({
                 templateUrl: 'addPackageTask.html',
                 controller: ["$scope", "PackageTaskAPI", "$modalInstance","currentPurchase","UserAPI", "$rootScope", function ($scope, PackageTaskAPI, $modalInstance,currentPurchase,UserAPI,$rootScope) {
@@ -60,6 +75,8 @@ define(function () {
                 }],
                 resolve: {
                     currentPurchase: function () {
+                        currentPurchase.jobUser = $scope.currentCustomer.customerMangerId;
+                        currentPurchase.jobUserName =  $scope.currentCustomer.customerManger;
                         return currentPurchase;
                     }
                 }

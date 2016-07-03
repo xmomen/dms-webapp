@@ -154,6 +154,15 @@ define(function () {
             sendOneCoupon:{method:"GET",url:"/coupon/sendOneCoupon",params:{id:"@id",companyId:"@companyId",couponNumber:"@couponNumber",batch:"@batch"}},
             sendMoreCoupon:{method:"GET",url:"/coupon/sendMoreCoupon",params:{companyId:"@companyId",couponNumberList:"@couponNumberList",batch:"@batch"}},
             activityAddress:{method:"POST",url:"/coupon/activityAddress"},
+            updateUserPrice:{
+                method:"GET",
+                url:"/coupon/updateBalance" ,
+                params:{
+                    couponNo:"@couponNo",
+                    updatePrice:"@updatePrice",
+                    couponNo:"@remark"
+                }
+            },
             audit:{
                 method:"PUT",
                     url:"/coupon/:id/audit" ,
@@ -337,6 +346,17 @@ define(function () {
             update:{ method:"PUT", params:{id:"@id"}},
             settleAccounts:{method:"PUT",url:"/pick/settleAccounts"},
             pickCard:{method:"PUT",url:"/pick/pickCard"}
+        });
+    }]);
+
+    ngREST.factory("ExpressAPI", ["$resource", function($resource){
+        return $resource("/express/:id", { id:"@id" }, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}},
+            bindExpress:{method:"PUT",url:"/express/order/bind"},
+            unbindExpress:{method:"PUT",url:"/express/order/unbind", params:{
+                orderNos:"@orderNos"
+            }},
         });
     }]);
 });

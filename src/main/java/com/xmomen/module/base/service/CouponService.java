@@ -21,6 +21,7 @@ import com.xmomen.module.base.entity.CdMemberCouponRelation;
 import com.xmomen.module.base.mapper.CouponMapper;
 import com.xmomen.module.base.model.CouponModel;
 import com.xmomen.module.base.model.CouponQuery;
+import com.xmomen.module.order.entity.TbTradeRecord;
 import com.xmomen.module.pick.entity.TbExchangeCardLog;
 import com.xmomen.module.pick.entity.TbRechargeLog;
 import com.xmomen.module.system.entity.SysUserOrganization;
@@ -137,6 +138,16 @@ public class CouponService {
 		rechargeLog.setRechargePrice(rechargePrice);
 		rechargeLog.setRechargeUser(userId);
 		mybatisDao.save(rechargeLog);
+		
+		//添加交易记录
+		TbTradeRecord tradeRecord = new TbTradeRecord();
+		tradeRecord.setAmount(rechargePrice);
+		tradeRecord.setCreateTime(mybatisDao.getSysdate());
+		tradeRecord.setTradeNo(couponNo);
+		tradeRecord.setTradeType("recharge");
+		tradeRecord.setRecordUser(userId);
+		tradeRecord.setRemark("卡充值记录");
+		mybatisDao.save(tradeRecord);
     }
     
     /**
@@ -200,5 +211,35 @@ public class CouponService {
 		exchangeCardLog.setRechargePlace(userOrganization.getOrganizationId());
 		exchangeCardLog.setRechargeUser(userId);
 		mybatisDao.save(exchangeCardLog);
+    }
+    
+    /**
+     * 手工调整金额
+     * @param couponNo
+     * @param updatePrice
+     * @param remark
+     */
+    public void updateBalance(String couponNo,BigDecimal updatePrice,String remark){
+		Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
+
+		CdCoupon coupon = new CdCoupon();
+		coupon.setCouponNumber(couponNo);
+		coupon = mybatisDao.selectOneByModel(coupon);
+		AssertExt.notNull(coupon,"卡号"+couponNo+"不存在,调整失败！");
+		
+		BigDecimal userPrice = coupon.getUserPrice();
+		userPrice = userPrice.add(updatePrice);
+		coupon.setUserPrice(userPrice);
+		mybatisDao.update(coupon);
+		
+		//添加交易记录
+		TbTradeRecord tradeRecord = new TbTradeRecord();
+		tradeRecord.setAmount(updatePrice);
+		tradeRecord.setCreateTime(mybatisDao.getSysdate());
+		tradeRecord.setTradeNo(couponNo);
+		tradeRecord.setTradeType("adjustment");
+		tradeRecord.setRecordUser(userId);
+		tradeRecord.setRemark(remark);
+		mybatisDao.save(tradeRecord);
     }
 }

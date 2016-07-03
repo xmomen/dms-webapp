@@ -30,7 +30,38 @@ define(function () {
                 });
             })
         };
+        $scope.viewContract = function (index) {
+            var modalInstance = $modal.open({
+                templateUrl: 'viewContractDetail.html',
+                resolve: {
+                    CurrentContract: function(){
+                        return angular.copy($scope.contractList[index]);
+                    }
+                },
+                controller: ["$scope", "OrderAPI", "CurrentContract", "$modalInstance", function ($scope, OrderAPI, CurrentContract, $modalInstance) {
+                    $scope.setting = {
+                        pageInfo : {
+                            pageSize:1000,
+                            pageNum:1
+                        }
+                    };
+                    ContractAPI.get({
+                        id: CurrentContract.id
+                    },function(data){
+                        $scope.contract = data;
+                        $scope.choseItemList = data.contractItemList;
+                    });
 
+                    $scope.cancel = function () {
+                        $modalInstance.dismiss('cancel');
+                    };
+                }],
+                size:"lg"
+            });
+            modalInstance.result.then(function () {
+                $scope.getOrderList();
+            });
+        };
         $scope.getContractList();
     }];
 });

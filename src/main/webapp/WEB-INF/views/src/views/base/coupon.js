@@ -175,6 +175,48 @@ define(function () {
             });
         };
 
+        <!--余额调整-->
+        $scope.openUpdateUserPrice = function (coupon) {
+            var modalInstance = $modal.open({
+                templateUrl: 'updateUserPrice.html',
+                resolve: {
+                    CurrentCoupon: function(){
+                        return coupon;
+                    }
+                },
+                controller: ["$scope", "CouponAPI","CurrentCoupon",
+                    "$modalInstance", function ($scope, CouponAPI, CurrentCoupon, $modalInstance) {
+                        if(CurrentCoupon){
+                            $scope.coupon = CurrentCoupon;
+                        }
+                        $scope.errors = null;
+                        $scope.updateUserPriceFrom = {};
+                        $scope.updateUserPrice = function(){
+                            $scope.errors = null;
+                            if($scope.updateUserPriceFrom.validator.form()){
+                                CouponAPI.updateUserPrice(
+                                {
+                                    couponNo:coupon.couponNumber,
+                                    updatePrice:coupon.updatePrice,
+                                    remark:coupon.remark
+                                },
+                                    function(){
+                                        $modalInstance.close();
+                                    }, function(data){
+                                        $scope.errors = data.data;
+                                    })
+                            }
+                        };
+                        $scope.cancel = function () {
+                            $modalInstance.dismiss('cancel');
+                        };
+                    }]
+            });
+            modalInstance.result.then(function () {
+                $scope.getCouponList();
+            });
+        };
+
         $scope.openSendCoupon = function(coupon){
             var modalInstance = $modal.open({
                 templateUrl: 'sendOneCoupon.html',

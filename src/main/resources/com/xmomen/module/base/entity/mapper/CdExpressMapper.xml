@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xmomen.module.order.entity.mapper.TbTradeRecordMapper" >
-  <resultMap id="BaseResultMap" type="com.xmomen.module.order.entity.TbTradeRecord" >
+<mapper namespace="com.xmomen.module.base.entity.mapper.CdExpressMapper" >
+  <resultMap id="BaseResultMap" type="com.xmomen.module.base.entity.CdExpress" >
     <id column="ID" property="id" jdbcType="INTEGER" />
-    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
-    <result column="TRADE_NO" property="tradeNo" jdbcType="VARCHAR" />
-    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="TRADE_TYPE" property="tradeType" jdbcType="VARCHAR" />
-    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
-    <result column="RECORD_USER" property="recordUser" jdbcType="INTEGER" />
+    <result column="EXPRESS_CODE" property="expressCode" jdbcType="VARCHAR" />
+    <result column="EXPRESS_NAME" property="expressName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,15 +65,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, AMOUNT, TRADE_NO, CREATE_TIME, TRADE_TYPE, REMARK, RECORD_USER
+    ID, EXPRESS_CODE, EXPRESS_NAME
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbTradeRecordExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdExpressExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from tb_trade_record
+    from cd_express
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -85,90 +81,54 @@
       order by ${orderByClause}
     </if>
   </select>
-  <delete id="deleteByExample" parameterType="com.xmomen.module.order.entity.TbTradeRecordExample" >
-    delete from tb_trade_record
+  <delete id="deleteByExample" parameterType="com.xmomen.module.base.entity.CdExpressExample" >
+    delete from cd_express
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insertSelective" parameterType="com.xmomen.module.order.entity.TbTradeRecord" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
-    insert into tb_trade_record
+  <insert id="insertSelective" parameterType="com.xmomen.module.base.entity.CdExpress" useGeneratedKeys="true" keyProperty="id" keyColumn="ID" >
+    insert into cd_express
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         ID,
       </if>
-      <if test="amount != null" >
-        AMOUNT,
+      <if test="expressCode != null" >
+        EXPRESS_CODE,
       </if>
-      <if test="tradeNo != null" >
-        TRADE_NO,
-      </if>
-      <if test="createTime != null" >
-        CREATE_TIME,
-      </if>
-      <if test="tradeType != null" >
-        TRADE_TYPE,
-      </if>
-      <if test="remark != null" >
-        REMARK,
-      </if>
-      <if test="recordUser != null" >
-        RECORD_USER,
+      <if test="expressName != null" >
+        EXPRESS_NAME,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="amount != null" >
-        #{amount,jdbcType=DECIMAL},
+      <if test="expressCode != null" >
+        #{expressCode,jdbcType=VARCHAR},
       </if>
-      <if test="tradeNo != null" >
-        #{tradeNo,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="tradeType != null" >
-        #{tradeType,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null" >
-        #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="recordUser != null" >
-        #{recordUser,jdbcType=INTEGER},
+      <if test="expressName != null" >
+        #{expressName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.xmomen.module.order.entity.TbTradeRecordExample" resultType="java.lang.Integer" >
-    select count(*) from tb_trade_record
+  <select id="countByExample" parameterType="com.xmomen.module.base.entity.CdExpressExample" resultType="java.lang.Integer" >
+    select count(*) from cd_express
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update tb_trade_record
+    update cd_express
     <set >
       <if test="record.id != null" >
         ID = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.amount != null" >
-        AMOUNT = #{record.amount,jdbcType=DECIMAL},
+      <if test="record.expressCode != null" >
+        EXPRESS_CODE = #{record.expressCode,jdbcType=VARCHAR},
       </if>
-      <if test="record.tradeNo != null" >
-        TRADE_NO = #{record.tradeNo,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createTime != null" >
-        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.tradeType != null" >
-        TRADE_TYPE = #{record.tradeType,jdbcType=VARCHAR},
-      </if>
-      <if test="record.remark != null" >
-        REMARK = #{record.remark,jdbcType=VARCHAR},
-      </if>
-      <if test="record.recordUser != null" >
-        RECORD_USER = #{record.recordUser,jdbcType=INTEGER},
+      <if test="record.expressName != null" >
+        EXPRESS_NAME = #{record.expressName,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >

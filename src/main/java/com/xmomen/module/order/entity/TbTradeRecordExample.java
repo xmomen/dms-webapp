@@ -426,6 +426,136 @@ public class TbTradeRecordExample extends BaseMybatisExample {
             addCriterion("TRADE_TYPE not between", value1, value2, "tradeType");
             return (Criteria) this;
         }
+
+        public Criteria andRemarkIsNull() {
+            addCriterion("REMARK is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNotNull() {
+            addCriterion("REMARK is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkEqualTo(String value) {
+            addCriterion("REMARK =", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotEqualTo(String value) {
+            addCriterion("REMARK <>", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThan(String value) {
+            addCriterion("REMARK >", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("REMARK >=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThan(String value) {
+            addCriterion("REMARK <", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThanOrEqualTo(String value) {
+            addCriterion("REMARK <=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLike(String value) {
+            addCriterion("REMARK like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotLike(String value) {
+            addCriterion("REMARK not like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIn(List<String> values) {
+            addCriterion("REMARK in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotIn(List<String> values) {
+            addCriterion("REMARK not in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkBetween(String value1, String value2) {
+            addCriterion("REMARK between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotBetween(String value1, String value2) {
+            addCriterion("REMARK not between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIsNull() {
+            addCriterion("RECORD_USER is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIsNotNull() {
+            addCriterion("RECORD_USER is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserEqualTo(Integer value) {
+            addCriterion("RECORD_USER =", value, "recordUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserNotEqualTo(Integer value) {
+            addCriterion("RECORD_USER <>", value, "recordUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserGreaterThan(Integer value) {
+            addCriterion("RECORD_USER >", value, "recordUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserGreaterThanOrEqualTo(Integer value) {
+            addCriterion("RECORD_USER >=", value, "recordUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserLessThan(Integer value) {
+            addCriterion("RECORD_USER <", value, "recordUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserLessThanOrEqualTo(Integer value) {
+            addCriterion("RECORD_USER <=", value, "recordUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIn(List<Integer> values) {
+            addCriterion("RECORD_USER in", values, "recordUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserNotIn(List<Integer> values) {
+            addCriterion("RECORD_USER not in", values, "recordUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserBetween(Integer value1, Integer value2) {
+            addCriterion("RECORD_USER between", value1, value2, "recordUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserNotBetween(Integer value1, Integer value2) {
+            addCriterion("RECORD_USER not between", value1, value2, "recordUser");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

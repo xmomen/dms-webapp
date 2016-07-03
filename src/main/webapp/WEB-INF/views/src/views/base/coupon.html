@@ -129,21 +129,25 @@
                                     <td ng-bind="coupon.managerName"></td>
 									<td ng-bind="coupon.notes"></td>
 									<td>
-										<div ng-show="show">
-											<a href="javascript:void(0);" data-ng-click="removeCoupon(coupon)" title="删除：{{coupon.couponDesc}}">
-												<span class="glyphicon glyphicon-remove-circle"></span>
-											</a>
-											<span> | </span>
-											<a href="javascript:void(0);" data-ng-click="updateCoupon(coupon)" title="编辑：{{coupon.couponDesc}}">
-												<span class="fa fa-pencil"></span>
-											</a>
+										<div ng-show="show && coupon.couponType == 1" >
+                                            <a href="javascript:void(0);" data-ng-click="openUpdateUserPrice(coupon)" title="调整余额：{{coupon.couponDesc}}">
+                                                <span class="fa fa-cny">调整余额</span>
+                                            </a>
                                             <span> | </span>
+                                            <a href="javascript:void(0);" data-ng-click="updateCoupon(coupon)" title="编辑：{{coupon.couponDesc}}">
+                                                <span class="fa fa-pencil">编辑</span>
+                                            </a>
+											<span> | </span>
+                                            <a href="javascript:void(0);" data-ng-click="removeCoupon(coupon)" title="删除：{{coupon.couponDesc}}">
+                                                <span class="glyphicon glyphicon-remove-circle">删除</span>
+                                            </a>
+                                            <span ng-show="coupon.couponType == 1 && coupon.isSend == 0 && coupon.isUseful == 0 "> | </span>
                                             <a href="javascript:void(0);" ng-show="coupon.couponType == 1 && coupon.isSend == 0 && coupon.isUseful == 0 " data-ng-click="openSendCoupon(coupon)" title="发卡：{{coupon.couponDesc}}">
-                                                <span class="fa fa-puzzle-piece"></span>
+                                                <span class="fa fa-puzzle-piece">发卡</span>
                                             </a>
                                             <span> | </span>
                                             <a href="javascript:void(0);" data-ng-click="writeCard(coupon)" title="写卡：{{coupon.couponDesc}}">
-                                                <span class="fa fa-upload"></span>
+                                                <span class="fa fa-upload">写卡</span>
                                             </a>
 										</div>
 									</td>
@@ -177,6 +181,61 @@
 
 </section>
 <!-- end widget grid -->
+<!--调整余额-->
+<script type="text/ng-template" id="updateUserPrice.html">
+    <div class="modal-header">
+        <h3 class="modal-title">卡券信息</h3>
+    </div>
+    <div class="modal-body">
+        <div class="widget-body">
+            <form class="form-horizontal" ug-validate="updateUserPriceFrom" name="updateUserPriceFrom2" novalidate="">
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">卡号/劵号<span class="vaild">*</span></label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control" required="true"  ng-model="coupon.couponNumber" name="couponNumber" placeholder="卡号/劵号" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">余额</label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control" disabled  ng-model="coupon.userPrice" name="userPrice" placeholder="余额" type="text">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">调整金额<span class="vaild">*</span></label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control"  required="true"   ng-model="coupon.updatePrice" name="updatePrice"  data-rule-number="true" placeholder="调整金额" type="text">
+                           <span class="vaild"> 添加请填写正数，扣除请添加负数</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">备注<span class="vaild">*</span></label>
+                        <div class="col-md-10 input-group">
+                            <textarea class="form-control" required="true"   ng-model="coupon.remark" rows="5" name="notes" placeholder="备注" ></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="errors">
+                        <label class="col-md-2 control-label"></label>
+                        <div class="col-md-10 error">
+                            {{errors.message}}
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit" data-ng-click="updateUserPrice()">
+            <i class="fa fa-save"></i>
+            调整
+        </button>
+        <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+    </div>
+</script>
 
 <script type="text/ng-template" id="addCoupon.html">
 	<div class="modal-header">
@@ -188,7 +247,6 @@
 			<form class="form-horizontal" ug-validate="addCouponForm" name="addCouponForm" novalidate="">
 
 				<fieldset>
-
 					<div class="form-group">
 						<label class="col-md-2 control-label">类型</label>
 						<div class="col-md-10 input-group">
@@ -290,48 +348,6 @@
 							</span>
 						</div>
 					</div>
-
-					<!--<div class="form-group">-->
-						<!--<label class="col-md-2 control-label">是否已使用</label>-->
-						<!--<div class="col-md-10 input-group">-->
-							<!--<label class="radio radio-inline">-->
-								<!--<input type="radio" class="radiobox" ng-model="coupon.isUsed" value="0" ng-checked="coupon.isUsed==0" name="isUsed">-->
-								<!--<span>未使用</span>-->
-							<!--</label>-->
-							<!--<label class="radio radio-inline">-->
-								<!--<input type="radio" class="radiobox" ng-model="coupon.isUsed" value="1" ng-checked="coupon.isUsed==1" name="isUsed">-->
-								<!--<span>已使用</span>-->
-							<!--</label>-->
-						<!--</div>-->
-					<!--</div>-->
-
-					<!--<div class="form-group">-->
-						<!--<label class="col-md-2 control-label">是否激活</label>-->
-						<!--<div class="col-md-10 input-group">-->
-							<!--<label class="radio radio-inline">-->
-								<!--<input type="radio" class="radiobox" ng-model="coupon.isUseful" value="0" ng-checked="coupon.isUseful==0" name="isUseful">-->
-								<!--<span>未激活</span>-->
-							<!--</label>-->
-							<!--<label class="radio radio-inline">-->
-								<!--<input type="radio" class="radiobox" ng-model="coupon.isUseful" value="1" ng-checked="coupon.isUseful==1" name="isUseful">-->
-								<!--<span>已激活</span>-->
-							<!--</label>-->
-						<!--</div>-->
-					<!--</div>-->
-
-					<!--<div class="form-group">-->
-						<!--<label class="col-md-2 control-label">是否赠送</label>-->
-						<!--<div class="col-md-10 input-group">-->
-							<!--<label class="radio radio-inline">-->
-								<!--<input type="radio" class="radiobox" ng-model="coupon.isGift" value="0" ng-checked="coupon.isGift==0" name="isGift">-->
-								<!--<span>否</span>-->
-							<!--</label>-->
-							<!--<label class="radio radio-inline">-->
-								<!--<input type="radio" class="radiobox" ng-model="coupon.isGift" value="1" ng-checked="coupon.isGift==1" name="isGift">-->
-								<!--<span>是</span>-->
-							<!--</label>-->
-						<!--</div>-->
-					<!--</div>-->
 
 					<div class="form-group">
 						<label class="col-md-2 control-label">备注</label>

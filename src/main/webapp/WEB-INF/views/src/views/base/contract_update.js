@@ -13,6 +13,7 @@ define(function () {
                     id: id
                 },function(data){
                     $scope.contract = data;
+                    $scope.contract.id = id;
                     $scope.choseItemList = data.contractItemList;
                     $scope.ugSelect2Config.initSelectData($scope.contract.cdCompanyId);
                 });
@@ -133,7 +134,7 @@ define(function () {
                     return false;
                 }
                 if($scope.addContractForm.validator.form()){
-                    $ugDialog.confirm("確定保存該合同？").then(function(){
+                    $ugDialog.confirm("確定修改該合同？").then(function(){
                         $scope.contract.contractItemList = $scope.choseItemList;
                         ContractAPI.update(
                             $scope.contract

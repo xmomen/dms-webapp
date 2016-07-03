@@ -55,12 +55,16 @@ public class MemberController {
             @RequestParam(value = "offset") Integer offset,
             @RequestParam(value = "id", required = false) Integer id,
             @RequestParam(value = "keyword", required = false) String keyword,
-            @RequestParam(value = "phoneNumber", required = false) String phoneNumber){
+            @RequestParam(value = "phoneNumber", required = false) String phoneNumber,
+            @RequestParam(value = "couponNumber", required = false) String couponNumber){
     	 Map map = new HashMap<String,Object>();
          map.put("id", id);
          map.put("keyword", keyword);
          if(StringUtils.trimToNull(phoneNumber) != null){
              map.put("phoneNumber", phoneNumber);
+         }
+         if(StringUtils.trimToNull(couponNumber) != null){
+             map.put("couponNumber", couponNumber);
          }
          if(SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE)){
             Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);

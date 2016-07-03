@@ -34,9 +34,19 @@ public class TbTradeRecord extends BaseMybatisModel {
     private Date createTime;
 
     /**
-     * 交易类型：cash-现金，card-卡券
+     * 交易类型：cash-现金，card-卡券,recharge-充值，adjustment-卡余额调整
      */
     private String tradeType;
+
+    /**
+     * 备注
+     */
+    private String remark;
+
+    /**
+     * 记录人
+     */
+    private Integer recordUser;
 
     @Column(name = "ID")
     @Id
@@ -108,5 +118,33 @@ public class TbTradeRecord extends BaseMybatisModel {
               return;
         }
         addValidField("tradeType");
+    }
+
+    @Column(name = "REMARK")
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+        if(remark == null){
+              removeValidField("remark");
+              return;
+        }
+        addValidField("remark");
+    }
+
+    @Column(name = "RECORD_USER")
+    public Integer getRecordUser() {
+        return recordUser;
+    }
+
+    public void setRecordUser(Integer recordUser) {
+        this.recordUser = recordUser;
+        if(recordUser == null){
+              removeValidField("recordUser");
+              return;
+        }
+        addValidField("recordUser");
     }
 }

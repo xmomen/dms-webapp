@@ -14,6 +14,7 @@
         u.realname AS packingTaskUsername,
         st.TASK_STATUS as packingTaskStatus,
         stsdp.show_value as packingTaskStatusDesc,
+        ce.express_name,
         tb.*
         FROM
         tb_order tb
@@ -35,6 +36,7 @@
         LEFT JOIN sys_users u ON u.id = st.EXECUTOR_ID
         LEFT JOIN sys_dictionary stsd on stsd.DICTIONARY_CODE='JOB_STATUS'
         left join sys_dictionary_parameter stsdp on stsdp.SYS_DICTIONARY_ID=stsd.ID and st.TASK_STATUS = stsdp.REAL_VALUE
+        left join cd_express ce on tb.despatch_express_id = ce.id
         <where>
             <if test="orderStatus">
                   AND tb.order_status = #{orderStatus}
@@ -94,6 +96,7 @@
               </if>
               <if test="isDistribute == 1">
               	AND (p.TOTAL - p.DISTRIBUTE_VALUE) > 0
+              	AND p.PURCHASE_STATUS = 1
               </if>
           </where>
         ORDER BY p.CREATE_DATE DESC
