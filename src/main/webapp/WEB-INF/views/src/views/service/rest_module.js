@@ -192,7 +192,8 @@ define(function () {
                 params:{
                     couponId:"@couponId",
                     couponNumber:"@couponNumber",
-                    receivedPrice:"@receivedPrice"
+                    receivedPrice:"@receivedPrice",
+                    isAutoAudit:"@isAutoAudit"
                 }
             },
             readCard:{

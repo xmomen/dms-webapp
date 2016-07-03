@@ -25,13 +25,15 @@
 		ccc.CATEGORY_NAME,
 		cd_company.COMPANY_NAME,
         r.CD_MEMBER_ID AS memberId,
-		su.realname as managerName
+		su.realname as managerName,
+		price.ref_value as receivedPrice
         FROM
         cd_coupon cc
         left join cd_coupon_category ccc on cc.COUPON_CATEGORY = ccc.id
         left join cd_company cd_company on cc.cd_company_id = cd_company.id
         left join sys_users su on cc.cd_user_id = su.id
         LEFT JOIN cd_member_coupon_relation r ON r.COUPON_NUMBER = cc.COUPON_NUMBER
+        left join cd_coupon_ref price on cc.id = price.cd_coupon_id and price.ref_type='RECEIVED_PRICE'
         <where>
        			<![CDATA[ (cc.IS_USED = 0 or cc.IS_USED = 1) ]]>  
               <if test="keyword !=null and keyword !=''">
@@ -42,6 +44,9 @@
               </if>
               <if test="categoryType">
               	AND ccc.category_type = #{categoryType}
+              </if>
+              <if test="couponType != null">
+              	AND cc.COUPON_TYPE = #{couponType}
               </if>
               <if test="couponCategoryId != null">
               	AND cc.COUPON_CATEGORY = #{couponCategoryId}
@@ -56,7 +61,10 @@
               	AND cc.is_useful = #{isUseful}
               </if>
               <if test="isUseful == 3">
-              	AND cc.is_useful = 0 and cc.coupon_Value > 0
+              	AND cc.is_useful = 0 and cc.coupon_Value > 0 AND cc.PAYMENT_TYPE = 1 AND cc.coupon_type = 1
+              </if>
+              <if test="isUseful == 4">
+              	AND cc.is_useful = 0 and cc.coupon_Value > 0 AND ( cc.coupon_type = 2 or (cc.PAYMENT_TYPE = 2 and cc.COUPON_TYPE =1))
               </if>
               <if test="managerId">
                 AND su.ID = #{managerId}
@@ -107,6 +115,9 @@
               </if>
               <if test="categoryType">
               	AND ccc.category_type = #{categoryType}
+              </if>
+              <if test="couponType != null">
+              	AND cc.COUPON_TYPE = #{couponType}
               </if>
               <if test="couponCategoryId != null">
               	AND cc.COUPON_CATEGORY = #{couponCategoryId}

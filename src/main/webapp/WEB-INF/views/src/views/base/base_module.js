@@ -176,7 +176,7 @@ define([
                         redirectTo:"unauthorized"
                     }
                 },
-                controller: couponAudit
+                controller: couponAuditBack
             })
             .state('expressList', {
                 url: '/expressList',

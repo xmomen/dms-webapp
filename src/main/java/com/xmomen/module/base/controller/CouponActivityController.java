@@ -60,7 +60,7 @@ public class CouponActivityController {
     public Page<CouponModel> getCouponList(@RequestParam(value = "limit") Integer limit,
                                   @RequestParam(value = "offset") Integer offset,
                                   @RequestParam(value = "couponNumber", required = false) String couponNumber,
-                                  @RequestParam(value = "couponType",required = false) String couponType,
+                                  @RequestParam(value = "couponType",required = false) Integer couponType,
                                   @RequestParam(value = "couponCategoryId",required = false)Integer couponCategoryId,
                                   @RequestParam(value = "isSend",required = false) Integer isSend,
                                   @RequestParam(value = "cdCompanyId",required = false) Integer cdCompanyId,

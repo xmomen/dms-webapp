@@ -13,7 +13,7 @@ class CouponQuery implements Serializable {
     private String keyword;
     private String couponNumber;
     private String password;
-    private String couponType;
+    private Integer couponType;
     private Integer couponCategoryId;
     private Integer categoryType;
     private Integer isSend;
