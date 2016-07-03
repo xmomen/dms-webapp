@@ -18,19 +18,24 @@ public class CdContractItem extends BaseMybatisModel {
     private Integer id;
 
     /**
-     * 1-固定价格，2-固定金额
-     */
-    private Integer contractType;
-
-    /**
      * 产品合同
      */
     private Integer cdContractId;
 
     /**
+     * 优惠方式
+     */
+    private Integer contractType;
+
+    /**
      * 当合同适用范围为1的时候，每种产品要设定对应的合同价
      */
     private Integer cdItemId;
+
+    /**
+     * 折扣
+     */
+    private BigDecimal discount;
 
     /**
      * 合同价格
@@ -53,20 +58,6 @@ public class CdContractItem extends BaseMybatisModel {
         addValidField("id");
     }
 
-    @Column(name = "CONTRACT_TYPE")
-    public Integer getContractType() {
-        return contractType;
-    }
-
-    public void setContractType(Integer contractType) {
-        this.contractType = contractType;
-        if(contractType == null){
-              removeValidField("contractType");
-              return;
-        }
-        addValidField("contractType");
-    }
-
     @Column(name = "CD_CONTRACT_ID")
     public Integer getCdContractId() {
         return cdContractId;
@@ -81,6 +72,20 @@ public class CdContractItem extends BaseMybatisModel {
         addValidField("cdContractId");
     }
 
+    @Column(name = "CONTRACT_TYPE")
+    public Integer getContractType() {
+        return contractType;
+    }
+
+    public void setContractType(Integer contractType) {
+        this.contractType = contractType;
+        if(contractType == null){
+              removeValidField("contractType");
+              return;
+        }
+        addValidField("contractType");
+    }
+
     @Column(name = "CD_ITEM_ID")
     public Integer getCdItemId() {
         return cdItemId;
@@ -93,6 +98,20 @@ public class CdContractItem extends BaseMybatisModel {
               return;
         }
         addValidField("cdItemId");
+    }
+
+    @Column(name = "DISCOUNT")
+    public BigDecimal getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(BigDecimal discount) {
+        this.discount = discount;
+        if(discount == null){
+              removeValidField("discount");
+              return;
+        }
+        addValidField("discount");
     }
 
     @Column(name = "CONTRACT_VALUE")

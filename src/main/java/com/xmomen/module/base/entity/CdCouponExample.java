@@ -427,6 +427,66 @@ public class CdCouponExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
+        public Criteria andCouponValueIsNull() {
+            addCriterion("COUPON_VALUE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueIsNotNull() {
+            addCriterion("COUPON_VALUE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueEqualTo(BigDecimal value) {
+            addCriterion("COUPON_VALUE =", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueNotEqualTo(BigDecimal value) {
+            addCriterion("COUPON_VALUE <>", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueGreaterThan(BigDecimal value) {
+            addCriterion("COUPON_VALUE >", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("COUPON_VALUE >=", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueLessThan(BigDecimal value) {
+            addCriterion("COUPON_VALUE <", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("COUPON_VALUE <=", value, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueIn(List<BigDecimal> values) {
+            addCriterion("COUPON_VALUE in", values, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueNotIn(List<BigDecimal> values) {
+            addCriterion("COUPON_VALUE not in", values, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("COUPON_VALUE between", value1, value2, "couponValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponValueNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("COUPON_VALUE not between", value1, value2, "couponValue");
+            return (Criteria) this;
+        }
+
         public Criteria andUserPriceIsNull() {
             addCriterion("USER_PRICE is null");
             return (Criteria) this;
@@ -727,6 +787,186 @@ public class CdCouponExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
+        public Criteria andPaymentTypeIsNull() {
+            addCriterion("PAYMENT_TYPE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeIsNotNull() {
+            addCriterion("PAYMENT_TYPE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeEqualTo(Integer value) {
+            addCriterion("PAYMENT_TYPE =", value, "paymentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeNotEqualTo(Integer value) {
+            addCriterion("PAYMENT_TYPE <>", value, "paymentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeGreaterThan(Integer value) {
+            addCriterion("PAYMENT_TYPE >", value, "paymentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("PAYMENT_TYPE >=", value, "paymentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeLessThan(Integer value) {
+            addCriterion("PAYMENT_TYPE <", value, "paymentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("PAYMENT_TYPE <=", value, "paymentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeIn(List<Integer> values) {
+            addCriterion("PAYMENT_TYPE in", values, "paymentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeNotIn(List<Integer> values) {
+            addCriterion("PAYMENT_TYPE not in", values, "paymentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeBetween(Integer value1, Integer value2) {
+            addCriterion("PAYMENT_TYPE between", value1, value2, "paymentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("PAYMENT_TYPE not between", value1, value2, "paymentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCompanyIdIsNull() {
+            addCriterion("CD_COMPANY_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCompanyIdIsNotNull() {
+            addCriterion("CD_COMPANY_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCompanyIdEqualTo(Integer value) {
+            addCriterion("CD_COMPANY_ID =", value, "cdCompanyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCompanyIdNotEqualTo(Integer value) {
+            addCriterion("CD_COMPANY_ID <>", value, "cdCompanyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCompanyIdGreaterThan(Integer value) {
+            addCriterion("CD_COMPANY_ID >", value, "cdCompanyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCompanyIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("CD_COMPANY_ID >=", value, "cdCompanyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCompanyIdLessThan(Integer value) {
+            addCriterion("CD_COMPANY_ID <", value, "cdCompanyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCompanyIdLessThanOrEqualTo(Integer value) {
+            addCriterion("CD_COMPANY_ID <=", value, "cdCompanyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCompanyIdIn(List<Integer> values) {
+            addCriterion("CD_COMPANY_ID in", values, "cdCompanyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCompanyIdNotIn(List<Integer> values) {
+            addCriterion("CD_COMPANY_ID not in", values, "cdCompanyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCompanyIdBetween(Integer value1, Integer value2) {
+            addCriterion("CD_COMPANY_ID between", value1, value2, "cdCompanyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCompanyIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("CD_COMPANY_ID not between", value1, value2, "cdCompanyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdUserIdIsNull() {
+            addCriterion("CD_USER_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdUserIdIsNotNull() {
+            addCriterion("CD_USER_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdUserIdEqualTo(Integer value) {
+            addCriterion("CD_USER_ID =", value, "cdUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdUserIdNotEqualTo(Integer value) {
+            addCriterion("CD_USER_ID <>", value, "cdUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdUserIdGreaterThan(Integer value) {
+            addCriterion("CD_USER_ID >", value, "cdUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("CD_USER_ID >=", value, "cdUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdUserIdLessThan(Integer value) {
+            addCriterion("CD_USER_ID <", value, "cdUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("CD_USER_ID <=", value, "cdUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdUserIdIn(List<Integer> values) {
+            addCriterion("CD_USER_ID in", values, "cdUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdUserIdNotIn(List<Integer> values) {
+            addCriterion("CD_USER_ID not in", values, "cdUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("CD_USER_ID between", value1, value2, "cdUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("CD_USER_ID not between", value1, value2, "cdUserId");
+            return (Criteria) this;
+        }
+
         public Criteria andCouponDescIsNull() {
             addCriterion("COUPON_DESC is null");
             return (Criteria) this;
@@ -854,66 +1094,6 @@ public class CdCouponExample extends BaseMybatisExample {
 
         public Criteria andBeginTimeNotBetween(Date value1, Date value2) {
             addCriterion("BEGIN_TIME not between", value1, value2, "beginTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueIsNull() {
-            addCriterion("COUPON_VALUE is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueIsNotNull() {
-            addCriterion("COUPON_VALUE is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueEqualTo(BigDecimal value) {
-            addCriterion("COUPON_VALUE =", value, "couponValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueNotEqualTo(BigDecimal value) {
-            addCriterion("COUPON_VALUE <>", value, "couponValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueGreaterThan(BigDecimal value) {
-            addCriterion("COUPON_VALUE >", value, "couponValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("COUPON_VALUE >=", value, "couponValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueLessThan(BigDecimal value) {
-            addCriterion("COUPON_VALUE <", value, "couponValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("COUPON_VALUE <=", value, "couponValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueIn(List<BigDecimal> values) {
-            addCriterion("COUPON_VALUE in", values, "couponValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueNotIn(List<BigDecimal> values) {
-            addCriterion("COUPON_VALUE not in", values, "couponValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("COUPON_VALUE between", value1, value2, "couponValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponValueNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("COUPON_VALUE not between", value1, value2, "couponValue");
             return (Criteria) this;
         }
 

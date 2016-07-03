@@ -90,8 +90,8 @@ public class OrderController {
      * @return
      */
     @RequestMapping(value = "/order/{id}", method = RequestMethod.PUT)
-    @Log(actionName = "新增订单")
-    public TbOrder createOrder(
+    @Log(actionName = "更新订单")
+    public TbOrder updateOrder(
             @PathVariable(value = "id") Integer id,
             @RequestBody @Valid UpdateOrder updateOrder, BindingResult bindingResult) throws ArgumentValidException {
         if(bindingResult != null && bindingResult.hasErrors()){

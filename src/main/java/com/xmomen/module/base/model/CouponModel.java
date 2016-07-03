@@ -91,6 +91,10 @@ public @Data class CouponModel implements Serializable {
      * 发放客户经理
      */
     private String managerName;
+    /**
+     * 是否预付款 1-预付款,2-后付款
+     */
+    private Integer paymentType;
     
     private String consignmentName;
     
@@ -119,7 +123,11 @@ public @Data class CouponModel implements Serializable {
      *
      */
     private String notes;
-
+    /**
+     * 活动id
+     */
+    private int cdActivityId;
+    
 	private List<CouponRelationItem> relationItemList;
 
 }

@@ -52,6 +52,7 @@ define(function () {
                         ActivityAPI.getChoseItemList({
                                 parentId:$scope.activity.id
                             },function(data){
+                                $scope.ugSelect2Config.initSelectData($scope.activity.couponCategory);
                                 $scope.choseChildItemList = data;
                             })
                     }

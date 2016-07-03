@@ -50,7 +50,7 @@
 								</div>
 							</div>
 							<div class="col-xs-1 col-sm-2">
-								<button class="btn btn-primary" type="button" data-ng-click="open()">
+								<button class="btn btn-primary" type="button" ui-sref ="contract_create">
 									<i class="fa fa-plus"></i>
 									新增
 								</button>
@@ -70,6 +70,7 @@
                                     <th width="120">合同名称</th>
 									<th width="120">签约单位</th>
                                     <th width="120">有效日期</th>
+                                    <th width="120">作废</th>
 									<th width="80">操作</th>
 								</tr>
 								</thead>
@@ -85,18 +86,19 @@
                                     <td ng-bind="contract.contractName"></td>
                                     <td ng-bind="contract.companyName"></td>
                                     <td>{{contract.beginTime | date: 'yyyy-MM-dd'}} 至 {{contract.endTime | date: 'yyyy-MM-dd'}}</td>
+                                    <td><span ng-if="contract.isDel == 0">否</span><span ng-if="contract.isDel == 1">是</span></td>
                                     <td>
                                         <div ng-show="show">
-                                            <a href="javascript:void(0);" data-ng-click="removeContract($index)" title="删除：{{contract.contractName}}">
-                                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                            <a ng-show="show" href="javascript:void(0);" data-ng-click="viewContract($index)" title="查看：{{contract.contractName}}">
+                                                <span class="fa fa-eye">查看</span>
                                             </a>
                                             <span> | </span>
-                                            <a href="javascript:void(0);" data-ng-click="open($index)" title="编辑：{{contract.contractName}}">
-                                                <span class="fa fa-pencil"></span>
+                                            <a href="javascript:void(0);" ui-sref="contract_update({id:contract.id})" title="编辑：{{contract.contractName}}">
+                                                <span class="fa fa-pencil">编辑</span>
                                             </a>
                                             <span> | </span>
-                                            <a href="javascript:void(0);" data-ng-click="openContractItemModal($index)" title="维护价格：{{contract.contractName}}">
-                                                <span class="fa fa-jpy"></span>
+                                            <a href="javascript:void(0);" ng-show="contract.isDel == 0" data-ng-click="removeContract($index)" title="作废：{{contract.contractName}}">
+                                                <span class="glyphicon glyphicon-remove-circle">作废</span>
                                             </a>
                                         </div>
                                     </td>
@@ -130,220 +132,3 @@
 
 </section>
 <!-- end widget grid -->
-
-<script type="text/ng-template" id="addContract.html">
-	<div class="modal-header">
-		<h3 class="modal-title">新增/更新合同</h3>
-	</div>
-	<div class="modal-body">
-		<div class="widget-body">
-
-			<form class="form-horizontal" ug-validate="addContractForm" name="addContractForm" novalidate="">
-
-				<fieldset>
-					<div class="form-group">
-						<label class="col-md-2 control-label">合同编号<span class="vaild">*</span></label>
-						<div class="col-md-10 input-group">
-							<input class="form-control" required="true" data-rule-minlength="3" data-rule-maxlength="20" ng-model="contract.contractCode" name="contractCode" placeholder="产品编号" type="text">
-						</div>
-					</div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">合同名称<span class="vaild">*</span></label>
-                        <div class="col-md-10 input-group">
-                            <input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="20" ng-model="contract.contractName" name="name" placeholder="产品名称" type="text">
-                        </div>
-                    </div>
-					<div class="form-group">
-						<label class="col-md-2 control-label">签约单位</label>
-                        <div class="col-md-10 input-group">
-                            <select ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;" required="true" ng-model="contract.cdCompanyId" name="company" >
-                                <option value="">--请选择--</option>
-                                <option value="{{company.id}}" ng-repeat="company in companyList">{{company.companyName}}</option>
-                            </select>
-                        </div>
-					</div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">起始时间</label>
-                        <div class="col-md-10 input-group">
-                            <input type="text" class="form-control"
-                                   datepicker-popup="yyyy-MM-dd"
-                                   placeholder="起始日期"
-                                   ng-model="contract.beginTime"
-                                   close-text="关闭"
-                                   current-text="今日"
-                                   clear-text="清除"
-                                   is-open="datepickerSetting.beginTime.opened"
-                                   ng-required="true" />
-							<span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="open($event, 0)"><i class="glyphicon glyphicon-calendar"></i></button>
-							</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">截止日期</label>
-                        <div class="col-md-10 input-group">
-                            <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
-                                   placeholder="截止日期"
-                                   ng-model="contract.endTime"
-                                   close-text="关闭"
-                                   current-text="今日"
-                                   clear-text="清除"
-                                   is-open="datepickerSetting.endTime.opened"
-                                   ng-required="true" />
-							<span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="open($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
-							</span>
-                        </div>
-                    </div>
-					<div class="form-group" ng-if="errors">
-						<label class="col-md-2 control-label"></label>
-						<div class="col-md-10 error">
-							{{errors.message}}
-						</div>
-					</div>
-				</fieldset>
-			</form>
-		</div>
-	</div>
-	<div class="modal-footer">
-		<button class="btn btn-primary" type="submit" data-ng-click="saveOrUpdateContract()">
-			<i class="fa fa-save"></i>
-			保存
-		</button>
-		<button class="btn btn-warning" ng-click="cancel()">关闭</button>
-	</div>
-</script>
-
-
-<!--设定合同价格-->
-<script type="text/ng-template" id="addContractItem.html">
-    <div class="modal-header">
-        <h3 class="modal-title">设定{{contract.contractName}}合同价</h3>
-        <button class="btn btn-primary" type="submit" data-ng-click="saveOrUpdateContractItem()">
-            <i class="fa fa-save"></i>
-            设定
-        </button>
-        <button class="btn btn-warning" ng-click="cancel()">关闭</button>
-    </div>
-    <div class="modal-body">
-        <div class="widget-body">
-            <form class="form-horizontal" ug-validate="addContractItemFrom" name="addContractItemFrom" novalidate="">
-                <fieldset>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">类型选择<span class="vaild">*</span></label>
-                        <div class="col-md-10 input-group">
-                            <select ug-select2 style="width: 100%;" required="true" ng-model="addContractItem.addType">
-                                <option value="">--请选择--</option>
-                                <option value="1">按品类</option>
-                                <option value="2">按商品</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group" ng-if="addContractItem.addType == '1'">
-                        <label class="col-md-2 control-label">品类名<span class="vaild">*</span></label>
-                        <div class="col-md-10 input-group">
-                                <input class="form-control" required="true" data-rule-minlength="2" data-rule-maxlength="20" ng-focus="chooseCategoryModel()" ng-model="addContractItem.categoryName" name="itemCode" placeholder="产品类别" type="text">
-                        </div>
-                    </div>
-                    <div class="form-group" ng-if="addContractItem.addType == '2'">
-                        <label class="col-md-2 control-label">商品编码<span class="vaild">*</span></label>
-                        <div class="col-md-10 input-group">
-                            <input class="form-control" required="true" data-rule-minlength="2" data-rule-maxlength="20" ng-model="addContractItem.itemCode" name="itemCode" placeholder="商品编码" type="text">
-                        </div>
-                    </div>
-                    <div class="form-group" ng-if="addContractItem.addType == '1' || addContractItem.addType == '2'">
-                        <label class="col-md-2 control-label">优惠方式<span class="vaild">*</span></label>
-                        <div class="col-md-4 input-group">
-                            <select ug-select2 style="width: 100%;" required="true" ng-model="addContractItem.contractType">
-                                <option value="">--请选择--</option>
-                                <option value="1">按固定金额</option>
-                                <option value="2">按固定折扣</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group" ng-if="addContractItem.contractType == '1'">
-                        <label class="col-md-2 control-label">金额<span class="vaild">*</span></label>
-                        <div class="col-md-10 input-group">
-                            <input class="form-control" required="true" data-rule-number="true"  ng-model="addContractItem.contractValue" name="contractValue" placeholder="金额" type="text">
-                        </div>
-                    </div>
-                    <div class="form-group" ng-if="addContractItem.contractType == '2'">
-                        <label class="col-md-2 control-label" >折扣<span class="vaild">*</span></label>
-                        <div class="col-md-10 input-group">
-                            <input class="form-control" required="true" data-rule-number="true" ng-model="addContractItem.contractValue" name="contractValue" placeholder="折扣" type="text">
-                        </div>
-                    </div>
-                    <div class="form-group" ng-if="errors">
-                        <label class="col-md-2 control-label"></label>
-                        <div class="col-md-10 error">
-                            {{errors.message}}
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
-            <table class="table table-striped table-condensed table-hover smart-form has-tickbox">
-                <thead>
-                <tr>
-                    <th>商品类别</th>
-                    <th>商品编码</th>
-                    <th>商品名称</th>
-                    <th>优惠方式</th>
-                    <th>优惠值</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="contractItem in contractItemList"  ng-if="contractItemList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
-                    <td ng-bind="contractItem.categoryName"></td>
-                    <td ng-bind="contractItem.itemCode"></td>
-                    <td ng-bind="contractItem.itemName"></td>
-                    <td><span ng-if="contractItem.contractType == 1">按固定金额</span><span ng-if="contractItem.contractType == 2">按固定折扣</span></td>
-                    <td ng-bind="contractItem.contractValue"></td>
-                    <td>
-                        <div ng-show="show">
-                            <a href="javascript:void(0);" data-ng-click="removeContract($index)" title="删除">
-                                <span class="glyphicon glyphicon-remove-circle"></span>
-                            </a>
-                            <span> | </span>
-                            <a href="javascript:void(0);" data-ng-click="open($index)" title="编辑">
-                                <span class="fa fa-pencil"></span>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</script>
-
-
-<script type="text/ng-template" id="chooseCategory.html">
-    <div class="modal-header">
-        <h3 class="modal-title">选择类别</h3>
-    </div>
-    <div class="modal-body">
-        <div class="widget-body">
-            <div class="tree">
-                <ul>
-                    <li data-ng-repeat="item in itemCategoryList" data-ng-include="'tree_view.html'"></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-warning" ng-click="cancel()">关闭</button>
-    </div>
-</script>
-
-<script type="text/ng-template" id="tree_view.html">
-    <div ng-mouseenter="item.show=true" ng-mouseleave="item.show=false">
-		<span>
-			<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i> {{item.name}}
-		</span>
-        <a href="javascript:void(0);" ng-show="item.show && item.parentId != null" ng-click="chooseCategory(item)">选择</a>
-    </div>
-    <ul ng-if="item.nodes && item.nodes.length > 0" class="tree-hide">
-        <li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view.html'"></li>
-    </ul>
-</script>
