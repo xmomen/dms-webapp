@@ -58,12 +58,12 @@
 
     <!-- rememberMe管理器 -->
     <bean id="rememberMeManager"
-          class="com.xmomen.module.core.web.mgt.RememberMeManagerExt">
+          class="org.apache.shiro.web.mgt.CookieRememberMeManager">
         <property name="cookie" ref="rememberMeCookie"/>
     </bean>
 
     <!-- 安全管理器 -->
-    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+    <bean id="securityManager" class="com.xmomen.module.core.web.mgt.WebSecurityManagerExt">
         <!--<property name="realm"  ref="userRealm"/>-->
         <property name="realms" >
             <util:list>
