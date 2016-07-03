@@ -61,7 +61,7 @@ public class CouponController {
     public Page<CouponModel> getCouponList(@RequestParam(value = "limit") Integer limit,
                                   @RequestParam(value = "offset") Integer offset,
                                   @RequestParam(value = "couponNumber", required = false) String couponNumber,
-                                  @RequestParam(value = "couponType",required = false) String couponType,
+                                  @RequestParam(value = "couponType",required = false) Integer couponType,
                                   @RequestParam(value = "couponCategoryId",required = false)Integer couponCategoryId,
                                   @RequestParam(value = "isSend",required = false) Integer isSend,
                                   @RequestParam(value = "cdCompanyId",required = false) Integer cdCompanyId,
@@ -125,6 +125,7 @@ public class CouponController {
         cdCoupon.setIsUsed(createCoupon.getIsUsed());
         cdCoupon.setIsUseful(createCoupon.getIsUseful());
         cdCoupon.setNotes(createCoupon.getNotes());
+        cdCoupon.setPaymentType(createCoupon.getPaymentType());
         return couponService.createCoupon(cdCoupon);
     }
 
@@ -157,6 +158,7 @@ public class CouponController {
         cdCoupon.setUserPrice(updateCoupon.getUserPrice());
         cdCoupon.setIsUseful(updateCoupon.getIsUseful());
         cdCoupon.setNotes(updateCoupon.getNotes());
+        cdCoupon.setPaymentType(updateCoupon.getPaymentType());
         couponService.updateCoupon(cdCoupon);
     }
 
@@ -277,7 +279,8 @@ public class CouponController {
     public void received(
     		@RequestParam(value="couponId") Integer couponId,
     		@RequestParam(value="couponNumber") String couponNumber,
-    		@RequestParam(value="receivedPrice", required = false)BigDecimal receivedPrice){
+    		@RequestParam(value="receivedPrice", required = false)BigDecimal receivedPrice,
+    		@RequestParam(value="isAutoAudit", required = false)Integer isAutoAudit){
     	CdCouponRefExample couponRefExample = new CdCouponRefExample();
 		couponRefExample.createCriteria().andCdCouponIdEqualTo(couponId)
 		.andRefTypeEqualTo("RECEIVED_PRICE");
@@ -293,6 +296,12 @@ public class CouponController {
 		}else{
 			couponRef.setRefValue(receivedPrice.toString());
 			mybatisDao.update(couponRef);
+		}
+		if(isAutoAudit == 1){
+			CdCoupon coupon = new CdCoupon();
+	        coupon.setIsUseful(1);
+	        coupon.setId(couponId);
+	        mybatisDao.update(coupon);
 		}
     }
     @RequestMapping(value = "/coupon/readCard", method = RequestMethod.GET)

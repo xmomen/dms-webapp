@@ -87,7 +87,7 @@ define(function () {
                 limit:$scope.pageInfoNoAuditSetting.pageSize,
                 offset:$scope.pageInfoNoAuditSetting.pageNum,
                 keyword:$scope.queryParam.keyword,
-                isUseful:3,
+                isUseful:4,
                 isSend:1,
                 cdCompanyId:$scope.queryParam.cdCompanyId,
                 customerMangerId:$scope.queryParam.customerMangerId,
@@ -161,7 +161,8 @@ define(function () {
             CouponAPI.receivedPrice({
                 couponId : coupon.id,
                 couponNumber : coupon.couponNumber,
-                receivedPrice : coupon.receivedPrice
+                receivedPrice : coupon.receivedPrice,
+                isAutoAudit :1
             },function(){
 
             }, function(data){

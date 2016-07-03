@@ -8,7 +8,9 @@ define(function () {
             pageSize:10,
             pageNum:1
         };
-        $scope.queryParam = {};
+        $scope.queryParam = {
+            purchaseStatus : "0"
+        };
         $scope.getPurchaseList = function(){
             var startTime = null;
             if($scope.queryParam.startTime != null){

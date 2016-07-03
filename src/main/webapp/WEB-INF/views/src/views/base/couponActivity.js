@@ -37,7 +37,8 @@ define(function () {
                 isUseful:0,
                 isSend:1,
                 couponCategoryId:$scope.queryParam.couponCategoryId,
-                batch:$scope.queryParam.batch
+                batch:$scope.queryParam.batch,
+                couponType:1 //只有卡回款
             }, function(data){
                 $scope.couponList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;
