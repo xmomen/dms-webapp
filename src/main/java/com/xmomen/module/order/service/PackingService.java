@@ -34,6 +34,9 @@ public class PackingService {
     @Autowired
     TaskService taskService;
 
+    @Autowired
+    OrderService orderService;
+
     public Page<PackingTaskCount> getPackingTaskCountList(Object o, Integer limit, Integer offset){
         Map map = new HashMap();
         map.put("roleType", "zhuangxiangzu");
@@ -89,6 +92,13 @@ public class PackingService {
 
     @Transactional
     public TbPackingRecord createRecord(CreatePackingRecord createPackingRecord) {
+        TbPackingRecordExample tbPackingRecordExample = new TbPackingRecordExample();
+        tbPackingRecordExample.createCriteria().andUpcEqualTo(createPackingRecord.getUpc());
+        TbPackingRecord removePackingRecord = mybatisDao.selectOneByExample(tbPackingRecordExample);
+        if(removePackingRecord != null){
+            deleteRecord(removePackingRecord.getId());
+            return null;
+        }
         PackingOrderQuery packingOrderQuery = new PackingOrderQuery();
         String itemCode = createPackingRecord.getUpc().substring(0, 5);
         CdItem cdItem = new CdItem();
@@ -144,9 +154,12 @@ public class PackingService {
             sysTask.setFinishTime(mybatisDao.getSysdate());
             sysTask.setTaskStatus(2);//已完成装箱
             mybatisDao.update(sysTask);
-        }else if(!isFinished && sysTask.getTaskStatus() != 1){
+            // 完成装箱，订单状态扭转到待配送：2
+            orderService.updateOrderStatus(createPackingRecord.getOrderNo(), "2");
+        }else if(!isFinished){
             sysTask.setTaskStatus(1);//待完成装箱
             mybatisDao.update(sysTask);
+            orderService.updateOrderStatus(createPackingRecord.getOrderNo(), "7");
         }
         return tbPackingRecord;
     }

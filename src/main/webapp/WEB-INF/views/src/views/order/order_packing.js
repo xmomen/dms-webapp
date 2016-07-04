@@ -2,7 +2,7 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "PackingAPI", "OrderAPI", "$modal", "$ugDialog", "$q", function($scope, PackingAPI, OrderAPI, $modal, $ugDialog, $q){
+    return ["$scope", "PackingAPI", "OrderAPI", "$modal", "$ugDialog", "$q", "DictionaryAPI", function($scope, PackingAPI, OrderAPI, $modal, $ugDialog, $q, DictionaryAPI){
         $scope.packingList = [];
         $scope.pageInfoSetting = {
             pageSize:10,
@@ -22,13 +22,15 @@ define(function () {
             PackingAPI.getPackingOrderList({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
-                keyword:$scope.queryParam.orderKeyword
+                keyword:$scope.queryParam.orderKeyword,
+                packingTaskStatus:$scope.queryParam.packingTaskStatus
             }, function(data){
                 $scope.orderList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;
                 $scope.pageInfoSetting.loadData = $scope.getOrderList;
             });
         };
+        $scope.ugSelect2Config = {};
         $scope.choseOrder = {};
         $scope.choseOrderPacking = function(index){
             $scope.choseOrder = $scope.orderList[index];
@@ -103,7 +105,7 @@ define(function () {
                     id:$scope.choseOrder.currentPacking.id,
                     orderNo:$scope.choseOrder.orderNo,
                     upc:$scope.item.upc
-                }, function(){
+                }, function(data){
                     $scope.getPackingOrderItemList();
                     $scope.getPackingRecordList();
                     $scope.getOrderList();
@@ -131,8 +133,6 @@ define(function () {
                     $scope.packingRecordPageInfoSetting = data.pageInfo;
                     $scope.packingRecordPageInfoSetting.loadData = $scope.packingRecordList;
                 });
-            }else{
-                $ugDialog.warn("请先在【订单商品装箱汇总表】中选择需要查询的商品")
             }
         };
         $scope.removePacking = function(index){

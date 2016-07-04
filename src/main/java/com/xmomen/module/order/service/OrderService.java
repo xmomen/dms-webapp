@@ -51,6 +51,17 @@ public class OrderService {
         return mybatisDao.getSqlSessionTemplate().selectList(OrderMapper.ORDER_MAPPER_NAMESPACE + "getOrderList", orderQuery);
     }
 
+    public OrderModel getOneOrder(OrderQuery orderQuery){
+        if(orderQuery == null || (orderQuery.getId() == null && orderQuery.getOrderNo() == null)){
+            return null;
+        }
+        List<OrderModel> orderModelList = getOrderList(orderQuery);
+        if(orderModelList != null && !orderModelList.isEmpty() && orderModelList.size() == 1){
+            return orderModelList.get(0);
+        }
+        return null;
+    }
+
     /**
      * 创建订单
      * @param createOrder
@@ -219,6 +230,22 @@ public class OrderService {
         tbOrderExample.createCriteria().andIdEqualTo(id);
         TbOrder tbOrder = new TbOrder();
         tbOrder.setOrderStatus("9");
+        mybatisDao.updateOneByExampleSelective(tbOrder, tbOrderExample);
+    }
+
+    public void updateOrderStatus(String orderNo, String orderStatus){
+        TbOrderExample tbOrderExample = new TbOrderExample();
+        tbOrderExample.createCriteria().andOrderNoEqualTo(orderNo);
+        TbOrder tbOrder = new TbOrder();
+        tbOrder.setOrderStatus(orderStatus);
+        mybatisDao.updateOneByExampleSelective(tbOrder, tbOrderExample);
+    }
+
+    public void updateOrderStatus(Integer id, String orderStatus){
+        TbOrderExample tbOrderExample = new TbOrderExample();
+        tbOrderExample.createCriteria().andIdEqualTo(id);
+        TbOrder tbOrder = new TbOrder();
+        tbOrder.setOrderStatus(orderStatus);
         mybatisDao.updateOneByExampleSelective(tbOrder, tbOrderExample);
     }
 
