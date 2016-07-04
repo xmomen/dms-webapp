@@ -339,6 +339,18 @@
     </ul>
 </script>
 
+<script type="text/ng-template" id="tree_view.html">
+	<span ng-mouseenter="item.show=true" ng-mouseleave="item.show=false">
+		<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i>
+        <a  ng-show="item.parentId != null" ng-click="chooseCategory(item)">{{item.name}}</a>
+		<lable ng-show="item.parentId == null" >{{item.name}}</lable>
+		<a href="javascript:void(0);" ng-show="organization.parentId == null && item.show" ng-click="chooseCategory(item)">选择</a>
+    </span>
+	<ul ng-if="item.nodes && item.nodes.length > 0" class="tree-hide">
+		<li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view.html'"></li>
+	</ul>
+</script>
+
 <script type="text/ng-template" id="chooseCategory.html">
     <div class="modal-header">
         <h3 class="modal-title">选择组织</h3>
@@ -347,7 +359,7 @@
         <div class="widget-body">
             <div class="tree">
                 <ul>
-                    <li data-ng-repeat="item in organizationList" data-ng-include="'tree_view.html'"></li>
+                    <li data-ng-repeat="item in innerOrganizationList" data-ng-include="'tree_view.html'"></li>
                 </ul>
             </div>
         </div>
@@ -357,14 +369,3 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="tree_view.html">
-    <div ng-mouseenter="item.show=true" ng-mouseleave="item.show=false">
-		<span>
-			<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i> {{item.name}}
-		</span>
-        <a href="javascript:void(0);" ng-show="item.show && item.parentId != null" ng-click="chooseCategory(item)">选择</a>
-    </div>
-    <ul ng-if="item.nodes && item.nodes.length > 0" class="tree-hide">
-        <li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view.html'"></li>
-    </ul>
-</script>
