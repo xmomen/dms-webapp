@@ -2,8 +2,7 @@ package com.xmomen.module.base.controller;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -207,6 +206,26 @@ public class CouponController {
     		coupon = mybatisDao.selectOneByModel(coupon);
     		if(coupon != null)
     		couponService.sendOneCoupon(coupon.getId(),companyId,customerMangerId,coupon.getCouponNumber(),batch);
+    	}
+    }
+    
+    /**
+     *根据批次号修改
+     */
+    @RequestMapping(value = "/coupon/updateBatchCoupon", method = RequestMethod.GET)
+    @Log(actionName = "根据批次号修改")
+    public void updateBatchCoupon(
+    		@RequestParam(value="companyId") Integer companyId,
+    		@RequestParam(value="customerMangerId")Integer customerMangerId,
+    		@RequestParam(value="batch") String batch){
+    	CdCoupon coupon = new CdCoupon();
+    	coupon.setBatch(batch);
+    	List<CdCoupon> coupons = mybatisDao.selectByModel(coupon);
+    	AssertExt.notEmpty(coupons,"批次号不存在!");
+    	for(CdCoupon coupondb : coupons){
+    		coupondb.setCdCompanyId(companyId);
+    		coupondb.setCdUserId(customerMangerId);
+        	mybatisDao.updateByModel(coupondb);
     	}
     }
     

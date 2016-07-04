@@ -135,10 +135,12 @@ public class PackingController {
     @Log(actionName = "装箱订单列表")
     public Page<OrderModel> queryPackingOrder(@RequestParam(value = "limit") Integer limit,
                               @RequestParam(value = "offset") Integer offset,
+                              @RequestParam(value = "packingTaskStatus", required = false) Integer packingTaskStatus,
                               @RequestParam(value = "keyword", required = false) String keyword) {
         OrderQuery orderQuery = new OrderQuery();
         orderQuery.setKeyword(keyword);
-        orderQuery.setOrderStatus(7);//待装箱
+        //orderQuery.setOrderStatus(7);//待装箱
+        orderQuery.setPackingTaskStatus(packingTaskStatus);
         if(SecurityUtils.getSubject().hasRole(AppConstants.PACKING_PERMISSION_CODE)){
             Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
             orderQuery.setPackingTaskUserId(userId);

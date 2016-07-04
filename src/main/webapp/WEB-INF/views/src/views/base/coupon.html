@@ -72,6 +72,10 @@
                                     <i class="fa fa-upload"></i>
                                     批量发卡
                                 </button>
+                                <button class="btn btn-primary" type="button" data-ng-click="updateBatchCouponModel()">
+                                    <i class="fa fa-upload"></i>
+                                    更新客服经理/公司
+                                </button>
                             </div>
 						</div>
 						<div class="table-responsive">
@@ -96,6 +100,7 @@
 									<th>激活状态</th>
 									<th>是否赠送</th>
                                     <th>是否发卡</th>
+                                    <th>批次号</th>
                                     <th>发放单位</th>
                                     <th>发放客户经理</th>
 									<th>备注</th>
@@ -125,6 +130,7 @@
                                     <td><span ng-if="coupon.isUseful == 0">未激活</span><span ng-if="coupon.isUseful == 1">已激活</span></td>
                                     <td><span ng-if="coupon.isGift == 0">未赠送</span><span ng-if="coupon.isGift == 1">已赠送</span></td>
                                     <td><span ng-if="coupon.isSend == 0">未发卡</span><span ng-if="coupon.isSend == 1">已发卡</span></td>
+                                    <td ng-bind="coupon.batch"></td>
                                     <td ng-bind="coupon.companyName"></td>
                                     <td ng-bind="coupon.managerName"></td>
 									<td ng-bind="coupon.notes"></td>
@@ -580,6 +586,58 @@
         <button class="btn btn-primary" type="submit" data-ng-click="sendMoreCoupon()">
             <i class="fa fa-save"></i>
             发卡
+        </button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="updateBatchCouponModel.html">
+    <div class="modal-header">
+        <h3 class="modal-title">更新公司/客服经理</h3>
+    </div>
+    <div class="modal-body">
+        <div class="widget-body">
+            <form class="form-horizontal" ug-validate="updateBatchCouponFrom" name="updateBatchCouponFrom2" novalidate="">
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">批次</label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control" required ng-model="coupon.batch" name="batch" placeholder="批次" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">公司/单位<span class="vaild">*</span></label>
+                        <div class="col-md-10 input-group">
+                            <select ug-select2 style="width: 100%;" required="true" ng-model="coupon.cdCompanyId" name="company" ng-change="changeCompany(coupon.cdCompanyId)">
+                                <option value="">--请选择--</option>
+                                <option value="{{company.id}}" ng-repeat="company in companyList">{{company.companyName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">客户经理<span class="vaild">*</span></label>
+                        <div class="col-md-10 input-group">
+                            <select ug-select2 style="width: 100%;" required="true" ng-model="coupon.customerMangerId" name="customerManager" >
+                                <option value="">--请选择--</option>
+                                <option value="{{customerManager.customerMangerId}}" ng-repeat="customerManager in companyCustomerManagers">{{customerManager.customerManger}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="errors">
+                        <label class="col-md-2 control-label"></label>
+                        <div class="col-md-10 error">
+                            {{errors.message}}
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit" data-ng-click="updateBatchCoupon()">
+            <i class="fa fa-save"></i>
+            更新
         </button>
         <button class="btn btn-warning" ng-click="cancel()">取消</button>
     </div>

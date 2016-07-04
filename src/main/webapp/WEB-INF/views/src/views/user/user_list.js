@@ -110,13 +110,13 @@ define(function () {
                     $scope.chooseCategoryModel = function(){
                         var modalInstance = $modal.open({
                             templateUrl: 'chooseCategory.html',
-                            controller: ["$scope", "OrganizationAPI", "$modalInstance", function ($scope, OrganizationAPI, $modalInstance) {
-                                $scope.organizationList = [];
+                            controller: ["$scope", "OrganizationAPI", "$modalInstance","$rootScope", function ($scope, OrganizationAPI, $modalInstance, $rootScope) {
+                                $scope.innerOrganizationList = [];
                                 $scope.queryParam = {};
                                 OrganizationAPI.query({
                                     id:$scope.queryParam.id
                                 }, function(data){
-                                    $scope.organizationList = data;
+                                    $scope.innerOrganizationList = data;
                                     $rootScope.$broadcast("loadingTree");
                                 });
                                 $scope.cancel = function () {

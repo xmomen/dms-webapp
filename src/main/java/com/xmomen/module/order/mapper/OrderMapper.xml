@@ -49,6 +49,12 @@
             <if test="id">
                 AND tb.id = #{id}
             </if>
+            <if test="orderNo">
+                AND tb.ORDER_NO = #{orderNo}
+            </if>
+            <if test="packingTaskStatus">
+                AND st.TASK_STATUS = #{packingTaskStatus}
+            </if>
             <if test="packingTaskUserId">
                 AND st.EXECUTOR_ID = #{packingTaskUserId}
             </if>

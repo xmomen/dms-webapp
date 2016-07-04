@@ -416,6 +416,64 @@ define(function () {
             });
         }
 
+        //
+        $scope.updateBatchCouponModel = function(){
+            var modalInstance = $modal.open({
+                templateUrl: 'updateBatchCouponModel.html',
+                controller: ["$scope", "CouponAPI", "$modalInstance","CompanyAPI", function ($scope, CouponAPI, $modalInstance,CompanyAPI) {
+
+                    $scope.companyList = [];
+                    $scope.pageInfoSetting = {
+                        pageSize:1000,
+                        pageNum:1
+                    };
+                    $scope.getCompanyList = function(){
+                        CompanyAPI.query({
+                            limit:$scope.pageInfoSetting.pageSize,
+                            offset:$scope.pageInfoSetting.pageNum
+                        }, function(data){
+                            $scope.companyList = data.data;
+                            $scope.pageInfoSetting = data.pageInfo;
+                            $scope.pageInfoSetting.loadData = $scope.getCompanyList;
+                        });
+                    };
+                    $scope.getCompanyList();
+                    $scope.changeCompany = function(id){
+                        $scope.coupon.customerMangerId = "";
+                        for(var i in $scope.companyList){
+                            var company =  $scope.companyList[i]
+                            if(company.id == parseInt(id)){
+                                $scope.companyCustomerManagers =  company.companyCustomerManagers;
+                            }
+                        }
+                    }
+                    $scope.coupon = {};
+                    $scope.errors = null;
+                    $scope.updateBatchCouponFrom = {};
+                    $scope.updateBatchCoupon = function() {
+                        $scope.errors = null;
+                        if ($scope.updateBatchCouponFrom.validator.form()) {
+                            CouponAPI.updateBatchCoupon({
+                                customerMangerId:$scope.coupon.customerMangerId,
+                                companyId:$scope.coupon.cdCompanyId,
+                                batch:$scope.coupon.batch
+                            }, function () {
+                                $modalInstance.close();
+                            }, function (data) {
+                                $scope.errors = data.data;
+                            })
+                        }
+                    }
+                    $scope.cancel = function () {
+                        $modalInstance.dismiss('cancel');
+                    };
+                }],
+                size:"lg"
+            });
+            modalInstance.result.then(function () {
+                $scope.getCouponList();
+            });
+        }
         $scope.getCouponList();
 
         //写卡
