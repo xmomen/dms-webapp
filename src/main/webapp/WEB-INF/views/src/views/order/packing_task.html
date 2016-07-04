@@ -183,13 +183,13 @@
 									<td ng-bind="order.packingTaskStatusDesc"></td>
 									<td>
 										<div ng-show="order.packingTaskStatus == null" >
-											<a href="javascript:void(0);" data-ng-click="bindPackingTask($index)">
-												<span class="fa fa-inbox"> 分配</span>
+											<a href="javascript:void(0);" data-ng-click="bindPackingTask($index)" title="分配">
+												<span class="fa fa-inbox"> </span>
 											</a>
 										</div>
 										<div ng-show="order.packingTaskStatus != null" >
-											<a href="javascript:void(0);" data-ng-click="unbindPackingTask($index)">
-												<span class="fa fa-inbox"> 取消</span>
+											<a href="javascript:void(0);" data-ng-click="unbindPackingTask($index)" title="取消">
+												<span class="fa fa-inbox"> </span>
 											</a>
 										</div>
 									</td>

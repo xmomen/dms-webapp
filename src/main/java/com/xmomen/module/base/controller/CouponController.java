@@ -301,6 +301,12 @@ public class CouponController {
 			CdCoupon coupon = new CdCoupon();
 	        coupon.setIsUseful(1);
 	        coupon.setId(couponId);
+	        if(coupon.getCouponValue() == null){
+	        	coupon.setCouponValue(receivedPrice);
+	        }
+	        if(coupon.getCouponType() == 1){
+	        	coupon.setUserPrice(receivedPrice);
+	        }
 	        mybatisDao.update(coupon);
 		}
     }

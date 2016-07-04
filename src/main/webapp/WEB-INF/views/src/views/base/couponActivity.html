@@ -112,12 +112,12 @@
                                     <td>{{coupon.consignmentAddress}}</td>
                                     <td>{{coupon.sendTime | date: 'yyyy-MM-dd'}}</td>
                                     <td>
-                                        <a ng-show="show" ng-if="coupon.cdActivityId != 0" data-ng-click="openEditAddress(coupon)" title="编辑：{{order.orderDesc}}">
-                                            <span class="fa fa-edit">送货信息</span>
+                                        <a ng-show="show" ng-if="coupon.cdActivityId != 0" data-ng-click="openEditAddress(coupon)" title="送货信息：{{order.orderDesc}}">
+                                            <span class="fa fa-edit"></span>
                                         </a>
                                         <div ng-show="show">
                                             <a href="javascript:void(0);" data-ng-click="returnCoupon(coupon)" title="退卡：{{coupon.couponNumber}}">
-                                                <span class="glyphicon glyphicon-remove-circle">退卡</span>
+                                                <span class="glyphicon glyphicon-remove-circle"></span>
                                             </a>
                                         </div>
                                     </td>

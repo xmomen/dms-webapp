@@ -129,25 +129,25 @@
                                     <td ng-bind="coupon.managerName"></td>
 									<td ng-bind="coupon.notes"></td>
 									<td>
-										<div ng-show="show && coupon.couponType == 1" >
-                                            <a href="javascript:void(0);" data-ng-click="openUpdateUserPrice(coupon)" title="调整余额：{{coupon.couponDesc}}">
-                                                <span class="fa fa-cny">调整余额</span>
+										<div ng-show="show" >
+                                            <a href="javascript:void(0);" ng-show="coupon.couponType == 1" data-ng-click="openUpdateUserPrice(coupon)" title="调整余额">
+                                                <span class="fa fa-cny"></span>
                                             </a>
                                             <span> | </span>
-                                            <a href="javascript:void(0);" data-ng-click="updateCoupon(coupon)" title="编辑：{{coupon.couponDesc}}">
-                                                <span class="fa fa-pencil">编辑</span>
+                                            <a href="javascript:void(0);" data-ng-click="updateCoupon(coupon)" title="编辑">
+                                                <span class="fa fa-pencil"></span>
                                             </a>
 											<span> | </span>
-                                            <a href="javascript:void(0);" data-ng-click="removeCoupon(coupon)" title="删除：{{coupon.couponDesc}}">
-                                                <span class="glyphicon glyphicon-remove-circle">删除</span>
+                                            <a href="javascript:void(0);" data-ng-click="removeCoupon(coupon)" title="删除">
+                                                <span class="glyphicon glyphicon-remove-circle"></span>
                                             </a>
                                             <span ng-show="coupon.couponType == 1 && coupon.isSend == 0 && coupon.isUseful == 0 "> | </span>
-                                            <a href="javascript:void(0);" ng-show="coupon.couponType == 1 && coupon.isSend == 0 && coupon.isUseful == 0 " data-ng-click="openSendCoupon(coupon)" title="发卡：{{coupon.couponDesc}}">
-                                                <span class="fa fa-puzzle-piece">发卡</span>
+                                            <a href="javascript:void(0);" ng-show="coupon.couponType == 1 && coupon.isSend == 0 && coupon.isUseful == 0 " data-ng-click="openSendCoupon(coupon)" title="发卡">
+                                                <span class="fa fa-puzzle-piece"></span>
                                             </a>
                                             <span> | </span>
-                                            <a href="javascript:void(0);" data-ng-click="writeCard(coupon)" title="写卡：{{coupon.couponDesc}}">
-                                                <span class="fa fa-upload">写卡</span>
+                                            <a href="javascript:void(0);" ng-show="coupon.couponType == 1" data-ng-click="writeCard(coupon)" title="写卡">
+                                                <span class="fa fa-upload"></span>
                                             </a>
 										</div>
 									</td>

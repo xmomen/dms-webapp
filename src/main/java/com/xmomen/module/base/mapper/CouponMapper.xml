@@ -64,7 +64,7 @@
               	AND cc.is_useful = 0 and cc.coupon_Value > 0 AND cc.PAYMENT_TYPE = 1 AND cc.coupon_type = 1
               </if>
               <if test="isUseful == 4">
-              	AND cc.is_useful = 0 and cc.coupon_Value > 0 AND ( cc.coupon_type = 2 or (cc.PAYMENT_TYPE = 2 and cc.COUPON_TYPE =1))
+              	AND cc.is_useful = 0 AND ( cc.coupon_type = 2 or (cc.PAYMENT_TYPE = 2 and cc.COUPON_TYPE =1))
               </if>
               <if test="managerId">
                 AND su.ID = #{managerId}
