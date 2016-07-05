@@ -59,7 +59,9 @@ public class MemberController {
             @RequestParam(value = "couponNumber", required = false) String couponNumber){
     	 Map map = new HashMap<String,Object>();
          map.put("id", id);
-         map.put("keyword", keyword);
+         if(StringUtils.trimToNull(keyword) != null){
+        	 map.put("keyword", keyword);
+         }
          if(StringUtils.trimToNull(phoneNumber) != null){
              map.put("phoneNumber", phoneNumber);
          }

@@ -139,6 +139,10 @@ define(function () {
                     $scope.addCouponForm = {};
                     $scope.saveCoupon = function(){
                         $scope.errors = null;
+                        if($scope.coupon.paymentType == 2 && ($scope.coupon.couponValue == "" || $scope.coupon.couponValue == undefined)){
+                            alert("请输入面值");
+                            return false;
+                        }
                         if($scope.addCouponForm.validator.form()){
                             if($scope.coupon.id){
                                 CouponAPI.update($scope.coupon, function(){

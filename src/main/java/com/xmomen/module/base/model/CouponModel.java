@@ -29,7 +29,7 @@ public @Data class CouponModel implements Serializable {
     private Integer couponCategory;
 
 	private Integer memberId;
-    
+	
     private String categoryName;
 
     /**
@@ -82,6 +82,15 @@ public @Data class CouponModel implements Serializable {
      * 0-无效，1-有效
      */
     private Integer isSend;
+    
+    /**
+     * 客服经理id
+     */
+    private Integer managerId;
+    /**
+     * 发放单位Id
+     */
+	private Integer companyId;
     /**
      * 发放单位
      */

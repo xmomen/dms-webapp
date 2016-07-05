@@ -143,8 +143,8 @@
                                             <a href="javascript:void(0);" data-ng-click="updateCoupon(coupon)" title="编辑">
                                                 <span class="fa fa-pencil"></span>
                                             </a>
-											<span> | </span>
-                                            <a href="javascript:void(0);" data-ng-click="removeCoupon(coupon)" title="删除">
+											<span ng-show="coupon.isSend == 0"> | </span>
+                                            <a href="javascript:void(0);" ng-show="coupon.isSend == 0" data-ng-click="removeCoupon(coupon)" title="删除">
                                                 <span class="glyphicon glyphicon-remove-circle"></span>
                                             </a>
                                             <span ng-show="coupon.couponType == 1 && coupon.isSend == 0 && coupon.isUseful == 0 "> | </span>
@@ -310,9 +310,9 @@
                         </div>
                     </div>
 					<div class="form-group">
-						<label class="col-md-2 control-label">面值</label>
+						<label class="col-md-2 control-label">面值<span class="vaild" ng-show="coupon.paymentType == 2">*</span></label>
 						<div class="col-md-10 input-group">
-							<input class="form-control"  ng-disabled="coupon.id != null" ng-model="coupon.couponValue" name="couponValue" placeholder="面值" type="text">
+							<input class="form-control"  ng-disabled="coupon.id != null"  ng-model="coupon.couponValue" name="couponValue" placeholder="面值" type="text">
 						</div>
 					</div>
                     <div class="form-group" ng-show="coupon.couponType == 1">

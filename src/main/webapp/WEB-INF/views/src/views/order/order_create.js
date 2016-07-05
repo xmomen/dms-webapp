@@ -176,7 +176,7 @@ define(function () {
                         limit:1,
                         offset:1,
                         couponNumber:$scope.card.cardNumber,
-                        categoryType:1
+                        couponType:1
                     }, function(data){
                         if(data.data && data.data.length > 0){
                             var coupon = data.data[0];
@@ -206,12 +206,16 @@ define(function () {
                         limit:1,
                         offset:1,
                         couponNumber:$scope.coupon.cardNumber,
-                        categoryType:2
+                        couponType:2
                     }, function(data){
                         if(data.data && data.data.length > 0){
                             var coupon = data.data[0];
                             $scope.coupon.id = coupon.id;
                             $scope.coupon.isUsed = coupon.isUsed;
+                            $scope.order.companyName = coupon.companyName;
+                            $scope.order.companyId = coupon.companyId;
+                            $scope.order.managerId = coupon.managerId;
+                            $scope.order.managerName = coupon.managerName;
                             $scope.order.paymentRelationNo = coupon.couponNumber;
                             if(coupon.memberId){
                                 MemberAPI.get({
