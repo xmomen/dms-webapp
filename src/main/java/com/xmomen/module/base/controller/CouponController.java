@@ -219,15 +219,16 @@ public class CouponController {
     public void updateBatchCoupon(
     		@RequestParam(value="companyId") Integer companyId,
     		@RequestParam(value="customerMangerId")Integer customerMangerId,
-    		@RequestParam(value="batch") String batch){
-    	CdCoupon coupon = new CdCoupon();
-    	coupon.setBatch(batch);
-    	List<CdCoupon> coupons = mybatisDao.selectByModel(coupon);
-    	AssertExt.notEmpty(coupons,"批次号不存在!");
-    	for(CdCoupon coupondb : coupons){
-    		coupondb.setCdCompanyId(companyId);
-    		coupondb.setCdUserId(customerMangerId);
-        	mybatisDao.updateByModel(coupondb);
+    		@RequestParam(value="couponNumberList") String couponNumberList){
+    	String[] couponNumbers = couponNumberList.split(",");
+    	for(int i = 0,length = couponNumbers.length;i < length; i++){
+    		String couponNumber = couponNumbers[i];
+    		CdCoupon coupon = new CdCoupon();
+    		coupon.setCouponNumber(couponNumber);
+    		coupon = mybatisDao.selectOneByModel(coupon);
+    		coupon.setCdCompanyId(companyId);
+    		coupon.setCdUserId(customerMangerId);
+        	mybatisDao.updateByModel(coupon);
     	}
     }
     

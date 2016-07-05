@@ -33,7 +33,8 @@ define(function () {
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword,
-                couponCategoryId:$scope.queryParam.couponCategoryId
+                couponCategoryId:$scope.queryParam.couponCategoryId,
+                batch:$scope.queryParam.batch
             }, function(data){
                 $scope.couponList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;
@@ -321,7 +322,8 @@ define(function () {
                             offset:$scope.pageCouponSetting.pageNum,
                             keyword:$scope.queryParam.keyword,
                             isSend:0,
-                            couponCategoryId:$scope.queryParam.couponCategoryId
+                            couponCategoryId:$scope.queryParam.couponCategoryId,
+                            batch:$scope.queryParam.batch
                         }, function(data){
                             $scope.couponList = data.data;
                             $scope.pageCouponSetting = data.pageInfo;
@@ -426,6 +428,7 @@ define(function () {
                 templateUrl: 'updateBatchCouponModel.html',
                 controller: ["$scope", "CouponAPI", "$modalInstance","CompanyAPI", function ($scope, CouponAPI, $modalInstance,CompanyAPI) {
 
+
                     $scope.companyList = [];
                     $scope.pageInfoSetting = {
                         pageSize:1000,
@@ -451,6 +454,66 @@ define(function () {
                             }
                         }
                     }
+
+                    $scope.chooseCoupon = [];
+                    $scope.chooseAllCheck = {};
+                    $scope.checkedAllCoupon = function() {
+                        if($scope.chooseAllCheck.isCheckCoupon == 0){
+                            $scope.chooseCoupon.splice(0, $scope.chooseCoupon.length);
+                            for (var i = 0; i < $scope.couponList.length; i++) {
+                                var obj = $scope.couponList[i];
+                                $scope.chooseCoupon.push(obj);
+                            }
+                        }else{
+                            $scope.chooseCoupon.splice(0, $scope.chooseCoupon.length);
+                        }
+                        $scope.chooseCouponStr();
+                    };
+
+                    $scope.changeCouponList = function(){
+                        if($scope.chooseCoupon.length == $scope.couponList.length){
+                            $scope.isCheckCombine = 0;
+                        }else{
+                            $scope.isCheckCombine = 1;
+                        }
+                        $scope.chooseCouponStr();
+                    };
+
+                    //拼装卡号
+                    $scope.chooseCouponStr = function(){
+                        $scope.coupon.couponNumberList = "";
+                        for(var i in $scope.chooseCoupon){
+                            if( $scope.coupon.couponNumberList == ""){
+                                $scope.coupon.couponNumberList = $scope.chooseCoupon[i].couponNumber;
+                            }else{
+                                $scope.coupon.couponNumberList += "," + $scope.chooseCoupon[i].couponNumber;
+                            }
+
+                        }
+                    }
+
+
+
+                    $scope.couponList = [];
+                    $scope.pageCouponSetting = {
+                        pageSize:30,
+                        pageNum:1
+                    };
+                    $scope.queryParam = {};
+                    $scope.getCouponList = function(){
+                        CouponAPI.query({
+                            limit:$scope.pageCouponSetting.pageSize,
+                            offset:$scope.pageCouponSetting.pageNum,
+                            keyword:$scope.queryParam.keyword,
+                            isSend:1,
+                            couponCategoryId:$scope.queryParam.couponCategoryId,
+                            batch:$scope.queryParam.batch
+                        }, function(data){
+                            $scope.couponList = data.data;
+                            $scope.pageCouponSetting = data.pageInfo;
+                            $scope.pageCouponSetting.loadData = $scope.getCouponList;
+                        });
+                    };
                     $scope.coupon = {};
                     $scope.errors = null;
                     $scope.updateBatchCouponFrom = {};
@@ -460,7 +523,7 @@ define(function () {
                             CouponAPI.updateBatchCoupon({
                                 customerMangerId:$scope.coupon.customerMangerId,
                                 companyId:$scope.coupon.cdCompanyId,
-                                batch:$scope.coupon.batch
+                                couponNumberList:$scope.coupon.couponNumberList
                             }, function () {
                                 $modalInstance.close();
                             }, function (data) {
