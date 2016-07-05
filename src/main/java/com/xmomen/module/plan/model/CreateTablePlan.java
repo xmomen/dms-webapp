@@ -1,12 +1,11 @@
 package com.xmomen.module.plan.model;
 
 import java.io.Serializable;
+import java.util.List;
 
-import javax.validation.constraints.NotNull;
+import lombok.Data;
 
-import org.hibernate.validator.constraints.NotBlank;
-
-public class CreateTablePlan implements Serializable{
+public @Data class CreateTablePlan implements Serializable{
     /**
      * 餐桌计划
      */
@@ -46,68 +45,6 @@ public class CreateTablePlan implements Serializable{
      * 收货人地址
      */
     private String consigneeAddress;
-
-	public Integer getCdPlanId() {
-		return cdPlanId;
-	}
-
-	public void setCdPlanId(Integer cdPlanId) {
-		this.cdPlanId = cdPlanId;
-	}
-
-	public Integer getAuditStatus() {
-		return auditStatus;
-	}
-
-	public void setAuditStatus(Integer auditStatus) {
-		this.auditStatus = auditStatus;
-	}
-
-	public Integer getIsStop() {
-		return isStop;
-	}
-
-	public void setIsStop(Integer isStop) {
-		this.isStop = isStop;
-	}
-
-	public Integer getCdMemberId() {
-		return cdMemberId;
-	}
-
-	public void setCdMemberId(Integer cdMemberId) {
-		this.cdMemberId = cdMemberId;
-	}
-
-	public String getMemberCode() {
-		return memberCode;
-	}
-
-	public void setMemberCode(String memberCode) {
-		this.memberCode = memberCode;
-	}
-
-	public String getConsigneePhone() {
-		return consigneePhone;
-	}
-
-	public void setConsigneePhone(String consigneePhone) {
-		this.consigneePhone = consigneePhone;
-	}
-
-	public String getConsigneeName() {
-		return consigneeName;
-	}
-
-	public void setConsigneeName(String consigneeName) {
-		this.consigneeName = consigneeName;
-	}
-
-	public String getConsigneeAddress() {
-		return consigneeAddress;
-	}
-
-	public void setConsigneeAddress(String consigneeAddress) {
-		this.consigneeAddress = consigneeAddress;
-	}
+    
+    private List<Integer> cdPlanIds;
 }

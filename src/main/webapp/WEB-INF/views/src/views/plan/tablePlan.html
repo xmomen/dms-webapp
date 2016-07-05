@@ -153,11 +153,18 @@
             <form class="form-horizontal" ug-validate="addTablePlanForm" name="addTablePlanForm" novalidate="">
 
                 <fieldset>
-                    <div class="form-group">
+                    <div class="form-group" ng-show="tablePlan.id == null">
                         <label class="col-md-2 control-label">餐桌计划<span class="vaild">*</span></label>
                         <div class="col-md-10 input-group">
-                            <select ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;" required="true" ng-model="tablePlan.cdPlanId" name="cdPlanId" >
-                                <option value="">--请选择--</option>
+                            <select multiple ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;" required="true" ng-model="tablePlan.cdPlanIds" name="cdPlanId" >
+                                <option value="{{basePlan.id}}" ng-repeat="basePlan in basePlanList">{{basePlan.planName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="tablePlan.id != null">
+                        <label class="col-md-2 control-label">餐桌计划<span class="vaild">*</span></label>
+                        <div class="col-md-10 input-group">
+                            <select ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;" required="true" ng-model="tablePlan.cdPlanIds" name="cdPlanId" >
                                 <option value="{{basePlan.id}}" ng-repeat="basePlan in basePlanList">{{basePlan.planName}}</option>
                             </select>
                         </div>
