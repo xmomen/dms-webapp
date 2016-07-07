@@ -89,7 +89,11 @@ public class CouponService {
     @Transactional
     public void sendOneCoupon(Integer id,Integer companyId,Integer customerMangerId,String couponNumber,String batch){
     	//更新卡发放状态
-    	CdCoupon coupon = new CdCoupon();
+    	CdCoupon coupon = mybatisDao.selectByPrimaryKey(CdCoupon.class, id);
+    	//如果是后付款类型则发卡就激活
+    	if(coupon.getPaymentType() == 2){
+    		coupon.setIsUseful(1);
+    	}
     	coupon.setIsSend(1);
     	coupon.setId(id);
     	coupon.setBatch(batch);
@@ -104,12 +108,7 @@ public class CouponService {
     @Transactional
     public void returnCoupon(Integer id){
 		//更新卡券为未发送
-    	CdCoupon coupon = new CdCoupon();
-    	coupon.setIsSend(0);
-    	coupon.setId(id);
-    	coupon.setCdCompanyId(null);
-    	coupon.setCdUserId(null);
-    	mybatisDao.updateByModel(coupon);
+    	mybatisDao.getSqlSessionTemplate().update(CouponMapper.CouponMapperNameSpace + "updateReturnCoupon", id);
     }
     
     /**

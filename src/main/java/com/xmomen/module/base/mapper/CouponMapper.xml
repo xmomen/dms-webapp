@@ -23,9 +23,11 @@
         cc.*,
         cc.COUPON_CATEGORY as couponCategoryId,
 		ccc.CATEGORY_NAME,
+		cd_company.id as companyId,
 		cd_company.COMPANY_NAME,
-        r.CD_MEMBER_ID AS memberId,
+        r.cd_member_id AS memberId,
 		su.realname as managerName,
+		su.id as managerId,
 		price.ref_value as receivedPrice
         FROM
         cd_coupon cc
@@ -64,13 +66,13 @@
               	AND cc.is_useful = 0 and cc.coupon_Value > 0 AND cc.PAYMENT_TYPE = 1 AND cc.coupon_type = 1
               </if>
               <if test="isUseful == 4">
-              	AND cc.is_useful = 0 and cc.coupon_Value > 0 AND ( cc.coupon_type = 2 or (cc.PAYMENT_TYPE = 2 and cc.COUPON_TYPE =1))
+              	AND ( cc.coupon_type = 2 or (cc.PAYMENT_TYPE = 2 and cc.COUPON_TYPE =1))
               </if>
-              <if test="managerId">
-                AND su.ID = #{managerId}
+              <if test="customerMangerId">
+                AND cc.cd_user_id = #{customerMangerId}
               </if>
               <if test="cdCompanyId != null">
-              	AND ccr.ref_value = #{cdCompanyId}
+              	AND cc.cd_company_id = #{cdCompanyId}
               </if>
               <if test="isOver != null">
               	AND cc.is_over = #{isOver}
@@ -81,6 +83,7 @@
     <!--金额回填查询-->
 	<select id="getCouponActivityList" resultMap="couponModelMap" parameterType="com.xmomen.module.base.model.CouponQuery">
         SELECT
+        	cc.id,
 			car.CD_ACTIVITY_ID,
 	        cc.COUPON_TYPE,
 	        cc.USER_PRICE,
@@ -134,11 +137,11 @@
               <if test="isUseful == 3">
               	AND cc.is_useful = 0 and cc.coupon_Value > 0
               </if>
-              <if test="managerId">
-                AND su.ID = #{managerId}
+              <if test="customerMangerId">
+                AND cc.cd_user_id = #{customerMangerId}
               </if>
               <if test="cdCompanyId != null">
-              	AND ccr.ref_value = #{cdCompanyId}
+              	AND cc.cd_company_id = #{cdCompanyId}
               </if>
               <if test="isOver != null">
               	AND cc.is_over = #{isOver}
@@ -165,4 +168,11 @@
          </where>
     </select>
     
+<update id="updateReturnCoupon" parameterType="Integer">
+	update cd_coupon 
+	set is_send=0 ,
+	cd_company_id = null,
+	cd_user_id = null
+	where id=#{id}
+</update>
 </mapper>

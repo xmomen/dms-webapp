@@ -45,15 +45,6 @@ define(function () {
             });
         }
         $scope.getCustomerManagersList();
-        $scope.changeCompany = function(id){
-//            $scope.queryParam.customerMangerId = "";
-//            for(var i in $scope.companyList){
-//                var company =  $scope.companyList[i]
-//                if(company.id == parseInt(id)){
-//                    $scope.companyCustomerManagers =  company.companyCustomerManagers;
-//                }
-//            }
-        }
 
         $scope.couponList = [];
         $scope.pageInfoNoAuditSetting = {

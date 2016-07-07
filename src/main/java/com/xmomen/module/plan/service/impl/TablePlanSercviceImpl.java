@@ -20,19 +20,20 @@ public class TablePlanSercviceImpl implements TablePlanSercvice {
 	@Override
 	@Transactional
 	public void createTablePlan(CreateTablePlan createTablePlan) {
-		TbTablePlan tablePlan = new TbTablePlan();
-		tablePlan.setCdPlanId(createTablePlan.getCdPlanId());
-		tablePlan.setAuditStatus(1);
-		tablePlan.setCdMemberId(createTablePlan.getCdMemberId());
-		tablePlan.setConsigneeAddress(createTablePlan.getConsigneeAddress());
-		tablePlan.setConsigneeName(createTablePlan.getConsigneeName());
-		tablePlan.setConsigneePhone(createTablePlan.getConsigneePhone());
-		tablePlan.setIsStop(0);
-		tablePlan.setMemberCode(createTablePlan.getMemberCode());
-		tablePlan.setSendValue(0);
-		CdPlan plan = mybatisDao.selectByPrimaryKey(CdPlan.class,createTablePlan.getCdPlanId());
-		tablePlan.setTotalSendValue(plan.getDeliverCount());
-		mybatisDao.saveByModel(tablePlan);
+		for(Integer planId : createTablePlan.getCdPlanIds()){
+			TbTablePlan tablePlan = new TbTablePlan();
+			tablePlan.setCdPlanId(planId);
+			tablePlan.setAuditStatus(1);
+			tablePlan.setCdMemberId(createTablePlan.getCdMemberId());
+			tablePlan.setConsigneeAddress(createTablePlan.getConsigneeAddress());
+			tablePlan.setConsigneeName(createTablePlan.getConsigneeName());
+			tablePlan.setConsigneePhone(createTablePlan.getConsigneePhone());
+			tablePlan.setIsStop(0);
+			tablePlan.setSendValue(0);
+			CdPlan plan = mybatisDao.selectByPrimaryKey(CdPlan.class,planId);
+			tablePlan.setTotalSendValue(plan.getDeliverCount());
+			mybatisDao.saveByModel(tablePlan);
+		}
 	}
 	@Transactional
 	public void updateTablePlan(Integer id,UpdateTablePlan updateTablePlan) {

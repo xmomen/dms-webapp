@@ -49,19 +49,6 @@
 										<input type="search" placeholder="装箱记录编号/手机号码/收货人" data-ng-keyup="getOrderList()" ng-model="queryParam.orderKeyword" class="form-control" aria-controls="dt_basic"></label>
 								</div>
 							</div>
-							<div class="col-sm-4">
-								<div class="dataTables_filter">
-									<label>
-										<span class="input-group-addon" style="width:80px;">任务状态</span>
-										<select ug-select2 ug-select2-config="ugSelect2Config" style="width: 250px;" ng-change="getOrderList()" ng-model="queryParam.packingTaskStatus" name="packingTaskStatus" >
-											<option value="">--请选择--</option>
-											<option value="0">待开始</option>
-											<option value="1">进行中</option>
-											<option value="2">已完成</option>
-										</select>
-									</label>
-								</div>
-							</div>
 							<div class="col-sm-2">
 								<button class="btn btn-primary" type="button" data-ng-click="getOrderList()">
 									<i class="fa fa-refresh"></i>
@@ -94,14 +81,11 @@
 									<td ng-bind="order.packingTaskStatusDesc"></td>
 									<td>
 										<div >
-											<a href="javascript:void(0);" ng-show="choseOrder.id==order.id" ng-if="order.packingTaskStatus!=2" data-ng-click="choseOrderPacking($index)">
-												<span class="fa fa-inbox"> 正在装箱</span>
+											<a href="javascript:void(0);" ng-if="choseOrder.id==order.id" data-ng-click="choseOrderPacking($index)" title="正在装箱">
+												<span class="fa fa-inbox"></span>
 											</a>
-											<a href="javascript:void(0);" ng-show="choseOrder.id!=order.id" ng-if="order.packingTaskStatus!=2" data-ng-click="choseOrderPacking($index)">
-												<span class="fa fa-inbox"> 装箱</span>
-											</a>
-											<a href="javascript:void(0);" ng-show="choseOrder.id!=order.id" ng-if="order.packingTaskStatus==2" data-ng-click="choseOrderPacking($index)">
-												<span class="fa fa-inbox"> 查看</span>
+											<a href="javascript:void(0);" ng-if="choseOrder.id!=order.id" data-ng-click="choseOrderPacking($index)" title="装箱">
+												<span class="fa fa-inbox"></span>
 											</a>
 										</div>
 									</td>
@@ -172,16 +156,16 @@
 									<i class="fa fa-refresh"></i>
 									刷新
 								</button>
-								<button ng-show="!choseOrder.currentPacking.packingNo" class="btn btn-primary" type="button" ng-if="choseOrder.packingTaskStatus!=2" data-ng-click="startPacking()">
+								<button ng-if="!choseOrder.currentPacking.packingNo" class="btn btn-primary" type="button" data-ng-click="startPacking()">
 									<i class="fa fa-refresh"></i>
 									开始装箱
 								</button>
-								<button ng-show="choseOrder.currentPacking.packingNo" class="btn btn-primary" type="button" ng-if="choseOrder.packingTaskStatus!=2" data-ng-click="changePacking()">
+								<button ng-if="choseOrder.currentPacking.packingNo" class="btn btn-primary" type="button" data-ng-click="changePacking()">
 									<i class="fa fa-refresh"></i>
 									换箱
 								</button>
 							</div>
-							<div class="col-sm-12" ng-show="choseOrder.currentPacking.packingNo" ng-if="choseOrder.packingTaskStatus!=2" >
+							<div class="col-sm-12" ng-show="choseOrder.currentPacking.packingNo" >
 								<form ug-validate="scanItemForm" name="scanItemForm2" novalidate="">
 								<div class="input-group">
 									<input class="form-control" type="text" ng-model="item.upc" placeholder="商品UPC">
@@ -311,7 +295,7 @@
 									<td ng-bind="packingRecord.itemName"></td>
 									<td ng-bind="packingRecord.scanTime | date: 'yyyy-MM-dd hh:mm:ss'"></td>
 									<td>
-										<div ng-show="show" ng-if="choseOrder.packingTaskStatus!=2" >
+										<div ng-show="show">
 										<a href="javascript:void(0);" data-ng-click="removePacking($index)" title="删除">
 											<span class="fa fa-trash-o"></span>
 										</a>

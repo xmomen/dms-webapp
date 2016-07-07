@@ -138,13 +138,13 @@
                                     <td ng-bind="order.consigneeAddress"></td>
                                     <td>
                                         <div ng-show="order.expressName == null" >
-                                            <a href="javascript:void(0);" data-ng-click="bindExpress($index)">
-                                                <span class="fa fa-inbox"> 分配</span>
+                                            <a href="javascript:void(0);" data-ng-click="bindExpress($index)" title="分配">
+                                                <span class="fa fa-inbox"></span>
                                             </a>
                                         </div>
                                         <div ng-show="order.expressName != null" >
-                                            <a href="javascript:void(0);" data-ng-click="unbindExpress($index)">
-                                                <span class="fa fa-inbox"> 取消</span>
+                                            <a href="javascript:void(0);" data-ng-click="unbindExpress($index)" title="取消">
+                                                <span class="fa fa-inbox"></span>
                                             </a>
                                         </div>
                                     </td>

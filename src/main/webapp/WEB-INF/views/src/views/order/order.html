@@ -99,13 +99,13 @@
 									<td ng-bind="order.remark"></td>
 									<td width="180">
 											<a ng-show="show" href="javascript:void(0);" data-ng-click="viewOrder($index)" title="查看：{{order.orderDesc}}">
-												<span class="fa fa-eye">查看</span>
+												<span class="fa fa-eye"></span>
 											</a>
 											<a ng-show="show" ng-if="order.orderStatus != 9" href="javascript:void(0);" ui-sref="order_update({id:order.id, orderNo:order.orderNo})" title="编辑：{{order.orderDesc}}">
-												<span class="fa fa-edit">编辑</span>
+												<span class="fa fa-edit"></span>
 											</a>
 											<a ng-show="show" ng-if="order.orderStatus != 9" href="javascript:void(0);" data-ng-click="cancelOrder($index)" title="取消：{{order.orderDesc}}">
-												<span class="fa fa-recycle">取消</span>
+												<span class="fa fa-recycle"></span>
 											</a>
 									</td>
 								</tr>

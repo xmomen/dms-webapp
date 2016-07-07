@@ -2,8 +2,7 @@ package com.xmomen.module.base.controller;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -21,12 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.utils.AssertExt;
+import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.base.entity.CdActivityAddress;
 import com.xmomen.module.base.entity.CdCoupon;
 import com.xmomen.module.base.entity.CdCouponRef;
 import com.xmomen.module.base.entity.CdCouponRefExample;
+import com.xmomen.module.base.entity.CdMember;
 import com.xmomen.module.base.mapper.CouponMapper;
 import com.xmomen.module.base.model.CouponActivityAddress;
 import com.xmomen.module.base.model.CouponModel;
@@ -211,6 +212,27 @@ public class CouponController {
     }
     
     /**
+     *根据批次号修改
+     */
+    @RequestMapping(value = "/coupon/updateBatchCoupon", method = RequestMethod.GET)
+    @Log(actionName = "根据批次号修改")
+    public void updateBatchCoupon(
+    		@RequestParam(value="companyId") Integer companyId,
+    		@RequestParam(value="customerMangerId")Integer customerMangerId,
+    		@RequestParam(value="couponNumberList") String couponNumberList){
+    	String[] couponNumbers = couponNumberList.split(",");
+    	for(int i = 0,length = couponNumbers.length;i < length; i++){
+    		String couponNumber = couponNumbers[i];
+    		CdCoupon coupon = new CdCoupon();
+    		coupon.setCouponNumber(couponNumber);
+    		coupon = mybatisDao.selectOneByModel(coupon);
+    		coupon.setCdCompanyId(companyId);
+    		coupon.setCdUserId(customerMangerId);
+        	mybatisDao.updateByModel(coupon);
+    	}
+    }
+    
+    /**
      * @param id
      * @throws ParseException 
      */
@@ -235,6 +257,21 @@ public class CouponController {
     		activityAddress.setConsignmentName(couponActivityAddress.getConsignmentName());
     		activityAddress.setSendTime(couponActivityAddress.getSendTime());
     		mybatisDao.update(activityAddress);
+    	}
+    	//查找客户 进行添加或者修改第三个地址
+    	if(StringUtilsExt.isNotBlank(couponActivityAddress.getConsignmentPhone())){
+    		CdMember member = new CdMember();
+    		member.setPhoneNumber(couponActivityAddress.getConsignmentPhone());
+    		List<CdMember> members = mybatisDao.selectByModel(member);
+    		if(members != null && members.size() > 0){
+    			member = members.get(0);
+    			if(StringUtilsExt.isNotBlank(couponActivityAddress.getConsignmentAddress()))
+    			member.setSpareAddress2(couponActivityAddress.getConsignmentAddress());
+    			if(StringUtilsExt.isNotBlank(couponActivityAddress.getConsignmentName()))
+    			member.setSpareName2(couponActivityAddress.getConsignmentName());
+    			member.setSpareTel2(couponActivityAddress.getConsignmentPhone());
+    			mybatisDao.update(member);
+    		}
     	}
     }
     
@@ -301,6 +338,12 @@ public class CouponController {
 			CdCoupon coupon = new CdCoupon();
 	        coupon.setIsUseful(1);
 	        coupon.setId(couponId);
+	        if(coupon.getCouponValue() == null){
+	        	coupon.setCouponValue(receivedPrice);
+	        }
+	        if(coupon.getCouponType() == 1){
+	        	coupon.setUserPrice(receivedPrice);
+	        }
 	        mybatisDao.update(coupon);
 		}
     }

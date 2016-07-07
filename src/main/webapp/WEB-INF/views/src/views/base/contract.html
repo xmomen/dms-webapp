@@ -90,15 +90,15 @@
                                     <td>
                                         <div ng-show="show">
                                             <a ng-show="show" href="javascript:void(0);" data-ng-click="viewContract($index)" title="查看：{{contract.contractName}}">
-                                                <span class="fa fa-eye">查看</span>
+                                                <span class="fa fa-eye"></span>
                                             </a>
                                             <span> | </span>
                                             <a href="javascript:void(0);" ui-sref="contract_update({id:contract.id})" title="编辑：{{contract.contractName}}">
-                                                <span class="fa fa-pencil">编辑</span>
+                                                <span class="fa fa-pencil"></span>
                                             </a>
                                             <span> | </span>
                                             <a href="javascript:void(0);" ng-show="contract.isDel == 0" data-ng-click="removeContract($index)" title="作废：{{contract.contractName}}">
-                                                <span class="glyphicon glyphicon-remove-circle">作废</span>
+                                                <span class="glyphicon glyphicon-remove-circle"></span>
                                             </a>
                                         </div>
                                     </td>

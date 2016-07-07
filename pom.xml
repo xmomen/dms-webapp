@@ -81,15 +81,15 @@
             <properties>
                 <env>dev</env>
             </properties>
-            <activation>
-               <activeByDefault>true</activeByDefault>
-           </activation>
         </profile>
         <profile>
             <id>local</id>
             <properties>
                 <env>local</env>
             </properties>
+             <activation>
+               <activeByDefault>true</activeByDefault>
+           </activation>
         </profile>
         <profile>
             <id>prd</id>
