@@ -98,8 +98,8 @@ define(function () {
                     $scope.order.paymentMode = 5;
                 }else if($scope.order.orderType == 2){
                     $scope.setting.disablesChosePayMode = true;
-                    $scope.setting.disablesChoseItems = true;
-                    $scope.setting.disablesUpdateChoseItems = true;
+                    $scope.setting.disablesChoseItems = false;
+                    $scope.setting.disablesUpdateChoseItems = false;
                     $scope.order.paymentMode = 7;
                 }else{
                     $scope.setting.disablesChosePayMode = false;

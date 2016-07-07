@@ -81,7 +81,7 @@
     </select>
     
     <!--金额回填查询-->
-	<select id="getCouponActivityList" resultMap="couponModelMap" parameterType="com.xmomen.module.base.model.CouponQuery">
+	<select id="getCouponActivityList" resultType="com.xmomen.module.base.model.CouponModel" parameterType="com.xmomen.module.base.model.CouponQuery">
         SELECT
         	cc.id,
 			car.CD_ACTIVITY_ID,
