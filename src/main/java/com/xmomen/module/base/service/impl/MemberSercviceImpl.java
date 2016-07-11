@@ -1,8 +1,12 @@
 package com.xmomen.module.base.service.impl;
 
+import java.util.List;
+
 import com.xmomen.framework.utils.StringUtilsExt;
+import com.xmomen.module.base.entity.CdActivityAddress;
 import com.xmomen.module.base.entity.CdMemberCouponRelation;
 import com.xmomen.module.base.service.CouponService;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.module.base.entity.CdMember;
+import com.xmomen.module.base.model.CouponActivityAddress;
 import com.xmomen.module.base.model.CreateMember;
 import com.xmomen.module.base.model.UpdateMember;
 import com.xmomen.module.base.service.MemberSercvice;
@@ -26,7 +31,6 @@ public class MemberSercviceImpl implements MemberSercvice {
 	@Transactional
 	public void createMember(CreateMember createMember) {
 		CdMember member = new CdMember();
-//		member.setMemberCode(StringUtilsExt.random(12));
 		member.setMemberType(createMember.getMemberType());
 		member.setName(createMember.getName());
 		member.setPhoneNumber(createMember.getPhoneNumber());
@@ -47,13 +51,24 @@ public class MemberSercviceImpl implements MemberSercvice {
 			cdMemberCouponRelation.setCdMemberId(member.getId());
 			cdMemberCouponRelation.setCouponNumber(createMember.getCouponNumber());
 			mybatisDao.insert(cdMemberCouponRelation);
+			//查看卡是否有送礼品地址 如果有填充到第3个地址里面
+			CdActivityAddress couponActivityAddress = new CdActivityAddress();
+			couponActivityAddress.setCouponNumber(createMember.getCouponNumber());
+			List<CdActivityAddress> couponAddressList =  mybatisDao.selectByModel(couponActivityAddress);
+			if(couponAddressList.size() > 0){
+				couponActivityAddress = couponAddressList.get(0);
+				member.setSpareAddress2(couponActivityAddress.getConsignmentAddress());
+				member.setSpareName2(couponActivityAddress.getConsignmentName());
+				member.setSpareTel2(couponActivityAddress.getConsignmentPhone());
+				mybatisDao.update(member);
+			}
 		};
 	}
+	
 	@Transactional
 	public void updateMember(Integer id,UpdateMember updateMember) {
 		CdMember member = new CdMember();
 		member.setId(id);
-//		member.setMemberCode(updateMember.getMemberCode());
 		member.setMemberType(updateMember.getMemberType());
 		member.setName(updateMember.getName());
 		member.setPhoneNumber(updateMember.getPhoneNumber());
