@@ -22,6 +22,9 @@
               <if test="id">
                   AND ttp.id = #{id}
               </if>
+              <if test="userId">
+              	 AND cm.cd_user_id = #{userId}
+              </if>
           </where>
     </select>
 </mapper>

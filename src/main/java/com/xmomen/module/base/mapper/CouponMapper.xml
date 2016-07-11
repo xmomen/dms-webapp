@@ -74,6 +74,9 @@
               <if test="cdCompanyId != null">
               	AND cc.cd_company_id = #{cdCompanyId}
               </if>
+              <if test="managerId != null">
+              	AND cc.cd_user_id = #{managerId}
+              </if>
               <if test="isOver != null">
               	AND cc.is_over = #{isOver}
               </if>
@@ -142,6 +145,9 @@
               </if>
               <if test="cdCompanyId != null">
               	AND cc.cd_company_id = #{cdCompanyId}
+              </if>
+              <if test="managerId != null">
+              	AND cc.cd_user_id = #{managerId}
               </if>
               <if test="isOver != null">
               	AND cc.is_over = #{isOver}
