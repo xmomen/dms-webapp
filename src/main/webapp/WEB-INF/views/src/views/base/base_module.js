@@ -16,8 +16,9 @@ define([
     "views/base/couponActivity",
     "views/base/couponAudit",
     "views/base/couponAuditBack",
-    "views/base/express_list"
-],function (memberList,companyList,couponCategory,coupon,dictionary,itemCategory,item,contract,contract_create,contract_update,activity,couponActivity,couponAudit,couponAuditBack,express_list) {
+    "views/base/express_list",
+    "views/base/express_member_list"
+],function (memberList,companyList,couponCategory,coupon,dictionary,itemCategory,item,contract,contract_create,contract_update,activity,couponActivity,couponAudit,couponAuditBack,express_list,express_member_list) {
     angular.module('DMS.base', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -188,6 +189,18 @@ define([
                     }
                 },
                 controller: express_list
+            })
+
+            .state('expressMemberList', {
+                url: '/expressMemberList',
+                templateUrl: 'views/base/express_member_list.html',
+                data:{
+                    permissions:{
+                        only:["EXPRESS_MEMBER_LIST"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: express_member_list
             })
     }]);
 });

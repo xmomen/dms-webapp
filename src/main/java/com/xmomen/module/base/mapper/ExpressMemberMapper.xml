@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.base.mapper.ExpressMemberMapper" >
+
+    <!--    查询消息    -->
+    <select id="getExpressMemberList" resultType="com.xmomen.module.base.model.ExpressMemberModel" parameterType="java.util.HashMap">
+       select 
+       	ccm.*,
+       	ce.express_name
+       from cd_express_member ccm
+       left join cd_express ce on ccm.cd_express_id = ce.id
+		<where>
+              <if test="keyword">
+                  AND ccm.member_name LIKE CONCAT('%', #{keyword}, '%') or ccm.phone LIKE CONCAT('%', #{keyword}, '%')
+              </if>
+              <if test="id">
+                  AND ccm.id = #{id}
+              </if>
+        </where>
+    </select>
+</mapper>
+
