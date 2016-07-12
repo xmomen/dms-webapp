@@ -1,0 +1,165 @@
+<!--
+	The ID "widget-grid" will start to initialize all widgets below 
+	You do not need to use widgets if you dont want to. Simply remove 
+	the <section></section> and you can use wells or panels instead 
+	-->
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need uniqu e ID)-->
+			<div class="jarviswidget" id="wid-id-4">
+				<!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2>快递员列表</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- end widget edit box -->
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="dt-toolbar">
+							<div class="col-xs-11 col-sm-10">
+								<div class="dataTables_filter">
+									<label>
+										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+										<input type="search" placeholder="名称、电话" data-ng-keyup="getExpressMemberList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+								</div>
+							</div>
+							<div class="col-xs-1 col-sm-2">
+								<button class="btn btn-primary" type="button" data-ng-click="open()">
+									<i class="fa fa-plus"></i>
+									新增
+								</button>
+							</div>
+						</div>
+						<div class="table-responsive">
+							<table class="table table-striped table-condensed table-hover smart-form has-tickbox">
+								<thead>
+								<tr>
+                                    <th width="120">快递公司</th>
+									<th width="120">名称</th>
+                                    <th width="120">手机号</th>
+									<th width="80">操作</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat="expressMember in expressMemberList"  ng-if="expressMemberList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+									<td ng-bind="expressMember.expressName"></td>
+									<td ng-bind="expressMember.memberName"></td>
+                                    <td ng-bind="expressMember.phone"></td>
+                                    <td>
+                                        <div ng-show="show">
+                                            <a href="javascript:void(0);" data-ng-click="removeExpress($index)" title="删除：{{express.expressName}}">
+                                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                            </a>
+                                            <span> | </span>
+                                            <a href="javascript:void(0);" data-ng-click="open($index)" title="编辑：{{express.expressName}}">
+                                                <span class="fa fa-pencil"></span>
+                                            </a>
+                                        </div>
+                                    </td>
+								</tr>
+								<tr ng-if="expressMemberList == null || expressMemberList.length == 0">
+									<td colspan="3">
+										<div>暂无消息数据</div>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="dt-toolbar-footer">
+							<div class="col-xs-12 col-sm-12">
+								<ug-pagination page-info="pageInfoSetting" ></ug-pagination>
+							</div>
+						</div>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- WIDGET END -->
+
+	</div>
+
+	<!-- end row -->
+
+</section>
+<!-- end widget grid -->
+
+<script type="text/ng-template" id="addExpressMember.html">
+	<div class="modal-header">
+		<h3 class="modal-title">新增/编辑</h3>
+	</div>
+	<div class="modal-body">
+		<div class="widget-body">
+
+			<form class="form-horizontal" ug-validate="addExpressMemberForm" name="addExpressMemberForm2" novalidate="">
+
+				<fieldset>
+					<div class="form-group">
+						<label class="col-md-2 control-label">快递公司<span class="vaild">*</span></label>
+						<div class="col-md-10">
+                            <select ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;"
+                                    required="true" ng-model="expressMember.cdExpressId" name="cdExpressId" >
+                                <option ng-value="">--请选择--</option>
+                                <option ng-value="{{express.id}}" ng-repeat="express in expressList">{{express.expressName}}</option>
+                            </select>
+						</div>
+					</div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">姓名<span class="vaild">*</span></label>
+                        <div class="col-md-10">
+                            <input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="20" ng-model="expressMember.memberName" name="memberName" placeholder="姓名" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">手机号<span class="vaild">*</span></label>
+                        <div class="col-md-10">
+                            <input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="11" ng-model="expressMember.phone" name="phone" placeholder="手机号" type="text">
+                        </div>
+                    </div>
+					<div class="form-group" ng-if="errors">
+						<label class="col-md-2 control-label"></label>
+						<div class="col-md-10 error">
+							{{errors.message}}
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="submit" data-ng-click="saveOrUpdateExpressMember()">
+			<i class="fa fa-save"></i>
+			保存
+		</button>
+		<button class="btn btn-warning" ng-click="cancel()">关闭</button>
+	</div>
+</script>
