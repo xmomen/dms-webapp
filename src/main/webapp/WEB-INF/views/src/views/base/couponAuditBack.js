@@ -145,6 +145,17 @@ define(function () {
                 $scope.getCouponAuditList();
             });
         };
+        //退卡
+        $scope.returnCoupon = function(coupon){
+            $ugDialog.confirm("是否退卡/券？").then(function(){
+                CouponAPI.returnCoupon({
+                    id: coupon.id
+                }, function(){
+                    $ugDialog.alert("退卡成功");
+                    $scope.getCouponList();
+                });
+            })
+        };
 
         $scope.overCoupon = function(coupon){
             $ugDialog.confirm("确定卡完结，完结之后不能做任何修改？").then(function(){

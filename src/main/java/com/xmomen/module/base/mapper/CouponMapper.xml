@@ -178,7 +178,8 @@
 	update cd_coupon 
 	set is_send=0 ,
 	cd_company_id = null,
-	cd_user_id = null
+	cd_user_id = null,
+	USER_PRICE = null
 	where id=#{id}
 </update>
 </mapper>
