@@ -67,10 +67,12 @@ public class UserServiceImpl implements UserService {
         sysUsers.setPassword(newPassword);
         sysUsers.setLocked(user.getLocked() ? 1 : 0);
         sysUsers = mybatisDao.saveByModel(sysUsers);
-        SysUsersRoles userRoles = new SysUsersRoles();
-        userRoles.setRoleId(user.getUserGorupId());
-        userRoles.setUserId(sysUsers.getId());
-        mybatisDao.save(userRoles);
+        for(int userGroupId : user.getUserGroupIds()){
+	        SysUsersRoles userRoles = new SysUsersRoles();
+	        userRoles.setRoleId(userGroupId);
+	        userRoles.setUserId(sysUsers.getId());
+	        mybatisDao.save(userRoles);
+        }
         SysUserOrganization userOrganization = new SysUserOrganization();
         userOrganization.setOrganizationId(user.getOrganizationId());
         userOrganization.setUserId(sysUsers.getId());
@@ -101,10 +103,12 @@ public class UserServiceImpl implements UserService {
         SysUsersRolesExample sysUsersRolesExample = new SysUsersRolesExample();
         sysUsersRolesExample.createCriteria().andUserIdEqualTo(sysUsers.getId());
 		mybatisDao.deleteByExample(sysUsersRolesExample);
-        SysUsersRoles userRoles = new SysUsersRoles();
-        userRoles.setRoleId(updateUserVo.getUserGorupId());
-        userRoles.setUserId(sysUsers.getId());
-        mybatisDao.save(userRoles);
+		for(int userGroupId : updateUserVo.getUserGroupIds()){
+	        SysUsersRoles userRoles = new SysUsersRoles();
+	        userRoles.setRoleId(userGroupId);
+	        userRoles.setUserId(sysUsers.getId());
+	        mybatisDao.save(userRoles);
+        }
         SysUserOrganizationExample sysUserOrganizationExample = new SysUserOrganizationExample();
         sysUserOrganizationExample.createCriteria().andUserIdEqualTo(sysUsers.getId());
 		mybatisDao.deleteByExample(sysUserOrganizationExample);

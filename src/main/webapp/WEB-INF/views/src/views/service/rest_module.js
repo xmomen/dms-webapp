@@ -15,6 +15,13 @@ define(function () {
                     locked:"@locked"
                 }
             },
+            resetDefaultPassword:{
+                method:"PUT",
+                url:"/user/:id/resetPassword" ,
+                params:{
+                    id:"@id"
+                }
+            },
             getPermissions: {
                 url:"/user/permissions"
             },

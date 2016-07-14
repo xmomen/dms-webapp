@@ -141,7 +141,9 @@
 									<td ng-bind="user.age"></td>
 									<td ng-bind="user.phoneNumber"></td>
 									<td ng-bind="user.officeTel"></td>
-                                    <td ng-bind="user.userGorup"></td>
+                                    <td>
+                                        <span ng-repeat="group in user.userGroups" >{{group.userGorup}}<br></span>
+                                    </td>
                                     <td ng-bind="user.organization"></td>
                                     <td>
 										<label class="checkbox">
@@ -160,6 +162,10 @@
 											<a href="javascript:void(0);" data-ng-click="updateUser($index)" title="编辑用户：{{user.username}}">
 												<span class="fa fa-pencil"></span>
 											</a>
+                                            <span> | </span>
+                                            <a href="javascript:void(0);" data-ng-click="resetDefaultPassword($index)" title="重置密码：{{user.username}}">
+                                                <span class="fa fa-rotate-right"></span>
+                                            </a>
 										</div>
 									</td>
 								</tr>
@@ -284,8 +290,8 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">所属用户组<span class="vaild">*</span></label>
                         <div class="col-md-10">
-                                <select ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;"
-                                        required="true" ng-model="user.userGorupId" name="userGorup" >
+                                <select multiple ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;"
+                                        required="true" ng-model="user.userGroupIds" name="userGroupIds" >
                                     <option ng-value="">--请选择--</option>
                                     <option ng-value="{{group.id}}" ng-repeat="group in groupList">{{group.description}}</option>
                                 </select>
