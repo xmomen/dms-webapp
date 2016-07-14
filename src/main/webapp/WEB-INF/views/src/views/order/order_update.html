@@ -352,7 +352,7 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr ng-repeat="choseItem in choseOrderItemList">
+                                                <tr ng-repeat="choseItem in choseOrderItemList" ng-class="{'tdred':choseItem.sellStatus == 0}">
                                                     <td>{{choseItem.itemName}}</td>
                                                     <td>{{choseItem.spec}}</td>
                                                     <td class="text-align-right">{{choseItem.sellPrice | number:2}}</td>
@@ -363,12 +363,6 @@
                                                             <a href="javascript:void(0);" ng-show="!setting.disablesUpdateChoseItems" data-ng-click="removeItem($index)" title="移除：{{choseItem.itemName}}">
                                                                 <span class="glyphicon glyphicon-trash"></span>
                                                             </a>
-                                                            <!--<a href="javascript:void(0);" data-ng-click="changeItemNumber($index, 1)" title="添加：{{choseItem.itemName}}">-->
-                                                            <!--<span class="fa fa-plus"></span>-->
-                                                            <!--</a>-->
-                                                            <!--<a  ng-if="choseItem.itemQty > 1" href="javascript:void(0);" data-ng-click="changeItemNumber($index, 0)" title="减少：{{choseItem.itemName}}">-->
-                                                            <!--<span class="fa fa-minus"></span>-->
-                                                            <!--</a>-->
                                                         </div>
                                                     </td>
                                                 </tr>

@@ -8,6 +8,7 @@
 			cm.id,
         	cm.item_name,
 			cm.item_code,
+			cm.sell_status,
         	cc.category_name,
         	cir.ref_count as count
         FROM
