@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
+import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.logger.Log;
 import com.xmomen.module.plan.entity.TbTablePlan;
 import com.xmomen.module.plan.mapper.TablePlanMapper;
@@ -56,6 +58,10 @@ public class TablePlanController {
          map.put("keyword", keyword);
          if(StringUtils.trimToNull(phoneNumber) != null){
              map.put("phoneNumber", phoneNumber);
+         }
+         if(SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE)){
+             Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
+             map.put("userId",userId);
          }
         return (Page<TablePlanModel>) mybatisDao.selectPage(TablePlanMapper.TablePlanMapperNameSpace + "getTablePlanList", map, limit, offset);
     }

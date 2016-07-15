@@ -2,8 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xmomen.module.account.mapper.UserMapper" >
 
+	<resultMap type="com.xmomen.module.account.model.User" id="UserMap">
+		 	<id column="id" property="id"/>
+			<collection property="userGroups" ofType="com.xmomen.module.account.model.UserGroup" column="id" select="queryUserGroupsList"></collection>
+    </resultMap>
     <!--    查询消息    -->
-    <select id="getUsers" resultType="com.xmomen.module.account.model.User" parameterType="java.util.HashMap">
+    <select id="getUsers" resultMap="UserMap" parameterType="java.util.HashMap">
         SELECT
         u.id,
         u.username,
@@ -16,15 +20,11 @@
         u.sex,
         u.office_tel,
         so.name as organization,
-        sr.DESCRIPTION as userGorup,
-        so.id as organization_id,
-        sr.id as user_Gorup_id
+        so.id as organization_id
         FROM
         sys_users u
         left join sys_user_organization suo on u.id = suo.user_id
         left join sys_organization so on suo.organization_id = so.id
-        left join sys_users_roles sur on u.id = sur.user_id
-        left join sys_roles sr on sur.role_id = sr.id
         <where>
               <if test="keyword">
                   AND u.username LIKE CONCAT('%', #{keyword}, '%') or u.email like CONCAT('%', #{keyword}, '%')
@@ -38,6 +38,19 @@
           </where>
     </select>
 
+
+	<select id="queryUserGroupsList" resultType="com.xmomen.module.account.model.UserGroup" parameterType="Integer">
+		select  
+			sr.DESCRIPTION as userGorup,
+			sr.id as user_Group_id
+		from 
+			sys_roles sr 
+        left join 
+        	sys_users_roles sur on sur.role_id = sr.id
+		where 
+			sur.user_id = #{id}			
+	</select>
+	
     <!--    查询关联关系表    -->
     <select id="findUsersByRolesId" resultType="com.xmomen.module.account.web.controller.vo.UserGroupRelation" parameterType="java.util.HashMap">
         SELECT

@@ -39,6 +39,16 @@ define(function () {
                 locked: $scope.userList[index].locked == 1 ? true : false
             });
         };
+
+        //重置默认密码
+        $scope.resetDefaultPassword = function(index){
+            UserAPI.resetDefaultPassword({
+                id: $scope.userList[index].id
+            }, function(){
+                $ugDialog.alert("重置密码成功，新密码：123456")
+            })
+        }
+
         $scope.removeUser = function(index){
             $ugDialog.confirm("是否删除用户？").then(function(){
                 UserAPI.delete({
@@ -61,9 +71,6 @@ define(function () {
                 },
                 controller: ["$scope", "UserAPI", "CurrentUser", "$modalInstance","UserGroupAPI", function ($scope, UserAPI, CurrentUser, $modalInstance,UserGroupAPI) {
                     $scope.user = {};
-                    if(CurrentUser){
-                        $scope.user = CurrentUser;
-                    }
                     $scope.ugSelect2Config = {};
                     $scope.groupList = [];
                     $scope.pageInfoSetting = {
@@ -80,10 +87,20 @@ define(function () {
                             $scope.groupList = data.data;
                             $scope.pageInfoSetting = data.pageInfo;
                             $scope.pageInfoSetting.loadData = $scope.getGroupList;
-                            $scope.ugSelect2Config.initSelectData($scope.user.userGorupId);
+                            $scope.ugSelect2Config.initSelectData($scope.user.userGroupIds);
                         });
                     };
                     $scope.getGroupList();
+                    if(CurrentUser){
+                        $scope.user = CurrentUser;
+                        if($scope.user.userGroups && $scope.user.userGroups.length > 0){
+                            $scope.user.userGroupIds = [];
+                            for (var i = 0; i < $scope.user.userGroups.length; i++) {
+                                var obj = $scope.user.userGroups[i];
+                                $scope.user.userGroupIds.push(obj.userGroupId);
+                            }
+                        }
+                    }
                     $scope.errors = null;
                     $scope.addUserForm = {};
                     $scope.saveUser = function(){

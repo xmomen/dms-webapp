@@ -58,6 +58,9 @@
             <if test="packingTaskUserId">
                 AND st.EXECUTOR_ID = #{packingTaskUserId}
             </if>
+            <if test="createUserId">
+            	AND tb.create_user_id = #{createUserId}
+            </if>
           </where>
     </select>
 

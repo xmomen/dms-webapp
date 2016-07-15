@@ -63,8 +63,8 @@ define(function () {
                     $scope.order.paymentMode = 5;
                 }else if($scope.order.orderType == 2){
                     $scope.setting.disablesChosePayMode = true;
-                    $scope.setting.disablesChoseItems = true;
-                    $scope.setting.disablesUpdateChoseItems = true;
+                    $scope.setting.disablesChoseItems = false;//劵的也要支持可以改产品
+                    $scope.setting.disablesUpdateChoseItems = false;//劵的也要支持可以改产品
                     $scope.order.paymentMode = 7;
                 }else{
                     $scope.setting.disablesChosePayMode = false;
@@ -217,6 +217,7 @@ define(function () {
                             $scope.order.managerId = coupon.managerId;
                             $scope.order.managerName = coupon.managerName;
                             $scope.order.paymentRelationNo = coupon.couponNumber;
+                            $scope.order.juanValue = coupon.couponValue;//劵的话订单金额显示劵的面值
                             if(coupon.memberId){
                                 MemberAPI.get({
                                     id:coupon.memberId
@@ -344,11 +345,21 @@ define(function () {
                     }
                 }
                 $scope.totalItem.totalNumber = totalNumber;
-                $scope.totalItem.totalPrice = totalPrice;
-                $scope.totalItem.totalPriceDiscount = totalPrice * $scope.order.discount / 100;
+                //如果是劵的话 订单总金额就是劵面金额
+                if($scope.order.orderType == 2){
+                    $scope.totalItem.totalPrice = $scope.order.juanValue;
+                    $scope.totalItem.totalPriceDiscount = $scope.order.juanValue;
+                }
+                else{
+                    $scope.totalItem.totalPrice = totalPrice;
+                    $scope.totalItem.totalPriceDiscount = totalPrice * $scope.order.discount / 100;
+                }
             };
             $scope.discountTotalPrice = function(){
-                $scope.totalItem.totalPriceDiscount = $scope.totalItem.totalPrice * $scope.order.discount / 100;
+                //如果是劵的话 不会打折
+                if($scope.order.orderType != 2){
+                    $scope.totalItem.totalPriceDiscount = $scope.totalItem.totalPrice * $scope.order.discount / 100;
+                }
             }
             $scope.itemCategoryList = [];
             $scope.queryCategoryParam = {};

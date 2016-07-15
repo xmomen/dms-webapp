@@ -221,7 +221,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="choseItem in choseItemList">
+                                    <tr ng-repeat="choseItem in choseItemList" ng-class="{'tdred':choseItem.sellStatus == 0}">
                                         <td>{{choseItem.categoryName}}</td>
                                         <td>{{choseItem.itemCode}}</td>
                                         <td>{{choseItem.itemName}}</td>

@@ -15,6 +15,13 @@ define(function () {
                     locked:"@locked"
                 }
             },
+            resetDefaultPassword:{
+                method:"PUT",
+                url:"/user/:id/resetPassword" ,
+                params:{
+                    id:"@id"
+                }
+            },
             getPermissions: {
                 url:"/user/permissions"
             },
@@ -358,7 +365,14 @@ define(function () {
             bindExpress:{method:"PUT",url:"/express/order/bind"},
             unbindExpress:{method:"PUT",url:"/express/order/unbind", params:{
                 orderNos:"@orderNos"
-            }},
+            }}
+        });
+    }]);
+
+    ngREST.factory("ExpressMemberAPI", ["$resource", function($resource){
+        return $resource("/expressMember/:id", { id:"@id" }, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}}
         });
     }]);
 });

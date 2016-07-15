@@ -88,8 +88,8 @@ public class UserController {
         user.setPassword(createUser.getPassword());
         user.setEmail(createUser.getEmail());
         user.setLocked(createUser.getLocked() != null && createUser.getLocked() == true ? true : false);
-        user.setUserGorupId(createUser.getUserGorupId());
         user.setOrganizationId(createUser.getOrganizationId());
+        user.setUserGroupIds(createUser.getUserGroupIds());
         return userService.createUser(user);
     }
 
@@ -132,6 +132,16 @@ public class UserController {
         sysUsers.setLocked(locked ? 1 : 0);
         sysUsers.setId(id);
         mybatisDao.update(sysUsers);
+    }
+    
+    /**
+     *  重置密码
+     * @param id
+     */
+    @RequestMapping(value = "/user/{id}/resetPassword", method = RequestMethod.PUT)
+    @Log(actionName = "重置密码")
+    public void resetPassword(@PathVariable(value = "id") Integer id){
+        userService.changePassword(id, "123456");
     }
 
 }

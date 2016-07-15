@@ -74,6 +74,9 @@
               <if test="cdCompanyId != null">
               	AND cc.cd_company_id = #{cdCompanyId}
               </if>
+              <if test="managerId != null">
+              	AND cc.cd_user_id = #{managerId}
+              </if>
               <if test="isOver != null">
               	AND cc.is_over = #{isOver}
               </if>
@@ -81,7 +84,7 @@
     </select>
     
     <!--金额回填查询-->
-	<select id="getCouponActivityList" resultMap="couponModelMap" parameterType="com.xmomen.module.base.model.CouponQuery">
+	<select id="getCouponActivityList" resultType="com.xmomen.module.base.model.CouponModel" parameterType="com.xmomen.module.base.model.CouponQuery">
         SELECT
         	cc.id,
 			car.CD_ACTIVITY_ID,
@@ -143,6 +146,9 @@
               <if test="cdCompanyId != null">
               	AND cc.cd_company_id = #{cdCompanyId}
               </if>
+              <if test="managerId != null">
+              	AND cc.cd_user_id = #{managerId}
+              </if>
               <if test="isOver != null">
               	AND cc.is_over = #{isOver}
               </if>
@@ -172,7 +178,8 @@
 	update cd_coupon 
 	set is_send=0 ,
 	cd_company_id = null,
-	cd_user_id = null
+	cd_user_id = null,
+	USER_PRICE = null
 	where id=#{id}
 </update>
 </mapper>
