@@ -130,6 +130,8 @@
                 /fonts/** = anon
                 /admin/** = role[admin]
                 /** = user
+                /bind/** = anon
+                /wx/** = anon
             </value>
         </property>
     </bean>

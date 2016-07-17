@@ -1326,6 +1326,66 @@ public class TbOrderExample extends BaseMybatisExample {
             addCriterion("DESPATCH_EXPRESS_ID not between", value1, value2, "despatchExpressId");
             return (Criteria) this;
         }
+
+        public Criteria andExpressMemberIdIsNull() {
+            addCriterion("EXPRESS_MEMBER_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressMemberIdIsNotNull() {
+            addCriterion("EXPRESS_MEMBER_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressMemberIdEqualTo(Integer value) {
+            addCriterion("EXPRESS_MEMBER_ID =", value, "expressMemberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressMemberIdNotEqualTo(Integer value) {
+            addCriterion("EXPRESS_MEMBER_ID <>", value, "expressMemberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressMemberIdGreaterThan(Integer value) {
+            addCriterion("EXPRESS_MEMBER_ID >", value, "expressMemberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressMemberIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("EXPRESS_MEMBER_ID >=", value, "expressMemberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressMemberIdLessThan(Integer value) {
+            addCriterion("EXPRESS_MEMBER_ID <", value, "expressMemberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressMemberIdLessThanOrEqualTo(Integer value) {
+            addCriterion("EXPRESS_MEMBER_ID <=", value, "expressMemberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressMemberIdIn(List<Integer> values) {
+            addCriterion("EXPRESS_MEMBER_ID in", values, "expressMemberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressMemberIdNotIn(List<Integer> values) {
+            addCriterion("EXPRESS_MEMBER_ID not in", values, "expressMemberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressMemberIdBetween(Integer value1, Integer value2) {
+            addCriterion("EXPRESS_MEMBER_ID between", value1, value2, "expressMemberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressMemberIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("EXPRESS_MEMBER_ID not between", value1, value2, "expressMemberId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
