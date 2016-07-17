@@ -21,6 +21,7 @@
     <result column="APPOINTMENT_TIME" property="appointmentTime" jdbcType="TIMESTAMP" />
     <result column="CREATE_USER_ID" property="createUserId" jdbcType="INTEGER" />
     <result column="DESPATCH_EXPRESS_ID" property="despatchExpressId" jdbcType="INTEGER" />
+    <result column="EXPRESS_MEMBER_ID" property="expressMemberId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -83,7 +84,8 @@
   <sql id="Base_Column_List" >
     ID, ORDER_NO, ORDER_TYPE, ORDER_SOURCE, PAYMENT_MODE, MEMBER_CODE, ORDER_STATUS, 
     PAY_STATUS, CONSIGNEE_PHONE, CONSIGNEE_NAME, CONSIGNEE_ADDRESS, POSTCODE, TRANSPORT_MODE, 
-    REMARK, TOTAL_AMOUNT, CREATE_TIME, APPOINTMENT_TIME, CREATE_USER_ID, DESPATCH_EXPRESS_ID
+    REMARK, TOTAL_AMOUNT, CREATE_TIME, APPOINTMENT_TIME, CREATE_USER_ID, DESPATCH_EXPRESS_ID, 
+    EXPRESS_MEMBER_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbOrderExample" >
     select
@@ -165,6 +167,9 @@
       <if test="despatchExpressId != null" >
         DESPATCH_EXPRESS_ID,
       </if>
+      <if test="expressMemberId != null" >
+        EXPRESS_MEMBER_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -223,6 +228,9 @@
       </if>
       <if test="despatchExpressId != null" >
         #{despatchExpressId,jdbcType=INTEGER},
+      </if>
+      <if test="expressMemberId != null" >
+        #{expressMemberId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -291,6 +299,9 @@
       </if>
       <if test="record.despatchExpressId != null" >
         DESPATCH_EXPRESS_ID = #{record.despatchExpressId,jdbcType=INTEGER},
+      </if>
+      <if test="record.expressMemberId != null" >
+        EXPRESS_MEMBER_ID = #{record.expressMemberId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >

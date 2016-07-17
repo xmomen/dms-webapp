@@ -104,9 +104,14 @@ public class TbOrder extends BaseMybatisModel {
     private Integer createUserId;
 
     /**
-     * 发运快递
+     * 发运快递商
      */
     private Integer despatchExpressId;
+
+    /**
+     * 快递员ID
+     */
+    private Integer expressMemberId;
 
     @Column(name = "ID")
     @Id
@@ -374,5 +379,19 @@ public class TbOrder extends BaseMybatisModel {
               return;
         }
         addValidField("despatchExpressId");
+    }
+
+    @Column(name = "EXPRESS_MEMBER_ID")
+    public Integer getExpressMemberId() {
+        return expressMemberId;
+    }
+
+    public void setExpressMemberId(Integer expressMemberId) {
+        this.expressMemberId = expressMemberId;
+        if(expressMemberId == null){
+              removeValidField("expressMemberId");
+              return;
+        }
+        addValidField("expressMemberId");
     }
 }

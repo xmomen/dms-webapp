@@ -87,7 +87,7 @@
             <properties>
                 <env>local</env>
             </properties>
-             <activation>
+            <activation>
                <activeByDefault>true</activeByDefault>
            </activation>
         </profile>
@@ -362,6 +362,28 @@
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
+        
+        <!-- httpclient -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>4.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+		</dependency>
+		<dependency>
+    		<groupId>dom4j</groupId>
+    		<artifactId>dom4j</artifactId>
+    		<version>1.6.1</version>
+		</dependency>
     </dependencies>
 
 </project>
