@@ -16,5 +16,12 @@
         </li>
     </ul>
     <div style="line-height: 34px; float: right; margin-right: 6px;font-size: 13px;">
-        共有 <span class="text-primary">{{total}}</span> 条，当前页 <span class="txt-color-darken">{{curPage}}</span> / <span class="txt-color-darken">{{pages}}</span> 总页数</div>
+        每页页数：
+        <select style="height: 100px;" name="pageConfig.pageSize" ng-model="maxPageSize" ng-change="changeMaxPageSize()">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+        </select>，共有 <span class="text-primary">{{total}}</span> 条，当前页 <span class="txt-color-darken">{{curPage}}</span> / <span class="txt-color-darken">{{pages}}</span> 总页数</div>
 </div>

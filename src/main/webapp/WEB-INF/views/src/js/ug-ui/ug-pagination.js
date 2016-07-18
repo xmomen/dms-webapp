@@ -37,6 +37,11 @@ var $ugPagination = function() {
                     $scope.load();
                 }
             });
+            $scope.maxPageSize = $scope.pageConfig.pageSize + "";
+            $scope.changeMaxPageSize = function(){
+                $scope.pageInfo.pageSize = parseInt($scope.maxPageSize);
+                $scope.pageInfo.loadData();
+            };
             $scope.load = function(){
                 $scope.curPage = $scope.pageInfo.pageNum;//当前页
                 $scope.pageSize = $scope.pageInfo.pageSize;//每页总条数

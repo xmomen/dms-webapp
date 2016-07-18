@@ -24,7 +24,7 @@ define(function () {
 
         $scope.couponList = [];
         $scope.pageInfoSetting = {
-            pageSize:10,
+            pageSize:100,
             pageNum:1
         };
         $scope.queryParam = {};
