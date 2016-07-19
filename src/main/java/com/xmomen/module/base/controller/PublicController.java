@@ -41,7 +41,8 @@ public class PublicController {
 			@RequestParam(value = "keyword", required = false) String keyword){
 		 Map map = new HashMap<String,Object>();
 		 map.put("userType", userType);
-		 if(SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE)){
+		 //客服经理过滤 如果有客服组权限则不过滤
+        if(SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE) && !SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_PERMISSION_CODE)){
 			 Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
 			 map.put("managerId", userId);
 		 }

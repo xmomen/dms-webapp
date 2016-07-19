@@ -357,6 +357,7 @@ define(function () {
 
                     //拼装卡号
                     $scope.chooseCouponStr = function(){
+                        $scope.sendMorecouponLength = $scope.chooseCoupon.length;
                         $scope.coupon.couponNumberList = "";
                         for(var i in $scope.chooseCoupon){
                             if( $scope.coupon.couponNumberList == ""){
@@ -481,6 +482,7 @@ define(function () {
 
                     //拼装卡号
                     $scope.chooseCouponStr = function(){
+                        $scope.couponLength = $scope.chooseCoupon.length;
                         $scope.coupon.couponNumberList = "";
                         for(var i in $scope.chooseCoupon){
                             if( $scope.coupon.couponNumberList == ""){
