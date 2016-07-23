@@ -352,11 +352,13 @@ public class CouponController {
     @Log(actionName ="读卡")
     public ReadCardVo readCard(
     		@RequestParam(value="couponNo") String couponNo,
-    		@RequestParam(value="password") String password
+    		@RequestParam(value="password",required=false) String password
     		){
     	CouponQuery couponQuery = new CouponQuery();
     	couponQuery.setCouponNumber(couponNo);
-    	couponQuery.setPassword(password);
+    	if(StringUtilsExt.isNotEmpty(password)){
+    		couponQuery.setPassword(password);
+    	}
     	return mybatisDao.getSqlSessionTemplate().selectOne(CouponMapper.CouponMapperNameSpace + "getCouponByCouponNo", couponQuery);
     }
     

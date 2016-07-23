@@ -667,7 +667,7 @@
                                         <label class="checkbox">
                                             <input type="checkbox"
                                                    checklist-model="chooseCoupon"
-                                                   ng-change="changeCouponList()"
+                                                   checklist-before-change="changeCouponList()"
                                                    checklist-value="coupon">
                                             <i></i>
                                         </label>
@@ -699,7 +699,7 @@
             </div>
             <form class="form-horizontal" ug-validate="updateBatchCouponFrom" name="updateBatchCouponFrom2" novalidate="">
                 <fieldset>
-                    <h2>已选择的数量：{{sendMorecouponLength}}</h2>
+                    <h2>已选择的数量：{{couponLength}}</h2>
                     <div class="form-group">
                         <label class="col-md-2 control-label">已选择卡/劵号</label>
                         <div class="col-md-10 input-group">

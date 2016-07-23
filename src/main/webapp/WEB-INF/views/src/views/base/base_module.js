@@ -17,8 +17,9 @@ define([
     "views/base/couponAudit",
     "views/base/couponAuditBack",
     "views/base/express_list",
-    "views/base/express_member_list"
-],function (memberList,companyList,couponCategory,coupon,dictionary,itemCategory,item,contract,contract_create,contract_update,activity,couponActivity,couponAudit,couponAuditBack,express_list,express_member_list) {
+    "views/base/express_member_list",
+    "views/base/onlineRecharge"
+],function (memberList,companyList,couponCategory,coupon,dictionary,itemCategory,item,contract,contract_create,contract_update,activity,couponActivity,couponAudit,couponAuditBack,express_list,express_member_list,onlineRecharge) {
     angular.module('DMS.base', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -201,6 +202,18 @@ define([
                     }
                 },
                 controller: express_member_list
+            })
+
+            .state('onlineRecharge', {
+                url: '/onlineRecharge',
+                templateUrl: 'views/base/onlineRecharge.html',
+                data:{
+                    permissions:{
+                        only:["ONLINE_RECHARGE"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: onlineRecharge
             })
     }]);
 });
