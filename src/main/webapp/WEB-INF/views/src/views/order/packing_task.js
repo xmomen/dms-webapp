@@ -82,5 +82,46 @@ define(function () {
         };
         $scope.getCustomerManagersList();
         $scope.getOrderList();
+
+        //批量分配
+        $scope.chooseOrder = [];
+        $scope.chooseAllCheck = {};
+        $scope.checkedAllOrder = function() {
+            if($scope.chooseAllCheck.isCheckOrder == 0){
+                $scope.chooseOrder.splice(0, $scope.chooseOrder.length);
+                for (var i = 0; i < $scope.orderList.length; i++) {
+                    var obj = $scope.orderList[i];
+                    $scope.chooseOrder.push(obj);
+                }
+            }else{
+                $scope.chooseOrder.splice(0, $scope.chooseOrder.length);
+            }
+        };
+
+        $scope.changeOrderList = function(){
+            if($scope.chooseOrder.length == $scope.orderList.length){
+                $scope.isCheckCombine = 0;
+            }else{
+                $scope.isCheckCombine = 1;
+            }
+        };
+
+        $scope.batchBindPackingTask = function(){
+            if(!$scope.currentCustomer.actorId){
+                $ugDialog.warn("请选择需要分配的责任人");
+                return;
+            }
+            var orderNos = [];
+            for(var i in $scope.chooseOrder){
+                orderNos.push($scope.chooseOrder[i].orderNo);
+            }
+            PackingAPI.bindPackingTask({
+                packingTaskUserId:$scope.currentCustomer.actorId,
+                orderNos:orderNos
+            }, function(){
+                $scope.getOrderList();
+                $scope.getCustomerManagersList();
+            })
+        };
     }];
 });

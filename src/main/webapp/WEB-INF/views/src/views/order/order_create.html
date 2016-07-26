@@ -82,6 +82,9 @@
 											<span class="input-group-btn" ng-show="card.id && !order.memberId">
 						                        <button class="btn btn-default" data-ng-click="editMember()" type="button">绑定</button>
 						                    </span>
+                                            <span class="input-group-btn" ng-show="card.id && order.memberId">
+						                        <button class="btn btn-default" data-ng-click="editMember()" type="button">用户地址</button>
+						                    </span>
 										</div>
 									</div>
 									<label class="control-label col-md-2">姓名<span class="vaild">*</span></label>
@@ -416,10 +419,14 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="control-label col-md-2">折扣</label>
-									<div class="col-md-4">
-										<input type="text" ng-model="order.discount" placeholder="折扣百分比" class="form-control" data-ng-keyup="discountTotalPrice()">
+									<label class="control-label col-md-1">折扣</label>
+									<div class="col-md-2">
+										<input type="text" ng-model="order.discount" placeholder="折扣百分比" class="form-control" data-ng-keyup="discountTotalPrice(1)">
 									</div>
+                                    <label class="control-label col-md-1">折扣金额</label>
+                                    <div class="col-md-2">
+                                        <input type="text" ng-model="order.discountPrice" placeholder="折扣金额" class="form-control" data-ng-keyup="discountTotalPrice(2)">
+                                    </div>
 									<label class="col-md-2 control-label">显示订单金额</label>
 									<div class="col-md-2">
 										<div class="checkbox">

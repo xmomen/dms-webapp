@@ -57,7 +57,7 @@ define(function () {
                 orderNos:orderNos
             }, function(){
                 $scope.getOrderList();
-                $scope.getCustomerManagersList();
+                $scope.getExpressList();
             })
         };
         $scope.unbindExpress = function(index){
@@ -67,8 +67,49 @@ define(function () {
                 orderNos:orderNos
             }, function(){
                 $scope.getOrderList();
-                $scope.getCustomerManagersList();
+                $scope.getExpressList();
             })
         }
+
+        //批量分配
+        $scope.chooseOrder = [];
+        $scope.chooseAllCheck = {};
+        $scope.checkedAllOrder = function() {
+            if($scope.chooseAllCheck.isCheckOrder == 0){
+                $scope.chooseOrder.splice(0, $scope.chooseOrder.length);
+                for (var i = 0; i < $scope.orderList.length; i++) {
+                    var obj = $scope.orderList[i];
+                    $scope.chooseOrder.push(obj);
+                }
+            }else{
+                $scope.chooseOrder.splice(0, $scope.chooseOrder.length);
+            }
+        };
+
+        $scope.changeOrderList = function(){
+            if($scope.chooseOrder.length == $scope.orderList.length){
+                $scope.isCheckCombine = 0;
+            }else{
+                $scope.isCheckCombine = 1;
+            }
+        };
+
+        $scope.batchBindExpress = function(){
+            if(!$scope.currentCustomer){
+                $ugDialog.warn("请选择运输的快递商");
+                return;
+            }
+            var orderNos = [];
+            for(var i in $scope.chooseOrder){
+                orderNos.push($scope.chooseOrder[i].orderNo);
+            }
+            ExpressAPI.bindExpress({
+                expressId:$scope.currentCustomer.id,
+                orderNos:orderNos
+            }, function(){
+                $scope.getOrderList();
+                $scope.getExpressList();
+            })
+        };
     }];
 });

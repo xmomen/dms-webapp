@@ -24,6 +24,7 @@ define(function () {
                 $scope.totalItem = {};
                 $scope.order = {
                     discount : 100,
+                    discountPrice : 0,
                     orderSource:3,
                     appointmentTime : $scope.showTime(1)
                 };
@@ -31,6 +32,7 @@ define(function () {
             $scope.order = {
                 orderType:1,
                 discount:100,
+                discountPrice : 0,
                 paymentMode:5,
                 orderSource:3
             };
@@ -355,12 +357,19 @@ define(function () {
                     $scope.totalItem.totalPriceDiscount = totalPrice * $scope.order.discount / 100;
                 }
             };
-            $scope.discountTotalPrice = function(){
+            $scope.discountTotalPrice = function(type){
                 //如果是劵的话 不会打折
                 if($scope.order.orderType != 2){
-                    $scope.totalItem.totalPriceDiscount = $scope.totalItem.totalPrice * $scope.order.discount / 100;
+                    if(type == 1){
+                        $scope.totalItem.totalPriceDiscount = $scope.totalItem.totalPrice * $scope.order.discount / 100;
+                        $scope.order.discountPrice = $scope.totalItem.totalPrice - $scope.totalItem.totalPriceDiscount;
+                    }else if(type == 2){
+                        $scope.totalItem.totalPriceDiscount = $scope.totalItem.totalPrice - $scope.order.discountPrice;
+                        $scope.order.discount = (1 - ($scope.order.discountPrice / $scope.totalItem.totalPrice).toFixed(2)) * 100;
+                    }
                 }
             }
+
             $scope.itemCategoryList = [];
             $scope.queryCategoryParam = {};
             $scope.getItemCategoryTree = function(){
