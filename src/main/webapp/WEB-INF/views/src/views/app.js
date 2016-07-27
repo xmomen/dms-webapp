@@ -149,7 +149,82 @@ define([
                 var $select2 = $(element).select2(config);
             }
         }
-    }]).controller("LeftPanelController",["$scope", "$rootScope", "$http", function($scope, $rootScope, $http){
+    }]).directive({
+        /**
+         * 文件上传
+         */
+        uxUpload:["$timeout","$ugDialog",function($timeout,Dialog){
+            var fileType = "*.xlsx;*.xls;*.pdf;*.doc;*.docx;*.*";
+            return {
+                scope:{
+                    uxUploadConfig : '='
+                },
+                link:function(scope,elem,attr,ctrl){
+                    debugger
+                    var config = scope.uxUploadConfig;
+                    var defaultConfig = {
+                        buttonClass     : "btn btn-outline btn-primary",
+                        buttonText      : '上传身份证图片',
+                        swf             : '/js/uploadify/uploadify.swf',
+                        uploader        : '/wms-webapp/',
+                        fileSizeLimit   : "10MB",
+                        fileObjName     : "files",//对应后台参数名，请勿修改
+                        fileTypeDesc    : "请选择 " + fileType + " 类型的文件",
+                        fileTypeExts    : fileType,
+                        overrideEvents  : [ 'onDialogClose', 'onSelectError' ],
+                        onFallback      : function() {
+                            //Dialog.alert('Flash was not detected or flash version is not supported.');
+                            Dialog.alert('未发现Flash插件或Flash版本不支持（请确保已下载Flash插件且已启用Flash插件）。');
+                        },
+                        onSelectError   : function(file, errorCode, errorMsg){
+                            switch (errorCode) {
+                                case SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED:
+                                    if (this.settings.queueSizeLimit > errorMsg) {
+                                        this.queueData.errorMsg = '选择文件的数量超过了剩余的上传限制 (' + errorMsg + ').';
+                                    } else {
+                                        this.queueData.errorMsg = '选择文件的数量超过了队列大小限制 (' + this.settings.queueSizeLimit + ').';
+                                    }
+                                    break;
+                                case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
+                                    this.queueData.errorMsg = "文件大小超出限制( " + this.settings.fileSizeLimit + " 以内)";
+                                    break;
+                                case SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
+                                    this.queueData.errorMsg = "文件大小为0，请检查文件是否正确";
+                                    break;
+                                case SWFUpload.QUEUE_ERROR.INVALID_FILETYPE:
+                                    this.queueData.errorMsg = "无效的文件类型，上传文件类型限制为：" + this.settings.fileTypeExts;
+                                    break;
+                                default:
+                                    this.queueData.errorMsg = "文件上传失败，" + errorMsg;
+                            }
+                        },
+                        onDialogClose   : function(queueData){
+                            if (queueData.filesErrored > 0) {
+                                Dialog.alert(this.queueData.errorMsg);
+                            }
+                        }
+                    };
+                    angular.extend(defaultConfig,config);
+                    $(elem).uploadify(defaultConfig);
+                }
+            };
+//            使用DEMO
+//            <input ux-upload ux-upload-config="fileUploadConfig" id="file" ng-model="fileUrl" type="file" multiple="true">
+//            $scope.fileUploadConfig = {
+//                'buttonText' : '上传身份证图片',
+//                'onUploadSuccess':function(file,data,response){
+//                    var result = $scope.$eval(data);
+//                    if(result.status == "1"){
+//                        Dialog.alert(result.msg);
+//                    }else if(result.status == "0"){
+//                        if(result.result[0]){
+//                            //xxxxxxxxxxx
+//                        }
+//                    }
+//                }
+//            };
+        }]
+    }).controller("LeftPanelController",["$scope", "$rootScope", "$http", function($scope, $rootScope, $http){
         $http.get("/account/setting").then(function(data){
             if(data.data){
                 $rootScope.account = data.data;
