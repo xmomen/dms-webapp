@@ -3,6 +3,20 @@
  */
 define(function () {
     return ["$scope", "CouponAPI", "$modal", "$ugDialog","CouponCategoryAPI", function($scope, CouponAPI, $modal, $ugDialog,CouponCategoryAPI){
+
+        //asn导入
+        $scope.fileUploadConfig = {
+            'buttonText' : '导入卡劵',
+            'uploader'    : '/wms-webapp/AsnController/asn/importAsnExcel.json',
+            onUploadStart:function(file){
+
+            },
+            'onUploadSuccess':function(file,data,response){
+                $ugDialog.alert("导入成功")
+            }
+        };
+
+
         $scope.ugSelect2Config = {};
         $scope.getCategoryList = function(){
             $scope.pageInfoSetting = {
@@ -312,7 +326,7 @@ define(function () {
 
                     $scope.couponList = [];
                     $scope.pageCouponSetting = {
-                        pageSize:30,
+                        pageSize:10,
                         pageNum:1
                     };
                     $scope.queryParam = {};
@@ -423,7 +437,7 @@ define(function () {
             });
         }
 
-        //
+        //更改客户经理和公司
         $scope.updateBatchCouponModel = function(){
             var modalInstance = $modal.open({
                 templateUrl: 'updateBatchCouponModel.html',
@@ -498,7 +512,7 @@ define(function () {
 
                     $scope.couponList = [];
                     $scope.pageCouponSetting = {
-                        pageSize:30,
+                        pageSize:10,
                         pageNum:1
                     };
                     $scope.queryParam = {};
@@ -525,6 +539,118 @@ define(function () {
                             CouponAPI.updateBatchCoupon({
                                 customerMangerId:$scope.coupon.customerMangerId,
                                 companyId:$scope.coupon.cdCompanyId,
+                                couponNumberList:$scope.coupon.couponNumberList
+                            }, function () {
+                                $modalInstance.close();
+                            }, function (data) {
+                                $scope.errors = data.data;
+                            })
+                        }
+                    }
+                    $scope.cancel = function () {
+                        $modalInstance.dismiss('cancel');
+                    };
+                }],
+                size:"lg"
+            });
+            modalInstance.result.then(function () {
+                $scope.getCouponList();
+            });
+        }
+
+
+        $scope.updateBatchCouponTypeModel = function(){
+            var modalInstance = $modal.open({
+                templateUrl: 'updateBatchCouponTypeModel.html',
+                controller: ["$scope", "CouponAPI", "$modalInstance","CouponCategoryAPI", function ($scope, CouponAPI, $modalInstance,CouponCategoryAPI) {
+                    $scope.pageInfoSetting = {
+                        pageSize:1000,
+                        pageNum:1
+                    };
+                    $scope.getCategoryList = function(){
+                        $scope.pageInfoSetting = {
+                            pageSize:1000,
+                            pageNum:1
+                        };
+                        $scope.queryParam = {};
+                        $scope.categoryList = [];
+                        CouponCategoryAPI.query({
+                            limit:$scope.pageInfoSetting.pageSize,
+                            offset:$scope.pageInfoSetting.pageNum,
+                            categoryType :1
+                        }, function(data){
+                            $scope.categoryList = data.data;
+                            $scope.pageInfoSetting = data.pageInfo;
+                            $scope.pageInfoSetting.loadData = $scope.getCategoryList;
+                        });
+                    }
+                    $scope.getCategoryList();
+                    $scope.chooseCoupon = [];
+                    $scope.chooseAllCheck = {};
+                    $scope.checkedAllCoupon = function() {
+                        if($scope.chooseAllCheck.isCheckCoupon == 0){
+                            $scope.chooseCoupon.splice(0, $scope.chooseCoupon.length);
+                            for (var i = 0; i < $scope.couponList.length; i++) {
+                                var obj = $scope.couponList[i];
+                                $scope.chooseCoupon.push(obj);
+                            }
+                        }else{
+                            $scope.chooseCoupon.splice(0, $scope.chooseCoupon.length);
+                        }
+                        $scope.chooseCouponStr();
+                    };
+
+                    $scope.changeCouponList = function(){
+                        if($scope.chooseCoupon.length == $scope.couponList.length){
+                            $scope.isCheckCombine = 0;
+                        }else{
+                            $scope.isCheckCombine = 1;
+                        }
+                        $scope.chooseCouponStr();
+                    };
+
+                    //拼装卡号
+                    $scope.chooseCouponStr = function(){
+                        $scope.couponLength = $scope.chooseCoupon.length;
+                        $scope.coupon.couponNumberList = "";
+                        for(var i in $scope.chooseCoupon){
+                            if( $scope.coupon.couponNumberList == ""){
+                                $scope.coupon.couponNumberList = $scope.chooseCoupon[i].couponNumber;
+                            }else{
+                                $scope.coupon.couponNumberList += "," + $scope.chooseCoupon[i].couponNumber;
+                            }
+
+                        }
+                    }
+
+
+
+                    $scope.couponList = [];
+                    $scope.pageCouponSetting = {
+                        pageSize:10,
+                        pageNum:1
+                    };
+                    $scope.queryParam = {};
+                    $scope.getCouponList = function(){
+                        CouponAPI.query({
+                            limit:$scope.pageCouponSetting.pageSize,
+                            offset:$scope.pageCouponSetting.pageNum,
+                            keyword:$scope.queryParam.keyword,
+                            batch:$scope.queryParam.batch
+                        }, function(data){
+                            $scope.couponList = data.data;
+                            $scope.pageCouponSetting = data.pageInfo;
+                            $scope.pageCouponSetting.loadData = $scope.getCouponList;
+                        });
+                    };
+                    $scope.coupon = {};
+                    $scope.errors = null;
+                    $scope.updateBatchCouponTypeFrom = {};
+                    $scope.updateBatchCoupon = function() {
+                        $scope.errors = null;
+                        if ($scope.updateBatchCouponTypeFrom.validator.form()) {
+                            CouponAPI.updateBatchCouponType({
+                                couponCategoryId:$scope.coupon.couponCategoryId,
                                 couponNumberList:$scope.coupon.couponNumberList
                             }, function () {
                                 $modalInstance.close();

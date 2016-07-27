@@ -1,13 +1,19 @@
 package com.xmomen.module.base.controller;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.jeecgframework.poi.excel.ExcelImportUtil;
+import org.jeecgframework.poi.excel.entity.ImportParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +21,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
@@ -33,6 +42,7 @@ import com.xmomen.module.base.model.CouponActivityAddress;
 import com.xmomen.module.base.model.CouponModel;
 import com.xmomen.module.base.model.CouponQuery;
 import com.xmomen.module.base.model.CreateCoupon;
+import com.xmomen.module.base.model.CreateCouponVo;
 import com.xmomen.module.base.model.ReadCardVo;
 import com.xmomen.module.base.model.UpdateCoupon;
 import com.xmomen.module.base.service.CouponService;
@@ -234,6 +244,24 @@ public class CouponController {
     }
     
     /**
+     *批量修改卡类型
+     */
+    @RequestMapping(value = "/coupon/updateBatchCouponType", method = RequestMethod.GET)
+    @Log(actionName = "批量修改卡类型")
+    public void updateBatchCouponType(
+    		@RequestParam(value="couponCategoryId") Integer couponCategoryId,
+    		@RequestParam(value="couponNumberList") String couponNumberList){
+    	String[] couponNumbers = couponNumberList.split(",");
+    	for(int i = 0,length = couponNumbers.length;i < length; i++){
+    		String couponNumber = couponNumbers[i];
+    		CdCoupon coupon = new CdCoupon();
+    		coupon.setCouponNumber(couponNumber);
+    		coupon = mybatisDao.selectOneByModel(coupon);
+    		coupon.setCouponCategory(couponCategoryId);
+        	mybatisDao.updateByModel(coupon);
+    	}
+    }
+    /**
      * @param id
      * @throws ParseException 
      */
@@ -397,4 +425,32 @@ public class CouponController {
     		){
     	couponService.updateBalance(couponNo,updatePrice,remark);
     }
+    
+    
+    @RequestMapping(value="/coupon/importCouponExcel" ,method = RequestMethod.POST)
+	@ResponseBody
+	public void importAsnExcel(HttpServletRequest request, HttpServletResponse response) {
+
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
+		for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
+			MultipartFile file = entity.getValue();// 获取上传文件对象
+			ImportParams params = new ImportParams();
+			params.setTitleRows(1);
+			params.setHeadRows(1);
+			params.setNeedSave(true);
+			try {
+				List<CreateCouponVo> asnHeaderImportVos = ExcelImportUtil.importExcel(file.getInputStream(),CreateCouponVo.class,params);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally{
+				try {
+					file.getInputStream().close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }

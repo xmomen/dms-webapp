@@ -161,6 +161,7 @@ define(function () {
             sendOneCoupon:{method:"GET",url:"/coupon/sendOneCoupon",params:{id:"@id",companyId:"@companyId",couponNumber:"@couponNumber",batch:"@batch"}},
             sendMoreCoupon:{method:"GET",url:"/coupon/sendMoreCoupon",params:{companyId:"@companyId",couponNumberList:"@couponNumberList",batch:"@batch"}},
             updateBatchCoupon:{method:"GET",url:"/coupon/updateBatchCoupon",params:{companyId:"@companyId",customerMangerId:"@customerMangerId",batch:"@batch"}},
+            updateBatchCouponType:{method:"GET",url:"/coupon/updateBatchCouponType",params:{couponCategoryId:"@couponCategoryId",couponNumberList:"@couponNumberList"}},
             activityAddress:{method:"POST",url:"/coupon/activityAddress"},
             updateUserPrice:{
                 method:"GET",
