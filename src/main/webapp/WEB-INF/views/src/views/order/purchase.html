@@ -107,7 +107,6 @@
 									<th width="80">需求日期</th>
 									<th>产品名称</th>
 									<th>采购状态</th>
-									<th>单位</th>
 									<th>数量</th>
 									<th>重量</th>
 									<th>操作</th>
@@ -119,9 +118,8 @@
 									<td ng-bind="purchase.purchaseCode"></td>
 									<td ng-bind="purchase.itemName"></td>
 									<td ng-bind="purchase.purchaseStatusDesc"></td>
-									<td ng-bind="purchase.itemUnit"></td>
 									<td ng-bind="purchase.totalItemQty"></td>
-									<td ng-bind="purchase.weight"></td>
+									<td>{{purchase.totalWeight}}{{purchase.itemUnit}}</td>
 									<td width="180">
 										<a ng-show="show" ng-if="purchase.purchaseStatus == 0" href="javascript:void(0);" data-ng-click="finish($index)" title="采购完成">
 											<span class="fa fa-edit"></span>

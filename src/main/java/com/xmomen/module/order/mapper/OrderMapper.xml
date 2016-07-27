@@ -72,7 +72,7 @@
             stsdp.show_value as purchaseStatusDesc,
             p.ITEM_CODE,
             i.ITEM_NAME,
-            i.SELL_UNIT AS itemUnit,
+            i.PRICING_MANNER AS itemUnit,
             i.id as cdItemId,
             p.TOTAL AS totalItemQty,
             p.TOTAL_WEIGHT as totalWeight,
