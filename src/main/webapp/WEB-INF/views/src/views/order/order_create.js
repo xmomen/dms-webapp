@@ -123,7 +123,9 @@ define(function () {
                 $modalMemberAdd.open({
                     currentMember:{
                         id: $scope.order.memberId,
-                        couponNumber:$scope.card.cardNumber
+                        couponNumber:$scope.card.cardNumber,
+                        cdUserId:$scope.order.managerId,
+                        cdCompanyId:$scope.order.companyId
                     }
                 }).result.then(function (data) {
                     $scope.queryMemberByPhoneNumber();
@@ -182,11 +184,16 @@ define(function () {
                         couponType:1
                     }, function(data){
                         if(data.data && data.data.length > 0){
+                            debugger;
                             var coupon = data.data[0];
                             $scope.card.id = coupon.id;
                             $scope.card.password = coupon.couponPassword;
                             $scope.card.amount = coupon.userPrice;
                             $scope.order.paymentRelationNo = coupon.couponNumber;
+                            $scope.order.companyName = coupon.companyName;
+                            $scope.order.companyId = coupon.companyId;
+                            $scope.order.managerId = coupon.managerId;
+                            $scope.order.managerName = coupon.managerName;
                             if(coupon.memberId){
                                 MemberAPI.get({
                                     id:coupon.memberId
