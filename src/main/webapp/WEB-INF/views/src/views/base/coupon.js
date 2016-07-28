@@ -192,11 +192,13 @@ define(function () {
 
                     $scope.selectCategory = function(){
                         $scope.coupon.couponCategory = null;
-                        $scope.coupon.couponValue = "";
+//                        $scope.coupon.couponValue = "";
 
                         if($scope.coupon.couponType == 2){
                              $scope.coupon.paymentType = 2;
-                         }
+                         }else{
+                            $scope.coupon.userPrice = $scope.coupon.couponValue;
+                        }
                         $scope.getCategoryList();
                     };
                 }]

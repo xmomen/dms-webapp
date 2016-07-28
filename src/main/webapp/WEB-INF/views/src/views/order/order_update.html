@@ -490,13 +490,13 @@
 											<label class="control-label" ng-bind="order.orderNo"></label>
 										</div>
 									</div>
-									<div class="col-md-12">
+									<div class="col-md-12"  ng-if="order.orderType != 2">
 										<label class="control-label col-md-2">客户姓名<span class="vaild">*</span>：</label>
 										<div class="col-md-4">
 											<label class="control-label" ng-bind="order.name"></label>
 										</div>
 									</div>
-									<div class="col-md-12">
+									<div class="col-md-12"  ng-if="order.orderType != 2">
 										<label class="control-label col-md-2">客户联系方式<span class="vaild">*</span>：</label>
 										<div class="col-md-4">
 											<label class="control-label" ng-bind="order.phone"></label>
@@ -545,9 +545,10 @@
 											<table class="table table-bordered">
 												<thead>
 												<tr>
-													<th colspan="4">已选购产品</th>
+													<th colspan="5">已选购产品</th>
 												</tr>
 												<tr>
+                                                    <th>序号</th>
 													<th>名称</th>
 													<th class="text-align-right">单价</th>
 													<th class="text-align-right">份数</th>
@@ -556,6 +557,7 @@
 												</thead>
 												<tbody>
 												<tr ng-repeat="choseItem in choseOrderItemList">
+                                                    <td ng-bind="$index + 1"></td>
 													<td>{{choseItem.itemName}}</td>
 													<td class="text-align-right">{{choseItem.sellPrice | number:2}}</td>
 													<td class="text-align-right">{{choseItem.itemQty | number:2}}</td>
@@ -564,7 +566,7 @@
 												</tbody>
 												<tfoot>
 												<tr>
-													<td colspan="2">合计</td>
+													<td colspan="3">合计</td>
 													<td class="text-align-right">{{totalItem.totalNumber | number:2}}</td>
 													<td class="text-align-right">{{totalItem.totalPrice | number:2}}</td>
 												</tr>
