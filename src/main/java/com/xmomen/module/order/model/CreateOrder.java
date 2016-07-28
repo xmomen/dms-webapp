@@ -99,6 +99,14 @@ public class CreateOrder implements Serializable {
     private Integer companyId;
 
     private Date appointmentTime;
+    /**
+     * 折扣金额
+     */
+    private BigDecimal discountPrice;
+    /**
+     * 订单总金额（劵直接取,卡、常规订单后台在计算金额）
+     */
+    private BigDecimal totalPrice;
     @NotNull
     @NotEmpty
     private List<OrderItem> orderItemList;
@@ -261,4 +269,22 @@ public class CreateOrder implements Serializable {
     public void setCompanyId(Integer companyId) {
         this.companyId = companyId;
     }
+
+	public BigDecimal getDiscountPrice() {
+		return discountPrice;
+	}
+
+	public void setDiscountPrice(BigDecimal discountPrice) {
+		this.discountPrice = discountPrice;
+	}
+
+	public BigDecimal getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(BigDecimal totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+    
+    
 }

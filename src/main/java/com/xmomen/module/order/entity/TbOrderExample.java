@@ -1027,6 +1027,66 @@ public class TbOrderExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
+        public Criteria andDiscountPriceIsNull() {
+            addCriterion("DISCOUNT_PRICE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountPriceIsNotNull() {
+            addCriterion("DISCOUNT_PRICE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountPriceEqualTo(BigDecimal value) {
+            addCriterion("DISCOUNT_PRICE =", value, "discountPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountPriceNotEqualTo(BigDecimal value) {
+            addCriterion("DISCOUNT_PRICE <>", value, "discountPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountPriceGreaterThan(BigDecimal value) {
+            addCriterion("DISCOUNT_PRICE >", value, "discountPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountPriceGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("DISCOUNT_PRICE >=", value, "discountPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountPriceLessThan(BigDecimal value) {
+            addCriterion("DISCOUNT_PRICE <", value, "discountPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountPriceLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("DISCOUNT_PRICE <=", value, "discountPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountPriceIn(List<BigDecimal> values) {
+            addCriterion("DISCOUNT_PRICE in", values, "discountPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountPriceNotIn(List<BigDecimal> values) {
+            addCriterion("DISCOUNT_PRICE not in", values, "discountPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountPriceBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("DISCOUNT_PRICE between", value1, value2, "discountPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountPriceNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("DISCOUNT_PRICE not between", value1, value2, "discountPrice");
+            return (Criteria) this;
+        }
+
         public Criteria andTotalAmountIsNull() {
             addCriterion("TOTAL_AMOUNT is null");
             return (Criteria) this;

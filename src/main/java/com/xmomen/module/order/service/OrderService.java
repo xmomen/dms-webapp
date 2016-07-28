@@ -116,7 +116,14 @@ public class OrderService {
         tbOrder.setOrderNo(orderNo);
         tbOrder.setOrderSource(createOrder.getOrderSource());
         tbOrder.setCreateUserId(createOrder.getCreateUserId());
-        tbOrder.setTotalAmount(totalAmount);
+        totalAmount = totalAmount.subtract(createOrder.getDiscountPrice());
+        //订单总金额 如果是劵的 则就是劵面金额 不用累计商品总金额
+        if(tbOrder.getOrderType() == 2){
+        	 tbOrder.setTotalAmount(createOrder.getTotalPrice());
+        }else{
+            tbOrder.setTotalAmount(totalAmount);
+            tbOrder.setDiscountPrice(createOrder.getDiscountPrice());
+        }
         tbOrder.setAppointmentTime(createOrder.getAppointmentTime());
         tbOrder = mybatisDao.insertByModel(tbOrder);
         if(StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null){
@@ -189,7 +196,14 @@ public class OrderService {
         tbOrder.setRemark(updateOrder.getRemark());
         tbOrder.setOrderType(updateOrder.getOrderType());
         tbOrder.setOrderSource(updateOrder.getOrderSource());
-        tbOrder.setTotalAmount(totalAmount);
+        totalAmount = totalAmount.subtract(updateOrder.getDiscountPrice());
+        //订单总金额 如果是劵的 则就是劵面金额 不用累计商品总金额
+        if(tbOrder.getOrderType() == 2){
+        	 tbOrder.setTotalAmount(updateOrder.getTotalPrice());
+        }else{
+            tbOrder.setTotalAmount(totalAmount);
+            tbOrder.setDiscountPrice(updateOrder.getDiscountPrice());
+        }
         tbOrder.setAppointmentTime(updateOrder.getAppointmentTime());
         mybatisDao.update(tbOrder);
         if(StringUtils.trimToNull(updateOrder.getPaymentRelationNo()) != null){

@@ -101,6 +101,15 @@ public @Data class UpdateOrder implements Serializable {
      * 单位
      */
     private Integer companyId;
+    
+    /**
+     * 折扣金额
+     */
+    private BigDecimal discountPrice;
+    /**
+     * 订单总金额（劵直接取,卡、常规订单后台在计算金额）
+     */
+    private BigDecimal totalPrice;
 
     private Date appointmentTime;
     @NotNull

@@ -104,6 +104,11 @@ class OrderModel implements Serializable {
      * 订单备注
      */
     private String remark;
+    
+    /**
+     * 折扣价
+     */
+    private BigDecimal discountPrice;
 
     /**
      * 订单总金额

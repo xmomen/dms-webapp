@@ -76,6 +76,8 @@
 									<th>订单状态</th>
 									<th>付款方式</th>
 									<th>总金额</th>
+                                    <th>优惠金额</th>
+                                    <th>付款金额</th>
 									<th>客户信息</th>
 									<th>备注</th>
 									<th width="80">操作</th>
@@ -94,7 +96,9 @@
 									<td ng-bind="order.createTime | date: 'yyyy-MM-dd'"></td>
 									<td ng-bind="order.orderStatusDesc"></td>
 									<td ng-bind="order.paymentModeDesc"></td>
-									<td ng-bind="order.totalAmount"></td>
+									<td ng-bind="order.totalAmount + order.discountPrice"></td>
+                                    <td ng-bind="order.discountPrice"></td>
+                                    <td ng-bind="order.totalAmount"></td>
 									<td ng-bind="order.consigneeName"></td>
 									<td ng-bind="order.remark"></td>
 									<td width="180">

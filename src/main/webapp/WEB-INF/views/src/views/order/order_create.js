@@ -49,6 +49,7 @@ define(function () {
                     });
                 }
                 if($scope.addOrderForm.validator.form()){
+                    $scope.order.totalPrice = $scope.totalItem.totalPrice;
                     OrderAPI.save($scope.order, function(){
                         $ugDialog.alert("订单提交成功！");
                         $state.go("order");

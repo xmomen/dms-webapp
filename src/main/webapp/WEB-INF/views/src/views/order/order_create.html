@@ -306,11 +306,12 @@
                                             <table class="table table-bordered" ng-show="!setting.disablesChoseItems">
                                                 <thead>
                                                 <tr>
-                                                    <th colspan="5">可选购产品</th>
+                                                    <th colspan="6">可选购产品</th>
                                                 </tr>
                                                 </thead>
                                                 <thead>
                                                 <tr>
+                                                    <th>序号</th>
                                                     <th>名称</th>
                                                     <th>规格</th>
                                                     <th class="text-align-right">单价</th>
@@ -320,6 +321,7 @@
                                                 </thead>
                                                 <tbody>
                                                 <tr data-ng-repeat="item in itemList">
+                                                    <td ng-bind="$index + (pageInfoSetting.pageNum -1) * 10 + 1"></td>
                                                     <td>{{item.itemName}}</td>
                                                     <td>{{item.spec}}</td>
                                                     <td class="text-align-right">{{item.sellPrice | number:2}}</td>
@@ -335,7 +337,7 @@
                                                 </tbody>
                                                 <tfoot>
                                                 <tr>
-                                                    <td colspan="5">
+                                                    <td colspan="6">
                                                         <ug-pagination page-info="pageInfoSetting" ></ug-pagination>
                                                     </td>
                                                 </tr>
@@ -345,9 +347,10 @@
                                             <table class="table table-bordered">
                                                 <thead>
                                                 <tr>
-                                                    <th colspan="7">已选购产品<span class="vaild">*</span></th>
+                                                    <th colspan="8">已选购产品<span class="vaild">*</span></th>
                                                 </tr>
                                                 <tr>
+                                                    <th>序号</th>
                                                     <th>名称</th>
                                                     <th>规格</th>
                                                     <th class="text-align-right">单价</th>
@@ -359,6 +362,7 @@
                                                 </thead>
                                                 <tbody>
                                                 <tr ng-repeat="choseItem in choseOrderItemList" ng-class="{'tdred':choseItem.sellStatus == 0}">
+                                                    <td ng-bind="$index + 1"></td>
                                                     <td>{{choseItem.itemName}}</td>
                                                     <td>{{choseItem.spec}}</td>
                                                     <td class="text-align-right">{{choseItem.sellPrice | number:2}}</td>
@@ -376,7 +380,7 @@
                                                 </tbody>
                                                 <tfoot>
                                                 <tr>
-                                                    <td colspan="4">合计</td>
+                                                    <td colspan="5">合计</td>
                                                     <td class="text-align-right">{{totalItem.totalNumber | number:2}}</td>
                                                     <td class="text-align-right">{{totalItem.totalPrice | number:2}}</td>
                                                     <td>
@@ -486,13 +490,13 @@
 							<fieldset class="demo-switcher-1">
 								<legend>订单快照</legend>
 								<div class="form-group">
-									<div class="col-md-12">
+									<div class="col-md-12" ng-if="order.orderType != 2">
 										<label class="control-label col-md-2">客户姓名<span class="vaild">*</span>：</label>
 										<div class="col-md-4">
 											<label class="control-label" ng-bind="order.name"></label>
 										</div>
 									</div>
-									<div class="col-md-12">
+                                    <div class="col-md-12" ng-if="order.orderType != 2">
 										<label class="control-label col-md-2">客户联系方式<span class="vaild">*</span>：</label>
 										<div class="col-md-4">
 											<label class="control-label" ng-bind="order.phone"></label>
@@ -519,7 +523,14 @@
 									<div class="col-md-12">
 										<label class="control-label col-md-2">付款方式<span class="vaild">*</span>：</label>
 										<div class="col-md-10">
-											<label class="control-label" ng-bind="order.paymentMode"></label>
+											<label class="control-label" ng-if="order.paymentMode == 0">回馈</label>
+                                            <label class="control-label" ng-if="order.paymentMode == 1">客户经理代收</label>
+                                            <label class="control-label" ng-if="order.paymentMode == 2">刷POS</label>
+                                            <label class="control-label" ng-if="order.paymentMode == 3">转账</label>
+                                            <label class="control-label" ng-if="order.paymentMode == 4">物流公司代收</label>
+                                            <label class="control-label" ng-if="order.paymentMode == 5">卡类扣款</label>
+                                            <label class="control-label" ng-if="order.paymentMode == 6">劵类扣款</label>
+                                            <label class="control-label" ng-if="order.paymentMode == 7">其他</label>
 										</div>
 									</div>
 									<div class="col-md-12">
