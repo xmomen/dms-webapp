@@ -7,7 +7,7 @@
     <result column="AUDIT_STATUS" property="auditStatus" jdbcType="INTEGER" />
     <result column="IS_STOP" property="isStop" jdbcType="INTEGER" />
     <result column="CD_MEMBER_ID" property="cdMemberId" jdbcType="INTEGER" />
-    <result column="MEMBER_CODE" property="memberCode" jdbcType="VARCHAR" />
+    <result column="COUPON_NUMBER" property="couponNumber" jdbcType="VARCHAR" />
     <result column="CONSIGNEE_PHONE" property="consigneePhone" jdbcType="VARCHAR" />
     <result column="CONSIGNEE_NAME" property="consigneeName" jdbcType="VARCHAR" />
     <result column="CONSIGNEE_ADDRESS" property="consigneeAddress" jdbcType="VARCHAR" />
@@ -74,7 +74,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, CD_PLAN_ID, AUDIT_STATUS, IS_STOP, CD_MEMBER_ID, MEMBER_CODE, CONSIGNEE_PHONE, 
+    ID, CD_PLAN_ID, AUDIT_STATUS, IS_STOP, CD_MEMBER_ID, COUPON_NUMBER, CONSIGNEE_PHONE, 
     CONSIGNEE_NAME, CONSIGNEE_ADDRESS, POSTCODE, TOTAL_SEND_VALUE, SEND_VALUE
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.plan.entity.TbTablePlanExample" >
@@ -115,8 +115,8 @@
       <if test="cdMemberId != null" >
         CD_MEMBER_ID,
       </if>
-      <if test="memberCode != null" >
-        MEMBER_CODE,
+      <if test="couponNumber != null" >
+        COUPON_NUMBER,
       </if>
       <if test="consigneePhone != null" >
         CONSIGNEE_PHONE,
@@ -153,8 +153,8 @@
       <if test="cdMemberId != null" >
         #{cdMemberId,jdbcType=INTEGER},
       </if>
-      <if test="memberCode != null" >
-        #{memberCode,jdbcType=VARCHAR},
+      <if test="couponNumber != null" >
+        #{couponNumber,jdbcType=VARCHAR},
       </if>
       <if test="consigneePhone != null" >
         #{consigneePhone,jdbcType=VARCHAR},
@@ -200,8 +200,8 @@
       <if test="record.cdMemberId != null" >
         CD_MEMBER_ID = #{record.cdMemberId,jdbcType=INTEGER},
       </if>
-      <if test="record.memberCode != null" >
-        MEMBER_CODE = #{record.memberCode,jdbcType=VARCHAR},
+      <if test="record.couponNumber != null" >
+        COUPON_NUMBER = #{record.couponNumber,jdbcType=VARCHAR},
       </if>
       <if test="record.consigneePhone != null" >
         CONSIGNEE_PHONE = #{record.consigneePhone,jdbcType=VARCHAR},

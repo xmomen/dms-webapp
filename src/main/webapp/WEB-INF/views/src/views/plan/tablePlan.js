@@ -30,7 +30,7 @@ define(function () {
         $scope.open = function (index) {
             var modalInstance = $modal.open({
                 templateUrl: 'addTablePlan.html',
-                controller: ["$scope", "TablePlanAPI", "$modalInstance","currentTablePlan","BasePlanAPI", "$rootScope", "$modalMemberAdd","MemberAPI", function ($scope, TablePlanAPI, $modalInstance,currentTablePlan,BasePlanAPI,$rootScope,$modalMemberAdd,MemberAPI) {
+                controller: ["$scope", "TablePlanAPI", "$modalInstance","currentTablePlan","BasePlanAPI","CouponAPI" ,"$rootScope", "$modalMemberAdd","MemberAPI", function ($scope, TablePlanAPI, $modalInstance,currentTablePlan,BasePlanAPI,CouponAPI,$rootScope,$modalMemberAdd,MemberAPI) {
                     $scope.ugSelect2Config = {};
                     $scope.tablePlan = {};
                     if(currentTablePlan){
@@ -78,35 +78,45 @@ define(function () {
                     var bindMember = function(){
                         $modalMemberAdd.open({
                             currentMember:{
-                                phoneNumber:$scope.tablePlan.phone
+                                couponNumber:$scope.tablePlan.couponNumber
                             }
                         }).result.then(function (data) {
-                                $scope.queryMemberByPhoneNumber();
+                                $scope.queryMemberByCouponNumber();
                             });
                     };
-                    $scope.queryMemberByPhoneNumber = function(){
-                        if($scope.tablePlan.phone){
-                            MemberAPI.query({
+                    $scope.queryMemberByCouponNumber = function(){
+                        if($scope.tablePlan.couponNumber){
+                            CouponAPI.query({
                                 limit:1,
                                 offset:1,
-                                phoneNumber:$scope.tablePlan.phone
+                                couponNumber:$scope.tablePlan.couponNumber,
+                                couponType:1
                             }, function(data){
                                 if(data.data && data.data.length > 0){
-                                    var member = data.data[0];
-                                    debugger;
-                                    $scope.tablePlan.cdMemberId = member.id;
-                                    $scope.tablePlan.memberCode = member.memberCode;
-                                    $scope.tablePlan.consigneeAddress = member.address;
-                                    $scope.tablePlan.consigneeName = member.name;
-                                    $scope.tablePlan.consigneePhone = member.phoneNumber;
+                                    var coupon = data.data[0];
+                                    if(coupon.memberId){
+                                        MemberAPI.get({
+                                            id:coupon.memberId
+                                        },function(data){
+                                            var member = data;
+                                                $scope.tablePlan.cdMemberId = member.id;
+                                                $scope.tablePlan.memberCode = member.memberCode;
+                                                $scope.tablePlan.consigneeAddress = member.address;
+                                                $scope.tablePlan.consigneeName = member.name;
+                                                $scope.tablePlan.consigneePhone = member.phoneNumber;
+                                        })
+                                    }
+                                    else{
+                                        $ugDialog.confirm("未找到客户信息，是否新增客户？").then(function(){
+                                            bindMember();
+                                        });
+                                    }
                                 }else{
-                                    $ugDialog.confirm("未找到匹配手机号的客户，是否新增客户？").then(function(){
-                                        bindMember();
-                                    });
+                                    $ugDialog.alert("卡号不存在！");
                                 }
                             })
                         }else{
-                            $ugDialog.alert("请输入手机号查询");
+                            $ugDialog.alert("请输入卡号");
                         }
                     };
                     $scope.cancel = function () {
