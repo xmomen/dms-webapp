@@ -90,11 +90,11 @@
 									<td ng-bind="packing.packingTime | date: 'yyyy-MM-dd hh:mm:ss'"></td>
 									<td ng-bind="packing.packingStatusDesc"></td>
 									<td>
-										<!--<div ng-show="show">-->
-											<!--<a href="javascript:void(0);" data-ng-click="updatePacking($index)" title="编辑：{{order.orderDesc}}">-->
-												<!--<span class="fa fa-pencil"></span>-->
-											<!--</a>-->
-										<!--</div>-->
+										<div ng-show="show">
+											<a href="javascript:void(0);" ui-sref="order_update({id:packing.id, orderNo:packing.orderNo})" title="编辑：{{order.orderNo}}">
+												<span class="fa fa-pencil"></span>
+											</a>
+										</div>
 									</td>
 								</tr>
 								<tr ng-if="packingList == null || packingList.length == 0">
