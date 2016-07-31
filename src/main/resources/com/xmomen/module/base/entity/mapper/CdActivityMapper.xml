@@ -8,8 +8,8 @@
     <result column="ACTIVITY_END_TIME" property="activityEndTime" jdbcType="TIMESTAMP" />
     <result column="ACTIVITY_DESCRIBE" property="activityDescribe" jdbcType="VARCHAR" />
     <result column="ACTIVITY_TYPE" property="activityType" jdbcType="INTEGER" />
-    <result column="ACTIVITY_DAY" property="activityDay" jdbcType="INTEGER" />
     <result column="AVAILABLE" property="available" jdbcType="INTEGER" />
+    <result column="LOWEST_PRICE" property="lowestPrice" jdbcType="DOUBLE" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -71,7 +71,7 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, ACTIVITY_NAME, ACTIVITY_BEGIN_TIME, ACTIVITY_END_TIME, ACTIVITY_DESCRIBE, ACTIVITY_TYPE, 
-    ACTIVITY_DAY, AVAILABLE
+    AVAILABLE, LOWEST_PRICE
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdActivityExample" >
     select
@@ -114,11 +114,11 @@
       <if test="activityType != null" >
         ACTIVITY_TYPE,
       </if>
-      <if test="activityDay != null" >
-        ACTIVITY_DAY,
-      </if>
       <if test="available != null" >
         AVAILABLE,
+      </if>
+      <if test="lowestPrice != null" >
+        LOWEST_PRICE,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -140,11 +140,11 @@
       <if test="activityType != null" >
         #{activityType,jdbcType=INTEGER},
       </if>
-      <if test="activityDay != null" >
-        #{activityDay,jdbcType=INTEGER},
-      </if>
       <if test="available != null" >
         #{available,jdbcType=INTEGER},
+      </if>
+      <if test="lowestPrice != null" >
+        #{lowestPrice,jdbcType=DOUBLE},
       </if>
     </trim>
   </insert>
@@ -175,11 +175,11 @@
       <if test="record.activityType != null" >
         ACTIVITY_TYPE = #{record.activityType,jdbcType=INTEGER},
       </if>
-      <if test="record.activityDay != null" >
-        ACTIVITY_DAY = #{record.activityDay,jdbcType=INTEGER},
-      </if>
       <if test="record.available != null" >
         AVAILABLE = #{record.available,jdbcType=INTEGER},
+      </if>
+      <if test="record.lowestPrice != null" >
+        LOWEST_PRICE = #{record.lowestPrice,jdbcType=DOUBLE},
       </if>
     </set>
     <if test="_parameter != null" >

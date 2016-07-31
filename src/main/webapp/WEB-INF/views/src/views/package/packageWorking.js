@@ -2,7 +2,7 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "PackageTaskAPI", "$modal", "$ugDialog","$stateParams", function($scope, PackageTaskAPI, $modal, $ugDialog,$stateParams){
+    return ["$scope", "PackageTaskAPI", "$modal", "$ugDialog","$stateParams","JobOperationLogAPI", function($scope, PackageTaskAPI, $modal, $ugDialog,$stateParams,JobOperationLogAPI){
         $scope.packageTaskList = [];
         $scope.pageInfoSetting = {
             pageSize:1,
@@ -21,6 +21,36 @@ define(function () {
                 $scope.pageInfoSetting.loadData = $scope.getPackageTaskList;
             });
         };
+
+        $scope.jobOperationLogList = [];
+        $scope.operationLogPageInfoSetting = {
+            pageSize:50,
+            pageNum:1
+        };
+        $scope.getJobOperationLogList = function(id){
+            JobOperationLogAPI.query({
+                limit:$scope.operationLogPageInfoSetting.pageSize,
+                offset:$scope.operationLogPageInfoSetting.pageNum,
+                jobId:id
+            }, function(data){
+                $scope.jobOperationLogList = data.data;
+                $scope.operationLogPageInfoSetting = data.pageInfo;
+                $scope.operationLogPageInfoSetting.loadData = $scope.getPackageTaskList;
+            });
+        };
+
+        //作废
+        $scope.cancelJobOperationLog = function(index){
+           var jobOperationLog =  $scope.jobOperationLogList[index];
+            JobOperationLogAPI.delete({
+                id:jobOperationLog.id
+            },function(data){
+                $ugDialog.alert("作废成功");
+                $scope.packageTask.finishValue -=1;
+                $scope.packageTask.noFinishValue +=1;
+                $scope.getJobOperationLogList($stateParams.id)
+            })
+        }
 
         $scope.printBarCode = function(){
             if($scope.packageTask.noFinishValue == 0){
@@ -47,6 +77,7 @@ define(function () {
             },function(data){
                 $scope.packageTask.finishValue +=1;
                 $scope.packageTask.noFinishValue -=1;
+                $scope.getJobOperationLogList($stateParams.id)
            })
             $("#weight").focus();
             $("#weight").select();
@@ -55,6 +86,7 @@ define(function () {
             $("#weight").focus();
             $("#weight").select();
             $scope.getPackageTaskList($stateParams.id);
+            $scope.getJobOperationLogList($stateParams.id);
         }
         initialize();
     }];

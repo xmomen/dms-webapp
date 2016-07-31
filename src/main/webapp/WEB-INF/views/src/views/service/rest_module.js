@@ -335,6 +335,13 @@ define(function () {
         });
     }]);
 
+    ngREST.factory("JobOperationLogAPI", ["$resource", function($resource){
+        return $resource("/jobOperationLog/:id", { id:"@id"}, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}}
+        });
+    }]);
+
     ngREST.factory("TablePlanAPI", ["$resource", function($resource){
         return $resource("/tablePlan/:id", { id:"@id"}, {
             query:{ isArray:false},

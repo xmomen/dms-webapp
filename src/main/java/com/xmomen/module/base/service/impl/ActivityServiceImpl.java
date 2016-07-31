@@ -24,7 +24,7 @@ public class ActivityServiceImpl implements ActivityService {
 		activity.setActivityType(createActivity.getActivityType());
 		activity.setActivityBeginTime(createActivity.getActivityBeginTime());
 		activity.setActivityEndTime(createActivity.getActivityEndTime());
-		activity.setActivityDay(createActivity.getActivityDay());
+		activity.setLowestPrice(createActivity.getLowestPrice());
 		activity.setActivityDescribe(createActivity.getActivityDescribe());
 		activity.setAvailable(createActivity.getAvailable());
 		activity = mybatisDao.saveByModel(activity);
@@ -34,13 +34,6 @@ public class ActivityServiceImpl implements ActivityService {
 			cdActivityRef.setRefType("COUPON");
 			cdActivityRef.setRefValue(createActivity.getCouponCategory()+"");
 			cdActivityRef.setRefName("按卡类型");
-			mybatisDao.save(cdActivityRef);
-		}else if(2 == createActivity.getActivityType()){
-			CdActivityRef cdActivityRef = new CdActivityRef();
-			cdActivityRef.setCdActivityId(activity.getId());
-			cdActivityRef.setRefType("LOWEST_PRICE");
-			cdActivityRef.setRefValue(createActivity.getLowestPrice().toString());
-			cdActivityRef.setRefName("按消费金额");
 			mybatisDao.save(cdActivityRef);
 		}
 		if(createActivity.getActivityRefList() != null){
@@ -63,33 +56,21 @@ public class ActivityServiceImpl implements ActivityService {
 		activity.setActivityType(updateActivity.getActivityType());
 		activity.setActivityBeginTime(updateActivity.getActivityBeginTime());
 		activity.setActivityEndTime(updateActivity.getActivityEndTime());
-		activity.setActivityDay(updateActivity.getActivityDay());
 		activity.setActivityDescribe(updateActivity.getActivityDescribe());
 		activity.setAvailable(updateActivity.getAvailable());
+		activity.setLowestPrice(updateActivity.getLowestPrice());
 		activity = mybatisDao.saveByModel(activity);
 		//先删除再添加
 		CdActivityRefExample activityRefExample = new CdActivityRefExample();
 		activityRefExample.createCriteria().andCdActivityIdEqualTo(id)
 		.andRefTypeEqualTo("COUPON");
 		mybatisDao.deleteByExample(activityRefExample);
-		//先删除再添加
-		CdActivityRefExample activityRefPriceExample = new CdActivityRefExample();
-		activityRefPriceExample.createCriteria().andCdActivityIdEqualTo(id)
-		.andRefTypeEqualTo("LOWEST_PRICE");
-		mybatisDao.deleteByExample(activityRefPriceExample);
 		if(1 == updateActivity.getActivityType()){//固定卡类型
 			CdActivityRef cdActivityRef = new CdActivityRef();
 			cdActivityRef.setCdActivityId(activity.getId());
 			cdActivityRef.setRefType("COUPON");
 			cdActivityRef.setRefValue(updateActivity.getCouponCategory()+"");
 			cdActivityRef.setRefName("按卡类型");
-			mybatisDao.save(cdActivityRef);
-		}else if(2 == updateActivity.getActivityType()){
-			CdActivityRef cdActivityRef = new CdActivityRef();
-			cdActivityRef.setCdActivityId(activity.getId());
-			cdActivityRef.setRefType("LOWEST_PRICE");
-			cdActivityRef.setRefValue(updateActivity.getLowestPrice().toString());
-			cdActivityRef.setRefName("按消费金额");
 			mybatisDao.save(cdActivityRef);
 		}
 		if(updateActivity.getActivityRefList() != null){
