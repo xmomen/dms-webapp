@@ -1,4 +1,4 @@
-package com.xmomen.module.base.controller;
+package com.xmomen.module.wx.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -21,12 +21,12 @@ import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.utils.AssertExt;
 import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.module.base.entity.CdBind;
-import com.xmomen.module.base.model.AccessTokenOAuth;
-import com.xmomen.module.base.service.BindService;
-import com.xmomen.module.base.util.Auth2Handler;
-import com.xmomen.module.base.util.PropertiesUtils;
 import com.xmomen.module.order.entity.TbOrder;
 import com.xmomen.module.order.entity.TbOrderItem;
+import com.xmomen.module.wx.model.AccessTokenOAuth;
+import com.xmomen.module.wx.service.BindService;
+import com.xmomen.module.wx.util.Auth2Handler;
+import com.xmomen.module.wx.util.PropertiesUtils;
 /**
  * 微信绑定控制器
  * @author Administrator
@@ -75,9 +75,8 @@ public class BindController {
 	@RequestMapping(value="/bind/auth2Url")
 	public String oauth2Url(HttpServletRequest request,HttpServletResponse response,@RequestParam("code") String code,
 							@RequestParam("url") String url,@RequestParam(value="param",required=false) String param) throws IOException {
-//		AccessTokenOAuth accessToken = Auth2Handler.getAccessToken(code);
-//		String openId = accessToken.getOpenid();
-		String openId="323";
+		AccessTokenOAuth accessToken = Auth2Handler.getAccessToken(code);
+		String openId = accessToken.getOpenid();
 		logger.info("openid----->" + openId);
 		//查询是否有绑定
 		CdBind bind = new CdBind();

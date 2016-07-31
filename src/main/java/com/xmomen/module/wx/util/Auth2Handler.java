@@ -1,4 +1,4 @@
-package com.xmomen.module.base.util;
+package com.xmomen.module.wx.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -8,10 +8,9 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.xmomen.framework.utils.StringUtils;
 import com.xmomen.framework.utils.StringUtilsExt;
-import com.xmomen.module.base.constant.WechatUrlConstants;
-import com.xmomen.module.base.model.AccessTokenOAuth;
+import com.xmomen.module.wx.constants.WechatUrlConstants;
+import com.xmomen.module.wx.model.AccessTokenOAuth;
 
 public class Auth2Handler {
 	

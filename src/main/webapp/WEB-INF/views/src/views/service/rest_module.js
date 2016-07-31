@@ -383,4 +383,12 @@ define(function () {
             update:{ method:"PUT", params:{id:"@id"}}
         });
     }]);
+
+    ngREST.factory("TradeRecordAPI", ["$resource", function($resource){
+        return $resource("/tradeRecord/:id", { id:"@id" }, {
+            query:{ isArray:false},
+            update:{ method:"PUT", params:{id:"@id"}}
+        });
+    }]);
+
 });

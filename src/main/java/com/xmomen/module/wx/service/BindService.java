@@ -1,4 +1,4 @@
-package com.xmomen.module.base.service;
+package com.xmomen.module.wx.service;
 
 import java.util.List;
 
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
-import com.xmomen.module.base.controller.BindController;
 import com.xmomen.module.base.entity.CdBind;
 import com.xmomen.module.base.entity.CdExpressMember;
 import com.xmomen.module.base.entity.CdMember;

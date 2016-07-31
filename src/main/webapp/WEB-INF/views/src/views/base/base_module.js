@@ -18,8 +18,9 @@ define([
     "views/base/couponAuditBack",
     "views/base/express_list",
     "views/base/express_member_list",
-    "views/base/onlineRecharge"
-],function (memberList,companyList,couponCategory,coupon,dictionary,itemCategory,item,contract,contract_create,contract_update,activity,couponActivity,couponAudit,couponAuditBack,express_list,express_member_list,onlineRecharge) {
+    "views/base/onlineRecharge",
+    "views/base/tradeRecordList"
+],function (memberList,companyList,couponCategory,coupon,dictionary,itemCategory,item,contract,contract_create,contract_update,activity,couponActivity,couponAudit,couponAuditBack,express_list,express_member_list,onlineRecharge,tradeRecordList) {
     angular.module('DMS.base', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -214,6 +215,18 @@ define([
                     }
                 },
                 controller: onlineRecharge
+            })
+
+            .state('tradeRecordList', {
+                url: '/tradeRecordList',
+                templateUrl: 'views/base/tradeRecordList.html',
+                data:{
+                    permissions:{
+                        only:["TRADE_RECORD_VIEW"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: tradeRecordList
             })
     }]);
 });
