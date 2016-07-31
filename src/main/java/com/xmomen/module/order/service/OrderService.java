@@ -11,6 +11,7 @@ import com.xmomen.module.base.service.ItemService;
 import com.xmomen.module.order.entity.*;
 import com.xmomen.module.order.mapper.OrderMapper;
 import com.xmomen.module.order.model.*;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -116,6 +117,12 @@ public class OrderService {
         tbOrder.setOrderNo(orderNo);
         tbOrder.setOrderSource(createOrder.getOrderSource());
         tbOrder.setCreateUserId(createOrder.getCreateUserId());
+        //生成收货码
+		TbOrderRef orderRef = new TbOrderRef();
+		orderRef.setOrderNo(orderNo);
+		orderRef.setRefType("SHOU_HUO_NO");
+		orderRef.setRefValue(String.valueOf((int)((Math.random()*9+1)*100000)));
+		mybatisDao.insert(orderRef);
         totalAmount = totalAmount.subtract(createOrder.getDiscountPrice());
         //订单总金额 如果是劵的 则就是劵面金额 不用累计商品总金额
         if(tbOrder.getOrderType() == 2){
