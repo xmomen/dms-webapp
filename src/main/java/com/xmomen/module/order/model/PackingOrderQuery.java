@@ -14,5 +14,6 @@ class PackingOrderQuery implements Serializable {
     private String orderNo;
     private Integer orderItemId;
     private String keyword;
-
+    private String itemCode;
+    private String[] orderNos;
 }

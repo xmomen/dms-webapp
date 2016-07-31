@@ -3,6 +3,9 @@
  */
 define(function () {
     return ["$scope", "PackingAPI", "OrderAPI", "$modal", "$ugDialog", "$q", "DictionaryAPI", function($scope, PackingAPI, OrderAPI, $modal, $ugDialog, $q, DictionaryAPI){
+        $scope.pageSetting = {
+            boxNumLimit:5
+        };
         $scope.packingList = [];
         $scope.pageInfoSetting = {
             pageSize:10,
@@ -30,10 +33,43 @@ define(function () {
                 $scope.pageInfoSetting.loadData = $scope.getOrderList;
             });
         };
-        $scope.ugSelect2Config = {};
+        $scope.currentPackingBoxList = [];
+        var changeBoxLimit = function(){
+            $scope.currentPackingBoxList = [];
+            for (var i = 0; i < $scope.pageSetting.boxNumLimit; i++) {
+                $scope.currentPackingBoxList.push({ boxNum : i + 1});
+            }
+        };
+        changeBoxLimit();
+        $scope.choseOrder2CurrentPackingList = function(index){
+            var order = $scope.orderList[index];
+            for (var i = 0; i < $scope.currentPackingBoxList.length; i++) {
+                var obj = $scope.currentPackingBoxList[i];
+                if(!obj.orderNo){
+                    order.boxNum = obj.boxNum;
+                    $scope.currentPackingBoxList.splice(i,1, order);
+                    setPacking(i);
+                    break;
+                }
+            }
+        };
+        $scope.finishOrderPacking = function(index){
+            $scope.currentPackingBoxList.splice(index,1, {
+                boxNum:$scope.currentPackingBoxList[index].boxNum
+            });
+        };
+        $scope.isCurrentOrderPacking = function(index){
+            for (var i = 0; i < $scope.currentPackingBoxList.length; i++) {
+                var obj = $scope.currentPackingBoxList[i];
+                if(obj.orderNo == $scope.orderList[index].orderNo){
+                    return true;
+                }
+            }
+            return false;
+        };
         $scope.choseOrder = {};
-        $scope.choseOrderPacking = function(index){
-            $scope.choseOrder = $scope.orderList[index];
+        $scope.viewOrderPacking = function(index){
+            $scope.choseOrder = $scope.currentPackingBoxList[index];
             $scope.getPackingOrderItemList();
             $scope.packingRecordList = [];
             $scope.errors = null;
@@ -50,67 +86,114 @@ define(function () {
                 }, function(data){
                     $scope.packingOrderItemList = data.data;
                     $scope.orderItemPageInfoSetting = data.pageInfo;
-                    $scope.orderItemPageInfoSetting.loadData = $scope.getOrderList;
+                    $scope.orderItemPageInfoSetting.loadData = $scope.getPackingOrderItemList;
                 });
-            }else{
-                $ugDialog.warn("请先在【待装箱订单列表】中选择需要查询的订单")
             }
         };
-        var getPackingList = function(){
-            var defer = $q.defer();
+        var setPacking = function(index){
             PackingAPI.query({
                 limit:100,
                 offset:1,
-                orderNo:$scope.choseOrder.orderNo
+                orderNo: $scope.currentPackingBoxList[index].orderNo
             }, function(data){
-                $scope.choseOrder.packingList = data.data;
-                return defer.resolve();
+                if(data.data == null || data.data.length == 0){
+                    PackingAPI.save({
+                        orderNo: $scope.currentPackingBoxList[index].orderNo
+                    }, function(result){
+                        $scope.currentPackingBoxList[index].currentPacking = result;
+                    })
+                }else{
+                    $scope.currentPackingBoxList[index].currentPacking = data.data[data.data.length - 1];
+                }
             });
-            return defer.promise;
         };
-        $scope.startPacking = function(){
-            if($scope.choseOrder && $scope.choseOrder.orderNo){
-                getPackingList().then(function(){
-                    if($scope.choseOrder.packingList && $scope.choseOrder.packingList.length == 0){
-                        PackingAPI.save({
-                            orderNo:$scope.choseOrder.orderNo
-                        }, function(data){
-                            $scope.choseOrder.currentPacking = data;
-                        })
-                    }else{
-                        $scope.choseOrder.currentPacking = $scope.choseOrder.packingList[0];
-                    }
-                });
-            }else{
-                $ugDialog.warn("请先在【待装箱订单列表】中选择需要装箱的订单")
-            }
-        };
-        $scope.changePacking = function(){
+        $scope.changePacking = function(index){
             PackingAPI.save({
-                orderNo:$scope.choseOrder.orderNo
+                orderNo:$scope.currentPackingBoxList[index].orderNo
             }, function(data){
-                $scope.choseOrder.currentPacking = data;
+                $scope.currentPackingBoxList[index].currentPacking = data;
             })
         };
         $scope.scanItemForm = {};
         $scope.item = {};
         $scope.scanItem = function(){
-            if(!$scope.choseOrder.currentPacking || !$scope.choseOrder.currentPacking.id){
-                $ugDialog.warn("请点击开始装箱")
+            var ok = false;
+            for (var i = 0; i < $scope.currentPackingBoxList.length; i++) {
+                var obj1 = $scope.currentPackingBoxList[i];
+                if(obj1.orderNo){
+                    ok = true;
+                }
+            }
+            if(!ok){
+                $ugDialog.warn("请选择需要装箱的订单");
                 return;
             }
             $scope.errors = null;
             if($scope.scanItemForm.validator.form()){
+                var packingInfo = {};
+                var packing = {};
+                for (var i = 0; i < $scope.currentPackingBoxList.length; i++) {
+                    var obj = $scope.currentPackingBoxList[i];
+                    if(obj.orderNo){
+                        packingInfo[obj.orderNo] = obj.currentPacking.id;
+                        packing.orderNo = obj.orderNo;
+                        packing.packingId = obj.currentPacking.id;
+                    }
+                }
                 PackingAPI.scanItem({
-                    id:$scope.choseOrder.currentPacking.id,
-                    orderNo:$scope.choseOrder.orderNo,
+                    packingInfo:packingInfo,
                     upc:$scope.item.upc
                 }, function(data){
                     $scope.getPackingOrderItemList();
                     $scope.getPackingRecordList();
                     $scope.getOrderList();
+                    if(!data.id){
+                        $ugDialog.alert("已删除商品装箱记录，UPC编号：【" + $scope.item.upc + "】");
+                        var oldBoxIndex = null;
+                        for (var i = 0; i < $scope.currentPackingBoxList.length; i++) {
+                            var obj2 = $scope.currentPackingBoxList[i];
+                            if(obj2.currentPacking && obj2.currentPacking.id == packing.packingId){
+                                oldBoxIndex = i;
+                            }
+                        }
+                        if(oldBoxIndex == null){
+                            return;
+                        }
+                        PackingAPI.getPackingOrderList({
+                            limit:1,
+                            offset:1,
+                            orderNo:obj2.orderNo
+                        }, function(data){
+                            var oldBox = $scope.currentPackingBoxList[oldBoxIndex];
+                            $scope.currentPackingBoxList[oldBoxIndex] = data.data[0];
+                            $scope.currentPackingBoxList[oldBoxIndex].boxNum = oldBox.boxNum;
+                            $scope.currentPackingBoxList[oldBoxIndex].currentPacking = oldBox.currentPacking;
+                        });
+                    }else{
+                        var oldBoxIndex = null;
+                        for (var i = 0; i < $scope.currentPackingBoxList.length; i++) {
+                            var obj2 = $scope.currentPackingBoxList[i];
+                            if(obj2.currentPacking && obj2.currentPacking.id == data.packingId){
+                                $ugDialog.alert("商品已放入【" + obj2.boxNum + "】号箱位。")
+                                oldBoxIndex = i;
+                            }
+                        }
+                        if(oldBoxIndex == null){
+                            return;
+                        }
+                        PackingAPI.getPackingOrderList({
+                            limit:1,
+                            offset:1,
+                            orderNo:obj2.orderNo
+                        }, function(data){
+                            var oldBox = $scope.currentPackingBoxList[oldBoxIndex];
+                            $scope.currentPackingBoxList[oldBoxIndex] = data.data[0];
+                            $scope.currentPackingBoxList[oldBoxIndex].boxNum = oldBox.boxNum;
+                            $scope.currentPackingBoxList[oldBoxIndex].currentPacking = oldBox.currentPacking;
+                        });
+                    }
                 }, function(data){
-                    $scope.errors = data.data;
+                    $ugDialog.warn(data.data.message);
                 })
             }
         };
@@ -131,7 +214,7 @@ define(function () {
                 }, function(data){
                     $scope.packingRecordList = data.data;
                     $scope.packingRecordPageInfoSetting = data.pageInfo;
-                    $scope.packingRecordPageInfoSetting.loadData = $scope.packingRecordList;
+                    $scope.packingRecordPageInfoSetting.loadData = $scope.getPackingRecordList;
                 });
             }
         };

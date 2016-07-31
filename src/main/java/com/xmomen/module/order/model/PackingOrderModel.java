@@ -11,7 +11,8 @@ import java.math.BigDecimal;
 public @Data
 class PackingOrderModel implements Serializable {
 
-    private String orderItemId;
+    private Integer orderItemId;
+    private String orderNo;
     private String packingNo;
     private String itemName;
     private String packingStatusDesc;
