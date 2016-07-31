@@ -1,4 +1,4 @@
-package com.xmomen.module.base.service;
+package com.xmomen.module.wx.service;
 
 import java.util.List;
 
@@ -6,9 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
-import com.xmomen.module.base.controller.BindController;
 import com.xmomen.module.base.entity.CdBind;
 import com.xmomen.module.base.entity.CdExpressMember;
 import com.xmomen.module.base.entity.CdMember;
@@ -32,6 +32,7 @@ public class BindService {
      * @param bindType 绑定类型 1-客户绑定 2-快递员绑定
      * @return
      */
+    @Transactional
 	public boolean bindAccount(String openId, String phone,String bindType){
 		if("1".equals(bindType)){
 			CdMember member = new CdMember();
@@ -65,6 +66,7 @@ public class BindService {
 	 * 订单绑定快递员
 	 * @return
 	 */
+	@Transactional
 	public String bindExpressMember(String phone,String orderNo){
 		//查找订单
 		TbOrder order = new TbOrder();
@@ -92,5 +94,21 @@ public class BindService {
 		order.setExpressMemberId(expressMember.getId());
 		mybatisDao.save(order);
 		return "扫描成功";
+	}
+	
+	
+	/**
+	 * 订单收货
+	 * @return
+	 */
+	@Transactional
+	public boolean orderShouhuo(String openId,String orderNo){
+		TbOrder order = new TbOrder();
+		order.setOrderNo(orderNo);
+		order = mybatisDao.selectOneByModel(order);
+		//收货
+		order.setOrderStatus("3");
+		mybatisDao.save(order);
+		return true;
 	}
 }

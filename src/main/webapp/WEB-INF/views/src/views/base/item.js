@@ -117,6 +117,7 @@ define(function () {
                                     id:$scope.queryParam.id
                                 }, function(data){
                                     $scope.itemCategoryList = data;
+                                    $rootScope.$broadcast("loadingTree");
                                 });
                                 $scope.cancel = function () {
                                     $modalInstance.dismiss('cancel');

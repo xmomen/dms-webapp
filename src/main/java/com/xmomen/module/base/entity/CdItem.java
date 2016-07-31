@@ -64,7 +64,12 @@ public class CdItem extends BaseMybatisModel {
     private BigDecimal memberPrice;
 
     /**
-     * 计价方式
+     * 售卖方式(1-计重,2-计件）
+     */
+    private Integer saleMode;
+
+    /**
+     * 计价单位
      */
     private String pricingManner;
 
@@ -238,6 +243,20 @@ public class CdItem extends BaseMybatisModel {
               return;
         }
         addValidField("memberPrice");
+    }
+
+    @Column(name = "SALE_MODE")
+    public Integer getSaleMode() {
+        return saleMode;
+    }
+
+    public void setSaleMode(Integer saleMode) {
+        this.saleMode = saleMode;
+        if(saleMode == null){
+              removeValidField("saleMode");
+              return;
+        }
+        addValidField("saleMode");
     }
 
     @Column(name = "PRICING_MANNER")

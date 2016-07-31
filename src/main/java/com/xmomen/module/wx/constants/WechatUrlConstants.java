@@ -1,4 +1,4 @@
-package com.xmomen.module.base.constant;
+package com.xmomen.module.wx.constants;
 
 
 public class WechatUrlConstants {

@@ -37,9 +37,9 @@ public class TbTablePlan extends BaseMybatisModel {
     private Integer cdMemberId;
 
     /**
-     * 客户编号
+     * 卡号
      */
-    private String memberCode;
+    private String couponNumber;
 
     /**
      * 手机号
@@ -143,18 +143,18 @@ public class TbTablePlan extends BaseMybatisModel {
         addValidField("cdMemberId");
     }
 
-    @Column(name = "MEMBER_CODE")
-    public String getMemberCode() {
-        return memberCode;
+    @Column(name = "COUPON_NUMBER")
+    public String getCouponNumber() {
+        return couponNumber;
     }
 
-    public void setMemberCode(String memberCode) {
-        this.memberCode = memberCode;
-        if(memberCode == null){
-              removeValidField("memberCode");
+    public void setCouponNumber(String couponNumber) {
+        this.couponNumber = couponNumber;
+        if(couponNumber == null){
+              removeValidField("couponNumber");
               return;
         }
-        addValidField("memberCode");
+        addValidField("couponNumber");
     }
 
     @Column(name = "CONSIGNEE_PHONE")

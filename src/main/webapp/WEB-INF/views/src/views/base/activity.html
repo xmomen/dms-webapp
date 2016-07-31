@@ -74,6 +74,7 @@
                                     <th>有效时间</th>
                                     <th>活动描述</th>
                                     <th>类型</th>
+                                    <th>最低赠送金额</th>
 									<th width="80">操作</th>
 								</tr>
 								</thead>
@@ -89,6 +90,7 @@
                                     <td>{{activity.activityBeginTime | date: 'yyyy-MM-dd'}} 至 {{activity.activityEndTime | date: 'yyyy-MM-dd'}}</td>
 									<td ng-bind="activity.activityDescribe"></td>
                                     <td><span ng-if="activity.activityType == 1">按卡类型</span><span ng-if="activity.activityType == 2">按消费金额</span></td>
+                                    <td ng-bind="activity.lowestPrice"></td>
 									<td>
 										<div ng-show="show">
 											<a href="javascript:void(0);" data-ng-click="removeActivity($index)" title="删除：{{activity.activityName}}">
@@ -172,10 +174,10 @@
                         </div>
                     </div>
 
-                    <div class="form-group" ng-show="activity.activityType == 2">
-                        <label class="col-md-2 control-label">最低消费<span class="vaild">*</span></label>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">最低赠送金额<span class="vaild">*</span></label>
                         <div class="col-md-10 input-group">
-                            <input class="form-control" required="" ng-model="activity.lowestPrice" name="lowestPrice" placeholder="最低消费" type="text">
+                            <input class="form-control" required="" ng-model="activity.lowestPrice" name="lowestPrice" placeholder="最低赠送金额" type="text">
                         </div>
                     </div>
 

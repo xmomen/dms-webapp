@@ -757,6 +757,66 @@ public class CdItemExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
+        public Criteria andSaleModeIsNull() {
+            addCriterion("SALE_MODE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleModeIsNotNull() {
+            addCriterion("SALE_MODE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleModeEqualTo(Integer value) {
+            addCriterion("SALE_MODE =", value, "saleMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleModeNotEqualTo(Integer value) {
+            addCriterion("SALE_MODE <>", value, "saleMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleModeGreaterThan(Integer value) {
+            addCriterion("SALE_MODE >", value, "saleMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleModeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("SALE_MODE >=", value, "saleMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleModeLessThan(Integer value) {
+            addCriterion("SALE_MODE <", value, "saleMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleModeLessThanOrEqualTo(Integer value) {
+            addCriterion("SALE_MODE <=", value, "saleMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleModeIn(List<Integer> values) {
+            addCriterion("SALE_MODE in", values, "saleMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleModeNotIn(List<Integer> values) {
+            addCriterion("SALE_MODE not in", values, "saleMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleModeBetween(Integer value1, Integer value2) {
+            addCriterion("SALE_MODE between", value1, value2, "saleMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleModeNotBetween(Integer value1, Integer value2) {
+            addCriterion("SALE_MODE not between", value1, value2, "saleMode");
+            return (Criteria) this;
+        }
+
         public Criteria andPricingMannerIsNull() {
             addCriterion("PRICING_MANNER is null");
             return (Criteria) this;

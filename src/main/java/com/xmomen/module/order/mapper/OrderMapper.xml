@@ -44,7 +44,8 @@
             <if test="keyword">
                 AND (tb.order_no LIKE CONCAT('%', #{keyword}, '%')
                 or tb.consignee_phone LIKE CONCAT('%', #{keyword}, '%')
-                or tb.consignee_name like CONCAT('%', #{keyword}, '%'))
+                or tb.consignee_name like CONCAT('%', #{keyword}, '%')
+                )
             </if>
             <if test="id">
                 AND tb.id = #{id}

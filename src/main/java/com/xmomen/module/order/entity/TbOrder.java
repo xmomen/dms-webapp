@@ -84,6 +84,11 @@ public class TbOrder extends BaseMybatisModel {
     private String remark;
 
     /**
+     * 订单折扣金额
+     */
+    private BigDecimal discountPrice;
+
+    /**
      * 订单总金额
      */
     private BigDecimal totalAmount;
@@ -309,6 +314,20 @@ public class TbOrder extends BaseMybatisModel {
               return;
         }
         addValidField("remark");
+    }
+
+    @Column(name = "DISCOUNT_PRICE")
+    public BigDecimal getDiscountPrice() {
+        return discountPrice;
+    }
+
+    public void setDiscountPrice(BigDecimal discountPrice) {
+        this.discountPrice = discountPrice;
+        if(discountPrice == null){
+              removeValidField("discountPrice");
+              return;
+        }
+        addValidField("discountPrice");
     }
 
     @Column(name = "TOTAL_AMOUNT")

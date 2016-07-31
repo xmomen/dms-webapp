@@ -405,73 +405,73 @@ public class TbTablePlanExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeIsNull() {
-            addCriterion("MEMBER_CODE is null");
+        public Criteria andCouponNumberIsNull() {
+            addCriterion("COUPON_NUMBER is null");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeIsNotNull() {
-            addCriterion("MEMBER_CODE is not null");
+        public Criteria andCouponNumberIsNotNull() {
+            addCriterion("COUPON_NUMBER is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeEqualTo(String value) {
-            addCriterion("MEMBER_CODE =", value, "memberCode");
+        public Criteria andCouponNumberEqualTo(String value) {
+            addCriterion("COUPON_NUMBER =", value, "couponNumber");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeNotEqualTo(String value) {
-            addCriterion("MEMBER_CODE <>", value, "memberCode");
+        public Criteria andCouponNumberNotEqualTo(String value) {
+            addCriterion("COUPON_NUMBER <>", value, "couponNumber");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeGreaterThan(String value) {
-            addCriterion("MEMBER_CODE >", value, "memberCode");
+        public Criteria andCouponNumberGreaterThan(String value) {
+            addCriterion("COUPON_NUMBER >", value, "couponNumber");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeGreaterThanOrEqualTo(String value) {
-            addCriterion("MEMBER_CODE >=", value, "memberCode");
+        public Criteria andCouponNumberGreaterThanOrEqualTo(String value) {
+            addCriterion("COUPON_NUMBER >=", value, "couponNumber");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeLessThan(String value) {
-            addCriterion("MEMBER_CODE <", value, "memberCode");
+        public Criteria andCouponNumberLessThan(String value) {
+            addCriterion("COUPON_NUMBER <", value, "couponNumber");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeLessThanOrEqualTo(String value) {
-            addCriterion("MEMBER_CODE <=", value, "memberCode");
+        public Criteria andCouponNumberLessThanOrEqualTo(String value) {
+            addCriterion("COUPON_NUMBER <=", value, "couponNumber");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeLike(String value) {
-            addCriterion("MEMBER_CODE like", value, "memberCode");
+        public Criteria andCouponNumberLike(String value) {
+            addCriterion("COUPON_NUMBER like", value, "couponNumber");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeNotLike(String value) {
-            addCriterion("MEMBER_CODE not like", value, "memberCode");
+        public Criteria andCouponNumberNotLike(String value) {
+            addCriterion("COUPON_NUMBER not like", value, "couponNumber");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeIn(List<String> values) {
-            addCriterion("MEMBER_CODE in", values, "memberCode");
+        public Criteria andCouponNumberIn(List<String> values) {
+            addCriterion("COUPON_NUMBER in", values, "couponNumber");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeNotIn(List<String> values) {
-            addCriterion("MEMBER_CODE not in", values, "memberCode");
+        public Criteria andCouponNumberNotIn(List<String> values) {
+            addCriterion("COUPON_NUMBER not in", values, "couponNumber");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeBetween(String value1, String value2) {
-            addCriterion("MEMBER_CODE between", value1, value2, "memberCode");
+        public Criteria andCouponNumberBetween(String value1, String value2) {
+            addCriterion("COUPON_NUMBER between", value1, value2, "couponNumber");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCodeNotBetween(String value1, String value2) {
-            addCriterion("MEMBER_CODE not between", value1, value2, "memberCode");
+        public Criteria andCouponNumberNotBetween(String value1, String value2) {
+            addCriterion("COUPON_NUMBER not between", value1, value2, "couponNumber");
             return (Criteria) this;
         }
 

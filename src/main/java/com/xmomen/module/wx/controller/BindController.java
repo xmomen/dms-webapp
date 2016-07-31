@@ -1,4 +1,4 @@
-package com.xmomen.module.base.controller;
+package com.xmomen.module.wx.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -21,12 +21,15 @@ import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.utils.AssertExt;
 import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.module.base.entity.CdBind;
-import com.xmomen.module.base.model.AccessTokenOAuth;
-import com.xmomen.module.base.service.BindService;
-import com.xmomen.module.base.util.Auth2Handler;
-import com.xmomen.module.base.util.PropertiesUtils;
+import com.xmomen.module.base.entity.CdExpressMember;
 import com.xmomen.module.order.entity.TbOrder;
 import com.xmomen.module.order.entity.TbOrderItem;
+import com.xmomen.module.order.entity.TbOrderRef;
+import com.xmomen.module.order.service.OrderService;
+import com.xmomen.module.wx.model.AccessTokenOAuth;
+import com.xmomen.module.wx.service.BindService;
+import com.xmomen.module.wx.util.Auth2Handler;
+import com.xmomen.module.wx.util.PropertiesUtils;
 /**
  * 微信绑定控制器
  * @author Administrator
@@ -42,7 +45,6 @@ public class BindController {
 	
     @Autowired
     MybatisDao mybatisDao;
-    
 	
 	@RequestMapping(value="/bind/auth")
 	public String oauth2Api(HttpServletRequest request,HttpServletResponse response,@RequestParam("url") String url,
@@ -77,7 +79,7 @@ public class BindController {
 							@RequestParam("url") String url,@RequestParam(value="param",required=false) String param) throws IOException {
 //		AccessTokenOAuth accessToken = Auth2Handler.getAccessToken(code);
 //		String openId = accessToken.getOpenid();
-		String openId="323";
+		String openId = "ovH3uwhNwt_Q646pRA43aCCwtSRE";
 		logger.info("openid----->" + openId);
 		//查询是否有绑定
 		CdBind bind = new CdBind();
@@ -86,8 +88,10 @@ public class BindController {
 		request.setAttribute("openId", openId);
 		if(binds != null && binds.size() > 0){
 			bind = binds.get(0);
+			String phone = bind.getPhone();
 			//跳转到收货页面
 			if(url.equals("/wx/receipt")){
+				request.setAttribute("express", "0");
 				//订单信息
 				TbOrder order = new TbOrder();
 				order.setOrderNo(param);
@@ -98,6 +102,20 @@ public class BindController {
 				orderItem.setOrderNo(param);
 				List<TbOrderItem> orderItems = mybatisDao.selectByModel(orderItem);
 				request.setAttribute("orderItemInfo", orderItems);
+				//查询扫描的是不是快递员 如果是快递员 则需要输入收货码
+				//查找快递员信息
+				CdExpressMember expressMember = new CdExpressMember();
+				expressMember.setPhone(phone);
+				List<CdExpressMember> expressMembers = mybatisDao.selectByModel(expressMember);
+				if(!(expressMembers == null || expressMembers.size() == 0)){
+					request.setAttribute("express", "1");
+				}else{
+					if(!order.getConsigneePhone().equals(phone)){
+						String message = "您绑定手机号和订单收货人手机号不一致，不能收货，请确认";
+						request.setAttribute("message", message);
+						return "wx/receiptNoAuth";
+					}
+				}
 				return url;
 			}
 			//扫码送货
@@ -179,4 +197,27 @@ public class BindController {
 	  		bindService.bindExpressMember(phone, orderNo);
     		return "wx/scanningSuccess";
     }
+	
+	/**
+	 * 收货
+	 */
+	@RequestMapping(value="/wx/shouhuo",method = RequestMethod.GET)
+	@ResponseBody
+	public boolean shouhuo(HttpServletRequest request,HttpServletResponse response,
+    		@RequestParam(value="shouhuoNo",required=false) String shouhuoNo,
+    		@RequestParam(value="openId") String openId,
+    		@RequestParam(value="orderNo") String orderNo
+    		){
+		//如果有收货码 判断收货码是否正确
+		TbOrderRef orderRef = new TbOrderRef();
+		orderRef.setOrderNo(orderNo);
+		orderRef.setRefType("SHOU_HUO_NO");
+		orderRef = mybatisDao.selectOneByModel(orderRef);
+		//判断输入的收货码是否正确
+		if(StringUtilsExt.isBlank(shouhuoNo) || (StringUtilsExt.isNotBlank(shouhuoNo) && shouhuoNo.equals(orderRef.getRefValue()))){
+			return this.bindService.orderShouhuo(openId, orderNo);
+		}else{
+			return false;
+		}
+	}
 }

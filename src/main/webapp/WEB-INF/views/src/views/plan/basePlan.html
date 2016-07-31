@@ -65,6 +65,7 @@
                                     <th>配送频率（周）</th>
 									<th>配送时间（星期）</th>
                                     <th>配送次数</th>
+                                    <th>金额</th>
                                     <th>操作</th>
 								</tr>
 								</thead>
@@ -79,6 +80,7 @@
                                     </td>
                                     <td ng-bind="basePlan.deliveryTime"></td>
                                     <td ng-bind="basePlan.deliverCount"></td>
+                                    <td ng-bind="basePlan.price"></td>
                                     <td>
                                         <div ng-show="show">
                                             <a href="javascript:void(0);" data-ng-click="removeBasePlan(basePlan)" title="删除：{{basePlan.planName}}">
@@ -196,6 +198,12 @@
                         <label class="col-md-2 control-label">配送次数<span class="vaild">*</span></label>
                         <div class="col-md-10">
                             <input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="20" ng-model="basePlan.deliverCount" name="name" placeholder="配送次数" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">金额<span class="vaild">*</span></label>
+                        <div class="col-md-10">
+                            <input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="20" ng-model="basePlan.price" name="name" placeholder="金额" type="text">
                         </div>
                     </div>
                     <fieldset class="demo-switcher-1">

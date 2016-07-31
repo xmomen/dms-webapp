@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.order.mapper.TradeRecordMapper" >
+
+	<select id="getTradeRecordList" resultType="com.xmomen.module.order.model.TradeRecordModel" parameterType="java.util.HashMap">
+		SELECT 
+			tre.*,
+			su.realname as recordUserName
+		FROM 
+			tb_trade_record tre
+		LEFT JOIN 
+			sys_users su on su.id = tre.record_user
+		<where>
+			tre.trade_type ='adjustment'
+           	<if test="keyword">
+                AND tre.TRADE_NO LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+    </select>
+</mapper>

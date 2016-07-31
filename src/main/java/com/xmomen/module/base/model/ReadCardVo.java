@@ -7,6 +7,7 @@ public class ReadCardVo {
 	private BigDecimal couponPrice;
 	private String userName;
 	private String phoneNumber;
+	private String couponPassword;
 	public String getCouponNo() {
 		return couponNo;
 	}
@@ -31,4 +32,12 @@ public class ReadCardVo {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
+	public String getCouponPassword() {
+		return couponPassword;
+	}
+	public void setCouponPassword(String couponPassword) {
+		this.couponPassword = couponPassword;
+	}
+	
+	
 }

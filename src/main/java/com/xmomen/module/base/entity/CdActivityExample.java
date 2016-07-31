@@ -1,6 +1,7 @@
 package com.xmomen.module.base.entity;
 
 import com.xmomen.framework.mybatis.model.BaseMybatisExample;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -486,66 +487,6 @@ public class CdActivityExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andActivityDayIsNull() {
-            addCriterion("ACTIVITY_DAY is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andActivityDayIsNotNull() {
-            addCriterion("ACTIVITY_DAY is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andActivityDayEqualTo(Integer value) {
-            addCriterion("ACTIVITY_DAY =", value, "activityDay");
-            return (Criteria) this;
-        }
-
-        public Criteria andActivityDayNotEqualTo(Integer value) {
-            addCriterion("ACTIVITY_DAY <>", value, "activityDay");
-            return (Criteria) this;
-        }
-
-        public Criteria andActivityDayGreaterThan(Integer value) {
-            addCriterion("ACTIVITY_DAY >", value, "activityDay");
-            return (Criteria) this;
-        }
-
-        public Criteria andActivityDayGreaterThanOrEqualTo(Integer value) {
-            addCriterion("ACTIVITY_DAY >=", value, "activityDay");
-            return (Criteria) this;
-        }
-
-        public Criteria andActivityDayLessThan(Integer value) {
-            addCriterion("ACTIVITY_DAY <", value, "activityDay");
-            return (Criteria) this;
-        }
-
-        public Criteria andActivityDayLessThanOrEqualTo(Integer value) {
-            addCriterion("ACTIVITY_DAY <=", value, "activityDay");
-            return (Criteria) this;
-        }
-
-        public Criteria andActivityDayIn(List<Integer> values) {
-            addCriterion("ACTIVITY_DAY in", values, "activityDay");
-            return (Criteria) this;
-        }
-
-        public Criteria andActivityDayNotIn(List<Integer> values) {
-            addCriterion("ACTIVITY_DAY not in", values, "activityDay");
-            return (Criteria) this;
-        }
-
-        public Criteria andActivityDayBetween(Integer value1, Integer value2) {
-            addCriterion("ACTIVITY_DAY between", value1, value2, "activityDay");
-            return (Criteria) this;
-        }
-
-        public Criteria andActivityDayNotBetween(Integer value1, Integer value2) {
-            addCriterion("ACTIVITY_DAY not between", value1, value2, "activityDay");
-            return (Criteria) this;
-        }
-
         public Criteria andAvailableIsNull() {
             addCriterion("AVAILABLE is null");
             return (Criteria) this;
@@ -603,6 +544,66 @@ public class CdActivityExample extends BaseMybatisExample {
 
         public Criteria andAvailableNotBetween(Integer value1, Integer value2) {
             addCriterion("AVAILABLE not between", value1, value2, "available");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowestPriceIsNull() {
+            addCriterion("LOWEST_PRICE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowestPriceIsNotNull() {
+            addCriterion("LOWEST_PRICE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowestPriceEqualTo(BigDecimal value) {
+            addCriterion("LOWEST_PRICE =", value, "lowestPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowestPriceNotEqualTo(BigDecimal value) {
+            addCriterion("LOWEST_PRICE <>", value, "lowestPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowestPriceGreaterThan(BigDecimal value) {
+            addCriterion("LOWEST_PRICE >", value, "lowestPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowestPriceGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("LOWEST_PRICE >=", value, "lowestPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowestPriceLessThan(BigDecimal value) {
+            addCriterion("LOWEST_PRICE <", value, "lowestPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowestPriceLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("LOWEST_PRICE <=", value, "lowestPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowestPriceIn(List<BigDecimal> values) {
+            addCriterion("LOWEST_PRICE in", values, "lowestPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowestPriceNotIn(List<BigDecimal> values) {
+            addCriterion("LOWEST_PRICE not in", values, "lowestPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowestPriceBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("LOWEST_PRICE between", value1, value2, "lowestPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowestPriceNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("LOWEST_PRICE not between", value1, value2, "lowestPrice");
             return (Criteria) this;
         }
     }

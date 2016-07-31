@@ -1,6 +1,7 @@
 package com.xmomen.module.base.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -47,6 +48,8 @@ public class UpdatePlan implements Serializable {
      */
     @NotNull
     private Integer deliverCount;
+    
+    private BigDecimal price;
     
     private List<PlanItemModel> planItems;
 
@@ -112,5 +115,13 @@ public class UpdatePlan implements Serializable {
 
 	public void setPlanItems(List<PlanItemModel> planItems) {
 		this.planItems = planItems;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
 }

@@ -12,6 +12,11 @@ public class AppConstants implements Serializable {
      */
     public static final String CUSTOMER_MANAGER_PERMISSION_CODE = "customer_manager";
 
+    /**
+     * 客服组
+     */
+    public static final String CUSTOMER_PERMISSION_CODE = "kehuzu";
+    
     public static final String PACKAGE_PERMISSION_CODE = "baozhuangzu";
 
     public static final String PACKING_PERMISSION_CODE = "zhuangxiangzu";

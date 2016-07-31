@@ -47,6 +47,7 @@ public class BasePlanServiceImpl implements BasePlanService {
 		plan.setDeliveryTime(createPlan.getDeliveryTime());
 		plan.setDeliveryType(createPlan.getDeliveryType());
 		plan.setPlanName(createPlan.getPlanName());
+		plan.setPrice(createPlan.getPrice());
 		plan = mybatisDao.saveByModel(plan);
 		for(PlanItemModel planItemModel : createPlan.getPlanItems()){
 			CdPlanItem planItem = new CdPlanItem();
@@ -66,6 +67,7 @@ public class BasePlanServiceImpl implements BasePlanService {
 		plan.setDeliveryTime(updatePlan.getDeliveryTime());
 		plan.setDeliveryType(updatePlan.getDeliveryType());
 		plan.setPlanName(updatePlan.getPlanName());
+		plan.setPrice(updatePlan.getPrice());
 		plan = mybatisDao.updateByModel(plan);
 		CdPlanItemExample planItemExample = new CdPlanItemExample();
 		planItemExample.createCriteria().andCdPlanIdEqualTo(id);

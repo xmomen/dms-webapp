@@ -80,7 +80,7 @@ public class PackingService {
         TbOrderRelationExample tbOrderRelationExample = new TbOrderRelationExample();
         tbOrderRelationExample.createCriteria().andOrderNoIn(CollectionUtils.arrayToList(orderNoArray)).andRefTypeEqualTo(OrderMapper.ORDER_PACKING_TASK_RELATION_CODE);
         List<TbOrderRelation> tbOrderRelationList = mybatisDao.selectByExample(tbOrderRelationExample);
-        Integer[] taskIds = {tbOrderRelationList.size()};
+        Integer[] taskIds = new Integer[tbOrderRelationList.size()];
         for (int i = 0; i < tbOrderRelationList.size(); i++) {
             TbOrderRelation tbOrderRelation = tbOrderRelationList.get(i);
             mybatisDao.deleteByPrimaryKey(TbOrderRelation.class, tbOrderRelation.getId());

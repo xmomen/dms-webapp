@@ -36,6 +36,7 @@ define(function () {
                     orderNo:orderNo
                 },function(data){
                     $scope.order = data;
+
                     if($scope.order.orderType == 1){
                         $scope.card = {
                             cardNumber : $scope.order.couponNumber
@@ -66,6 +67,9 @@ define(function () {
                         $scope.choseOrderItemList.push(choseItem);
                     }
                     $scope.calTotalItem();
+                    //计算折扣
+                    $scope.order.discount =(($scope.order.discountPrice / $scope.totalItem.totalPrice ).toFixed(2)) * 100;
+                    $scope.totalItem.totalPriceDiscount = $scope.totalItem.totalPrice - $scope.order.discountPrice;
                 });
             }
             $scope.updateOrderForm = {};
@@ -82,6 +86,7 @@ define(function () {
                     });
                 }
                 if($scope.updateOrderForm.validator.form()){
+                    $scope.order.totalPrice = $scope.totalItem.totalPrice;
                     OrderAPI.update($scope.order, function(){
                         $ugDialog.alert("订单提交成功！");
                         $state.go("order");
@@ -390,10 +395,16 @@ define(function () {
                     $scope.totalItem.totalPriceDiscount = totalPrice * $scope.order.discount / 100;
                 }
             };
-            $scope.discountTotalPrice = function(){
+            $scope.discountTotalPrice = function(type){
                 //如果是劵的话 不会打折
                 if($scope.order.orderType != 2){
-                    $scope.totalItem.totalPriceDiscount = $scope.totalItem.totalPrice * $scope.order.discount / 100;
+                    if(type == 1){
+                        $scope.totalItem.totalPriceDiscount = $scope.totalItem.totalPrice * $scope.order.discount / 100;
+                        $scope.order.discountPrice = $scope.totalItem.totalPrice - $scope.totalItem.totalPriceDiscount;
+                    }else if(type == 2){
+                        $scope.totalItem.totalPriceDiscount = $scope.totalItem.totalPrice - $scope.order.discountPrice;
+                        $scope.order.discount = (1 - ($scope.order.discountPrice / $scope.totalItem.totalPrice).toFixed(2)) * 100;
+                    }
                 }
             }
             $scope.itemCategoryList = [];

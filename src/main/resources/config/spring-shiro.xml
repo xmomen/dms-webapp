@@ -119,6 +119,8 @@
             <value>
                 /remoting/** anon
                 /errors/** = anon
+                /bind/** = anon
+                /wx/** = anon
                 /unauthorized = anon
                 /register = anon
                 /register.do = anon
@@ -130,8 +132,6 @@
                 /fonts/** = anon
                 /admin/** = role[admin]
                 /** = user
-                /bind/** = anon
-                /wx/** = anon
             </value>
         </property>
     </bean>
