@@ -4,7 +4,6 @@ import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.utils.DateUtils;
 import com.xmomen.module.base.entity.CdItem;
-import com.xmomen.module.base.entity.CdItemExample;
 import com.xmomen.module.order.entity.*;
 import com.xmomen.module.order.mapper.OrderMapper;
 import com.xmomen.module.order.model.*;
@@ -92,14 +91,16 @@ public class PackingService {
 
     @Transactional
     public TbPackingRecord createRecord(CreatePackingRecord createPackingRecord) {
+        // 判断UPC是否已被扫描，若已扫描则做删除操作
         TbPackingRecordExample tbPackingRecordExample = new TbPackingRecordExample();
         tbPackingRecordExample.createCriteria().andUpcEqualTo(createPackingRecord.getUpc());
         TbPackingRecord removePackingRecord = mybatisDao.selectOneByExample(tbPackingRecordExample);
         if(removePackingRecord != null){
             deleteRecord(removePackingRecord.getId());
+            //throw new IllegalArgumentException("已删除商品装箱记录，UPC编号：【" + createPackingRecord.getUpc() + "】");
             return null;
         }
-        PackingOrderQuery packingOrderQuery = new PackingOrderQuery();
+        // 根据UPC查询匹配的商品信息，若无则表示UPC不正确
         String itemCode = createPackingRecord.getUpc().substring(0, 5);
         CdItem cdItem = new CdItem();
         cdItem.setItemCode(itemCode);
@@ -107,41 +108,53 @@ public class PackingService {
         if(cdItem == null){
             throw new IllegalArgumentException("非法的UPC号码，未找到匹配商品编号");
         }
-        TbOrderItem tbOrderItem = new TbOrderItem();
-        tbOrderItem.setItemCode(itemCode);
-        tbOrderItem.setOrderNo(createPackingRecord.getOrderNo());
-        tbOrderItem = mybatisDao.selectOneByModel(tbOrderItem);
-        if(tbOrderItem == null){
-            throw new IllegalArgumentException("此订单未订购此商品");
+        // 查询装箱订单中是否有匹配的产品，且未商品装箱数未达到上限
+        PackingOrderQuery packingOrderQuery = new PackingOrderQuery();
+        packingOrderQuery.setOrderNos(createPackingRecord.getPackingInfo().keySet().toArray(new String[createPackingRecord.getPackingInfo().keySet().size()]));
+        packingOrderQuery.setItemCode(itemCode);
+        List<PackingOrderModel> packingRecordModels = queryPackingOrder(packingOrderQuery);
+        if(packingRecordModels == null || packingRecordModels.size() == 0){
+            throw new IllegalArgumentException("所选装箱订单中未订购此商品");
+        }
+        PackingOrderModel currentPackingOrder = null;
+        for (PackingOrderModel packingOrderModel : packingRecordModels) {
+            if(packingOrderModel.getPackedItemQty().compareTo(packingOrderModel.getItemQty()) < 0){
+                // 商品已装箱数小于商品订购数则放入此装箱订单中
+                currentPackingOrder = packingOrderModel;
+                break;
+            }
+        }
+        if(currentPackingOrder == null){
+            throw new IllegalArgumentException("所选装箱订单中已全部完成此商品装箱");
         }
         TbOrderRelation tbOrderRelation = new TbOrderRelation();
-        tbOrderRelation.setOrderNo(createPackingRecord.getOrderNo());
+        tbOrderRelation.setOrderNo(currentPackingOrder.getOrderNo());
         tbOrderRelation.setRefType(OrderMapper.ORDER_PACKING_TASK_RELATION_CODE);
         tbOrderRelation = mybatisDao.selectOneByModel(tbOrderRelation);
         if(tbOrderRelation == null){
-            throw new IllegalArgumentException(MessageFormat.format("此订单未分配装箱任务，订单编号：{0}", createPackingRecord.getOrderNo()));
+            throw new IllegalArgumentException(MessageFormat.format("此订单未分配装箱任务，订单编号：{0}", currentPackingOrder.getOrderNo()));
         }
         SysTask sysTask = mybatisDao.selectByPrimaryKey(SysTask.class, Integer.valueOf(tbOrderRelation.getRefValue()));
         if(sysTask == null){
-            throw new IllegalArgumentException(MessageFormat.format("此订单未分配装箱任务，订单编号：{0}", createPackingRecord.getOrderNo()));
+            throw new IllegalArgumentException(MessageFormat.format("此订单未分配装箱任务，订单编号：{0}", currentPackingOrder.getOrderNo()));
         }else if(sysTask.getTaskStatus() == 0){
             sysTask.setTaskStatus(1);
             sysTask.setStartTime(mybatisDao.getSysdate());
             mybatisDao.update(sysTask);
         }
-        packingOrderQuery.setOrderItemId(tbOrderItem.getId());
+        packingOrderQuery.setOrderItemId(currentPackingOrder.getOrderItemId());
         PackingOrderModel packingRecordModel = getOnePackingOrder(packingOrderQuery);
         if(packingRecordModel != null && packingRecordModel.getItemQty().compareTo(packingRecordModel.getPackedItemQty()) == 0){
             throw new IllegalArgumentException("装箱数量已到达订单采购数量");
         }
         TbPackingRecord tbPackingRecord = new TbPackingRecord();
-        tbPackingRecord.setPackingId(createPackingRecord.getPackingId());
+        tbPackingRecord.setPackingId(createPackingRecord.getPackingInfo().get(currentPackingOrder.getOrderNo()));
         tbPackingRecord.setScanTime(mybatisDao.getSysdate());
         tbPackingRecord.setUpc(createPackingRecord.getUpc());
-        tbPackingRecord.setOrderItemId(tbOrderItem.getId());
+        tbPackingRecord.setOrderItemId(currentPackingOrder.getOrderItemId());
         tbPackingRecord = mybatisDao.insertByModel(tbPackingRecord);
         PackingOrderQuery packingOrderQuery1 = new PackingOrderQuery();
-        packingOrderQuery1.setOrderNo(createPackingRecord.getOrderNo());
+        packingOrderQuery1.setOrderNo(currentPackingOrder.getOrderNo());
         List<PackingOrderModel> packingOrderModelList = queryPackingOrder(packingOrderQuery1);
         boolean isFinished = true;
         for (PackingOrderModel packingOrderModel : packingOrderModelList) {
@@ -155,11 +168,11 @@ public class PackingService {
             sysTask.setTaskStatus(2);//已完成装箱
             mybatisDao.update(sysTask);
             // 完成装箱，订单状态扭转到待配送：2
-            orderService.updateOrderStatus(createPackingRecord.getOrderNo(), "2");
+            orderService.updateOrderStatus(currentPackingOrder.getOrderNo(), "2");
         }else if(!isFinished){
             sysTask.setTaskStatus(1);//待完成装箱
             mybatisDao.update(sysTask);
-            orderService.updateOrderStatus(createPackingRecord.getOrderNo(), "7");
+            orderService.updateOrderStatus(currentPackingOrder.getOrderNo(), "7");
         }
         return tbPackingRecord;
     }
@@ -197,6 +210,10 @@ public class PackingService {
 
     public Page<PackingOrderModel> queryPackingOrder(PackingOrderQuery packingOrderQuery, Integer limit, Integer offset){
         return (Page<PackingOrderModel>) mybatisDao.selectPage(OrderMapper.ORDER_MAPPER_NAMESPACE + "queryPackingOrderItemModel", packingOrderQuery, limit, offset);
+    }
+
+    public List<PackingRecordModel> queryPackingRecord(PackingRecordQuery queryPackingRecord){
+        return mybatisDao.getSqlSessionTemplate().selectList(OrderMapper.ORDER_MAPPER_NAMESPACE + "queryPackingRecordModel", queryPackingRecord);
     }
 
     public Page<PackingRecordModel> queryPackingRecord(PackingRecordQuery queryPackingRecord, Integer limit, Integer offset){

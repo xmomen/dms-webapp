@@ -134,11 +134,13 @@ public class PackingController {
     @RequestMapping(value = "/packing/order", method = RequestMethod.GET)
     @Log(actionName = "装箱订单列表")
     public Page<OrderModel> queryPackingOrder(@RequestParam(value = "limit") Integer limit,
+                              @RequestParam(value = "orderNo") String orderNo,
                               @RequestParam(value = "offset") Integer offset,
                               @RequestParam(value = "packingTaskStatus", required = false) Integer packingTaskStatus,
                               @RequestParam(value = "keyword", required = false) String keyword) {
         OrderQuery orderQuery = new OrderQuery();
         orderQuery.setKeyword(keyword);
+        orderQuery.setOrderNo(orderNo);
         //orderQuery.setOrderStatus(7);//待装箱
         orderQuery.setPackingTaskStatus(packingTaskStatus);
         if(SecurityUtils.getSubject().hasRole(AppConstants.PACKING_PERMISSION_CODE)){
@@ -191,14 +193,12 @@ public class PackingController {
         return packingService.queryPackingRecord(packingRecordQuery, limit, offset);
     }
 
-    @RequestMapping(value = "/packing/{id}/record", method = RequestMethod.POST)
+    @RequestMapping(value = "/packing/record", method = RequestMethod.POST)
     @Log(actionName = "新增装箱记录")
-    public TbPackingRecord createPackingRecord(@PathVariable(value = "id") Integer id,
-                                         @RequestBody @Valid CreatePackingRecord createPackingRecord, BindingResult bindingResult) throws ArgumentValidException {
+    public TbPackingRecord createPackingRecord(@RequestBody @Valid CreatePackingRecord createPackingRecord, BindingResult bindingResult) throws ArgumentValidException {
         if(bindingResult != null && bindingResult.hasErrors()){
             throw new ArgumentValidException(bindingResult);
         }
-        createPackingRecord.setPackingId(id);
         return packingService.createRecord(createPackingRecord);
     }
 
