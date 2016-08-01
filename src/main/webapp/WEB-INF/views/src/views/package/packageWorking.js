@@ -51,26 +51,45 @@ define(function () {
                 $scope.getJobOperationLogList($stateParams.id)
             })
         }
+        //回车生成条码
+        $scope.printBarCodeEvent = function(e){
+            var keycode = window.event?e.keyCode:e.which;
+            if(keycode==13){
+                $scope.printBarCode();
+            }
+        }
 
         $scope.printBarCode = function(){
             if($scope.packageTask.noFinishValue == 0){
                 $ugDialog.warn("全部包装完成！请换下一个任务");
                 $("#weight").focus();
                 $("#weight").select();
+                $("#weight").value("");
                 return;
             }
             if($scope.packageTask.weight == undefined){
                 $ugDialog.warn("请称重！");
                 $("#weight").focus();
                 $("#weight").select();
+                $("#weight").val("");
                 return;
             }
             var barCode = $scope.packageTask.itemCode + "" + $scope.packageTask.weight + Math.floor(Math.random()*10000);
             var LODOP=getLodop();
-            LODOP.PRINT_INITA(0,0,"2.25in","1.25in","包裹号打印");
-            LODOP.SET_PRINT_PAGESIZE(1,"2.25in","1.25in","");
-            LODOP.ADD_PRINT_BARCODE(4,14,"1.9479in","0.9063in","128B",barCode);
-            LODOP.PREVIEW();
+
+            LODOP.PRINT_INITA(0,0,"40mm","40mm","商品条码打印");
+            LODOP.ADD_PRINT_BARCODE(46,5,"37.99mm","14.71mm","128B",barCode);
+            LODOP.ADD_PRINT_TEXT(128,76,75,19,"采摘人:张三");
+            LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+            LODOP.ADD_PRINT_TEXT(128,2,78,19,"检验人:李四");
+            LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+            LODOP.ADD_PRINT_TEXT(109,3,125,20,"检测结果：ub=6.5%");
+            LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+
+            LODOP.PRINT_DESIGN();
             PackageTaskAPI.packageWorking({
                 id:$scope.packageTask.id,
                 barCode:barCode
@@ -81,10 +100,12 @@ define(function () {
            })
             $("#weight").focus();
             $("#weight").select();
+            $("#weight").val("");
         }
         var initialize = function(){
             $("#weight").focus();
             $("#weight").select();
+            $("#weight").val("");
             $scope.getPackageTaskList($stateParams.id);
             $scope.getJobOperationLogList($stateParams.id);
         }

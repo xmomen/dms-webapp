@@ -70,10 +70,10 @@
                                     <label class="col-md-1 control-label">重量：</label>
                                     <div class="col-md-2">
                                         <div class="input-group input-group-md">
-                                            <input type="text"  ng-model="packageTask.weight" placeholder="输入重量回车自动打印条码" name="weight" class="form-control" id="weight">
-						                    <span class="input-group-btn">
-						                        <button  class="btn btn-default" data-ng-click="printBarCode()" type="button">打印</button>
-						                    </span>
+                                            <input type="text"  ng-model="packageTask.weight" ng-keyup="printBarCodeEvent($event);"  placeholder="输入重量回车自动打印条码"  name="weight" class="form-control" id="weight">
+						                    <!--<span class="input-group-btn">-->
+						                        <!--<button  class="btn btn-default" data-ng-click="printBarCode()" type="button">打印</button>-->
+						                    <!--</span>-->
                                         </div>
                                     </div>
                                     <div class="col-md-2" ng-show="packageTask.noFinishValue == 0">

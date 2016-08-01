@@ -231,5 +231,57 @@ define(function () {
             })
         };
         $scope.getOrderList();
+
+
+
+        /***************打印*******************/
+        $scope.printOrder = function(orderNo){
+            var LODOP=getLodop();
+
+            LODOP.PRINT_INITA(7,2,"799.99mm","600mm","打印订单");
+            LODOP.ADD_PRINT_BARCODE(100,334,209,150,"QRCode","http://fygl.ehoyuan.cn:8088/bind/auth?url=/wx/receipt&param="+orderNo);
+            LODOP.ADD_PRINT_BARCODE(102,69,240,142,"QRCode","http://fygl.ehoyuan.cn:8088/bind/auth?url=/wx/scanning&param="+orderNo);
+            LODOP.ADD_PRINT_BARCODE(223,58,"114.46mm","19.21mm","128B",orderNo);
+            LODOP.ADD_PRINT_RECT(32,26,171,60,0,1);
+            LODOP.ADD_PRINT_RECT(32,217,299,60,0,1);
+            LODOP.ADD_PRINT_TEXT(37,222,279,50,"客服电话：\n健康是一种生活习惯");
+            LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",13);
+            LODOP.ADD_PRINT_RECT(308,22,512,193,0,1);
+            LODOP.ADD_PRINT_LINE(356,135,356,266,0,1);
+            LODOP.ADD_PRINT_TEXT(333,49,69,35,"收货人");
+            LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",14);
+            LODOP.ADD_PRINT_TEXT(328,339,49,36,"电话");
+            LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",14);
+            LODOP.ADD_PRINT_TEXT(387,48,51,35,"地址");
+            LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",14);
+            LODOP.ADD_PRINT_TEXT(441,47,54,35,"备注");
+            LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",14);
+            LODOP.ADD_PRINT_LINE(352,391,352,523,0,1);
+            LODOP.ADD_PRINT_TEXT(334,165,100,20,"张三");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",13);
+            LODOP.ADD_PRINT_TEXT(331,392,100,20,"11115589658");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",13);
+            LODOP.ADD_PRINT_LINE(409,98,409,451,0,1);
+            LODOP.ADD_PRINT_LINE(470,104,470,437,0,1);
+            LODOP.ADD_PRINT_TEXT(386,106,401,20,"XXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",13);
+            LODOP.ADD_PRINT_TEXT(447,105,382,20,"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX...(省略)");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",13);
+            LODOP.ADD_PRINT_ELLIPSE(454,486,47,48,0,1);
+            LODOP.ADD_PRINT_LINE(494,493,467,527,0,1);
+            LODOP.ADD_PRINT_TEXT(462,498,13,20,"1");
+            LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+            LODOP.ADD_PRINT_TEXT(483,511,16,20,"1");
+            LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+
+
+            LODOP.PRINT_DESIGN();
+        }
+
     }];
 });
