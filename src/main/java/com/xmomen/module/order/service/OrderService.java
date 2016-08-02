@@ -327,10 +327,10 @@ public class OrderService {
                 mybatisDao.insert(tbTradeRecord);
             }else if(tbOrder.getOrderType() == 2){
                 Date now = mybatisDao.getSysdate();
-                if(now.before(cdCoupon.getBeginTime())){
+                if(cdCoupon.getBeginTime()!=null && now.before(cdCoupon.getBeginTime())){
                     throw new IllegalArgumentException("未到此优惠券的使用日期，请在优惠券使用期限内使用此优惠券");
                 }
-                if(now.after(cdCoupon.getEndTime())){
+                if(cdCoupon.getEndTime()!=null && now.after(cdCoupon.getEndTime())){
                     throw new IllegalArgumentException("此优惠券已过期");
                 }
                 if(cdCoupon.getIsUseful() == 0){
