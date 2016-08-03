@@ -15,4 +15,16 @@ public @Data class JobOperationLogModel implements Serializable{
      * 操作的商品条码
      */
     private String itemCode;
+    
+    private String itemName;
+    
+    /**
+     * 采摘人
+     */
+    private String caizaiUser;
+
+    /**
+     * 检测人
+     */
+    private String jianceUser;
 }

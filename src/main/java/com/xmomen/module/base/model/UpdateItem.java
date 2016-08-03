@@ -85,7 +85,15 @@ public class UpdateItem implements Serializable {
      * 录入人
      */
     private String createUserCode;
+    /**
+     * 采摘人
+     */
+    private String caizaiUser;
 
+    /**
+     * 检测人
+     */
+    private String jianceUser;
     private List<ItemChildModel> childItems;
     
 	public String getItemCode() {
@@ -222,5 +230,21 @@ public class UpdateItem implements Serializable {
 
 	public void setChildItems(List<ItemChildModel> childItems) {
 		this.childItems = childItems;
+	}
+
+	public String getCaizaiUser() {
+		return caizaiUser;
+	}
+
+	public void setCaizaiUser(String caizaiUser) {
+		this.caizaiUser = caizaiUser;
+	}
+
+	public String getJianceUser() {
+		return jianceUser;
+	}
+
+	public void setJianceUser(String jianceUser) {
+		this.jianceUser = jianceUser;
 	}
 }

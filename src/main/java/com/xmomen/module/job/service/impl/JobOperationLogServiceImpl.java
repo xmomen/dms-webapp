@@ -20,6 +20,13 @@ public class JobOperationLogServiceImpl implements JobOperationLogService {
     	TbJob job = mybatisDao.selectByPrimaryKey(TbJob.class, jobOperationLog.getJobId());
     	mybatisDao.delete(jobOperationLog);
     	job.setFinishValue(job.getFinishValue() - 1);
+    	//改变任务状态
+    	if(job.getFinishValue() == 0){
+    		job.setJobStatus(0);
+    	}
+    	if(job.getJobStatus() == 2){
+    		job.setJobStatus(1);
+    	}
     	mybatisDao.save(job);
     }
 

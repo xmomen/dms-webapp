@@ -52,6 +52,8 @@ public class ItemServiceImpl implements ItemService {
 		item.setYieldly(createItem.getYieldly());
         String username = (String) SecurityUtils.getSubject().getPrincipal();
 		item.setCreateUserCode(username);
+		item.setCaizaiUser(createItem.getCaizaiUser());
+		item.setJianceUser(createItem.getJianceUser());
 		item = mybatisDao.saveByModel(item);
 		if(createItem.getChildItems() != null){
 			for(ItemChildModel childItem : createItem.getChildItems()){
@@ -83,6 +85,8 @@ public class ItemServiceImpl implements ItemService {
 		item.setSpec(updateItem.getSpec());
 		item.setSellUnit(updateItem.getSellUnit());
 		item.setYieldly(updateItem.getYieldly());
+		item.setCaizaiUser(updateItem.getCaizaiUser());
+		item.setJianceUser(updateItem.getJianceUser());
 		if(updateItem.getChildItems() != null){
 			//先删除再添加
 			CdItemRefExample itemRefDel = new CdItemRefExample();

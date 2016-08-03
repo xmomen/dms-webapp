@@ -8,6 +8,9 @@
 			(tj.COUNT_VALUE-tj.FINISH_value) as noFinishValue,
 			CI.ITEM_CODE,
 			CI.ITEM_NAME,
+			CI.CAIZAI_USER,
+			CI.JIANCE_USER,
+			CI.SPEC,
 			SU.REALNAME as jobUserName
 		FROM tb_job TJ
 		LEFT JOIN cd_item CI ON TJ.CD_ITEM_ID = CI.ID
@@ -26,6 +29,8 @@
             	and tj.job_user = #{userId}
             </if>
 		</where>
-		order by tj.job_create_time
+		order by 
+		tj.JOB_STATUS,
+		tj.job_create_time
     </select>
 </mapper>

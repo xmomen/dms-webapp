@@ -77,7 +77,18 @@ public class PackageTaskModel implements Serializable{
     private String itemName;
     
     private String jobUserName;
+    
+    private String spec;
 
+    /**
+     * 采摘人
+     */
+    private String caizaiUser;
+
+    /**
+     * 检测人
+     */
+    private String jianceUser;
 	public String getItemCode() {
 		return itemCode;
 	}
@@ -213,5 +224,28 @@ public class PackageTaskModel implements Serializable{
 	public void setNoFinishValue(Integer noFinishValue) {
 		this.noFinishValue = noFinishValue;
 	}
-    
+
+	public String getSpec() {
+		return spec;
+	}
+
+	public void setSpec(String spec) {
+		this.spec = spec;
+	}
+
+	public String getCaizaiUser() {
+		return caizaiUser;
+	}
+
+	public void setCaizaiUser(String caizaiUser) {
+		this.caizaiUser = caizaiUser;
+	}
+
+	public String getJianceUser() {
+		return jianceUser;
+	}
+
+	public void setJianceUser(String jianceUser) {
+		this.jianceUser = jianceUser;
+	}
 }

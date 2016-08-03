@@ -135,6 +135,7 @@ public class CouponController {
         cdCoupon.setIsUseful(createCoupon.getIsUseful());
         cdCoupon.setNotes(createCoupon.getNotes());
         cdCoupon.setPaymentType(createCoupon.getPaymentType());
+        cdCoupon.setUserPrice(createCoupon.getUserPrice());
         return couponService.createCoupon(cdCoupon);
     }
 
