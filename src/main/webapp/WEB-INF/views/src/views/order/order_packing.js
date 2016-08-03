@@ -114,6 +114,7 @@ define(function () {
                 $scope.currentPackingBoxList[index].currentPacking = data;
             })
         };
+        $scope.packingHistory = [];
         $scope.scanItemForm = {};
         $scope.item = {};
         $scope.scanItem = function(){
@@ -147,8 +148,11 @@ define(function () {
                     $scope.getPackingOrderItemList();
                     $scope.getPackingRecordList();
                     $scope.getOrderList();
+                    var history = {};
                     if(!data.id){
-                        $ugDialog.alert("已删除商品装箱记录，UPC编号：【" + $scope.item.upc + "】");
+                        history.message = "已删除商品装箱记录，UPC编号：【" + $scope.item.upc + "】";
+                        $ugDialog.alert(history.message);
+                        $scope.packingHistory.push(history);
                         var oldBoxIndex = null;
                         for (var i = 0; i < $scope.currentPackingBoxList.length; i++) {
                             var obj2 = $scope.currentPackingBoxList[i];
@@ -174,7 +178,9 @@ define(function () {
                         for (var i = 0; i < $scope.currentPackingBoxList.length; i++) {
                             var obj2 = $scope.currentPackingBoxList[i];
                             if(obj2.currentPacking && obj2.currentPacking.id == data.packingId){
-                                $ugDialog.alert("商品已放入【" + obj2.boxNum + "】号箱位。")
+                                history.message ="商品已放入【" + obj2.boxNum + "】号箱位。";
+                                $ugDialog.alert(history.message);
+                                $scope.packingHistory.push(history);
                                 oldBoxIndex = i;
                             }
                         }

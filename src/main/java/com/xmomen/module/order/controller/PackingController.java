@@ -134,7 +134,7 @@ public class PackingController {
     @RequestMapping(value = "/packing/order", method = RequestMethod.GET)
     @Log(actionName = "装箱订单列表")
     public Page<OrderModel> queryPackingOrder(@RequestParam(value = "limit") Integer limit,
-                              @RequestParam(value = "orderNo") String orderNo,
+                              @RequestParam(value = "orderNo", required = false) String orderNo,
                               @RequestParam(value = "offset") Integer offset,
                               @RequestParam(value = "packingTaskStatus", required = false) Integer packingTaskStatus,
                               @RequestParam(value = "keyword", required = false) String keyword) {

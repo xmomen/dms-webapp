@@ -113,7 +113,7 @@
 		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
 			<!-- Widget ID (each widget will need unique ID)-->
-			<div class="jarviswidget" id="wid-id-23" data-widget-togglebutton="true">
+			<div class="jarviswidget">
 				<!-- widget options:
                 usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
 
@@ -196,6 +196,70 @@
 									</div>
 								</div>
 							</form>
+						</div>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- WIDGET END -->
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget">
+				<!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2>装箱订单操作历史</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- end widget edit box -->
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="table-responsive">
+							<table class="table table-condensed table-hover smart-form has-tickbox">
+								<thead>
+								<tr>
+									<th style="width: 45px;">序号</th>
+									<th>装箱操作历史信息</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat="history in packingHistory">
+									<td ng-bind="$index + 1"></td>
+									<td ng-bind="history.message"></td>
+								</tr>
+								<tr ng-if="packingHistory == null || packingHistory.length == 0">
+									<td colspan="2">
+										<div>暂无数据</div>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="dt-toolbar-footer">
 						</div>
 					</div>
 					<!-- end widget content -->
@@ -405,3 +469,6 @@
 
 </section>
 <!-- end widget grid -->
+<script>
+	pageSetUp();
+</script>
