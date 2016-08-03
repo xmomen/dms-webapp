@@ -20,6 +20,8 @@
     <result column="IS_AUDIT" property="isAudit" jdbcType="INTEGER" />
     <result column="CREATE_DATE_TIME" property="createDateTime" jdbcType="TIMESTAMP" />
     <result column="CREATE_USER_CODE" property="createUserCode" jdbcType="VARCHAR" />
+    <result column="CAIZAI_USER" property="caizaiUser" jdbcType="VARCHAR" />
+    <result column="JIANCE_USER" property="jianceUser" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -82,7 +84,7 @@
   <sql id="Base_Column_List" >
     ID, ITEM_CODE, CD_CATEGORY_ID, ITEM_NAME, ITEM_DESCRIBE, ITEM_TYPE, YIELDLY, SPEC, 
     BASE_PRICE, MEMBER_PRICE, SALE_MODE, PRICING_MANNER, SELL_STATUS, SELL_UNIT, SELL_PRICE, 
-    IS_AUDIT, CREATE_DATE_TIME, CREATE_USER_CODE
+    IS_AUDIT, CREATE_DATE_TIME, CREATE_USER_CODE, CAIZAI_USER, JIANCE_USER
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdItemExample" >
     select
@@ -161,6 +163,12 @@
       <if test="createUserCode != null" >
         CREATE_USER_CODE,
       </if>
+      <if test="caizaiUser != null" >
+        CAIZAI_USER,
+      </if>
+      <if test="jianceUser != null" >
+        JIANCE_USER,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -216,6 +224,12 @@
       </if>
       <if test="createUserCode != null" >
         #{createUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="caizaiUser != null" >
+        #{caizaiUser,jdbcType=VARCHAR},
+      </if>
+      <if test="jianceUser != null" >
+        #{jianceUser,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -281,6 +295,12 @@
       </if>
       <if test="record.createUserCode != null" >
         CREATE_USER_CODE = #{record.createUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.caizaiUser != null" >
+        CAIZAI_USER = #{record.caizaiUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jianceUser != null" >
+        JIANCE_USER = #{record.jianceUser,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >

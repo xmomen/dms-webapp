@@ -103,6 +103,16 @@ public class CdItem extends BaseMybatisModel {
      */
     private String createUserCode;
 
+    /**
+     * 采摘人
+     */
+    private String caizaiUser;
+
+    /**
+     * 检测人
+     */
+    private String jianceUser;
+
     @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
@@ -355,5 +365,33 @@ public class CdItem extends BaseMybatisModel {
               return;
         }
         addValidField("createUserCode");
+    }
+
+    @Column(name = "CAIZAI_USER")
+    public String getCaizaiUser() {
+        return caizaiUser;
+    }
+
+    public void setCaizaiUser(String caizaiUser) {
+        this.caizaiUser = caizaiUser;
+        if(caizaiUser == null){
+              removeValidField("caizaiUser");
+              return;
+        }
+        addValidField("caizaiUser");
+    }
+
+    @Column(name = "JIANCE_USER")
+    public String getJianceUser() {
+        return jianceUser;
+    }
+
+    public void setJianceUser(String jianceUser) {
+        this.jianceUser = jianceUser;
+        if(jianceUser == null){
+              removeValidField("jianceUser");
+              return;
+        }
+        addValidField("jianceUser");
     }
 }

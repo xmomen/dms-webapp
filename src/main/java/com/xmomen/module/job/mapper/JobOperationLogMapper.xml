@@ -4,9 +4,13 @@
 
 	<select id="getJobOperationLogList" resultType="com.xmomen.module.job.model.JobOperationLogModel" parameterType="java.util.HashMap">
 		SELECT 
-			tjol.*
+			tjol.*,
+			ci.item_name,
+			ci.CAIZAI_USER,
+			ci.JIANCE_USER
 		FROM 
 			tb_job_operation_log tjol
+		LEFT JOIN cd_item ci ON tjol.item_code = ci.item_code
 		<where>
 			<if test="jobId">
                   AND tjol.job_id = #{jobId}

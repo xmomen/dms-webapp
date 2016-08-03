@@ -93,6 +93,16 @@ public class ItemModel implements Serializable {
      * 录入人
      */
     private String createUserCode;
+    
+    /**
+     * 采摘人
+     */
+    private String caizaiUser;
+
+    /**
+     * 检测人
+     */
+    private String jianceUser;
 
 	public Integer getId() {
 		return id;
@@ -244,5 +254,21 @@ public class ItemModel implements Serializable {
 
 	public void setDiscountPrice(BigDecimal discountPrice) {
 		this.discountPrice = discountPrice;
+	}
+
+	public String getCaizaiUser() {
+		return caizaiUser;
+	}
+
+	public void setCaizaiUser(String caizaiUser) {
+		this.caizaiUser = caizaiUser;
+	}
+
+	public String getJianceUser() {
+		return jianceUser;
+	}
+
+	public void setJianceUser(String jianceUser) {
+		this.jianceUser = jianceUser;
 	}
 }

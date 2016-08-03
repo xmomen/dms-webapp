@@ -47,7 +47,10 @@
                                     <div class="col-md-2">
                                         <span style=" font-weight:bold;font-size:26px">{{packageTask.itemCode}}</span>
                                     </div>
-
+                                    <label class="col-md-1 control-label">规格：</label>
+                                    <div class="col-md-2">
+                                        <span style=" font-weight:bold;font-size:26px">{{packageTask.spec}}</span>
+                                    </div>
                                 </div>
                             <div class="form-group">
                                 <label class="col-md-1 control-label">任务数：</label>
@@ -108,17 +111,14 @@
                                 </thead>
                                 <tbody>
                                 <tr ng-repeat="jobOperationLog in jobOperationLogList"  ng-if="jobOperationLogList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
-                                    <!--<td>-->
-                                        <!--<label class="checkbox">-->
-                                            <!--<input type="checkbox" name="checkbox-inline">-->
-                                            <!--<i></i>-->
-                                        <!--</label>-->
-                                    <!--</td>-->
                                     <td ng-bind="jobOperationLog.barCode"></td>
                                     <td ng-bind="jobOperationLog.itemCode"></td>
                                     <td width="180">
                                         <a ng-show="show" ng-if="order.orderStatus != 9" href="javascript:void(0);" data-ng-click="cancelJobOperationLog($index)" title="作废：{{jobOperationLog.barCode}}">
                                             <span class="fa fa-trash-o"></span>
+                                        </a>
+                                        <a ng-show="show" ng-if="order.orderStatus != 9" href="javascript:void(0);" data-ng-click="print(jobOperationLog.barCode)" title="重新打印：{{jobOperationLog.barCode}}">
+                                            <span class="fa fa-print"></span>
                                         </a>
                                     </td>
                                 </tr>

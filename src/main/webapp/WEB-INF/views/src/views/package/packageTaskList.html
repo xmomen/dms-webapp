@@ -79,7 +79,7 @@
 								</tr>
 								</thead>
 								<tbody>
-								<tr ng-repeat="packageTask in packageTaskList"  ng-if="packageTaskList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+								<tr ng-repeat="packageTask in packageTaskList" ng-class="{'tdred':packageTask.jobStatus !=2}" ng-if="packageTaskList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
 									<td></td>
 									<td ng-bind="packageTask.purchaseCode"></td>
 									<td ng-bind="packageTask.itemName"></td>
@@ -90,11 +90,16 @@
                                     <td>{{packageTask.jobBeginTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
                                     <td>{{packageTask.finishTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
                                     <td ng-bind="packageTask.jobUserName"></td>
-                                    <td><span ng-if="packageTask.jobStatus== 0">未开始</span><span ng-if="packageTask.jobStatus == 1">包装中</span><span ng-if="packageTask.jobStatus ==2">包装完成</span></td>
+                                    <td><span ng-if="packageTask.jobStatus == 0">未开始</span><span ng-if="packageTask.jobStatus == 1">包装中</span><span ng-if="packageTask.jobStatus ==2">包装完成</span></td>
                                     <td>
                                         <div ng-show="show">
                                             <a ng-show="packageTask.jobStatus != 2" href="javascript:void(0);" ui-sref="packageWorking({id:packageTask.id})" title="开始包装：{{packageTask.itemName}}">
                                                 <span class="fa fa-cubes"></span>
+                                            </a>
+                                        </div>
+                                        <div ng-show="show">
+                                            <a ng-show="packageTask.jobStatus == 2" href="javascript:void(0);" data-ng-click="openJobOperationLogList(packageTask)" title="查看记录：{{packageTask.itemName}}">
+                                                <span class="fa fa-list"></span>
                                             </a>
                                         </div>
                                     </td>
@@ -129,3 +134,69 @@
 
 </section>
 <!-- end widget grid -->
+
+
+
+
+<script type="text/ng-template" id="jobOperationLogList.html">
+    <div class="modal-header">
+        <h3 class="modal-title">包装记录</h3>
+    </div>
+    <div class="modal-body">
+        <div class="widget-body">
+            <div class="jarviswidget" id="wid-id-4">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>条码列表</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-condensed table-hover smart-form has-tickbox">
+                                <thead>
+                                <tr>
+                                    <th width="120">条码号</th>
+                                    <th width="120">产品编码</th>
+                                    <th width="120">商品名称</th>
+                                    <th width="80">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="jobOperationLog in jobOperationLogList"  ng-if="jobOperationLogList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+                                    <td ng-bind="jobOperationLog.barCode"></td>
+                                    <td ng-bind="jobOperationLog.itemCode"></td>
+                                    <td ng-bind="jobOperationLog.itemName"></td>
+                                    <td width="180">
+                                        <a ng-show="show" ng-if="order.orderStatus != 9" href="javascript:void(0);" data-ng-click="print(jobOperationLog)" title="重新打印：{{jobOperationLog.barCode}}">
+                                            <span class="fa fa-print"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr ng-if="jobOperationLogList == null || jobOperationLogList.length == 0">
+                                    <td colspan="11">
+                                        <div>暂无数据</div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="dt-toolbar-footer">
+                            <div class="col-xs-12 col-sm-12">
+                                <ug-pagination page-info="operationLogPageInfoSetting" ></ug-pagination>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+        </div>
+    </div>
+</script>
