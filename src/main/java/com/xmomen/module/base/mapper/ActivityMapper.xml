@@ -6,14 +6,11 @@
 	<select id="getActivityList" resultType="com.xmomen.module.base.model.ActivityModel" parameterType="java.util.HashMap">
         SELECT
         	ca.*,
-			car.REF_VALUE as couponCategory,
-			carr.REF_VALUE as lowestPrice
+			car.REF_VALUE as couponCategory
         FROM	
         	cd_activity ca
         left join 
         	cd_activity_ref car on ca.id = car.CD_ACTIVITY_ID and car.REF_TYPE='COUPON'
-				left join 
-        	cd_activity_ref carr on ca.id = carr.CD_ACTIVITY_ID and carr.REF_TYPE='LOWEST_PRICE'
         <where>
               <if test="keyword">
                   AND cc.activity_name LIKE CONCAT('%', #{keyword}, '%')

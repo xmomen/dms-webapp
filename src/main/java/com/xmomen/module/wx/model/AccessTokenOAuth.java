@@ -1,4 +1,16 @@
-package com.xmomen.module.base.model;
+package com.xmomen.module.wx.model;
+/**
+ * AccessTokenOAuth.java 2014年10月27日下午6:12:55
+ * 
+ * 
+ * Copyright (c) 2014 by MTA.
+ * 
+ * @author jizong.li
+ * @Email 85150225@qq.com
+ * @company 上海递优国际物流
+ * @description 网页授权接口调用凭证 OAuth2.0
+ * @version 1.0
+ */
 public class AccessTokenOAuth {
 
 	private String accessToken;

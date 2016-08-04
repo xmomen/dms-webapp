@@ -80,7 +80,7 @@ public class PackingService {
         TbOrderRelationExample tbOrderRelationExample = new TbOrderRelationExample();
         tbOrderRelationExample.createCriteria().andOrderNoIn(CollectionUtils.arrayToList(orderNoArray)).andRefTypeEqualTo(OrderMapper.ORDER_PACKING_TASK_RELATION_CODE);
         List<TbOrderRelation> tbOrderRelationList = mybatisDao.selectByExample(tbOrderRelationExample);
-        Integer[] taskIds = {tbOrderRelationList.size()};
+        Integer[] taskIds = new Integer[tbOrderRelationList.size()];
         for (int i = 0; i < tbOrderRelationList.size(); i++) {
             TbOrderRelation tbOrderRelation = tbOrderRelationList.get(i);
             mybatisDao.deleteByPrimaryKey(TbOrderRelation.class, tbOrderRelation.getId());
@@ -101,7 +101,7 @@ public class PackingService {
             return null;
         }
         // 根据UPC查询匹配的商品信息，若无则表示UPC不正确
-        String itemCode = createPackingRecord.getUpc().substring(0, 5);
+        String itemCode = createPackingRecord.getUpc().substring(0, 7);
         CdItem cdItem = new CdItem();
         cdItem.setItemCode(itemCode);
         cdItem = mybatisDao.selectOneByModel(cdItem);

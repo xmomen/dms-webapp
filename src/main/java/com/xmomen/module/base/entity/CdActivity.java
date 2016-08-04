@@ -1,6 +1,7 @@
 package com.xmomen.module.base.entity;
 
 import com.xmomen.framework.mybatis.model.BaseMybatisModel;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,14 +44,14 @@ public class CdActivity extends BaseMybatisModel {
     private Integer activityType;
 
     /**
-     * 活动下单时间
-     */
-    private Integer activityDay;
-
-    /**
      * 是否启用（0-不启用，1-启用）
      */
     private Integer available;
+
+    /**
+     * 最低配送金额
+     */
+    private BigDecimal lowestPrice;
 
     @Column(name = "ID")
     @Id
@@ -138,20 +139,6 @@ public class CdActivity extends BaseMybatisModel {
         addValidField("activityType");
     }
 
-    @Column(name = "ACTIVITY_DAY")
-    public Integer getActivityDay() {
-        return activityDay;
-    }
-
-    public void setActivityDay(Integer activityDay) {
-        this.activityDay = activityDay;
-        if(activityDay == null){
-              removeValidField("activityDay");
-              return;
-        }
-        addValidField("activityDay");
-    }
-
     @Column(name = "AVAILABLE")
     public Integer getAvailable() {
         return available;
@@ -164,5 +151,19 @@ public class CdActivity extends BaseMybatisModel {
               return;
         }
         addValidField("available");
+    }
+
+    @Column(name = "LOWEST_PRICE")
+    public BigDecimal getLowestPrice() {
+        return lowestPrice;
+    }
+
+    public void setLowestPrice(BigDecimal lowestPrice) {
+        this.lowestPrice = lowestPrice;
+        if(lowestPrice == null){
+              removeValidField("lowestPrice");
+              return;
+        }
+        addValidField("lowestPrice");
     }
 }

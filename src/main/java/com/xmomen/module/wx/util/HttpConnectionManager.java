@@ -1,4 +1,4 @@
-package com.xmomen.module.base.util;
+package com.xmomen.module.wx.util;
 
 import java.io.IOException;
 import java.io.InterruptedIOException;

@@ -1,0 +1,106 @@
+<!--
+	The ID "widget-grid" will start to initialize all widgets below 
+	You do not need to use widgets if you dont want to. Simply remove 
+	the <section></section> and you can use wells or panels instead 
+	-->
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget" id="wid-id-4">
+				<!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-button="false">
+
+                data-widget-colorbutton="false"
+                data-widget-button="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2>金额调整记录</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget  box -->
+					<div class="jarviswidget-box">
+						<!-- This area used as dropdown  box -->
+					</div>
+					<!-- end widget  box -->
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="dt-toolbar">
+							<div class="col-sm-3">
+								<div class="dataTables_filter">
+									<label>
+										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+										<input type="search" placeholder="卡号/券号" data-ng-keyup="getTradeRecordList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<button class="btn btn-primary" type="button" data-ng-click="getTradeRecordList()">
+									<i class="fa fa-refresh"></i>
+									刷新
+								</button>
+							</div>
+						</div>
+						<div class="table-responsive">
+							<table class="table table-striped table-condensed table-hover smart-form">
+								<thead>
+								<tr>
+									<th>卡号/劵号</th>
+									<th>调整金额</th>
+                                    <th>调整时间</th>
+                                    <th>调整人</th>
+                                    <th>备注</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat="tradeRecord in tradeRecordList"  ng-if="tradeRecordList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+									<td ng-bind="tradeRecord.tradeNo"></td>
+                                    <td ng-bind="tradeRecord.amount"></td>
+                                    <td>{{tradeRecord.createTime | date: 'yyyy-MM-dd'}}</td>
+                                    <td>{{tradeRecord.recordUserName}}</td>
+                                    <td>{{tradeRecord.remark}}</td>
+                                </tr>
+								<tr ng-if="tradeRecordList == null || tradeRecordList.length == 0">
+									<td colspan="4">
+										<div>暂无数据</div>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="dt-toolbar-footer">
+							<div class="col-xs-12 col-sm-12">
+								<ug-pagination page-info="pageInfoSetting" ></ug-pagination>
+							</div>
+						</div>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- WIDGET END -->
+
+	</div>
+
+	<!-- end row -->
+
+</section>
+

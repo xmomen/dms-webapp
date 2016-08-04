@@ -237,5 +237,48 @@ define(function () {
             })
         };
         $scope.getOrderList();
+
+
+
+        /***************打印*******************/
+        $scope.printOrder = function(orderNo){
+            var LODOP=getLodop();
+
+            LODOP.PRINT_INITA(0,0,"102.58mm","78.11mm","打印订单");
+            LODOP.ADD_PRINT_BARCODE(73,2,82,96,"QRCode","http://fygl.ehoyuan.cn:8088/bind/auth?url=/wx/receipt&param="+orderNo);
+            LODOP.ADD_PRINT_BARCODE(71,293,147,98,"QRCode","http://fygl.ehoyuan.cn:8088/bind/auth?url=/wx/scanning&param="+orderNo);
+            LODOP.ADD_PRINT_BARCODE(75,80,"57.57mm","18.15mm","128B","20160508225346498");
+            LODOP.ADD_PRINT_TEXT(157,13,150,21,"收货人:张三");
+            LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
+            LODOP.ADD_PRINT_TEXT(155,215,121,25,"电话:13162323157");
+            LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
+            LODOP.ADD_PRINT_TEXT(182,12,326,24,"地址:XXXXXXXXXXXXXXXX");
+            LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
+            LODOP.ADD_PRINT_TEXT(209,12,329,24,"备注:XXXXXXXXXXXXXX");
+            LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
+            LODOP.ADD_PRINT_TEXT(313,152,100,20,"");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+            LODOP.ADD_PRINT_TEXT(307,35,100,28,"");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+            LODOP.ADD_PRINT_TEXT(309,76,272,20,"");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+            LODOP.ADD_PRINT_TEXT(426,63,308,20,"");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+            LODOP.ADD_PRINT_ELLIPSE(454,486,47,48,0,1);
+            LODOP.ADD_PRINT_TEXT(462,498,13,20,"1");
+            LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+            LODOP.ADD_PRINT_TEXT(483,511,16,20,"1");
+            LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+            LODOP.ADD_PRINT_ELLIPSE(332,97,64,40,0,1);
+            LODOP.ADD_PRINT_RECT(2,307,51,44,0,1);
+
+
+            LODOP.PRINT_DESIGN();
+        }
+
     }];
 });

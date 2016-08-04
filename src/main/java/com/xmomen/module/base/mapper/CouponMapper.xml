@@ -160,7 +160,8 @@
         	cc.COUPON_NUMBER as couponNo,
         	cc.USER_PRICE as couponPrice,
         	cm.`NAME` as userName,
-        	cm.PHONE_NUMBER 
+        	cm.PHONE_NUMBER,
+        	cc.COUPON_PASSWORD 
         from cd_coupon cc
 		left join cd_member_coupon_relation cmcr on cc.COUPON_NUMBER = cmcr.COUPON_NUMBER
 		left join cd_member cm on cmcr.CD_MEMBER_ID = cm.ID

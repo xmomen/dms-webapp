@@ -42,7 +42,7 @@
                                 <tr ng-repeat="packageUser in packageUserList"
                                     ng-class="{'chose-tr':packageUser.customerMangerId==currentCustomer.customerMangerId}"
                                     ng-if="packageUserList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
-                                    <td ng-bind="$index*pageInfoSetting.pageNum + 1"></td>
+                                    <td ng-bind="$index + (pageInfoSetting.pageNum -1) * 10 + 1"></td>
                                     <td ng-bind="packageUser.customerManger"></td>
                                     <td>
                                         <div>

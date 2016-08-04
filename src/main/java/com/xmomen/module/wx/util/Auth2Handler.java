@@ -1,4 +1,4 @@
-package com.xmomen.module.base.util;
+package com.xmomen.module.wx.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -8,10 +8,10 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.xmomen.framework.utils.StringUtils;
 import com.xmomen.framework.utils.StringUtilsExt;
-import com.xmomen.module.base.constant.WechatUrlConstants;
-import com.xmomen.module.base.model.AccessTokenOAuth;
+import com.xmomen.module.wx.constants.AuthorizeScope;
+import com.xmomen.module.wx.constants.WechatUrlConstants;
+import com.xmomen.module.wx.model.AccessTokenOAuth;
 
 public class Auth2Handler {
 	
@@ -19,8 +19,8 @@ public class Auth2Handler {
 	
 	private static final String STATE = "UDFEXWECHAT";
 	
-	private static final String APPID = "wx9a0e1c7325d25c9b";
-	private static final String APPSECRET = "169f801eb6087e4dadf9b09363cc2272";
+	private static final String APPID = "wxea7b77023d658002";
+	private static final String APPSECRET = "270944752d4b38dec1ac95231b6b3529";
 	
 	
 	public static String getOauthUrl(String redirectUrl) {
@@ -28,7 +28,7 @@ public class Auth2Handler {
 		try {
 			url = WechatUrlConstants.OAUTH.replace("APPID", APPID)
 					.replace("REDIRECT_URI", URLEncoder.encode(redirectUrl,"UTF-8"))
-					.replace("SCOPE", "snsapi_base")
+					.replace("SCOPE",AuthorizeScope.snsapi_userinfo.toString())
 					.replace("STATE", STATE);
 		} catch (UnsupportedEncodingException e) {
 			logger.error("获取oauthURL失败，可能是redirectUrl进行urlencoder时出错，请检查此参数：" + redirectUrl,e);

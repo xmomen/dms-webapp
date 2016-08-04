@@ -28,5 +28,5 @@ public @Data class CreateCoupon implements Serializable {
     private Integer isGift;
     private String notes;
     private Integer paymentType;
-
+    private BigDecimal userPrice;
 }

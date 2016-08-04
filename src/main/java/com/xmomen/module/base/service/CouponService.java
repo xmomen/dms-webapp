@@ -227,6 +227,9 @@ public class CouponService {
 		AssertExt.notNull(coupon,"卡号"+couponNo+"不存在,调整失败！");
 		
 		BigDecimal userPrice = coupon.getUserPrice();
+		if(userPrice == null){
+			userPrice = BigDecimal.ZERO;
+		}
 		userPrice = userPrice.add(updatePrice);
 		coupon.setUserPrice(userPrice);
 		mybatisDao.update(coupon);

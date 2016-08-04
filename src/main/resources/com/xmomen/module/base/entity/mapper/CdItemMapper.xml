@@ -9,9 +9,10 @@
     <result column="ITEM_DESCRIBE" property="itemDescribe" jdbcType="VARCHAR" />
     <result column="ITEM_TYPE" property="itemType" jdbcType="INTEGER" />
     <result column="YIELDLY" property="yieldly" jdbcType="VARCHAR" />
-    <result column="SPEC" property="spec" jdbcType="DECIMAL" />
+    <result column="SPEC" property="spec" jdbcType="VARCHAR" />
     <result column="BASE_PRICE" property="basePrice" jdbcType="DECIMAL" />
     <result column="MEMBER_PRICE" property="memberPrice" jdbcType="DECIMAL" />
+    <result column="SALE_MODE" property="saleMode" jdbcType="INTEGER" />
     <result column="PRICING_MANNER" property="pricingManner" jdbcType="VARCHAR" />
     <result column="SELL_STATUS" property="sellStatus" jdbcType="INTEGER" />
     <result column="SELL_UNIT" property="sellUnit" jdbcType="VARCHAR" />
@@ -19,6 +20,8 @@
     <result column="IS_AUDIT" property="isAudit" jdbcType="INTEGER" />
     <result column="CREATE_DATE_TIME" property="createDateTime" jdbcType="TIMESTAMP" />
     <result column="CREATE_USER_CODE" property="createUserCode" jdbcType="VARCHAR" />
+    <result column="CAIZAI_USER" property="caizaiUser" jdbcType="VARCHAR" />
+    <result column="JIANCE_USER" property="jianceUser" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -80,8 +83,8 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, ITEM_CODE, CD_CATEGORY_ID, ITEM_NAME, ITEM_DESCRIBE, ITEM_TYPE, YIELDLY, SPEC, 
-    BASE_PRICE, MEMBER_PRICE, PRICING_MANNER, SELL_STATUS, SELL_UNIT, SELL_PRICE, IS_AUDIT, 
-    CREATE_DATE_TIME, CREATE_USER_CODE
+    BASE_PRICE, MEMBER_PRICE, SALE_MODE, PRICING_MANNER, SELL_STATUS, SELL_UNIT, SELL_PRICE, 
+    IS_AUDIT, CREATE_DATE_TIME, CREATE_USER_CODE, CAIZAI_USER, JIANCE_USER
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdItemExample" >
     select
@@ -136,6 +139,9 @@
       <if test="memberPrice != null" >
         MEMBER_PRICE,
       </if>
+      <if test="saleMode != null" >
+        SALE_MODE,
+      </if>
       <if test="pricingManner != null" >
         PRICING_MANNER,
       </if>
@@ -156,6 +162,12 @@
       </if>
       <if test="createUserCode != null" >
         CREATE_USER_CODE,
+      </if>
+      <if test="caizaiUser != null" >
+        CAIZAI_USER,
+      </if>
+      <if test="jianceUser != null" >
+        JIANCE_USER,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -181,13 +193,16 @@
         #{yieldly,jdbcType=VARCHAR},
       </if>
       <if test="spec != null" >
-        #{spec,jdbcType=DECIMAL},
+        #{spec,jdbcType=VARCHAR},
       </if>
       <if test="basePrice != null" >
         #{basePrice,jdbcType=DECIMAL},
       </if>
       <if test="memberPrice != null" >
         #{memberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="saleMode != null" >
+        #{saleMode,jdbcType=INTEGER},
       </if>
       <if test="pricingManner != null" >
         #{pricingManner,jdbcType=VARCHAR},
@@ -209,6 +224,12 @@
       </if>
       <if test="createUserCode != null" >
         #{createUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="caizaiUser != null" >
+        #{caizaiUser,jdbcType=VARCHAR},
+      </if>
+      <if test="jianceUser != null" >
+        #{jianceUser,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -243,13 +264,16 @@
         YIELDLY = #{record.yieldly,jdbcType=VARCHAR},
       </if>
       <if test="record.spec != null" >
-        SPEC = #{record.spec,jdbcType=DECIMAL},
+        SPEC = #{record.spec,jdbcType=VARCHAR},
       </if>
       <if test="record.basePrice != null" >
         BASE_PRICE = #{record.basePrice,jdbcType=DECIMAL},
       </if>
       <if test="record.memberPrice != null" >
         MEMBER_PRICE = #{record.memberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.saleMode != null" >
+        SALE_MODE = #{record.saleMode,jdbcType=INTEGER},
       </if>
       <if test="record.pricingManner != null" >
         PRICING_MANNER = #{record.pricingManner,jdbcType=VARCHAR},
@@ -271,6 +295,12 @@
       </if>
       <if test="record.createUserCode != null" >
         CREATE_USER_CODE = #{record.createUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.caizaiUser != null" >
+        CAIZAI_USER = #{record.caizaiUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jianceUser != null" >
+        JIANCE_USER = #{record.jianceUser,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >

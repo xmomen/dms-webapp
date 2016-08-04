@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.job.mapper.JobOperationLogMapper" >
+
+	<select id="getJobOperationLogList" resultType="com.xmomen.module.job.model.JobOperationLogModel" parameterType="java.util.HashMap">
+		SELECT 
+			tjol.*,
+			ci.item_name,
+			ci.CAIZAI_USER,
+			ci.JIANCE_USER
+		FROM 
+			tb_job_operation_log tjol
+		LEFT JOIN cd_item ci ON tjol.item_code = ci.item_code
+		<where>
+			<if test="jobId">
+                  AND tjol.job_id = #{jobId}
+            </if>
+        </where>
+		order by tjol.job_time
+    </select>
+</mapper>

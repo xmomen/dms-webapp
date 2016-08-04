@@ -1,6 +1,7 @@
 package com.xmomen.module.base.entity;
 
 import com.xmomen.framework.mybatis.model.BaseMybatisModel;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,12 +34,12 @@ public class CdPlan extends BaseMybatisModel {
     private Date createTime;
 
     /**
-     * 配送频率
+     * 配送频率（1-一天,2-一周，3-一月）
      */
     private Integer deliveryType;
 
     /**
-     * 配送时间(一周的星期几）
+     * 配送时间(一周的星期几，一月的几号等）
      */
     private String deliveryTime;
 
@@ -46,6 +47,11 @@ public class CdPlan extends BaseMybatisModel {
      * 配送的次数
      */
     private Integer deliverCount;
+
+    /**
+     * 金额
+     */
+    private BigDecimal price;
 
     @Column(name = "ID")
     @Id
@@ -145,5 +151,19 @@ public class CdPlan extends BaseMybatisModel {
               return;
         }
         addValidField("deliverCount");
+    }
+
+    @Column(name = "PRICE")
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+        if(price == null){
+              removeValidField("price");
+              return;
+        }
+        addValidField("price");
     }
 }

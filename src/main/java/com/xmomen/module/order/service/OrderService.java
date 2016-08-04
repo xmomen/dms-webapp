@@ -11,6 +11,7 @@ import com.xmomen.module.base.service.ItemService;
 import com.xmomen.module.order.entity.*;
 import com.xmomen.module.order.mapper.OrderMapper;
 import com.xmomen.module.order.model.*;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -116,7 +117,20 @@ public class OrderService {
         tbOrder.setOrderNo(orderNo);
         tbOrder.setOrderSource(createOrder.getOrderSource());
         tbOrder.setCreateUserId(createOrder.getCreateUserId());
-        tbOrder.setTotalAmount(totalAmount);
+        //生成收货码
+		TbOrderRef orderRef = new TbOrderRef();
+		orderRef.setOrderNo(orderNo);
+		orderRef.setRefType("SHOU_HUO_NO");
+		orderRef.setRefValue(String.valueOf((int)((Math.random()*9+1)*100000)));
+		mybatisDao.insert(orderRef);
+        totalAmount = totalAmount.subtract(createOrder.getDiscountPrice());
+        //订单总金额 如果是劵的 则就是劵面金额 不用累计商品总金额
+        if(tbOrder.getOrderType() == 2){
+        	 tbOrder.setTotalAmount(createOrder.getTotalPrice());
+        }else{
+            tbOrder.setTotalAmount(totalAmount);
+            tbOrder.setDiscountPrice(createOrder.getDiscountPrice());
+        }
         tbOrder.setAppointmentTime(createOrder.getAppointmentTime());
         tbOrder = mybatisDao.insertByModel(tbOrder);
         if(StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null){
@@ -189,7 +203,14 @@ public class OrderService {
         tbOrder.setRemark(updateOrder.getRemark());
         tbOrder.setOrderType(updateOrder.getOrderType());
         tbOrder.setOrderSource(updateOrder.getOrderSource());
-        tbOrder.setTotalAmount(totalAmount);
+        totalAmount = totalAmount.subtract(updateOrder.getDiscountPrice());
+        //订单总金额 如果是劵的 则就是劵面金额 不用累计商品总金额
+        if(tbOrder.getOrderType() == 2){
+        	 tbOrder.setTotalAmount(updateOrder.getTotalPrice());
+        }else{
+            tbOrder.setTotalAmount(totalAmount);
+            tbOrder.setDiscountPrice(updateOrder.getDiscountPrice());
+        }
         tbOrder.setAppointmentTime(updateOrder.getAppointmentTime());
         mybatisDao.update(tbOrder);
         if(StringUtils.trimToNull(updateOrder.getPaymentRelationNo()) != null){
@@ -306,10 +327,10 @@ public class OrderService {
                 mybatisDao.insert(tbTradeRecord);
             }else if(tbOrder.getOrderType() == 2){
                 Date now = mybatisDao.getSysdate();
-                if(now.before(cdCoupon.getBeginTime())){
+                if(cdCoupon.getBeginTime()!=null && now.before(cdCoupon.getBeginTime())){
                     throw new IllegalArgumentException("未到此优惠券的使用日期，请在优惠券使用期限内使用此优惠券");
                 }
-                if(now.after(cdCoupon.getEndTime())){
+                if(cdCoupon.getEndTime()!=null && now.after(cdCoupon.getEndTime())){
                     throw new IllegalArgumentException("此优惠券已过期");
                 }
                 if(cdCoupon.getIsUseful() == 0){

@@ -62,6 +62,9 @@ will not initialize.
             <div permission only="'COUPON_VIEW'">
                 <nav:item ui-sref="coupon" title="卡券管理"/>
             </div>
+            <div permission only="'ONLINE_RECHARGE'">
+                <nav:item ui-sref="onlineRecharge" title="在线充值"/>
+            </div>
             <div permission only="'COUPON_ACTIVITY_VIEW'">
                 <nav:item ui-sref="couponActivity" title="金额等信息回填"/>
             </div>
@@ -70,6 +73,9 @@ will not initialize.
             </div>
             <div permission only="'COUPON_AUDIT_BACK_VIEW'">
                 <nav:item ui-sref="couponAuditBack" title="后付款金额审核"/>
+            </div>
+            <div permission only="'TRADE_RECORD_VIEW'">
+                <nav:item ui-sref="tradeRecordList" title="金额调整记录"/>
             </div>
         </nav:group>
     </div>

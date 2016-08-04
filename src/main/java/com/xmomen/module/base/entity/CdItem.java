@@ -64,7 +64,12 @@ public class CdItem extends BaseMybatisModel {
     private BigDecimal memberPrice;
 
     /**
-     * 计价方式
+     * 售卖方式(1-计重,2-计件）
+     */
+    private Integer saleMode;
+
+    /**
+     * 计价单位
      */
     private String pricingManner;
 
@@ -97,6 +102,16 @@ public class CdItem extends BaseMybatisModel {
      * 录入人
      */
     private String createUserCode;
+
+    /**
+     * 采摘人
+     */
+    private String caizaiUser;
+
+    /**
+     * 检测人
+     */
+    private String jianceUser;
 
     @Column(name = "ID")
     @Id
@@ -240,6 +255,20 @@ public class CdItem extends BaseMybatisModel {
         addValidField("memberPrice");
     }
 
+    @Column(name = "SALE_MODE")
+    public Integer getSaleMode() {
+        return saleMode;
+    }
+
+    public void setSaleMode(Integer saleMode) {
+        this.saleMode = saleMode;
+        if(saleMode == null){
+              removeValidField("saleMode");
+              return;
+        }
+        addValidField("saleMode");
+    }
+
     @Column(name = "PRICING_MANNER")
     public String getPricingManner() {
         return pricingManner;
@@ -336,5 +365,33 @@ public class CdItem extends BaseMybatisModel {
               return;
         }
         addValidField("createUserCode");
+    }
+
+    @Column(name = "CAIZAI_USER")
+    public String getCaizaiUser() {
+        return caizaiUser;
+    }
+
+    public void setCaizaiUser(String caizaiUser) {
+        this.caizaiUser = caizaiUser;
+        if(caizaiUser == null){
+              removeValidField("caizaiUser");
+              return;
+        }
+        addValidField("caizaiUser");
+    }
+
+    @Column(name = "JIANCE_USER")
+    public String getJianceUser() {
+        return jianceUser;
+    }
+
+    public void setJianceUser(String jianceUser) {
+        this.jianceUser = jianceUser;
+        if(jianceUser == null){
+              removeValidField("jianceUser");
+              return;
+        }
+        addValidField("jianceUser");
     }
 }

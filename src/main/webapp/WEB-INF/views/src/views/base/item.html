@@ -279,6 +279,18 @@
                             <input class="form-control" ng-model="item.memberPrice" name="basePrice" placeholder="会员价格" type="text">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">采摘人</label>
+                        <div class="col-md-10">
+                            <input class="form-control" ng-model="item.caizaiUser" name="basePrice" placeholder="采摘人" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">检测人</label>
+                        <div class="col-md-10">
+                            <input class="form-control" ng-model="item.jianceUser" name="basePrice" placeholder="检测人" type="text">
+                        </div>
+                    </div>
                     <fieldset class="demo-switcher-1" ng-if="item.itemType == 2">
                         <legend>组合产品</legend>
                         <div class="row">
@@ -384,38 +396,6 @@
 	</div>
 </script>
 
-
-<script type="text/ng-template" id="chooseCategory.html">
-    <div class="modal-header">
-        <h3 class="modal-title">选择类别</h3>
-    </div>
-    <div class="modal-body">
-        <div class="widget-body">
-            <div class="tree">
-                <ul>
-                    <li data-ng-repeat="item in itemCategoryList" data-ng-include="'tree_view.html'"></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-warning" ng-click="cancel()">关闭</button>
-    </div>
-</script>
-
-<script type="text/ng-template" id="tree_view.html">
-    <div ng-mouseenter="item.show=true" ng-mouseleave="item.show=false">
-		<span>
-			<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i> {{item.name}}
-		</span>
-        <a href="javascript:void(0);" ng-show="item.show && item.parentId != null" ng-click="chooseCategory(item)">选择</a>
-    </div>
-    <ul ng-if="item.nodes && item.nodes.length > 0" class="tree-hide">
-        <li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view.html'"></li>
-    </ul>
-</script>
-
-
 <script type="text/ng-template" id="addItemNumber.html">
     <div class="modal-header">
         <h3 class="modal-title">【{{orderItem.itemName}}】</h3>
@@ -462,4 +442,33 @@
     <ul ng-if="item.nodes && item.nodes.length > 0" class="tree-hide">
         <li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view_table.html'"></li>
     </ul>
+</script>
+
+<script type="text/ng-template" id="tree_view.html">
+    <span ng-mouseenter="item.show=true" ng-mouseleave="item.show=false">
+		<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i>
+        <a  ng-show="item.parentId != null" ng-click="chooseCategory(item)">{{item.name}}</a>
+		<lable ng-show="item.parentId == null" >{{item.name}}</lable>
+    </span>
+    <ul ng-if="item.nodes && item.nodes.length > 0" class="tree-hide">
+        <li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view.html'"></li>
+    </ul>
+</script>
+
+<script type="text/ng-template" id="chooseCategory.html">
+    <div class="modal-header">
+        <h3 class="modal-title">选择类别</h3>
+    </div>
+    <div class="modal-body">
+        <div class="widget-body">
+            <div class="tree">
+                <ul>
+                    <li data-ng-repeat="item in itemCategoryList" data-ng-include="'tree_view.html'"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+    </div>
 </script>

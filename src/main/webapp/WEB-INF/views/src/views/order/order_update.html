@@ -64,7 +64,6 @@
 										</label>
                                         <label class="radio radio-inline">
                                             <!--	3-客服下单	-->
-                                            <input type="hidden" ng-init="order.orderSource=3" ng-model="order.orderSource" name="orderSource">
                                             <input type="radio" class="radiobox" disabled="disabled" required="true" value="0" ng-model="order.orderType" ng-checked="order.orderType==0" name="orderType">
                                             <span>常规订单</span>
                                         </label>
@@ -84,9 +83,9 @@
 						                    <!--<span class="input-group-btn">-->
 						                        <!--<button class="btn btn-default" data-ng-click="getCouponByCouponNo()" type="button">查询</button>-->
 						                    <!--</span>-->
-											<!--<span class="input-group-btn" ng-show="card.id && !order.memberId">-->
-						                        <!--<button class="btn btn-default" data-ng-click="editMember()" type="button">绑定</button>-->
-						                    <!--</span>-->
+											<span class="input-group-btn" ng-show="card.id && order.memberId">
+						                        <button class="btn btn-default" data-ng-click="editMember()" type="button">用户地址</button>
+						                    </span>
 									</div>
 									<label class="control-label col-md-2">姓名<span class="vaild">*</span></label>
 									<div class="col-md-4">
@@ -301,11 +300,12 @@
                                             <table class="table table-bordered" ng-show="!setting.disablesChoseItems">
                                                 <thead>
                                                 <tr>
-                                                    <th colspan="5">可选购产品</th>
+                                                    <th colspan="6">可选购产品</th>
                                                 </tr>
                                                 </thead>
                                                 <thead>
                                                 <tr>
+                                                    <th>序号</th>
                                                     <th>名称</th>
                                                     <th>规格</th>
                                                     <th class="text-align-right">单价</th>
@@ -315,6 +315,7 @@
                                                 </thead>
                                                 <tbody>
                                                 <tr data-ng-repeat="item in itemList">
+                                                    <td ng-bind="$index + (pageInfoSetting.pageNum -1) * 10 + 1"></td>
                                                     <td>{{item.itemName}}</td>
                                                     <td>{{item.spec}}</td>
                                                     <td class="text-align-right">{{item.sellPrice | number:2}}</td>
@@ -330,7 +331,7 @@
                                                 </tbody>
                                                 <tfoot>
                                                 <tr>
-                                                    <td colspan="5">
+                                                    <td colspan="6">
                                                         <ug-pagination page-info="pageInfoSetting" ></ug-pagination>
                                                     </td>
                                                 </tr>
@@ -340,12 +341,14 @@
                                             <table class="table table-bordered">
                                                 <thead>
                                                 <tr>
-                                                    <th colspan="6">已选购产品<span class="vaild">*</span></th>
+                                                    <th colspan="8">已选购产品<span class="vaild">*</span></th>
                                                 </tr>
                                                 <tr>
+                                                    <th>序号</th>
                                                     <th>名称</th>
                                                     <th>规格</th>
                                                     <th class="text-align-right">单价</th>
+                                                    <th class="text-align-right">折扣价</th>
                                                     <th class="text-align-right">份数</th>
                                                     <th class="text-align-right">总价</th>
                                                     <th>操作</th>
@@ -353,9 +356,11 @@
                                                 </thead>
                                                 <tbody>
                                                 <tr ng-repeat="choseItem in choseOrderItemList" ng-class="{'tdred':choseItem.sellStatus == 0}">
+                                                    <td ng-bind="$index + 1"></td>
                                                     <td>{{choseItem.itemName}}</td>
                                                     <td>{{choseItem.spec}}</td>
                                                     <td class="text-align-right">{{choseItem.sellPrice | number:2}}</td>
+                                                    <td class="text-align-right">{{choseItem.discountPrice | number:2}}</td>
                                                     <td class="text-align-right">{{choseItem.itemQty | number:2}}</td>
                                                     <td class="text-align-right">{{totalItemPrice(choseItem) | number:2}}</td>
                                                     <td>
@@ -369,7 +374,7 @@
                                                 </tbody>
                                                 <tfoot>
                                                 <tr>
-                                                    <td colspan="3">合计</td>
+                                                    <td colspan="5">合计</td>
                                                     <td class="text-align-right">{{totalItem.totalNumber | number:2}}</td>
                                                     <td class="text-align-right">{{totalItem.totalPrice | number:2}}</td>
                                                     <td>
@@ -412,10 +417,14 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="control-label col-md-2">折扣</label>
-									<div class="col-md-4">
-										<input type="text" ng-model="order.discount" placeholder="折扣百分比" class="form-control" data-ng-keyup="discountTotalPrice()">
-									</div>
+                                    <label class="control-label col-md-1">折扣</label>
+                                    <div class="col-md-2">
+                                        <input type="text" ng-model="order.discount" placeholder="折扣百分比" class="form-control" data-ng-keyup="discountTotalPrice(1)">
+                                    </div>
+                                    <label class="control-label col-md-1">折扣金额</label>
+                                    <div class="col-md-2">
+                                        <input type="text" ng-model="order.discountPrice" placeholder="折扣金额" class="form-control" data-ng-keyup="discountTotalPrice(2)">
+                                    </div>
 									<label class="col-md-2 control-label">显示订单金额</label>
 									<div class="col-md-2">
 										<div class="checkbox">
@@ -481,13 +490,13 @@
 											<label class="control-label" ng-bind="order.orderNo"></label>
 										</div>
 									</div>
-									<div class="col-md-12">
+									<div class="col-md-12"  ng-if="order.orderType != 2">
 										<label class="control-label col-md-2">客户姓名<span class="vaild">*</span>：</label>
 										<div class="col-md-4">
 											<label class="control-label" ng-bind="order.name"></label>
 										</div>
 									</div>
-									<div class="col-md-12">
+									<div class="col-md-12"  ng-if="order.orderType != 2">
 										<label class="control-label col-md-2">客户联系方式<span class="vaild">*</span>：</label>
 										<div class="col-md-4">
 											<label class="control-label" ng-bind="order.phone"></label>
@@ -514,7 +523,14 @@
 									<div class="col-md-12">
 										<label class="control-label col-md-2">付款方式<span class="vaild">*</span>：</label>
 										<div class="col-md-10">
-											<label class="control-label" ng-bind="order.paymentMode"></label>
+                                            <label class="control-label" ng-if="order.paymentMode == 0">回馈</label>
+                                            <label class="control-label" ng-if="order.paymentMode == 1">客户经理代收</label>
+                                            <label class="control-label" ng-if="order.paymentMode == 2">刷POS</label>
+                                            <label class="control-label" ng-if="order.paymentMode == 3">转账</label>
+                                            <label class="control-label" ng-if="order.paymentMode == 4">物流公司代收</label>
+                                            <label class="control-label" ng-if="order.paymentMode == 5">卡类扣款</label>
+                                            <label class="control-label" ng-if="order.paymentMode == 6">劵类扣款</label>
+                                            <label class="control-label" ng-if="order.paymentMode == 7">其他</label>
 										</div>
 									</div>
 									<div class="col-md-12">
@@ -529,9 +545,10 @@
 											<table class="table table-bordered">
 												<thead>
 												<tr>
-													<th colspan="4">已选购产品</th>
+													<th colspan="5">已选购产品</th>
 												</tr>
 												<tr>
+                                                    <th>序号</th>
 													<th>名称</th>
 													<th class="text-align-right">单价</th>
 													<th class="text-align-right">份数</th>
@@ -540,6 +557,7 @@
 												</thead>
 												<tbody>
 												<tr ng-repeat="choseItem in choseOrderItemList">
+                                                    <td ng-bind="$index + 1"></td>
 													<td>{{choseItem.itemName}}</td>
 													<td class="text-align-right">{{choseItem.sellPrice | number:2}}</td>
 													<td class="text-align-right">{{choseItem.itemQty | number:2}}</td>
@@ -548,7 +566,7 @@
 												</tbody>
 												<tfoot>
 												<tr>
-													<td colspan="2">合计</td>
+													<td colspan="3">合计</td>
 													<td class="text-align-right">{{totalItem.totalNumber | number:2}}</td>
 													<td class="text-align-right">{{totalItem.totalPrice | number:2}}</td>
 												</tr>

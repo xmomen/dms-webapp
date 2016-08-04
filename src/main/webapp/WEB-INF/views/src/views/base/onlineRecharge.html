@@ -1,0 +1,111 @@
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget" id="wid-id-4">
+				<!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2>在线充值</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- end widget edit box -->
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+                        <form class="form-horizontal">
+                            <fieldset class="demo-switcher-1">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">卡号<span class="vaild">*</span></label>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-md">
+                                            <input type="text"  ng-model="searchCouponNo" placeholder="卡号" name="searchCouponNo" class="form-control">
+						                    <span class="input-group-btn">
+						                        <button class="btn btn-default" data-ng-click="readCard()" type="button">查询</button>
+						                    </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset class="demo-switcher-1">
+                                <legend>卡信息</legend>
+                                <div class="form-group">
+                                    <label class="col-md-1 control-label">卡号：</label>
+                                    <div class="col-md-2">
+                                        <span style=" font-weight:bold;font-size:26px" ng-bind="pick.couponNo"></span>
+                                    </div>
+                                    <label class="col-md-1 control-label">密码：</label>
+                                    <div class="col-md-2">
+                                        <span style="font-weight:bold;font-size:26px" ng-bind="pick.password"></span>
+                                    </div>
+                                    <label class="col-md-1 control-label">卡内余额：</label>
+                                    <div class="col-md-2">
+                                        <span style="font-weight:bold;font-size:26px" ng-bind="pick.couponPrice"></span>
+                                    </div>
+                                </div>
+                                <legend>持卡人信息</legend>
+                                <div class="form-group">
+                                    <label class="col-md-1 control-label">姓名：</label>
+                                    <div class="col-md-2">
+                                        <span style=" font-weight:bold;font-size:26px" ng-bind="pick.userName"></span>
+                                    </div>
+                                    <label class="col-md-1 control-label">手机号码：</label>
+                                    <div class="col-md-2">
+                                        <span style="color:green; font-weight:bold;font-size:26px" ng-bind="pick.phoneNumber"></span>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            </form>
+                            <form class="form-horizontal" ug-validate="pickForm" name="pickForm2" novalidate="">
+                            <fieldset class="demo-switcher-1">
+                                <legend>工作区</legend>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">充值金额<span class="vaild">*</span></label>
+                                    <div class="col-md-6">
+                                        <input class="form-control"required=""   data-rule-number="true" ng-model="pick.rechargePrice" id="rechargePrice" name="rechargePrice" placeholder="充值金额" type="text">
+                                    </div>
+                                </div>
+                            </fieldset>
+                                <div class="widget-footer">
+                                    <button class="btn btn-primary" type="submit" data-ng-click="cardRecharge()">
+                                        <i class="fa fa-save"></i>
+                                        充值
+                                    </button>
+                                </div>
+                        </form>
+					</div>
+
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- WIDGET END -->
+	</div>
+	<!-- end row -->
+</section>
+<!-- end widget grid -->

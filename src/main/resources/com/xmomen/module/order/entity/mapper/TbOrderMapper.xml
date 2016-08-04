@@ -16,6 +16,7 @@
     <result column="POSTCODE" property="postcode" jdbcType="VARCHAR" />
     <result column="TRANSPORT_MODE" property="transportMode" jdbcType="INTEGER" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="DISCOUNT_PRICE" property="discountPrice" jdbcType="DECIMAL" />
     <result column="TOTAL_AMOUNT" property="totalAmount" jdbcType="DECIMAL" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="APPOINTMENT_TIME" property="appointmentTime" jdbcType="TIMESTAMP" />
@@ -84,8 +85,8 @@
   <sql id="Base_Column_List" >
     ID, ORDER_NO, ORDER_TYPE, ORDER_SOURCE, PAYMENT_MODE, MEMBER_CODE, ORDER_STATUS, 
     PAY_STATUS, CONSIGNEE_PHONE, CONSIGNEE_NAME, CONSIGNEE_ADDRESS, POSTCODE, TRANSPORT_MODE, 
-    REMARK, TOTAL_AMOUNT, CREATE_TIME, APPOINTMENT_TIME, CREATE_USER_ID, DESPATCH_EXPRESS_ID, 
-    EXPRESS_MEMBER_ID
+    REMARK, DISCOUNT_PRICE, TOTAL_AMOUNT, CREATE_TIME, APPOINTMENT_TIME, CREATE_USER_ID, 
+    DESPATCH_EXPRESS_ID, EXPRESS_MEMBER_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbOrderExample" >
     select
@@ -152,6 +153,9 @@
       <if test="remark != null" >
         REMARK,
       </if>
+      <if test="discountPrice != null" >
+        DISCOUNT_PRICE,
+      </if>
       <if test="totalAmount != null" >
         TOTAL_AMOUNT,
       </if>
@@ -213,6 +217,9 @@
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="discountPrice != null" >
+        #{discountPrice,jdbcType=DECIMAL},
       </if>
       <if test="totalAmount != null" >
         #{totalAmount,jdbcType=DECIMAL},
@@ -284,6 +291,9 @@
       </if>
       <if test="record.remark != null" >
         REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.discountPrice != null" >
+        DISCOUNT_PRICE = #{record.discountPrice,jdbcType=DECIMAL},
       </if>
       <if test="record.totalAmount != null" >
         TOTAL_AMOUNT = #{record.totalAmount,jdbcType=DECIMAL},

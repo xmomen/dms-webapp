@@ -2,7 +2,9 @@ package com.xmomen.module.plan.model;
 
 import java.io.Serializable;
 
-public class TablePlanModel implements Serializable{
+import lombok.Data;
+
+public @Data class TablePlanModel implements Serializable{
 	 /**
      * 
      */
@@ -22,9 +24,9 @@ public class TablePlanModel implements Serializable{
     private Integer isStop;
 
     /**
-     * 客户编号
+     * 卡号
      */
-    private String memberCode;
+    private String couponNumber;
 
     /**
      * 手机号
@@ -65,116 +67,4 @@ public class TablePlanModel implements Serializable{
      * 已配送次数
      */
     private Integer sendValue;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Integer getCdPlanId() {
-		return cdPlanId;
-	}
-
-	public void setCdPlanId(Integer cdPlanId) {
-		this.cdPlanId = cdPlanId;
-	}
-
-	public String getPlanName() {
-		return planName;
-	}
-
-	public void setPlanName(String planName) {
-		this.planName = planName;
-	}
-
-	public Integer getAuditStatus() {
-		return auditStatus;
-	}
-
-	public void setAuditStatus(Integer auditStatus) {
-		this.auditStatus = auditStatus;
-	}
-
-	public Integer getIsStop() {
-		return isStop;
-	}
-
-	public void setIsStop(Integer isStop) {
-		this.isStop = isStop;
-	}
-
-	public String getMemberCode() {
-		return memberCode;
-	}
-
-	public void setMemberCode(String memberCode) {
-		this.memberCode = memberCode;
-	}
-
-	public String getConsigneePhone() {
-		return consigneePhone;
-	}
-
-	public void setConsigneePhone(String consigneePhone) {
-		this.consigneePhone = consigneePhone;
-	}
-
-	public String getConsigneeName() {
-		return consigneeName;
-	}
-
-	public void setConsigneeName(String consigneeName) {
-		this.consigneeName = consigneeName;
-	}
-
-	public String getConsigneeAddress() {
-		return consigneeAddress;
-	}
-
-	public void setConsigneeAddress(String consigneeAddress) {
-		this.consigneeAddress = consigneeAddress;
-	}
-
-	public String getPostcode() {
-		return postcode;
-	}
-
-	public void setPostcode(String postcode) {
-		this.postcode = postcode;
-	}
-
-	public String getCompanyName() {
-		return companyName;
-	}
-
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
-	}
-
-	public String getManagerName() {
-		return managerName;
-	}
-
-	public void setManagerName(String managerName) {
-		this.managerName = managerName;
-	}
-
-	public Integer getTotalSendValue() {
-		return totalSendValue;
-	}
-
-	public void setTotalSendValue(Integer totalSendValue) {
-		this.totalSendValue = totalSendValue;
-	}
-
-	public Integer getSendValue() {
-		return sendValue;
-	}
-
-	public void setSendValue(Integer sendValue) {
-		this.sendValue = sendValue;
-	}
 }

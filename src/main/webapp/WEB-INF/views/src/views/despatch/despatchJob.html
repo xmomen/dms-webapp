@@ -107,11 +107,23 @@
                                     刷新
                                 </button>
                             </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-primary" type="button" data-ng-click="batchBindExpress()">
+                                    <i class="fa fa-inbox"></i>
+                                    批量发运
+                                </button>
+                            </div>
                         </div>
                         <div class="table-responsive">
                             <table class="table table-condensed table-hover smart-form has-tickbox">
                                 <thead>
                                 <tr>
+                                    <th style="width : 20px;">
+                                        <label class="checkbox">
+                                            <input type="checkbox" ng-model="chooseAllCheck.isCheckOrder" ng-true-value="0" ng-false-value="1" ng-change="checkedAllOrder()" />
+                                            <i></i>
+                                        </label>
+                                    </th>
                                     <th>序号</th>
                                     <th width="120">订单编号</th>
                                     <th>订单状态</th>
@@ -125,6 +137,16 @@
                                 </thead>
                                 <tbody>
                                 <tr ng-repeat="order in orderList"  ng-if="orderList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+                                    <td style="width : 20px;">
+                                        <label class="checkbox" ng-if="order.expressName == null">
+                                            <input type="checkbox"
+                                                   checklist-model="chooseOrder"
+                                                   checklist-before-change="changeOrderList()"
+                                                   checklist-value="order"
+                                                    >
+                                            <i></i>
+                                        </label>
+                                    </td>
                                     <td ng-bind="$index*pageInfoSetting.pageNum + 1"></td>
                                     <td ng-bind="order.orderNo"></td>
                                     <td ng-bind="order.orderStatusDesc"></td>
@@ -144,7 +166,7 @@
                                         </div>
                                         <div ng-show="order.expressName != null" >
                                             <a href="javascript:void(0);" data-ng-click="unbindExpress($index)" title="取消">
-                                                <span class="fa fa-inbox"></span>
+                                                <span class="fa fa-empire"></span>
                                             </a>
                                         </div>
                                     </td>

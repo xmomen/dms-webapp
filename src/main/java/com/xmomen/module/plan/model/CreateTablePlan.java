@@ -1,6 +1,7 @@
 package com.xmomen.module.plan.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 import lombok.Data;
@@ -27,9 +28,9 @@ public @Data class CreateTablePlan implements Serializable{
     private Integer cdMemberId;
 
     /**
-     * 客户编号
+     * 卡号
      */
-    private String memberCode;
+    private String couponNumber;
 
     /**
      * 手机号

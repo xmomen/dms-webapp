@@ -1,9 +1,13 @@
 package com.xmomen.module.base.controller;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
@@ -15,7 +19,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
@@ -84,7 +91,8 @@ public class CouponController {
         if(!StringUtils.isBlank(batch)){
             couponQuery.setBatch(batch);
         }
-        if(SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE)){
+        //客服经理过滤 如果有客服组权限则不过滤
+        if(SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE) && !SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_PERMISSION_CODE)){
             Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
             couponQuery.setManagerId(userId);
         }
@@ -127,6 +135,7 @@ public class CouponController {
         cdCoupon.setIsUseful(createCoupon.getIsUseful());
         cdCoupon.setNotes(createCoupon.getNotes());
         cdCoupon.setPaymentType(createCoupon.getPaymentType());
+        cdCoupon.setUserPrice(createCoupon.getUserPrice());
         return couponService.createCoupon(cdCoupon);
     }
 
@@ -232,6 +241,24 @@ public class CouponController {
     	}
     }
     
+    /**
+     *批量修改卡类型
+     */
+    @RequestMapping(value = "/coupon/updateBatchCouponType", method = RequestMethod.GET)
+    @Log(actionName = "批量修改卡类型")
+    public void updateBatchCouponType(
+    		@RequestParam(value="couponCategoryId") Integer couponCategoryId,
+    		@RequestParam(value="couponNumberList") String couponNumberList){
+    	String[] couponNumbers = couponNumberList.split(",");
+    	for(int i = 0,length = couponNumbers.length;i < length; i++){
+    		String couponNumber = couponNumbers[i];
+    		CdCoupon coupon = new CdCoupon();
+    		coupon.setCouponNumber(couponNumber);
+    		coupon = mybatisDao.selectOneByModel(coupon);
+    		coupon.setCouponCategory(couponCategoryId);
+        	mybatisDao.updateByModel(coupon);
+    	}
+    }
     /**
      * @param id
      * @throws ParseException 
@@ -351,11 +378,13 @@ public class CouponController {
     @Log(actionName ="读卡")
     public ReadCardVo readCard(
     		@RequestParam(value="couponNo") String couponNo,
-    		@RequestParam(value="password") String password
+    		@RequestParam(value="password",required=false) String password
     		){
     	CouponQuery couponQuery = new CouponQuery();
     	couponQuery.setCouponNumber(couponNo);
-    	couponQuery.setPassword(password);
+    	if(StringUtilsExt.isNotEmpty(password)){
+    		couponQuery.setPassword(password);
+    	}
     	return mybatisDao.getSqlSessionTemplate().selectOne(CouponMapper.CouponMapperNameSpace + "getCouponByCouponNo", couponQuery);
     }
     

@@ -757,6 +757,66 @@ public class CdItemExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
+        public Criteria andSaleModeIsNull() {
+            addCriterion("SALE_MODE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleModeIsNotNull() {
+            addCriterion("SALE_MODE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleModeEqualTo(Integer value) {
+            addCriterion("SALE_MODE =", value, "saleMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleModeNotEqualTo(Integer value) {
+            addCriterion("SALE_MODE <>", value, "saleMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleModeGreaterThan(Integer value) {
+            addCriterion("SALE_MODE >", value, "saleMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleModeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("SALE_MODE >=", value, "saleMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleModeLessThan(Integer value) {
+            addCriterion("SALE_MODE <", value, "saleMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleModeLessThanOrEqualTo(Integer value) {
+            addCriterion("SALE_MODE <=", value, "saleMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleModeIn(List<Integer> values) {
+            addCriterion("SALE_MODE in", values, "saleMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleModeNotIn(List<Integer> values) {
+            addCriterion("SALE_MODE not in", values, "saleMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleModeBetween(Integer value1, Integer value2) {
+            addCriterion("SALE_MODE between", value1, value2, "saleMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleModeNotBetween(Integer value1, Integer value2) {
+            addCriterion("SALE_MODE not between", value1, value2, "saleMode");
+            return (Criteria) this;
+        }
+
         public Criteria andPricingMannerIsNull() {
             addCriterion("PRICING_MANNER is null");
             return (Criteria) this;
@@ -1204,6 +1264,146 @@ public class CdItemExample extends BaseMybatisExample {
 
         public Criteria andCreateUserCodeNotBetween(String value1, String value2) {
             addCriterion("CREATE_USER_CODE not between", value1, value2, "createUserCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaizaiUserIsNull() {
+            addCriterion("CAIZAI_USER is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaizaiUserIsNotNull() {
+            addCriterion("CAIZAI_USER is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaizaiUserEqualTo(String value) {
+            addCriterion("CAIZAI_USER =", value, "caizaiUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaizaiUserNotEqualTo(String value) {
+            addCriterion("CAIZAI_USER <>", value, "caizaiUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaizaiUserGreaterThan(String value) {
+            addCriterion("CAIZAI_USER >", value, "caizaiUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaizaiUserGreaterThanOrEqualTo(String value) {
+            addCriterion("CAIZAI_USER >=", value, "caizaiUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaizaiUserLessThan(String value) {
+            addCriterion("CAIZAI_USER <", value, "caizaiUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaizaiUserLessThanOrEqualTo(String value) {
+            addCriterion("CAIZAI_USER <=", value, "caizaiUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaizaiUserLike(String value) {
+            addCriterion("CAIZAI_USER like", value, "caizaiUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaizaiUserNotLike(String value) {
+            addCriterion("CAIZAI_USER not like", value, "caizaiUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaizaiUserIn(List<String> values) {
+            addCriterion("CAIZAI_USER in", values, "caizaiUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaizaiUserNotIn(List<String> values) {
+            addCriterion("CAIZAI_USER not in", values, "caizaiUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaizaiUserBetween(String value1, String value2) {
+            addCriterion("CAIZAI_USER between", value1, value2, "caizaiUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaizaiUserNotBetween(String value1, String value2) {
+            addCriterion("CAIZAI_USER not between", value1, value2, "caizaiUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andJianceUserIsNull() {
+            addCriterion("JIANCE_USER is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJianceUserIsNotNull() {
+            addCriterion("JIANCE_USER is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJianceUserEqualTo(String value) {
+            addCriterion("JIANCE_USER =", value, "jianceUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andJianceUserNotEqualTo(String value) {
+            addCriterion("JIANCE_USER <>", value, "jianceUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andJianceUserGreaterThan(String value) {
+            addCriterion("JIANCE_USER >", value, "jianceUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andJianceUserGreaterThanOrEqualTo(String value) {
+            addCriterion("JIANCE_USER >=", value, "jianceUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andJianceUserLessThan(String value) {
+            addCriterion("JIANCE_USER <", value, "jianceUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andJianceUserLessThanOrEqualTo(String value) {
+            addCriterion("JIANCE_USER <=", value, "jianceUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andJianceUserLike(String value) {
+            addCriterion("JIANCE_USER like", value, "jianceUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andJianceUserNotLike(String value) {
+            addCriterion("JIANCE_USER not like", value, "jianceUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andJianceUserIn(List<String> values) {
+            addCriterion("JIANCE_USER in", values, "jianceUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andJianceUserNotIn(List<String> values) {
+            addCriterion("JIANCE_USER not in", values, "jianceUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andJianceUserBetween(String value1, String value2) {
+            addCriterion("JIANCE_USER between", value1, value2, "jianceUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andJianceUserNotBetween(String value1, String value2) {
+            addCriterion("JIANCE_USER not between", value1, value2, "jianceUser");
             return (Criteria) this;
         }
     }
