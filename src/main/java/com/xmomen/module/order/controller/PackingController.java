@@ -2,6 +2,7 @@ package com.xmomen.module.order.controller;
 
 import javax.validation.Valid;
 
+import com.xmomen.module.order.model.*;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -19,20 +20,10 @@ import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.logger.Log;
 import com.xmomen.module.order.entity.TbPacking;
 import com.xmomen.module.order.entity.TbPackingRecord;
-import com.xmomen.module.order.model.CreatePacking;
-import com.xmomen.module.order.model.CreatePackingRecord;
-import com.xmomen.module.order.model.OrderModel;
-import com.xmomen.module.order.model.OrderQuery;
-import com.xmomen.module.order.model.PackingModel;
-import com.xmomen.module.order.model.PackingOrderModel;
-import com.xmomen.module.order.model.PackingOrderQuery;
-import com.xmomen.module.order.model.PackingQuery;
-import com.xmomen.module.order.model.PackingRecordModel;
-import com.xmomen.module.order.model.PackingRecordQuery;
-import com.xmomen.module.order.model.PackingTask;
-import com.xmomen.module.order.model.PackingTaskCount;
 import com.xmomen.module.order.service.OrderService;
 import com.xmomen.module.order.service.PackingService;
+
+import java.util.Date;
 
 /**
  * Created by Jeng on 2016/3/30.
@@ -135,12 +126,18 @@ public class PackingController {
     @Log(actionName = "装箱订单列表")
     public Page<OrderModel> queryPackingOrder(@RequestParam(value = "limit") Integer limit,
                               @RequestParam(value = "orderNo", required = false) String orderNo,
+                              @RequestParam(value = "isHasPackingTaskUserId", required = false) boolean isHasPackingTaskUserId,
+                              @RequestParam(value = "packingTaskCreateTimeStart", required = false) Date packingTaskCreateTimeStart,
+                              @RequestParam(value = "packingTaskCreateTimeEnd", required = false) Date packingTaskCreateTimeEnd,
                               @RequestParam(value = "offset") Integer offset,
                               @RequestParam(value = "packingTaskStatus", required = false) Integer packingTaskStatus,
                               @RequestParam(value = "keyword", required = false) String keyword) {
         OrderQuery orderQuery = new OrderQuery();
         orderQuery.setKeyword(keyword);
         orderQuery.setOrderNo(orderNo);
+        orderQuery.setHasPackingTaskUserId(isHasPackingTaskUserId);
+        orderQuery.setPackingTaskCreateTimeStart(packingTaskCreateTimeStart);
+        orderQuery.setPackingTaskCreateTimeEnd(packingTaskCreateTimeEnd);
         //orderQuery.setOrderStatus(7);//待装箱
         orderQuery.setPackingTaskStatus(packingTaskStatus);
         if(SecurityUtils.getSubject().hasRole(AppConstants.PACKING_PERMISSION_CODE)){
@@ -170,14 +167,25 @@ public class PackingController {
      */
     @RequestMapping(value = "/packing/{id}/order")
     public Page<PackingOrderModel> queryPackingOrder(@PathVariable(value = "id") Integer packingId,
-                                                        @RequestParam(value = "orderId") Integer orderId,
-                                                        @RequestParam(value = "keyword", required = false) String keyword,
-                                                        @RequestParam(value = "limit") Integer limit,
-                                                        @RequestParam(value = "offset") Integer offset){
+                                                     @RequestParam(value = "orderId") Integer orderId,
+                                                     @RequestParam(value = "keyword", required = false) String keyword,
+                                                     @RequestParam(value = "orderNos", required = false) String[] orderNos,
+                                                     @RequestParam(value = "limit") Integer limit,
+                                                     @RequestParam(value = "offset") Integer offset){
         PackingOrderQuery packingOrderQuery = new PackingOrderQuery();
         packingOrderQuery.setKeyword(keyword);
         packingOrderQuery.setOrderId(orderId);
+        packingOrderQuery.setOrderNos(orderNos);
         return packingService.queryPackingOrder(packingOrderQuery, limit, offset);
+    }
+
+    @RequestMapping(value = "/packing/order/item")
+    public Page<PackingOrderItemModel> queryPackingOrderItem(@RequestParam(value = "orderNos", required = false) String[] orderNos,
+                                                             @RequestParam(value = "limit") Integer limit,
+                                                             @RequestParam(value = "offset") Integer offset){
+        PackingOrderQuery packingOrderQuery = new PackingOrderQuery();
+        packingOrderQuery.setOrderNos(orderNos);
+        return packingService.queryPackingOrderItem(packingOrderQuery, limit, offset);
     }
 
     @RequestMapping(value = "/packing/{id}/record", method = RequestMethod.GET)

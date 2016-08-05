@@ -11,6 +11,9 @@
         paymentp.SHOW_VALUE AS paymentModeDesc,
         osp.SHOW_VALUE AS orderSourceDesc,
         st.EXECUTOR_ID AS packingTaskUserId,
+        st.CREATE_TIME as packingTaskCreateTime,
+        st.START_TIME as packingTaskStartTime,
+        st.FINISH_TIME as packingTaskEndTime,
         u.realname AS packingTaskUsername,
         st.TASK_STATUS as packingTaskStatus,
         stsdp.show_value as packingTaskStatusDesc,
@@ -64,6 +67,19 @@
             </if>
             <if test="packingTaskUserId">
                 AND st.EXECUTOR_ID = #{packingTaskUserId}
+            </if>
+            <if test="isHasPackingTaskUserId">
+                AND st.EXECUTOR_ID IS NOT NULL
+            </if>
+            <if test="packingTaskCreateTimeStart">
+                <![CDATA[
+                  AND st.CREATE_TIME >= #{packingTaskCreateTimeStart}
+                ]]>
+            </if>
+            <if test="packingTaskCreateTimeEnd">
+                <![CDATA[
+                  AND st.CREATE_TIME <= #{packingTaskCreateTimeEnd}
+                ]]>
             </if>
             <if test="createUserId">
             	AND tb.create_user_id = #{createUserId}
@@ -179,6 +195,57 @@
         </where>
     </select>
 
+    <select id="queryCountPackingOrderItemModel" resultType="com.xmomen.module.order.model.PackingOrderItemModel" parameterType="com.xmomen.module.order.model.PackingOrderQuery">
+        select
+       tt.ITEM_CODE,
+       tt.ITEM_NAME,
+       sum(ITEM_QTY) as itemQty,
+       sum(packedItemQty) as packedItemQty,
+       CASE
+        WHEN sum(packedItemQty) = 0
+        THEN '未开始'
+        WHEN sum(packedItemQty) = sum(ITEM_QTY)
+        THEN '已完成'
+        ELSE '待完成'
+        END AS packing_status_desc
+      from (SELECT
+        oi.`ITEM_CODE`,
+        oi.ITEM_NAME,
+        oi.ITEM_QTY,
+        COUNT(pr.ID) AS packedItemQty
+        FROM
+        tb_order_item oi
+        LEFT JOIN tb_order o
+        ON o.ORDER_NO = oi.ORDER_NO
+        LEFT JOIN tb_packing_record pr
+        ON pr.ORDER_ITEM_ID = oi.ID
+        LEFT JOIN tb_packing p
+        ON p.ID = pr.PACKING_ID
+
+        <where>
+            <if test="orderId">
+                AND o.id = #{orderId}
+            </if>
+            <if test="orderNo">
+                AND o.ORDER_NO = #{orderNo}
+            </if>
+            <if test="itemCode">
+                AND oi.ITEM_CODE = #{itemCode}
+            </if>
+            <if test="orderNos">
+                AND oi.ORDER_NO IN
+                <foreach collection="orderNos" close=")" open="(" separator="," item="listItem" index="">
+                    #{listItem}
+                </foreach>
+            </if>
+            <if test="orderItemId">
+                AND oi.id = #{orderItemId}
+            </if>
+        </where>
+
+        GROUP BY oi.id) as tt group by tt.ITEM_CODE
+    </select>
+
     <select id="queryPackingOrderItemModel" resultType="com.xmomen.module.order.model.PackingOrderModel" parameterType="com.xmomen.module.order.model.PackingOrderQuery" >
         SELECT
         oi.id AS orderItemId,
@@ -237,8 +304,8 @@
           tb_packing_record pr 
           LEFT JOIN tb_order_item oi 
             ON oi.ID = pr.ORDER_ITEM_ID
-          left join `tb_packing` tp
-            on tp.`ID` = pr.`PACKING_ID`
+          left join tb_packing tp
+            on tp.ID = pr.PACKING_ID
         <where>
             <if test="id">
                 AND pr.ID = #{id}

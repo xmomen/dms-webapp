@@ -4,15 +4,35 @@
 define(function () {
     return ["$scope", "PackingAPI", "$modal", "$ugDialog", function($scope, PackingAPI, $modal, $ugDialog){
         $scope.packingList = [];
+        $scope.datepickerSetting = {
+            datepickerPopupConfig:{
+                "current-text":"今天",
+                "clear-text":"清除",
+                "close-text":"关闭"
+            },
+            appointmentTime:{
+                opened:false
+            }
+        };
+        $scope.open = function($event, index) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            if(index == 1){
+                $scope.datepickerSetting.appointmentTime.opened = true;
+            }
+        };
         $scope.pageInfoSetting = {
             pageSize:10,
             pageNum:1
         };
         $scope.queryParam = {};
         $scope.getPackingList = function(){
-            PackingAPI.query({
+            PackingAPI.getPackingOrderList({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
+                isHasPackingTaskUserId:true,
+                //packingTaskCreateTimeStart: new Date($scope.queryParam.packingTaskCreateTimeStart).getTime(),
+                //packingTaskCreateTimeEnd:$scope.queryParam.packingTaskCreateTimeEnd,
                 keyword:$scope.queryParam.keyword
             }, function(data){
                 $scope.packingList = data.data;
@@ -20,49 +40,68 @@ define(function () {
                 $scope.pageInfoSetting.loadData = $scope.getPackingList;
             });
         };
-        $scope.removePacking = function(index){
-            $ugDialog.confirm("是否删除此装箱记录？").then(function(){
-                PackingAPI.delete({
-                    id: $scope.packingList[index].id
-                }, function(){
-                    $scope.getPackingList();
-                });
-            })
-        };
-        $scope.updatePacking = function(index){
-            $scope.open(angular.copy($scope.packingList[index]));
-        };
-        $scope.open = function (packing) {
+        $scope.getPackingList();
+        $scope.showPackingDetail = function(index){
             var modalInstance = $modal.open({
-                templateUrl: 'addPacking.html',
+                size:'lg',
+                templateUrl: 'viewPackingDetail.html',
                 resolve: {
-                    CurrentPacking: function(){
-                        return packing;
+                    choseOrder: function(){
+                        return $scope.packingList[index];
                     }
                 },
-                controller: ["$scope", "PackingAPI", "CurrentPacking", "$modalInstance", function ($scope, PackingAPI, CurrentPacking, $modalInstance) {
-                    $scope.packing = {};
-                    if(CurrentPacking){
-                        $scope.packing = CurrentPacking;
-                    }
-                    $scope.errors = null;
-                    $scope.addPackingForm = {};
-                    $scope.savePacking = function(){
+                controller: ["$scope", "choseOrder", "$modalInstance", function ($scope, choseOrder, $modalInstance) {
+                    $scope.choseOrder = choseOrder || {};
+                    $scope.orderItemPageInfoSetting = {
+                        pageSize:10,
+                        pageNum:1
+                    };
+                    $scope.packingRecordPageInfoSetting = {
+                        pageSize:10,
+                        pageNum:1
+                    };
+                    $scope.viewOrderPacking = function(index){
+                        $scope.choseOrder = $scope.currentPackingBoxList[index];
+                        $scope.getPackingOrderItemList();
+                        $scope.packingRecordList = [];
                         $scope.errors = null;
-                        if($scope.addPackingForm.validator.form()){
-                            if($scope.packing.id){
-                                PackingAPI.update($scope.packing, function(){
-                                    $modalInstance.close();
-                                }, function(data){
-                                    $scope.errors = data.data;
-                                })
-                            }else{
-                                PackingAPI.save($scope.packing, function(){
-                                    $modalInstance.close();
-                                }, function(data){
-                                    $scope.errors = data.data;
-                                })
-                            }
+                    };
+                    $scope.queryParam = {};
+                    $scope.getPackingOrderItemList = function(){
+                        if($scope.choseOrder &&
+                            $scope.choseOrder.id){
+                            PackingAPI.getPackingOrderItemList({
+                                limit:$scope.orderItemPageInfoSetting.pageSize,
+                                offset:$scope.orderItemPageInfoSetting.pageNum,
+                                id:1,
+                                keyword:$scope.queryParam.packingOrderKeyword,
+                                orderId:$scope.choseOrder.id
+                            }, function(data){
+                                $scope.packingOrderItemList = data.data;
+                                $scope.orderItemPageInfoSetting = data.pageInfo;
+                                $scope.orderItemPageInfoSetting.loadData = $scope.getPackingOrderItemList;
+                            });
+                        }
+                    };
+                    $scope.choseOrderItem = function(index){
+                        $scope.choseOrder.choseOrderItem = $scope.packingOrderItemList[index];
+                        $scope.getPackingRecordList();
+                    };
+                    $scope.getPackingRecordList = function(){
+                        if($scope.choseOrder &&
+                            $scope.choseOrder.choseOrderItem &&
+                            $scope.choseOrder.choseOrderItem.orderItemId){
+                            PackingAPI.getPackingRecordList({
+                                limit:$scope.packingRecordPageInfoSetting.pageSize,
+                                offset:$scope.packingRecordPageInfoSetting.pageNum,
+                                id:$scope.choseOrder.id,
+                                keyword:$scope.queryParam.packingRecordKeyword,
+                                orderItemId:$scope.choseOrder.choseOrderItem.orderItemId
+                            }, function(data){
+                                $scope.packingRecordList = data.data;
+                                $scope.packingRecordPageInfoSetting = data.pageInfo;
+                                $scope.packingRecordPageInfoSetting.loadData = $scope.getPackingRecordList;
+                            });
                         }
                     };
                     $scope.cancel = function () {
@@ -70,11 +109,9 @@ define(function () {
                     };
                 }]
             });
-            modalInstance.result.then(function () {
-                $scope.getPackingList();
+            modalInstance.result.then(function (data) {
+               // $scope.choseItem(index, parseFloat(data.number));
             });
-        };
-
-        $scope.getPackingList();
+        }
     }];
 });

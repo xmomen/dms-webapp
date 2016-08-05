@@ -212,6 +212,10 @@ public class PackingService {
         return (Page<PackingOrderModel>) mybatisDao.selectPage(OrderMapper.ORDER_MAPPER_NAMESPACE + "queryPackingOrderItemModel", packingOrderQuery, limit, offset);
     }
 
+    public Page<PackingOrderItemModel> queryPackingOrderItem(PackingOrderQuery packingOrderQuery, Integer limit, Integer offset){
+        return (Page<PackingOrderItemModel>) mybatisDao.selectPage(OrderMapper.ORDER_MAPPER_NAMESPACE + "queryCountPackingOrderItemModel", packingOrderQuery, limit, offset);
+    }
+
     public List<PackingRecordModel> queryPackingRecord(PackingRecordQuery queryPackingRecord){
         return mybatisDao.getSqlSessionTemplate().selectList(OrderMapper.ORDER_MAPPER_NAMESPACE + "queryPackingRecordModel", queryPackingRecord);
     }

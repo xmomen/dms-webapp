@@ -76,6 +76,21 @@ class OrderModel implements Serializable {
     private String packingTaskStatusDesc;
 
     /**
+     * 装箱任务分配时间
+     */
+    private Date packingTaskCreateTime;
+
+    /**
+     * 装箱任务开始时间
+     */
+    private Date packingTaskStartTime;
+
+    /**
+     * 装箱任务完成时间
+     */
+    private Date packingTaskEndTime;
+
+    /**
      * 订单状态描述
      */
     private String orderStatusDesc;
