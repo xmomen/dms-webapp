@@ -47,16 +47,22 @@ public class PurchaseController {
                                    @RequestParam(value = "purchaseStatus", required = false) Integer purchaseStatus,
                                    @RequestParam(value = "startTime", required = false) Long startTime,
                                    @RequestParam(value = "endTime", required = false) Long endTime,
-                                  @RequestParam(value = "isDistribute", required = false) Integer isDistribute){
+                                  @RequestParam(value = "isDistribute", required = false) Integer isDistribute,
+                                  @RequestParam(value = "sellUnit", required = false) String sellUnit){
     	 Map param = new HashMap();
          param.put("keyword", keyword);
          param.put("isDistribute", isDistribute);
+         param.put("sellUnit", sellUnit);
          param.put("purchaseStatus", purchaseStatus);
         if(startTime != null) {
             param.put("startTime", new Date(startTime));
+        }else{
+//        	param.put("startTime", new Date());
         }
         if(endTime != null){
             param.put("endTime", new Date(endTime));
+        }else{
+//        	param.put("endTime", new Date());
         }
         return purchaseService.getPurchaseList(param, limit, offset);
     }

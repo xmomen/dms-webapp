@@ -14,6 +14,30 @@ define(function () {
             pageNum:1
         };
 
+        $scope.datepickerSetting = {
+            datepickerPopupConfig:{
+                "current-text":"今天",
+                "clear-text":"清除",
+                "close-text":"关闭"
+            },
+            packingTaskCreateTimeStart:{
+                opened:false
+            },
+            packingTaskCreateTimeEnd:{
+                opened:false
+            }
+        };
+        $scope.open = function($event, index) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            if(index == 0){
+                $scope.datepickerSetting.packingTaskCreateTimeStart.opened = true;
+            }else if(index == 1){
+                $scope.datepickerSetting.packingTaskCreateTimeEnd.opened = true;
+            }
+        };
+
+
         $scope.queryParam = {};
         $scope.orderList = [];
         $scope.getOrderList = function(){

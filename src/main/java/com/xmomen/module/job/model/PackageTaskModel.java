@@ -50,6 +50,11 @@ public class PackageTaskModel implements Serializable{
      * 包装的产品
      */
     private Integer cdItemId;
+    
+    /**
+     * 销售单位
+     */
+    private String sellUnit;
 
     /**
      * 需要包装的份数
@@ -89,6 +94,13 @@ public class PackageTaskModel implements Serializable{
      * 检测人
      */
     private String jianceUser;
+    
+    
+    /**
+     * 农残率
+     */
+    private String nongCanLv;
+    
 	public String getItemCode() {
 		return itemCode;
 	}
@@ -248,4 +260,22 @@ public class PackageTaskModel implements Serializable{
 	public void setJianceUser(String jianceUser) {
 		this.jianceUser = jianceUser;
 	}
+
+	public String getSellUnit() {
+		return sellUnit;
+	}
+
+	public void setSellUnit(String sellUnit) {
+		this.sellUnit = sellUnit;
+	}
+
+	public String getNongCanLv() {
+		return nongCanLv;
+	}
+
+	public void setNongCanLv(String nongCanLv) {
+		this.nongCanLv = nongCanLv;
+	}
+	
+	
 }

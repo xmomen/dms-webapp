@@ -26,7 +26,8 @@ define(function () {
                 purchaseStatus:$scope.queryParam.purchaseStatus,
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
-                keyword:$scope.queryParam.keyword
+                keyword:$scope.queryParam.keyword,
+                sellUnit:$scope.queryParam.sellUnit
             }, function(data){
                 $scope.purchaseList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;

@@ -50,6 +50,7 @@
               		AND cm.item_type = #{itemType}
               </if>
           </where>
+          order by cm.item_code
     </select>
     
         <select id="getChildItemList" resultType="com.xmomen.module.base.model.ItemChildModel" parameterType="java.util.HashMap">

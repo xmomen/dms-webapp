@@ -3,24 +3,32 @@
  */
 define(function () {
     return ["$scope", "PackingAPI", "$modal", "$ugDialog", function($scope, PackingAPI, $modal, $ugDialog){
-        $scope.packingList = [];
+
         $scope.datepickerSetting = {
             datepickerPopupConfig:{
                 "current-text":"今天",
                 "clear-text":"清除",
                 "close-text":"关闭"
             },
-            appointmentTime:{
+            packingTaskCreateTimeStart:{
+                opened:false
+            },
+            packingTaskCreateTimeEnd:{
                 opened:false
             }
         };
         $scope.open = function($event, index) {
             $event.preventDefault();
             $event.stopPropagation();
-            if(index == 1){
-                $scope.datepickerSetting.appointmentTime.opened = true;
+            if(index == 0){
+                $scope.datepickerSetting.packingTaskCreateTimeStart.opened = true;
+            }else if(index == 1){
+                $scope.datepickerSetting.packingTaskCreateTimeEnd.opened = true;
             }
         };
+
+
+        $scope.packingList = [];
         $scope.pageInfoSetting = {
             pageSize:10,
             pageNum:1

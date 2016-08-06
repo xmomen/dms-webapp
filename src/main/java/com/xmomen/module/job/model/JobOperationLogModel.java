@@ -27,4 +27,10 @@ public @Data class JobOperationLogModel implements Serializable{
      * 检测人
      */
     private String jianceUser;
+    
+    
+    /**
+     * 农残率
+     */
+    private String nongCanLv; 
 }

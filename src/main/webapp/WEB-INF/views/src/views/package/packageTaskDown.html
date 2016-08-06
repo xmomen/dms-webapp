@@ -115,7 +115,7 @@
                                     <th></th>
                                     <th width="80">采购单号</th>
                                     <th>产品名称</th>
-                                    <th>单位</th>
+                                    <th>规格</th>
                                     <th>数量</th>
                                     <th>已分配数</th>
                                     <th>操作</th>
@@ -126,7 +126,7 @@
                                     <td></td>
                                     <td ng-bind="purchase.purchaseCode"></td>
                                     <td ng-bind="purchase.itemName"></td>
-                                    <td ng-bind="purchase.itemUnit"></td>
+                                    <td>{{purchase.spec}}{{purchase.itemUnit}}</td>
                                     <td ng-bind="purchase.totalItemQty"></td>
                                     <td ng-bind="purchase.distributeValue"></td>
                                     <td>

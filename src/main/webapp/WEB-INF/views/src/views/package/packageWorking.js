@@ -39,6 +39,27 @@ define(function () {
             });
         };
 
+        /**
+         * 下一个按钮功能
+         * @param id
+         */
+        $scope.nextPackageTask = function(id){
+            PackageTaskAPI.query({
+                limit:$scope.pageInfoSetting.pageSize,
+                offset:$scope.pageInfoSetting.pageNum,
+                nextPackageTaskId:id
+            }, function(data){
+                if(data.data.length == 0){
+                    $ugDialog.alert("无下一个任务了！")
+                    return;
+                }
+                $scope.packageTaskList = data.data;
+                $scope.packageTask = $scope.packageTaskList[0];
+                $scope.pageInfoSetting = data.pageInfo;
+                $scope.pageInfoSetting.loadData = $scope.getPackageTaskList;
+                $scope.getJobOperationLogList($scope.packageTask.id);
+            });
+        }
         //作废
         $scope.cancelJobOperationLog = function(index){
            var jobOperationLog =  $scope.jobOperationLogList[index];
@@ -117,24 +138,24 @@ define(function () {
         }
 
         $scope.print = function(barCode){
-            LODOP.PRINT_INITA(2,89,"60.01mm","60.01mm","商品条码打印");
-            LODOP.ADD_PRINT_BARCODE(79,13,"50.96mm","10.21mm","128B",barCode);
-            LODOP.ADD_PRINT_TEXT(150,107,75,19,"采摘人:"+$scope.packageTask.caizaiUser);
+            LODOP.PRINT_INITA(0,0,"56.3mm","60.01mm","商品条码打印");
+            LODOP.ADD_PRINT_BARCODE(62,9,"50.96mm","10.21mm","128B",barCode);
+            LODOP.ADD_PRINT_TEXT(134,107,75,19,"采摘人:"+$scope.packageTask.caizaiUser);
             LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
             LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-            LODOP.ADD_PRINT_TEXT(150,19,78,19,"检验人:"+$scope.packageTask.jianceUser);
+            LODOP.ADD_PRINT_TEXT(131,19,78,19,"检验人:"+$scope.packageTask.jianceUser);
             LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
             LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-            LODOP.ADD_PRINT_TEXT(121,19,160,20,"产品名称:"+$scope.packageTask.itemName);
+            LODOP.ADD_PRINT_TEXT(104,20,158,19,"产品名称:"+$scope.packageTask.itemName);
             LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
             LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-            LODOP.ADD_PRINT_TEXT(164,19,100,20,"采摘点：吐鲁番");
+            LODOP.ADD_PRINT_TEXT(145,19,100,20,"采摘点：吐鲁番");
             LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
             LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-            LODOP.ADD_PRINT_TEXT(178,19,137,20,"采摘时间：6:00-9:00");
+            LODOP.ADD_PRINT_TEXT(160,19,137,20,"采摘时间：6:00-9:00");
             LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
             LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-            LODOP.ADD_PRINT_TEXT(135,19,118,20,"检测结果：ub=6.5%");
+            LODOP.ADD_PRINT_TEXT(118,20,119,19,"检测结果：ub="+$scope.packageTask.nongCanLv);
             LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
             LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 

@@ -11,6 +11,7 @@
 			CI.CAIZAI_USER,
 			CI.JIANCE_USER,
 			CI.SPEC,
+			CI.sell_Unit,
 			SU.REALNAME as jobUserName
 		FROM tb_job TJ
 		LEFT JOIN cd_item CI ON TJ.CD_ITEM_ID = CI.ID
@@ -28,9 +29,31 @@
             <if test="userId != null">
             	and tj.job_user = #{userId}
             </if>
+            <if test="nextPackageTaskId">
+            	and (tj.job_status = 0 or tj.job_status =1) 
+            	and tj.id > #{nextPackageTaskId}
+            </if>
 		</where>
 		order by 
 		tj.JOB_STATUS,
 		tj.job_create_time
     </select>
+    
+    <update id="updateBeginTime" parameterType="java.lang.Integer">
+    	update 
+    		tb_job 
+    	set 
+    		job_status = 0 ,job_begin_time = null ,finish_time = null,
+    	where 
+    		id=#{id}
+    </update>
+    
+    <update id="updateFinishTime" parameterType="java.lang.Integer">
+    	update 
+    		tb_job 
+    	set 
+    		job_status = 1,finish_time = null,
+    	where 
+    		id=#{id}
+    </update>
 </mapper>

@@ -757,66 +757,6 @@ public class CdItemExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andSaleModeIsNull() {
-            addCriterion("SALE_MODE is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaleModeIsNotNull() {
-            addCriterion("SALE_MODE is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaleModeEqualTo(Integer value) {
-            addCriterion("SALE_MODE =", value, "saleMode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaleModeNotEqualTo(Integer value) {
-            addCriterion("SALE_MODE <>", value, "saleMode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaleModeGreaterThan(Integer value) {
-            addCriterion("SALE_MODE >", value, "saleMode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaleModeGreaterThanOrEqualTo(Integer value) {
-            addCriterion("SALE_MODE >=", value, "saleMode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaleModeLessThan(Integer value) {
-            addCriterion("SALE_MODE <", value, "saleMode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaleModeLessThanOrEqualTo(Integer value) {
-            addCriterion("SALE_MODE <=", value, "saleMode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaleModeIn(List<Integer> values) {
-            addCriterion("SALE_MODE in", values, "saleMode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaleModeNotIn(List<Integer> values) {
-            addCriterion("SALE_MODE not in", values, "saleMode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaleModeBetween(Integer value1, Integer value2) {
-            addCriterion("SALE_MODE between", value1, value2, "saleMode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaleModeNotBetween(Integer value1, Integer value2) {
-            addCriterion("SALE_MODE not between", value1, value2, "saleMode");
-            return (Criteria) this;
-        }
-
         public Criteria andPricingMannerIsNull() {
             addCriterion("PRICING_MANNER is null");
             return (Criteria) this;
@@ -1404,6 +1344,76 @@ public class CdItemExample extends BaseMybatisExample {
 
         public Criteria andJianceUserNotBetween(String value1, String value2) {
             addCriterion("JIANCE_USER not between", value1, value2, "jianceUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andNongCanLvIsNull() {
+            addCriterion("NONG_CAN_LV is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNongCanLvIsNotNull() {
+            addCriterion("NONG_CAN_LV is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNongCanLvEqualTo(String value) {
+            addCriterion("NONG_CAN_LV =", value, "nongCanLv");
+            return (Criteria) this;
+        }
+
+        public Criteria andNongCanLvNotEqualTo(String value) {
+            addCriterion("NONG_CAN_LV <>", value, "nongCanLv");
+            return (Criteria) this;
+        }
+
+        public Criteria andNongCanLvGreaterThan(String value) {
+            addCriterion("NONG_CAN_LV >", value, "nongCanLv");
+            return (Criteria) this;
+        }
+
+        public Criteria andNongCanLvGreaterThanOrEqualTo(String value) {
+            addCriterion("NONG_CAN_LV >=", value, "nongCanLv");
+            return (Criteria) this;
+        }
+
+        public Criteria andNongCanLvLessThan(String value) {
+            addCriterion("NONG_CAN_LV <", value, "nongCanLv");
+            return (Criteria) this;
+        }
+
+        public Criteria andNongCanLvLessThanOrEqualTo(String value) {
+            addCriterion("NONG_CAN_LV <=", value, "nongCanLv");
+            return (Criteria) this;
+        }
+
+        public Criteria andNongCanLvLike(String value) {
+            addCriterion("NONG_CAN_LV like", value, "nongCanLv");
+            return (Criteria) this;
+        }
+
+        public Criteria andNongCanLvNotLike(String value) {
+            addCriterion("NONG_CAN_LV not like", value, "nongCanLv");
+            return (Criteria) this;
+        }
+
+        public Criteria andNongCanLvIn(List<String> values) {
+            addCriterion("NONG_CAN_LV in", values, "nongCanLv");
+            return (Criteria) this;
+        }
+
+        public Criteria andNongCanLvNotIn(List<String> values) {
+            addCriterion("NONG_CAN_LV not in", values, "nongCanLv");
+            return (Criteria) this;
+        }
+
+        public Criteria andNongCanLvBetween(String value1, String value2) {
+            addCriterion("NONG_CAN_LV between", value1, value2, "nongCanLv");
+            return (Criteria) this;
+        }
+
+        public Criteria andNongCanLvNotBetween(String value1, String value2) {
+            addCriterion("NONG_CAN_LV not between", value1, value2, "nongCanLv");
             return (Criteria) this;
         }
     }

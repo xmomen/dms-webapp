@@ -54,6 +54,7 @@ public class ItemServiceImpl implements ItemService {
 		item.setCreateUserCode(username);
 		item.setCaizaiUser(createItem.getCaizaiUser());
 		item.setJianceUser(createItem.getJianceUser());
+		item.setNongCanLv(createItem.getNongCanLv());
 		item = mybatisDao.saveByModel(item);
 		if(createItem.getChildItems() != null){
 			for(ItemChildModel childItem : createItem.getChildItems()){
@@ -87,6 +88,7 @@ public class ItemServiceImpl implements ItemService {
 		item.setYieldly(updateItem.getYieldly());
 		item.setCaizaiUser(updateItem.getCaizaiUser());
 		item.setJianceUser(updateItem.getJianceUser());
+		item.setNongCanLv(updateItem.getNongCanLv());
 		if(updateItem.getChildItems() != null){
 			//先删除再添加
 			CdItemRefExample itemRefDel = new CdItemRefExample();
