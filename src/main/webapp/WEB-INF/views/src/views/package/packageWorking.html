@@ -79,13 +79,13 @@
 						                    <!--</span>-->
                                         </div>
                                     </div>
-                                    <div class="col-md-2" ng-show="packageTask.noFinishValue == 0">
-                                        <button class="btn btn-primary" type="button" ng-click="nextPackageTask">
+                                    <div class="col-md-2">
+                                        <button class="btn btn-primary" type="button" ng-click="nextPackageTask(packageTask.id)">
                                             <i class="fa fa-refresh"></i>
                                             下一个任务
                                         </button>
                                     </div>
-                                    <div class="col-sm-2"  ng-show="packageTask.noFinishValue == 0">
+                                    <div class="col-sm-2">
                                         <button class="btn btn-primary" type="button" ui-sref="packageTask">
                                             <i class="fa fa-refresh"></i>
                                             返回任务列表

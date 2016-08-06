@@ -49,6 +49,36 @@
 										<input type="search" placeholder="采购编号" data-ng-keyup="getPackageTaskList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
 								</div>
 							</div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
+                                           placeholder="任务开始时间起始日期"
+                                           ng-model="queryParam.packingTaskCreateTimeStart"
+                                           close-text="关闭"
+                                           current-text="今日"
+                                           clear-text="清除"
+                                           is-open="datepickerSetting.packingTaskCreateTimeStart.opened"
+                                           ng-required="true" />
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open($event, 0)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
+                                           placeholder="任务开始时间截止日期"
+                                           ng-model="queryParam.packingTaskCreateTimeEnd"
+                                           close-text="关闭"
+                                           current-text="今日"
+                                           clear-text="清除"
+                                           is-open="datepickerSetting.packingTaskCreateTimeEnd.opened"
+                                           ng-required="true" />
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </div>
+                                </div>
+                            </div>
 							<div class="col-sm-2">
 								<button class="btn btn-primary" type="button" data-ng-click="getPackageTaskList()">
 									<i class="fa fa-refresh"></i>
@@ -79,7 +109,7 @@
 								</tr>
 								</thead>
 								<tbody>
-								<tr ng-repeat="packageTask in packageTaskList" ng-class="{'tdred':packageTask.jobStatus !=2}" ng-if="packageTaskList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+								<tr ng-repeat="packageTask in packageTaskList"  ng-if="packageTaskList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
 									<td></td>
 									<td ng-bind="packageTask.purchaseCode"></td>
 									<td ng-bind="packageTask.itemName"></td>
@@ -90,7 +120,7 @@
                                     <td>{{packageTask.jobBeginTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
                                     <td>{{packageTask.finishTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
                                     <td ng-bind="packageTask.jobUserName"></td>
-                                    <td><span ng-if="packageTask.jobStatus == 0">未开始</span><span ng-if="packageTask.jobStatus == 1">包装中</span><span ng-if="packageTask.jobStatus ==2">包装完成</span></td>
+                                    <td><span ng-if="packageTask.jobStatus == 0" style="color:red; ">未开始</span><span ng-if="packageTask.jobStatus == 1"  ng-class="{'tdred':packageTask.jobStatus == 1}" >包装中</span><span ng-if="packageTask.jobStatus ==2">包装完成</span></td>
                                     <td>
                                         <div ng-show="show">
                                             <a ng-show="packageTask.jobStatus != 2" href="javascript:void(0);" ui-sref="packageWorking({id:packageTask.id})" title="开始包装：{{packageTask.itemName}}">

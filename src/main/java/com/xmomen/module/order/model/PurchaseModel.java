@@ -24,4 +24,6 @@ class PurchaseModel implements Serializable {
     private int distributeValue;
     private int packageValue;
     private int packingValue;
+    private String sellUnit;
+    private String spec;
 }

@@ -7,7 +7,8 @@
 			tjol.*,
 			ci.item_name,
 			ci.CAIZAI_USER,
-			ci.JIANCE_USER
+			ci.JIANCE_USER,
+			ci.NONG_CAN_LV
 		FROM 
 			tb_job_operation_log tjol
 		LEFT JOIN cd_item ci ON tjol.item_code = ci.item_code

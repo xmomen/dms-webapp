@@ -14,7 +14,8 @@ define(function () {
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword,
-                isDistribute:1
+                isDistribute:1,
+                sellUnit:0
             }, function(data){
                 $scope.purchaseList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;

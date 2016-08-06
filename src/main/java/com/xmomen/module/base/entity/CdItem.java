@@ -64,12 +64,7 @@ public class CdItem extends BaseMybatisModel {
     private BigDecimal memberPrice;
 
     /**
-     * 售卖方式(1-计重,2-计件）
-     */
-    private Integer saleMode;
-
-    /**
-     * 计价单位
+     * 计价方式
      */
     private String pricingManner;
 
@@ -112,6 +107,11 @@ public class CdItem extends BaseMybatisModel {
      * 检测人
      */
     private String jianceUser;
+
+    /**
+     * 农残率
+     */
+    private String nongCanLv;
 
     @Column(name = "ID")
     @Id
@@ -255,20 +255,6 @@ public class CdItem extends BaseMybatisModel {
         addValidField("memberPrice");
     }
 
-    @Column(name = "SALE_MODE")
-    public Integer getSaleMode() {
-        return saleMode;
-    }
-
-    public void setSaleMode(Integer saleMode) {
-        this.saleMode = saleMode;
-        if(saleMode == null){
-              removeValidField("saleMode");
-              return;
-        }
-        addValidField("saleMode");
-    }
-
     @Column(name = "PRICING_MANNER")
     public String getPricingManner() {
         return pricingManner;
@@ -393,5 +379,19 @@ public class CdItem extends BaseMybatisModel {
               return;
         }
         addValidField("jianceUser");
+    }
+
+    @Column(name = "NONG_CAN_LV")
+    public String getNongCanLv() {
+        return nongCanLv;
+    }
+
+    public void setNongCanLv(String nongCanLv) {
+        this.nongCanLv = nongCanLv;
+        if(nongCanLv == null){
+              removeValidField("nongCanLv");
+              return;
+        }
+        addValidField("nongCanLv");
     }
 }

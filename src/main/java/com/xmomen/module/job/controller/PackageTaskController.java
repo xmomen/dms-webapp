@@ -49,7 +49,8 @@ public class PackageTaskController {
                                   @RequestParam(value = "offset") Integer offset,
                                   @RequestParam(value = "keyword", required = false) String keyword,
                                   @RequestParam(value = "viewType", required = false) String viewType,
-                                  @RequestParam(value = "packageTaskId", required = false) Integer packageTaskId){
+                                  @RequestParam(value = "packageTaskId", required = false) Integer packageTaskId,
+                                  @RequestParam(value = "nextPackageTaskId", required = false) Integer nextPackageTaskId){
     	 Map param = new HashMap();
          param.put("keyword", keyword);
          param.put("packageTaskId", packageTaskId);
@@ -58,6 +59,7 @@ public class PackageTaskController {
              Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
              param.put("userId", userId);
          }
+         param.put("nextPackageTaskId",nextPackageTaskId);
         return  (Page<PackageTaskModel>) mybatisDao.selectPage(PackageTaskMapper.PackageTaskMapperNameSpace + "getPackageTaskList", param, limit, offset);
     }
 

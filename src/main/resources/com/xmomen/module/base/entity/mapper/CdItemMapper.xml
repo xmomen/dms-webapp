@@ -12,7 +12,6 @@
     <result column="SPEC" property="spec" jdbcType="VARCHAR" />
     <result column="BASE_PRICE" property="basePrice" jdbcType="DECIMAL" />
     <result column="MEMBER_PRICE" property="memberPrice" jdbcType="DECIMAL" />
-    <result column="SALE_MODE" property="saleMode" jdbcType="INTEGER" />
     <result column="PRICING_MANNER" property="pricingManner" jdbcType="VARCHAR" />
     <result column="SELL_STATUS" property="sellStatus" jdbcType="INTEGER" />
     <result column="SELL_UNIT" property="sellUnit" jdbcType="VARCHAR" />
@@ -22,6 +21,7 @@
     <result column="CREATE_USER_CODE" property="createUserCode" jdbcType="VARCHAR" />
     <result column="CAIZAI_USER" property="caizaiUser" jdbcType="VARCHAR" />
     <result column="JIANCE_USER" property="jianceUser" jdbcType="VARCHAR" />
+    <result column="NONG_CAN_LV" property="nongCanLv" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -83,8 +83,8 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, ITEM_CODE, CD_CATEGORY_ID, ITEM_NAME, ITEM_DESCRIBE, ITEM_TYPE, YIELDLY, SPEC, 
-    BASE_PRICE, MEMBER_PRICE, SALE_MODE, PRICING_MANNER, SELL_STATUS, SELL_UNIT, SELL_PRICE, 
-    IS_AUDIT, CREATE_DATE_TIME, CREATE_USER_CODE, CAIZAI_USER, JIANCE_USER
+    BASE_PRICE, MEMBER_PRICE, PRICING_MANNER, SELL_STATUS, SELL_UNIT, SELL_PRICE, IS_AUDIT, 
+    CREATE_DATE_TIME, CREATE_USER_CODE, CAIZAI_USER, JIANCE_USER, NONG_CAN_LV
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdItemExample" >
     select
@@ -139,9 +139,6 @@
       <if test="memberPrice != null" >
         MEMBER_PRICE,
       </if>
-      <if test="saleMode != null" >
-        SALE_MODE,
-      </if>
       <if test="pricingManner != null" >
         PRICING_MANNER,
       </if>
@@ -168,6 +165,9 @@
       </if>
       <if test="jianceUser != null" >
         JIANCE_USER,
+      </if>
+      <if test="nongCanLv != null" >
+        NONG_CAN_LV,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -201,9 +201,6 @@
       <if test="memberPrice != null" >
         #{memberPrice,jdbcType=DECIMAL},
       </if>
-      <if test="saleMode != null" >
-        #{saleMode,jdbcType=INTEGER},
-      </if>
       <if test="pricingManner != null" >
         #{pricingManner,jdbcType=VARCHAR},
       </if>
@@ -230,6 +227,9 @@
       </if>
       <if test="jianceUser != null" >
         #{jianceUser,jdbcType=VARCHAR},
+      </if>
+      <if test="nongCanLv != null" >
+        #{nongCanLv,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -272,9 +272,6 @@
       <if test="record.memberPrice != null" >
         MEMBER_PRICE = #{record.memberPrice,jdbcType=DECIMAL},
       </if>
-      <if test="record.saleMode != null" >
-        SALE_MODE = #{record.saleMode,jdbcType=INTEGER},
-      </if>
       <if test="record.pricingManner != null" >
         PRICING_MANNER = #{record.pricingManner,jdbcType=VARCHAR},
       </if>
@@ -301,6 +298,9 @@
       </if>
       <if test="record.jianceUser != null" >
         JIANCE_USER = #{record.jianceUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nongCanLv != null" >
+        NONG_CAN_LV = #{record.nongCanLv,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >

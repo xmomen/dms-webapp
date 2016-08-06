@@ -97,6 +97,8 @@
             i.ITEM_NAME,
             i.PRICING_MANNER AS itemUnit,
             i.id as cdItemId,
+            i.sell_Unit,
+            i.spec,
             p.TOTAL AS totalItemQty,
             p.TOTAL_WEIGHT as totalWeight,
        		p.DISTRIBUTE_VALUE,
@@ -129,6 +131,9 @@
               <if test="isDistribute == 1">
               	AND (p.TOTAL - p.DISTRIBUTE_VALUE) > 0
               	AND p.PURCHASE_STATUS = 1
+              </if>
+              <if test="sellUnit != '' and sellUnit != null">
+              	AND i.SELL_UNIT = #{sellUnit}
               </if>
           </where>
         ORDER BY p.CREATE_DATE DESC

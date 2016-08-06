@@ -234,15 +234,8 @@
                         </div>
                         <label class="col-md-2"> <input class="form-control" ng-model="item.pricingManner" name="spec" placeholder="" type="text"></label>
                     </div>
-                    <!--<div class="form-group">-->
-                        <!--<label class="col-md-2 control-label">计价方式<span class="vaild">*</span></label>-->
-                        <!--<div class="col-md-10">-->
-                            <!--<input class="form-control" required="" ng-model="item.pricingManner" name="pricingManner" placeholder="计价方式" type="text">-->
-                        <!--</div>-->
-                    <!--</div>-->
                     <div class="form-group">
                         <label class="col-md-2 control-label">销售状态<span class="vaild">*</span></label>
-                        <div class="col-md-10">
                             <div class="col-md-10">
                                 <label class="radio radio-inline">
                                     <input type="radio" class="radiobox" value="0" ng-model="item.sellStatus" ng-checked="item.sellStatus == 0" name="sellStatus">
@@ -252,15 +245,21 @@
                                     <input type="radio" class="radiobox" value="1" ng-model="item.sellStatus" ng-checked="item.sellStatus == 1" name="sellStatus">
                                     <span>上架</span>
                                 </label>
-                            </div>
                         </div>
                     </div>
-                    <!--<div class="form-group">-->
-                        <!--<label class="col-md-2 control-label">销售单位<span class="vaild">*</span></label>-->
-                        <!--<div class="col-md-10">-->
-                            <!--<input class="form-control"required="" ng-model="item.sellUnit" name="sellUnit" placeholder="销售单位" type="text">-->
-                        <!--</div>-->
-                    <!--</div>-->
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">销售方式<span class="vaild">*</span></label>
+                            <div class="col-md-10">
+                                <label class="radio radio-inline">
+                                    <input type="radio" class="radiobox" value="0" ng-model="item.sellUnit" ng-checked="item.sellUnit == 0" name="sellUnit">
+                                    <span>计重</span>
+                                </label>
+                                <label class="radio radio-inline">
+                                    <input type="radio" class="radiobox" value="1" ng-model="item.sellUnit" ng-checked="item.sellUnit == 1" name="sellUnit">
+                                    <span>计件</span>
+                                </label>
+                            </div>
+                    </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">销售价格<span class="vaild">*</span></label>
                         <div class="col-md-10">
@@ -276,19 +275,25 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">会员价格</label>
                         <div class="col-md-10">
-                            <input class="form-control" ng-model="item.memberPrice" name="basePrice" placeholder="会员价格" type="text">
+                            <input class="form-control" ng-model="item.memberPrice" name="memberPrice" placeholder="会员价格" type="text">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">采摘人</label>
                         <div class="col-md-10">
-                            <input class="form-control" ng-model="item.caizaiUser" name="basePrice" placeholder="采摘人" type="text">
+                            <input class="form-control" ng-model="item.caizaiUser" name="caizaiUser" placeholder="采摘人" type="text">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">检测人</label>
                         <div class="col-md-10">
-                            <input class="form-control" ng-model="item.jianceUser" name="basePrice" placeholder="检测人" type="text">
+                            <input class="form-control" ng-model="item.jianceUser" name="jianceUser" placeholder="检测人" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">农残率</label>
+                        <div class="col-md-10">
+                            <input class="form-control" ng-model="item.nongCanLv" name="nongCanLv" placeholder="农残率" type="text">
                         </div>
                     </div>
                     <fieldset class="demo-switcher-1" ng-if="item.itemType == 2">

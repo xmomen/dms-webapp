@@ -104,6 +104,10 @@ public class ItemModel implements Serializable {
      */
     private String jianceUser;
 
+    /**
+     * 农残率
+     */
+    private String nongCanLv;
 	public Integer getId() {
 		return id;
 	}
@@ -270,5 +274,13 @@ public class ItemModel implements Serializable {
 
 	public void setJianceUser(String jianceUser) {
 		this.jianceUser = jianceUser;
+	}
+
+	public String getNongCanLv() {
+		return nongCanLv;
+	}
+
+	public void setNongCanLv(String nongCanLv) {
+		this.nongCanLv = nongCanLv;
 	}
 }

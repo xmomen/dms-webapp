@@ -96,6 +96,11 @@ public class CreateItem implements Serializable {
      */
     private String jianceUser;
     
+    /**
+     * 农残率
+     */
+    private String nongCanLv;
+    
     private List<ItemChildModel> childItems;
 
 	public String getItemCode() {
@@ -249,5 +254,13 @@ public class CreateItem implements Serializable {
 
 	public void setJianceUser(String jianceUser) {
 		this.jianceUser = jianceUser;
+	}
+
+	public String getNongCanLv() {
+		return nongCanLv;
+	}
+
+	public void setNongCanLv(String nongCanLv) {
+		this.nongCanLv = nongCanLv;
 	}
 }
