@@ -11,7 +11,7 @@
 	<div class="row">
 
 		<!-- NEW WIDGET START -->
-		<article class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+		<article class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
 
 			<!-- Widget ID (each widget will need unique ID)-->
 			<div class="jarviswidget" id="wid-id-4">
@@ -42,19 +42,22 @@
 					<!-- widget content -->
 					<div class="widget-body no-padding">
 						<div class="dt-toolbar">
-							<div class="col-sm-4">
-								<div class="dataTables_filter">
-									<label>
-										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-										<input type="search" placeholder="姓名" data-ng-keyup="getCustomerManagersList()" ng-model="queryParam.customerKeyword" class="form-control" aria-controls="dt_basic"></label>
-								</div>
+							<div class="row">
+                                <div class="col-sm-4">
+                                    <div class="dataTables_filter">
+                                        <label>
+                                            <input type="search" placeholder="姓名" data-ng-keyup="getCustomerManagersList()" ng-model="queryParam.customerKeyword" class="form-control" aria-controls="dt_basic"></label>
+                                    </div>
+                                </div>
 							</div>
-							<div class="col-sm-2">
-								<button class="btn btn-primary" type="button" data-ng-click="getCustomerManagersList()">
-									<i class="fa fa-refresh"></i>
-									刷新
-								</button>
-							</div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <button class="btn btn-primary" type="button" data-ng-click="getCustomerManagersList()">
+                                        <i class="fa fa-refresh"></i>
+                                        刷新
+                                    </button>
+                                </div>
+                            </div>
 						</div>
 						<div class="table-responsive">
 							<table class="table table-condensed table-hover smart-form has-tickbox">
@@ -111,7 +114,7 @@
 		<!-- WIDGET END -->
 
 		<!-- NEW WIDGET START -->
-		<article class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+		<article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
 			<!-- Widget ID (each widget will need unique ID)-->
 			<div class="jarviswidget" id="wid-id-4">
@@ -145,25 +148,44 @@
 							<label>装箱负责人：{{currentCustomer.actorName}}     <a ng-show="currentCustomer.customerManger" href="#" ng-click="resetCurrentCustomer()">重选</a></label>
 						</div>
 						<div class="dt-toolbar">
-							<div class="col-sm-4">
-								<div class="dataTables_filter">
-									<label>
-										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-										<input type="search" placeholder="订单号" data-ng-keyup="getOrderList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
-								</div>
-							</div>
-							<div class="col-sm-2">
-								<button class="btn btn-primary" type="button" data-ng-click="getOrderList()">
-									<i class="fa fa-refresh"></i>
-									刷新
-								</button>
-							</div>
-                            <div class="col-sm-2">
-                                <button class="btn btn-primary" type="button" data-ng-click="batchBindPackingTask()">
-                                    <i class="fa fa-inbox"></i>
-                                    批量分配
-                                </button>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="dataTables_filter">
+                                        <label>
+                                            <input type="search" placeholder="订单号" data-ng-keyup="getOrderList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="dataTables_filter">
+                                        <label>
+                                            <input type="search" placeholder="收货人" data-ng-keyup="getOrderList()" ng-model="queryParam.consigneeName" class="form-control" aria-controls="dt_basic"></label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="dataTables_filter">
+                                        <div class="dataTables_filter">
+                                            <select ug-select2 style="width: 250px;" ng-model="queryParam.managerId" ng-change="getOrderList()"  name="managerId" >
+                                                <option value="">--请选择客服经理--</option>
+                                                <option value="{{manager.customerMangerId}}" ng-repeat="manager in managers">{{manager.customerManger}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+							<div class="row">
+                                <div class="col-sm-2">
+                                    <button class="btn btn-primary" type="button" data-ng-click="getOrderList()">
+                                        <i class="fa fa-refresh"></i>
+                                        刷新
+                                    </button>
+                                </div>
+                                <div class="col-sm-2">
+                                    <button class="btn btn-primary" type="button" data-ng-click="batchBindPackingTask()">
+                                        <i class="fa fa-inbox"></i>
+                                        批量分配
+                                    </button>
+                                </div>
+							</div>
 						</div>
 						<div class="table-responsive">
 							<table class="table table-condensed table-hover smart-form has-tickbox">
@@ -177,6 +199,8 @@
                                     </th>
 									<th>序号</th>
 									<th width="120">订单编号</th>
+                                    <th>客户经理</th>
+                                    <th>收货人</th>
 									<th>装箱任务负责人</th>
 									<th>分配状态</th>
 									<th>任务状态</th>
@@ -197,6 +221,8 @@
                                     </td>
 									<td ng-bind="$index*pageInfoSetting.pageNum + 1"></td>
 									<td ng-bind="order.orderNo"></td>
+                                    <td ng-bind="order.managerName"></td>
+                                    <td ng-bind="order.consigneeName"></td>
 									<td ng-bind="order.packingTaskUsername"></td>
 									<td>
 										<div ng-if="order.packingTaskStatus != null">已分配</div>

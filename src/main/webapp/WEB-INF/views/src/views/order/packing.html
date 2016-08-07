@@ -42,52 +42,72 @@
 					<!-- widget content -->
 					<div class="widget-body no-padding">
 						<div class="dt-toolbar">
-							<div class="col-sm-4">
-								<div class="dataTables_filter">
-									<label>
-										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-										<input type="search" placeholder="装箱记录编号/手机号码/收货人" data-ng-keyup="getPackingList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
-								</div>
+							<div class="row">
+                                <div class="col-sm-2">
+                                    <div class="dataTables_filter">
+                                        <label>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                                            <input type="search" placeholder="装箱记录编号/手机号码/收货人" data-ng-keyup="getPackingList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="dataTables_filter">
+                                        <label>
+                                            <input type="search" placeholder="收货人" data-ng-keyup="getPackingList()" ng-model="queryParam.consigneeName" class="form-control" aria-controls="dt_basic"></label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="dataTables_filter">
+                                        <div class="dataTables_filter">
+                                            <select ug-select2 style="width: 250px;" ng-model="queryParam.managerId" ng-change="getPackingList()"  name="managerId" >
+                                                <option value="">--请选择客服经理--</option>
+                                                <option value="{{manager.customerMangerId}}" ng-repeat="manager in managers">{{manager.customerManger}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
+                                               placeholder="任务开始时间起始日期"
+                                               ng-model="queryParam.packingTaskCreateTimeStart"
+                                               close-text="关闭"
+                                               current-text="今日"
+                                               clear-text="清除"
+                                               is-open="datepickerSetting.packingTaskCreateTimeStart.opened"
+                                               ng-required="true" />
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="open($event, 0)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
+                                               placeholder="任务开始时间截止日期"
+                                               ng-model="queryParam.packingTaskCreateTimeEnd"
+                                               close-text="关闭"
+                                               current-text="今日"
+                                               clear-text="清除"
+                                               is-open="datepickerSetting.packingTaskCreateTimeEnd.opened"
+                                               ng-required="true" />
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="open($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
 							</div>
-                            <div class="col-md-3">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
-                                           placeholder="任务开始时间起始日期"
-                                           ng-model="queryParam.packingTaskCreateTimeStart"
-                                           close-text="关闭"
-                                           current-text="今日"
-                                           clear-text="清除"
-                                           is-open="datepickerSetting.packingTaskCreateTimeStart.opened"
-                                           ng-required="true" />
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default" ng-click="open($event, 0)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                    </div>
+							<div class="row">
+                                <div class="col-sm-2">
+                                    <button class="btn btn-primary" type="button" data-ng-click="getPackingList()">
+                                        <i class="fa fa-refresh"></i>
+                                        刷新
+                                    </button>
+                                    <button class="btn btn-primary" type="button" ui-sref="order_packing">
+                                        <i class="fa fa-plus"></i>
+                                        装箱
+                                    </button>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
-                                           placeholder="任务开始时间截止日期"
-                                           ng-model="queryParam.packingTaskCreateTimeEnd"
-                                           close-text="关闭"
-                                           current-text="今日"
-                                           clear-text="清除"
-                                           is-open="datepickerSetting.packingTaskCreateTimeEnd.opened"
-                                           ng-required="true" />
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default" ng-click="open($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-							<div class="col-sm-2">
-								<button class="btn btn-primary" type="button" data-ng-click="getPackingList()">
-									<i class="fa fa-refresh"></i>
-									刷新
-								</button>
-								<button class="btn btn-primary" type="button" ui-sref="order_packing">
-									<i class="fa fa-plus"></i>
-									装箱
-								</button>
 							</div>
 						</div>
 						<div class="table-responsive">
@@ -95,6 +115,8 @@
 								<thead>
 								<tr>
 									<th width="120">订单编号</th>
+                                    <th>客户经理</th>
+                                    <th>收货人</th>
 									<th>订单状态</th>
 									<th>任务负责人</th>
 									<th>任务分配时间</th>
@@ -107,6 +129,8 @@
 								<tbody>
 								<tr ng-repeat="packing in packingList"  ng-if="packingList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
 									<td ng-bind="packing.orderNo"></td>
+                                    <td ng-bind="packing.managerName"></td>
+                                    <td ng-bind="packing.consigneeName"></td>
 									<td ng-bind="packing.orderStatusDesc"></td>
 									<td ng-bind="packing.packingTaskUsername"></td>
 									<td ng-bind="packing.packingTaskCreateTime | date: 'yyyy-MM-dd hh:mm:ss'"></td>
@@ -115,7 +139,7 @@
 									<td ng-bind="packing.packingTaskStatusDesc"></td>
 									<td>
 										<div ng-show="show">
-											<a href="javascript:void(0);" data-ng-click="showPackingDetail($index)" title="明细">
+											<a href="javascript:void(0);" data-ng-click="showPackingDetail($index)" title="">
 												<span class="fa fa-eye"></span>
 											</a>
 											<a href="javascript:void(0);" ui-sref="order_update({id:packing.id, orderNo:packing.orderNo})" title="编辑：{{order.orderNo}}">

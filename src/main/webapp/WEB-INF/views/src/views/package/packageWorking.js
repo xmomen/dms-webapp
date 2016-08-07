@@ -130,6 +130,10 @@ define(function () {
                     $scope.packageTask.finishValue +=1;
                     $scope.packageTask.noFinishValue -=1;
                     $scope.getJobOperationLogList($stateParams.id)
+                    //如果完成自动跳转到下一个任务
+                    if($scope.packageTask.noFinishValue == 0){
+                        $scope.nextPackageTask($scope.packageTask.id);
+                    }
                 })
                 $("#weight").focus();
                 $("#weight").select();

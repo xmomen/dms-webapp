@@ -3,6 +3,7 @@ package com.xmomen.module.order.controller;
 import javax.validation.Valid;
 
 import com.xmomen.module.order.model.*;
+
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
+import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.logger.Log;
@@ -127,17 +129,25 @@ public class PackingController {
     public Page<OrderModel> queryPackingOrder(@RequestParam(value = "limit") Integer limit,
                               @RequestParam(value = "orderNo", required = false) String orderNo,
                               @RequestParam(value = "isHasPackingTaskUserId", required = false) boolean isHasPackingTaskUserId,
-                              @RequestParam(value = "packingTaskCreateTimeStart", required = false) Date packingTaskCreateTimeStart,
-                              @RequestParam(value = "packingTaskCreateTimeEnd", required = false) Date packingTaskCreateTimeEnd,
+                              @RequestParam(value = "packingTaskCreateTimeStart", required = false) String packingTaskCreateTimeStart,
+                              @RequestParam(value = "packingTaskCreateTimeEnd", required = false) String packingTaskCreateTimeEnd,
                               @RequestParam(value = "offset") Integer offset,
                               @RequestParam(value = "packingTaskStatus", required = false) Integer packingTaskStatus,
-                              @RequestParam(value = "keyword", required = false) String keyword) {
+                              @RequestParam(value = "keyword", required = false) String keyword,
+                              @RequestParam(value = "managerId", required = false) Integer managerId,
+                              @RequestParam(value = "consigneeName", required = false) String consigneeName) {
         OrderQuery orderQuery = new OrderQuery();
         orderQuery.setKeyword(keyword);
         orderQuery.setOrderNo(orderNo);
         orderQuery.setHasPackingTaskUserId(isHasPackingTaskUserId);
-        orderQuery.setPackingTaskCreateTimeStart(packingTaskCreateTimeStart);
-        orderQuery.setPackingTaskCreateTimeEnd(packingTaskCreateTimeEnd);
+        if(StringUtilsExt.isNotBlank(packingTaskCreateTimeStart)){
+        	orderQuery.setPackingTaskCreateTimeStart(packingTaskCreateTimeStart);
+        }
+        if(StringUtilsExt.isNotBlank(packingTaskCreateTimeEnd)){
+        	orderQuery.setPackingTaskCreateTimeEnd(packingTaskCreateTimeEnd);
+        }
+        orderQuery.setManagerId(managerId);
+        orderQuery.setConsigneeName(consigneeName);
         //orderQuery.setOrderStatus(7);//待装箱
         orderQuery.setPackingTaskStatus(packingTaskStatus);
         if(SecurityUtils.getSubject().hasRole(AppConstants.PACKING_PERMISSION_CODE)){

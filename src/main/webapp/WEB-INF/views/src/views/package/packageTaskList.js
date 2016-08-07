@@ -10,10 +10,10 @@ define(function () {
                 "clear-text":"清除",
                 "close-text":"关闭"
             },
-            packingTaskCreateTimeStart:{
+            packageTaskCreateTimeStart:{
                 opened:false
             },
-            packingTaskCreateTimeEnd:{
+            packageTaskCreateTimeEnd:{
                 opened:false
             }
         };
@@ -21,9 +21,9 @@ define(function () {
             $event.preventDefault();
             $event.stopPropagation();
             if(index == 0){
-                $scope.datepickerSetting.packingTaskCreateTimeStart.opened = true;
+                $scope.datepickerSetting.packageTaskCreateTimeStart.opened = true;
             }else if(index == 1){
-                $scope.datepickerSetting.packingTaskCreateTimeEnd.opened = true;
+                $scope.datepickerSetting.packageTaskCreateTimeEnd.opened = true;
             }
         };
 
@@ -33,12 +33,33 @@ define(function () {
             pageSize:100,
             pageNum:1
         };
-        $scope.queryParam = {};
+
+        $scope.currentDate = function(){
+            var myDate = new Date();
+            var fullYear = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+            var month = myDate.getMonth() + 1;       //获取当前月份(0-11,0代表1月)
+            if(month < 10){
+                month = '0'+month;
+            }
+            var date = myDate.getDate();        //获取当前日(1-31)
+            if(date < 10){
+                date = '0'+date;
+            }
+            return fullYear+"-"+month+"-"+date;
+        }
+
+        $scope.queryParam = {
+            packageTaskCreateTimeStart :$scope.currentDate(),
+            packageTaskCreateTimeEnd:$scope.currentDate()
+        };
+
         $scope.getPackageTaskList = function(){
             PackageTaskAPI.query({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
-                keyword:$scope.queryParam.keyword
+                keyword:$scope.queryParam.keyword,
+                packageTaskCreateTimeStart:$scope.queryParam.packageTaskCreateTimeStart,
+                packageTaskCreateTimeEnd:$scope.queryParam.packageTaskCreateTimeEnd
             }, function(data){
                 $scope.packageTaskList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;
@@ -75,14 +96,14 @@ define(function () {
 
                     $scope.print = function(jobOperationLog){
                         LODOP.PRINT_INITA(0,0,"56.3mm","60.01mm","商品条码打印");
-                        LODOP.ADD_PRINT_BARCODE(62,9,"50.96mm","10.21mm","128B",barCode);
-                        LODOP.ADD_PRINT_TEXT(134,107,75,19,"采摘人:"+$scope.packageTask.caizaiUser);
+                        LODOP.ADD_PRINT_BARCODE(62,9,"50.96mm","10.21mm","128B",jobOperationLog.barCode);
+                        LODOP.ADD_PRINT_TEXT(134,107,75,19,"采摘人:"+jobOperationLog.caizaiUser);
                         LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
                         LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-                        LODOP.ADD_PRINT_TEXT(131,19,78,19,"检验人:"+$scope.packageTask.jianceUser);
+                        LODOP.ADD_PRINT_TEXT(131,19,78,19,"检验人:"+jobOperationLog.jianceUser);
                         LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
                         LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-                        LODOP.ADD_PRINT_TEXT(104,20,158,19,"产品名称:"+$scope.packageTask.itemName);
+                        LODOP.ADD_PRINT_TEXT(104,20,158,19,"产品名称:"+jobOperationLog.itemName);
                         LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
                         LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
                         LODOP.ADD_PRINT_TEXT(145,19,100,20,"采摘点：吐鲁番");
@@ -91,7 +112,7 @@ define(function () {
                         LODOP.ADD_PRINT_TEXT(160,19,137,20,"采摘时间：6:00-9:00");
                         LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
                         LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-                        LODOP.ADD_PRINT_TEXT(118,20,119,19,"检测结果：ub="+$scope.packageTask.nongCanLv);
+                        LODOP.ADD_PRINT_TEXT(118,20,119,19,"检测结果：ub="+jobOperationLog.nongCanLv);
                         LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
                         LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 

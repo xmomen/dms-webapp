@@ -1,10 +1,12 @@
 package com.xmomen.module.order.model;
 
 import lombok.Data;
+
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -101,7 +103,10 @@ public @Data class UpdateOrder implements Serializable {
      * 单位
      */
     private Integer companyId;
-    
+    /**
+     * 客户经理
+     */
+    private Integer managerId;
     /**
      * 折扣金额
      */

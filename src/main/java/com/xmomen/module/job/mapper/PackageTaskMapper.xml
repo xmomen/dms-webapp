@@ -33,6 +33,19 @@
             	and (tj.job_status = 0 or tj.job_status =1) 
             	and tj.id > #{nextPackageTaskId}
             </if>
+            <if test="nextPackageTaskIdZero == 1">
+            	and (tj.job_status = 0 or tj.job_status =1) 
+            </if>
+            <if test="packageTaskCreateTimeStart">
+                <![CDATA[
+                  AND DATE_FORMAT(tj.JOB_CREATE_TIME ,'%Y-%m-%d')>= #{packageTaskCreateTimeStart}
+                ]]>
+            </if>
+            <if test="packageTaskCreateTimeEnd">
+                <![CDATA[
+                  AND DATE_FORMAT(tj.JOB_CREATE_TIME ,'%Y-%m-%d') <= #{packageTaskCreateTimeEnd}
+                ]]>
+            </if>
 		</where>
 		order by 
 		tj.JOB_STATUS,

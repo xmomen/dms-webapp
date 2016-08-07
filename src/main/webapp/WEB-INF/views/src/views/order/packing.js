@@ -2,7 +2,16 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "PackingAPI", "$modal", "$ugDialog", function($scope, PackingAPI, $modal, $ugDialog){
+    return ["$scope", "PackingAPI", "$modal", "$ugDialog","UserAPI", function($scope, PackingAPI, $modal, $ugDialog,UserAPI){
+        $scope.managers = [];
+        $scope.getCustomerManagersList = function(){
+            UserAPI.getCustomerManagerList({
+                userType:"customer_manager"
+            },function(data){
+                $scope.managers = data;
+            });
+        }
+        $scope.getCustomerManagersList();
 
         $scope.datepickerSetting = {
             datepickerPopupConfig:{
@@ -27,21 +36,40 @@ define(function () {
             }
         };
 
+        $scope.currentDate = function(){
+            var myDate = new Date();
+            var fullYear = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+            var month = myDate.getMonth() + 1;       //获取当前月份(0-11,0代表1月)
+            if(month < 10){
+                month = '0'+month;
+            }
+            var date = myDate.getDate();        //获取当前日(1-31)
+            if(date < 10){
+                date = '0'+date;
+            }
+            return fullYear+"-"+month+"-"+date;
+        }
 
         $scope.packingList = [];
         $scope.pageInfoSetting = {
             pageSize:10,
             pageNum:1
         };
-        $scope.queryParam = {};
+        $scope.queryParam = {
+            packingTaskCreateTimeStart :$scope.currentDate(),
+            packingTaskCreateTimeEnd:$scope.currentDate()
+        };
+
         $scope.getPackingList = function(){
             PackingAPI.getPackingOrderList({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
                 isHasPackingTaskUserId:true,
-                //packingTaskCreateTimeStart: new Date($scope.queryParam.packingTaskCreateTimeStart).getTime(),
-                //packingTaskCreateTimeEnd:$scope.queryParam.packingTaskCreateTimeEnd,
-                keyword:$scope.queryParam.keyword
+                packingTaskCreateTimeStart:$scope.queryParam.packingTaskCreateTimeStart,
+                packingTaskCreateTimeEnd:$scope.queryParam.packingTaskCreateTimeEnd,
+                keyword:$scope.queryParam.keyword,
+                consigneeName:$scope.queryParam.consigneeName,
+                managerId:$scope.queryParam.managerId
             }, function(data){
                 $scope.packingList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;
