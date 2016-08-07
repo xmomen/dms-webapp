@@ -304,7 +304,7 @@
 						<div class="dt-toolbar">
 							<form ug-validate="scanItemForm" name="scanItemForm2" novalidate="">
 								<div class="input-group">
-									<input class="form-control" type="text" required data-rule-minlength="7" ng-model="item.upc" placeholder="商品UPC">
+									<input class="form-control" type="text" required data-rule-minlength="7" ng-model="item.upc"  ng-keyup="scanItemEvent($event);"   placeholder="商品UPC">
 									<div class="input-group-btn">
                                         <button ng-if="choosePackingOrders.length == 1" class="btn btn-default btn-primary" data-ng-click="nextPackingTask()" type="button">
                                             <i class="fa fa-next"></i> 下一个任务

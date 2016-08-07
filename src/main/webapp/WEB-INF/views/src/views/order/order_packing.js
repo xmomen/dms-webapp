@@ -196,6 +196,17 @@ define(function () {
         $scope.scanItemForm = {};
         $scope.item = {};
         $scope.showPutBoxNum = null;
+
+        //扫描UPC码
+        $scope.scanItemEvent = function(e){
+            var keycode = window.event?e.keyCode:e.which;
+            if(keycode==13){
+                $scope.scanItem();
+                //清空UPC码
+                $scope.item.upc = "";
+            }
+        }
+
         $scope.scanItem = function(){
             var ok = false;
             for (var i = 0; i < $scope.currentPackingBoxList.length; i++) {
