@@ -82,12 +82,12 @@
             </if>
             <if test="packingTaskCreateTimeStart">
                 <![CDATA[
-                  AND st.CREATE_TIME >= #{packingTaskCreateTimeStart}
+                  AND DATE_FORMAT(st.CREATE_TIME ,'%Y-%m-%d')>= #{packingTaskCreateTimeStart}
                 ]]>
             </if>
             <if test="packingTaskCreateTimeEnd">
                 <![CDATA[
-                  AND st.CREATE_TIME <= #{packingTaskCreateTimeEnd}
+                  AND DATE_FORMAT(st.CREATE_TIME ,'%Y-%m-%d')<= #{packingTaskCreateTimeEnd}
                 ]]>
             </if>
             <if test="createUserId">

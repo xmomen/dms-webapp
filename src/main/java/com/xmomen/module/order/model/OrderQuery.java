@@ -18,8 +18,8 @@ class OrderQuery implements Serializable {
     private Integer orderStatus;
     private Integer packingTaskStatus;
     private Integer packingTaskUserId;
-    private Date packingTaskCreateTimeStart;
-    private Date packingTaskCreateTimeEnd;
+    private String packingTaskCreateTimeStart;
+    private String packingTaskCreateTimeEnd;
     private Integer createUserId;
     private boolean isHasPackingTaskUserId;
     private Integer managerId;

@@ -67,19 +67,6 @@ define(function () {
                 $scope.chooseCoupon.splice(0, $scope.chooseCoupon.length);
             }
         };
-        $scope.fileUploadConfig = {
-            'buttonText' : '上传身份证图片',
-            'onUploadSuccess':function(file,data,response){
-                var result = $scope.$eval(data);
-                if(result.status == "1"){
-                    alert(result.msg);
-                }else if(result.status == "0"){
-                    if(result.result[0]){
-                        //xxxxxxxxxxx
-                    }
-                }
-            }
-        };
         $scope.changeCouponList = function(){
             if($scope.chooseCoupon.length == $scope.couponList.length){
                 $scope.isCheckCombine = 0;

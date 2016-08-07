@@ -1,5 +1,6 @@
 package com.xmomen.module.job.controller;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
+import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.job.mapper.PackageTaskMapper;
@@ -50,11 +52,19 @@ public class PackageTaskController {
                                   @RequestParam(value = "keyword", required = false) String keyword,
                                   @RequestParam(value = "viewType", required = false) String viewType,
                                   @RequestParam(value = "packageTaskId", required = false) Integer packageTaskId,
-                                  @RequestParam(value = "nextPackageTaskId", required = false) Integer nextPackageTaskId){
+                                  @RequestParam(value = "nextPackageTaskId", required = false) Integer nextPackageTaskId,
+                                  @RequestParam(value = "packageTaskCreateTimeStart",required = false) String packageTaskCreateTimeStart,
+                                  @RequestParam(value = "packageTaskCreateTimeEnd",required = false) String packageTaskCreateTimeEnd){
     	 Map param = new HashMap();
          param.put("keyword", keyword);
          param.put("packageTaskId", packageTaskId);
          param.put("viewType",viewType);
+         if(StringUtilsExt.isNotBlank(packageTaskCreateTimeStart)){
+        	 param.put("packageTaskCreateTimeStart",packageTaskCreateTimeStart.subSequence(0, 10));
+         }
+         if(StringUtilsExt.isNotBlank(packageTaskCreateTimeEnd)){
+        	 param.put("packageTaskCreateTimeEnd",packageTaskCreateTimeEnd.subSequence(0, 10));
+         }
          if(SecurityUtils.getSubject().hasRole(AppConstants.PACKAGE_PERMISSION_CODE)){
              Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
              param.put("userId", userId);

@@ -25,6 +25,20 @@ define(function () {
             pageNum:1
         };
 
+        $scope.currentDate = function(){
+            var myDate = new Date();
+            var fullYear = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+            var month = myDate.getMonth() + 1;       //获取当前月份(0-11,0代表1月)
+            if(month < 10){
+                month = '0'+month;
+            }
+            var date = myDate.getDate();        //获取当前日(1-31)
+            if(date < 10){
+                date = '0'+date;
+            }
+            return fullYear+"-"+month+"-"+date;
+        }
+
         $scope.datepickerSetting = {
             datepickerPopupConfig:{
                 "current-text":"今天",
@@ -48,8 +62,11 @@ define(function () {
             }
         };
 
+        $scope.queryParam = {
+            packingTaskCreateTimeStart :$scope.currentDate(),
+            packingTaskCreateTimeEnd:$scope.currentDate()
+        };
 
-        $scope.queryParam = {};
         $scope.orderList = [];
         $scope.getOrderList = function(){
             PackingAPI.getPackingOrderList({
@@ -57,8 +74,8 @@ define(function () {
                 offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.orderKeyword,
                 isHasPackingTaskUserId:true,
-                //packingTaskCreateTimeStart: new Date($scope.queryParam.packingTaskCreateTimeStart).getTime(),
-                //packingTaskCreateTimeEnd:$scope.queryParam.packingTaskCreateTimeEnd,
+                packingTaskCreateTimeStart:$scope.queryParam.packingTaskCreateTimeStart,
+                packingTaskCreateTimeEnd:$scope.queryParam.packingTaskCreateTimeEnd,
                 packingTaskStatus:$scope.queryParam.packingTaskStatus,
                 consigneeName:$scope.queryParam.consigneeName,
                 managerId:$scope.queryParam.managerId
@@ -371,43 +388,73 @@ define(function () {
             });
         }
         /***************打印*******************/
-        $scope.printOrder = function(orderNo){
+        $scope.printOrder = function(order){
             var LODOP=getLodop();
-
-            LODOP.PRINT_INITA(0,0,"102.58mm","78.11mm","打印订单");
-            LODOP.ADD_PRINT_BARCODE(73,2,82,96,"QRCode","http://fygl.ehoyuan.cn:8088/bind/auth?url=/wx/receipt&param="+orderNo);
-            LODOP.ADD_PRINT_BARCODE(71,293,147,98,"QRCode","http://fygl.ehoyuan.cn:8088/bind/auth?url=/wx/scanning&param="+orderNo);
-            LODOP.ADD_PRINT_BARCODE(75,80,"57.57mm","18.15mm","128B",orderNo);
-            LODOP.ADD_PRINT_TEXT(157,13,150,21,"收货人:张三");
-            LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-            LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
-            LODOP.ADD_PRINT_TEXT(155,215,121,25,"电话:13162323157");
-            LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-            LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
-            LODOP.ADD_PRINT_TEXT(182,12,326,24,"地址:XXXXXXXXXXXXXXXX");
-            LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-            LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
-            LODOP.ADD_PRINT_TEXT(209,12,329,24,"备注:XXXXXXXXXXXXXX");
-            LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-            LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
-            LODOP.ADD_PRINT_TEXT(313,152,100,20,"");
-            LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-            LODOP.ADD_PRINT_TEXT(307,35,100,28,"");
-            LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-            LODOP.ADD_PRINT_TEXT(309,76,272,20,"");
-            LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-            LODOP.ADD_PRINT_TEXT(426,63,308,20,"");
-            LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+//            LODOP.PRINT_INITA(0,0,"100.73mm","74.67mm","打印订单");
+//            LODOP.ADD_PRINT_BARCODE(23,266,43,43,"QRCode","http://fygl.ehoyuan.cn:8088/bind/auth?url=/wx/scanning&param="+order.orderNo);
+//            LODOP.ADD_PRINT_BARCODE(23,317,40,42,"QRCode","http://fygl.ehoyuan.cn:8088/bind/auth?url=/wx/receipt&param="+order.orderNo);
+//            LODOP.ADD_PRINT_BARCODE(99,23,"57.57mm","9.95mm","128Auto",order.orderNo);
+//            LODOP.ADD_PRINT_TEXT(100,254,95,26,order.consigneeName);
+//            LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
+//            LODOP.SET_PRINT_STYLEA(0,"FontSize",12);
+//            LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+//            LODOP.ADD_PRINT_TEXT(128,254,96,25,order.consigneePhone);
+//            LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
+//            LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
+//            LODOP.ADD_PRINT_TEXT(160,20,340,24,"地址:"+order.consigneeAddress);
+//            LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
+//            LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
+//            LODOP.ADD_PRINT_TEXT(186,20,341,24,"备注:"+order.remark == null?"":order.remark);
+//            LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
+//            LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
+//            LODOP.ADD_PRINT_ELLIPSE(454,486,47,48,0,1);
+//            LODOP.ADD_PRINT_TEXT(462,498,13,20,"1");
+//            LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+//            LODOP.ADD_PRINT_TEXT(483,511,16,20,"1");
+//            LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+//            LODOP.ADD_PRINT_TEXT(212,19,341,25,"收款方式：卡类扣款，物流代收:123元");
+//            LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
+//            LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
+//            LODOP.ADD_PRINT_TEXT(239,18,181,25,"客户经理："+order.managerName);
+//            LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
+//            LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
+//            LODOP.ADD_PRINT_TEXT(62,270,45,15,"物流专用");
+//            LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
+//            LODOP.ADD_PRINT_TEXT(62,316,50,15,"收退货专用");
+//            LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
+            LODOP.PRINT_INITA(0,0,"100.81mm","74.61mm","打印订单");
+            LODOP.ADD_PRINT_BARCODE(23,266,43,43,"QRCode","http://fygl.ehoyuan.cn:8088/bind/auth?url=/wx/scanning&param="+order.orderNo);
+            LODOP.ADD_PRINT_BARCODE(23,317,40,42,"QRCode","http://fygl.ehoyuan.cn:8088/bind/auth?url=/wx/receipt&param="+order.orderNo);
+            LODOP.ADD_PRINT_BARCODE(99,23,"57.57mm","9.95mm","128Auto",order.orderNo);
+            LODOP.ADD_PRINT_TEXT(100,254,95,26,order.consigneeName);
+            LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",12);
+            LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+            LODOP.ADD_PRINT_TEXT(128,254,113,25,order.consigneePhone);
+            LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",12);
+            LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+            LODOP.ADD_PRINT_TEXT(160,20,340,24,"地址:"+order.consigneeAddress);
+            LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
+            LODOP.ADD_PRINT_TEXT(186,20,341,24,"备注:"+order.remark);
+            LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
             LODOP.ADD_PRINT_ELLIPSE(454,486,47,48,0,1);
             LODOP.ADD_PRINT_TEXT(462,498,13,20,"1");
             LODOP.SET_PRINT_STYLEA(0,"Bold",1);
             LODOP.ADD_PRINT_TEXT(483,511,16,20,"1");
             LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-            LODOP.ADD_PRINT_ELLIPSE(332,97,64,40,0,1);
-            LODOP.ADD_PRINT_RECT(2,307,51,44,0,1);
+            LODOP.ADD_PRINT_TEXT(212,19,341,25,"收款方式："+order.paymentModeDesc);
+            LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
+            LODOP.ADD_PRINT_TEXT(239,18,181,25,"客户经理："+order.managerName);
+            LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
+            LODOP.ADD_PRINT_TEXT(62,270,45,15,"物流专用");
+            LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
+            LODOP.ADD_PRINT_TEXT(62,316,50,15,"收退货专用");
+            LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
 
-
-            LODOP.PRINT_DESIGN();
+            LODOP.PRINT();
         }
 
     }];

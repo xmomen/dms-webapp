@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
+import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.logger.Log;
@@ -128,8 +129,8 @@ public class PackingController {
     public Page<OrderModel> queryPackingOrder(@RequestParam(value = "limit") Integer limit,
                               @RequestParam(value = "orderNo", required = false) String orderNo,
                               @RequestParam(value = "isHasPackingTaskUserId", required = false) boolean isHasPackingTaskUserId,
-                              @RequestParam(value = "packingTaskCreateTimeStart", required = false) Date packingTaskCreateTimeStart,
-                              @RequestParam(value = "packingTaskCreateTimeEnd", required = false) Date packingTaskCreateTimeEnd,
+                              @RequestParam(value = "packingTaskCreateTimeStart", required = false) String packingTaskCreateTimeStart,
+                              @RequestParam(value = "packingTaskCreateTimeEnd", required = false) String packingTaskCreateTimeEnd,
                               @RequestParam(value = "offset") Integer offset,
                               @RequestParam(value = "packingTaskStatus", required = false) Integer packingTaskStatus,
                               @RequestParam(value = "keyword", required = false) String keyword,
@@ -139,8 +140,12 @@ public class PackingController {
         orderQuery.setKeyword(keyword);
         orderQuery.setOrderNo(orderNo);
         orderQuery.setHasPackingTaskUserId(isHasPackingTaskUserId);
-        orderQuery.setPackingTaskCreateTimeStart(packingTaskCreateTimeStart);
-        orderQuery.setPackingTaskCreateTimeEnd(packingTaskCreateTimeEnd);
+        if(StringUtilsExt.isNotBlank(packingTaskCreateTimeStart)){
+        	orderQuery.setPackingTaskCreateTimeStart(packingTaskCreateTimeStart);
+        }
+        if(StringUtilsExt.isNotBlank(packingTaskCreateTimeEnd)){
+        	orderQuery.setPackingTaskCreateTimeEnd(packingTaskCreateTimeEnd);
+        }
         orderQuery.setManagerId(managerId);
         orderQuery.setConsigneeName(consigneeName);
         //orderQuery.setOrderStatus(7);//待装箱
