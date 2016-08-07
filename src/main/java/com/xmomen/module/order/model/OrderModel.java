@@ -156,4 +156,13 @@ class OrderModel implements Serializable {
     private String expressName;
     
     private Integer despatchExpressId;
+    
+    /**
+     *项目经理
+     */
+    private String managerName;
+    /**
+     * 单位
+     */
+    private String companyName;
 }

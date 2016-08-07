@@ -60,7 +60,13 @@ public class PackageTaskController {
              param.put("userId", userId);
          }
          param.put("nextPackageTaskId",nextPackageTaskId);
-        return  (Page<PackageTaskModel>) mybatisDao.selectPage(PackageTaskMapper.PackageTaskMapperNameSpace + "getPackageTaskList", param, limit, offset);
+         Page<PackageTaskModel> packageTasks = (Page<PackageTaskModel>) mybatisDao.selectPage(PackageTaskMapper.PackageTaskMapperNameSpace + "getPackageTaskList", param, limit, offset);
+         if(packageTasks.getResult().size() == 0 && nextPackageTaskId !=null){
+        	 param.put("nextPackageTaskId",null);
+        	 param.put("nextPackageTaskIdZero",1);
+             packageTasks = (Page<PackageTaskModel>) mybatisDao.selectPage(PackageTaskMapper.PackageTaskMapperNameSpace + "getPackageTaskList", param, limit, offset);
+         }
+        return  packageTasks;
     }
 
     /**

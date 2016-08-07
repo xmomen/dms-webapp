@@ -97,6 +97,11 @@ public class CreateOrder implements Serializable {
      * 单位
      */
     private Integer companyId;
+    
+    /**
+     * 客户经理
+     */
+    private Integer managerId;
 
     private Date appointmentTime;
     /**
@@ -284,6 +289,14 @@ public class CreateOrder implements Serializable {
 
 	public void setTotalPrice(BigDecimal totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+
+	public Integer getManagerId() {
+		return managerId;
+	}
+
+	public void setManagerId(Integer managerId) {
+		this.managerId = managerId;
 	}
     
     

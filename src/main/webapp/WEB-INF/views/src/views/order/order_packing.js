@@ -2,7 +2,18 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "PackingAPI", "OrderAPI", "$modal", "$ugDialog", "$q", "DictionaryAPI", function($scope, PackingAPI, OrderAPI, $modal, $ugDialog, $q, DictionaryAPI){
+    return ["$scope", "PackingAPI", "OrderAPI", "$modal", "$ugDialog", "$q", "DictionaryAPI","UserAPI", function($scope, PackingAPI, OrderAPI, $modal, $ugDialog, $q, DictionaryAPI,UserAPI){
+
+        $scope.managers = [];
+        $scope.getCustomerManagersList = function(){
+            UserAPI.getCustomerManagerList({
+                userType:"customer_manager"
+            },function(data){
+                $scope.managers = data;
+            });
+        }
+        $scope.getCustomerManagersList();
+
         $scope.pageSetting = {
             boxNumLimit:5,
             showPackingTask: false,
@@ -48,7 +59,9 @@ define(function () {
                 isHasPackingTaskUserId:true,
                 //packingTaskCreateTimeStart: new Date($scope.queryParam.packingTaskCreateTimeStart).getTime(),
                 //packingTaskCreateTimeEnd:$scope.queryParam.packingTaskCreateTimeEnd,
-                packingTaskStatus:$scope.queryParam.packingTaskStatus
+                packingTaskStatus:$scope.queryParam.packingTaskStatus,
+                consigneeName:$scope.queryParam.consigneeName,
+                managerId:$scope.queryParam.managerId
             }, function(data){
                 $scope.orderList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;
@@ -61,21 +74,64 @@ define(function () {
                 $scope.choosePackingOrders.splice(0, $scope.choosePackingOrders.length);
                 for (var i = 0; i < $scope.orderList.length; i++) {
                     var obj = $scope.orderList[i];
-                    $scope.choosePackingOrders.push(obj);
+                    if(obj.packingTaskStatus == 0 || obj.packingTaskStatus == 1) {
+                        $scope.choosePackingOrders.push(obj);
+                    }
                 }
             }else{
                 $scope.choosePackingOrders.splice(0, $scope.choosePackingOrders.length);
             }
         };
+
+        $scope.changePackingOrderList = function(){
+                if($scope.choosePackingOrders.length == $scope.orderList.length){
+                    $scope.isCheckCombine = 0;
+                }else{
+                    $scope.isCheckCombine = 1;
+                }
+        }
+
         $scope.startPacking = function(){
-            $scope.pageSetting.showPackingTask = true;
-            $scope.getPackingOrderCountItemList();
+            //如果没有选择 则默认一个一个装 取其中一个未完成任务进行装箱
+            if($scope.choosePackingOrders.length == 0){
+                for (var i = 0; i < $scope.orderList.length; i++) {
+                    var obj = $scope.orderList[i];
+                    if(obj.packingTaskStatus == 0 || obj.packingTaskStatus == 1){
+                        $scope.choosePackingOrders.push(obj);
+                        break;
+                    }
+                }
+            }
             for (var i = 0; i < $scope.choosePackingOrders.length; i++) {
                 var obj = angular.copy($scope.choosePackingOrders[i]);
                 $scope.currentPackingBoxList.push(obj);
             }
+            $scope.pageSetting.showPackingTask = true;
+            $scope.getPackingOrderCountItemList();
             $scope.choseOrder2CurrentPackingList(obj);
         };
+
+        //下一个任务
+        $scope.nextPackingTask =function(){
+            var currentPackingTask =  $scope.choosePackingOrders[0];
+            $scope.choosePackingOrders = [];
+            $scope.currentPackingBoxList = [];
+            for (var i = 0; i < $scope.orderList.length; i++) {
+                var obj = $scope.orderList[i];
+                if((obj.packingTaskStatus == 0 || obj.packingTaskStatus == 1) && currentPackingTask.orderNo != obj.orderNo){
+                    $scope.choosePackingOrders.push(obj);
+                    break;
+                }
+            }
+            for (var i = 0; i < $scope.choosePackingOrders.length; i++) {
+                var obj = angular.copy($scope.choosePackingOrders[i]);
+                $scope.currentPackingBoxList.push(obj);
+            }
+            $scope.pageSetting.showPackingTask = true;
+            $scope.getPackingOrderCountItemList();
+            $scope.choseOrder2CurrentPackingList(obj);
+        }
+
         $scope.getPackingOrderCountItemList = function(){
             var orderNos = [];
             for (var i = 0; i < $scope.choosePackingOrders.length; i++) {
@@ -231,8 +287,78 @@ define(function () {
         };
         $scope.getOrderList();
 
+        /**
+         * 显示装箱明细
+         */
+        $scope.showPackingDetail = function(index){
+            debugger;
+            var modalInstance = $modal.open({
+                size:'lg',
+                templateUrl: 'viewPackingDetail.html',
+                resolve: {
+                    choseOrder: function(){
+                        return $scope.currentPackingBoxList[index];
+                    }
+                },
+                controller: ["$scope", "choseOrder", "$modalInstance", function ($scope, choseOrder, $modalInstance) {
+                    $scope.choseOrder = choseOrder || {};
+                    $scope.orderItemPageInfoSetting = {
+                        pageSize:10,
+                        pageNum:1
+                    };
+                    $scope.packingRecordPageInfoSetting = {
+                        pageSize:10,
+                        pageNum:1
+                    };
 
-
+                    $scope.queryParam = {};
+                    $scope.getPackingOrderItemList = function(){
+                        if($scope.choseOrder &&
+                            $scope.choseOrder.id){
+                            PackingAPI.getPackingOrderItemList({
+                                limit:$scope.orderItemPageInfoSetting.pageSize,
+                                offset:$scope.orderItemPageInfoSetting.pageNum,
+                                id:1,
+                                keyword:$scope.queryParam.packingOrderKeyword,
+                                orderId:$scope.choseOrder.id
+                            }, function(data){
+                                $scope.packingOrderItemList = data.data;
+                                $scope.orderItemPageInfoSetting = data.pageInfo;
+                                $scope.orderItemPageInfoSetting.loadData = $scope.getPackingOrderItemList;
+                            });
+                        }
+                    };
+                    $scope.getPackingOrderItemList();
+                    $scope.choseOrderItem = function(index){
+                        $scope.choseOrder.choseOrderItem = $scope.packingOrderItemList[index];
+                        $scope.getPackingRecordList();
+                    };
+                    $scope.getPackingRecordList = function(){
+                        if($scope.choseOrder &&
+                            $scope.choseOrder.choseOrderItem &&
+                            $scope.choseOrder.choseOrderItem.orderItemId){
+                            PackingAPI.getPackingRecordList({
+                                limit:$scope.packingRecordPageInfoSetting.pageSize,
+                                offset:$scope.packingRecordPageInfoSetting.pageNum,
+                                id:$scope.choseOrder.id,
+                                keyword:$scope.queryParam.packingRecordKeyword,
+                                orderItemId:$scope.choseOrder.choseOrderItem.orderItemId
+                            }, function(data){
+                                $scope.packingRecordList = data.data;
+                                $scope.packingRecordPageInfoSetting = data.pageInfo;
+                                $scope.packingRecordPageInfoSetting.loadData = $scope.getPackingRecordList;
+                            });
+                        }
+                    };
+                    $scope.cancel = function () {
+                        $modalInstance.dismiss('cancel');
+                    };
+                }]
+            });
+            modalInstance.result.then(function (data) {
+                // $scope.choseItem(index, parseFloat(data.number));
+            });
+        }
         /***************打印*******************/
         $scope.printOrder = function(orderNo){
             var LODOP=getLodop();
@@ -240,7 +366,7 @@ define(function () {
             LODOP.PRINT_INITA(0,0,"102.58mm","78.11mm","打印订单");
             LODOP.ADD_PRINT_BARCODE(73,2,82,96,"QRCode","http://fygl.ehoyuan.cn:8088/bind/auth?url=/wx/receipt&param="+orderNo);
             LODOP.ADD_PRINT_BARCODE(71,293,147,98,"QRCode","http://fygl.ehoyuan.cn:8088/bind/auth?url=/wx/scanning&param="+orderNo);
-            LODOP.ADD_PRINT_BARCODE(75,80,"57.57mm","18.15mm","128B","20160508225346498");
+            LODOP.ADD_PRINT_BARCODE(75,80,"57.57mm","18.15mm","128B",orderNo);
             LODOP.ADD_PRINT_TEXT(157,13,150,21,"收货人:张三");
             LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
             LODOP.SET_PRINT_STYLEA(0,"FontSize",10);

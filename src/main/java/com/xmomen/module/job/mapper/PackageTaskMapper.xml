@@ -33,6 +33,9 @@
             	and (tj.job_status = 0 or tj.job_status =1) 
             	and tj.id > #{nextPackageTaskId}
             </if>
+            <if test="nextPackageTaskIdZero == 1">
+            	and (tj.job_status = 0 or tj.job_status =1) 
+            </if>
 		</where>
 		order by 
 		tj.JOB_STATUS,

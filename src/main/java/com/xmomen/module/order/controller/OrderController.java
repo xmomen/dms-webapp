@@ -51,10 +51,14 @@ public class OrderController {
     public Page<OrderModel> getUserList(@RequestParam(value = "limit") Integer limit,
                                   @RequestParam(value = "offset") Integer offset,
                                   @RequestParam(value = "orderStatus", required = false) Integer orderStatus,
-                                  @RequestParam(value = "keyword", required = false) String keyword){
+                                  @RequestParam(value = "keyword", required = false) String keyword,
+                                  @RequestParam(value = "managerId", required = false) Integer managerId,
+                                  @RequestParam(value = "consigneeName", required = false) String consigneeName){
         OrderQuery orderQuery = new OrderQuery();
         orderQuery.setKeyword(keyword);
         orderQuery.setOrderStatus(orderStatus);
+        orderQuery.setManagerId(managerId);
+        orderQuery.setConsigneeName(consigneeName);
         //客服经理过滤 如果有客服组权限则不过滤
         if(SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE) && !SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_PERMISSION_CODE)){
             Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);

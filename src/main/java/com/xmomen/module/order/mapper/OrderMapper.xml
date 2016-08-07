@@ -18,6 +18,7 @@
         st.TASK_STATUS as packingTaskStatus,
         stsdp.show_value as packingTaskStatusDesc,
         ce.express_name,
+        users.realname as manager_name,
         tb.*
         FROM
         tb_order tb
@@ -40,6 +41,8 @@
         LEFT JOIN sys_dictionary stsd on stsd.DICTIONARY_CODE='JOB_STATUS'
         left join sys_dictionary_parameter stsdp on stsdp.SYS_DICTIONARY_ID=stsd.ID and st.TASK_STATUS = stsdp.REAL_VALUE
         left join cd_express ce on tb.despatch_express_id = ce.id
+        
+        left join sys_users users on users.id = tb.MANAGER_ID
         <where>
             <if test="orderStatus">
                   AND tb.order_status = #{orderStatus}
@@ -52,6 +55,12 @@
             </if>
             <if test="id">
                 AND tb.id = #{id}
+            </if>
+             <if test="managerId">
+                AND tb.MANAGER_ID = #{managerId}
+            </if>
+             <if test="consigneeName">
+                AND tb.consignee_name LIKE CONCAT('%', #{consigneeName}, '%')
             </if>
             <if test="orderNo">
                 AND tb.ORDER_NO = #{orderNo}

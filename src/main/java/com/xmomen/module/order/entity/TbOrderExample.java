@@ -1446,6 +1446,126 @@ public class TbOrderExample extends BaseMybatisExample {
             addCriterion("EXPRESS_MEMBER_ID not between", value1, value2, "expressMemberId");
             return (Criteria) this;
         }
+
+        public Criteria andCompanyIdIsNull() {
+            addCriterion("COMPANY_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdIsNotNull() {
+            addCriterion("COMPANY_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdEqualTo(Integer value) {
+            addCriterion("COMPANY_ID =", value, "companyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdNotEqualTo(Integer value) {
+            addCriterion("COMPANY_ID <>", value, "companyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdGreaterThan(Integer value) {
+            addCriterion("COMPANY_ID >", value, "companyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("COMPANY_ID >=", value, "companyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdLessThan(Integer value) {
+            addCriterion("COMPANY_ID <", value, "companyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdLessThanOrEqualTo(Integer value) {
+            addCriterion("COMPANY_ID <=", value, "companyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdIn(List<Integer> values) {
+            addCriterion("COMPANY_ID in", values, "companyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdNotIn(List<Integer> values) {
+            addCriterion("COMPANY_ID not in", values, "companyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdBetween(Integer value1, Integer value2) {
+            addCriterion("COMPANY_ID between", value1, value2, "companyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("COMPANY_ID not between", value1, value2, "companyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andManagerIdIsNull() {
+            addCriterion("MANAGER_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andManagerIdIsNotNull() {
+            addCriterion("MANAGER_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andManagerIdEqualTo(Integer value) {
+            addCriterion("MANAGER_ID =", value, "managerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andManagerIdNotEqualTo(Integer value) {
+            addCriterion("MANAGER_ID <>", value, "managerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andManagerIdGreaterThan(Integer value) {
+            addCriterion("MANAGER_ID >", value, "managerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andManagerIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("MANAGER_ID >=", value, "managerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andManagerIdLessThan(Integer value) {
+            addCriterion("MANAGER_ID <", value, "managerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andManagerIdLessThanOrEqualTo(Integer value) {
+            addCriterion("MANAGER_ID <=", value, "managerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andManagerIdIn(List<Integer> values) {
+            addCriterion("MANAGER_ID in", values, "managerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andManagerIdNotIn(List<Integer> values) {
+            addCriterion("MANAGER_ID not in", values, "managerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andManagerIdBetween(Integer value1, Integer value2) {
+            addCriterion("MANAGER_ID between", value1, value2, "managerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andManagerIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("MANAGER_ID not between", value1, value2, "managerId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

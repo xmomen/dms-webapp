@@ -2,7 +2,16 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "PackingAPI", "$modal", "$ugDialog", function($scope, PackingAPI, $modal, $ugDialog){
+    return ["$scope", "PackingAPI", "$modal", "$ugDialog","UserAPI", function($scope, PackingAPI, $modal, $ugDialog,UserAPI){
+        $scope.managers = [];
+        $scope.getCustomerManagersList = function(){
+            UserAPI.getCustomerManagerList({
+                userType:"customer_manager"
+            },function(data){
+                $scope.managers = data;
+            });
+        }
+        $scope.getCustomerManagersList();
 
         $scope.datepickerSetting = {
             datepickerPopupConfig:{
@@ -41,7 +50,9 @@ define(function () {
                 isHasPackingTaskUserId:true,
                 //packingTaskCreateTimeStart: new Date($scope.queryParam.packingTaskCreateTimeStart).getTime(),
                 //packingTaskCreateTimeEnd:$scope.queryParam.packingTaskCreateTimeEnd,
-                keyword:$scope.queryParam.keyword
+                keyword:$scope.queryParam.keyword,
+                consigneeName:$scope.queryParam.consigneeName,
+                managerId:$scope.queryParam.managerId
             }, function(data){
                 $scope.packingList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;

@@ -3,6 +3,17 @@
  */
 define(function () {
     return ["$scope", "OrderAPI", "$modal", "$ugDialog", "UserAPI", "PackingAPI", function($scope, OrderAPI, $modal, $ugDialog, UserAPI, PackingAPI){
+        $scope.managers = [];
+        $scope.getCustomerManagersList = function(){
+            UserAPI.getCustomerManagerList({
+                userType:"customer_manager"
+            },function(data){
+                $scope.managers = data;
+            });
+        }
+        $scope.getCustomerManagersList();
+
+
         $scope.orderList = [];
         $scope.pageInfoSetting = {
             pageSize:10,
@@ -10,10 +21,13 @@ define(function () {
         };
         $scope.queryParam = {};
         $scope.getOrderList = function(){
+            debugger;
             PackingAPI.getPackingOrderList({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
-                keyword:$scope.queryParam.keyword
+                keyword:$scope.queryParam.keyword,
+                consigneeName:$scope.queryParam.consigneeName,
+                managerId:$scope.queryParam.managerId
             }, function(data){
                 $scope.orderList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;

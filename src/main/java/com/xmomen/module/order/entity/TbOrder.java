@@ -118,6 +118,16 @@ public class TbOrder extends BaseMybatisModel {
      */
     private Integer expressMemberId;
 
+    /**
+     * 
+     */
+    private Integer companyId;
+
+    /**
+     * 客户经理
+     */
+    private Integer managerId;
+
     @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
@@ -412,5 +422,33 @@ public class TbOrder extends BaseMybatisModel {
               return;
         }
         addValidField("expressMemberId");
+    }
+
+    @Column(name = "COMPANY_ID")
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
+        if(companyId == null){
+              removeValidField("companyId");
+              return;
+        }
+        addValidField("companyId");
+    }
+
+    @Column(name = "MANAGER_ID")
+    public Integer getManagerId() {
+        return managerId;
+    }
+
+    public void setManagerId(Integer managerId) {
+        this.managerId = managerId;
+        if(managerId == null){
+              removeValidField("managerId");
+              return;
+        }
+        addValidField("managerId");
     }
 }

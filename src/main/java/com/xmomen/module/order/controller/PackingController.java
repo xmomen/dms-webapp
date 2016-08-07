@@ -3,6 +3,7 @@ package com.xmomen.module.order.controller;
 import javax.validation.Valid;
 
 import com.xmomen.module.order.model.*;
+
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -131,13 +132,17 @@ public class PackingController {
                               @RequestParam(value = "packingTaskCreateTimeEnd", required = false) Date packingTaskCreateTimeEnd,
                               @RequestParam(value = "offset") Integer offset,
                               @RequestParam(value = "packingTaskStatus", required = false) Integer packingTaskStatus,
-                              @RequestParam(value = "keyword", required = false) String keyword) {
+                              @RequestParam(value = "keyword", required = false) String keyword,
+                              @RequestParam(value = "managerId", required = false) Integer managerId,
+                              @RequestParam(value = "consigneeName", required = false) String consigneeName) {
         OrderQuery orderQuery = new OrderQuery();
         orderQuery.setKeyword(keyword);
         orderQuery.setOrderNo(orderNo);
         orderQuery.setHasPackingTaskUserId(isHasPackingTaskUserId);
         orderQuery.setPackingTaskCreateTimeStart(packingTaskCreateTimeStart);
         orderQuery.setPackingTaskCreateTimeEnd(packingTaskCreateTimeEnd);
+        orderQuery.setManagerId(managerId);
+        orderQuery.setConsigneeName(consigneeName);
         //orderQuery.setOrderStatus(7);//待装箱
         orderQuery.setPackingTaskStatus(packingTaskStatus);
         if(SecurityUtils.getSubject().hasRole(AppConstants.PACKING_PERMISSION_CODE)){

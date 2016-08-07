@@ -22,4 +22,7 @@ class OrderQuery implements Serializable {
     private Date packingTaskCreateTimeEnd;
     private Integer createUserId;
     private boolean isHasPackingTaskUserId;
+    private Integer managerId;
+    private Integer companyId;
+    private String consigneeName;
 }

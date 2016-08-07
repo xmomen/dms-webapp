@@ -65,7 +65,7 @@ public class PackageTaskServiceImpl implements PackageTaskService {
 		//添加操作记录
 		TbJobOperationLog jobOperationLog = new TbJobOperationLog();
 		jobOperationLog.setBarCode(barCode);
-		jobOperationLog.setItemCode(StringUtils.substring(barCode,0,5));
+		jobOperationLog.setItemCode(StringUtils.substring(barCode,0,7));
 		jobOperationLog.setJobId(packageTask.getId());
 		jobOperationLog.setJobTime(currentTime);
 		jobOperationLog.setJobUser(packageTask.getJobUser());

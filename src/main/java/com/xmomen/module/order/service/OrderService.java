@@ -117,6 +117,8 @@ public class OrderService {
         tbOrder.setOrderNo(orderNo);
         tbOrder.setOrderSource(createOrder.getOrderSource());
         tbOrder.setCreateUserId(createOrder.getCreateUserId());
+        tbOrder.setManagerId(createOrder.getManagerId());
+        tbOrder.setCompanyId(createOrder.getCompanyId());
         //生成收货码
 		TbOrderRef orderRef = new TbOrderRef();
 		orderRef.setOrderNo(orderNo);
