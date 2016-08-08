@@ -10,7 +10,7 @@ import com.xmomen.module.order.model.*;
 import com.xmomen.module.system.entity.SysTask;
 import com.xmomen.module.system.model.CreateTask;
 import com.xmomen.module.system.service.TaskService;
-import org.apache.commons.lang.ArrayUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -90,7 +90,7 @@ public class PackingService {
     }
 
     @Transactional
-    public TbPackingRecord createRecord(CreatePackingRecord createPackingRecord) {
+    public ScanModel createRecord(CreatePackingRecord createPackingRecord) {
         // 判断UPC是否已被扫描，若已扫描则做删除操作
         TbPackingRecordExample tbPackingRecordExample = new TbPackingRecordExample();
         tbPackingRecordExample.createCriteria().andUpcEqualTo(createPackingRecord.getUpc());
@@ -174,7 +174,11 @@ public class PackingService {
             mybatisDao.update(sysTask);
             orderService.updateOrderStatus(currentPackingOrder.getOrderNo(), "7");
         }
-        return tbPackingRecord;
+        ScanModel scanModel = new ScanModel();
+        BeanUtils.copyProperties(tbPackingRecord, scanModel);
+        scanModel.setOrderNo(currentPackingOrder.getOrderNo());
+        scanModel.setTaskStatus(sysTask.getTaskStatus());
+        return scanModel;
     }
 
     @Transactional
