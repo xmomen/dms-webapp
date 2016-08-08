@@ -25,4 +25,5 @@ class OrderQuery implements Serializable {
     private Integer managerId;
     private Integer companyId;
     private String consigneeName;
+    private boolean hasNoShowCancel;
 }

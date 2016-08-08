@@ -80,6 +80,9 @@
             <if test="isHasPackingTaskUserId">
                 AND st.EXECUTOR_ID IS NOT NULL
             </if>
+            <if test="hasNoShowCancel">
+                AND tb.order_status != 9
+            </if>
             <if test="packingTaskCreateTimeStart">
                 <![CDATA[
                   AND DATE_FORMAT(st.CREATE_TIME ,'%Y-%m-%d')>= #{packingTaskCreateTimeStart}
