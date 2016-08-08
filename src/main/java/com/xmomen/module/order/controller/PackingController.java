@@ -140,6 +140,7 @@ public class PackingController {
         orderQuery.setKeyword(keyword);
         orderQuery.setOrderNo(orderNo);
         orderQuery.setHasPackingTaskUserId(isHasPackingTaskUserId);
+        orderQuery.setHasNoShowCancel(true);
         if(StringUtilsExt.isNotBlank(packingTaskCreateTimeStart)){
         	orderQuery.setPackingTaskCreateTimeStart(packingTaskCreateTimeStart);
         }
