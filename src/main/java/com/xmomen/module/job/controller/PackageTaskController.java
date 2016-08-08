@@ -60,10 +60,10 @@ public class PackageTaskController {
          param.put("packageTaskId", packageTaskId);
          param.put("viewType",viewType);
          if(StringUtilsExt.isNotBlank(packageTaskCreateTimeStart)){
-        	 param.put("packageTaskCreateTimeStart",packageTaskCreateTimeStart.subSequence(0, 10));
+        	 param.put("packageTaskCreateTimeStart",packageTaskCreateTimeStart.substring(0, 10));
          }
          if(StringUtilsExt.isNotBlank(packageTaskCreateTimeEnd)){
-        	 param.put("packageTaskCreateTimeEnd",packageTaskCreateTimeEnd.subSequence(0, 10));
+        	 param.put("packageTaskCreateTimeEnd",packageTaskCreateTimeEnd.substring(0, 10));
          }
          if(SecurityUtils.getSubject().hasRole(AppConstants.PACKAGE_PERMISSION_CODE)){
              Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);

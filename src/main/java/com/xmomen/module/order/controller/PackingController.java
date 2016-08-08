@@ -155,7 +155,7 @@ public class PackingController {
             Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
             orderQuery.setPackingTaskUserId(userId);
         }
-        return orderService.getOrderList(orderQuery, limit, offset);
+        return orderService.getPackageTaskList(orderQuery, limit, offset);
     }
 
     /**

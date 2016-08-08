@@ -44,6 +44,18 @@ public class OrderService {
     }
 
     /**
+     * 查询装箱任务
+     * @param orderQuery
+     * @param limit
+     * @param offset
+     * @return
+     */
+    public Page<OrderModel> getPackageTaskList(OrderQuery orderQuery, Integer limit, Integer offset){
+        return (Page<OrderModel>) mybatisDao.selectPage(OrderMapper.ORDER_MAPPER_NAMESPACE + "getPackageTaskList", orderQuery, limit, offset);
+    }
+
+    
+    /**
      * 查询订单
      * @param orderQuery
      * @return

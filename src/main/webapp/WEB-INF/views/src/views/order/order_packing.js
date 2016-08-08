@@ -119,6 +119,10 @@ define(function () {
                     }
                 }
             }
+            if($scope.choosePackingOrders.length == 0){
+                $ugDialog.alert("无未完成的装箱任务！");
+                return;
+            }
             for (var i = 0; i < $scope.choosePackingOrders.length; i++) {
                 var obj = angular.copy($scope.choosePackingOrders[i]);
                 $scope.currentPackingBoxList.push(obj);
@@ -454,7 +458,7 @@ define(function () {
             LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
             LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
 
-            LODOP.PRINT();
+            LODOP.PRINT_();
         }
 
     }];

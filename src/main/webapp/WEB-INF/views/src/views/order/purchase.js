@@ -3,37 +3,19 @@
  */
 define(function () {
     return ["$scope", "PurchaseAPI", "$modal", "$ugDialog", function($scope, PurchaseAPI, $modal, $ugDialog){
-        $scope.purchaseList = [];
-        $scope.pageInfoSetting = {
-            pageSize:10,
-            pageNum:1
-        };
-        $scope.queryParam = {
-            purchaseStatus : "0"
-        };
-        $scope.getPurchaseList = function(){
-            var startTime = null;
-            if($scope.queryParam.startTime != null){
-                startTime = new Date($scope.queryParam.startTime).getTime();
+        $scope.currentDate = function(){
+            var myDate = new Date();
+            var fullYear = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+            var month = myDate.getMonth() + 1;       //获取当前月份(0-11,0代表1月)
+            if(month < 10){
+                month = '0'+month;
             }
-            var endTime = null;
-            if($scope.queryParam.endTime != null){
-                endTime = new Date($scope.queryParam.endTime).getTime();
+            var date = myDate.getDate();        //获取当前日(1-31)
+            if(date < 10){
+                date = '0'+date;
             }
-            PurchaseAPI.query({
-                startTime: startTime,
-                endTime:endTime,
-                purchaseStatus:$scope.queryParam.purchaseStatus,
-                limit:$scope.pageInfoSetting.pageSize,
-                offset:$scope.pageInfoSetting.pageNum,
-                keyword:$scope.queryParam.keyword,
-                sellUnit:$scope.queryParam.sellUnit
-            }, function(data){
-                $scope.purchaseList = data.data;
-                $scope.pageInfoSetting = data.pageInfo;
-                $scope.pageInfoSetting.loadData = $scope.getPurchaseList;
-            });
-        };
+            return fullYear+"-"+month+"-"+date;
+        }
         $scope.datepickerSetting = {
             datepickerPopupConfig:{
                 "current-text":"今天",
@@ -57,6 +39,33 @@ define(function () {
                 $scope.datepickerSetting.endTime.opened = true;
             }
         };
+
+        $scope.purchaseList = [];
+        $scope.pageInfoSetting = {
+            pageSize:10,
+            pageNum:1
+        };
+        $scope.queryParam = {
+            purchaseStatus : "0",
+            startTime:$scope.currentDate(),
+            endTime :$scope.currentDate()
+        };
+        $scope.getPurchaseList = function(){
+            PurchaseAPI.query({
+                startTime: $scope.queryParam.startTime,
+                endTime:$scope.queryParam.endTime,
+                purchaseStatus:$scope.queryParam.purchaseStatus,
+                limit:$scope.pageInfoSetting.pageSize,
+                offset:$scope.pageInfoSetting.pageNum,
+                keyword:$scope.queryParam.keyword,
+                sellUnit:$scope.queryParam.sellUnit
+            }, function(data){
+                $scope.purchaseList = data.data;
+                $scope.pageInfoSetting = data.pageInfo;
+                $scope.pageInfoSetting.loadData = $scope.getPurchaseList;
+            });
+        };
+
         $scope.finish = function(index){
             $ugDialog.confirm("是否已完成此产品的采购？").then(function(){
                 PurchaseAPI.update({
