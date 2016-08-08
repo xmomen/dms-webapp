@@ -214,7 +214,7 @@ public class PackingController {
 
     @RequestMapping(value = "/packing/record", method = RequestMethod.POST)
     @Log(actionName = "新增装箱记录")
-    public TbPackingRecord createPackingRecord(@RequestBody @Valid CreatePackingRecord createPackingRecord, BindingResult bindingResult) throws ArgumentValidException {
+    public ScanModel createPackingRecord(@RequestBody @Valid CreatePackingRecord createPackingRecord, BindingResult bindingResult) throws ArgumentValidException {
         if(bindingResult != null && bindingResult.hasErrors()){
             throw new ArgumentValidException(bindingResult);
         }
