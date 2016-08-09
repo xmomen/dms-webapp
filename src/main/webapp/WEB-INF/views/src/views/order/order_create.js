@@ -150,11 +150,12 @@ define(function () {
                 }
             };
             var setMemberInfo = function(member){
+                debugger;
                 $scope.order.memberId = member.id;
                 $scope.order.companyId = member.cdCompanyId;
                 $scope.order.name = member.name;
                 $scope.order.companyName = member.companyName;
-                $scope.order.cdUserId = member.cdUserId;
+                $scope.order.managerId = member.cdUserId;
                 $scope.order.managerName = member.managerName;
                 $scope.order.phone = member.phoneNumber;
                 $scope.order.addressChose = 1;

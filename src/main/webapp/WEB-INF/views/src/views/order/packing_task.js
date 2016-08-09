@@ -105,7 +105,9 @@ define(function () {
                 $scope.chooseOrder.splice(0, $scope.chooseOrder.length);
                 for (var i = 0; i < $scope.orderList.length; i++) {
                     var obj = $scope.orderList[i];
-                    $scope.chooseOrder.push(obj);
+                    if(obj.packingTaskStatus == null){
+                        $scope.chooseOrder.push(obj);
+                    }
                 }
             }else{
                 $scope.chooseOrder.splice(0, $scope.chooseOrder.length);

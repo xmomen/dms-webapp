@@ -26,6 +26,7 @@ import com.xmomen.module.order.service.OrderService;
 import com.xmomen.module.order.service.PackingService;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Jeng on 2016/3/30.
@@ -155,7 +156,9 @@ public class PackingController {
             Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
             orderQuery.setPackingTaskUserId(userId);
         }
-        return orderService.getOrderList(orderQuery, limit, offset);
+        
+        Page<OrderModel> orderModePage = orderService.getPackageTaskList(orderQuery, limit, offset);
+        return orderModePage;
     }
 
     /**
@@ -189,7 +192,34 @@ public class PackingController {
         packingOrderQuery.setOrderNos(orderNos);
         return packingService.queryPackingOrder(packingOrderQuery, limit, offset);
     }
-
+    
+    /**
+     * 订单打印
+     * @param orderId 订单ID
+     * @return
+     */
+    @RequestMapping(value = "/packing/printOrder")
+    public OrderModel printOrder(@RequestParam(value = "orderId") Integer orderId){
+    	OrderModel orderModel = null;
+    	OrderQuery orderQuery = new OrderQuery();
+    	orderQuery.setId(orderId);
+    	List<OrderModel> orderModels = orderService.getOrderList(orderQuery);
+    	//打印传递箱数
+        if(orderModels.size() == 1){
+        	orderModel = orderModels.get(0);
+        	//已完成
+        	if(orderModel.getPackingTaskStatus() == 2){
+        		PackingOrderQuery packingOrderQuery = new PackingOrderQuery();
+                packingOrderQuery.setOrderId(orderModel.getId());
+                List<PackingOrderModel>  packingOrderModels = packingService.queryPackingOrder(packingOrderQuery);
+                orderModel.setPackingOrderModels(packingOrderModels);
+        	}
+        }
+        
+        return orderModel;
+    }
+    
+    
     @RequestMapping(value = "/packing/order/item")
     public Page<PackingOrderItemModel> queryPackingOrderItem(@RequestParam(value = "orderNos", required = false) String[] orderNos,
                                                              @RequestParam(value = "limit") Integer limit,

@@ -26,7 +26,7 @@ public class JobOperationLogServiceImpl implements JobOperationLogService {
     	job.setFinishValue(job.getFinishValue() - 1);
     	mybatisDao.save(job);
     	//改变任务状态
-    	if((job.getFinishValue() - 1) == 0){
+    	if(job.getFinishValue() == 0){
     		mybatisDao.getSqlSessionTemplate().update(PackageTaskMapper.PackageTaskMapperNameSpace + "updateBeginTime",jobOperationLog.getJobId());
     	}
     	if(job.getJobStatus() == 2){

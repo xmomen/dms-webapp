@@ -302,7 +302,10 @@ define(function () {
             unbindPackingTask:{method:"PUT",url:"/packing/task/unbind", params:{
                 orderNos:"@orderNos"
             }},
-            scanItem:{method:"POST",url:"/packing/:id/record"}
+            scanItem:{method:"POST",url:"/packing/:id/record"},
+            printOrder:{method:"GET",url:"/packing/printOrder",params:{
+                orderId:"@orderId"
+            }}
         });
     }]);
 
