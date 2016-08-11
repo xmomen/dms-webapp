@@ -54,6 +54,11 @@ public @Data class UpdateOrder implements Serializable {
     private Integer paymentMode;
 
     /**
+     * 附加付款方式
+     */
+    private Integer otherPaymentMode;
+
+    /**
      * 支付关系编号（卡号/券号）
      */
     private String paymentRelationNo;

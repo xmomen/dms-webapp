@@ -39,6 +39,11 @@ public class TbOrder extends BaseMybatisModel {
     private Integer paymentMode;
 
     /**
+     * 附加付款方式
+     */
+    private Integer otherPaymentMode;
+
+    /**
      * 客户代码
      */
     private String memberCode;
@@ -84,11 +89,6 @@ public class TbOrder extends BaseMybatisModel {
     private String remark;
 
     /**
-     * 订单折扣金额
-     */
-    private BigDecimal discountPrice;
-
-    /**
      * 订单总金额
      */
     private BigDecimal totalAmount;
@@ -109,7 +109,7 @@ public class TbOrder extends BaseMybatisModel {
     private Integer createUserId;
 
     /**
-     * 发运快递商
+     * 发运快递
      */
     private Integer despatchExpressId;
 
@@ -119,14 +119,19 @@ public class TbOrder extends BaseMybatisModel {
     private Integer expressMemberId;
 
     /**
-     * 
+     * 折扣金额
      */
-    private Integer companyId;
+    private BigDecimal discountPrice;
 
     /**
      * 客户经理
      */
     private Integer managerId;
+
+    /**
+     * 单位ID
+     */
+    private Integer companyId;
 
     @Column(name = "ID")
     @Id
@@ -198,6 +203,20 @@ public class TbOrder extends BaseMybatisModel {
               return;
         }
         addValidField("paymentMode");
+    }
+
+    @Column(name = "OTHER_PAYMENT_MODE")
+    public Integer getOtherPaymentMode() {
+        return otherPaymentMode;
+    }
+
+    public void setOtherPaymentMode(Integer otherPaymentMode) {
+        this.otherPaymentMode = otherPaymentMode;
+        if(otherPaymentMode == null){
+              removeValidField("otherPaymentMode");
+              return;
+        }
+        addValidField("otherPaymentMode");
     }
 
     @Column(name = "MEMBER_CODE")
@@ -326,20 +345,6 @@ public class TbOrder extends BaseMybatisModel {
         addValidField("remark");
     }
 
-    @Column(name = "DISCOUNT_PRICE")
-    public BigDecimal getDiscountPrice() {
-        return discountPrice;
-    }
-
-    public void setDiscountPrice(BigDecimal discountPrice) {
-        this.discountPrice = discountPrice;
-        if(discountPrice == null){
-              removeValidField("discountPrice");
-              return;
-        }
-        addValidField("discountPrice");
-    }
-
     @Column(name = "TOTAL_AMOUNT")
     public BigDecimal getTotalAmount() {
         return totalAmount;
@@ -424,18 +429,18 @@ public class TbOrder extends BaseMybatisModel {
         addValidField("expressMemberId");
     }
 
-    @Column(name = "COMPANY_ID")
-    public Integer getCompanyId() {
-        return companyId;
+    @Column(name = "DISCOUNT_PRICE")
+    public BigDecimal getDiscountPrice() {
+        return discountPrice;
     }
 
-    public void setCompanyId(Integer companyId) {
-        this.companyId = companyId;
-        if(companyId == null){
-              removeValidField("companyId");
+    public void setDiscountPrice(BigDecimal discountPrice) {
+        this.discountPrice = discountPrice;
+        if(discountPrice == null){
+              removeValidField("discountPrice");
               return;
         }
-        addValidField("companyId");
+        addValidField("discountPrice");
     }
 
     @Column(name = "MANAGER_ID")
@@ -450,5 +455,19 @@ public class TbOrder extends BaseMybatisModel {
               return;
         }
         addValidField("managerId");
+    }
+
+    @Column(name = "COMPANY_ID")
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
+        if(companyId == null){
+              removeValidField("companyId");
+              return;
+        }
+        addValidField("companyId");
     }
 }

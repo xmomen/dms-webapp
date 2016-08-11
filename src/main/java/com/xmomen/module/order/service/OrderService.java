@@ -111,6 +111,7 @@ public class OrderService {
         tbOrder.setCreateTime(mybatisDao.getSysdate());
         tbOrder.setOrderSource(createOrder.getOrderSource());
         tbOrder.setPaymentMode(createOrder.getPaymentMode());
+        tbOrder.setOtherPaymentMode(createOrder.getOtherPaymentMode());
         tbOrder.setMemberCode(createOrder.getMemberCode());
         tbOrder.setRemark(createOrder.getRemark());
         tbOrder.setOrderType(createOrder.getOrderType());
@@ -201,6 +202,7 @@ public class OrderService {
         tbOrder.setConsigneePhone(updateOrder.getConsigneePhone());
         tbOrder.setOrderSource(updateOrder.getOrderSource());
         tbOrder.setPaymentMode(updateOrder.getPaymentMode());
+        tbOrder.setOtherPaymentMode(updateOrder.getOtherPaymentMode());
         tbOrder.setMemberCode(updateOrder.getMemberCode());
         tbOrder.setRemark(updateOrder.getRemark());
         tbOrder.setOrderType(updateOrder.getOrderType());
@@ -306,27 +308,46 @@ public class OrderService {
             CdCoupon cdCoupon = new CdCoupon();
             cdCoupon.setCouponNumber(tbOrderRelation.getRefValue());
             cdCoupon = mybatisDao.selectOneByModel(cdCoupon);
+            Integer payStatus = 0;
             if(tbOrder.getOrderType() == 1){
+                BigDecimal amount = BigDecimal.ZERO;
                 // 卡内支付
                 if(cdCoupon != null &&
                         cdCoupon.getUserPrice() != null &&
                         tbOrder.getTotalAmount() != null &&
-                        tbOrder.getOrderType() == 1 &&
                         cdCoupon.getUserPrice().compareTo(tbOrder.getTotalAmount()) < 0){
-                    throw new IllegalArgumentException("卡内余额不足，请充值");
+                    if(tbOrder.getOtherPaymentMode() == null){
+                        throw new IllegalArgumentException("卡内余额不足，请充值或添加附加付款方式");
+                    }
+                    // 扣除卡内所有金额，其余款项由附加付款方式支付
+                    amount = cdCoupon.getUserPrice();
+                    CdCouponExample cdCouponExample = new CdCouponExample();
+                    cdCouponExample.createCriteria().andCouponNumberEqualTo(tbOrderRelation.getRefValue());
+                    CdCoupon updateCdCoupon = new CdCoupon();
+                    updateCdCoupon.setUserPrice(amount);
+                    mybatisDao.updateOneByExampleSelective(updateCdCoupon, cdCouponExample);
+                    TbTradeRecord tbTradeRecord = new TbTradeRecord();
+                    tbTradeRecord.setAmount(amount);
+                    tbTradeRecord.setCreateTime(mybatisDao.getSysdate());
+                    tbTradeRecord.setTradeNo(payOrder.getOrderNo());
+                    tbTradeRecord.setTradeType("CARD");
+                    mybatisDao.insert(tbTradeRecord);
+                    payStatus = 2;//待结算
+                }else{
+                    amount = cdCoupon.getUserPrice().subtract(tbOrder.getTotalAmount());
+                    CdCouponExample cdCouponExample = new CdCouponExample();
+                    cdCouponExample.createCriteria().andCouponNumberEqualTo(tbOrderRelation.getRefValue());
+                    CdCoupon updateCdCoupon = new CdCoupon();
+                    updateCdCoupon.setUserPrice(amount);
+                    mybatisDao.updateOneByExampleSelective(updateCdCoupon, cdCouponExample);
+                    TbTradeRecord tbTradeRecord = new TbTradeRecord();
+                    tbTradeRecord.setAmount(payOrder.getAmount());
+                    tbTradeRecord.setCreateTime(mybatisDao.getSysdate());
+                    tbTradeRecord.setTradeNo(payOrder.getOrderNo());
+                    tbTradeRecord.setTradeType("CARD");
+                    mybatisDao.insert(tbTradeRecord);
+                    payStatus = 1;//已支付
                 }
-                BigDecimal amount = cdCoupon.getUserPrice().subtract(tbOrder.getTotalAmount());
-                CdCouponExample cdCouponExample = new CdCouponExample();
-                cdCouponExample.createCriteria().andCouponNumberEqualTo(tbOrderRelation.getRefValue());
-                CdCoupon updateCdCoupon = new CdCoupon();
-                updateCdCoupon.setUserPrice(amount);
-                mybatisDao.updateOneByExampleSelective(updateCdCoupon, cdCouponExample);
-                TbTradeRecord tbTradeRecord = new TbTradeRecord();
-                tbTradeRecord.setAmount(payOrder.getAmount());
-                tbTradeRecord.setCreateTime(mybatisDao.getSysdate());
-                tbTradeRecord.setTradeNo(payOrder.getOrderNo());
-                tbTradeRecord.setTradeType("CARD");
-                mybatisDao.insert(tbTradeRecord);
             }else if(tbOrder.getOrderType() == 2){
                 Date now = mybatisDao.getSysdate();
                 if(cdCoupon.getBeginTime()!=null && now.before(cdCoupon.getBeginTime())){
@@ -352,11 +373,12 @@ public class OrderService {
                 tbTradeRecord.setTradeNo(payOrder.getOrderNo());
                 tbTradeRecord.setTradeType("COUPON");
                 mybatisDao.insert(tbTradeRecord);
+                payStatus = 1;//已支付
             }
             TbOrderExample tbOrderExample = new TbOrderExample();
             tbOrderExample.createCriteria().andOrderNoEqualTo(payOrder.getOrderNo());
             TbOrder tbOrder1 = new TbOrder();
-            tbOrder1.setPayStatus(1);//已支付
+            tbOrder1.setPayStatus(payStatus);
             mybatisDao.updateOneByExampleSelective(tbOrder1, tbOrderExample);
         }
     }

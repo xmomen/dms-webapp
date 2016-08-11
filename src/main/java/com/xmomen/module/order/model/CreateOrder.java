@@ -48,6 +48,11 @@ public class CreateOrder implements Serializable {
     private Integer paymentMode;
 
     /**
+     * 附加付款方式
+     */
+    private Integer otherPaymentMode;
+
+    /**
      * 支付关系编号（卡号/券号）
      */
     private String paymentRelationNo;
@@ -298,6 +303,12 @@ public class CreateOrder implements Serializable {
 	public void setManagerId(Integer managerId) {
 		this.managerId = managerId;
 	}
-    
-    
+
+    public Integer getOtherPaymentMode() {
+        return otherPaymentMode;
+    }
+
+    public void setOtherPaymentMode(Integer otherPaymentMode) {
+        this.otherPaymentMode = otherPaymentMode;
+    }
 }
