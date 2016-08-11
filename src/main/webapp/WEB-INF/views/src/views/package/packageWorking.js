@@ -103,12 +103,21 @@ define(function () {
                 $("#weight").val("");
                 return;
             }
-
+            if($scope.packageTask.weight.length > 4){
+                $("#weight").focus();
+                $("#weight").select();
+                $("#weight").val("");
+                return;
+            }
             var barCode = $scope.packageTask.itemCode + "" + $scope.packageTask.weight + Math.floor(Math.random()*10000);
             var LODOP=getLodop();
             if($scope.packageTask.weight > max){
+                //元素设置为readonly
+                $("#weight").attr("readonly","readonly");
                 $ugDialog.confirm("超过最大重量，是否打印？").then(function(){
                     $scope.print(barCode);
+                    //去除input元素的readonly属性
+                    $("#weight").removeAttr("readonly");
                     PackageTaskAPI.packageWorking({
                         id:$scope.packageTask.id,
                         barCode:barCode
@@ -117,6 +126,12 @@ define(function () {
                         $scope.packageTask.noFinishValue -=1;
                         $scope.getJobOperationLogList($stateParams.id)
                     })
+                    $("#weight").focus();
+                    $("#weight").select();
+                    $("#weight").val("");
+                },function(){
+                    //去除input元素的readonly属性
+                    $("#weight").removeAttr("readonly");
                     $("#weight").focus();
                     $("#weight").select();
                     $("#weight").val("");
@@ -129,7 +144,7 @@ define(function () {
                 },function(data){
                     $scope.packageTask.finishValue +=1;
                     $scope.packageTask.noFinishValue -=1;
-                    $scope.getJobOperationLogList($stateParams.id)
+                    $scope.getJobOperationLogList($scope.packageTask.id)
                     //如果完成自动跳转到下一个任务
                     if($scope.packageTask.noFinishValue == 0){
                         $scope.nextPackageTask($scope.packageTask.id);

@@ -157,13 +157,15 @@
 									<td ng-bind="order.packingTaskCreateTime | date: 'yyyy-MM-dd hh:mm:ss'"></td>
 									<td ng-bind="order.packingTaskStartTime | date: 'yyyy-MM-dd hh:mm:ss'"></td>
 									<td ng-bind="order.packingTaskEndTime | date: 'yyyy-MM-dd hh:mm:ss'"></td>
-									<td ng-bind="order.packingTaskStatusDesc"></td>
+									<td ng-if="order.packingTaskStatus == 0" style="color:red; " ng-bind="order.packingTaskStatusDesc"></td>
+                                    <td ng-if="order.packingTaskStatus == 1" ng-class="{'tdred':order.packingTaskStatus == 1}" ng-bind="order.packingTaskStatusDesc"></td>
+                                    <td ng-if="order.packingTaskStatus == 2" ng-bind="order.packingTaskStatusDesc"></td>
 									<td>
 										<div >
 											<!--<a href="javascript:void(0);" data-ng-click="choseOrder2CurrentPackingList($index)" title="装箱">-->
 												<!--<span class="fa fa-inbox"></span>-->
 											<!--</a>-->
-                                            <a href="javascript:void(0);" data-ng-click="printOrder(order);" title="打印">
+                                            <a href="javascript:void(0);" ng-if="order.packingTaskStatus == 2" data-ng-click="printOrder(order);" title="打印">
                                                 <span class="fa fa-print"></span>
                                             </a>
 										</div>

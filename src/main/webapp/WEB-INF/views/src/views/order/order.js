@@ -2,18 +2,73 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "OrderAPI", "$modal", "$ugDialog", function($scope, OrderAPI, $modal, $ugDialog){
+    return ["$scope", "OrderAPI", "$modal", "$ugDialog","UserAPI", function($scope, OrderAPI, $modal, $ugDialog,UserAPI){
+
+        $scope.managers = [];
+        $scope.getCustomerManagersList = function(){
+            UserAPI.getCustomerManagerList({
+                userType:"customer_manager"
+            },function(data){
+                $scope.managers = data;
+            });
+        }
+        $scope.getCustomerManagersList();
+
+
         $scope.orderList = [];
         $scope.pageInfoSetting = {
             pageSize:10,
             pageNum:1
         };
-        $scope.queryParam = {};
+        $scope.currentDate = function(){
+            var myDate = new Date();
+            var fullYear = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+            var month = myDate.getMonth() + 1;       //获取当前月份(0-11,0代表1月)
+            if(month < 10){
+                month = '0'+month;
+            }
+            var date = myDate.getDate();        //获取当前日(1-31)
+            if(date < 10){
+                date = '0'+date;
+            }
+            return fullYear+"-"+month+"-"+date;
+        }
+
+        $scope.datepickerSetting = {
+            datepickerPopupConfig:{
+                "current-text":"今天",
+                "clear-text":"清除",
+                "close-text":"关闭"
+            },
+            orderCreateTimeStart:{
+                opened:false
+            },
+            orderCreateTimeEnd:{
+                opened:false
+            }
+        };
+        $scope.openDate = function($event, index) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            if(index == 0){
+                $scope.datepickerSetting.orderCreateTimeStart.opened = true;
+            }else if(index == 1){
+                $scope.datepickerSetting.orderCreateTimeEnd.opened = true;
+            }
+        };
+
+        $scope.queryParam = {
+            orderCreateTimeStart :$scope.currentDate(),
+            orderCreateTimeEnd:$scope.currentDate()
+        };
+
         $scope.getOrderList = function(){
             OrderAPI.query({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
-                keyword:$scope.queryParam.keyword
+                keyword:$scope.queryParam.keyword,
+                orderCreateTimeStart:$scope.queryParam.orderCreateTimeStart,
+                orderCreateTimeEnd: $scope.queryParam.orderCreateTimeEnd
             }, function(data){
                 $scope.orderList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;
@@ -81,49 +136,6 @@ define(function () {
                 $scope.getOrderList();
             });
         };
-        $scope.open = function (order) {
-            var modalInstance = $modal.open({
-                templateUrl: 'addOrder.html',
-                resolve: {
-                    CurrentOrder: function(){
-                        return order;
-                    }
-                },
-                controller: ["$scope", "OrderAPI", "CurrentOrder", "$modalInstance", function ($scope, OrderAPI, CurrentOrder, $modalInstance) {
-                    $scope.order = {};
-                    if(CurrentOrder){
-                        $scope.order = CurrentOrder;
-                    }
-                    $scope.errors = null;
-                    $scope.addOrderForm = {};
-                    $scope.saveOrder = function(){
-                        $scope.errors = null;
-                        if($scope.addOrderForm.validator.form()){
-                            if($scope.order.id){
-                                OrderAPI.update($scope.order, function(){
-                                    $modalInstance.close();
-                                }, function(data){
-                                    $scope.errors = data.data;
-                                })
-                            }else{
-                                OrderAPI.save($scope.order, function(){
-                                    $modalInstance.close();
-                                }, function(data){
-                                    $scope.errors = data.data;
-                                })
-                            }
-                        }
-                    };
-                    $scope.cancel = function () {
-                        $modalInstance.dismiss('cancel');
-                    };
-                }]
-            });
-            modalInstance.result.then(function () {
-                $scope.getOrderList();
-            });
-        };
-
         $scope.getOrderList();
     }];
 });

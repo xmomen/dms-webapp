@@ -56,7 +56,7 @@
     	update 
     		tb_job 
     	set 
-    		job_status = 0 ,job_begin_time = null ,finish_time = null,
+    		job_status = 0 ,job_begin_time = null ,finish_time = null
     	where 
     		id=#{id}
     </update>
@@ -65,7 +65,7 @@
     	update 
     		tb_job 
     	set 
-    		job_status = 1,finish_time = null,
+    		job_status = 1,finish_time = null
     	where 
     		id=#{id}
     </update>

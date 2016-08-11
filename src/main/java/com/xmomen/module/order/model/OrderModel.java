@@ -1,10 +1,11 @@
 package com.xmomen.module.order.model;
 
-import lombok.Data;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+
+import lombok.Data;
 
 /**
  * Created by Jeng on 16/4/6.
@@ -165,4 +166,9 @@ class OrderModel implements Serializable {
      * 单位
      */
     private String companyName;
+    
+    /**
+     * 总箱数
+     */
+    private List<PackingOrderModel> packingOrderModels;
 }

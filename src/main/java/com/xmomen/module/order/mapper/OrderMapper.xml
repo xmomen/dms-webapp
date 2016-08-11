@@ -93,10 +93,21 @@
                   AND DATE_FORMAT(st.CREATE_TIME ,'%Y-%m-%d')<= #{packingTaskCreateTimeEnd}
                 ]]>
             </if>
+            <if test="orderCreateTimeStart">
+                <![CDATA[
+                  AND DATE_FORMAT(tb.CREATE_TIME ,'%Y-%m-%d')>= #{orderCreateTimeStart}
+                ]]>
+            </if>
+            <if test="orderCreateTimeEnd">
+                <![CDATA[
+                  AND DATE_FORMAT(tb.CREATE_TIME ,'%Y-%m-%d')<= #{orderCreateTimeEnd}
+                ]]>
+            </if>
             <if test="createUserId">
             	AND tb.create_user_id = #{createUserId}
             </if>
           </where>
+          order by tb.CREATE_TIME desc
     </select>
 
     <select id="getPurchaseList" resultType="com.xmomen.module.order.model.PurchaseModel" parameterType="java.util.HashMap">
@@ -131,15 +142,15 @@
                   AND p.PURCHASE_STATUS = #{purchaseStatus}
               </if>
               <if test="startTime">
-                  <![CDATA[
-                  AND p.CREATE_DATE >= #{startTime}
+                <![CDATA[
+                  AND DATE_FORMAT(p.CREATE_DATE ,'%Y-%m-%d')>= #{startTime}
                 ]]>
-              </if>
-              <if test="endTime">
-                  <![CDATA[
-                  AND p.CREATE_DATE <= #{endTime}
+            </if>
+            <if test="endTime">
+                <![CDATA[
+                  AND DATE_FORMAT(p.CREATE_DATE ,'%Y-%m-%d')<= #{endTime}
                 ]]>
-              </if>
+            </if>
               <if test="isDistribute == 1">
               	AND (p.TOTAL - p.DISTRIBUTE_VALUE) > 0
               	AND p.PURCHASE_STATUS = 1
@@ -410,4 +421,105 @@
                     ) t group by actorId
         ]]>
     </select>
+    
+    
+    <!--    查询订单    -->
+    <select id="getPackageTaskList" resultType="com.xmomen.module.order.model.OrderModel" parameterType="com.xmomen.module.order.model.OrderQuery">
+        SELECT
+        torp.REF_VALUE as couponNumber,
+        sp.SHOW_VALUE AS orderTypeDesc,
+        ssp.SHOW_VALUE AS orderStatusDesc,
+        paymentp.SHOW_VALUE AS paymentModeDesc,
+        osp.SHOW_VALUE AS orderSourceDesc,
+        st.EXECUTOR_ID AS packingTaskUserId,
+        st.CREATE_TIME as packingTaskCreateTime,
+        st.START_TIME as packingTaskStartTime,
+        st.FINISH_TIME as packingTaskEndTime,
+        u.realname AS packingTaskUsername,
+        st.TASK_STATUS as packingTaskStatus,
+        stsdp.show_value as packingTaskStatusDesc,
+        ce.express_name,
+        users.realname as manager_name,
+        tb.*
+        FROM
+        tb_order tb
+        LEFT JOIN sys_dictionary s on s.DICTIONARY_CODE='ORDER_TYPE'
+        left join sys_dictionary_parameter sp on sp.SYS_DICTIONARY_ID=s.ID and tb.ORDER_TYPE = sp.REAL_VALUE
+
+        LEFT JOIN sys_dictionary ss on ss.DICTIONARY_CODE='ORDER_STATUS'
+        left join sys_dictionary_parameter ssp on ssp.SYS_DICTIONARY_ID=ss.ID and tb.ORDER_STATUS = ssp.REAL_VALUE
+
+        LEFT JOIN sys_dictionary payment on payment.DICTIONARY_CODE='PAYMENT_MODE'
+        left join sys_dictionary_parameter paymentp on paymentp.SYS_DICTIONARY_ID=payment.ID and tb.PAYMENT_MODE = paymentp.REAL_VALUE
+
+        LEFT JOIN sys_dictionary oss on oss.DICTIONARY_CODE='ORDER_SOURCE'
+        left join sys_dictionary_parameter osp on osp.SYS_DICTIONARY_ID=oss.ID and tb.ORDER_SOURCE = osp.REAL_VALUE
+
+        LEFT JOIN tb_order_relation tor ON tor.ORDER_NO = tb.ORDER_NO AND tor.REF_TYPE = 'ORDER_PACKING_TASK_RELATION'
+        LEFT JOIN tb_order_relation torp ON torp.ORDER_NO = tb.ORDER_NO AND torp.REF_TYPE = 'ORDER_PAY_RELATION'
+        LEFT JOIN sys_task st on st.ID= tor.REF_VALUE
+        LEFT JOIN sys_users u ON u.id = st.EXECUTOR_ID
+        LEFT JOIN sys_dictionary stsd on stsd.DICTIONARY_CODE='JOB_STATUS'
+        left join sys_dictionary_parameter stsdp on stsdp.SYS_DICTIONARY_ID=stsd.ID and st.TASK_STATUS = stsdp.REAL_VALUE
+        left join cd_express ce on tb.despatch_express_id = ce.id
+        
+        left join sys_users users on users.id = tb.MANAGER_ID
+        <where>
+            <if test="orderStatus">
+                  AND tb.order_status = #{orderStatus}
+            </if>
+            <if test="keyword">
+                AND (tb.order_no LIKE CONCAT('%', #{keyword}, '%')
+                or tb.consignee_phone LIKE CONCAT('%', #{keyword}, '%')
+                or tb.consignee_name like CONCAT('%', #{keyword}, '%')
+                )
+            </if>
+            <if test="id">
+                AND tb.id = #{id}
+            </if>
+             <if test="managerId">
+                AND tb.MANAGER_ID = #{managerId}
+            </if>
+             <if test="consigneeName">
+                AND tb.consignee_name LIKE CONCAT('%', #{consigneeName}, '%')
+            </if>
+            <if test="orderNo">
+                AND tb.ORDER_NO = #{orderNo}
+            </if>
+            <if test="orderNos">
+                AND tb.ORDER_NO IN
+                <foreach collection="orderNos" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="packingTaskStatus">
+                AND st.TASK_STATUS = #{packingTaskStatus}
+            </if>
+            <if test="packingTaskUserId">
+                AND st.EXECUTOR_ID = #{packingTaskUserId}
+            </if>
+            <if test="isHasPackingTaskUserId">
+                AND st.EXECUTOR_ID IS NOT NULL
+            </if>
+            <if test="hasNoShowCancel">
+                AND tb.order_status != 9
+            </if>
+            <if test="packingTaskCreateTimeStart">
+                <![CDATA[
+                  AND DATE_FORMAT(st.CREATE_TIME ,'%Y-%m-%d')>= #{packingTaskCreateTimeStart}
+                ]]>
+            </if>
+            <if test="packingTaskCreateTimeEnd">
+                <![CDATA[
+                  AND DATE_FORMAT(st.CREATE_TIME ,'%Y-%m-%d')<= #{packingTaskCreateTimeEnd}
+                ]]>
+            </if>
+            <if test="createUserId">
+            	AND tb.create_user_id = #{createUserId}
+            </if>
+          </where>
+          order by st.TASK_STATUS,tb.order_no desc
+    </select>
+    
+    
 </mapper>

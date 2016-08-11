@@ -26,4 +26,7 @@ class OrderQuery implements Serializable {
     private Integer companyId;
     private String consigneeName;
     private boolean hasNoShowCancel;
+    
+    private String orderCreateTimeStart;
+    private String orderCreateTimeEnd;
 }
