@@ -338,11 +338,20 @@ public class OrderService {
                     CdCoupon updateCdCoupon = new CdCoupon();
                     updateCdCoupon.setUserPrice(amount);
                     mybatisDao.updateOneByExampleSelective(updateCdCoupon, cdCouponExample);
+                    //扣卡金额
                     TbTradeRecord tbTradeRecord = new TbTradeRecord();
                     tbTradeRecord.setAmount(amount);
                     tbTradeRecord.setCreateTime(mybatisDao.getSysdate());
                     tbTradeRecord.setTradeNo(payOrder.getOrderNo());
                     tbTradeRecord.setTradeType("CARD");
+                    mybatisDao.insert(tbTradeRecord);
+                    // 代付金额
+                    TbTradeRecord otherPayTbTradeRecord = new TbTradeRecord();
+                    otherPayTbTradeRecord.setAmount(tbOrder.getTotalAmount().subtract(cdCoupon.getUserPrice()).multiply(new BigDecimal(-1)));
+                    otherPayTbTradeRecord.setCreateTime(mybatisDao.getSysdate());
+                    otherPayTbTradeRecord.setTradeNo(payOrder.getOrderNo());
+                    otherPayTbTradeRecord.setTradeType(tbOrder.getOtherPaymentMode().toString());
+                    otherPayTbTradeRecord.setRemark("卡内金额不足，由其它支付方式代付");
                     mybatisDao.insert(tbTradeRecord);
                     payStatus = 2;//待结算
                 }else{

@@ -24,5 +24,9 @@ define(function () {
         };
 
         $scope.getOrderList();
+
+        $scope.printBarCodeEvent(){
+            
+        }
     }];
 });
