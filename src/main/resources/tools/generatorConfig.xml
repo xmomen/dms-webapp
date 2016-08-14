@@ -2,8 +2,8 @@
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
-    <classPathEntry location="E:\work\repository\mysql\mysql-connector-java\5.1.31\mysql-connector-java-5.1.31.jar" />
-<!--     <classPathEntry location="/Users/jeng/.m2/repository/mysql/mysql-connector-java/5.1.31/mysql-connector-java-5.1.31.jar" /> -->
+    <!--<classPathEntry location="E:\work\repository\mysql\mysql-connector-java\5.1.31\mysql-connector-java-5.1.31.jar" />-->
+     <classPathEntry location="/Users/jeng/.m2/repository/mysql/mysql-connector-java/5.1.31/mysql-connector-java-5.1.31.jar" />
 
     <context id="context1"
              targetRuntime="com.xmomen.maven.plugins.mybatis.generator.context.IntrospectedTableMyBatis3ImplExt">
@@ -23,8 +23,8 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://124.117.230.45:3306/dms?useUnicode=true&amp;characterEncoding=UTF-8"
-                        userId="root" password="rootROOT" />
+                        connectionURL="jdbc:mysql://121.40.156.26:3306/dms_dev?useUnicode=true&amp;characterEncoding=UTF-8"
+                        userId="root" password="fuckyoumysql" />
 
         <javaTypeResolver type="com.xmomen.maven.plugins.mybatis.generator.plugins.types.JavaTypeResolverDefaultImplExt"></javaTypeResolver>
 
