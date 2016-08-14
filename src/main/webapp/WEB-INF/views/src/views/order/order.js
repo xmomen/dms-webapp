@@ -68,7 +68,8 @@ define(function () {
                 offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword,
                 orderCreateTimeStart:$scope.queryParam.orderCreateTimeStart,
-                orderCreateTimeEnd: $scope.queryParam.orderCreateTimeEnd
+                orderCreateTimeEnd: $scope.queryParam.orderCreateTimeEnd,
+                hasNoShowCancel:false
             }, function(data){
                 $scope.orderList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;

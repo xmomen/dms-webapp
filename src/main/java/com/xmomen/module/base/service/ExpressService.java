@@ -13,4 +13,6 @@ public interface ExpressService {
 	public void dispatchExpress(ExpressTask expressTask);
 	
 	public void cancelExpress(String[] orderNoList);
+	
+	public void takeDelivery(String orderNo);
 }	

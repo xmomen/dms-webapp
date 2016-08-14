@@ -108,4 +108,10 @@ public class ExpressController {
         }
         expressService.cancelExpress(orderNoList);
     }
+    
+    @RequestMapping(value ="/express/order/takeDelivery",method = RequestMethod.PUT)
+    @Log(actionName = "快递商提货")
+    public void takeDelivery(@RequestParam(value = "orderNo",required = true)String orderNo){
+    	expressService.takeDelivery(orderNo);
+    }
 }

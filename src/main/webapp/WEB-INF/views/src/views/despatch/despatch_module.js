@@ -2,8 +2,9 @@
  * Created by Administrator on 2016/1/15.
  */
 define([
-    "views/despatch/despatchJob"
-],function (despatchJob) {
+    "views/despatch/despatchJob",
+    "views/despatch/takeDelivery"
+],function (despatchJob,takeDelivery) {
     angular.module('DMS.despatch', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -18,6 +19,17 @@ define([
                     }
                 },
                 controller: despatchJob
+            })
+            .state('despatch_operation', {
+                url: '/takeDelivery',
+                templateUrl: 'views/despatch/takeDelivery.html',
+                data:{
+                    permissions:{
+                        only:["DESPATCH_OPERATION"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: takeDelivery
             })
     }]);
 });
