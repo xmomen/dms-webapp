@@ -406,4 +406,23 @@ public class OrderService {
         }
     }
 
+    /**
+     * 订单部分退货
+     * @param returnOrder
+     */
+    public void returnOrder(ReturnOrder returnOrder){
+        TbReturnOrder tbReturnOrder = new TbReturnOrder();
+        tbReturnOrder.setOrderNo(returnOrder.getOrderNo());
+        tbReturnOrder.setReturnStatus(0);//退货中
+        tbReturnOrder.setReturnTime(mybatisDao.getSysdate());
+        tbReturnOrder = mybatisDao.insertByModel(tbReturnOrder);
+        for (ReturnOrder.Item item : returnOrder.getItemList()) {
+            TbReturnOrderItem rItem = new TbReturnOrderItem();
+            rItem.setItemCode(item.getItemCode());
+            rItem.setReturnOrderId(tbReturnOrder.getId());
+            rItem.setItemNumber(item.getItemNumber());
+            mybatisDao.insert(rItem);
+        }
+    }
+
 }
