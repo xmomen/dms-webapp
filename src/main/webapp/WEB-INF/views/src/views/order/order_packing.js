@@ -442,8 +442,8 @@ define(function () {
                     LODOP.ADD_PRINT_TEXT(62,316,50,15,"收退货专用");
                     LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
                     LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
-
-                    LODOP.ADD_PRINT_TEXT(237,283,85,35,i+1);
+                    var currentBox = i +1;
+                    LODOP.ADD_PRINT_TEXT(237,283,85,35,currentBox + "/" + boxSize);
                     LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
                     LODOP.SET_PRINT_STYLEA(0,"FontSize",12);
                     LODOP.SET_PRINT_STYLEA(0,"Alignment",2);

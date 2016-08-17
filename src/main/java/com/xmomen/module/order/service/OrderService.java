@@ -114,7 +114,8 @@ public class OrderService {
             }
         }
         TbOrder tbOrder = new TbOrder();
-        tbOrder.setOrderStatus("1");// 订单新建
+        // 订单新建 待采购状态
+        tbOrder.setOrderStatus("1");
         tbOrder.setPayStatus(0);//待支付
         tbOrder.setTransportMode(1);// 默认快递
         tbOrder.setConsigneeName(createOrder.getConsigneeName());
@@ -266,6 +267,7 @@ public class OrderService {
         TbOrderExample tbOrderExample = new TbOrderExample();
         tbOrderExample.createCriteria().andIdEqualTo(id);
         TbOrder tbOrder = new TbOrder();
+        //订单取消状态
         tbOrder.setOrderStatus("9");
         mybatisDao.updateOneByExampleSelective(tbOrder, tbOrderExample);
     }

@@ -257,6 +257,4 @@ public class PackingController {
                                                @PathVariable(value = "recordId") Integer recordId){
         packingService.deleteRecord(recordId);
     }
-
-
 }

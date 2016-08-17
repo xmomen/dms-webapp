@@ -56,17 +56,19 @@ public class OrderController {
                                   @RequestParam(value = "orderCreateTimeStart",required = false) String orderCreateTimeStart,
                                   @RequestParam(value = "orderCreateTimeEnd",required = false) String orderCreateTimeEnd,
                                   @RequestParam(value = "managerId", required = false) Integer managerId,
-                                  @RequestParam(value = "consigneeName", required = false) String consigneeName){
+                                  @RequestParam(value = "consigneeName", required = false) String consigneeName,
+                                  @RequestParam(value = "hasNoShowCancel", required = false) Boolean hasNoShowCancel){
         OrderQuery orderQuery = new OrderQuery();
         orderQuery.setKeyword(keyword);
         orderQuery.setOrderStatus(orderStatus);
         orderQuery.setManagerId(managerId);
+        orderQuery.setHasNoShowCancel(hasNoShowCancel == null?false:hasNoShowCancel);
         orderQuery.setConsigneeName(consigneeName);
         if(StringUtilsExt.isNotBlank(orderCreateTimeStart)){
        	 orderQuery.setOrderCreateTimeStart(orderCreateTimeStart.substring(0, 10));
         }
         if(StringUtilsExt.isNotBlank(orderCreateTimeEnd)){
-        	orderQuery.setOrderCreateTimeStart(orderCreateTimeEnd.substring(0, 10));
+        	orderQuery.setOrderCreateTimeEnd(orderCreateTimeEnd.substring(0, 10));
         }
         //客服经理过滤 如果有客服组权限则不过滤
         if(SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE) && !SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_PERMISSION_CODE)){

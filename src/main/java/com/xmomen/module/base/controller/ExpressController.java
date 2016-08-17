@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,12 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
+import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
+import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.base.entity.CdExpress;
 import com.xmomen.module.base.mapper.ExpressMapper;
 import com.xmomen.module.base.model.ExpressTask;
 import com.xmomen.module.base.service.ExpressService;
 import com.xmomen.module.logger.Log;
+import com.xmomen.module.order.model.OrderModel;
+import com.xmomen.module.order.model.OrderQuery;
 @RestController
 public class ExpressController {
 	@Autowired
@@ -30,6 +35,7 @@ public class ExpressController {
 	ExpressMapper expressMapper;
 	@Autowired
     MybatisDao mybatisDao;
+	
     /**
      * 查询快递公司信息
      * @param id
@@ -46,6 +52,7 @@ public class ExpressController {
          map.put("keyword", keyword);
         return (Page<CdExpress>) mybatisDao.selectPage(ExpressMapper.ExpressMapperNameSpace + "getExpressList", map, limit, offset);
     }
+    
     @RequestMapping(value = "/express", method = RequestMethod.POST)
     @Log(actionName = "新增快递、公司")
     public void createExpress(@RequestBody @Valid CdExpress createExpress, BindingResult bindingResult) throws ArgumentValidException {
@@ -53,6 +60,44 @@ public class ExpressController {
             throw new ArgumentValidException(bindingResult);
         }
         expressService.createExpress(createExpress);
+    }
+    
+    /**
+     * 订单列表
+     * @param limit
+     * @param offset
+     * @param keyword
+     * @return
+     */
+    @RequestMapping(value = "/express/order", method = RequestMethod.GET)
+    @Log(actionName = "查询订单列表")
+    public Page<OrderModel> getUserList(@RequestParam(value = "limit") Integer limit,
+                                  @RequestParam(value = "offset") Integer offset,
+                                  @RequestParam(value = "orderStatus", required = false) Integer orderStatus,
+                                  @RequestParam(value = "keyword", required = false) String keyword,
+                                  @RequestParam(value = "orderCreateTimeStart",required = false) String orderCreateTimeStart,
+                                  @RequestParam(value = "orderCreateTimeEnd",required = false) String orderCreateTimeEnd,
+                                  @RequestParam(value = "managerId", required = false) Integer managerId,
+                                  @RequestParam(value = "consigneeName", required = false) String consigneeName,
+                                  @RequestParam(value = "hasNoShowCancel", required = false) Boolean hasNoShowCancel){
+        OrderQuery orderQuery = new OrderQuery();
+        orderQuery.setKeyword(keyword);
+        orderQuery.setOrderStatus(orderStatus);
+        orderQuery.setManagerId(managerId);
+        orderQuery.setHasNoShowCancel(hasNoShowCancel == null?false:hasNoShowCancel);
+        orderQuery.setConsigneeName(consigneeName);
+        if(StringUtilsExt.isNotBlank(orderCreateTimeStart)){
+       	 orderQuery.setOrderCreateTimeStart(orderCreateTimeStart.substring(0, 10));
+        }
+        if(StringUtilsExt.isNotBlank(orderCreateTimeEnd)){
+        	orderQuery.setOrderCreateTimeEnd(orderCreateTimeEnd.substring(0, 10));
+        }
+        //运输部
+        if(SecurityUtils.getSubject().hasRole(AppConstants.YUN_SHU_PERMISSION_CODE)){
+        	String despatchExpressCode = (String) SecurityUtils.getSubject().getPrincipal();
+            orderQuery.setDespatchExpressCode(despatchExpressCode);
+        }
+        return expressService.getTakeDeliveryList(orderQuery, limit, offset);
     }
     
     /**
@@ -107,5 +152,17 @@ public class ExpressController {
             return;
         }
         expressService.cancelExpress(orderNoList);
+    }
+    
+    @RequestMapping(value ="/express/order/takeDelivery",method = RequestMethod.PUT)
+    @Log(actionName = "快递商提货")
+    public void takeDelivery(@RequestParam(value = "orderNo",required = true)String orderNo){
+    	expressService.takeDelivery(orderNo);
+    }
+    
+    @RequestMapping(value ="/express/order/untakeDelivery",method = RequestMethod.PUT)
+    @Log(actionName = "快递商取消提货")
+    public void untakeDelivery(@RequestParam(value = "orderNo",required = true)String orderNo){
+    	expressService.unTakeDelivery(orderNo);
     }
 }

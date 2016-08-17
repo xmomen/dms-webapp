@@ -377,6 +377,15 @@ define(function () {
             bindExpress:{method:"PUT",url:"/express/order/bind"},
             unbindExpress:{method:"PUT",url:"/express/order/unbind", params:{
                 orderNos:"@orderNos"
+            }},
+            queryOrder:{method:"GET",url:"/express/order",params:{
+
+            }},
+            takeDelivery:{method:"PUT",url:"/express/order/takeDelivery", params:{
+                orderNo:"@orderNo"
+            }},
+            unTakeDelivery:{method:"PUT",url:"/express/order/untakeDelivery", params:{
+                orderNo:"@orderNo"
             }}
         });
     }]);
