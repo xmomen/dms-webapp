@@ -80,9 +80,6 @@
 			<properties>
 				<env>dev</env>
 			</properties>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 		</profile>
 		<profile>
 			<id>local</id>
@@ -101,7 +98,9 @@
 			<properties>
 				<env>rls</env>
 			</properties>
-
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 		</profile>
 	</profiles>
 	<build>

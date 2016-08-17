@@ -106,8 +106,8 @@ public class BindService {
 		TbOrder order = new TbOrder();
 		order.setOrderNo(orderNo);
 		order = mybatisDao.selectOneByModel(order);
-		//收货
-		order.setOrderStatus("3");
+		//收货状态
+		order.setOrderStatus("6");
 		mybatisDao.save(order);
 		return true;
 	}

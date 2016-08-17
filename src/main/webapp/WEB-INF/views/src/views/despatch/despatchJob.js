@@ -15,7 +15,7 @@ define(function () {
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword,
-                orderStatus:1
+                hasNoShowCancel:true
             }, function(data){
                 $scope.orderList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;
@@ -79,7 +79,9 @@ define(function () {
                 $scope.chooseOrder.splice(0, $scope.chooseOrder.length);
                 for (var i = 0; i < $scope.orderList.length; i++) {
                     var obj = $scope.orderList[i];
-                    $scope.chooseOrder.push(obj);
+                    if(obj.expressName == null){
+                        $scope.chooseOrder.push(obj);
+                    }
                 }
             }else{
                 $scope.chooseOrder.splice(0, $scope.chooseOrder.length);
