@@ -46,6 +46,10 @@ public class PackingService {
         return (Page<PackingModel>) mybatisDao.selectPage(OrderMapper.ORDER_MAPPER_NAMESPACE + "queryPackingModel", packingQuery, limit, offset);
     }
 
+    public List<PackingModel> getPackingList(PackingQuery packingQuery){
+        return mybatisDao.getSqlSessionTemplate().selectList(OrderMapper.ORDER_MAPPER_NAMESPACE + "queryPackingModel", packingQuery);
+    }
+
     @Transactional
     public TbPacking create(CreatePacking createPacking){
         TbPacking tbPacking = new TbPacking();
