@@ -49,7 +49,10 @@ define(function () {
                 $("#orderNo").select();
                 $("#orderNo").val("");
             },function(data){
-                $ugDialog.warn(data.data.message)
+                $ugDialog.warn(data.data.message);
+                $("#orderNo").focus();
+                $("#orderNo").select();
+                $("#orderNo").val("");
             })
         }
 
@@ -59,8 +62,14 @@ define(function () {
             }, function(){
                 $ugDialog.alert("取消提货成功");
                 $scope.getOrderList();
+                $("#orderNo").focus();
+                $("#orderNo").select();
+                $("#orderNo").val("");
             },function(data){
                 $ugDialog.warn(data.data.message)
+                $("#orderNo").focus();
+                $("#orderNo").select();
+                $("#orderNo").val("");
             })
         }
     }];

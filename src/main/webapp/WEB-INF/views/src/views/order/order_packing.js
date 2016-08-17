@@ -409,7 +409,7 @@ define(function () {
             }, function(data){
                 debugger;
                 var result = data;
-                var boxSize = result.packingOrderModels.length;
+                var boxSize = result.packingModels.length;
                 var LODOP=getLodop();
                 for(i=0;i<boxSize;i++){
                     LODOP.PRINT_INITA(0,0,"100.81mm","74.61mm","打印订单");

@@ -209,10 +209,10 @@ public class PackingController {
         	orderModel = orderModels.get(0);
         	//已完成
         	if(orderModel.getPackingTaskStatus() == 2){
-        		PackingOrderQuery packingOrderQuery = new PackingOrderQuery();
-                packingOrderQuery.setOrderId(orderModel.getId());
-                List<PackingOrderModel>  packingOrderModels = packingService.queryPackingOrder(packingOrderQuery);
-                orderModel.setPackingOrderModels(packingOrderModels);
+    			  PackingQuery packingQuery = new PackingQuery();
+        		  packingQuery.setOrderNo(orderModel.getOrderNo());
+        		  List<PackingModel> packingModels = packingService.getPackingList(packingQuery);
+                orderModel.setPackingModels(packingModels);
         	}
         }
         
