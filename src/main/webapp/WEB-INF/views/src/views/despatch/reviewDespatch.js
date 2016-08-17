@@ -3,6 +3,23 @@
  */
 define(function () {
     return ["$scope", "$modal", "$ugDialog","ExpressAPI","OrderAPI", function($scope,$modal, $ugDialog,ExpressAPI,OrderAPI){
+
+        $scope.pageInfoExpressSetting = {
+            pageSize:100,
+            pageNum:1
+        };
+        $scope.getExpressList = function(){
+            ExpressAPI.query({
+                limit:$scope.pageInfoExpressSetting.pageSize,
+                offset:$scope.pageInfoExpressSetting.pageNum
+            }, function(data){
+                $scope.expressList = data.data;
+                $scope.pageInfoExpressSetting = data.pageInfo;
+                $scope.pageInfoExpressSetting.loadData = $scope.getExpressList;
+            });
+        };
+        $scope.getExpressList();
+
         $scope.orderList = [];
         $scope.pageInfoSetting = {
             pageSize:10,
@@ -16,7 +33,9 @@ define(function () {
                 offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword,
                 hasNoShowCancel:true,
-                orderStatus:5
+                orderStatus:5,
+                despatchExpressId:$scope.queryParam.despatchExpressId,
+                consigneeName:$scope.queryParam.consigneeName
             }, function(data){
                 $scope.orderList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;
