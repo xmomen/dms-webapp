@@ -80,7 +80,7 @@ public class PurchaseService {
         orderNoList.clear();  
         orderNoList.addAll(h);  
         TbOrder tbOrder = new TbOrder();
-        tbOrder.setOrderStatus("6");// 待采购
+        tbOrder.setOrderStatus("2");//待采购
         TbOrderExample tbOrderExample = new TbOrderExample();
         tbOrderExample.createCriteria()
                 .andOrderStatusEqualTo("1")

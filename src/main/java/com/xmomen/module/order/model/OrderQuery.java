@@ -29,4 +29,5 @@ class OrderQuery implements Serializable {
     
     private String orderCreateTimeStart;
     private String orderCreateTimeEnd;
+    private String despatchExpressCode;
 }
