@@ -352,9 +352,9 @@ public class OrderService {
                     otherPayTbTradeRecord.setAmount(tbOrder.getTotalAmount().subtract(cdCoupon.getUserPrice()).multiply(new BigDecimal(-1)));
                     otherPayTbTradeRecord.setCreateTime(mybatisDao.getSysdate());
                     otherPayTbTradeRecord.setTradeNo(payOrder.getOrderNo());
-                    otherPayTbTradeRecord.setTradeType(tbOrder.getOtherPaymentMode().toString());
+                    otherPayTbTradeRecord.setTradeType(String.valueOf(tbOrder.getOtherPaymentMode()));
                     otherPayTbTradeRecord.setRemark("卡内金额不足，由其它支付方式代付");
-                    mybatisDao.insert(tbTradeRecord);
+                    mybatisDao.insert(otherPayTbTradeRecord);
                     payStatus = 2;//待结算
                 }else{
                     amount = cdCoupon.getUserPrice().subtract(tbOrder.getTotalAmount());
