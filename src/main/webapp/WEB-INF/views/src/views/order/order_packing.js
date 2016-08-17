@@ -306,6 +306,7 @@ define(function () {
                             offset:1,
                             orderNo:obj2.orderNo
                         }, function(data){
+                            debugger;
                             var oldBox = $scope.currentPackingBoxList[oldBoxIndex];
                             $scope.currentPackingBoxList[oldBoxIndex] = data.data[0];
                             $scope.currentPackingBoxList[oldBoxIndex].currentPacking = oldBox.currentPacking;
