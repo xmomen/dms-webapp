@@ -76,6 +76,8 @@ public class PackingService {
             tbOrderRelation.setRefType(OrderMapper.ORDER_PACKING_TASK_RELATION_CODE);
             tbOrderRelation.setRefValue(String.valueOf(sysTask.getId()));
             mybatisDao.insert(tbOrderRelation);
+            //更新订单状态未待装箱
+            orderService.updateOrderStatus(orderNo, "13");
         }
     }
 
@@ -89,6 +91,8 @@ public class PackingService {
             TbOrderRelation tbOrderRelation = tbOrderRelationList.get(i);
             mybatisDao.deleteByPrimaryKey(TbOrderRelation.class, tbOrderRelation.getId());
             taskIds[i] = Integer.valueOf(tbOrderRelation.getRefValue());
+            //订单状态变为采购中
+            orderService.updateOrderStatus(tbOrderRelation.getOrderNo(), "2");
         }
         taskService.cancelTask(taskIds);
     }
@@ -162,7 +166,7 @@ public class PackingService {
         List<PackingOrderModel> packingOrderModelList = queryPackingOrder(packingOrderQuery1);
         boolean isFinished = true;
         for (PackingOrderModel packingOrderModel : packingOrderModelList) {
-            if("未完成".equals(packingOrderModel.getPackingStatusDesc()) || "待完成".equals(packingOrderModel.getPackingStatusDesc())){
+            if(!"已完成".equals(packingOrderModel.getPackingStatusDesc())){
                 isFinished = false;
                 break;
             }
@@ -171,12 +175,13 @@ public class PackingService {
             sysTask.setFinishTime(mybatisDao.getSysdate());
             sysTask.setTaskStatus(2);//已完成装箱
             mybatisDao.update(sysTask);
-            // 完成装箱，订单状态扭转到待配送：2
-            orderService.updateOrderStatus(currentPackingOrder.getOrderNo(), "2");
+            // 完成装箱，订单状态扭转到待配送：4
+            orderService.updateOrderStatus(currentPackingOrder.getOrderNo(), "4");
         }else if(!isFinished){
             sysTask.setTaskStatus(1);//待完成装箱
             mybatisDao.update(sysTask);
-            orderService.updateOrderStatus(currentPackingOrder.getOrderNo(), "7");
+            //订单状态装箱中
+            orderService.updateOrderStatus(currentPackingOrder.getOrderNo(), "3");
         }
         ScanModel scanModel = new ScanModel();
         BeanUtils.copyProperties(tbPackingRecord, scanModel);

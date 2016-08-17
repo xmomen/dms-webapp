@@ -117,8 +117,8 @@ public class PackingController {
      * @throws ArgumentValidException
      */
     @RequestMapping(value = "/packing/task/unbind", method = RequestMethod.PUT)
-    @Log(actionName = "分配装箱任务")
-    public void createPacking(@RequestParam(value = "orderNos", required = true)String[] orderNoList) throws ArgumentValidException {
+    @Log(actionName = "取消分配装箱任务")
+    public void unbind(@RequestParam(value = "orderNos", required = true)String[] orderNoList) throws ArgumentValidException {
         if(orderNoList != null && orderNoList.length <= 0){
             return;
         }
@@ -209,10 +209,10 @@ public class PackingController {
         	orderModel = orderModels.get(0);
         	//已完成
         	if(orderModel.getPackingTaskStatus() == 2){
-        		PackingOrderQuery packingOrderQuery = new PackingOrderQuery();
-                packingOrderQuery.setOrderId(orderModel.getId());
-                List<PackingOrderModel>  packingOrderModels = packingService.queryPackingOrder(packingOrderQuery);
-                orderModel.setPackingOrderModels(packingOrderModels);
+    			  PackingQuery packingQuery = new PackingQuery();
+        		  packingQuery.setOrderNo(orderModel.getOrderNo());
+        		  List<PackingModel> packingModels = packingService.getPackingList(packingQuery);
+                orderModel.setPackingModels(packingModels);
         	}
         }
         

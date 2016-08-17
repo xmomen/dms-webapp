@@ -84,6 +84,7 @@ public class ExpressServiceImpl implements ExpressService {
 		TbOrder order = new TbOrder();
         order.setOrderNo(orderNo);
         order = mybatisDao.selectOneByModel(order);
+        AssertExt.notNull(order, "订单不存在！");
         AssertExt.notNull(order.getDespatchExpressId(), "订单未分配不能提货！");
         String orderStatus = order.getOrderStatus();
         AssertExt.isTrue(orderStatus.equals("4"), "订单状态不是待出库，不能提货！");

@@ -170,5 +170,6 @@ class OrderModel implements Serializable {
     /**
      * 总箱数
      */
-    private List<PackingOrderModel> packingOrderModels;
+    private List<PackingModel> packingModels;
+     
 }
