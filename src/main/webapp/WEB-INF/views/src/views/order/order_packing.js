@@ -320,13 +320,13 @@ define(function () {
                             $scope.currentPackingBoxList[oldBoxIndex].currentPacking = oldBox.currentPacking;
                             //订单已完成
                             if($scope.currentPackingBoxList[oldBoxIndex].packingTaskStatus == 2){
-                                //打印订单
-                                //$scope.printOrder($scope.currentPackingBoxList[oldBoxIndex]);
-                                ////如果是单箱装 才自动进入下一个任务
-                                //if($scope.choosePackingOrders.length == 1){
-                                //    //自动进入下一个任务
-                                //    $scope.nextPackingTask();
-                                //}
+                                打印订单
+                                $scope.printOrder($scope.currentPackingBoxList[oldBoxIndex]);
+                                //如果是单箱装 才自动进入下一个任务
+                                if($scope.choosePackingOrders.length == 1){
+                                    //自动进入下一个任务
+                                    $scope.nextPackingTask();
+                                }
                             }
                         });
                     }
