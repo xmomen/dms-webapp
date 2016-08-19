@@ -7,15 +7,19 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
+import com.xmomen.framework.web.exceptions.ArgumentValidException;
+import com.xmomen.module.logger.Log;
+import com.xmomen.module.order.model.CreateOrder;
+import com.xmomen.module.order.model.ReturnOrder;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.utils.AssertExt;
@@ -219,5 +223,24 @@ public class BindController {
 		}else{
 			return false;
 		}
+	}
+
+	@Autowired
+	OrderService orderService;
+
+	/**
+	 * 新增部分退货订单
+	 * @param returnOrder
+	 * @param bindingResult
+	 * @return
+	 */
+	@RequestMapping(value = "/order/return", method = RequestMethod.POST)
+	@Log(actionName = "微信回调接口－订单部分退货")
+	public void returnOrder(@RequestBody @Valid ReturnOrder returnOrder, BindingResult bindingResult) throws ArgumentValidException {
+		if(bindingResult != null && bindingResult.hasErrors()){
+			throw new ArgumentValidException(bindingResult);
+		}
+		Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("user_id");
+		orderService.returnOrder(returnOrder);
 	}
 }

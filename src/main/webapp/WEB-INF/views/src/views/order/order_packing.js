@@ -101,12 +101,19 @@ define(function () {
         };
 
         $scope.changePackingOrderList = function(){
-                if($scope.choosePackingOrders.length == $scope.orderList.length){
-                    $scope.isCheckCombine = 0;
-                }else{
-                    $scope.isCheckCombine = 1;
+            var j = 0;
+            for (var i = 0; i < $scope.orderList.length; i++) {
+                var obj = $scope.orderList[i];
+                if(obj.packingTaskStatus != 2){
+                    j++;
                 }
-        }
+            }
+            if($scope.choosePackingOrders.length == j && j > 0){
+                $scope.isCheckOrder = 0;
+            }else{
+                $scope.isCheckOrder = 1;
+            }
+        };
 
         $scope.startPacking = function(){
             //如果没有选择 则默认一个一个装 取其中一个未完成任务进行装箱
@@ -123,6 +130,7 @@ define(function () {
                 $ugDialog.alert("无未完成的装箱任务！");
                 return;
             }
+            $scope.currentPackingBoxList = [];
             for (var i = 0; i < $scope.choosePackingOrders.length; i++) {
                 var obj = angular.copy($scope.choosePackingOrders[i]);
                 $scope.currentPackingBoxList.push(obj);
@@ -262,6 +270,7 @@ define(function () {
                     var history = {};
                     $scope.pageSetting.disabledScan = false;
                     if(!data.id){
+                        // 重复扫描，删除商品扫描记录
                         history.message = "已删除商品装箱记录，UPC编号：【" + $scope.item.upc + "】";
                         $scope.showPutBoxNum = null;
                         $ugDialog.alert(history.message);
@@ -279,7 +288,7 @@ define(function () {
                         PackingAPI.getPackingOrderList({
                             limit:1,
                             offset:1,
-                            orderNo:obj2.orderNo
+                            orderNo:data.orderNo
                         }, function(data){
                             var oldBox = $scope.currentPackingBoxList[oldBoxIndex];
                             $scope.currentPackingBoxList[oldBoxIndex] = data.data[0];
@@ -304,15 +313,14 @@ define(function () {
                         PackingAPI.getPackingOrderList({
                             limit:1,
                             offset:1,
-                            orderNo:obj2.orderNo
+                            orderNo:data.orderNo
                         }, function(data){
-                            debugger;
                             var oldBox = $scope.currentPackingBoxList[oldBoxIndex];
                             $scope.currentPackingBoxList[oldBoxIndex] = data.data[0];
                             $scope.currentPackingBoxList[oldBoxIndex].currentPacking = oldBox.currentPacking;
                             //订单已完成
                             if($scope.currentPackingBoxList[oldBoxIndex].packingTaskStatus == 2){
-                                //打印订单
+                                打印订单
                                 $scope.printOrder($scope.currentPackingBoxList[oldBoxIndex]);
                                 //如果是单箱装 才自动进入下一个任务
                                 if($scope.choosePackingOrders.length == 1){
@@ -334,7 +342,6 @@ define(function () {
          * 显示装箱明细
          */
         $scope.showPackingDetail = function(index){
-            debugger;
             var modalInstance = $modal.open({
                 size:'lg',
                 templateUrl: 'viewPackingDetail.html',
@@ -407,7 +414,6 @@ define(function () {
             PackingAPI.printOrder({
                 orderId:order.id
             }, function(data){
-                debugger;
                 var result = data;
                 var boxSize = result.packingModels.length;
                 var LODOP=getLodop();

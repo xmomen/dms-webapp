@@ -17,6 +17,6 @@ public @Data class ReturnOrder implements Serializable {
 
     public static @Data class Item implements Serializable {
         private String itemCode;
-        private BigDecimal itemNumber;
+        private Integer itemNumber;
     }
 }

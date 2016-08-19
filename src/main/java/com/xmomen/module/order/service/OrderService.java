@@ -352,9 +352,9 @@ public class OrderService {
                     otherPayTbTradeRecord.setAmount(tbOrder.getTotalAmount().subtract(cdCoupon.getUserPrice()).multiply(new BigDecimal(-1)));
                     otherPayTbTradeRecord.setCreateTime(mybatisDao.getSysdate());
                     otherPayTbTradeRecord.setTradeNo(payOrder.getOrderNo());
-                    otherPayTbTradeRecord.setTradeType(tbOrder.getOtherPaymentMode().toString());
+                    otherPayTbTradeRecord.setTradeType(String.valueOf(tbOrder.getOtherPaymentMode()));
                     otherPayTbTradeRecord.setRemark("卡内金额不足，由其它支付方式代付");
-                    mybatisDao.insert(tbTradeRecord);
+                    mybatisDao.insert(otherPayTbTradeRecord);
                     payStatus = 2;//待结算
                 }else{
                     amount = cdCoupon.getUserPrice().subtract(tbOrder.getTotalAmount());
@@ -403,6 +403,25 @@ public class OrderService {
             TbOrder tbOrder1 = new TbOrder();
             tbOrder1.setPayStatus(payStatus);
             mybatisDao.updateOneByExampleSelective(tbOrder1, tbOrderExample);
+        }
+    }
+
+    /**
+     * 订单部分退货
+     * @param returnOrder
+     */
+    public void returnOrder(ReturnOrder returnOrder){
+        TbReturnOrder tbReturnOrder = new TbReturnOrder();
+        tbReturnOrder.setOrderNo(returnOrder.getOrderNo());
+        tbReturnOrder.setReturnStatus(0);//退货中
+        tbReturnOrder.setReturnTime(mybatisDao.getSysdate());
+        tbReturnOrder = mybatisDao.insertByModel(tbReturnOrder);
+        for (ReturnOrder.Item item : returnOrder.getItemList()) {
+            TbReturnOrderItem rItem = new TbReturnOrderItem();
+            rItem.setItemCode(item.getItemCode());
+            rItem.setReturnOrderId(tbReturnOrder.getId());
+            rItem.setItemNumber(item.getItemNumber());
+            mybatisDao.insert(rItem);
         }
     }
 
