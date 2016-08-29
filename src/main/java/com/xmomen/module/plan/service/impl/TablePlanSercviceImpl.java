@@ -62,7 +62,9 @@ public class TablePlanSercviceImpl implements TablePlanSercvice {
 	 */
 	@Override
 	public void createTablePlanOrder() {
-		
+		//查询出所有未暂停的餐桌计划
+		//拼装订单
+		//下单
 	}
 
 }

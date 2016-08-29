@@ -23,6 +23,7 @@ import com.xmomen.module.base.entity.CdPlan;
 import com.xmomen.module.base.mapper.BasePlanMapper;
 import com.xmomen.module.base.model.CreatePlan;
 import com.xmomen.module.base.model.ItemChildModel;
+import com.xmomen.module.base.model.PlanModel;
 import com.xmomen.module.base.model.UpdatePlan;
 import com.xmomen.module.base.service.BasePlanService;
 import com.xmomen.module.logger.Log;
@@ -48,7 +49,7 @@ public class BasePlanController {
      */
     @RequestMapping(value = "/basePlan", method = RequestMethod.GET)
     @Log(actionName = "查询计划列表")
-    public Page<CdPlan> getUserList(@RequestParam(value = "limit") Integer limit,
+    public Page<PlanModel> getUserList(@RequestParam(value = "limit") Integer limit,
                                   @RequestParam(value = "offset") Integer offset,
                                   @RequestParam(value = "keyword", required = false) String keyword){
         return basePlanService.getPlanList(keyword, limit, offset);

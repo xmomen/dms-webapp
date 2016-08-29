@@ -14,23 +14,32 @@ import com.xmomen.module.base.entity.CdPlan;
 import com.xmomen.module.base.entity.CdPlanExample;
 import com.xmomen.module.base.entity.CdPlanItem;
 import com.xmomen.module.base.entity.CdPlanItemExample;
+import com.xmomen.module.base.mapper.BasePlanMapper;
 import com.xmomen.module.base.model.CreatePlan;
 import com.xmomen.module.base.model.PlanItemModel;
+import com.xmomen.module.base.model.PlanModel;
 import com.xmomen.module.base.model.UpdatePlan;
 import com.xmomen.module.base.service.BasePlanService;
+import com.xmomen.module.order.mapper.OrderMapper;
+import com.xmomen.module.order.model.OrderModel;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class BasePlanServiceImpl implements BasePlanService {
 	@Autowired
 	MybatisDao mybatisDao;
+	
+	@SuppressWarnings("unchecked")
 	@Override
-	 public Page<CdPlan> getPlanList(String keyword, Integer limit, Integer offset){
-	        CdPlanExample cdPlanExample = new CdPlanExample();
-	        cdPlanExample.createCriteria().andPlanNameLike("%" + StringUtils.trimToEmpty(keyword) + "%");
-	        return mybatisDao.selectPageByExample(cdPlanExample, limit, offset);
-	    }
+	 public Page<PlanModel> getPlanList(String keyword, Integer limit, Integer offset){
+		Map map = new HashMap();
+		map.put("keyword" , keyword);
+		return (Page<PlanModel>) mybatisDao.selectPage(BasePlanMapper.BasePlanMapperNameSpace + "getBasePlanList", map, limit, offset);
+	 }
+	
 	@Override
 	 public CdPlan getPlan(Integer id){
 	        return mybatisDao.selectByPrimaryKey(CdPlan.class, id);

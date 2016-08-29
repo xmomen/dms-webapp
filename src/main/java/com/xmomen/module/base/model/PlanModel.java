@@ -57,6 +57,8 @@ public @Data class PlanModel implements Serializable{
      * 产品归属的类别
      */
     private Integer cdCategoryId;
+    
+    private String categoryName;
 
     /**
      * 随机数
