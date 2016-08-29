@@ -349,7 +349,7 @@ public class OrderService {
                     CdCouponExample cdCouponExample = new CdCouponExample();
                     cdCouponExample.createCriteria().andCouponNumberEqualTo(tbOrderRelation.getRefValue());
                     CdCoupon updateCdCoupon = new CdCoupon();
-                    updateCdCoupon.setUserPrice(amount);
+                    updateCdCoupon.setUserPrice(BigDecimal.ZERO);
                     mybatisDao.updateOneByExampleSelective(updateCdCoupon, cdCouponExample);
                     //扣卡金额
                     TbTradeRecord tbTradeRecord = new TbTradeRecord();
