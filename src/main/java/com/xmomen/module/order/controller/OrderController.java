@@ -112,6 +112,23 @@ public class OrderController {
     }
 
     /**
+     * 批量新增订单
+     * @param createOrder
+     * @param bindingResult
+     * @return
+     */
+    @RequestMapping(value = "/order/batch", method = RequestMethod.POST)
+    @Log(actionName = "批量新增订单")
+    public void batchCreateOrder(@RequestBody @Valid CreateOrder createOrder, BindingResult bindingResult) throws ArgumentValidException {
+        if(bindingResult != null && bindingResult.hasErrors()){
+            throw new ArgumentValidException(bindingResult);
+        }
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("user_id");
+        createOrder.setCreateUserId(userId);
+        orderService.batchCreateOrder(createOrder);
+    }
+
+    /**
      * 更新订单
      * @param updateOrder
      * @param bindingResult
