@@ -48,13 +48,18 @@ public class BasePlanServiceImpl implements BasePlanService {
 		plan.setDeliveryType(createPlan.getDeliveryType());
 		plan.setPlanName(createPlan.getPlanName());
 		plan.setPrice(createPlan.getPrice());
+		plan.setIsRandom(createPlan.getIsRandom());
+		plan.setRandomNum(createPlan.getRandomNum());
+		plan.setCdCategoryId(createPlan.getCdCategoryId());
 		plan = mybatisDao.saveByModel(plan);
-		for(PlanItemModel planItemModel : createPlan.getPlanItems()){
-			CdPlanItem planItem = new CdPlanItem();
-			planItem.setCdItemId(planItemModel.getCdItemId());
-			planItem.setCdPlanId(plan.getId());
-			planItem.setCountValue(planItemModel.getCount());
-			mybatisDao.save(planItem);
+		if(plan.getIsRandom() == 0){
+			for(PlanItemModel planItemModel : createPlan.getPlanItems()){
+				CdPlanItem planItem = new CdPlanItem();
+				planItem.setCdItemId(planItemModel.getCdItemId());
+				planItem.setCdPlanId(plan.getId());
+				planItem.setCountValue(planItemModel.getCount());
+				mybatisDao.save(planItem);
+			}
 		}
 		return plan;
 	}
@@ -68,16 +73,21 @@ public class BasePlanServiceImpl implements BasePlanService {
 		plan.setDeliveryType(updatePlan.getDeliveryType());
 		plan.setPlanName(updatePlan.getPlanName());
 		plan.setPrice(updatePlan.getPrice());
+		plan.setIsRandom(updatePlan.getIsRandom());
+		plan.setRandomNum(updatePlan.getRandomNum());
+		plan.setCdCategoryId(updatePlan.getCdCategoryId());
 		plan = mybatisDao.updateByModel(plan);
 		CdPlanItemExample planItemExample = new CdPlanItemExample();
 		planItemExample.createCriteria().andCdPlanIdEqualTo(id);
 		mybatisDao.deleteByExample(planItemExample);
-		for(PlanItemModel planItemModel : updatePlan.getPlanItems()){
-			CdPlanItem planItem = new CdPlanItem();
-			planItem.setCdItemId(planItemModel.getCdItemId());
-			planItem.setCdPlanId(plan.getId());
-			planItem.setCountValue(planItemModel.getCount());
-			mybatisDao.save(planItem);
+		if(plan.getIsRandom() == 0){
+			for(PlanItemModel planItemModel : updatePlan.getPlanItems()){
+				CdPlanItem planItem = new CdPlanItem();
+				planItem.setCdItemId(planItemModel.getCdItemId());
+				planItem.setCdPlanId(plan.getId());
+				planItem.setCountValue(planItemModel.getCount());
+				mybatisDao.save(planItem);
+			}
 		}
 		return plan;
 	}

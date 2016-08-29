@@ -616,6 +616,186 @@ public class CdPlanExample extends BaseMybatisExample {
             addCriterion("PRICE not between", value1, value2, "price");
             return (Criteria) this;
         }
+
+        public Criteria andIsRandomIsNull() {
+            addCriterion("IS_RANDOM is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRandomIsNotNull() {
+            addCriterion("IS_RANDOM is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRandomEqualTo(Integer value) {
+            addCriterion("IS_RANDOM =", value, "isRandom");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRandomNotEqualTo(Integer value) {
+            addCriterion("IS_RANDOM <>", value, "isRandom");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRandomGreaterThan(Integer value) {
+            addCriterion("IS_RANDOM >", value, "isRandom");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRandomGreaterThanOrEqualTo(Integer value) {
+            addCriterion("IS_RANDOM >=", value, "isRandom");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRandomLessThan(Integer value) {
+            addCriterion("IS_RANDOM <", value, "isRandom");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRandomLessThanOrEqualTo(Integer value) {
+            addCriterion("IS_RANDOM <=", value, "isRandom");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRandomIn(List<Integer> values) {
+            addCriterion("IS_RANDOM in", values, "isRandom");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRandomNotIn(List<Integer> values) {
+            addCriterion("IS_RANDOM not in", values, "isRandom");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRandomBetween(Integer value1, Integer value2) {
+            addCriterion("IS_RANDOM between", value1, value2, "isRandom");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRandomNotBetween(Integer value1, Integer value2) {
+            addCriterion("IS_RANDOM not between", value1, value2, "isRandom");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCategoryIdIsNull() {
+            addCriterion("CD_CATEGORY_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCategoryIdIsNotNull() {
+            addCriterion("CD_CATEGORY_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCategoryIdEqualTo(Integer value) {
+            addCriterion("CD_CATEGORY_ID =", value, "cdCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCategoryIdNotEqualTo(Integer value) {
+            addCriterion("CD_CATEGORY_ID <>", value, "cdCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCategoryIdGreaterThan(Integer value) {
+            addCriterion("CD_CATEGORY_ID >", value, "cdCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCategoryIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("CD_CATEGORY_ID >=", value, "cdCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCategoryIdLessThan(Integer value) {
+            addCriterion("CD_CATEGORY_ID <", value, "cdCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCategoryIdLessThanOrEqualTo(Integer value) {
+            addCriterion("CD_CATEGORY_ID <=", value, "cdCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCategoryIdIn(List<Integer> values) {
+            addCriterion("CD_CATEGORY_ID in", values, "cdCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCategoryIdNotIn(List<Integer> values) {
+            addCriterion("CD_CATEGORY_ID not in", values, "cdCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCategoryIdBetween(Integer value1, Integer value2) {
+            addCriterion("CD_CATEGORY_ID between", value1, value2, "cdCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdCategoryIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("CD_CATEGORY_ID not between", value1, value2, "cdCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRandomNumIsNull() {
+            addCriterion("RANDOM_NUM is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRandomNumIsNotNull() {
+            addCriterion("RANDOM_NUM is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRandomNumEqualTo(Integer value) {
+            addCriterion("RANDOM_NUM =", value, "randomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andRandomNumNotEqualTo(Integer value) {
+            addCriterion("RANDOM_NUM <>", value, "randomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andRandomNumGreaterThan(Integer value) {
+            addCriterion("RANDOM_NUM >", value, "randomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andRandomNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("RANDOM_NUM >=", value, "randomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andRandomNumLessThan(Integer value) {
+            addCriterion("RANDOM_NUM <", value, "randomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andRandomNumLessThanOrEqualTo(Integer value) {
+            addCriterion("RANDOM_NUM <=", value, "randomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andRandomNumIn(List<Integer> values) {
+            addCriterion("RANDOM_NUM in", values, "randomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andRandomNumNotIn(List<Integer> values) {
+            addCriterion("RANDOM_NUM not in", values, "randomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andRandomNumBetween(Integer value1, Integer value2) {
+            addCriterion("RANDOM_NUM between", value1, value2, "randomNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andRandomNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("RANDOM_NUM not between", value1, value2, "randomNum");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

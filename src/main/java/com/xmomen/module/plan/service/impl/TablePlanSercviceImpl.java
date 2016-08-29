@@ -57,4 +57,12 @@ public class TablePlanSercviceImpl implements TablePlanSercvice {
         mybatisDao.deleteByPrimaryKey(TbTablePlan.class, id);
     }
 
+	/**
+	 * 生成餐桌计划订单
+	 */
+	@Override
+	public void createTablePlanOrder() {
+		
+	}
+
 }

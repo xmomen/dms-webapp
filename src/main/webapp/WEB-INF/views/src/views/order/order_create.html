@@ -509,6 +509,14 @@
 											<input type="radio" class="radiobox" value="4" ng-model="order.otherPaymentMode" ng-checked="order.otherPaymentMode==4" name="otherPaymentMode">
 											<span>物流公司代收</span>
 										</label>
+                                        <label class="radio radio-inline">
+                                            <input type="radio" class="radiobox" value="4" ng-model="order.otherPaymentMode" ng-checked="order.otherPaymentMode==5" name="otherPaymentMode">
+                                            <span>卡类扣款</span>
+                                        </label>
+                                        <label class="radio radio-inline">
+                                            <input type="radio" class="radiobox" value="4" ng-model="order.otherPaymentMode" ng-checked="order.otherPaymentMode==7" name="otherPaymentMode">
+                                            <span>劵类扣款</span>
+                                        </label>
 										<label class="radio radio-inline">
 											<input type="radio" class="radiobox" value="6" ng-model="order.otherPaymentMode" ng-checked="order.otherPaymentMode==6" name="otherPaymentMode">
 											<span>其它</span>
@@ -559,8 +567,8 @@
                                             <label class="control-label" ng-if="order.paymentMode == 3">转账</label>
                                             <label class="control-label" ng-if="order.paymentMode == 4">物流公司代收</label>
                                             <label class="control-label" ng-if="order.paymentMode == 5">卡类扣款</label>
-                                            <label class="control-label" ng-if="order.paymentMode == 6">劵类扣款</label>
-                                            <label class="control-label" ng-if="order.paymentMode == 7">其他</label>
+                                            <label class="control-label" ng-if="order.paymentMode == 7">劵类扣款</label>
+                                            <label class="control-label" ng-if="order.paymentMode == 6">其他</label>
 										</div>
 									</div>
 									<div class="col-md-12">

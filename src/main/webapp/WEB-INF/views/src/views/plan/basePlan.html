@@ -164,34 +164,6 @@
                         <label class="col-md-2 control-label">配送时间<span class="vaild">*</span></label>
                         <div class="col-md-10">
                             <input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="20" ng-model="basePlan.deliveryTime" name="name" placeholder="配送时间(1-7代表周一至周天,分号分隔)" type="text">
-                            <!--<label class="radio radio-inline">-->
-                                <!--<input type="checkbox" class="checkbox" ng-model="basePlan.deliveryTimes.one" name="deliveryTime">-->
-                                <!--<span>星期一</span>-->
-                            <!--</label>-->
-                            <!--<label class="radio radio-inline">-->
-                                <!--<input type="checkbox" class="checkbox" ng-model="basePlan.deliveryTimes.two" name="deliveryTime">-->
-                                <!--<span>星期二</span>-->
-                            <!--</label>-->
-                            <!--<label class="radio radio-inline">-->
-                                <!--<input type="checkbox" class="checkbox" ng-model="basePlan.deliveryTimes.three" name="deliveryTime">-->
-                                <!--<span>星期三</span>-->
-                            <!--</label>-->
-                            <!--<label class="radio radio-inline">-->
-                                <!--<input type="checkbox" class="checkbox" ng-model="basePlan.deliveryTimes.four"  name="deliveryTime">-->
-                                <!--<span>星期四</span>-->
-                            <!--</label>-->
-                            <!--<label class="radio radio-inline">-->
-                                <!--<input type="checkbox" class="checkbox" ng-model="basePlan.deliveryTimes.five"  name="deliveryTime">-->
-                                <!--<span>星期五</span>-->
-                            <!--</label>-->
-                            <!--<label class="radio radio-inline">-->
-                                <!--<input type="checkbox" class="checkbox"  ng-model="basePlan.deliveryTimes.six" name="deliveryTime">-->
-                                <!--<span>星期六</span>-->
-                            <!--</label>-->
-                            <!--<label class="checkbox checkbox-inline">-->
-                                <!--<input type="checkbox" class="checkbox" ng-model="basePlan.deliveryTimes.seven"  name="deliveryTime">-->
-                                <!--<span>星期天</span>-->
-                            <!--</label>-->
                         </div>
                     </div>
                     <div class="form-group">
@@ -206,7 +178,32 @@
                             <input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="20" ng-model="basePlan.price" name="name" placeholder="金额" type="text">
                         </div>
                     </div>
-                    <fieldset class="demo-switcher-1">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">是否随机<span class="vaild">*</span></label>
+                        <div class="col-md-10">
+                            <label class="radio radio-inline">
+                                <input type="radio" class="radiobox" value="0" ng-model="basePlan.isRandom" ng-checked="basePlan.isRandom == 0" name="isRandom">
+                                <span>否</span>
+                            </label>
+                            <label class="radio radio-inline">
+                                <input type="radio" class="radiobox" value="1" ng-model="basePlan.isRandom" ng-checked="basePlan.isRandom == 1" name="isRandom">
+                                <span>是</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="basePlan.isRandom == 1">
+                        <label class="col-md-2 control-label">产品类别<span class="vaild">*</span></label>
+                        <div class="col-md-10">
+                            <input class="form-control" required="true" data-rule-minlength="2" data-rule-maxlength="20" ng-focus="chooseCategoryModel()" ng-model="basePlan.categoryName" name="categoryName" placeholder="产品类别" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="basePlan.isRandom == 1">
+                        <label class="col-md-2 control-label">产品数量<span class="vaild">*</span></label>
+                        <div class="col-md-10">
+                            <input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="20" ng-model="basePlan.randomNum" name="randomNum" placeholder="产品数量" type="text">
+                        </div>
+                    </div>
+                    <fieldset class="demo-switcher-1" ng-show="basePlan.isRandom == 0">
                         <legend>选择配送产品</legend>
                         <div class="row">
                             <div class="row">
@@ -338,5 +335,35 @@
             确定
         </button>
         <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="tree_view.html">
+    <span ng-mouseenter="item.show=true" ng-mouseleave="item.show=false">
+		<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i>
+        <a  ng-show="item.parentId != null" ng-click="chooseCategory(item)">{{item.name}}</a>
+		<lable ng-show="item.parentId == null" >{{item.name}}</lable>
+    </span>
+    <ul ng-if="item.nodes && item.nodes.length > 0" class="tree-hide">
+        <li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view.html'"></li>
+    </ul>
+</script>
+
+<script type="text/ng-template" id="chooseCategory.html">
+    <div class="modal-header">
+        <h3 class="modal-title">选择类别</h3>
+    </div>
+    <div class="modal-body">
+        <div class="widget-body">
+            <div class="tree">
+                <ul>
+                    <li data-ng-repeat="item in itemCategoryList" data-ng-include="'tree_view.html'"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-warning" ng-click="cancel()">关闭</button>
     </div>
 </script>
