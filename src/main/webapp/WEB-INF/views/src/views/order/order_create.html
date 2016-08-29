@@ -635,6 +635,10 @@
 											<i class="fa fa-save"></i>
 											提交
 										</button>
+										<button class="btn btn-primary" data-ng-click="saveBatchOrder()" type="button">
+											<i class="fa fa-save"></i>
+											批量下单
+										</button>
 									</div>
 								</div>
 							</div>
@@ -687,6 +691,43 @@
 	</div>
 	<div class="modal-footer">
 		<button class="btn btn-primary" type="submit" data-ng-click="saveItemNumber()">
+			<i class="fa fa-save"></i>
+			确定
+		</button>
+		<button class="btn btn-warning" ng-click="cancel()">取消</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="batchOrder.html">
+	<div class="modal-header">
+		<h3 class="modal-title">批量下单</h3>
+	</div>
+	<div class="modal-body">
+		<div class="widget-body">
+
+			<form class="form-horizontal" ug-validate="batchCreateOrderForm" name="batchCreateOrderForm2" novalidate="">
+
+				<fieldset>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">订单数量</label>
+						<div class="col-md-10 input-group">
+							<input class="form-control" required data-rule-number="true" ng-model="batchOrder.batchNumber" name="number" placeholder="请输入订单数量" type="text">
+						</div>
+					</div>
+
+					<div class="form-group" ng-if="errors">
+						<label class="col-md-2 control-label"></label>
+						<div class="col-md-10 error">
+							{{errors.message}}
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="submit" data-ng-click="saveBatchCreateOrderNumber()">
 			<i class="fa fa-save"></i>
 			确定
 		</button>

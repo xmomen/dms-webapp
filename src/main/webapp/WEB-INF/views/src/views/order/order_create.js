@@ -38,7 +38,7 @@ define(function () {
             };
             $scope.addOrderForm = {};
             $scope.errors = null;
-            $scope.saveOrder = function(){
+            $scope.saveOrder = function(type){
                 $scope.errors = null;
                 $scope.order.orderItemList = [];
                 for (var i = 0; i < $scope.choseOrderItemList.length; i++) {
@@ -50,13 +50,45 @@ define(function () {
                 }
                 if($scope.addOrderForm.validator.form()){
                     $scope.order.totalPrice = $scope.totalItem.totalPrice;
-                    OrderAPI.save($scope.order, function(){
-                        $ugDialog.alert("订单提交成功！");
-                        $state.go("order");
-                    }, function(data){
-                        $scope.errors = data.data;
+                    $ugDialog.confirm("是否提交订单").then(function(){
+                        if($scope.order.batchNumber && type == 1){
+                            OrderAPI.batch($scope.order, function(){
+                                $ugDialog.alert("订单提交成功！");
+                                $state.go("order");
+                            }, function(data){
+                                $scope.errors = data.data;
+                            });
+                        }else{
+                            OrderAPI.save($scope.order, function(){
+                                $ugDialog.alert("订单提交成功！");
+                                $state.go("order");
+                            }, function(data){
+                                $scope.errors = data.data;
+                            });
+                        }
                     });
                 }
+            };
+            $scope.saveBatchOrder = function(){
+                var modalInstance = $modal.open({
+                    templateUrl: 'batchOrder.html',
+                    controller: ["$scope", "$modalInstance", function ($scope, $modalInstance) {
+                        $scope.batchOrder = {};
+                        $scope.batchCreateOrderForm = {};
+                        $scope.saveBatchCreateOrderNumber = function(){
+                            if($scope.batchCreateOrderForm.validator.form()){
+                                $modalInstance.close($scope.batchOrder);
+                            }
+                        };
+                        $scope.cancel = function () {
+                            $modalInstance.dismiss('cancel');
+                        }
+                    }]
+                });
+                modalInstance.result.then(function (data) {
+                    $scope.order.batchNumber = data.batchNumber;
+                    $scope.saveOrder(1);
+                });
             };
             $scope.changeOrderType = function(){
                 if($scope.order.orderType == 1){

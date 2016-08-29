@@ -163,6 +163,17 @@ public class OrderService {
         return tbOrder;
     }
 
+    @Transactional
+    public void batchCreateOrder(CreateOrder createOrder){
+        if(createOrder.getBatchNumber() == null){
+            createOrder(createOrder);
+        }else{
+            for (int i = 0; i < createOrder.getBatchNumber(); i++) {
+                createOrder(createOrder);
+            }
+        }
+    }
+
     /**
      * 更新订单
      * @param updateOrder

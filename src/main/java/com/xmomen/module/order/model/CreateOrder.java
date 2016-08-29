@@ -7,19 +7,26 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Created by Jeng on 16/4/5.
  */
-public class CreateOrder implements Serializable {
+public @Data
+class CreateOrder implements Serializable {
 
     /**
      * 1-卡，2-劵，3-常规
      */
     @NotNull
     private Integer orderType;
+
+    /**
+     * 批量下单数
+     */
+    private Integer batchNumber;
 
     /**
      * 1-微信订单，2-商城订单，3-客服下单，4-采摘订单
