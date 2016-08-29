@@ -182,7 +182,6 @@ define(function () {
                 }
             };
             var setMemberInfo = function(member){
-                debugger;
                 $scope.order.memberId = member.id;
                 $scope.order.companyId = member.cdCompanyId;
                 $scope.order.name = member.name;
@@ -217,7 +216,6 @@ define(function () {
                         couponType:1
                     }, function(data){
                         if(data.data && data.data.length > 0){
-                            debugger;
                             var coupon = data.data[0];
                             $scope.card.id = coupon.id;
                             $scope.card.password = coupon.couponPassword;

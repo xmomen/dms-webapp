@@ -2,7 +2,7 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "BasePlanAPI", "$modal", "$ugDialog", function($scope, BasePlanAPI, $modal, $ugDialog){
+    return ["$scope", "BasePlanAPI", "$modal", "$ugDialog", "$rootScope",function($scope, BasePlanAPI, $modal, $ugDialog,$rootScope){
         $scope.basePlanList = [];
         $scope.basePlan = {};
         $scope.pageInfoSetting = {
@@ -35,7 +35,34 @@ define(function () {
             var modalInstance = $modal.open({
                 templateUrl: 'addBasePlan.html',
                 controller: ["$scope", "BasePlanAPI", "ItemAPI","$modalInstance","currentBasePlan", function ($scope, BasePlanAPI,ItemAPI,$modalInstance,currentBasePlan) {
-                    $scope.basePlan = {categoryType : 1};
+
+                    $scope.chooseCategoryModel = function(){
+                        var modalInstance = $modal.open({
+                            templateUrl: 'chooseCategory.html',
+                            controller: ["$scope", "ItemCategoryAPI", "$modalInstance", function ($scope, ItemCategoryAPI, $modalInstance) {
+                                $scope.itemCategoryList = [];
+                                $scope.queryParam = {};
+                                ItemCategoryAPI.query({
+                                    id:$scope.queryParam.id
+                                }, function(data){
+                                    $scope.itemCategoryList = data;
+                                    $rootScope.$broadcast("loadingTree");
+                                });
+                                $scope.cancel = function () {
+                                    $modalInstance.dismiss('cancel');
+                                };
+                                $scope.chooseCategory = function(category){
+                                    $modalInstance.close(category);
+                                }
+                            }]
+                        });
+                        modalInstance.result.then(function (category) {
+                            $scope.basePlan.categoryName = category.name;
+                            $scope.basePlan.cdCategoryId = category.id;
+                        });
+                    },
+
+                    $scope.basePlan = {categoryType : 1,isRandom:0};
                     if(currentBasePlan){
                         $scope.basePlan = currentBasePlan;
                             BasePlanAPI.getChoseItemList({

@@ -106,6 +106,9 @@
             <if test="createUserId">
             	AND tb.create_user_id = #{createUserId}
             </if>
+            <if test="despatchExpressId">
+            	AND tb.DESPATCH_EXPRESS_ID = #{despatchExpressId}
+            </if>
           </where>
           order by tb.CREATE_TIME desc
     </select>

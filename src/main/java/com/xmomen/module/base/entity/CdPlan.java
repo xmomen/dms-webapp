@@ -49,9 +49,24 @@ public class CdPlan extends BaseMybatisModel {
     private Integer deliverCount;
 
     /**
-     * 金额
+     * 价格
      */
     private BigDecimal price;
+
+    /**
+     * 是否随机
+     */
+    private Integer isRandom;
+
+    /**
+     * 产品归属的类别
+     */
+    private Integer cdCategoryId;
+
+    /**
+     * 随机数
+     */
+    private Integer randomNum;
 
     @Column(name = "ID")
     @Id
@@ -165,5 +180,47 @@ public class CdPlan extends BaseMybatisModel {
               return;
         }
         addValidField("price");
+    }
+
+    @Column(name = "IS_RANDOM")
+    public Integer getIsRandom() {
+        return isRandom;
+    }
+
+    public void setIsRandom(Integer isRandom) {
+        this.isRandom = isRandom;
+        if(isRandom == null){
+              removeValidField("isRandom");
+              return;
+        }
+        addValidField("isRandom");
+    }
+
+    @Column(name = "CD_CATEGORY_ID")
+    public Integer getCdCategoryId() {
+        return cdCategoryId;
+    }
+
+    public void setCdCategoryId(Integer cdCategoryId) {
+        this.cdCategoryId = cdCategoryId;
+        if(cdCategoryId == null){
+              removeValidField("cdCategoryId");
+              return;
+        }
+        addValidField("cdCategoryId");
+    }
+
+    @Column(name = "RANDOM_NUM")
+    public Integer getRandomNum() {
+        return randomNum;
+    }
+
+    public void setRandomNum(Integer randomNum) {
+        this.randomNum = randomNum;
+        if(randomNum == null){
+              removeValidField("randomNum");
+              return;
+        }
+        addValidField("randomNum");
     }
 }

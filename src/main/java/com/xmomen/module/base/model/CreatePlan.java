@@ -54,6 +54,21 @@ public @Data class CreatePlan implements Serializable {
     
 
     private BigDecimal price;
+
+    /**
+     * 是否随机
+     */
+    private Integer isRandom;
+
+    /**
+     * 产品归属的类别
+     */
+    private Integer cdCategoryId;
+
+    /**
+     * 随机数
+     */
+    private Integer randomNum;
     
     private List<PlanItemModel> planItems;
 

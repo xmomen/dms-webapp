@@ -80,7 +80,7 @@ define(function () {
             }
         }
 
-        $scope.printBarCode = function(){
+                $scope.printBarCode = function(){
             if($scope.packageTask.noFinishValue == 0){
                 $ugDialog.warn("全部包装完成！请换下一个任务");
                 $("#weight").focus();
@@ -111,50 +111,101 @@ define(function () {
             }
             var barCode = $scope.packageTask.itemCode + "" + $scope.packageTask.weight + Math.floor(Math.random()*10000);
             var LODOP=getLodop();
-            if($scope.packageTask.weight > max){
-                //元素设置为readonly
-                $("#weight").attr("readonly","readonly");
-                $ugDialog.confirm("超过最大重量，是否打印？").then(function(){
-                    $scope.print(barCode);
-                    //去除input元素的readonly属性
-                    $("#weight").removeAttr("readonly");
-                    PackageTaskAPI.packageWorking({
-                        id:$scope.packageTask.id,
-                        barCode:barCode
-                    },function(data){
-                        $scope.packageTask.finishValue +=1;
-                        $scope.packageTask.noFinishValue -=1;
-                        $scope.getJobOperationLogList($stateParams.id)
-                    })
-                    $("#weight").focus();
-                    $("#weight").select();
-                    $("#weight").val("");
-                },function(){
-                    //去除input元素的readonly属性
-                    $("#weight").removeAttr("readonly");
-                    $("#weight").focus();
-                    $("#weight").select();
-                    $("#weight").val("");
-                })
-            }else{
-                $scope.print(barCode);
-                PackageTaskAPI.packageWorking({
-                    id:$scope.packageTask.id,
-                    barCode:barCode
-                },function(data){
-                    $scope.packageTask.finishValue +=1;
-                    $scope.packageTask.noFinishValue -=1;
-                    $scope.getJobOperationLogList($scope.packageTask.id)
-                    //如果完成自动跳转到下一个任务
-                    if($scope.packageTask.noFinishValue == 0){
-                        $scope.nextPackageTask($scope.packageTask.id);
-                    }
-                })
-                $("#weight").focus();
-                $("#weight").select();
-                $("#weight").val("");
+//            if($scope.packageTask.weight > max){
+//                //元素设置为readonly
+//                $("#weight").attr("readonly","readonly");
+//                $ugDialog.confirm("超过最大重量，是否打印？").then(function(){
+//                    $scope.print(barCode);
+//                    //去除input元素的readonly属性
+//                    $("#weight").removeAttr("readonly");
+//                    PackageTaskAPI.packageWorking({
+//                        id:$scope.packageTask.id,
+//                        barCode:barCode
+//                    },function(data){
+//                        $scope.packageTask.finishValue +=1;
+//                        $scope.packageTask.noFinishValue -=1;
+//                        $scope.getJobOperationLogList($stateParams.id)
+//                    })
+//                    $("#weight").focus();
+//                    $("#weight").select();
+//                    $("#weight").val("");
+//                },function(){
+//                    //去除input元素的readonly属性
+//                    $("#weight").removeAttr("readonly");
+//                    $("#weight").focus();
+//                    $("#weight").select();
+//                    $("#weight").val("");
+//                })
+//            }else{
+            $scope.print(barCode);
+            PackageTaskAPI.packageWorking({
+                id:$scope.packageTask.id,
+                barCode:barCode
+            },function(data){
+                $scope.packageTask.finishValue +=1;
+                $scope.packageTask.noFinishValue -=1;
+                $scope.getJobOperationLogList($scope.packageTask.id)
+                //如果完成自动跳转到下一个任务
+                if($scope.packageTask.noFinishValue == 0){
+                    $scope.nextPackageTask($scope.packageTask.id);
+                }
+            })
+            $("#weight").focus();
+            $("#weight").select();
+            $("#weight").val("");
+//            }
+        }
+
+
+        //回车批量生成条码
+        $scope.printBatchBarCodeEvent = function(e){
+            var keycode = window.event?e.keyCode:e.which;
+            if(keycode==13){
+                $scope.printBatchBarCode();
             }
         }
+
+        $scope.printBatchBarCode = function(){
+            if($scope.packageTask.batch == undefined){
+                $ugDialog.warn("请输入批量打印数量！");
+                $("#batch").focus();
+                $("#batch").select();
+                $("#batch").val("");
+                return;
+            }
+            if($scope.packageTask.noFinishValue < $scope.packageTask.batch){
+                $ugDialog.warn("输入的数量超过未包装数！");
+                $("#batch").focus();
+                $("#batch").select();
+                $("#batch").val("");
+                return;
+            }
+
+            var LODOP=getLodop();
+            var barCodes = "";
+            for(var i = 0;i<$scope.packageTask.batch;i++){
+                //重量默认商品规格
+                var barCode = $scope.packageTask.itemCode + "" + $scope.packageTask.spec + Math.floor(Math.random()*(9999-1000+1)+1000);
+                $scope.print(barCode);
+                $scope.packageTask.finishValue +=1;
+                $scope.packageTask.noFinishValue -=1;
+                barCodes = barCodes +barCode+",";
+            }
+            PackageTaskAPI.packageWorking({
+                id:$scope.packageTask.id,
+                barCode:barCodes
+            },function(data){
+                $scope.getJobOperationLogList($scope.packageTask.id)
+                //如果完成自动跳转到下一个任务
+                if($scope.packageTask.noFinishValue == 0){
+                    $scope.nextPackageTask($scope.packageTask.id);
+                }
+            });
+            $("#batch").focus();
+            $("#batch").select();
+            $("#batch").val("");
+        }
+
 
         $scope.print = function(barCode){
             LODOP.PRINT_INITA(0,0,"56.3mm","60.01mm","商品条码打印");

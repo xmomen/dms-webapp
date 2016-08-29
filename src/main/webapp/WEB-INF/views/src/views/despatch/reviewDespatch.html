@@ -27,6 +27,40 @@
                     <!-- end widget edit box -->
                     <!-- widget content -->
                     <div class="widget-body no-padding">
+                        <div class="dt-toolbar">
+                            <div class="col-sm-4">
+                                <div class="dataTables_filter">
+                                    <label>
+                                        <input type="search" placeholder="订单编号" data-ng-keyup="getOrderList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="dataTables_filter">
+                                    <label>
+                                        <input type="search" placeholder="客户姓名" data-ng-keyup="getOrderList()" ng-model="queryParam.customerName" class="form-control" aria-controls="dt_basic"></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="dataTables_filter">
+                                    <label>
+                                        <select ug-select2 ug-select2-config="ugSelect2Config" style="width: 250px;"ng-change="getOrderList()" ng-model="queryParam.despatchExpressId" name="despatchExpressId" >
+                                            <option value="">--请选择快递商--</option>
+                                            <option value="{{express.id}}" ng-repeat="express in expressList">{{express.expressName}}</option>
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-primary" type="button" data-ng-click="getPackageTaskList()">
+                                    <i class="fa fa-refresh"></i>
+                                    刷新
+                                </button>
+                                <!--<button class="btn btn-primary" type="button" ui-sref="packageTask_create">-->
+                                <!--<i class="fa fa-plus"></i>-->
+                                <!--生成采购计划-->
+                                <!--</button>-->
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-condensed table-hover smart-form has-tickbox">
                                 <thead>

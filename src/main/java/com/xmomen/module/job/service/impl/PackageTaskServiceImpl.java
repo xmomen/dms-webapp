@@ -45,32 +45,35 @@ public class PackageTaskServiceImpl implements PackageTaskService {
 	}
 
 	@Override
-	public void packageWorking(Integer id, String barCode) {
+	public void packageWorking(Integer id, String barCodes) {
+		String[] barCodeList = barCodes.split(",");
 		TbJob packageTask = mybatisDao.selectByPrimaryKey(TbJob.class, id);
-		Date currentTime = mybatisDao.getSysdate();
-		Integer finishValue = packageTask.getFinishValue();
-		Integer countValue = packageTask.getCountValue();
-		Integer currentFinishValue = finishValue + 1;
-		if(packageTask.getJobBeginTime() == null){
-			packageTask.setJobBeginTime(currentTime);
-			packageTask.setJobStatus(1);
-			
+		for(String barCode : barCodeList){
+			Date currentTime = mybatisDao.getSysdate();
+			Integer finishValue = packageTask.getFinishValue();
+			Integer countValue = packageTask.getCountValue();
+			Integer currentFinishValue = finishValue + 1;
+			if(packageTask.getJobBeginTime() == null){
+				packageTask.setJobBeginTime(currentTime);
+				packageTask.setJobStatus(1);
+				
+			}
+			if(countValue.intValue() == currentFinishValue.intValue()){
+				packageTask.setFinishTime(currentTime);
+				packageTask.setJobStatus(2);
+			}
+			packageTask.setFinishValue(currentFinishValue);
+			mybatisDao.update(packageTask);
+			//添加操作记录
+			TbJobOperationLog jobOperationLog = new TbJobOperationLog();
+			jobOperationLog.setBarCode(barCode);
+			jobOperationLog.setItemCode(StringUtils.substring(barCode,0,7));
+			jobOperationLog.setJobId(packageTask.getId());
+			jobOperationLog.setJobTime(currentTime);
+			jobOperationLog.setJobUser(packageTask.getJobUser());
+			mybatisDao.save(jobOperationLog);
+			//更新包装数
 		}
-		if(countValue.intValue() == currentFinishValue.intValue()){
-			packageTask.setFinishTime(currentTime);
-			packageTask.setJobStatus(2);
-		}
-		packageTask.setFinishValue(currentFinishValue);
-		mybatisDao.update(packageTask);
-		//添加操作记录
-		TbJobOperationLog jobOperationLog = new TbJobOperationLog();
-		jobOperationLog.setBarCode(barCode);
-		jobOperationLog.setItemCode(StringUtils.substring(barCode,0,7));
-		jobOperationLog.setJobId(packageTask.getId());
-		jobOperationLog.setJobTime(currentTime);
-		jobOperationLog.setJobUser(packageTask.getJobUser());
-		mybatisDao.save(jobOperationLog);
-		//更新包装数
 	}
 
 	@Override
