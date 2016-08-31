@@ -19,8 +19,9 @@ define([
     "views/base/express_list",
     "views/base/express_member_list",
     "views/base/onlineRecharge",
-    "views/base/tradeRecordList"
-],function (memberList,companyList,couponCategory,coupon,dictionary,itemCategory,item,contract,contract_create,contract_update,activity,couponActivity,couponAudit,couponAuditBack,express_list,express_member_list,onlineRecharge,tradeRecordList) {
+    "views/base/tradeRecordList",
+    "views/base/couponActivityAddress"
+],function (memberList,companyList,couponCategory,coupon,dictionary,itemCategory,item,contract,contract_create,contract_update,activity,couponActivity,couponAudit,couponAuditBack,express_list,express_member_list,onlineRecharge,tradeRecordList,couponActivityAddress) {
     angular.module('DMS.base', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -158,6 +159,17 @@ define([
                     }
                 },
                 controller: couponActivity
+            })
+            .state('couponActivityAddress', {
+                url: '/couponActivityAddress',
+                templateUrl: 'views/base/couponActivityAddress.html',
+                data:{
+                    permissions:{
+                        only:["COUPON_ACTIVITY_VIEW"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: couponActivityAddress
             })
             .state('couponAudit', {
                 url: '/couponAudit',

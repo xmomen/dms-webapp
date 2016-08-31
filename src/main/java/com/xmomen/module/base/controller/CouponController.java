@@ -37,6 +37,7 @@ import com.xmomen.module.base.entity.CdCouponRefExample;
 import com.xmomen.module.base.entity.CdMember;
 import com.xmomen.module.base.mapper.CouponMapper;
 import com.xmomen.module.base.model.CouponActivityAddress;
+import com.xmomen.module.base.model.CouponActivityAddressHead;
 import com.xmomen.module.base.model.CouponModel;
 import com.xmomen.module.base.model.CouponQuery;
 import com.xmomen.module.base.model.CreateCoupon;
@@ -265,40 +266,37 @@ public class CouponController {
      */
     @RequestMapping(value = "/coupon/activityAddress", method = RequestMethod.POST)
     @Log(actionName = "活动送货地址信息")
-    public void activityAddress(@RequestBody CouponActivityAddress couponActivityAddress) throws ParseException{
-    	
+    public void activityAddress(@RequestBody CouponActivityAddressHead couponActivityAddressHead) throws ParseException{
     	CdActivityAddress activityAddress = new CdActivityAddress();
-    	activityAddress.setCouponNumber(couponActivityAddress.getCouponNumber());
-    	activityAddress = mybatisDao.selectOneByModel(activityAddress);
-    	if(activityAddress == null){
+    	activityAddress.setCouponNumber(couponActivityAddressHead.getCouponNumber());
+    	List<CdActivityAddress> activityAddressList = mybatisDao.selectByModel(activityAddress);
+    	mybatisDao.deleteAllByModel(activityAddressList);
+    	for(CouponActivityAddress couponActivityAddress : couponActivityAddressHead.getCouponActivityAddressList()){
+	
     		activityAddress = new CdActivityAddress();
     		activityAddress.setConsignmentAddress(couponActivityAddress.getConsignmentAddress());
     		activityAddress.setConsignmentPhone(couponActivityAddress.getConsignmentPhone());
     		activityAddress.setConsignmentName(couponActivityAddress.getConsignmentName());
-    		activityAddress.setCouponNumber(couponActivityAddress.getCouponNumber());
+    		activityAddress.setCouponNumber(couponActivityAddressHead.getCouponNumber());
     		activityAddress.setSendTime(couponActivityAddress.getSendTime());
+    		activityAddress.setSendCount(couponActivityAddress.getSendCount());
     		mybatisDao.save(activityAddress);
-    	}else{
-    		activityAddress.setConsignmentAddress(couponActivityAddress.getConsignmentAddress());
-    		activityAddress.setConsignmentPhone(couponActivityAddress.getConsignmentPhone());
-    		activityAddress.setConsignmentName(couponActivityAddress.getConsignmentName());
-    		activityAddress.setSendTime(couponActivityAddress.getSendTime());
-    		mybatisDao.update(activityAddress);
-    	}
-    	//查找客户 进行添加或者修改第三个地址
-    	if(StringUtilsExt.isNotBlank(couponActivityAddress.getConsignmentPhone())){
-    		CdMember member = new CdMember();
-    		member.setPhoneNumber(couponActivityAddress.getConsignmentPhone());
-    		List<CdMember> members = mybatisDao.selectByModel(member);
-    		if(members != null && members.size() > 0){
-    			member = members.get(0);
-    			if(StringUtilsExt.isNotBlank(couponActivityAddress.getConsignmentAddress()))
-    			member.setSpareAddress2(couponActivityAddress.getConsignmentAddress());
-    			if(StringUtilsExt.isNotBlank(couponActivityAddress.getConsignmentName()))
-    			member.setSpareName2(couponActivityAddress.getConsignmentName());
-    			member.setSpareTel2(couponActivityAddress.getConsignmentPhone());
-    			mybatisDao.update(member);
-    		}
+	    
+	    	//查找客户 进行添加或者修改第三个地址
+	    	if(StringUtilsExt.isNotBlank(couponActivityAddress.getConsignmentPhone())){
+	    		CdMember member = new CdMember();
+	    		member.setPhoneNumber(couponActivityAddress.getConsignmentPhone());
+	    		List<CdMember> members = mybatisDao.selectByModel(member);
+	    		if(members != null && members.size() > 0){
+	    			member = members.get(0);
+	    			if(StringUtilsExt.isNotBlank(couponActivityAddress.getConsignmentAddress()))
+	    			member.setSpareAddress2(couponActivityAddress.getConsignmentAddress());
+	    			if(StringUtilsExt.isNotBlank(couponActivityAddress.getConsignmentName()))
+	    			member.setSpareName2(couponActivityAddress.getConsignmentName());
+	    			member.setSpareTel2(couponActivityAddress.getConsignmentPhone());
+	    			mybatisDao.update(member);
+	    		}
+	    	}
     	}
     }
     
