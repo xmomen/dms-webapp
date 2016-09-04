@@ -12,6 +12,8 @@ import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.jeecgframework.poi.excel.ExcelImportUtil;
+import org.jeecgframework.poi.excel.entity.ImportParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +34,7 @@ import com.xmomen.framework.web.exceptions.ArgumentValidException;
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.base.entity.CdActivityAddress;
 import com.xmomen.module.base.entity.CdCoupon;
+import com.xmomen.module.base.entity.CdCouponCategory;
 import com.xmomen.module.base.entity.CdCouponRef;
 import com.xmomen.module.base.entity.CdCouponRefExample;
 import com.xmomen.module.base.entity.CdMember;
@@ -40,10 +43,13 @@ import com.xmomen.module.base.model.CouponActivityAddress;
 import com.xmomen.module.base.model.CouponActivityAddressHead;
 import com.xmomen.module.base.model.CouponModel;
 import com.xmomen.module.base.model.CouponQuery;
+import com.xmomen.module.base.model.CouponReportModel;
 import com.xmomen.module.base.model.CreateCoupon;
 import com.xmomen.module.base.model.ReadCardVo;
 import com.xmomen.module.base.model.UpdateCoupon;
 import com.xmomen.module.base.service.CouponService;
+import com.xmomen.module.export.model.UploadFileVo;
+import com.xmomen.module.export.util.PrintUtils;
 import com.xmomen.module.logger.Log;
 
 /**
@@ -421,4 +427,55 @@ public class CouponController {
     		){
     	couponService.updateBalance(couponNo,updatePrice,remark);
     }
+    
+    /**
+     * 卡劵导入
+     * @param request
+     * @param response
+     */
+	@RequestMapping(value = "/coupon/importExcel", method = RequestMethod.POST)
+	public void importExcel(HttpServletRequest request, HttpServletResponse response) {
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
+		for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
+			MultipartFile file = entity.getValue();// 获取上传文件对象
+			ImportParams params = new ImportParams();
+			params.setTitleRows(0);
+			params.setHeadRows(1);
+			params.setNeedSave(false);
+			try {
+				List<CouponReportModel> couponImportList = ExcelImportUtil.importExcel(file.getInputStream(),CouponReportModel.class,params);
+				CdCouponCategory couponCategory = new CdCouponCategory();
+				List<CdCouponCategory> cdCouponCategoryList = mybatisDao.selectByModel(couponCategory);
+				for (CouponReportModel couponImport : couponImportList) {
+					for(CdCouponCategory cdCouponCategory:cdCouponCategoryList){
+						if(cdCouponCategory.getCategoryName().equals(couponImport.getCategoryName())){
+							couponImport.setCouponCategoryId(cdCouponCategory.getId());
+							couponService.importCoupon(couponImport);
+						}
+					}
+					
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally{
+				try {
+					file.getInputStream().close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	@RequestMapping(value="/coupon/downCouponImportTemplate")
+	public void downAsnImportTemplate(HttpServletRequest request,HttpServletResponse response) {
+		UploadFileVo uploadFile = new UploadFileVo();
+		uploadFile.setRequest(request);
+		uploadFile.setResponse(response);
+		uploadFile.setExtend("xlsx");
+		uploadFile.setTitleField("卡劵导入模板");
+		uploadFile.setRealPath("/WEB-INF/excelFile/couponExcel.xlsx");
+		PrintUtils.viewOrDownloadFile(uploadFile);
+	}
 }
