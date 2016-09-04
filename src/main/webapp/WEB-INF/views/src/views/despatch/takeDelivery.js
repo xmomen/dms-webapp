@@ -9,6 +9,31 @@ define(function () {
             pageNum:1
         };
         $scope.queryParam = {};
+
+        $scope.datepickerSetting = {
+            datepickerPopupConfig:{
+                "current-text":"今天",
+                "clear-text":"清除",
+                "close-text":"关闭",
+                "format":"yyyy-MM-dd"
+            },
+            startTime:{
+                opened:false
+            },
+            endTime:{
+                opened:false
+            }
+        };
+        $scope.openDatepicker = function($event, index) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            if(index == 1){
+                $scope.datepickerSetting.startTime.opened = true;
+            }else if(index == 2){
+                $scope.datepickerSetting.endTime.opened = true;
+            }
+        };
+
         $scope.getOrderList = function(){
             //查询未提货的订单
             ExpressAPI.queryOrder({
@@ -71,6 +96,10 @@ define(function () {
                 $("#orderNo").select();
                 $("#orderNo").val("");
             })
+        }
+
+        $scope.exportExcel = function(){
+            window.location.href = "/export/exportTakeDeliveryExcel?startTime="+$scope.queryParam.startTime+"&endTime="+$scope.queryParam.endTime;
         }
     }];
 });

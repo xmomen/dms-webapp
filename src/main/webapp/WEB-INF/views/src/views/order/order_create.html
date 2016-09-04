@@ -489,10 +489,10 @@
 									<label class="control-label col-md-2">附加付款方式</label>
 									<input type="hidden" ng-model="order.otherPaymentRelationNo" name="otherPaymentRelationNo">
 									<div class="col-md-10">
-										<label class="radio radio-inline">
-											<input type="radio" class="radiobox" value="0" ng-model="order.otherPaymentMode" ng-checked="order.otherPaymentMode==0" name="otherPaymentMode">
-											<span>回馈</span>
-										</label>
+										<!--<label class="radio radio-inline">-->
+											<!--<input type="radio" class="radiobox" value="0" ng-model="order.otherPaymentMode" ng-checked="order.otherPaymentMode==0" name="otherPaymentMode">-->
+											<!--<span>回馈</span>-->
+										<!--</label>-->
 										<label class="radio radio-inline">
 											<input type="radio" class="radiobox" value="1" ng-model="order.otherPaymentMode" ng-checked="order.otherPaymentMode==1" name="otherPaymentMode">
 											<span>客户经理代收</span>
@@ -509,14 +509,14 @@
 											<input type="radio" class="radiobox" value="4" ng-model="order.otherPaymentMode" ng-checked="order.otherPaymentMode==4" name="otherPaymentMode">
 											<span>物流公司代收</span>
 										</label>
-                                        <label class="radio radio-inline">
-                                            <input type="radio" class="radiobox" value="5" ng-model="order.otherPaymentMode" ng-checked="order.otherPaymentMode==5" name="otherPaymentMode">
-                                            <span>卡类扣款</span>
-                                        </label>
-                                        <label class="radio radio-inline">
-                                            <input type="radio" class="radiobox" value="7" ng-model="order.otherPaymentMode" ng-checked="order.otherPaymentMode==7" name="otherPaymentMode">
-                                            <span>劵类扣款</span>
-                                        </label>
+                                        <!--<label class="radio radio-inline">-->
+                                            <!--<input type="radio" class="radiobox" value="5" ng-model="order.otherPaymentMode" ng-checked="order.otherPaymentMode==5" name="otherPaymentMode">-->
+                                            <!--<span>卡类扣款</span>-->
+                                        <!--</label>-->
+                                        <!--<label class="radio radio-inline">-->
+                                            <!--<input type="radio" class="radiobox" value="7" ng-model="order.otherPaymentMode" ng-checked="order.otherPaymentMode==7" name="otherPaymentMode">-->
+                                            <!--<span>劵类扣款</span>-->
+                                        <!--</label>-->
 										<label class="radio radio-inline">
 											<input type="radio" class="radiobox" value="6" ng-model="order.otherPaymentMode" ng-checked="order.otherPaymentMode==6" name="otherPaymentMode">
 											<span>其它</span>
@@ -561,7 +561,7 @@
 									<div class="col-md-12">
 										<label class="control-label col-md-2">付款方式<span class="vaild">*</span>：</label>
 										<div class="col-md-10">
-											<label class="control-label" ng-if="order.paymentMode == 0">回馈</label>
+											<!--<label class="control-label" ng-if="order.paymentMode == 0">回馈</label>-->
                                             <label class="control-label" ng-if="order.paymentMode == 1">客户经理代收</label>
                                             <label class="control-label" ng-if="order.paymentMode == 2">刷POS</label>
                                             <label class="control-label" ng-if="order.paymentMode == 3">转账</label>
@@ -571,6 +571,20 @@
                                             <label class="control-label" ng-if="order.paymentMode == 6">其他</label>
 										</div>
 									</div>
+                                    <div class="col-md-12" ng-if="order.paymentMode==5">
+                                        <label class="control-label col-md-2">附加付款方式<span class="vaild">*</span>：</label>
+                                        <div class="col-md-10">
+                                            <label class="control-label" ng-if="order.otherPaymentMode == 0">回馈</label>
+                                            <label class="control-label" ng-if="order.otherPaymentMode == 1">客户经理代收</label>
+                                            <label class="control-label" ng-if="order.otherPaymentMode == 2">刷POS</label>
+                                            <label class="control-label" ng-if="order.otherPaymentMode == 3">转账</label>
+                                            <label class="control-label" ng-if="order.otherPaymentMode == 4">物流公司代收</label>
+                                            <!--<label class="control-label" ng-if="order.otherPaymentMode == 5">卡类扣款</label>-->
+                                            <!--<label class="control-label" ng-if="order.otherPaymentMode == 7">劵类扣款</label>-->
+                                            <label class="control-label" ng-if="order.otherPaymentMode == 6">其他</label>
+                                            （附加付款金额：{{totalItem.totalPriceDiscount - card.amount}}）
+                                        </div>
+                                    </div>
 									<div class="col-md-12">
 										<label class="control-label col-md-2">客户要求：</label>
 										<div class="col-md-10">

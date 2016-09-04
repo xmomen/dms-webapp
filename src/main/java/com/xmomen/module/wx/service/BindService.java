@@ -72,6 +72,12 @@ public class BindService {
 		TbOrder order = new TbOrder();
 		order.setOrderNo(orderNo);
 		order = mybatisDao.selectOneByModel(order);
+		//判断订单状态是否是待配送状态
+		if(!"12".equals(order.getOrderStatus())){
+			logger.error("订单"+orderNo+"状态不是待配送，不能扫描");
+			return "订单"+orderNo+"状态不是待配送，不能扫描";
+		}
+		
 		if(order == null){
 			logger.error("订单"+orderNo+"不存在");
 			return "订单<<"+orderNo+">>不存在";
@@ -92,6 +98,9 @@ public class BindService {
 		}
 		//更新订单
 		order.setExpressMemberId(expressMember.getId());
+		//更新订单状态
+		//配送中
+		order.setOrderStatus("5");
 		mybatisDao.save(order);
 		return "扫描成功";
 	}

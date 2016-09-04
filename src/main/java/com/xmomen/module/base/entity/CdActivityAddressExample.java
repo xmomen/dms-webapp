@@ -532,6 +532,66 @@ public class CdActivityAddressExample extends BaseMybatisExample {
             addCriterionForJDBCDate("SEND_TIME not between", value1, value2, "sendTime");
             return (Criteria) this;
         }
+
+        public Criteria andSendCountIsNull() {
+            addCriterion("SEND_COUNT is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendCountIsNotNull() {
+            addCriterion("SEND_COUNT is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendCountEqualTo(Integer value) {
+            addCriterion("SEND_COUNT =", value, "sendCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendCountNotEqualTo(Integer value) {
+            addCriterion("SEND_COUNT <>", value, "sendCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendCountGreaterThan(Integer value) {
+            addCriterion("SEND_COUNT >", value, "sendCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("SEND_COUNT >=", value, "sendCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendCountLessThan(Integer value) {
+            addCriterion("SEND_COUNT <", value, "sendCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendCountLessThanOrEqualTo(Integer value) {
+            addCriterion("SEND_COUNT <=", value, "sendCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendCountIn(List<Integer> values) {
+            addCriterion("SEND_COUNT in", values, "sendCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendCountNotIn(List<Integer> values) {
+            addCriterion("SEND_COUNT not in", values, "sendCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendCountBetween(Integer value1, Integer value2) {
+            addCriterion("SEND_COUNT between", value1, value2, "sendCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("SEND_COUNT not between", value1, value2, "sendCount");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

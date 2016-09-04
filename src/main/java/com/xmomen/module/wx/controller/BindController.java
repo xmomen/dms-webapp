@@ -81,9 +81,9 @@ public class BindController {
 	@RequestMapping(value="/bind/auth2Url")
 	public String oauth2Url(HttpServletRequest request,HttpServletResponse response,@RequestParam("code") String code,
 							@RequestParam("url") String url,@RequestParam(value="param",required=false) String param) throws IOException {
-//		AccessTokenOAuth accessToken = Auth2Handler.getAccessToken(code);
-//		String openId = accessToken.getOpenid();
-		String openId = "ovH3uwhNwt_Q646pRA43aCCwtSRE";
+		AccessTokenOAuth accessToken = Auth2Handler.getAccessToken(code);
+		String openId = accessToken.getOpenid();
+//		String openId = "ovH3uwhNwt_Q646pRA43aCCwtSRE";
 		logger.info("openid----->" + openId);
 		//查询是否有绑定
 		CdBind bind = new CdBind();

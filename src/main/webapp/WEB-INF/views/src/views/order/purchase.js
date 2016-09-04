@@ -139,7 +139,9 @@ define(function () {
                 $scope.getPurchaseList();
             });
         };
-
+        $scope.exportExcel = function(){
+            window.location.href = "/export/exportPurchaseExcel";
+        }
         $scope.getPurchaseList();
     }];
 });

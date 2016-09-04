@@ -1,66 +1,73 @@
 package com.xmomen.module.wx.model;
+
 /**
- * AccessTokenOAuth.java 2014年10月27日下午6:12:55
- * 
- * 
- * Copyright (c) 2014 by MTA.
- * 
- * @author jizong.li
- * @Email 85150225@qq.com
- * @company 上海递优国际物流
- * @description 网页授权接口调用凭证 OAuth2.0
- * @version 1.0
+ * 网页授权接口调用凭证
  */
 public class AccessTokenOAuth {
 
-	private String accessToken;
-	
-	private int expiresIn;
-	
-	private String refreshToken;
-	
-	private String openid;
-	
-	private String scope;
+    /**
+     * 网页授权接口调用凭证,注意：此access_token与基础支持的access_token不同
+     */
+    private String accessToken;
 
-	public String getAccessToken() {
-		return accessToken;
-	}
+    /**
+     * access_token接口调用凭证超时时间，单位（秒）
+     */
+    private int expiresIn;
 
-	public void setAccessToken(String accessToken) {
-		this.accessToken = accessToken;
-	}
+    /**
+     * 用户刷新access_token
+     */
+    private String refreshToken;
 
-	public int getExpiresIn() {
-		return expiresIn;
-	}
+    /**
+     * 用户唯一标识
+     */
+    private String openid;
 
-	public void setExpiresIn(int expiresIn) {
-		this.expiresIn = expiresIn;
-	}
+    /**
+     * 用户授权的作用域，使用逗号（,）分隔
+     */
+    private String scope;
 
-	public String getRefreshToken() {
-		return refreshToken;
-	}
+    public String getAccessToken() {
+        return accessToken;
+    }
 
-	public void setRefreshToken(String refreshToken) {
-		this.refreshToken = refreshToken;
-	}
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
 
-	public String getOpenid() {
-		return openid;
-	}
+    public int getExpiresIn() {
+        return expiresIn;
+    }
 
-	public void setOpenid(String openid) {
-		this.openid = openid;
-	}
+    public void setExpiresIn(int expiresIn) {
+        this.expiresIn = expiresIn;
+    }
 
-	public String getScope() {
-		return scope;
-	}
+    public String getRefreshToken() {
+        return refreshToken;
+    }
 
-	public void setScope(String scope) {
-		this.scope = scope;
-	}
-	
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public String getOpenid() {
+        return openid;
+    }
+
+    public void setOpenid(String openid) {
+        this.openid = openid;
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
+    }
+
 }

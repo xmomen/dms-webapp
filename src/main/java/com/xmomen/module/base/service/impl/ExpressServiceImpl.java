@@ -1,5 +1,7 @@
 package com.xmomen.module.base.service.impl;
 
+import java.util.List;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,6 +138,15 @@ public class ExpressServiceImpl implements ExpressService {
 		if(orderRefDB != null){
 			mybatisDao.delete(orderRefDB);
 		}		
+	}
+	
+	/**
+	 * 获取快递商提货的订单
+	 */
+	@Override
+	public List<OrderModel> getTakeDeliveryList(OrderQuery query) {
+		// TODO Auto-generated method stub      
+		return  mybatisDao.getSqlSessionTemplate().selectList(ExpressMapper.ExpressMapperNameSpace + "getOrderList", query);
 	}
 
 }

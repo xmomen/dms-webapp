@@ -1,0 +1,210 @@
+<!--
+	The ID "widget-grid" will start to initialize all widgets below 
+	You do not need to use widgets if you dont want to. Simply remove 
+	the <section></section> and you can use wells or panels instead 
+	-->
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget" id="wid-id-4">
+				<!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-button="false">
+
+                data-widget-colorbutton="false"
+                data-widget-button="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2>卡券列表</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget  box -->
+					<div class="jarviswidget-box">
+						<!-- This area used as dropdown  box -->
+					</div>
+					<!-- end widget  box -->
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="dt-toolbar">
+							<div class="col-sm-3">
+								<div class="dataTables_filter">
+									<label>
+										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+										<input type="search" placeholder="卡号/券号/描述" data-ng-keyup="getCouponList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+								</div>
+							</div>
+                            <div class="col-sm-3">
+                                <div class="dataTables_filter">
+                                    <label>
+                                        <select ug-select2 ug-select2-config="ugSelect2Config" style="width: 250px;"ng-change="getCouponList()" ng-model="queryParam.couponCategoryId" name="couponCategoryId" >
+                                            <option value="">--请选择卡类别--</option>
+                                            <option value="{{category.id}}" ng-repeat="category in categoryList">{{category.categoryName}}</option>
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="dataTables_filter">
+                                    <label>
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                                        <input type="search" placeholder="批号" data-ng-keyup="getCouponList()" ng-model="queryParam.batch" class="form-control" aria-controls="dt_basic"></label>
+                                </div>
+                            </div>
+							<div class="col-sm-12">
+								<button class="btn btn-primary" type="button" data-ng-click="getCouponList()">
+									<i class="fa fa-refresh"></i>
+									刷新
+								</button>
+							</div>
+						</div>
+						<div class="table-responsive">
+							<table class="table table-striped table-condensed table-hover smart-form has-tickbox">
+								<thead>
+								<tr>
+									<th>卡券类型</th>
+                                    <th>卡劵类别</th>
+									<th>卡号/劵号</th>
+                                    <th>批号</th>
+									<th>可用金额</th>
+                                    <th>最低赠送金额</th>
+                                    <th>发放单位</th>
+                                    <th>发放客户经理</th>
+                                    <th>操作</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat="coupon in couponList  | orderBy:'couponType'"  ng-if="couponList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+                                    <td><span ng-if="coupon.couponType == 1">卡</span><span ng-if="coupon.couponType == 2">消费劵</span></td>
+                                    <td ng-bind="coupon.categoryName"></td>
+									<td ng-bind="coupon.couponNumber"></td>
+                                    <td ng-bind="coupon.batch"></td>
+                                    <td ng-bind="coupon.userPrice"></td>
+                                    <td ng-bind="coupon.lowestPrice"></td>
+                                    <td ng-bind="coupon.companyName"></td>
+                                    <td ng-bind="coupon.managerName"></td>
+                                    <td>
+                                        <a ng-show="show" ng-if="coupon.userPrice >= coupon.lowestPrice" data-ng-click="openEditAddress(coupon)" title="送货信息：{{order.orderDesc}}">
+                                            <span class="fa fa-edit"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+								<tr ng-if="couponList == null || couponList.length == 0">
+									<td colspan="11">
+										<div>暂无数据</div>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="dt-toolbar-footer">
+							<div class="col-xs-12 col-sm-12">
+								<ug-pagination page-info="pageInfoSetting" ></ug-pagination>
+							</div>
+						</div>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- WIDGET END -->
+
+	</div>
+
+	<!-- end row -->
+
+</section>
+
+
+<script type="text/ng-template" id="editAddress.html">
+    <div class="modal-header">
+        <h3 class="modal-title">送货地址及时间</h3>
+    </div>
+    <div class="modal-body">
+        <div class="widget-body">
+
+            <form class="form-horizontal" ug-validate="editAddressForm" name="editAddressFormName" novalidate="">
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-md-12 control-label">可赠送{{count}}份</label>
+                        <button ng-if="count > 1" type="button" ng-click="addAddressList();" class="btn btn-outline btn-primary">✢ 添加地址</button>
+                    </div>
+                        <div ng-repeat="couponEdit in couponEditList" class="mt12">
+                                <div class='form-group'>
+                                    <label class='col-md-1 control-label'>收货人</label>
+                                    <div class='col-md-2'>
+                                        <input class='form-control' required=""  ng-model='couponEdit.consignmentName' name='consignmentName' placeholder='收货人' type='text'>
+                                    </div>
+                                    <label class='col-md-1 control-label'>手机号</label>
+                                    <div class='col-md-2'>
+                                        <input class='form-control' required=""  ng-model='couponEdit.consignmentPhone' name='consignmentPhone' placeholder='手机号' type='text'>
+                                    </div>
+                                    <label class='col-md-2 control-label'>赠送日期</label>
+                                    <div class='col-md-4'>
+                                        <input class='form-control' required=""  ng-model='couponEdit.sendTime' name='sendTime' placeholder='赠送日期' type='text'>
+                                        <!--<div class='input-group'>-->
+                                            <!--<input type='text' class='form-control'-->
+                                                   <!--datepicker-popup='yyyy-MM-dd'-->
+                                                   <!--placeholder='赠送时间'-->
+                                                   <!--ng-model='couponEdit.sendTime'-->
+                                                   <!--close-text='关闭'-->
+                                                   <!--current-text='今日'-->
+                                                   <!--clear-text='清除'-->
+                                                   <!--is-open='datepickerSetting.beginTime.opened'-->
+                                                   <!--/>-->
+                                                     <!--<span class='input-group-btn'>-->
+                                                <!--<button type='button' class='btn btn-default' ng-click='open($event,{{$index}})'><i class='glyphicon glyphicon-calendar'></i></button>-->
+                                            <!--</span>-->
+                                        <!--</div>-->
+                                    </div>
+                                </div>
+
+                             <div class='form-group'>
+                                 <label class='col-md-2 control-label'>赠送份数</label>
+                                 <div class='col-md-2'>
+                                     <input class='form-control'  required="" ng-disabled="count == 1" ng-model='couponEdit.sendCount' name='sendCount' placeholder='赠送份数' type='text'>
+                                 </div>
+                                 <label class='col-md-2 control-label'>收货地址</label>
+                                 <div class='col-md-6'>
+                                         <input class='form-control'  required=""  ng-model='couponEdit.consignmentAddress' name='consignmentAddress' placeholder='收货地址' type='text'>
+                                 </div>
+                             </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="errors">
+                        <label class="col-md-2 control-label"></label>
+                        <div class="col-md-10 error">
+                            {{errors.message}}
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit" data-ng-click="updateAddress()">
+            <i class="fa fa-save"></i>
+            保存
+        </button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+</script>

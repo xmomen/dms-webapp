@@ -38,6 +38,17 @@ public class PurchaseService {
     }
 
     /**
+     * 查询采购单
+     * @param keyword
+     * @param limit
+     * @param offset
+     * @return
+     */
+    public List<PurchaseModel> getPurchaseList(Map param){
+        return  mybatisDao.getSqlSessionTemplate().selectList(OrderMapper.ORDER_MAPPER_NAMESPACE + "getPurchaseList", param);
+    }
+    
+    /**
      * 创建采购单
      * @param createPurchase
      * @return

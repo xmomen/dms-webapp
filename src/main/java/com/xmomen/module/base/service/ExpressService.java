@@ -1,5 +1,7 @@
 package com.xmomen.module.base.service;
 
+import java.util.List;
+
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.module.base.entity.CdExpress;
 import com.xmomen.module.base.model.ExpressTask;
@@ -22,4 +24,6 @@ public interface ExpressService {
 	public void unTakeDelivery(String orderNo);
 	
 	public Page<OrderModel> getTakeDeliveryList(OrderQuery orderQuery, Integer limit, Integer offset);
+	
+	public List<OrderModel> getTakeDeliveryList(OrderQuery query);
 }	

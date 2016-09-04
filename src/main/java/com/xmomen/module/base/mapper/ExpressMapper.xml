@@ -79,14 +79,15 @@
             </if>
             <if test="orderCreateTimeStart">
                 <![CDATA[
-                  AND DATE_FORMAT(tb.CREATE_TIME ,'%Y-%m-%d')>= #{orderCreateTimeStart}
+                  AND DATE_FORMAT(tb.APPOINTMENT_TIME ,'%Y-%m-%d')>= #{orderCreateTimeStart}
                 ]]>
             </if>
             <if test="orderCreateTimeEnd">
                 <![CDATA[
-                  AND DATE_FORMAT(tb.CREATE_TIME ,'%Y-%m-%d')<= #{orderCreateTimeEnd}
+                  AND DATE_FORMAT(tb.APPOINTMENT_TIME ,'%Y-%m-%d')<= #{orderCreateTimeEnd}
                 ]]>
             </if>
+            
             <if test="createUserId">
             	AND tb.create_user_id = #{createUserId}
             </if>

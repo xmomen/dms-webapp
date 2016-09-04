@@ -12,6 +12,8 @@ import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.jeecgframework.poi.excel.ExcelImportUtil;
+import org.jeecgframework.poi.excel.entity.ImportParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,17 +34,22 @@ import com.xmomen.framework.web.exceptions.ArgumentValidException;
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.base.entity.CdActivityAddress;
 import com.xmomen.module.base.entity.CdCoupon;
+import com.xmomen.module.base.entity.CdCouponCategory;
 import com.xmomen.module.base.entity.CdCouponRef;
 import com.xmomen.module.base.entity.CdCouponRefExample;
 import com.xmomen.module.base.entity.CdMember;
 import com.xmomen.module.base.mapper.CouponMapper;
 import com.xmomen.module.base.model.CouponActivityAddress;
+import com.xmomen.module.base.model.CouponActivityAddressHead;
 import com.xmomen.module.base.model.CouponModel;
 import com.xmomen.module.base.model.CouponQuery;
+import com.xmomen.module.base.model.CouponReportModel;
 import com.xmomen.module.base.model.CreateCoupon;
 import com.xmomen.module.base.model.ReadCardVo;
 import com.xmomen.module.base.model.UpdateCoupon;
 import com.xmomen.module.base.service.CouponService;
+import com.xmomen.module.export.model.UploadFileVo;
+import com.xmomen.module.export.util.PrintUtils;
 import com.xmomen.module.logger.Log;
 
 /**
@@ -265,40 +272,37 @@ public class CouponController {
      */
     @RequestMapping(value = "/coupon/activityAddress", method = RequestMethod.POST)
     @Log(actionName = "活动送货地址信息")
-    public void activityAddress(@RequestBody CouponActivityAddress couponActivityAddress) throws ParseException{
-    	
+    public void activityAddress(@RequestBody CouponActivityAddressHead couponActivityAddressHead) throws ParseException{
     	CdActivityAddress activityAddress = new CdActivityAddress();
-    	activityAddress.setCouponNumber(couponActivityAddress.getCouponNumber());
-    	activityAddress = mybatisDao.selectOneByModel(activityAddress);
-    	if(activityAddress == null){
+    	activityAddress.setCouponNumber(couponActivityAddressHead.getCouponNumber());
+    	List<CdActivityAddress> activityAddressList = mybatisDao.selectByModel(activityAddress);
+    	mybatisDao.deleteAllByModel(activityAddressList);
+    	for(CouponActivityAddress couponActivityAddress : couponActivityAddressHead.getCouponActivityAddressList()){
+	
     		activityAddress = new CdActivityAddress();
     		activityAddress.setConsignmentAddress(couponActivityAddress.getConsignmentAddress());
     		activityAddress.setConsignmentPhone(couponActivityAddress.getConsignmentPhone());
     		activityAddress.setConsignmentName(couponActivityAddress.getConsignmentName());
-    		activityAddress.setCouponNumber(couponActivityAddress.getCouponNumber());
+    		activityAddress.setCouponNumber(couponActivityAddressHead.getCouponNumber());
     		activityAddress.setSendTime(couponActivityAddress.getSendTime());
+    		activityAddress.setSendCount(couponActivityAddress.getSendCount());
     		mybatisDao.save(activityAddress);
-    	}else{
-    		activityAddress.setConsignmentAddress(couponActivityAddress.getConsignmentAddress());
-    		activityAddress.setConsignmentPhone(couponActivityAddress.getConsignmentPhone());
-    		activityAddress.setConsignmentName(couponActivityAddress.getConsignmentName());
-    		activityAddress.setSendTime(couponActivityAddress.getSendTime());
-    		mybatisDao.update(activityAddress);
-    	}
-    	//查找客户 进行添加或者修改第三个地址
-    	if(StringUtilsExt.isNotBlank(couponActivityAddress.getConsignmentPhone())){
-    		CdMember member = new CdMember();
-    		member.setPhoneNumber(couponActivityAddress.getConsignmentPhone());
-    		List<CdMember> members = mybatisDao.selectByModel(member);
-    		if(members != null && members.size() > 0){
-    			member = members.get(0);
-    			if(StringUtilsExt.isNotBlank(couponActivityAddress.getConsignmentAddress()))
-    			member.setSpareAddress2(couponActivityAddress.getConsignmentAddress());
-    			if(StringUtilsExt.isNotBlank(couponActivityAddress.getConsignmentName()))
-    			member.setSpareName2(couponActivityAddress.getConsignmentName());
-    			member.setSpareTel2(couponActivityAddress.getConsignmentPhone());
-    			mybatisDao.update(member);
-    		}
+	    
+	    	//查找客户 进行添加或者修改第三个地址
+	    	if(StringUtilsExt.isNotBlank(couponActivityAddress.getConsignmentPhone())){
+	    		CdMember member = new CdMember();
+	    		member.setPhoneNumber(couponActivityAddress.getConsignmentPhone());
+	    		List<CdMember> members = mybatisDao.selectByModel(member);
+	    		if(members != null && members.size() > 0){
+	    			member = members.get(0);
+	    			if(StringUtilsExt.isNotBlank(couponActivityAddress.getConsignmentAddress()))
+	    			member.setSpareAddress2(couponActivityAddress.getConsignmentAddress());
+	    			if(StringUtilsExt.isNotBlank(couponActivityAddress.getConsignmentName()))
+	    			member.setSpareName2(couponActivityAddress.getConsignmentName());
+	    			member.setSpareTel2(couponActivityAddress.getConsignmentPhone());
+	    			mybatisDao.update(member);
+	    		}
+	    	}
     	}
     }
     
@@ -423,4 +427,55 @@ public class CouponController {
     		){
     	couponService.updateBalance(couponNo,updatePrice,remark);
     }
+    
+    /**
+     * 卡劵导入
+     * @param request
+     * @param response
+     */
+	@RequestMapping(value = "/coupon/importExcel", method = RequestMethod.POST)
+	public void importExcel(HttpServletRequest request, HttpServletResponse response) {
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
+		for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
+			MultipartFile file = entity.getValue();// 获取上传文件对象
+			ImportParams params = new ImportParams();
+			params.setTitleRows(0);
+			params.setHeadRows(1);
+			params.setNeedSave(false);
+			try {
+				List<CouponReportModel> couponImportList = ExcelImportUtil.importExcel(file.getInputStream(),CouponReportModel.class,params);
+				CdCouponCategory couponCategory = new CdCouponCategory();
+				List<CdCouponCategory> cdCouponCategoryList = mybatisDao.selectByModel(couponCategory);
+				for (CouponReportModel couponImport : couponImportList) {
+					for(CdCouponCategory cdCouponCategory:cdCouponCategoryList){
+						if(cdCouponCategory.getCategoryName().equals(couponImport.getCategoryName())){
+							couponImport.setCouponCategoryId(cdCouponCategory.getId());
+							couponService.importCoupon(couponImport);
+						}
+					}
+					
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally{
+				try {
+					file.getInputStream().close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	@RequestMapping(value="/coupon/downCouponImportTemplate")
+	public void downAsnImportTemplate(HttpServletRequest request,HttpServletResponse response) {
+		UploadFileVo uploadFile = new UploadFileVo();
+		uploadFile.setRequest(request);
+		uploadFile.setResponse(response);
+		uploadFile.setExtend("xlsx");
+		uploadFile.setTitleField("卡劵导入模板");
+		uploadFile.setRealPath("/WEB-INF/excelFile/couponExcel.xlsx");
+		PrintUtils.viewOrDownloadFile(uploadFile);
+	}
 }

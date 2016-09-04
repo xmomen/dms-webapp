@@ -38,9 +38,14 @@ public class CdActivityAddress extends BaseMybatisModel {
     private String consignmentAddress;
 
     /**
-     * 
+     * 赠送日期
      */
     private Date sendTime;
+
+    /**
+     * 赠送份数
+     */
+    private Integer sendCount;
 
     @Column(name = "ID")
     @Id
@@ -126,5 +131,19 @@ public class CdActivityAddress extends BaseMybatisModel {
               return;
         }
         addValidField("sendTime");
+    }
+
+    @Column(name = "SEND_COUNT")
+    public Integer getSendCount() {
+        return sendCount;
+    }
+
+    public void setSendCount(Integer sendCount) {
+        this.sendCount = sendCount;
+        if(sendCount == null){
+              removeValidField("sendCount");
+              return;
+        }
+        addValidField("sendCount");
     }
 }
