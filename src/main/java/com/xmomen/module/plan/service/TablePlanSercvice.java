@@ -9,4 +9,9 @@ public interface TablePlanSercvice {
 	public void updateTablePlan(Integer id,UpdateTablePlan updateTablePlan);
 	
 	public void delete(Integer id);
+	
+	/**
+	 * 生成餐桌计划订单
+	 */
+	public void createTablePlanOrder();
 }

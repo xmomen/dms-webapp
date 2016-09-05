@@ -10,6 +10,9 @@
     <result column="DELIVERY_TIME" property="deliveryTime" jdbcType="VARCHAR" />
     <result column="DELIVER_COUNT" property="deliverCount" jdbcType="INTEGER" />
     <result column="PRICE" property="price" jdbcType="DOUBLE" />
+    <result column="IS_RANDOM" property="isRandom" jdbcType="INTEGER" />
+    <result column="CD_CATEGORY_ID" property="cdCategoryId" jdbcType="INTEGER" />
+    <result column="RANDOM_NUM" property="randomNum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -71,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, PLAN_NAME, CREATE_USER, CREATE_TIME, DELIVERY_TYPE, DELIVERY_TIME, DELIVER_COUNT, 
-    PRICE
+    PRICE, IS_RANDOM, CD_CATEGORY_ID, RANDOM_NUM
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdPlanExample" >
     select
@@ -120,6 +123,15 @@
       <if test="price != null" >
         PRICE,
       </if>
+      <if test="isRandom != null" >
+        IS_RANDOM,
+      </if>
+      <if test="cdCategoryId != null" >
+        CD_CATEGORY_ID,
+      </if>
+      <if test="randomNum != null" >
+        RANDOM_NUM,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -145,6 +157,15 @@
       </if>
       <if test="price != null" >
         #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="isRandom != null" >
+        #{isRandom,jdbcType=INTEGER},
+      </if>
+      <if test="cdCategoryId != null" >
+        #{cdCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="randomNum != null" >
+        #{randomNum,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -180,6 +201,15 @@
       </if>
       <if test="record.price != null" >
         PRICE = #{record.price,jdbcType=DOUBLE},
+      </if>
+      <if test="record.isRandom != null" >
+        IS_RANDOM = #{record.isRandom,jdbcType=INTEGER},
+      </if>
+      <if test="record.cdCategoryId != null" >
+        CD_CATEGORY_ID = #{record.cdCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.randomNum != null" >
+        RANDOM_NUM = #{record.randomNum,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >
