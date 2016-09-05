@@ -16,6 +16,7 @@
 	<!-- 扫描所有的controller 但是不扫描service-->
 	<context:component-scan base-package="com">
 	</context:component-scan>
+	<context:component-scan base-package="org.jeecgframework.poi.excel.view"></context:component-scan>
 
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
 
@@ -54,6 +55,10 @@
 		<property name="suffix" value=".jsp"/>
 	</bean>
 
+	<bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="0" />
+	</bean>
+
 	<!-- Spring MVC 内容协商配置 -->
 	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
         <property name="contentNegotiationManager">
@@ -75,6 +80,12 @@
 			</list>
 		</property>
     </bean>
+
+	<bean id="jeecgTemplateExcelView" class="org.jeecgframework.poi.excel.view.JeecgTemplateExcelView" />
+	<bean id="jeecgSingleExcelView" class="org.jeecgframework.poi.excel.view.JeecgSingleExcelView" />
+	<bean id="jeecgMapExcelView" class="org.jeecgframework.poi.excel.view.JeecgMapExcelView" />
+
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 
 	<!-- 异常统一处理 -->
 	<bean id="exceptionHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">
