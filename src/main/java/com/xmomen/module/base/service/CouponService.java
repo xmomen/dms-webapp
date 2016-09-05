@@ -21,6 +21,7 @@ import com.xmomen.module.base.entity.CdMemberCouponRelation;
 import com.xmomen.module.base.mapper.CouponMapper;
 import com.xmomen.module.base.model.CouponModel;
 import com.xmomen.module.base.model.CouponQuery;
+import com.xmomen.module.base.model.CouponReportModel;
 import com.xmomen.module.order.entity.TbTradeRecord;
 import com.xmomen.module.pick.entity.TbExchangeCardLog;
 import com.xmomen.module.pick.entity.TbRechargeLog;
@@ -244,4 +245,23 @@ public class CouponService {
 		tradeRecord.setRemark(remark);
 		mybatisDao.save(tradeRecord);
     }
+    
+    
+    /**
+     * 导入卡劵
+     * @param couponReport
+     */
+	public void importCoupon(CouponReportModel couponReport) {
+		// TODO Auto-generated method stub
+		CdCoupon coupon = new CdCoupon();
+		coupon.setCouponCategory(1);
+		coupon.setCouponDesc(couponReport.getCouponDesc());
+		coupon.setCouponNumber(couponReport.getCouponNumber());
+		coupon.setCouponPassword(couponReport.getCouponPassword());
+		coupon.setCouponType(couponReport.getCouponType());
+		coupon.setCouponValue(couponReport.getCouponValue());
+		coupon.setPaymentType(couponReport.getPaymentType());
+		coupon.setCouponCategory(couponReport.getCouponCategoryId());
+		mybatisDao.save(coupon);
+	}
 }

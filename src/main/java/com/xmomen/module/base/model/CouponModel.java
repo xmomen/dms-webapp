@@ -51,6 +51,11 @@ public @Data class CouponModel implements Serializable {
      * 卡值：初始金额,初始次数
      */
     private BigDecimal couponValue;
+    
+    /**
+     * 最低赠送金额
+     */
+    private Integer lowestPrice;
 
     /**
      * 密码

@@ -14,7 +14,13 @@ define([
     angular.module('DMS', [
         "smartApp", "ui.router", "DMS.schedule", "DMS.order", "DMS.tpls", "DMS.user","DMS.base", "ug.pagination", "EnvModule", "permission", "ug.validate","ug.dialog",
         "DMS.REST","checklist-model","DMS.plan","DMS.package","DMS.pick","DMS.despatch"
-    ]).factory({
+    ]).filter(
+        'to_trusted', ['$sce', function ($sce) {
+            return function (text) {
+                return $sce.trustAsHtml(text);
+            }
+        }]
+    ).factory({
         HttpInterceptor:["$q", function($q){
            return {
                request: function (config) {

@@ -236,7 +236,15 @@ define(function () {
 
     ngREST.factory("CouponActivityAPI", ["$resource", function($resource){
         return $resource("/couponActivity/:id", { id:"@id" }, {
-            query:{ isArray:false}
+            query:{ isArray:false},
+            getCouponAddressList:{
+                method:"GET",
+                url:"/couponActivity/couponActivityAddress"
+            },
+            getCouponActivityAddress:{
+                method:"GET",
+                url:"/couponActivity/getCouponActivityAddress"
+            }
         });
     }]);
     ngREST.factory("ActivityAPI", ["$resource", function($resource){

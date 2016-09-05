@@ -7,7 +7,7 @@ define(function () {
         //asn导入
         $scope.fileUploadConfig = {
             'buttonText' : '导入卡劵',
-            'uploader'    : '/wms-webapp/AsnController/asn/importAsnExcel.json',
+            'uploader'    : '/coupon/importExcel',
             onUploadStart:function(file){
 
             },
@@ -766,6 +766,10 @@ define(function () {
                     alert("写卡成功");
                     break;
             }
+        }
+
+        $scope.downImportTemplate = function(){
+            window.location.href = "/coupon/downCouponImportTemplate";
         }
     }];
 });

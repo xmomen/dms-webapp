@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import lombok.Data;
 
 public @Data class CouponActivityAddress implements Serializable {
-	/**
-     * 卡
-     */
-    private String couponNumber;
+	
     /**
      * 收货人
      */
@@ -29,5 +26,10 @@ public @Data class CouponActivityAddress implements Serializable {
      * 赠送时间
      */
     private Date sendTime;
+    
+    /**
+     * 赠送数量
+     */
+    private Integer sendCount;
     
 }

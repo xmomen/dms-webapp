@@ -175,18 +175,18 @@
 			<!-- </execution> -->
 			<!-- </executions> -->
 			<!-- </plugin> -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.12.2</version>
-				<configuration>
-					<skip>true</skip>
-					<systemPropertyVariables>
-						<!--生成结果存放路径 -->
-						<jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>
-					</systemPropertyVariables>
-				</configuration>
-			</plugin>
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.apache.maven.plugins</groupId> -->
+<!-- 				<artifactId>maven-surefire-plugin</artifactId> -->
+<!-- 				<version>2.12.2</version> -->
+<!-- 				<configuration> -->
+<!-- 					<skip>true</skip> -->
+<!-- 					<systemPropertyVariables> -->
+<!-- 						生成结果存放路径 -->
+<!-- 						<jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile> -->
+<!-- 					</systemPropertyVariables> -->
+<!-- 				</configuration> -->
+<!-- 			</plugin> -->
 			<plugin>
 				<groupId>org.mybatis.generator</groupId>
 				<artifactId>mybatis-generator-maven-plugin</artifactId>
@@ -212,7 +212,37 @@
 		</plugins>
 	</build>
 	<dependencies>
+		<dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20160212</version>
+        </dependency>
 
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+        
+        <dependency>
+   		 	<groupId>org.apache.commons</groupId>
+   		 	<artifactId>commons-lang3</artifactId>
+   		 	<version>3.4</version>
+		</dependency>
+        
+		<dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>        
+       <!-- xml parse begin-->
+        <dependency>
+            <groupId>xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <!-- xml parse end-->
+        
 		<dependency>
 			<groupId>com.xmomen.framework</groupId>
 			<artifactId>easy-mybatis</artifactId>
@@ -415,6 +445,41 @@
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
 			<version>1.6.1</version>
+		</dependency>
+		
+		<!-- POI -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.14</version>
+		</dependency>
+		
+		<dependency>
+    		<groupId>stax</groupId>
+    		<artifactId>stax-api</artifactId>
+    		<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jeecg</groupId>
+			<artifactId>easypoi-base</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jeecg</groupId>
+			<artifactId>easypoi-web</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jeecg</groupId>
+			<artifactId>easypoi-annotation</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>1.3.2</version>
 		</dependency>
 	</dependencies>
 

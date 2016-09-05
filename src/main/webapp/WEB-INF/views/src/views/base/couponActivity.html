@@ -90,10 +90,6 @@
 									<th>可用金额</th>
                                     <th>发放单位</th>
                                     <th>发放客户经理</th>
-                                    <th>收货人</th>
-                                    <th >手机号</th>
-                                    <th  width="420px">收货地址</th>
-                                    <th>赠送日期</th>
                                     <th>操作</th>
 								</tr>
 								</thead>
@@ -107,14 +103,10 @@
                                     <td ng-show="!show">{{coupon.couponValue}}</td>
                                     <td ng-bind="coupon.companyName"></td>
                                     <td ng-bind="coupon.managerName"></td>
-                                    <td>{{coupon.consignmentName}}</td>
-                                    <td>{{coupon.consignmentPhone}}</td>
-                                    <td>{{coupon.consignmentAddress}}</td>
-                                    <td>{{coupon.sendTime | date: 'yyyy-MM-dd'}}</td>
                                     <td>
-                                        <a ng-show="show" ng-if="coupon.cdActivityId != 0" data-ng-click="openEditAddress(coupon)" title="送货信息：{{order.orderDesc}}">
-                                            <span class="fa fa-edit"></span>
-                                        </a>
+                                        <!--<a ng-show="show" ng-if="coupon.cdActivityId != 0" data-ng-click="openEditAddress(coupon)" title="送货信息：{{order.orderDesc}}">-->
+                                            <!--<span class="fa fa-edit"></span>-->
+                                        <!--</a>-->
                                         <div ng-show="show">
                                             <a href="javascript:void(0);" data-ng-click="returnCoupon(coupon)" title="退卡：{{coupon.couponNumber}}">
                                                 <span class="glyphicon glyphicon-remove-circle"></span>

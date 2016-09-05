@@ -320,7 +320,7 @@ define(function () {
                             $scope.currentPackingBoxList[oldBoxIndex].currentPacking = oldBox.currentPacking;
                             //订单已完成
                             if($scope.currentPackingBoxList[oldBoxIndex].packingTaskStatus == 2){
-                                打印订单
+                                //打印订单
                                 $scope.printOrder($scope.currentPackingBoxList[oldBoxIndex]);
                                 //如果是单箱装 才自动进入下一个任务
                                 if($scope.choosePackingOrders.length == 1){
@@ -419,7 +419,7 @@ define(function () {
                 var LODOP=getLodop();
                 for(i=0;i<boxSize;i++){
                     LODOP.PRINT_INITA(0,0,"100.81mm","74.61mm","打印订单");
-                    LODOP.ADD_PRINT_BARCODE(23,266,43,43,"QRCode","http://fygl.ehoyuan.cn:8088/bind/auth?url=/wx/scanning&param="+order.orderNo);
+                    LODOP.ADD_PRINT_BARCODE(23,266,43,43,"QRCode",order.orderNo);
                     LODOP.ADD_PRINT_BARCODE(23,317,40,42,"QRCode","http://fygl.ehoyuan.cn:8088/bind/auth?url=/wx/receipt&param="+order.orderNo);
                     LODOP.ADD_PRINT_BARCODE(99,23,"57.57mm","9.95mm","128Auto",order.orderNo);
                     LODOP.ADD_PRINT_TEXT(100,254,95,26,order.consigneeName);

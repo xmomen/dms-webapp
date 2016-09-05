@@ -66,13 +66,8 @@
                                         <input type="search" placeholder="批号" data-ng-keyup="getCouponList()" ng-model="queryParam.batch" class="form-control" aria-controls="dt_basic"></label>
                                 </div>
                             </div>
-                            <!--<div class="col-xs-3 col-sm-3">-->
-                                <!--<div class="dataTables_filter">-->
-                                        <!--<input ux-upload ux-upload-config="fileUploadConfig" id="file" ng-model="fileUrl" type="file" multiple="true">-->
-                                <!--</div>-->
-                            <!--</div>-->
+
                             <div class="col-sm-12">
-                                <!--<button type="button" data-ng-click="downImportTemplate();" class="btn btn-outline btn-primary ml12">下载模板</button>-->
 
                                 <button class="btn btn-primary" type="button" data-ng-click="open()">
                                     <i class="fa fa-plus"></i>
@@ -99,6 +94,8 @@
                                     <i class="fa fa-upload"></i>
                                     批量更改类型
                                 </button>
+                                        <button type="button" data-ng-click="downImportTemplate();" class="btn btn-outline btn-primary ml12">下载模板</button>
+                                        <input ux-upload ux-upload-config="fileUploadConfig" id="file" ng-model="fileUrl" type="file" multiple="true">
                             </div>
 						</div>
 						<div class="table-responsive">

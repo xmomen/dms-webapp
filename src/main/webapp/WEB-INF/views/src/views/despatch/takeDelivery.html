@@ -57,6 +57,57 @@
                     <!-- end widget edit box -->
                     <!-- widget content -->
                     <div class="widget-body no-padding">
+                        <div class="dt-toolbar">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
+                                               placeholder="配送起始日期"
+                                               ng-model="queryParam.startTime"
+                                               close-text="关闭"
+                                               current-text="今日"
+                                               clear-text="清除"
+                                               is-open="datepickerSetting.startTime.opened"
+                                               ng-required="true" />
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="openDatepicker($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
+                                               placeholder="配送截止日期"
+                                               ng-model="queryParam.endTime"
+                                               close-text="关闭"
+                                               current-text="今日"
+                                               clear-text="清除"
+                                               is-open="datepickerSetting.endTime.opened"
+                                               ng-required="true" />
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="openDatepicker($event, 2)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-primary" type="button" data-ng-click="getOrderList()">
+                                                <i class="fa fa-refresh"></i>
+                                                刷新
+                                            </button>+
+
+                                            <button class="btn btn-primary" type="button" ng-click="exportExcel()">
+                                                <i class="fa fa-plus"></i>
+                                                按条件导出订单
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-condensed table-hover smart-form has-tickbox">
                                 <thead>
@@ -75,6 +126,7 @@
                                     <th>客户姓名</th>
                                     <th>手机号</th>
                                     <th>地址</th>
+                                    <th>配送时间</th>
                                     <th width="80">操作</th>
                                 </tr>
                                 </thead>
@@ -101,6 +153,7 @@
                                     <td ng-bind="order.consigneeName"></td>
                                     <td ng-bind="order.consigneePhone"></td>
                                     <td ng-bind="order.consigneeAddress"></td>
+                                    <td ng-bind="order.appointmentTime | date: 'yyyy-MM-dd'"></td>
                                     <td>
                                         <div>
                                             <a href="javascript:void(0);" data-ng-click="unTakeDelivery(order.orderNo)" title="取消提货">
