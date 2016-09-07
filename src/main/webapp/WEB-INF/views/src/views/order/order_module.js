@@ -8,8 +8,9 @@ define([
     "views/order/purchase",
     "views/order/packing",
     "views/order/order_packing",
-    "views/order/packing_task"
-],function (order, order_create,order_update, purchase, packing, order_packing, packing_task) {
+    "views/order/packing_task",
+    "views/order/order_report"
+],function (order, order_create,order_update, purchase, packing, order_packing, packing_task, order_report) {
     angular.module('DMS.order', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -24,6 +25,18 @@ define([
                     }
                 },
                 controller: order
+            })
+
+            .state('order_report', {
+                url: '/order/report',
+                templateUrl: 'views/order/order_report.html',
+                data:{
+                    permissions:{
+                        only:["ORDER_VIEW"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: order_report
             })
 
             .state('order_create', {

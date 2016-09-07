@@ -1,0 +1,172 @@
+<!--
+	The ID "widget-grid" will start to initialize all widgets below 
+	You do not need to use widgets if you dont want to. Simply remove 
+	the <section></section> and you can use wells or panels instead 
+	-->
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget" id="wid-id-4">
+				<!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2>订单列表</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- end widget edit box -->
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="dt-toolbar">
+							<div class="col-sm-2">
+								<select ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;" required="true" ng-model="queryParam.companyId" name="company"  ng-change="changeCompany(queryParam.companyId)">
+									<option value="">--请选择客户单位--</option>
+									<option value="{{company.id}}" ng-repeat="company in companyList">{{company.companyName}}</option>
+								</select>
+							</div>
+                            <div class="col-sm-2">
+                                <div class="dataTables_filter">
+                                    <div class="dataTables_filter">
+                                        <select ug-select2 style="width: 250px;" ng-model="queryParam.managerId" ng-change="getOrderList()"  name="managerId" >
+                                            <option value="">--请选择客服经理--</option>
+                                            <option value="{{manager.customerMangerId}}" ng-repeat="manager in managers">{{manager.customerManger}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
+                                           placeholder="下单起始日期"
+                                           ng-model="queryParam.orderCreateTimeStart"
+                                           close-text="关闭"
+                                           current-text="今日"
+                                           clear-text="清除"
+                                           is-open="datepickerSetting.orderCreateTimeStart.opened"
+                                           ng-required="true" />
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="openDate($event, 0)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
+                                           placeholder="下单截止日期"
+                                           ng-model="queryParam.orderCreateTimeEnd"
+                                           close-text="关闭"
+                                           current-text="今日"
+                                           clear-text="清除"
+                                           is-open="datepickerSetting.orderCreateTimeEnd.opened"
+                                           ng-required="true" />
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="openDate($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+							<div class="col-sm-2">
+								<button class="btn btn-primary" type="button" data-ng-click="getOrderList()">
+									<i class="fa fa-refresh"></i>
+									刷新
+								</button>
+								<button class="btn btn-primary" type="button" data-ng-click="exportOrder()">
+									<i class="fa fa-refresh"></i>
+									导出
+								</button>
+							</div>
+						</div>
+						<div class="table-responsive">
+							<table class="table table-striped table-condensed table-hover smart-form has-tickbox">
+								<thead>
+								<tr>
+									<th>
+										<label class="checkbox">
+											<input type="checkbox" name="checkbox-inline">
+											<i></i>
+										</label>
+									</th>
+									<th width="120">订单编号</th>
+									<th>订单类型</th>
+									<th>订购日期</th>
+									<th>订单状态</th>
+									<th>付款方式</th>
+									<th>总金额</th>
+                                    <th>优惠金额</th>
+                                    <th>付款金额</th>
+									<th>客户信息</th>
+                                    <th>客户经理</th>
+									<th>备注</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat="order in orderList"  ng-if="orderList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+									<td>
+										<label class="checkbox">
+											<input type="checkbox" name="checkbox-inline">
+											<i></i>
+										</label>
+									</td>
+									<td ng-bind="order.orderNo"></td>
+									<td ng-bind="order.orderTypeDesc"></td>
+									<td ng-bind="order.createTime | date: 'yyyy-MM-dd'"></td>
+									<td ng-bind="order.orderStatusDesc"></td>
+									<td ng-bind="order.paymentModeDesc"></td>
+									<td ng-bind="order.totalAmount + order.discountPrice"></td>
+                                    <td ng-bind="order.discountPrice"></td>
+                                    <td ng-bind="order.totalAmount"></td>
+									<td ng-bind="order.consigneeName"></td>
+                                    <td ng-bind="order.managerName"></td>
+									<td ng-bind="order.remark"></td>
+								<tr ng-if="orderList == null || orderList.length == 0">
+									<td colspan="11">
+										<div>暂无数据</div>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="dt-toolbar-footer">
+							<div class="col-xs-12 col-sm-12">
+								<ug-pagination page-info="pageInfoSetting" ></ug-pagination>
+							</div>
+						</div>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- WIDGET END -->
+
+	</div>
+
+	<!-- end row -->
+
+</section>
+<!-- end widget grid -->

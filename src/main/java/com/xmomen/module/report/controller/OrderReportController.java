@@ -1,6 +1,8 @@
 package com.xmomen.module.report.controller;
 
 import com.xmomen.framework.utils.StringUtilsExt;
+import com.xmomen.module.order.model.OrderQuery;
+import com.xmomen.module.order.service.OrderService;
 import com.xmomen.module.report.model.OrderReport;
 import com.xmomen.module.report.model.UploadFileVo;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -9,9 +11,12 @@ import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.TemplateExportParams;
 import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 import org.jeecgframework.poi.excel.entity.vo.TemplateExcelConstants;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,17 +34,34 @@ import java.util.Map;
 @Controller
 public class OrderReportController {
 
+    @Autowired
+    OrderService orderService;
 
-    @RequestMapping(value="/order/report")
-    public String downDesaptchImportTemplate(ModelMap modelMap, HttpServletRequest request,HttpServletResponse response) {
-        List<OrderReport> list = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            OrderReport orderReport = new OrderReport();
-            orderReport.setAmount(new BigDecimal(324));
-            orderReport.setOrderNo(StringUtilsExt.getUUID(32));
-            orderReport.setConsigneeName("谭新政");
-            list.add(orderReport);
+
+    /**
+     * 订单导出
+     * @param modelMap
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value="/order/report", method = RequestMethod.GET)
+    public String exportOrder(
+            @RequestParam(value = "orderCreateTimeStart",required = false) String orderCreateTimeStart,
+            @RequestParam(value = "orderCreateTimeEnd",required = false) String orderCreateTimeEnd,
+            @RequestParam(value = "managerId", required = false) Integer managerId,
+            @RequestParam(value = "companyId", required = false) Integer companyId,
+            ModelMap modelMap) {
+        OrderQuery orderQuery = new OrderQuery();
+        orderQuery.setCompanyId(companyId);
+        orderQuery.setManagerId(managerId);
+        if(StringUtilsExt.isNotBlank(orderCreateTimeStart)){
+            orderQuery.setOrderCreateTimeStart(orderCreateTimeStart.substring(0, 10));
         }
+        if(StringUtilsExt.isNotBlank(orderCreateTimeEnd)){
+            orderQuery.setOrderCreateTimeEnd(orderCreateTimeEnd.substring(0, 10));
+        }
+        List<OrderReport> list = orderService.getOrderReportList(orderQuery);
         modelMap.put(NormalExcelConstants.FILE_NAME, "订单导出信息");
         modelMap.put(NormalExcelConstants.PARAMS, new ExportParams());
         modelMap.put(NormalExcelConstants.CLASS, OrderReport.class);

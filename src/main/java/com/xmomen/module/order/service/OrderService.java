@@ -12,6 +12,7 @@ import com.xmomen.module.order.entity.*;
 import com.xmomen.module.order.mapper.OrderMapper;
 import com.xmomen.module.order.model.*;
 
+import com.xmomen.module.report.model.OrderReport;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,6 +63,10 @@ public class OrderService {
      */
     public List<OrderModel> getOrderList(OrderQuery orderQuery){
         return mybatisDao.getSqlSessionTemplate().selectList(OrderMapper.ORDER_MAPPER_NAMESPACE + "getOrderList", orderQuery);
+    }
+
+    public List<OrderReport> getOrderReportList(OrderQuery orderQuery){
+        return mybatisDao.getSqlSessionTemplate().selectList(OrderMapper.ORDER_MAPPER_NAMESPACE + "getOrderReportList", orderQuery);
     }
 
     public OrderModel getOneOrder(OrderQuery orderQuery){

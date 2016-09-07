@@ -85,8 +85,6 @@
 	<bean id="jeecgSingleExcelView" class="org.jeecgframework.poi.excel.view.JeecgSingleExcelView" />
 	<bean id="jeecgMapExcelView" class="org.jeecgframework.poi.excel.view.JeecgMapExcelView" />
 
-	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
-
 	<!-- 异常统一处理 -->
 	<bean id="exceptionHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">
 	</bean>

@@ -290,8 +290,13 @@ define(function () {
                 method:"POST",
                 url:"/order/batch"
             },
-            update:{ method:"PUT", params:{id:"@id"}},
-            cancel:{method:"DELETE",url:"/order/:id"},
+            update:{ method:"PUT", params:{id:"@id"} },
+            cancel:{ method:"DELETE", url:"/order/:id" },
+            report:{
+                method:"GET",
+                url:"/order/report" ,
+                responseType: "blob"
+            },
             getItemList:{
                 method:"GET",
                 url:"/order/:id/item",

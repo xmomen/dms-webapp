@@ -56,6 +56,7 @@ public class OrderController {
                                   @RequestParam(value = "orderCreateTimeStart",required = false) String orderCreateTimeStart,
                                   @RequestParam(value = "orderCreateTimeEnd",required = false) String orderCreateTimeEnd,
                                   @RequestParam(value = "managerId", required = false) Integer managerId,
+                                  @RequestParam(value = "companyId", required = false) Integer companyId,
                                   @RequestParam(value = "consigneeName", required = false) String consigneeName,
                                   @RequestParam(value = "hasNoShowCancel", required = false) Boolean hasNoShowCancel,
                                   @RequestParam(value = "despatchExpressId",required = false) Integer despatchExpressId){
@@ -63,11 +64,12 @@ public class OrderController {
         orderQuery.setKeyword(keyword);
         orderQuery.setOrderStatus(orderStatus);
         orderQuery.setManagerId(managerId);
-        orderQuery.setHasNoShowCancel(hasNoShowCancel == null?false:hasNoShowCancel);
+        orderQuery.setHasNoShowCancel(hasNoShowCancel == null ? false : hasNoShowCancel);
         orderQuery.setConsigneeName(consigneeName);
         orderQuery.setDespatchExpressId(despatchExpressId);
+        orderQuery.setCompanyId(companyId);
         if(StringUtilsExt.isNotBlank(orderCreateTimeStart)){
-       	 orderQuery.setOrderCreateTimeStart(orderCreateTimeStart.substring(0, 10));
+       	    orderQuery.setOrderCreateTimeStart(orderCreateTimeStart.substring(0, 10));
         }
         if(StringUtilsExt.isNotBlank(orderCreateTimeEnd)){
         	orderQuery.setOrderCreateTimeEnd(orderCreateTimeEnd.substring(0, 10));
