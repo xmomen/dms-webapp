@@ -59,11 +59,19 @@ define(function () {
 
         $scope.queryParam = {};
         $scope.exportOrder = function(){
+            var starttime = null;
+            if($scope.queryParam.orderCreateTimeStart){
+                starttime = $scope.queryParam.orderCreateTimeStart.getTime();
+            }
+            var endtime = null;
+            if($scope.queryParam.orderCreateTimeEnd){
+                endtime = $scope.queryParam.orderCreateTimeEnd.getTime();
+            }
             var data = {
                 managerId:$scope.queryParam.managerId,
                 companyId:$scope.queryParam.companyId,
-                orderCreateTimeStart:$scope.queryParam.orderCreateTimeStart.getTime(),
-                orderCreateTimeEnd: $scope.queryParam.orderCreateTimeEnd.getTime()
+                orderCreateTimeStart:starttime,
+                orderCreateTimeEnd: endtime
             };
             var params = "";
             for(var p in data){

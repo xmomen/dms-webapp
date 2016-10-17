@@ -344,6 +344,11 @@
 			<artifactId>druid</artifactId>
 			<version>0.2.23</version>
 		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.1.41</version>
+		</dependency>
 
 		<!-- logback framework support -->
 		<dependency>

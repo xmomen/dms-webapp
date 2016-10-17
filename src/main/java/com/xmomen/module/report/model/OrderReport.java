@@ -16,7 +16,7 @@ import java.util.Date;
 public @Data
 class OrderReport implements Serializable {
 
-    @Excel(name = "下单日期" , databaseFormat = "yyyyMMddHHmmss")
+    @Excel(name = "下单日期" , exportFormat="yyyy-MM-dd", importFormat = "yyyy-MM-dd")
     private Date createTime;
     @Excel(name = "卡券号")
     private String couponNumber;
@@ -26,7 +26,7 @@ class OrderReport implements Serializable {
     private String managerName;
     @Excel(name = "订单号")
     private String orderNo;
-    @Excel(name = "送货日期" , databaseFormat = "yyyyMMddHHmmss")
+    @Excel(name = "送货日期" , exportFormat="yyyy-MM-dd", importFormat = "yyyy-MM-dd")
     private Date appointmentTime;
     @Excel(name = "收货人姓名")
     private String consigneeName;
