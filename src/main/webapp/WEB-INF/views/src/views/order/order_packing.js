@@ -11,7 +11,7 @@ define(function () {
             },function(data){
                 $scope.managers = data;
             });
-        };
+        }
         $scope.getCustomerManagersList();
 
         $scope.pageSetting = {
@@ -25,8 +25,8 @@ define(function () {
             pageNum:1
         };
 
-        $scope.currentDate = function(date){
-            var myDate = date;
+        $scope.currentDate = function(){
+            var myDate = new Date();
             var fullYear = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
             var month = myDate.getMonth() + 1;       //获取当前月份(0-11,0代表1月)
             if(month < 10){
@@ -37,7 +37,7 @@ define(function () {
                 date = '0'+date;
             }
             return fullYear+"-"+month+"-"+date;
-        };
+        }
 
         $scope.datepickerSetting = {
             datepickerPopupConfig:{
@@ -63,8 +63,8 @@ define(function () {
         };
 
         $scope.queryParam = {
-            packingTaskCreateTimeStart :$scope.currentDate(new Date(new Date().getTime() - 86400000)),
-            packingTaskCreateTimeEnd:$scope.currentDate(new Date())
+            packingTaskCreateTimeStart :$scope.currentDate(),
+            packingTaskCreateTimeEnd:$scope.currentDate()
         };
 
         $scope.orderList = [];
@@ -159,7 +159,7 @@ define(function () {
             $scope.pageSetting.showPackingTask = true;
             $scope.getPackingOrderCountItemList();
             $scope.choseOrder2CurrentPackingList(obj);
-        };
+        }
 
         $scope.getPackingOrderCountItemList = function(){
             var orderNos = [];
@@ -234,7 +234,7 @@ define(function () {
                 //清空UPC码
                 $scope.item.upc = "";
             }
-        };
+        }
 
         $scope.scanItem = function(){
             var ok = false;
@@ -332,7 +332,7 @@ define(function () {
                     }
                 }, function(data){
                     $ugDialog.warn(data.data.message);
-                });
+                })
                 console.log(call);
             }
         };
@@ -408,7 +408,7 @@ define(function () {
             modalInstance.result.then(function (data) {
                 // $scope.choseItem(index, parseFloat(data.number));
             });
-        };
+        }
         /***************打印*******************/
         $scope.printOrder = function(order){
             PackingAPI.printOrder({

@@ -10,7 +10,7 @@ define(function () {
             },function(data){
                 $scope.managers = data;
             });
-        };
+        }
         $scope.getCustomerManagersList();
 
         $scope.datepickerSetting = {
@@ -36,8 +36,8 @@ define(function () {
             }
         };
 
-        $scope.currentDate = function(date){
-            var myDate = date;
+        $scope.currentDate = function(){
+            var myDate = new Date();
             var fullYear = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
             var month = myDate.getMonth() + 1;       //获取当前月份(0-11,0代表1月)
             if(month < 10){
@@ -48,7 +48,7 @@ define(function () {
                 date = '0'+date;
             }
             return fullYear+"-"+month+"-"+date;
-        };
+        }
 
         $scope.packingList = [];
         $scope.pageInfoSetting = {
@@ -56,8 +56,8 @@ define(function () {
             pageNum:1
         };
         $scope.queryParam = {
-            packingTaskCreateTimeStart :$scope.currentDate(new Date()),
-            packingTaskCreateTimeEnd:$scope.currentDate(new Date())
+            packingTaskCreateTimeStart :$scope.currentDate(),
+            packingTaskCreateTimeEnd:$scope.currentDate()
         };
 
         $scope.getPackingList = function(){
