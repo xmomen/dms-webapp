@@ -65,6 +65,8 @@ public @Data class PlanModel implements Serializable{
      */
     private Integer randomNum;
 
+    private Date beginTime;
+    
     private List<PlanItemModel> planItems;
     
 }

@@ -78,6 +78,7 @@ angular.module('ug.validate', ["ng"])
             },
             addMethod: function (name, func, errorText) {
                 $.validator.addMethod(name, func, errorText);
+
             }
         }
     })

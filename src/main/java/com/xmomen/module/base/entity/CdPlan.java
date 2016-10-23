@@ -68,6 +68,11 @@ public class CdPlan extends BaseMybatisModel {
      */
     private Integer randomNum;
 
+    /**
+     * 起效时间
+     */
+    private Date beginTime;
+
     @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
@@ -222,5 +227,19 @@ public class CdPlan extends BaseMybatisModel {
               return;
         }
         addValidField("randomNum");
+    }
+
+    @Column(name = "BEGIN_TIME")
+    public Date getBeginTime() {
+        return beginTime;
+    }
+
+    public void setBeginTime(Date beginTime) {
+        this.beginTime = beginTime;
+        if(beginTime == null){
+              removeValidField("beginTime");
+              return;
+        }
+        addValidField("beginTime");
     }
 }

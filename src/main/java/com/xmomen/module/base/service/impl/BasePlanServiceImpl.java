@@ -57,6 +57,7 @@ public class BasePlanServiceImpl implements BasePlanService {
 		plan.setDeliveryType(createPlan.getDeliveryType());
 		plan.setPlanName(createPlan.getPlanName());
 		plan.setPrice(createPlan.getPrice());
+		plan.setBeginTime(createPlan.getBeginTime());
 		plan.setIsRandom(createPlan.getIsRandom());
 		plan.setRandomNum(createPlan.getRandomNum());
 		plan.setCdCategoryId(createPlan.getCdCategoryId());
@@ -82,6 +83,7 @@ public class BasePlanServiceImpl implements BasePlanService {
 		plan.setDeliveryType(updatePlan.getDeliveryType());
 		plan.setPlanName(updatePlan.getPlanName());
 		plan.setPrice(updatePlan.getPrice());
+		plan.setBeginTime(updatePlan.getBeginTime());
 		plan.setIsRandom(updatePlan.getIsRandom());
 		plan.setRandomNum(updatePlan.getRandomNum());
 		plan.setCdCategoryId(updatePlan.getCdCategoryId());

@@ -70,5 +70,8 @@ public @Data class UpdatePlan implements Serializable {
      * 随机数
      */
     private Integer randomNum;
+    
+    private Date beginTime;
+    
     private List<PlanItemModel> planItems;
 }
