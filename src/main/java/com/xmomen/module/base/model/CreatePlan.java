@@ -70,6 +70,8 @@ public @Data class CreatePlan implements Serializable {
      */
     private Integer randomNum;
     
+    private Date beginTime;
+    
     private List<PlanItemModel> planItems;
 
 }

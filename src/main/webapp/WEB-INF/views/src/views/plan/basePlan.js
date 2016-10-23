@@ -36,6 +36,25 @@ define(function () {
                 templateUrl: 'addBasePlan.html',
                 controller: ["$scope", "BasePlanAPI", "ItemAPI","$modalInstance","currentBasePlan", function ($scope, BasePlanAPI,ItemAPI,$modalInstance,currentBasePlan) {
 
+
+                    $scope.datepickerSetting = {
+                        datepickerPopupConfig:{
+                            "current-text":"今天",
+                            "clear-text":"清除",
+                            "close-text":"关闭"
+                        },
+                        beginTime:{
+                            opened:false
+                        }
+                    };
+                    $scope.open = function($event, index) {
+                        $event.preventDefault();
+                        $event.stopPropagation();
+                        if(index == 1){
+                            $scope.datepickerSetting.beginTime.opened = true;
+                        }
+                    };
+
                     $scope.chooseCategoryModel = function(){
                         var modalInstance = $modal.open({
                             templateUrl: 'chooseCategory.html',
