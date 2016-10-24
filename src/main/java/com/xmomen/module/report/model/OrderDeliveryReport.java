@@ -14,20 +14,14 @@ import java.util.Date;
  */
 @ExcelTarget(value = "orderReport")
 public @Data
-class OrderReport implements Serializable {
+class OrderDeliveryReport implements Serializable {
 
     @Excel(name = "下单日期" , exportFormat="yyyy-MM-dd", importFormat = "yyyy-MM-dd")
     private Date createTime;
-    @Excel(name = "卡券号")
-    private String couponNumber;
-    @Excel(name = "单位")
-    private String companyName;
-    @Excel(name = "客户经理")
-    private String managerName;
     @Excel(name = "订单号")
     private String orderNo;
-    @Excel(name = "送货日期" , exportFormat="yyyy-MM-dd", importFormat = "yyyy-MM-dd")
-    private Date appointmentTime;
+    @Excel(name="快递商")
+    private String expressName;
     @Excel(name = "收货人姓名")
     private String consigneeName;
     @Excel(name = "收货人电话")
@@ -44,4 +38,8 @@ class OrderReport implements Serializable {
     private String otherPaymentModeDesc;
     @Excel(name = "附加付款金额")
     private BigDecimal otherPayAmount;
+    @Excel(name = "送货日期" , exportFormat="yyyy-MM-dd", importFormat = "yyyy-MM-dd")
+    private Date appointmentTime;
+    @Excel(name = "备注")
+    private BigDecimal remark;
 }
