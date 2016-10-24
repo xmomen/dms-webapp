@@ -2,6 +2,7 @@ package com.xmomen.module.core.web.exception;
 
 import com.alibaba.fastjson.JSONObject;
 import com.xmomen.framework.web.rest.RestError;
+import com.xmomen.module.core.web.WebCommonUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,9 +20,7 @@ public class GlobalMappingExceptionResolver extends SimpleMappingExceptionResolv
     @Override
     protected ModelAndView doResolveException(HttpServletRequest request,
                                               HttpServletResponse response, Object handler, Exception ex) {
-        if (!"XMLHttpRequest"
-                .equalsIgnoreCase(((HttpServletRequest) request)
-                        .getHeader("X-Requested-With"))) {// 不是ajax请求
+        if (WebCommonUtils.isJSON(request)) {// 不是ajax请求
             return super.doResolveException(request, response, handler, ex);
         }
         ModelAndView mv = new ModelAndView();

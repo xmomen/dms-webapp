@@ -14,7 +14,7 @@
 	<context:annotation-config/>
 	
 	<!-- 扫描所有的controller 但是不扫描service-->
-	<context:component-scan base-package="com">
+	<context:component-scan base-package="com.xmomen">
 	</context:component-scan>
 	<context:component-scan base-package="org.jeecgframework.poi.excel.view"></context:component-scan>
 
@@ -86,8 +86,7 @@
 	<bean id="jeecgMapExcelView" class="org.jeecgframework.poi.excel.view.JeecgMapExcelView" />
 
 	<!-- 异常统一处理 -->
-	<bean id="exceptionHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">
-	</bean>
+	<bean id="exceptionHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver"/>
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="defaultEncoding">
 			<value>UTF-8</value>
