@@ -12,7 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
+import org.jeecgframework.poi.excel.entity.ExportParams;
+import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,17 +25,27 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.module.base.constant.AppConstants;
+import com.xmomen.module.base.service.ExpressService;
 import com.xmomen.module.export.service.ExportService;
 import com.xmomen.module.export.util.PrintUtils;
+import com.xmomen.module.order.model.OrderModel;
 import com.xmomen.module.order.model.OrderQuery;
+import com.xmomen.module.order.model.PurchaseModel;
+import com.xmomen.module.order.service.PurchaseService;
+import com.xmomen.module.report.model.OrderDeliveryReport;
+import com.xmomen.module.report.model.OrderReport;
 
 
-@RestController
+@Controller
 public class ExportController {
 	
 	@Autowired
 	ExportService exportService;
-	
+	@Autowired
+	ExpressService expressService;
+
+	@Autowired
+	PurchaseService purchaseService;
 	/**
 	 * 导出未采购的采购物料
 	 * @param request
@@ -39,10 +53,18 @@ public class ExportController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value="/export/exportPurchaseExcel")
-	public void exportPurchaseExcel(HttpServletRequest request,HttpServletResponse response) throws IOException {
-		String templatePath = request.getServletContext().getRealPath("") + "/WEB-INF/excelFile/purchaseExcel.xlsx";
-		XSSFWorkbook workbook = exportService.exportPurchaseExcel(templatePath);
-		PrintUtils.labelResponseOutput(response, workbook, new String(System.currentTimeMillis() + ".xlsx"));
+	public String exportPurchaseExcel(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap) throws IOException {
+//		String templatePath = request.getServletContext().getRealPath("") + "/WEB-INF/excelFile/purchaseExcel.xlsx";
+//		XSSFWorkbook workbook = exportService.exportPurchaseExcel(templatePath);
+//		PrintUtils.labelResponseOutput(response, workbook, new String(System.currentTimeMillis() + ".xlsx"));
+		 Map param = new HashMap();
+         param.put("purchaseStatus", 0);
+		 List<PurchaseModel> purchaseModels  = purchaseService.getPurchaseList(param);
+		 modelMap.put(NormalExcelConstants.FILE_NAME, "未采购商品信息");
+         modelMap.put(NormalExcelConstants.PARAMS, new ExportParams());
+         modelMap.put(NormalExcelConstants.CLASS, PurchaseModel.class);
+         modelMap.put(NormalExcelConstants.DATA_LIST, purchaseModels);
+         return NormalExcelConstants.JEECG_EXCEL_VIEW;
 	}
 	/**
 	 * 快递商导出订单信息
@@ -53,9 +75,10 @@ public class ExportController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value="/export/exportTakeDeliveryExcel")
-	public void exportTakeDeliveryExcel(HttpServletRequest request,HttpServletResponse response,
+	public String exportTakeDeliveryExcel(HttpServletRequest request,HttpServletResponse response,
             @RequestParam(value = "startTime",required = false) String startTime,
-            @RequestParam(value = "endTime",required = false) String endTime) throws IOException {
+            @RequestParam(value = "endTime",required = false) String endTime,
+            ModelMap modelMap) throws IOException {
 		 OrderQuery orderQuery = new OrderQuery();
 		 if(StringUtilsExt.isNotBlank(startTime) && !"undefined".equals(startTime)){
 	       	 orderQuery.setOrderCreateTimeStart(startTime.substring(0, 10));
@@ -68,8 +91,11 @@ public class ExportController {
         	String despatchExpressCode = (String) SecurityUtils.getSubject().getPrincipal();
             orderQuery.setDespatchExpressCode(despatchExpressCode);
         }
-		String templatePath = request.getServletContext().getRealPath("") + "/WEB-INF/excelFile/takeDeliveryExcel.xlsx";
-		XSSFWorkbook workbook = exportService.exportTakeDeliveryExcel(templatePath,orderQuery);
-		PrintUtils.labelResponseOutput(response, workbook, new String(System.currentTimeMillis() + ".xlsx"));
+    	List<OrderDeliveryReport> takeDeliverys  =  expressService.getTakeDeliveryReportList(orderQuery);
+          modelMap.put(NormalExcelConstants.FILE_NAME, "订单信息");
+          modelMap.put(NormalExcelConstants.PARAMS, new ExportParams());
+          modelMap.put(NormalExcelConstants.CLASS, OrderDeliveryReport.class);
+          modelMap.put(NormalExcelConstants.DATA_LIST, takeDeliverys);
+          return NormalExcelConstants.JEECG_EXCEL_VIEW;
 	}
 }

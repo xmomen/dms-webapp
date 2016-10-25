@@ -21,6 +21,7 @@ import com.xmomen.module.order.entity.TbOrderRef;
 import com.xmomen.module.order.mapper.OrderMapper;
 import com.xmomen.module.order.model.OrderModel;
 import com.xmomen.module.order.model.OrderQuery;
+import com.xmomen.module.report.model.OrderDeliveryReport;
 
 @Service
 public class ExpressServiceImpl implements ExpressService {
@@ -76,6 +77,17 @@ public class ExpressServiceImpl implements ExpressService {
      */
     public Page<OrderModel> getTakeDeliveryList(OrderQuery orderQuery, Integer limit, Integer offset){
         return (Page<OrderModel>) mybatisDao.selectPage(ExpressMapper.ExpressMapperNameSpace + "getOrderList", orderQuery, limit, offset);
+    }
+    
+    /**
+     * 查询已扫描的订单(导出)
+     * @param orderQuery
+     * @param limit
+     * @param offset
+     * @return
+     */
+    public List<OrderDeliveryReport> getTakeDeliveryReportList(OrderQuery orderQuery){
+        return mybatisDao.getSqlSessionTemplate().selectList(ExpressMapper.ExpressMapperNameSpace + "getOrderReportList", orderQuery);
     }
 	
 	/**

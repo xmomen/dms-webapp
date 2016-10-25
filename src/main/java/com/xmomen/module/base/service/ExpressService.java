@@ -7,6 +7,7 @@ import com.xmomen.module.base.entity.CdExpress;
 import com.xmomen.module.base.model.ExpressTask;
 import com.xmomen.module.order.model.OrderModel;
 import com.xmomen.module.order.model.OrderQuery;
+import com.xmomen.module.report.model.OrderDeliveryReport;
 
 public interface ExpressService {
 	public void createExpress(CdExpress createExpress);
@@ -26,4 +27,6 @@ public interface ExpressService {
 	public Page<OrderModel> getTakeDeliveryList(OrderQuery orderQuery, Integer limit, Integer offset);
 	
 	public List<OrderModel> getTakeDeliveryList(OrderQuery query);
+	
+	public List<OrderDeliveryReport> getTakeDeliveryReportList(OrderQuery query);
 }	
