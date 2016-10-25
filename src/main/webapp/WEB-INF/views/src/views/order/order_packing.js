@@ -11,7 +11,7 @@ define(function () {
             },function(data){
                 $scope.managers = data;
             });
-        }
+        };
         $scope.getCustomerManagersList();
 
         $scope.pageSetting = {
@@ -37,7 +37,7 @@ define(function () {
                 date = '0'+date;
             }
             return fullYear+"-"+month+"-"+date;
-        }
+        };
 
         $scope.datepickerSetting = {
             datepickerPopupConfig:{
@@ -159,7 +159,7 @@ define(function () {
             $scope.pageSetting.showPackingTask = true;
             $scope.getPackingOrderCountItemList();
             $scope.choseOrder2CurrentPackingList(obj);
-        }
+        };
 
         $scope.getPackingOrderCountItemList = function(){
             var orderNos = [];
@@ -226,6 +226,31 @@ define(function () {
         $scope.item = {};
         $scope.showPutBoxNum = null;
 
+        // 自动装箱
+        $scope.autoPacking = function(index){
+            var packingInfo = $scope.currentPackingBoxList[index];
+            $ugDialog.confirm("是否进行自动装箱?").then(function(){
+                PackingAPI.autoScan({
+                    orderNo:packingInfo.orderNo,
+                    packingId:packingInfo.currentPacking.id
+                }, function(data){
+                    console.log(data);
+                    $scope.getPackingOrderCountItemList();
+                    $scope.getOrderList();
+                    $ugDialog.alert("自动装箱成功");
+                    PackingAPI.getPackingOrderList({
+                        limit:1,
+                        offset:1,
+                        orderNo:packingInfo.orderNo
+                    }, function(data){
+                        var oldBox = $scope.currentPackingBoxList[index];
+                        $scope.currentPackingBoxList[index] = data.data[0];
+                        $scope.currentPackingBoxList[index].currentPacking = oldBox.currentPacking;
+                    });
+                })
+            })
+        };
+
         //扫描UPC码
         $scope.scanItemEvent = function(e){
             var keycode = window.event?e.keyCode:e.which;
@@ -234,7 +259,7 @@ define(function () {
                 //清空UPC码
                 $scope.item.upc = "";
             }
-        }
+        };
 
         $scope.scanItem = function(){
             var ok = false;
@@ -332,7 +357,7 @@ define(function () {
                     }
                 }, function(data){
                     $ugDialog.warn(data.data.message);
-                })
+                });
                 console.log(call);
             }
         };
@@ -408,7 +433,7 @@ define(function () {
             modalInstance.result.then(function (data) {
                 // $scope.choseItem(index, parseFloat(data.number));
             });
-        }
+        };
         /***************打印*******************/
         $scope.printOrder = function(order){
             PackingAPI.printOrder({

@@ -397,6 +397,7 @@
         oi.id AS orderItemId,
         p.PACKING_NO,
         oi.ITEM_NAME,
+        oi.ITEM_CODE,
         o.ORDER_NO,
         oi.ITEM_QTY,
         COUNT(pr.ID) AS packedItemQty,

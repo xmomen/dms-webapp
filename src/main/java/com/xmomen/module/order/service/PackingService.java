@@ -3,6 +3,7 @@ package com.xmomen.module.order.service;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.utils.DateUtils;
+import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.module.base.entity.CdItem;
 import com.xmomen.module.order.entity.*;
 import com.xmomen.module.order.mapper.OrderMapper;
@@ -16,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.math.BigDecimal;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -188,6 +191,36 @@ public class PackingService {
         scanModel.setOrderNo(currentPackingOrder.getOrderNo());
         scanModel.setTaskStatus(sysTask.getTaskStatus());
         return scanModel;
+    }
+
+
+    public List<ScanModel> autoPacking(String orderNo, Integer packingId){
+        List<ScanModel> scanModelList = new ArrayList<>();
+        // 查询当前订单未装箱商品
+        PackingOrderQuery packingOrderQuery = new PackingOrderQuery();
+        packingOrderQuery.setOrderNo(orderNo);
+        List<PackingOrderModel> packingOrderModelList = queryPackingOrder(packingOrderQuery);
+        for (PackingOrderModel packingOrderModel : packingOrderModelList) {
+            if(!"已完成".equals(packingOrderModel.getPackingStatusDesc())){
+                BigDecimal total = packingOrderModel.getItemQty();
+                BigDecimal need = packingOrderModel.getPackedItemQty();
+                BigDecimal num = total.subtract(need);
+                if(BigDecimal.ZERO.compareTo(num) < 0){
+                    int n = num.intValue();
+                    for (int i = 0; i < n; i++) {
+                        String upc = packingOrderModel.getItemCode() + StringUtilsExt.getUUID(16);
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put(orderNo, packingId);
+                        CreatePackingRecord createPackingRecord = new CreatePackingRecord();
+                        createPackingRecord.setPackingInfo(map);
+                        createPackingRecord.setUpc(upc);
+                        ScanModel scanModel = createRecord(createPackingRecord);
+                        scanModelList.add(scanModel);
+                    }
+                }
+            }
+        }
+        return scanModelList;
     }
 
     @Transactional

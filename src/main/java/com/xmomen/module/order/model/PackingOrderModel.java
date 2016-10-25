@@ -14,6 +14,7 @@ class PackingOrderModel implements Serializable {
     private Integer orderItemId;
     private String orderNo;
     private String packingNo;
+    private String itemCode;
     private String itemName;
     private String packingStatusDesc;
     private BigDecimal itemQty;

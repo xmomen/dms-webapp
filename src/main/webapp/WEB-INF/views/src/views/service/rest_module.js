@@ -320,6 +320,11 @@ define(function () {
                 orderNos:"@orderNos"
             }},
             scanItem:{method:"POST",url:"/packing/:id/record"},
+            autoScan:{
+                method:"POST", url:"/packing/auto",
+                isArray:true,
+                params:{orderNo:"@orderNo",packingId:"@packingId"}
+            },
             printOrder:{method:"GET",url:"/packing/printOrder",params:{
                 orderId:"@orderId"
             }}

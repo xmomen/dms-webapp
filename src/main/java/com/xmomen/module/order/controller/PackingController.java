@@ -1,19 +1,5 @@
 package com.xmomen.module.order.controller;
 
-import javax.validation.Valid;
-
-import com.xmomen.module.order.model.*;
-
-import org.apache.shiro.SecurityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.utils.StringUtilsExt;
@@ -21,11 +7,15 @@ import com.xmomen.framework.web.exceptions.ArgumentValidException;
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.logger.Log;
 import com.xmomen.module.order.entity.TbPacking;
-import com.xmomen.module.order.entity.TbPackingRecord;
+import com.xmomen.module.order.model.*;
 import com.xmomen.module.order.service.OrderService;
 import com.xmomen.module.order.service.PackingService;
+import org.apache.shiro.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -256,5 +246,12 @@ public class PackingController {
     public void createPackingRecord(@PathVariable(value = "id") Integer id,
                                                @PathVariable(value = "recordId") Integer recordId){
         packingService.deleteRecord(recordId);
+    }
+
+    @RequestMapping(value = "/packing/auto", method = RequestMethod.POST)
+    @Log(actionName = "订单自动装箱")
+    public List<ScanModel> autoPacking(@RequestParam(value = "packingId") Integer packingId,
+                            @RequestParam(value = "orderNo") String orderNo){
+        return packingService.autoPacking(orderNo, packingId);
     }
 }
