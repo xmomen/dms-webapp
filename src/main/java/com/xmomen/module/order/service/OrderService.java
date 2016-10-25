@@ -11,8 +11,8 @@ import com.xmomen.module.base.service.ItemService;
 import com.xmomen.module.order.entity.*;
 import com.xmomen.module.order.mapper.OrderMapper;
 import com.xmomen.module.order.model.*;
-
 import com.xmomen.module.report.model.OrderReport;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -200,12 +200,29 @@ public class OrderService {
         itemQuery.setCompanyId(updateOrder.getCompanyId());
         List<ItemModel> itemList = itemService.queryItemList(itemQuery);
         BigDecimal totalAmount = BigDecimal.ZERO;
+        //查询订单的原商品信息
         TbOrderItemExample tbOrderItemExample = new TbOrderItemExample();
         tbOrderItemExample.createCriteria().andOrderNoEqualTo(orderNo);
+        List<TbOrderItem> tbOrderItems = mybatisDao.selectByExample(tbOrderItemExample);
         mybatisDao.deleteByExample(tbOrderItemExample);
+        boolean flagExists = false;
+        List<UpdateOrder.OrderItem> changeOrderItems = new ArrayList<>();
         for (ItemModel cdItem : itemList) {
             for (UpdateOrder.OrderItem orderItem : updateOrder.getOrderItemList()) {
                 if(cdItem.getId().equals(orderItem.getOrderItemId())){
+                	//如果订单状态大于等于3则认为是补货或者更换货的 需要生成采购计划
+                	if(Integer.parseInt(oldTbOrder.getOrderStatus()) >= 3){
+	                	//计算是否是新增的商品
+	                	for(TbOrderItem orderItemDb : tbOrderItems){
+	                		if(orderItemDb.getItemId().equals(orderItem.getOrderItemId())){
+	                			flagExists = true;
+	                		}
+	                	}
+	                	if(!flagExists){
+	                		changeOrderItems.add(orderItem);
+	                	}
+	                	flagExists = false;
+                	}
                     TbOrderItem tbOrderItem = new TbOrderItem();
                     tbOrderItem.setOrderNo(orderNo);
                     tbOrderItem.setItemCode(cdItem.getItemCode());
@@ -264,6 +281,25 @@ public class OrderService {
         payOrder.setOrderNo(oldTbOrder.getOrderNo());
         payOrder.setAmount(BigDecimal.valueOf(-1).multiply(oldTbOrder.getTotalAmount()));
         payOrder(payOrder);
+        
+        //生成新的采购计划
+        String purchaseCode = DateUtils.getDateTimeString();
+        for(UpdateOrder.OrderItem orderItem : changeOrderItems){
+        	BigDecimal totalWeight = BigDecimal.ZERO;
+        	 for (ItemModel cdItem : itemList) {
+	        	if(cdItem.getId().equals(orderItem.getOrderItemId())){
+	        		totalWeight = new BigDecimal(cdItem.getSpec()).multiply(orderItem.getItemQty()).setScale(0, BigDecimal.ROUND_HALF_UP);
+	        	}
+        	 }
+        	 TbPurchase tbPurchase = new TbPurchase();
+             tbPurchase.setPurchaseCode(purchaseCode);
+             tbPurchase.setCreateDate(mybatisDao.getSysdate());
+             tbPurchase.setPurchaseStatus(0);
+             tbPurchase.setItemCode(orderItem.getItemCode());
+             tbPurchase.setTotal(orderItem.getItemQty());
+             tbPurchase.setTotalWeight(totalWeight);
+             mybatisDao.insert(tbPurchase);
+        }
         return tbOrder;
     }
 
