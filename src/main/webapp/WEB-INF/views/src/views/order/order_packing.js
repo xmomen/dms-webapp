@@ -25,8 +25,8 @@ define(function () {
             pageNum:1
         };
 
-        $scope.currentDate = function(){
-            var myDate = new Date();
+        $scope.currentDate = function(date){
+            var myDate = date;
             var fullYear = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
             var month = myDate.getMonth() + 1;       //获取当前月份(0-11,0代表1月)
             if(month < 10){
@@ -63,8 +63,8 @@ define(function () {
         };
 
         $scope.queryParam = {
-            packingTaskCreateTimeStart :$scope.currentDate(),
-            packingTaskCreateTimeEnd:$scope.currentDate()
+            packingTaskCreateTimeStart :$scope.currentDate(new Date(new Date().getTime() - 86400000)),
+            packingTaskCreateTimeEnd:$scope.currentDate(new Date())
         };
 
         $scope.orderList = [];

@@ -233,9 +233,8 @@
 									<th>序号</th>
 									<th>商品代码</th>
 									<th>商品名称</th>
-									<th>商品装箱状态</th>
 									<th style="text-align: center">已装数量/总数量</th>
-									<th>操作</th>
+									<th>商品装箱状态</th>
 								</tr>
 								</thead>
 								<tbody>
@@ -244,10 +243,8 @@
 									<td ng-bind="$index*orderItemPageInfoSetting.pageNum + 1"></td>
 									<td ng-bind="packingOrderItem.itemCode"></td>
 									<td ng-bind="packingOrderItem.itemName"></td>
-									<td ng-bind="packingOrderItem.packingStatusDesc"></td>
 									<td style="text-align: center" ng-bind="packingOrderItem.packedItemQty +'/' + packingOrderItem.itemQty"></td>
-									<td>
-									</td>
+									<td ng-style="{color:packingOrderItem.packingStatusDesc == '已完成'?'red':''}" ng-bind="packingOrderItem.packingStatusDesc"></td>
 								</tr>
 								<tr ng-if="packingOrderCountItemList == null || packingOrderCountItemList.length == 0">
 									<td colspan="5">
@@ -325,10 +322,11 @@
 									<th style="width: 45px;">箱位号</th>
 									<th width="120">装箱编号</th>
 									<th width="120">订单编号</th>
-									<th width="120">创建时间</th>
-									<th width="80">订单状态</th>
-									<th width="80">任务状态</th>
-									<th>操作</th>
+									<th>收货人</th>
+									<th>创建时间</th>
+									<th>订单状态</th>
+									<th>任务状态</th>
+									<th width="80">操作</th>
 								</tr>
 								</thead>
 								<tbody>
@@ -336,6 +334,7 @@
 									<td ng-bind="$index + 1"></td>
 									<td ng-bind="box.currentPacking.packingNo"></td>
 									<td ng-bind="box.orderNo"></td>
+									<td ng-bind="box.consigneeName"></td>
 									<td ng-bind="box.createTime | date: 'yyyy-MM-dd hh:mm:ss'"></td>
 									<td ng-bind="box.orderStatusDesc"></td>
 									<td ng-bind="box.packingTaskStatusDesc"></td>
