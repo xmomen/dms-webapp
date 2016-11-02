@@ -20,7 +20,7 @@ public class GlobalMappingExceptionResolver extends SimpleMappingExceptionResolv
     @Override
     protected ModelAndView doResolveException(HttpServletRequest request,
                                               HttpServletResponse response, Object handler, Exception ex) {
-        if (WebCommonUtils.isJSON(request)) {// 不是ajax请求
+        if (!WebCommonUtils.isJSON(request)) {// 不是ajax请求
             return super.doResolveException(request, response, handler, ex);
         }
         ModelAndView mv = new ModelAndView();
