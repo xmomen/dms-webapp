@@ -46,7 +46,7 @@
             <div class="jarviswidget" id="wid-id-4">
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                    <h2>分配列表</h2>
+                    <h2>已提货列表</h2>
                 </header>
                 <!-- widget div-->
                 <div>
@@ -61,7 +61,7 @@
                             <div class="row">
                                 <div class="col-sm-3">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
+                                        <input type="text" id="startTimeId" class="form-control" datepicker-popup="yyyy-MM-dd"
                                                placeholder="配送起始日期"
                                                ng-model="queryParam.startTime"
                                                close-text="关闭"
@@ -76,7 +76,7 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
+                                        <input type="text" id="endTimeId" class="form-control" datepicker-popup="yyyy-MM-dd"
                                                placeholder="配送截止日期"
                                                ng-model="queryParam.endTime"
                                                close-text="关闭"
@@ -90,25 +90,29 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row margin-top-10">
                                 <div class="col-sm-12">
                                     <div class="input-group">
                                         <div class="input-group-btn">
-                                            <button class="btn btn-primary" type="button" data-ng-click="getOrderList()">
+                                            <button class="btn btn-primary margin-right-5" type="button" data-ng-click="getOrderList()">
                                                 <i class="fa fa-refresh"></i>
                                                 刷新
-                                            </button>+
-
-                                            <button class="btn btn-primary" type="button" ng-click="exportExcel()">
-                                                <i class="fa fa-plus"></i>
-                                                按条件导出订单
+                                            </button>
+                                            <button class="btn btn-primary margin-right-5" type="button" ng-click="exportExcel(1)">
+                                                <i class="fa  fa-download"></i>
+                                                导出已提货订单
+                                            </button>
+                                            <button class="btn btn-primary" type="button" ng-click="exportExcel(2)">
+                                                <i class="fa fa-download"></i>
+                                                导出已分配未提货订单
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="table-responsive">
+
+                        <div class="table-responsive margin-top-10">
                             <table class="table table-condensed table-hover smart-form has-tickbox">
                                 <thead>
                                 <tr>

@@ -89,6 +89,17 @@ public class ExpressServiceImpl implements ExpressService {
     public List<OrderDeliveryReport> getTakeDeliveryReportList(OrderQuery orderQuery){
         return mybatisDao.getSqlSessionTemplate().selectList(ExpressMapper.ExpressMapperNameSpace + "getOrderReportList", orderQuery);
     }
+    
+    /**
+     * 查询分配未提货的订单(导出)
+     * @param orderQuery
+     * @param limit
+     * @param offset
+     * @return
+     */
+    public List<OrderDeliveryReport> getOrderNoDespatchReportList(OrderQuery orderQuery){
+        return mybatisDao.getSqlSessionTemplate().selectList(ExpressMapper.ExpressMapperNameSpace + "getOrderNoDespatchReportList", orderQuery);
+    }
 	
 	/**
 	 * 发运操作
