@@ -35,10 +35,9 @@ import com.xmomen.module.order.service.PurchaseService;
 import com.xmomen.module.report.model.OrderDeliveryReport;
 import com.xmomen.module.report.model.OrderReport;
 
-
 @Controller
 public class ExportController {
-	
+
 	@Autowired
 	ExportService exportService;
 	@Autowired
@@ -46,56 +45,81 @@ public class ExportController {
 
 	@Autowired
 	PurchaseService purchaseService;
+
 	/**
 	 * 导出未采购的采购物料
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws IOException
 	 */
-	@RequestMapping(value="/export/exportPurchaseExcel")
-	public String exportPurchaseExcel(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap) throws IOException {
-//		String templatePath = request.getServletContext().getRealPath("") + "/WEB-INF/excelFile/purchaseExcel.xlsx";
-//		XSSFWorkbook workbook = exportService.exportPurchaseExcel(templatePath);
-//		PrintUtils.labelResponseOutput(response, workbook, new String(System.currentTimeMillis() + ".xlsx"));
-		 Map param = new HashMap();
-         param.put("purchaseStatus", 0);
-		 List<PurchaseModel> purchaseModels  = purchaseService.getPurchaseList(param);
-		 modelMap.put(NormalExcelConstants.FILE_NAME, "未采购商品信息");
-         modelMap.put(NormalExcelConstants.PARAMS, new ExportParams());
-         modelMap.put(NormalExcelConstants.CLASS, PurchaseModel.class);
-         modelMap.put(NormalExcelConstants.DATA_LIST, purchaseModels);
-         return NormalExcelConstants.JEECG_EXCEL_VIEW;
+	@RequestMapping(value = "/export/exportPurchaseExcel")
+	public String exportPurchaseExcel(HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap) throws IOException {
+		// String templatePath = request.getServletContext().getRealPath("") +
+		// "/WEB-INF/excelFile/purchaseExcel.xlsx";
+		// XSSFWorkbook workbook =
+		// exportService.exportPurchaseExcel(templatePath);
+		// PrintUtils.labelResponseOutput(response, workbook, new
+		// String(System.currentTimeMillis() + ".xlsx"));
+		Map param = new HashMap();
+		param.put("purchaseStatus", 0);
+		List<PurchaseModel> purchaseModels = purchaseService
+				.getPurchaseList(param);
+		modelMap.put(NormalExcelConstants.FILE_NAME, "未采购商品信息");
+		modelMap.put(NormalExcelConstants.PARAMS, new ExportParams());
+		modelMap.put(NormalExcelConstants.CLASS, PurchaseModel.class);
+		modelMap.put(NormalExcelConstants.DATA_LIST, purchaseModels);
+		return NormalExcelConstants.JEECG_EXCEL_VIEW;
 	}
+
 	/**
 	 * 快递商导出订单信息
+	 * 
 	 * @param request
 	 * @param response
 	 * @param startTime
 	 * @param endTime
 	 * @throws IOException
 	 */
-	@RequestMapping(value="/export/exportTakeDeliveryExcel")
-	public String exportTakeDeliveryExcel(HttpServletRequest request,HttpServletResponse response,
-            @RequestParam(value = "startTime",required = false) String startTime,
-            @RequestParam(value = "endTime",required = false) String endTime,
-            ModelMap modelMap) throws IOException {
-		 OrderQuery orderQuery = new OrderQuery();
-		 if(StringUtilsExt.isNotBlank(startTime) && !"undefined".equals(startTime)){
-	       	 orderQuery.setOrderCreateTimeStart(startTime.substring(0, 10));
-	        }
-        if(StringUtilsExt.isNotBlank(endTime) && !"undefined".equals(endTime)){
-        	orderQuery.setOrderCreateTimeEnd(endTime.substring(0, 10));
-        }
-	      //运输部
-        if(SecurityUtils.getSubject().hasRole(AppConstants.YUN_SHU_PERMISSION_CODE)){
-        	String despatchExpressCode = (String) SecurityUtils.getSubject().getPrincipal();
-            orderQuery.setDespatchExpressCode(despatchExpressCode);
-        }
-    	List<OrderDeliveryReport> takeDeliverys  =  expressService.getTakeDeliveryReportList(orderQuery);
-          modelMap.put(NormalExcelConstants.FILE_NAME, "订单信息");
-          modelMap.put(NormalExcelConstants.PARAMS, new ExportParams());
-          modelMap.put(NormalExcelConstants.CLASS, OrderDeliveryReport.class);
-          modelMap.put(NormalExcelConstants.DATA_LIST, takeDeliverys);
-          return NormalExcelConstants.JEECG_EXCEL_VIEW;
+	@RequestMapping(value = "/export/exportTakeDeliveryExcel")
+	public String exportTakeDeliveryExcel(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value = "startTime", required = false) String startTime,
+			@RequestParam(value = "endTime", required = false) String endTime,
+			@RequestParam(value = "type") int type, ModelMap modelMap)
+			throws IOException {
+		OrderQuery orderQuery = new OrderQuery();
+		if (StringUtilsExt.isNotBlank(startTime)
+				&& !"undefined".equals(startTime)) {
+			orderQuery.setOrderCreateTimeStart(startTime.substring(0, 10));
+		}
+		if (StringUtilsExt.isNotBlank(endTime) && !"undefined".equals(endTime)) {
+			orderQuery.setOrderCreateTimeEnd(endTime.substring(0, 10));
+		}
+		// 运输部
+		if (SecurityUtils.getSubject().hasRole(
+				AppConstants.YUN_SHU_PERMISSION_CODE)) {
+			String despatchExpressCode = (String) SecurityUtils.getSubject()
+					.getPrincipal();
+			orderQuery.setDespatchExpressCode(despatchExpressCode);
+		}
+		if (type == 1) {
+			List<OrderDeliveryReport> takeDeliverys = expressService
+					.getTakeDeliveryReportList(orderQuery);
+			modelMap.put(NormalExcelConstants.FILE_NAME, "已提货订单信息");
+			modelMap.put(NormalExcelConstants.DATA_LIST, takeDeliverys);
+		} else {
+			List<OrderDeliveryReport> takeDeliverys = expressService
+					.getOrderNoDespatchReportList(orderQuery);
+			modelMap.put(NormalExcelConstants.FILE_NAME, "已分配未提货订单信息");
+			modelMap.put(NormalExcelConstants.DATA_LIST, takeDeliverys);
+		}
+
+		modelMap.put(NormalExcelConstants.PARAMS, new ExportParams());
+		modelMap.put(NormalExcelConstants.CLASS, OrderDeliveryReport.class);
+
+		return NormalExcelConstants.JEECG_EXCEL_VIEW;
 	}
 }

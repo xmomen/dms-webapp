@@ -29,4 +29,6 @@ public interface ExpressService {
 	public List<OrderModel> getTakeDeliveryList(OrderQuery query);
 	
 	public List<OrderDeliveryReport> getTakeDeliveryReportList(OrderQuery query);
+	
+	public List<OrderDeliveryReport> getOrderNoDespatchReportList(OrderQuery query);
 }	

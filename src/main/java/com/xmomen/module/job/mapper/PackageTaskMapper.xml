@@ -10,6 +10,7 @@
 			CI.ITEM_NAME,
 			CI.CAIZAI_USER,
 			CI.JIANCE_USER,
+			CI.NONG_CAN_LV,
 			CI.SPEC,
 			CI.sell_Unit,
 			SU.REALNAME as jobUserName

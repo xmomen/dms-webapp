@@ -8,14 +8,32 @@ define(function () {
             pageSize:10,
             pageNum:1
         };
-        $scope.queryParam = {};
+
+        $scope.currentDate = function(date){
+            var myDate = date;
+            var fullYear = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+            var month = myDate.getMonth() + 1;       //获取当前月份(0-11,0代表1月)
+            if(month < 10){
+                month = '0'+month;
+            }
+            var date = myDate.getDate();        //获取当前日(1-31)
+            if(date < 10){
+                date = '0'+date;
+            }
+            return fullYear+"-"+month+"-"+date;
+        };
+
+        $scope.queryParam = {
+            startTime :$scope.currentDate(new Date(new Date().getTime() + 86400000)),
+            endTime:$scope.currentDate(new Date(new Date().getTime() + 86400000))
+        };
+
 
         $scope.datepickerSetting = {
             datepickerPopupConfig:{
                 "current-text":"今天",
                 "clear-text":"清除",
-                "close-text":"关闭",
-                "format":"yyyy-MM-dd"
+                "close-text":"关闭"
             },
             startTime:{
                 opened:false
@@ -35,7 +53,7 @@ define(function () {
         };
 
         $scope.getOrderList = function(){
-            //查询未提货的订单
+            //查询提货的订单
             ExpressAPI.queryOrder({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
@@ -100,8 +118,8 @@ define(function () {
             })
         }
 
-        $scope.exportExcel = function(){
-            window.location.href = "/export/exportTakeDeliveryExcel?startTime="+$scope.queryParam.startTime+"&endTime="+$scope.queryParam.endTime;
+        $scope.exportExcel = function(type){
+            window.location.href = "/export/exportTakeDeliveryExcel?startTime="+$("#startTimeId").val()+"&endTime="+$("#endTimeId").val()+"&type="+type;
         }
     }];
 });

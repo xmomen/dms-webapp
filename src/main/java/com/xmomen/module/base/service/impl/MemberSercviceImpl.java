@@ -5,6 +5,7 @@ import java.util.List;
 import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.module.base.entity.CdActivityAddress;
 import com.xmomen.module.base.entity.CdMemberCouponRelation;
+import com.xmomen.module.base.entity.CdMemberCouponRelationExample;
 import com.xmomen.module.base.service.CouponService;
 
 import org.apache.commons.lang.StringUtils;
@@ -18,6 +19,7 @@ import com.xmomen.module.base.model.CouponActivityAddress;
 import com.xmomen.module.base.model.CreateMember;
 import com.xmomen.module.base.model.UpdateMember;
 import com.xmomen.module.base.service.MemberSercvice;
+import com.xmomen.module.order.entity.TbOrderItemExample;
 
 @Service
 public class MemberSercviceImpl implements MemberSercvice {
@@ -88,6 +90,10 @@ public class MemberSercviceImpl implements MemberSercvice {
 	
 	@Transactional
     public void delete(Integer id){
+		//删除卡与客户的绑定关系
+		CdMemberCouponRelationExample tbOrderItemExample = new CdMemberCouponRelationExample();
+        tbOrderItemExample.createCriteria().andCdMemberIdEqualTo(id);
+        mybatisDao.deleteByExample(tbOrderItemExample);
         mybatisDao.deleteByPrimaryKey(CdMember.class, id);
     }
 

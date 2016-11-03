@@ -95,7 +95,6 @@ public class PackageTaskModel implements Serializable{
      */
     private String jianceUser;
     
-    
     /**
      * 农残率
      */

@@ -54,6 +54,7 @@ define(function () {
         };
 
         $scope.getPackageTaskList = function(){
+            alert($scope.queryParam.packageTaskCreateTimeStart)
             PackageTaskAPI.query({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
@@ -112,11 +113,12 @@ define(function () {
                         LODOP.ADD_PRINT_TEXT(160,19,137,20,"采摘时间：6:00-9:00");
                         LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
                         LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-                        LODOP.ADD_PRINT_TEXT(118,20,119,19,"检测结果：ub="+jobOperationLog.nongCanLv);
+                        LODOP.ADD_PRINT_TEXT(118,20,119,19,"检测结果：μb="+jobOperationLog.nongCanLv);
                         LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
                         LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 
-                        LODOP.PRINT();
+                        LODOP.PRINT_DESIGN();
+//                        LODOP.PRINT();
                     }
                 }]
             });
