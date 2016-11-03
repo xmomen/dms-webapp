@@ -20,18 +20,15 @@ public class TablePlanSercviceImpl implements TablePlanSercvice {
 	@Override
 	@Transactional
 	public void createTablePlan(CreateTablePlan createTablePlan) {
-		for(Integer planId : createTablePlan.getCdPlanIds()){
-			TbTablePlan tablePlan = new TbTablePlan();
-			tablePlan.setCdPlanId(planId);
+		for(TbTablePlan tablePlan :createTablePlan.getTablePlans()){
 			tablePlan.setAuditStatus(1);
 			tablePlan.setCdMemberId(createTablePlan.getCdMemberId());
 			tablePlan.setConsigneeAddress(createTablePlan.getConsigneeAddress());
 			tablePlan.setConsigneeName(createTablePlan.getConsigneeName());
 			tablePlan.setConsigneePhone(createTablePlan.getConsigneePhone());
 			tablePlan.setCouponNumber(createTablePlan.getCouponNumber());
-			tablePlan.setIsStop(0);
 			tablePlan.setSendValue(0);
-			CdPlan plan = mybatisDao.selectByPrimaryKey(CdPlan.class,planId);
+			CdPlan plan = mybatisDao.selectByPrimaryKey(CdPlan.class,tablePlan.getCdPlanId());
 			tablePlan.setTotalSendValue(plan.getDeliverCount());
 			mybatisDao.saveByModel(tablePlan);
 		}

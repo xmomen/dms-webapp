@@ -43,6 +43,7 @@ public class WeixinController {
 
         if (StringUtilsExt.isEmpty(echostr)) {
             try {
+            	 log.info("请求服务器");
                 //设置response字符串格式为UTF-8
                 response.setCharacterEncoding("utf-8");
 
@@ -112,7 +113,7 @@ public class WeixinController {
             return false;
         }
         if (StringUtilsExt.isEmpty(token)) {
-            log.error("请在微信对接接口地址中设定publicUid参数。");
+            log.error("请在微信对接接口地址中设定token参数。");
             return false;
         }
 

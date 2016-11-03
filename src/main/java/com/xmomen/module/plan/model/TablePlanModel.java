@@ -1,6 +1,7 @@
 package com.xmomen.module.plan.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import lombok.Data;
 
@@ -67,4 +68,10 @@ public @Data class TablePlanModel implements Serializable{
      * 已配送次数
      */
     private Integer sendValue;
+    
+    /**
+     * 生效时间
+     */
+    private Date beginTime;
+
 }

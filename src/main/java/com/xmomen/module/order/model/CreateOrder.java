@@ -27,6 +27,8 @@ class CreateOrder implements Serializable {
      * 批量下单数
      */
     private Integer batchNumber;
+    
+    private String batchNo;
 
     /**
      * 1-微信订单，2-商城订单，3-客服下单，4-采摘订单

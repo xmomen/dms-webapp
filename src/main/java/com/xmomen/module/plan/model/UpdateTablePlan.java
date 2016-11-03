@@ -2,6 +2,7 @@ package com.xmomen.module.plan.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -50,4 +51,8 @@ public @Data class UpdateTablePlan implements Serializable{
      * 收货人地址
      */
     private String consigneeAddress;
+    /**
+     * 生效时间
+     */
+    private Date beginTime;
 }

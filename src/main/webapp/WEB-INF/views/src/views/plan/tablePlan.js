@@ -31,11 +31,13 @@ define(function () {
             var modalInstance = $modal.open({
                 templateUrl: 'addTablePlan.html',
                 controller: ["$scope", "TablePlanAPI", "$modalInstance","currentTablePlan","BasePlanAPI","CouponAPI" ,"$rootScope", "$modalMemberAdd","MemberAPI", function ($scope, TablePlanAPI, $modalInstance,currentTablePlan,BasePlanAPI,CouponAPI,$rootScope,$modalMemberAdd,MemberAPI) {
+                    $scope.chooseTablePlans = [];
                     $scope.ugSelect2Config = {};
                     $scope.tablePlan = {};
                     if(currentTablePlan){
                         $scope.tablePlan = currentTablePlan;
                     }
+
                     $scope.getBasePlanList = function(){
                         $scope.pageInfoSetting = {
                             pageSize:1000,
@@ -50,7 +52,9 @@ define(function () {
                             $scope.basePlanList = data.data;
                             $scope.pageInfoSetting = data.pageInfo;
                             $scope.pageInfoSetting.loadData = $scope.getCategoryList;
-                            $scope.ugSelect2Config.initSelectData($scope.tablePlan.cdPlanId);
+                            if(currentTablePlan){
+                                $scope.ugSelect2Config.initSelectData(currentTablePlan.cdPlanId);
+                            }
                         });
                     }
                     $scope.getBasePlanList();
@@ -66,6 +70,7 @@ define(function () {
                                     $scope.errors = data.data;
                                 })
                             }else{
+                                $scope.tablePlan.tablePlans = $scope.chooseTablePlans;
                                 TablePlanAPI.save($scope.tablePlan, function(){
                                     $modalInstance.close();
                                 }, function(data){
@@ -119,6 +124,31 @@ define(function () {
                             $ugDialog.alert("请输入卡号");
                         }
                     };
+
+                    //添加计划生效时间
+                    $scope.changeSelect =function(){
+                        if($scope.tablePlan.id == null){
+                            $scope.chooseTablePlans=[];
+                            var cdPlanIdList = $scope.tablePlan.cdPlanIds;
+                            for(var i = 0;i<cdPlanIdList.length;i++){
+                                //获取计划名称
+                                var planName = "";
+                                for(var j=0; j<$scope.basePlanList.length;j++){
+                                    if($scope.basePlanList[j].id == cdPlanIdList[i]){
+                                        planName = $scope.basePlanList[j].planName;
+                                        break;
+                                    }
+                                }
+                                var chooseTablePlan ={
+                                    cdPlanId:cdPlanIdList[i],
+                                    planName:planName,
+                                    isStop:0
+                                }
+                                $scope.chooseTablePlans.push(chooseTablePlan);
+                        }
+                    }
+                    };
+
                     $scope.cancel = function () {
                         $modalInstance.dismiss('cancel');
                     };
@@ -127,7 +157,8 @@ define(function () {
                     currentTablePlan: function () {
                         return $scope.tablePlanList[index];
                     }
-                }
+                },
+                size : 'lg'
             });
             modalInstance.result.then(function () {
                 $scope.getTablePlanList();

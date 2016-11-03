@@ -10,12 +10,15 @@ import com.xmomen.module.order.entity.TbPacking;
 import com.xmomen.module.order.model.*;
 import com.xmomen.module.order.service.OrderService;
 import com.xmomen.module.order.service.PackingService;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
 import java.util.List;
 
 /**
@@ -204,6 +207,13 @@ public class PackingController {
         		  List<PackingModel> packingModels = packingService.getPackingList(packingQuery);
                 orderModel.setPackingModels(packingModels);
         	}
+        }
+        //
+        if(StringUtils.isNotEmpty(orderModel.getBatchNo())){
+        	int batchNum = orderService.getCountBatch(orderModel.getBatchNo());
+        	orderModel.setBatchNum(batchNum);
+        }else{
+        	orderModel.setBatchNum(0);
         }
         
         return orderModel;

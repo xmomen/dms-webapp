@@ -201,6 +201,7 @@
 									<th width="120">订单编号</th>
                                     <th>客户经理</th>
                                     <th>收货人</th>
+                                    <th>批次号</th>
 									<th>装箱任务负责人</th>
 									<th>分配状态</th>
 									<th>任务状态</th>
@@ -223,6 +224,7 @@
 									<td ng-bind="order.orderNo"></td>
                                     <td ng-bind="order.managerName"></td>
                                     <td ng-bind="order.consigneeName"></td>
+                                    <td ng-bind="order.batchNo"></td>
 									<td ng-bind="order.packingTaskUsername"></td>
 									<td>
 										<div ng-if="order.packingTaskStatus != null">已分配</div>
