@@ -26,6 +26,7 @@
     <result column="DISCOUNT_PRICE" property="discountPrice" jdbcType="DOUBLE" />
     <result column="MANAGER_ID" property="managerId" jdbcType="INTEGER" />
     <result column="COMPANY_ID" property="companyId" jdbcType="INTEGER" />
+    <result column="BATCH_NO" property="batchNo" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -89,7 +90,7 @@
     ID, ORDER_NO, ORDER_TYPE, ORDER_SOURCE, PAYMENT_MODE, OTHER_PAYMENT_MODE, MEMBER_CODE, 
     ORDER_STATUS, PAY_STATUS, CONSIGNEE_PHONE, CONSIGNEE_NAME, CONSIGNEE_ADDRESS, POSTCODE, 
     TRANSPORT_MODE, REMARK, TOTAL_AMOUNT, CREATE_TIME, APPOINTMENT_TIME, CREATE_USER_ID, 
-    DESPATCH_EXPRESS_ID, EXPRESS_MEMBER_ID, DISCOUNT_PRICE, MANAGER_ID, COMPANY_ID
+    DESPATCH_EXPRESS_ID, EXPRESS_MEMBER_ID, DISCOUNT_PRICE, MANAGER_ID, COMPANY_ID, BATCH_NO
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbOrderExample" >
     select
@@ -186,6 +187,9 @@
       <if test="companyId != null" >
         COMPANY_ID,
       </if>
+      <if test="batchNo != null" >
+        BATCH_NO,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -259,6 +263,9 @@
       </if>
       <if test="companyId != null" >
         #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="batchNo != null" >
+        #{batchNo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -342,6 +349,9 @@
       </if>
       <if test="record.companyId != null" >
         COMPANY_ID = #{record.companyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.batchNo != null" >
+        BATCH_NO = #{record.batchNo,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >

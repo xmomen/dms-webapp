@@ -277,7 +277,7 @@
               	AND i.SELL_UNIT = #{sellUnit}
               </if>
           </where>
-        ORDER BY p.CREATE_DATE DESC
+        ORDER BY i.sell_Unit,p.CREATE_DATE DESC
     </select>
 
     <select id="getOrderPurchaseList" resultType="com.xmomen.module.order.model.OrderPurchaseModel" parameterType="java.util.HashMap">
@@ -638,6 +638,10 @@
             </if>
           </where>
           order by st.TASK_STATUS,tb.order_no desc
+    </select>
+    
+    <select id="countBatchOrder" resultType="java.lang.Integer" parameterType="java.lang.String">
+    	select count(1) from tb_order where batch_no =#{batchNo}
     </select>
     
     

@@ -68,12 +68,14 @@ define(function () {
             ExpressAPI.takeDelivery({
                 orderNo:$scope.orderNo
             }, function(){
+                debugger;
                 $ugDialog.alert("提货成功");
                 $scope.getOrderList();
                 $("#orderNo").focus();
                 $("#orderNo").select();
                 $("#orderNo").val("");
             },function(data){
+                debugger;
                 $ugDialog.warn(data.data.message);
                 $("#orderNo").focus();
                 $("#orderNo").select();

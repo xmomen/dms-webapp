@@ -133,6 +133,11 @@ public class TbOrder extends BaseMybatisModel {
      */
     private Integer companyId;
 
+    /**
+     * 批次号
+     */
+    private String batchNo;
+
     @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
@@ -469,5 +474,19 @@ public class TbOrder extends BaseMybatisModel {
               return;
         }
         addValidField("companyId");
+    }
+
+    @Column(name = "BATCH_NO")
+    public String getBatchNo() {
+        return batchNo;
+    }
+
+    public void setBatchNo(String batchNo) {
+        this.batchNo = batchNo;
+        if(batchNo == null){
+              removeValidField("batchNo");
+              return;
+        }
+        addValidField("batchNo");
     }
 }

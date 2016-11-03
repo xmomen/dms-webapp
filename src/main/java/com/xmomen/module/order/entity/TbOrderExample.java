@@ -1626,6 +1626,76 @@ public class TbOrderExample extends BaseMybatisExample {
             addCriterion("COMPANY_ID not between", value1, value2, "companyId");
             return (Criteria) this;
         }
+
+        public Criteria andBatchNoIsNull() {
+            addCriterion("BATCH_NO is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoIsNotNull() {
+            addCriterion("BATCH_NO is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoEqualTo(String value) {
+            addCriterion("BATCH_NO =", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoNotEqualTo(String value) {
+            addCriterion("BATCH_NO <>", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoGreaterThan(String value) {
+            addCriterion("BATCH_NO >", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoGreaterThanOrEqualTo(String value) {
+            addCriterion("BATCH_NO >=", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoLessThan(String value) {
+            addCriterion("BATCH_NO <", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoLessThanOrEqualTo(String value) {
+            addCriterion("BATCH_NO <=", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoLike(String value) {
+            addCriterion("BATCH_NO like", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoNotLike(String value) {
+            addCriterion("BATCH_NO not like", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoIn(List<String> values) {
+            addCriterion("BATCH_NO in", values, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoNotIn(List<String> values) {
+            addCriterion("BATCH_NO not in", values, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoBetween(String value1, String value2) {
+            addCriterion("BATCH_NO between", value1, value2, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoNotBetween(String value1, String value2) {
+            addCriterion("BATCH_NO not between", value1, value2, "batchNo");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

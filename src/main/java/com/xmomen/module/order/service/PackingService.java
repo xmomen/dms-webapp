@@ -102,22 +102,25 @@ public class PackingService {
 
     @Transactional
     public ScanModel createRecord(CreatePackingRecord createPackingRecord) {
-        // 判断UPC是否已被扫描，若已扫描则做删除操作
-        TbPackingRecordExample tbPackingRecordExample = new TbPackingRecordExample();
-        tbPackingRecordExample.createCriteria().andUpcEqualTo(createPackingRecord.getUpc());
-        TbPackingRecord removePackingRecord = mybatisDao.selectOneByExample(tbPackingRecordExample);
-        if(removePackingRecord != null){
-            deleteRecord(removePackingRecord.getId());
-            //throw new IllegalArgumentException("已删除商品装箱记录，UPC编号：【" + createPackingRecord.getUpc() + "】");
-            return null;
-        }
-        // 根据UPC查询匹配的商品信息，若无则表示UPC不正确
+    	// 根据UPC查询匹配的商品信息，若无则表示UPC不正确
         String itemCode = createPackingRecord.getUpc().substring(0, 7);
         CdItem cdItem = new CdItem();
         cdItem.setItemCode(itemCode);
         cdItem = mybatisDao.selectOneByModel(cdItem);
         if(cdItem == null){
             throw new IllegalArgumentException("非法的UPC号码，未找到匹配商品编号");
+        }
+    	//计件的商品不需要判断是否重复扫描（条码都一样）
+        if("0".equals(cdItem.getSellUnit())){
+	        // 判断UPC是否已被扫描，若已扫描则做删除操作
+	        TbPackingRecordExample tbPackingRecordExample = new TbPackingRecordExample();
+	        tbPackingRecordExample.createCriteria().andUpcEqualTo(createPackingRecord.getUpc());
+	        TbPackingRecord removePackingRecord = mybatisDao.selectOneByExample(tbPackingRecordExample);
+	        if(removePackingRecord != null){
+	            deleteRecord(removePackingRecord.getId());
+	            //throw new IllegalArgumentException("已删除商品装箱记录，UPC编号：【" + createPackingRecord.getUpc() + "】");
+	            return null;
+	        }
         }
         // 查询装箱订单中是否有匹配的产品，且未商品装箱数未达到上限
         PackingOrderQuery packingOrderQuery = new PackingOrderQuery();
@@ -208,7 +211,8 @@ public class PackingService {
                 if(BigDecimal.ZERO.compareTo(num) < 0){
                     int n = num.intValue();
                     for (int i = 0; i < n; i++) {
-                        String upc = packingOrderModel.getItemCode() + StringUtilsExt.getUUID(16);
+                    	//自动装箱 条码默认为商品编码
+                        String upc = packingOrderModel.getItemCode();
                         Map<String, Integer> map = new HashMap<>();
                         map.put(orderNo, packingId);
                         CreatePackingRecord createPackingRecord = new CreatePackingRecord();

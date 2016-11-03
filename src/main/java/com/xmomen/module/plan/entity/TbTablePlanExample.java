@@ -2,6 +2,8 @@ package com.xmomen.module.plan.entity;
 
 import com.xmomen.framework.mybatis.model.BaseMybatisExample;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class TbTablePlanExample extends BaseMybatisExample {
@@ -103,6 +105,32 @@ public class TbTablePlanExample extends BaseMybatisExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -402,6 +430,76 @@ public class TbTablePlanExample extends BaseMybatisExample {
 
         public Criteria andCdMemberIdNotBetween(Integer value1, Integer value2) {
             addCriterion("CD_MEMBER_ID not between", value1, value2, "cdMemberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeIsNull() {
+            addCriterion("MEMBER_CODE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeIsNotNull() {
+            addCriterion("MEMBER_CODE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeEqualTo(String value) {
+            addCriterion("MEMBER_CODE =", value, "memberCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeNotEqualTo(String value) {
+            addCriterion("MEMBER_CODE <>", value, "memberCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeGreaterThan(String value) {
+            addCriterion("MEMBER_CODE >", value, "memberCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("MEMBER_CODE >=", value, "memberCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeLessThan(String value) {
+            addCriterion("MEMBER_CODE <", value, "memberCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeLessThanOrEqualTo(String value) {
+            addCriterion("MEMBER_CODE <=", value, "memberCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeLike(String value) {
+            addCriterion("MEMBER_CODE like", value, "memberCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeNotLike(String value) {
+            addCriterion("MEMBER_CODE not like", value, "memberCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeIn(List<String> values) {
+            addCriterion("MEMBER_CODE in", values, "memberCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeNotIn(List<String> values) {
+            addCriterion("MEMBER_CODE not in", values, "memberCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeBetween(String value1, String value2) {
+            addCriterion("MEMBER_CODE between", value1, value2, "memberCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCodeNotBetween(String value1, String value2) {
+            addCriterion("MEMBER_CODE not between", value1, value2, "memberCode");
             return (Criteria) this;
         }
 
@@ -872,6 +970,126 @@ public class TbTablePlanExample extends BaseMybatisExample {
 
         public Criteria andSendValueNotBetween(Integer value1, Integer value2) {
             addCriterion("SEND_VALUE not between", value1, value2, "sendValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastSendDateIsNull() {
+            addCriterion("LAST_SEND_DATE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastSendDateIsNotNull() {
+            addCriterion("LAST_SEND_DATE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastSendDateEqualTo(Date value) {
+            addCriterionForJDBCDate("LAST_SEND_DATE =", value, "lastSendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastSendDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("LAST_SEND_DATE <>", value, "lastSendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastSendDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("LAST_SEND_DATE >", value, "lastSendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastSendDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("LAST_SEND_DATE >=", value, "lastSendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastSendDateLessThan(Date value) {
+            addCriterionForJDBCDate("LAST_SEND_DATE <", value, "lastSendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastSendDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("LAST_SEND_DATE <=", value, "lastSendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastSendDateIn(List<Date> values) {
+            addCriterionForJDBCDate("LAST_SEND_DATE in", values, "lastSendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastSendDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("LAST_SEND_DATE not in", values, "lastSendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastSendDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("LAST_SEND_DATE between", value1, value2, "lastSendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastSendDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("LAST_SEND_DATE not between", value1, value2, "lastSendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeIsNull() {
+            addCriterion("BEGIN_TIME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeIsNotNull() {
+            addCriterion("BEGIN_TIME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("BEGIN_TIME =", value, "beginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("BEGIN_TIME <>", value, "beginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("BEGIN_TIME >", value, "beginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("BEGIN_TIME >=", value, "beginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeLessThan(Date value) {
+            addCriterionForJDBCDate("BEGIN_TIME <", value, "beginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("BEGIN_TIME <=", value, "beginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("BEGIN_TIME in", values, "beginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("BEGIN_TIME not in", values, "beginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("BEGIN_TIME between", value1, value2, "beginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeginTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("BEGIN_TIME not between", value1, value2, "beginTime");
             return (Criteria) this;
         }
     }

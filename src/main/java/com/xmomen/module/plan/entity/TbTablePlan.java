@@ -1,12 +1,14 @@
 package com.xmomen.module.plan.entity;
 
-import com.xmomen.framework.mybatis.model.BaseMybatisModel;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Version;
+
+import com.xmomen.framework.mybatis.model.BaseMybatisModel;
 
 @Entity
 @Table(name = "tb_table_plan")
@@ -35,6 +37,11 @@ public class TbTablePlan extends BaseMybatisModel {
      * 
      */
     private Integer cdMemberId;
+
+    /**
+     * 客户编号
+     */
+    private String memberCode;
 
     /**
      * 卡号
@@ -70,6 +77,16 @@ public class TbTablePlan extends BaseMybatisModel {
      * 已配送次数
      */
     private Integer sendValue;
+
+    /**
+     * 上次配送时间
+     */
+    private Date lastSendDate;
+
+    /**
+     * 生效时间
+     */
+    private Date beginTime;
 
     @Column(name = "ID")
     @Id
@@ -141,6 +158,20 @@ public class TbTablePlan extends BaseMybatisModel {
               return;
         }
         addValidField("cdMemberId");
+    }
+
+    @Column(name = "MEMBER_CODE")
+    public String getMemberCode() {
+        return memberCode;
+    }
+
+    public void setMemberCode(String memberCode) {
+        this.memberCode = memberCode;
+        if(memberCode == null){
+              removeValidField("memberCode");
+              return;
+        }
+        addValidField("memberCode");
     }
 
     @Column(name = "COUPON_NUMBER")
@@ -239,5 +270,33 @@ public class TbTablePlan extends BaseMybatisModel {
               return;
         }
         addValidField("sendValue");
+    }
+
+    @Column(name = "LAST_SEND_DATE")
+    public Date getLastSendDate() {
+        return lastSendDate;
+    }
+
+    public void setLastSendDate(Date lastSendDate) {
+        this.lastSendDate = lastSendDate;
+        if(lastSendDate == null){
+              removeValidField("lastSendDate");
+              return;
+        }
+        addValidField("lastSendDate");
+    }
+
+    @Column(name = "BEGIN_TIME")
+    public Date getBeginTime() {
+        return beginTime;
+    }
+
+    public void setBeginTime(Date beginTime) {
+        this.beginTime = beginTime;
+        if(beginTime == null){
+              removeValidField("beginTime");
+              return;
+        }
+        addValidField("beginTime");
     }
 }

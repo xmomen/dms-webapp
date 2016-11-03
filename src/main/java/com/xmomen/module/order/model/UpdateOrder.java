@@ -26,6 +26,8 @@ public @Data class UpdateOrder implements Serializable {
      */
     @NotNull
     private Integer orderType;
+    
+    private String batchNo;
 
     /**
      * 1-微信订单，2-商城订单，3-客服下单，4-采摘订单

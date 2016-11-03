@@ -76,6 +76,7 @@
                                     <th>总配送次数</th>
                                     <th>已配送次数</th>
                                     <th>是否暂停</th>
+                                    <th>生效时间</th>
                                     <th width="80">操作</th>
                                 </tr>
                                 </thead>
@@ -104,6 +105,7 @@
                                             <i></i>
                                         </label>
                                     </td>
+                                    <td ng-bind="tablePlan.beginTime | date: 'yyyy-MM-dd'"></td>
                                     <td>
                                         <div ng-show="show">
                                             <a href="javascript:void(0);" data-ng-click="removeTablePlan($index)" title="删除：{{tablePlan.consigneeName}}">
@@ -158,7 +160,7 @@
                     <div class="form-group" ng-show="tablePlan.id == null">
                         <label class="col-md-2 control-label">餐桌计划<span class="vaild">*</span></label>
                         <div class="col-md-10 input-group">
-                            <select multiple ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;" required="true" ng-model="tablePlan.cdPlanIds" name="cdPlanId" >
+                            <select multiple ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;" required="true" ng-model="tablePlan.cdPlanIds" name="cdPlanId" ng-change="changeSelect()" >
                                 <option value="{{basePlan.id}}" ng-repeat="basePlan in basePlanList">{{basePlan.planName}}</option>
                             </select>
                         </div>
@@ -169,6 +171,23 @@
                             <select ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;" required="true" ng-model="tablePlan.cdPlanIds" name="cdPlanId" >
                                 <option value="{{basePlan.id}}" ng-repeat="basePlan in basePlanList">{{basePlan.planName}}</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="tablePlan.id != null">
+                        <label class="col-md-2 control-label">起效时间</label>
+                        <div class="col-md-4">
+                            <input class="form-control" required="true" ng-model="tablePlan.beginTime"  placeholder="格式:yyyy/mm/dd"  type="date">
+                        </div>
+                        <label class="col-md-2 control-label">是否启动</label>
+                        <div class="col-md-4">
+                            <label class="radio radio-inline">
+                                <input type="radio" class="radiobox" value="0" ng-model="tablePlan.isStop" ng-checked="item.isStop == 0" name="isStop">
+                                <span>启动</span>
+                            </label>
+                            <label class="radio radio-inline">
+                                <input type="radio" class="radiobox" value="1" ng-model="tablePlan.isStop" ng-checked="item.isStop == 1"  name="isStop">
+                                <span>暂停</span>
+                            </label>
                         </div>
                     </div>
                     <div class="form-group">
@@ -200,6 +219,30 @@
                         <label class="col-md-2 control-label"></label>
                         <div class="col-md-10 error">
                             {{errors.message}}
+                        </div>
+                    </div>
+
+                    <div ng-repeat="chooseTablePlan in chooseTablePlans">
+                        <div class="form-group">
+
+                            <div class="col-md-3">
+                              <span ng-bind="chooseTablePlan.planName"></span>
+                            </div>
+                            <label class="col-md-2 control-label">起效时间</label>
+                            <div class="col-md-3">
+                                <input class="form-control" required="true" ng-model="chooseTablePlan.beginTime"  placeholder="格式:yyyy/mm/dd"  type="date">
+                            </div>
+                            <label class="col-md-2 control-label">是否启动</label>
+                            <div class="col-md-2">
+                                <label class="radio radio-inline">
+                                    <input type="radio" class="radiobox" value="0" ng-model="chooseTablePlan.isStop" ng-checked="item.isStop == 0">
+                                    <span>启动</span>
+                                </label>
+                                <label class="radio radio-inline">
+                                    <input type="radio" class="radiobox" value="1" ng-model="chooseTablePlan.isStop" ng-checked="item.isStop == 1">
+                                    <span>暂停</span>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </fieldset>

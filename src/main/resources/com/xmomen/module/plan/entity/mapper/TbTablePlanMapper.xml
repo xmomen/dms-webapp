@@ -7,6 +7,7 @@
     <result column="AUDIT_STATUS" property="auditStatus" jdbcType="INTEGER" />
     <result column="IS_STOP" property="isStop" jdbcType="INTEGER" />
     <result column="CD_MEMBER_ID" property="cdMemberId" jdbcType="INTEGER" />
+    <result column="MEMBER_CODE" property="memberCode" jdbcType="VARCHAR" />
     <result column="COUPON_NUMBER" property="couponNumber" jdbcType="VARCHAR" />
     <result column="CONSIGNEE_PHONE" property="consigneePhone" jdbcType="VARCHAR" />
     <result column="CONSIGNEE_NAME" property="consigneeName" jdbcType="VARCHAR" />
@@ -14,6 +15,8 @@
     <result column="POSTCODE" property="postcode" jdbcType="VARCHAR" />
     <result column="TOTAL_SEND_VALUE" property="totalSendValue" jdbcType="INTEGER" />
     <result column="SEND_VALUE" property="sendValue" jdbcType="INTEGER" />
+    <result column="LAST_SEND_DATE" property="lastSendDate" jdbcType="DATE" />
+    <result column="BEGIN_TIME" property="beginTime" jdbcType="DATE" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -74,8 +77,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, CD_PLAN_ID, AUDIT_STATUS, IS_STOP, CD_MEMBER_ID, COUPON_NUMBER, CONSIGNEE_PHONE, 
-    CONSIGNEE_NAME, CONSIGNEE_ADDRESS, POSTCODE, TOTAL_SEND_VALUE, SEND_VALUE
+    ID, CD_PLAN_ID, AUDIT_STATUS, IS_STOP, CD_MEMBER_ID, MEMBER_CODE, COUPON_NUMBER, 
+    CONSIGNEE_PHONE, CONSIGNEE_NAME, CONSIGNEE_ADDRESS, POSTCODE, TOTAL_SEND_VALUE, SEND_VALUE, 
+    LAST_SEND_DATE, BEGIN_TIME
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.plan.entity.TbTablePlanExample" >
     select
@@ -115,6 +119,9 @@
       <if test="cdMemberId != null" >
         CD_MEMBER_ID,
       </if>
+      <if test="memberCode != null" >
+        MEMBER_CODE,
+      </if>
       <if test="couponNumber != null" >
         COUPON_NUMBER,
       </if>
@@ -136,6 +143,12 @@
       <if test="sendValue != null" >
         SEND_VALUE,
       </if>
+      <if test="lastSendDate != null" >
+        LAST_SEND_DATE,
+      </if>
+      <if test="beginTime != null" >
+        BEGIN_TIME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -152,6 +165,9 @@
       </if>
       <if test="cdMemberId != null" >
         #{cdMemberId,jdbcType=INTEGER},
+      </if>
+      <if test="memberCode != null" >
+        #{memberCode,jdbcType=VARCHAR},
       </if>
       <if test="couponNumber != null" >
         #{couponNumber,jdbcType=VARCHAR},
@@ -173,6 +189,12 @@
       </if>
       <if test="sendValue != null" >
         #{sendValue,jdbcType=INTEGER},
+      </if>
+      <if test="lastSendDate != null" >
+        #{lastSendDate,jdbcType=DATE},
+      </if>
+      <if test="beginTime != null" >
+        #{beginTime,jdbcType=DATE},
       </if>
     </trim>
   </insert>
@@ -200,6 +222,9 @@
       <if test="record.cdMemberId != null" >
         CD_MEMBER_ID = #{record.cdMemberId,jdbcType=INTEGER},
       </if>
+      <if test="record.memberCode != null" >
+        MEMBER_CODE = #{record.memberCode,jdbcType=VARCHAR},
+      </if>
       <if test="record.couponNumber != null" >
         COUPON_NUMBER = #{record.couponNumber,jdbcType=VARCHAR},
       </if>
@@ -220,6 +245,12 @@
       </if>
       <if test="record.sendValue != null" >
         SEND_VALUE = #{record.sendValue,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastSendDate != null" >
+        LAST_SEND_DATE = #{record.lastSendDate,jdbcType=DATE},
+      </if>
+      <if test="record.beginTime != null" >
+        BEGIN_TIME = #{record.beginTime,jdbcType=DATE},
       </if>
     </set>
     <if test="_parameter != null" >

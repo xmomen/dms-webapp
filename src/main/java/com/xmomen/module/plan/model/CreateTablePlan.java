@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.xmomen.module.plan.entity.TbTablePlan;
+
 import lombok.Data;
 
 public @Data class CreateTablePlan implements Serializable{
@@ -48,4 +50,6 @@ public @Data class CreateTablePlan implements Serializable{
     private String consigneeAddress;
     
     private List<Integer> cdPlanIds;
+    
+    private List<TbTablePlan> tablePlans;
 }

@@ -127,6 +127,7 @@
 									<th>订单编号</th>
                                     <th>客户经理</th>
                                     <th>收货人</th>
+                                    <th>批次号</th>
 									<th>订单状态</th>
 									<th>任务负责人</th>
 									<th>任务分配时间</th>
@@ -152,6 +153,7 @@
 									<td ng-bind="order.orderNo"></td>
                                     <td ng-bind="order.managerName"></td>
                                     <td ng-bind="order.consigneeName"></td>
+                                    <td ng-bind="order.batchNo"></td>
 									<td ng-bind="order.orderStatusDesc"></td>
 									<td ng-bind="order.packingTaskUsername"></td>
 									<td ng-bind="order.packingTaskCreateTime | date: 'yyyy-MM-dd hh:mm:ss'"></td>
@@ -308,6 +310,9 @@
                                         <button ng-if="choosePackingOrders.length == 1" class="btn btn-default btn-primary" data-ng-click="nextPackingTask()" type="button">
                                             <i class="fa fa-next"></i> 下一个任务
                                         </button>
+                                        <button class="btn btn-default btn-primary" data-ng-click="autoPackingList()" type="button">
+                                            <i class="fa fa-cube"></i> 自动装箱
+                                        </button>
 										<button class="btn btn-default btn-primary" data-ng-click="finishOrderPacking()" type="button">
 											<i class="fa fa-cube"></i> 返回列表
 										</button>
@@ -324,6 +329,7 @@
 									<th width="120">订单编号</th>
 									<th>收货人</th>
 									<th>创建时间</th>
+                                    <th>装箱数</th>
 									<th>订单状态</th>
 									<th>任务状态</th>
 									<th width="80">操作</th>
@@ -336,7 +342,8 @@
 									<td ng-bind="box.orderNo"></td>
 									<td ng-bind="box.consigneeName"></td>
 									<td ng-bind="box.createTime | date: 'yyyy-MM-dd hh:mm:ss'"></td>
-									<td ng-bind="box.orderStatusDesc"></td>
+                                    <td ng-bind="box.boxNum"></td>
+                                    <td ng-bind="box.orderStatusDesc"></td>
 									<td ng-bind="box.packingTaskStatusDesc"></td>
 									<td>
 										<div ng-show="box.orderNo" >
@@ -348,7 +355,7 @@
 												<span class="fa fa-inbox"></span>
 											</a>
 											|
-											<a href="javascript:void(0);" data-ng-click="autoPacking($index)">自动装箱</a>
+											<!--<a href="javascript:void(0);" data-ng-click="autoPacking($index)">自动装箱</a>-->
 											<!--|-->
 											<!--<a href="javascript:void(0);" data-ng-click="finishOrderPacking($index)" title="完成装箱">-->
 												<!--<span class="fa fa-cube"></span>-->
