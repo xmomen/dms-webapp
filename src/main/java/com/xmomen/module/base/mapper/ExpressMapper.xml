@@ -2,6 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xmomen.module.base.mapper.ExpressMapper" >
 
+	<!-- 取消分配 -->
+	<update id="cancelDespatch" parameterType="java.lang.String">
+	    	update 
+	    		tb_order
+	    	set 
+	    		Despatch_Express_Id = null
+	    	where 
+	    		order_no=#{orderNo}
+	</update>
+	
     <!--    查询消息    -->
     <select id="getExpressList" resultType="com.xmomen.module.base.entity.CdExpress" parameterType="java.util.HashMap">
        select 
@@ -101,63 +111,33 @@
     <!--    查询提货订单 导出   -->
     <select id="getOrderReportList" resultType="com.xmomen.module.report.model.OrderDeliveryReport" parameterType="com.xmomen.module.order.model.OrderQuery">
         select
-        torp.REF_VALUE as couponNumber,
-        sp.SHOW_VALUE AS orderTypeDesc,
-        ssp.SHOW_VALUE AS orderStatusDesc,
-        paymentp.SHOW_VALUE AS paymentModeDesc,
-        osp.SHOW_VALUE AS orderSourceDesc,
-        ce.express_name,
-        users.realname as manager_name,
-        tb.*
-        FROM
-		tb_order_ref tor
-		left join tb_order tb on tb.order_no = tor.order_no
-        LEFT JOIN sys_dictionary s on s.DICTIONARY_CODE='ORDER_TYPE'
-        left join sys_dictionary_parameter sp on sp.SYS_DICTIONARY_ID=s.ID and tb.ORDER_TYPE = sp.REAL_VALUE
+			paymentp.SHOW_VALUE AS paymentModeDesc,
+			otherPaymentp.show_value as otherPaymentModeDesc,
+			ce.express_name,
+			tb.create_time,
+			tb.order_no,
+			tb.consignee_name,
+			tb.consignee_phone,
+			tb.consignee_address,
+			if(tb.PAYMENT_MODE=4,tb.TOTAL_AMOUNT,null) TOTAL_AMOUNT,
+			if(tb.PAYMENT_MODE=4,pay.AMOUNT,null) payAmount,
+			if(tb.PAYMENT_MODE=4,other_pay.AMOUNT,null) otherPayAmount,
+			tb.appointment_time,
+			tb.remark			
+			FROM
+	 			tb_order tb 
+		
+			LEFT JOIN sys_dictionary payment on payment.DICTIONARY_CODE='PAYMENT_MODE'
+			left join sys_dictionary_parameter paymentp on paymentp.SYS_DICTIONARY_ID=payment.ID and tb.PAYMENT_MODE = paymentp.REAL_VALUE
 
-        LEFT JOIN sys_dictionary ss on ss.DICTIONARY_CODE='ORDER_STATUS'
-        left join sys_dictionary_parameter ssp on ssp.SYS_DICTIONARY_ID=ss.ID and tb.ORDER_STATUS = ssp.REAL_VALUE
-
-        LEFT JOIN sys_dictionary payment on payment.DICTIONARY_CODE='PAYMENT_MODE'
-        left join sys_dictionary_parameter paymentp on paymentp.SYS_DICTIONARY_ID=payment.ID and tb.PAYMENT_MODE = paymentp.REAL_VALUE
-
-        LEFT JOIN sys_dictionary oss on oss.DICTIONARY_CODE='ORDER_SOURCE'
-        left join sys_dictionary_parameter osp on osp.SYS_DICTIONARY_ID=oss.ID and tb.ORDER_SOURCE = osp.REAL_VALUE
-
-        LEFT JOIN tb_order_relation torp ON torp.ORDER_NO = tb.ORDER_NO AND torp.REF_TYPE = 'ORDER_PAY_RELATION'
-        left join cd_express ce on tb.despatch_express_id = ce.id
-        
-        left join sys_users users on users.id = tb.MANAGER_ID
+			LEFT JOIN sys_dictionary otherPayment on otherPayment.DICTIONARY_CODE='PAYMENT_MODE'
+			left join sys_dictionary_parameter otherPaymentp on otherPaymentp.SYS_DICTIONARY_ID=otherPayment.ID and tb.PAYMENT_MODE = otherPaymentp.REAL_VALUE
+			
+			left join cd_express ce on tb.despatch_express_id = ce.id
+			LEFT JOIN TB_TRADE_RECORD pay ON pay.TRADE_NO =tb.ORDER_NO and pay.TRADE_TYPE in('COUPON','CARD','NORMAL')
+			LEFT JOIN TB_TRADE_RECORD other_pay ON other_pay.TRADE_NO =tb.ORDER_NO and other_pay.TRADE_TYPE = tb.OTHER_PAYMENT_MODE
         <where>
-        	tor.ref_type ='TAKE_DELIVERY'
-        	AND tb.order_status = 12
-            <if test="orderStatus">
-                  AND tb.order_status = #{orderStatus}
-            </if>
-            <if test="keyword">
-                AND (tb.order_no LIKE CONCAT('%', #{keyword}, '%')
-                or tb.consignee_phone LIKE CONCAT('%', #{keyword}, '%')
-                or tb.consignee_name like CONCAT('%', #{keyword}, '%')
-                )
-            </if>
-            <if test="id">
-                AND tb.id = #{id}
-            </if>
-             <if test="managerId">
-                AND tb.MANAGER_ID = #{managerId}
-            </if>
-             <if test="consigneeName">
-                AND tb.consignee_name LIKE CONCAT('%', #{consigneeName}, '%')
-            </if>
-            <if test="orderNo">
-                AND tb.ORDER_NO = #{orderNo}
-            </if>
-            <if test="orderNos">
-                AND tb.ORDER_NO IN
-                <foreach collection="orderNos" item="item" separator="," open="(" close=")">
-                    #{item}
-                </foreach>
-            </if>
+        	 tb.order_status = 12
             <if test="orderCreateTimeStart">
                 <![CDATA[
                   AND DATE_FORMAT(tb.APPOINTMENT_TIME ,'%Y-%m-%d')>= #{orderCreateTimeStart}
@@ -168,10 +148,7 @@
                   AND DATE_FORMAT(tb.APPOINTMENT_TIME ,'%Y-%m-%d')<= #{orderCreateTimeEnd}
                 ]]>
             </if>
-            
-            <if test="createUserId">
-            	AND tb.create_user_id = #{createUserId}
-            </if>
+          
             <if test="despatchExpressCode">
             	AND ce.EXPRESS_CODE =#{despatchExpressCode}
             </if>
@@ -183,32 +160,32 @@
     <!--    查询已分配未提货的订单 导出   -->
     <select id="getOrderNoDespatchReportList" resultType="com.xmomen.module.report.model.OrderDeliveryReport" parameterType="com.xmomen.module.order.model.OrderQuery">
         select
-			torp.REF_VALUE as couponNumber,
-			sp.SHOW_VALUE AS orderTypeDesc,
-			ssp.SHOW_VALUE AS orderStatusDesc,
 			paymentp.SHOW_VALUE AS paymentModeDesc,
-			osp.SHOW_VALUE AS orderSourceDesc,
+			otherPaymentp.show_value as otherPaymentModeDesc,
 			ce.express_name,
-			users.realname as manager_name,
-			tb.*
+			tb.create_time,
+			tb.order_no,
+			tb.consignee_name,
+			tb.consignee_phone,
+			tb.consignee_address,
+			if(tb.PAYMENT_MODE=4,tb.TOTAL_AMOUNT,null) TOTAL_AMOUNT,
+			if(tb.PAYMENT_MODE=4,pay.AMOUNT,null) payAmount,
+			if(tb.PAYMENT_MODE=4,other_pay.AMOUNT,null) otherPayAmount,
+			tb.appointment_time,
+			tb.remark			
 			FROM
 	 			tb_order tb 
-			LEFT JOIN sys_dictionary s on s.DICTIONARY_CODE='ORDER_TYPE'
-			left join sys_dictionary_parameter sp on sp.SYS_DICTIONARY_ID=s.ID and tb.ORDER_TYPE = sp.REAL_VALUE
-
-			LEFT JOIN sys_dictionary ss on ss.DICTIONARY_CODE='ORDER_STATUS'
-			left join sys_dictionary_parameter ssp on ssp.SYS_DICTIONARY_ID=ss.ID and tb.ORDER_STATUS = ssp.REAL_VALUE
-
+		
 			LEFT JOIN sys_dictionary payment on payment.DICTIONARY_CODE='PAYMENT_MODE'
 			left join sys_dictionary_parameter paymentp on paymentp.SYS_DICTIONARY_ID=payment.ID and tb.PAYMENT_MODE = paymentp.REAL_VALUE
 
-			LEFT JOIN sys_dictionary oss on oss.DICTIONARY_CODE='ORDER_SOURCE'
-			left join sys_dictionary_parameter osp on osp.SYS_DICTIONARY_ID=oss.ID and tb.ORDER_SOURCE = osp.REAL_VALUE
-
-			LEFT JOIN tb_order_relation torp ON torp.ORDER_NO = tb.ORDER_NO AND torp.REF_TYPE = 'ORDER_PAY_RELATION'
-			left join cd_express ce on tb.despatch_express_id = ce.id
+			LEFT JOIN sys_dictionary otherPayment on otherPayment.DICTIONARY_CODE='PAYMENT_MODE'
+			left join sys_dictionary_parameter otherPaymentp on otherPaymentp.SYS_DICTIONARY_ID=otherPayment.ID and tb.PAYMENT_MODE = otherPaymentp.REAL_VALUE
 			
-			left join sys_users users on users.id = tb.MANAGER_ID
+			left join cd_express ce on tb.despatch_express_id = ce.id
+			LEFT JOIN TB_TRADE_RECORD pay ON pay.TRADE_NO =tb.ORDER_NO and pay.TRADE_TYPE in('COUPON','CARD','NORMAL')
+			LEFT JOIN TB_TRADE_RECORD other_pay ON other_pay.TRADE_NO =tb.ORDER_NO and other_pay.TRADE_TYPE = tb.OTHER_PAYMENT_MODE
+			
         	<where>
 	        	tb.DESPATCH_EXPRESS_ID is not NULL
 					and tb.ORDER_STATUS in( 1,2,3,4,13)

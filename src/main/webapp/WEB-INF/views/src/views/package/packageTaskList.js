@@ -117,8 +117,8 @@ define(function () {
                         LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
                         LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 
-                        LODOP.PRINT_DESIGN();
-//                        LODOP.PRINT();
+//                        LODOP.PRINT_DESIGN();
+                        LODOP.PRINT();
                     }
                 }]
             });

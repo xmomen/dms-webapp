@@ -472,11 +472,6 @@ define(function () {
                     LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
                     LODOP.ADD_PRINT_TEXT(186,20,341,24,"备注:"+order.remark);
                     LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
-                    LODOP.ADD_PRINT_ELLIPSE(454,486,47,48,0,1);
-                    LODOP.ADD_PRINT_TEXT(462,498,13,20,"1");
-                    LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-                    LODOP.ADD_PRINT_TEXT(483,511,16,20,"1");
-                    LODOP.SET_PRINT_STYLEA(0,"Bold",1);
                     LODOP.ADD_PRINT_TEXT(212,19,341,25,"收款方式："+order.paymentModeDesc);
                     LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
                     LODOP.ADD_PRINT_TEXT(239,18,181,25,"客户经理："+order.managerName);

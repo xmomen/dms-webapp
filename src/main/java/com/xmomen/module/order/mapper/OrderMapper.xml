@@ -277,7 +277,7 @@
               	AND i.SELL_UNIT = #{sellUnit}
               </if>
           </where>
-        ORDER BY i.sell_Unit,p.CREATE_DATE DESC
+        ORDER BY i.sell_Unit
     </select>
 
     <select id="getOrderPurchaseList" resultType="com.xmomen.module.order.model.OrderPurchaseModel" parameterType="java.util.HashMap">

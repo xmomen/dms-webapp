@@ -376,11 +376,13 @@ public class OrderService {
         TbOrder tbOrder = new TbOrder();
         tbOrder.setOrderNo(payOrder.getOrderNo());
         tbOrder = mybatisDao.selectOneByModel(tbOrder);
-        if(tbOrder.getPaymentMode().equals(5) || tbOrder.getPaymentMode().equals(7)){
+        Integer payStatus = 0;
+        //卡劵订单才记录扣款记录
+        if(tbOrder.getPaymentMode().equals(5) || tbOrder.getPaymentMode().equals(6)){
             CdCoupon cdCoupon = new CdCoupon();
             cdCoupon.setCouponNumber(tbOrderRelation.getRefValue());
             cdCoupon = mybatisDao.selectOneByModel(cdCoupon);
-            Integer payStatus = 0;
+           
             if(tbOrder.getOrderType() == 1){
                 BigDecimal amount = BigDecimal.ZERO;
                 // 卡内支付
@@ -456,12 +458,21 @@ public class OrderService {
                 mybatisDao.insert(tbTradeRecord);
                 payStatus = 1;//已支付
             }
-            TbOrderExample tbOrderExample = new TbOrderExample();
-            tbOrderExample.createCriteria().andOrderNoEqualTo(payOrder.getOrderNo());
-            TbOrder tbOrder1 = new TbOrder();
-            tbOrder1.setPayStatus(payStatus);
-            mybatisDao.updateOneByExampleSelective(tbOrder1, tbOrderExample);
+        }else{
+//        	//回馈付款方式也需要记录订单付款记录 11-04
+//        	 TbTradeRecord tbTradeRecord = new TbTradeRecord();
+//             tbTradeRecord.setAmount(payOrder.getAmount());
+//             tbTradeRecord.setCreateTime(mybatisDao.getSysdate());
+//             tbTradeRecord.setTradeNo(payOrder.getOrderNo());
+//             tbTradeRecord.setTradeType("NORMAL");
+//             mybatisDao.insert(tbTradeRecord);
+//             payStatus = 2;//待结算
         }
+        TbOrderExample tbOrderExample = new TbOrderExample();
+        tbOrderExample.createCriteria().andOrderNoEqualTo(payOrder.getOrderNo());
+        TbOrder tbOrder1 = new TbOrder();
+        tbOrder1.setPayStatus(payStatus);
+        mybatisDao.updateOneByExampleSelective(tbOrder1, tbOrderExample);
     }
 
     /**

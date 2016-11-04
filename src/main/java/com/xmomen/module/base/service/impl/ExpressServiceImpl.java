@@ -58,12 +58,7 @@ public class ExpressServiceImpl implements ExpressService {
 	@Transactional
 	public void cancelExpress(String[] orderNoList) {
 		for (String orderNo : orderNoList) {
-            TbOrder order = new TbOrder();
-            order.setOrderNo(orderNo);
-            order = mybatisDao.selectOneByModel(order);
-            
-            order.setDespatchExpressId(null);
-            mybatisDao.update(order);
+            mybatisDao.getSqlSessionTemplate().update(ExpressMapper.ExpressMapperNameSpace + "cancelDespatch", orderNo);
         }
 	}
 	
