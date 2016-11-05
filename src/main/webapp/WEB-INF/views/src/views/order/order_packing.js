@@ -308,30 +308,31 @@ define(function () {
                     var history = {};
                     $scope.pageSetting.disabledScan = false;
                     if(!data.id){
+                        //TODO 一个相同订单重复扫描条码提示（11-5）沟通的结果
                         // 重复扫描，删除商品扫描记录
-                        history.message = "已删除商品装箱记录，UPC编号：【" + $scope.item.upc + "】";
-                        $scope.showPutBoxNum = null;
-                        $ugDialog.alert(history.message);
-                        $scope.packingHistory.push(history);
-                        var oldBoxIndex = null;
-                        for (var i = 0; i < $scope.currentPackingBoxList.length; i++) {
-                            var obj2 = $scope.currentPackingBoxList[i];
-                            if(obj2.currentPacking && obj2.currentPacking.id == packing.packingId){
-                                oldBoxIndex = i;
-                            }
-                        }
-                        if(oldBoxIndex == null){
-                            return;
-                        }
-                        PackingAPI.getPackingOrderList({
-                            limit:1,
-                            offset:1,
-                            orderNo:data.orderNo
-                        }, function(data){
-                            var oldBox = $scope.currentPackingBoxList[oldBoxIndex];
-                            $scope.currentPackingBoxList[oldBoxIndex] = data.data[0];
-                            $scope.currentPackingBoxList[oldBoxIndex].currentPacking = oldBox.currentPacking;
-                        });
+//                        history.message = "已删除商品装箱记录，UPC编号：【" + $scope.item.upc + "】";
+//                        $scope.showPutBoxNum = null;
+//                        $ugDialog.alert(history.message);
+//                        $scope.packingHistory.push(history);
+//                        var oldBoxIndex = null;
+//                        for (var i = 0; i < $scope.currentPackingBoxList.length; i++) {
+//                            var obj2 = $scope.currentPackingBoxList[i];
+//                            if(obj2.currentPacking && obj2.currentPacking.id == packing.packingId){
+//                                oldBoxIndex = i;
+//                            }
+//                        }
+//                        if(oldBoxIndex == null){
+//                            return;
+//                        }
+//                        PackingAPI.getPackingOrderList({
+//                            limit:1,
+//                            offset:1,
+//                            orderNo:data.orderNo
+//                        }, function(data){
+//                            var oldBox = $scope.currentPackingBoxList[oldBoxIndex];
+//                            $scope.currentPackingBoxList[oldBoxIndex] = data.data[0];
+//                            $scope.currentPackingBoxList[oldBoxIndex].currentPacking = oldBox.currentPacking;
+//                        });
                     }else{
                         var oldBoxIndex = null;
                         for (var i = 0; i < $scope.currentPackingBoxList.length; i++) {
@@ -355,6 +356,7 @@ define(function () {
                         }, function(data){
                             var oldBox = $scope.currentPackingBoxList[oldBoxIndex];
                             $scope.currentPackingBoxList[oldBoxIndex] = data.data[0];
+                            $scope.currentPackingBoxList[oldBoxIndex].boxNum = obj2.boxNum;
                             $scope.currentPackingBoxList[oldBoxIndex].currentPacking = oldBox.currentPacking;
                             //订单已完成
                             if($scope.currentPackingBoxList[oldBoxIndex].packingTaskStatus == 2){
@@ -493,8 +495,8 @@ define(function () {
                     LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
                     LODOP.SET_PRINT_STYLEA(0,"Bold",1);
                     LODOP.ADD_PRINT_RECT(217,275,100,60,0,1);
-                    LODOP.PRINT_DESIGN();
-//                    LODOP.PRINT();
+//                    LODOP.PRINT_DESIGN();
+                    LODOP.PRINT();
                 }
             });
         }

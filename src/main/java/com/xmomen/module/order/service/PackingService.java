@@ -110,21 +110,11 @@ public class PackingService {
         if(cdItem == null){
             throw new IllegalArgumentException("非法的UPC号码，未找到匹配商品编号");
         }
-    	//计件的商品不需要判断是否重复扫描（条码都一样）
-        if("0".equals(cdItem.getSellUnit())){
-	        // 判断UPC是否已被扫描，若已扫描则做删除操作
-	        TbPackingRecordExample tbPackingRecordExample = new TbPackingRecordExample();
-	        tbPackingRecordExample.createCriteria().andUpcEqualTo(createPackingRecord.getUpc());
-	        TbPackingRecord removePackingRecord = mybatisDao.selectOneByExample(tbPackingRecordExample);
-	        if(removePackingRecord != null){
-	            deleteRecord(removePackingRecord.getId());
-	            //throw new IllegalArgumentException("已删除商品装箱记录，UPC编号：【" + createPackingRecord.getUpc() + "】");
-	            return null;
-	        }
-        }
+        Map<String,Integer> packingInfo = createPackingRecord.getPackingInfo();
+    	
         // 查询装箱订单中是否有匹配的产品，且未商品装箱数未达到上限
         PackingOrderQuery packingOrderQuery = new PackingOrderQuery();
-        packingOrderQuery.setOrderNos(createPackingRecord.getPackingInfo().keySet().toArray(new String[createPackingRecord.getPackingInfo().keySet().size()]));
+        packingOrderQuery.setOrderNos(packingInfo.keySet().toArray(new String[packingInfo.keySet().size()]));
         packingOrderQuery.setItemCode(itemCode);
         List<PackingOrderModel> packingRecordModels = queryPackingOrder(packingOrderQuery);
         if(packingRecordModels == null || packingRecordModels.size() == 0){
@@ -161,8 +151,23 @@ public class PackingService {
         if(packingRecordModel != null && packingRecordModel.getItemQty().compareTo(packingRecordModel.getPackedItemQty()) == 0){
             throw new IllegalArgumentException("装箱数量已到达订单采购数量");
         }
+        
+        //计重产品要判断相同条形码 条形码不能多次扫描
+        if("0".equals(cdItem.getSellUnit())){
+	        // 判断UPC是否已被扫描，若已扫描则做删除操作
+	        TbPackingRecordExample tbPackingRecordExample = new TbPackingRecordExample();
+	        tbPackingRecordExample.createCriteria().andUpcEqualTo(createPackingRecord.getUpc())
+	        .andPackingIdEqualTo(packingInfo.get(currentPackingOrder.getOrderNo()));
+	        TbPackingRecord removePackingRecord = mybatisDao.selectOneByExample(tbPackingRecordExample);
+	        if(removePackingRecord != null){
+	            //deleteRecord(removePackingRecord.getId());
+	            throw new IllegalArgumentException("订单号【"+currentPackingOrder.getOrderNo()+"】，UPC编号：【" + createPackingRecord.getUpc() + "】已经存在！");
+	        }
+        }
+        
         TbPackingRecord tbPackingRecord = new TbPackingRecord();
-        tbPackingRecord.setPackingId(createPackingRecord.getPackingInfo().get(currentPackingOrder.getOrderNo()));
+        //获取订单ID
+        tbPackingRecord.setPackingId(packingInfo.get(currentPackingOrder.getOrderNo()));
         tbPackingRecord.setScanTime(mybatisDao.getSysdate());
         tbPackingRecord.setUpc(createPackingRecord.getUpc());
         tbPackingRecord.setOrderItemId(currentPackingOrder.getOrderItemId());

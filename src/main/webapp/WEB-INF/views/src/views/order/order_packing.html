@@ -243,10 +243,10 @@
 								<tr ng-repeat="packingOrderItem in packingOrderCountItemList"
 									ng-click="choseOrderItem($index)" ng-if="packingOrderCountItemList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
 									<td ng-bind="$index*orderItemPageInfoSetting.pageNum + 1"></td>
-									<td ng-bind="packingOrderItem.itemCode"></td>
-									<td ng-bind="packingOrderItem.itemName"></td>
-									<td style="text-align: center" ng-bind="packingOrderItem.packedItemQty +'/' + packingOrderItem.itemQty"></td>
-									<td ng-style="{color:packingOrderItem.packingStatusDesc == '已完成'?'red':''}" ng-bind="packingOrderItem.packingStatusDesc"></td>
+									<td style="font-weight:bold;font-size:20px" ng-bind="packingOrderItem.itemCode"></td>
+									<td style="font-weight:bold;font-size:20px" ng-bind="packingOrderItem.itemName"></td>
+									<td style="text-align: center;font-weight:bold;font-size:20px" ng-bind="packingOrderItem.packedItemQty +'/' + packingOrderItem.itemQty"></td>
+									<td style="font-weight:bold;font-size:20px" ng-style="{color:packingOrderItem.packingStatusDesc == '已完成'?'red':''}" ng-bind="packingOrderItem.packingStatusDesc"></td>
 								</tr>
 								<tr ng-if="packingOrderCountItemList == null || packingOrderCountItemList.length == 0">
 									<td colspan="5">

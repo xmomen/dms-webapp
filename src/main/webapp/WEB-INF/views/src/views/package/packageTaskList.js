@@ -54,7 +54,6 @@ define(function () {
         };
 
         $scope.getPackageTaskList = function(){
-            alert($scope.queryParam.packageTaskCreateTimeStart)
             PackageTaskAPI.query({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,

@@ -142,7 +142,7 @@
 											<a href="javascript:void(0);" data-ng-click="showPackingDetail($index)" title="">
 												<span class="fa fa-eye"></span>
 											</a>
-											<a href="javascript:void(0);" ui-sref="order_update({id:packing.id, orderNo:packing.orderNo})" title="编辑：{{order.orderNo}}">
+											<a href="javascript:void(0);" ng-if="packing.orderStatus <4 || packing.orderStatus == 13" ui-sref="order_update({id:packing.id, orderNo:packing.orderNo})" title="编辑：{{order.orderNo}}">
 												<span class="fa fa-pencil"></span>
 											</a>
 										</div>
