@@ -144,6 +144,11 @@ define(function () {
 
         //下一个任务
         $scope.nextPackingTask =function(){
+           if($scope.choosePackingOrders.length == 0){
+               $scope.pageSetting.showPackingTask = false;
+               $ugDialog.warn("无装箱任务了！");
+               return ;
+           }
             var currentPackingTask =  $scope.choosePackingOrders[0];
             $scope.choosePackingOrders = [];
             $scope.currentPackingBoxList = [];
@@ -160,9 +165,15 @@ define(function () {
                 obj.boxNum = 1;
                 $scope.currentPackingBoxList.push(obj);
             }
-            $scope.pageSetting.showPackingTask = true;
-            $scope.getPackingOrderCountItemList();
-            $scope.choseOrder2CurrentPackingList(obj);
+            //如果没有下一个任务 返回列表
+            if($scope.choosePackingOrders.length == 0){
+                $scope.pageSetting.showPackingTask = false;
+                $ugDialog.warn("无装箱任务了！");
+            }else{
+                $scope.pageSetting.showPackingTask = true;
+                $scope.getPackingOrderCountItemList();
+                $scope.choseOrder2CurrentPackingList(obj);
+            }
         };
 
         $scope.getPackingOrderCountItemList = function(){
