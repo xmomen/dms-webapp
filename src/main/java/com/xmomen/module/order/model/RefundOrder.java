@@ -11,8 +11,12 @@ import java.math.BigDecimal;
 public @Data
 class RefundOrder implements Serializable{
 
+	//订单号
     private String orderNo;
-    private BigDecimal amount;
+    //付款方式
+    private Integer paymentMode;
+    //其他付款方式
+    private Integer otherPaymentMode;
     private String remark;
 
 }

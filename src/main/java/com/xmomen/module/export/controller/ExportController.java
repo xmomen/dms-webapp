@@ -56,12 +56,6 @@ public class ExportController {
 	@RequestMapping(value = "/export/exportPurchaseExcel")
 	public String exportPurchaseExcel(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) throws IOException {
-		// String templatePath = request.getServletContext().getRealPath("") +
-		// "/WEB-INF/excelFile/purchaseExcel.xlsx";
-		// XSSFWorkbook workbook =
-		// exportService.exportPurchaseExcel(templatePath);
-		// PrintUtils.labelResponseOutput(response, workbook, new
-		// String(System.currentTimeMillis() + ".xlsx"));
 		Map param = new HashMap();
 		param.put("purchaseStatus", 0);
 		List<PurchaseModel> purchaseModels = purchaseService

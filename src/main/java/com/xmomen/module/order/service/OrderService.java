@@ -158,7 +158,7 @@ public class OrderService {
         }
         tbOrder.setAppointmentTime(createOrder.getAppointmentTime());
         tbOrder = mybatisDao.insertByModel(tbOrder);
-        if(StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null){
+        if(StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null && createOrder.getOrderType() == 1){
             TbOrderRelation tbOrderRelation = new TbOrderRelation();
             tbOrderRelation.setOrderNo(orderNo);
             tbOrderRelation.setRefType(OrderMapper.ORDER_PAY_RELATION_CODE);// 订单支付关系
@@ -246,9 +246,7 @@ public class OrderService {
                 }
             }
         }
-        TbOrder tbOrder = new TbOrder();
-        tbOrder.setId(updateOrder.getId());
-        tbOrder.setTransportMode(1);// 默认快递
+        TbOrder tbOrder = mybatisDao.selectByPrimaryKey(TbOrder.class, updateOrder.getId());
         tbOrder.setConsigneeName(updateOrder.getConsigneeName());
         tbOrder.setConsigneeAddress(updateOrder.getConsigneeAddress());
         tbOrder.setConsigneePhone(updateOrder.getConsigneePhone());
@@ -263,13 +261,16 @@ public class OrderService {
         //订单总金额 如果是劵的 则就是劵面金额 不用累计商品总金额
         if(tbOrder.getOrderType() == 2){
         	 tbOrder.setTotalAmount(updateOrder.getTotalPrice());
+        	 tbOrder.setDiscountPrice(BigDecimal.ZERO);
         }else{
             tbOrder.setTotalAmount(totalAmount);
             tbOrder.setDiscountPrice(updateOrder.getDiscountPrice());
         }
         tbOrder.setAppointmentTime(updateOrder.getAppointmentTime());
         mybatisDao.update(tbOrder);
-        if(StringUtils.trimToNull(updateOrder.getPaymentRelationNo()) != null){
+        
+        //卡号，劵号
+        if(StringUtils.trimToNull(updateOrder.getPaymentRelationNo()) != null && updateOrder.getOrderType() == 1){
             TbOrderRelationExample tbOrderRelationExample = new TbOrderRelationExample();
             tbOrderRelationExample.createCriteria()
                     .andOrderNoEqualTo(orderNo)
@@ -278,33 +279,40 @@ public class OrderService {
             tbOrderRelation.setRefValue(updateOrder.getPaymentRelationNo());
             mybatisDao.updateOneByExampleSelective(tbOrderRelation, tbOrderRelationExample);
         }
-        RefundOrder refundOrder = new RefundOrder();
-        refundOrder.setOrderNo(oldTbOrder.getOrderNo());
-        refundOrder.setAmount(oldTbOrder.getTotalAmount());
-        refundOrder.setRemark("订单更新，金额变更");
-        refundOrder(refundOrder);
-        PayOrder payOrder = new PayOrder();
-        payOrder.setOrderNo(oldTbOrder.getOrderNo());
-        payOrder.setAmount(BigDecimal.valueOf(-1).multiply(oldTbOrder.getTotalAmount()));
-        payOrder(payOrder);
+        //订单类型不是券，修改订单的金额 修改方式 去掉之前的付款方式 重新生成（卡的钱先退回去）
+        if(tbOrder.getOrderType() != 2){
+	        RefundOrder refundOrder = new RefundOrder();
+	        refundOrder.setOrderNo(oldTbOrder.getOrderNo());
+	        refundOrder.setPaymentMode(oldTbOrder.getPaymentMode());
+	        refundOrder.setOtherPaymentMode(oldTbOrder.getOtherPaymentMode());
+	        refundOrder.setRemark("订单更新，金额变更");
+	        refundOrder(refundOrder);
+	        
+	        PayOrder payOrder = new PayOrder();
+	        payOrder.setOrderNo(oldTbOrder.getOrderNo());
+	        payOrder.setAmount(tbOrder.getTotalAmount());
+	        payOrder(payOrder);
+        }
         
-        //生成新的采购计划
-        String purchaseCode = DateUtils.getDateTimeString();
-        for(UpdateOrder.OrderItem orderItem : changeOrderItems){
-        	BigDecimal totalWeight = BigDecimal.ZERO;
-        	 for (ItemModel cdItem : itemList) {
-	        	if(cdItem.getId().equals(orderItem.getOrderItemId())){
-	        		totalWeight = new BigDecimal(cdItem.getSpec()).multiply(orderItem.getItemQty()).setScale(0, BigDecimal.ROUND_HALF_UP);
-	        	}
-        	 }
-        	 TbPurchase tbPurchase = new TbPurchase();
-             tbPurchase.setPurchaseCode(purchaseCode);
-             tbPurchase.setCreateDate(mybatisDao.getSysdate());
-             tbPurchase.setPurchaseStatus(0);
-             tbPurchase.setItemCode(orderItem.getItemCode());
-             tbPurchase.setTotal(orderItem.getItemQty());
-             tbPurchase.setTotalWeight(totalWeight);
-             mybatisDao.insert(tbPurchase);
+      //生成新的采购计划（订单状态不为待采购的才重新生成采购计划）
+        if(!tbOrder.getOrderStatus().equals("1")){
+	        String purchaseCode = DateUtils.getDateTimeString();
+	        for(UpdateOrder.OrderItem orderItem : changeOrderItems){
+	        	BigDecimal totalWeight = BigDecimal.ZERO;
+	        	 for (ItemModel cdItem : itemList) {
+		        	if(cdItem.getId().equals(orderItem.getOrderItemId())){
+		        		totalWeight = new BigDecimal(cdItem.getSpec()).multiply(orderItem.getItemQty()).setScale(0, BigDecimal.ROUND_HALF_UP);
+		        	}
+	        	 }
+	        	 TbPurchase tbPurchase = new TbPurchase();
+	             tbPurchase.setPurchaseCode(purchaseCode);
+	             tbPurchase.setCreateDate(mybatisDao.getSysdate());
+	             tbPurchase.setPurchaseStatus(0);
+	             tbPurchase.setItemCode(orderItem.getItemCode());
+	             tbPurchase.setTotal(orderItem.getItemQty());
+	             tbPurchase.setTotalWeight(totalWeight);
+	             mybatisDao.insert(tbPurchase);
+	        }
         }
         return tbOrder;
     }
@@ -313,6 +321,7 @@ public class OrderService {
      * 删除订单
      * @param id
      */
+    @Transactional
     public void deleteOrder(Integer id){
         mybatisDao.deleteByPrimaryKey(TbOrder.class, id);
     }
@@ -321,15 +330,25 @@ public class OrderService {
      * 取消订单
      * @param id
      */
+    @Transactional
     public void cancelOrder(Integer id){
         TbOrderExample tbOrderExample = new TbOrderExample();
         tbOrderExample.createCriteria().andIdEqualTo(id);
-        TbOrder tbOrder = new TbOrder();
+        TbOrder tbOrder = mybatisDao.selectOneByExample(tbOrderExample);
         //订单取消状态
         tbOrder.setOrderStatus("9");
-        mybatisDao.updateOneByExampleSelective(tbOrder, tbOrderExample);
+        mybatisDao.updateByModel(tbOrder);
+        //如果是卡类订单(将钱退回)
+        if(tbOrder.getOrderType() == 1){
+	        RefundOrder refundOrder = new RefundOrder();
+	        refundOrder.setOrderNo(tbOrder.getOrderNo());
+	        refundOrder.setPaymentMode(tbOrder.getPaymentMode());
+	        refundOrder.setOtherPaymentMode(tbOrder.getOtherPaymentMode());
+	        refundOrder.setRemark("订单更新，金额变更");
+	        refundOrder(refundOrder);
+        }
     }
-
+    @Transactional
     public void updateOrderStatus(String orderNo, String orderStatus){
         TbOrderExample tbOrderExample = new TbOrderExample();
         tbOrderExample.createCriteria().andOrderNoEqualTo(orderNo);
@@ -337,7 +356,7 @@ public class OrderService {
         tbOrder.setOrderStatus(orderStatus);
         mybatisDao.updateOneByExampleSelective(tbOrder, tbOrderExample);
     }
-
+    @Transactional
     public void updateOrderStatus(Integer id, String orderStatus){
         TbOrderExample tbOrderExample = new TbOrderExample();
         tbOrderExample.createCriteria().andIdEqualTo(id);
@@ -350,24 +369,39 @@ public class OrderService {
      * 订单退款／冲销
      * @param refundOrder
      */
+    @Transactional
     public void refundOrder(RefundOrder refundOrder){
-        TbTradeRecord tbTradeRecord = new TbTradeRecord();
-        tbTradeRecord.setAmount(refundOrder.getAmount());
-        tbTradeRecord.setTradeNo(refundOrder.getOrderNo());
-        tbTradeRecord.setTradeType("REFUND");
-        tbTradeRecord.setCreateTime(mybatisDao.getSysdate());
-        mybatisDao.insert(tbTradeRecord);
-        TbOrderExample tbOrderExample = new TbOrderExample();
-        tbOrderExample.createCriteria().andOrderNoEqualTo(refundOrder.getOrderNo());
-        TbOrder tbOrder1 = new TbOrder();
-        tbOrder1.setPayStatus(0);//待支付
-        mybatisDao.updateOneByExampleSelective(tbOrder1, tbOrderExample);
+    	//删除原来的订单付款记录
+    	TbTradeRecordExample tradeRecordExample = new TbTradeRecordExample();
+    	tradeRecordExample.createCriteria().andTradeNoEqualTo(refundOrder.getOrderNo())
+    	.andTradeTypeEqualTo("CARD");
+    	TbTradeRecord tradeRecord = mybatisDao.selectOneByExample(tradeRecordExample);
+        mybatisDao.deleteByExample(tradeRecordExample);
+        //删除其他的付款方式
+    	tradeRecordExample.createCriteria().andTradeNoEqualTo(refundOrder.getOrderNo())
+    	.andTradeTypeEqualTo(String.valueOf(refundOrder.getOtherPaymentMode()));
+        mybatisDao.deleteByExample(tradeRecordExample);
+    	//如果是卡 将金额回退回去 
+        if(refundOrder.getPaymentMode() == 5){
+        	//查找卡号
+            TbOrderRelationExample tbOrderRelationExample = new TbOrderRelationExample();
+            tbOrderRelationExample.createCriteria()
+                    .andOrderNoEqualTo(refundOrder.getOrderNo())
+                    .andRefTypeEqualTo(OrderMapper.ORDER_PAY_RELATION_CODE);
+            TbOrderRelation tbOrderRelation = mybatisDao.selectOneByExample(tbOrderRelationExample);
+        	CdCouponExample couponExample = new CdCouponExample();
+        	couponExample.createCriteria().andCouponNumberEqualTo(tbOrderRelation.getRefValue());
+            CdCoupon coupon = mybatisDao.selectOneByExample(couponExample);
+            coupon.setUserPrice(coupon.getUserPrice().add(tradeRecord.getAmount()));
+            mybatisDao.update(coupon);
+        }
     }
-
+    
     /**
      * 支付订单
      * @param payOrder
      */
+    @Transactional
     public void payOrder(PayOrder payOrder) throws IllegalArgumentException {
         TbOrderRelation tbOrderRelation = new TbOrderRelation();
         tbOrderRelation.setRefType(OrderMapper.ORDER_PAY_RELATION_CODE);
@@ -376,11 +410,13 @@ public class OrderService {
         TbOrder tbOrder = new TbOrder();
         tbOrder.setOrderNo(payOrder.getOrderNo());
         tbOrder = mybatisDao.selectOneByModel(tbOrder);
-        if(tbOrder.getPaymentMode().equals(5) || tbOrder.getPaymentMode().equals(7)){
+        Integer payStatus = 0;
+        //卡劵订单才记录扣款记录
+        if(tbOrder.getPaymentMode().equals(5) || tbOrder.getPaymentMode().equals(6)){
             CdCoupon cdCoupon = new CdCoupon();
             cdCoupon.setCouponNumber(tbOrderRelation.getRefValue());
             cdCoupon = mybatisDao.selectOneByModel(cdCoupon);
-            Integer payStatus = 0;
+           
             if(tbOrder.getOrderType() == 1){
                 BigDecimal amount = BigDecimal.ZERO;
                 // 卡内支付
@@ -456,18 +492,19 @@ public class OrderService {
                 mybatisDao.insert(tbTradeRecord);
                 payStatus = 1;//已支付
             }
-            TbOrderExample tbOrderExample = new TbOrderExample();
-            tbOrderExample.createCriteria().andOrderNoEqualTo(payOrder.getOrderNo());
-            TbOrder tbOrder1 = new TbOrder();
-            tbOrder1.setPayStatus(payStatus);
-            mybatisDao.updateOneByExampleSelective(tbOrder1, tbOrderExample);
         }
+        TbOrderExample tbOrderExample = new TbOrderExample();
+        tbOrderExample.createCriteria().andOrderNoEqualTo(payOrder.getOrderNo());
+        TbOrder tbOrder1 = new TbOrder();
+        tbOrder1.setPayStatus(payStatus);
+        mybatisDao.updateOneByExampleSelective(tbOrder1, tbOrderExample);
     }
 
     /**
      * 订单部分退货
      * @param returnOrder
      */
+    @Transactional
     public void returnOrder(ReturnOrder returnOrder){
 //        TbReturnOrder tbReturnOrder = new TbReturnOrder();
 //        tbReturnOrder.setOrderNo(returnOrder.getOrderNo());

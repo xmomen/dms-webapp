@@ -34,6 +34,7 @@ define(function () {
                 discount:100,
                 discountPrice : 0,
                 paymentMode:5,
+                isOtherPaymentMode:0,
                 orderSource:3
             };
             $scope.addOrderForm = {};
@@ -376,6 +377,7 @@ define(function () {
                 $scope.totalItem = {};
                 var totalNumber = 0;
                 var totalPrice = 0;
+                //计算商品总金额
                 for (var i = 0; i < $scope.choseOrderItemList.length; i++) {
                     var obj = $scope.choseOrderItemList[i];
                     totalNumber += obj.itemQty;
@@ -391,7 +393,15 @@ define(function () {
                     $scope.totalItem.totalPrice = $scope.order.juanValue;
                     $scope.totalItem.totalPriceDiscount = $scope.order.juanValue;
                 }
-                else{
+                else if($scope.order.orderType == 1){
+                    $scope.totalItem.totalPrice = totalPrice;
+                    $scope.totalItem.totalPriceDiscount = totalPrice * $scope.order.discount / 100;
+                    //是否要附加付款方式 并计算付款金额
+                    if($scope.card.amount < totalPrice){
+                        $scope.order.isOtherPaymentMode = 1;
+                        $scope.order.otherPaAmount = totalPrice - $scope.card.amount;
+                    }
+                }else{
                     $scope.totalItem.totalPrice = totalPrice;
                     $scope.totalItem.totalPriceDiscount = totalPrice * $scope.order.discount / 100;
                 }

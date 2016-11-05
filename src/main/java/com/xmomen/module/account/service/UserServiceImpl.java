@@ -128,9 +128,9 @@ public class UserServiceImpl implements UserService {
     public void changePassword(Integer userId, String newPassword) {
         SysUsers user = mybatisDao.selectByPrimaryKey(SysUsers.class, userId);
         String salt = passwordHelper.getSalt();
+        newPassword = passwordHelper.encryptPassword(newPassword, salt);
         user.setPassword(newPassword);
         user.setSalt(salt);
-        passwordHelper.encryptPassword(user.getPassword(), salt);
         mybatisDao.update(user);
     }
 

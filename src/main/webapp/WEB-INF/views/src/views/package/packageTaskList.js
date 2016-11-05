@@ -54,7 +54,6 @@ define(function () {
         };
 
         $scope.getPackageTaskList = function(){
-            alert($scope.queryParam.packageTaskCreateTimeStart)
             PackageTaskAPI.query({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
@@ -117,8 +116,8 @@ define(function () {
                         LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
                         LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 
-                        LODOP.PRINT_DESIGN();
-//                        LODOP.PRINT();
+//                        LODOP.PRINT_DESIGN();
+                        LODOP.PRINT();
                     }
                 }]
             });

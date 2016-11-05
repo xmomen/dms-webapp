@@ -34,7 +34,6 @@ public class TbOrder extends BaseMybatisModel {
     private Integer orderSource;
 
     /**
-     * 1-预付款，2-后付款，3-免费
      */
     private Integer paymentMode;
 

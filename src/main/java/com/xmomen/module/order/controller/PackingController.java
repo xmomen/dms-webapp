@@ -229,6 +229,16 @@ public class PackingController {
         return packingService.queryPackingOrderItem(packingOrderQuery, limit, offset);
     }
 
+    /**
+     * 查询装箱记录
+     * 
+     * @param packingId
+     * @param orderItemId
+     * @param keyword
+     * @param limit
+     * @param offset
+     * @return
+     */
     @RequestMapping(value = "/packing/{id}/record", method = RequestMethod.GET)
     public Page<PackingRecordModel> queryPackingRecord(@PathVariable(value = "id") Integer packingId,
                                                        @RequestParam(value = "orderItemId") Integer orderItemId,
@@ -242,6 +252,14 @@ public class PackingController {
         return packingService.queryPackingRecord(packingRecordQuery, limit, offset);
     }
 
+    /**
+     * 装箱扫码
+     * 
+     * @param createPackingRecord
+     * @param bindingResult
+     * @return
+     * @throws ArgumentValidException
+     */
     @RequestMapping(value = "/packing/record", method = RequestMethod.POST)
     @Log(actionName = "新增装箱记录")
     public ScanModel createPackingRecord(@RequestBody @Valid CreatePackingRecord createPackingRecord, BindingResult bindingResult) throws ArgumentValidException {
