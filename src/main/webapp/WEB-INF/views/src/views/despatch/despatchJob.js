@@ -15,7 +15,8 @@ define(function () {
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword,
-                hasNoShowCancel:true
+                hasNoShowCancel:true,
+                hasShowDespatch:false //不显示已分配的
             }, function(data){
                 $scope.orderList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;

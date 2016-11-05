@@ -3,7 +3,6 @@
  */
 define(function () {
     return ["$scope", "PackingAPI", "OrderAPI", "$modal", "$ugDialog", "$q", "DictionaryAPI","UserAPI", function($scope, PackingAPI, OrderAPI, $modal, $ugDialog, $q, DictionaryAPI,UserAPI){
-
         $scope.managers = [];
         $scope.getCustomerManagersList = function(){
             UserAPI.getCustomerManagerList({
@@ -190,6 +189,17 @@ define(function () {
                 $scope.packingOrderCountItemList = data.data;
                 $scope.orderItemPageInfoSetting = data.pageInfo;
                 $scope.orderItemPageInfoSetting.loadData = $scope.getPackingOrderCountItemList;
+
+                //循环取到的数据 如果当前扫描的商品已完成 则提示商品完成声音
+                for(var i=0;i<$scope.packingOrderCountItemList.length;i++){
+                    var packingOrderItem = $scope.packingOrderCountItemList[i];
+                    var itemCode = packingOrderItem.itemCode;
+                    var currentScanItemCode = $scope.currentUpc.substr(0,7);
+                    if(packingOrderItem.packedItemQty == packingOrderItem.itemQty && itemCode == currentScanItemCode){
+                         //播放单品完成声音
+                        $('#chatItemAudio')[0].play();
+                    }
+                }
             });
         };
         $scope.currentPackingBoxList = [];
@@ -271,6 +281,8 @@ define(function () {
                         $scope.currentPackingBoxList[index].currentPacking = oldBox.currentPacking;
                         //打印订单
                         $scope.printOrder($scope.currentPackingBoxList[index]);
+                        //播放订单完成声音
+                        $('#chatOrderAudio')[0].play();
                     });
                 })
             };
@@ -279,6 +291,7 @@ define(function () {
         $scope.scanItemEvent = function(e){
             var keycode = window.event?e.keyCode:e.which;
             if(keycode==13){
+                $scope.currentUpc = $scope.item.upc;
                 $scope.scanItem();
                 //清空UPC码
                 $scope.item.upc = "";
@@ -371,6 +384,8 @@ define(function () {
                             $scope.currentPackingBoxList[oldBoxIndex].currentPacking = oldBox.currentPacking;
                             //订单已完成
                             if($scope.currentPackingBoxList[oldBoxIndex].packingTaskStatus == 2){
+                                //播放订单完成声音
+                                $('#chatOrderAudio')[0].play();
                                 //打印订单
                                 $scope.printOrder($scope.currentPackingBoxList[oldBoxIndex]);
                                 //如果是单箱装 才自动进入下一个任务

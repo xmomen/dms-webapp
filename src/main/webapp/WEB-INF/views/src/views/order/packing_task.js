@@ -21,13 +21,13 @@ define(function () {
         };
         $scope.queryParam = {};
         $scope.getOrderList = function(){
-            debugger;
             PackingAPI.getPackingOrderList({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword,
                 consigneeName:$scope.queryParam.consigneeName,
-                managerId:$scope.queryParam.managerId
+                managerId:$scope.queryParam.managerId,
+                isShowPackingAssigns:false
             }, function(data){
                 $scope.orderList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;

@@ -120,6 +120,9 @@ will not initialize.
             <div permission only="'PACKING_TASK'">
                 <nav:item ui-sref="packing_task" title="任务分配" />
             </div>
+            <div permission only="'PACKING_TASK'">
+                <nav:item ui-sref="packingTaskSuccessList" title="装箱已分配" />
+            </div>
             <div permission only="'PACKING_VIEW'">
                 <nav:item ui-sref="order_packing" title="装箱任务" />
             </div>
@@ -133,6 +136,9 @@ will not initialize.
         <nav:group data-icon="fa fa-fw fa-send" title="发运管理">
             <div permission only="'DESPATCH_JOB'">
                 <nav:item ui-sref="despatch_job" title="发运分配" />
+            </div>
+            <div permission only="'DESPATCH_JOB'">
+                <nav:item ui-sref="despatchSuccessList" title="发运已分配" />
             </div>
             <div permission only="'DESPATCH_OPERATION'">
                 <nav:item ui-sref="despatch_operation" title="快递商提货" />

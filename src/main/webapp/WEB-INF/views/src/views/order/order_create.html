@@ -472,11 +472,11 @@
 											<span>物流公司代收</span>
 										</label>
 										<label class="radio radio-inline">
-											<input type="radio" required class="radiobox" ng-disabled="setting.disablesChosePayMode" value="5" ng-model="order.paymentMode" ng-checked="order.paymentMode==5" name="paymentMode">
+											<input type="radio" required class="radiobox" ng-disabled="setting.disablesChosePayMode || (order.orderType !=1 && order.orderType !=2)" value="5" ng-model="order.paymentMode" ng-checked="order.paymentMode==5" name="paymentMode">
 											<span>卡类扣款</span>
 										</label>
 										<label class="radio radio-inline">
-											<input type="radio" required class="radiobox" ng-disabled="setting.disablesChosePayMode" value="7" ng-model="order.paymentMode" ng-checked="order.paymentMode==7" name="paymentMode">
+											<input type="radio" required class="radiobox" ng-disabled="setting.disablesChosePayMode || (order.orderType !=1 && order.orderType !=2)" value="7" ng-model="order.paymentMode" ng-checked="order.paymentMode==7" name="paymentMode">
 											<span>劵类扣款</span>
 										</label>
 										<label class="radio radio-inline">

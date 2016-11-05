@@ -129,7 +129,8 @@ public class PackingController {
                               @RequestParam(value = "packingTaskStatus", required = false) Integer packingTaskStatus,
                               @RequestParam(value = "keyword", required = false) String keyword,
                               @RequestParam(value = "managerId", required = false) Integer managerId,
-                              @RequestParam(value = "consigneeName", required = false) String consigneeName) {
+                              @RequestParam(value = "consigneeName", required = false) String consigneeName,
+                              @RequestParam(value = "isShowPackingAssigns", required = false) Boolean isShowPackingAssigns) {
         OrderQuery orderQuery = new OrderQuery();
         orderQuery.setKeyword(keyword);
         orderQuery.setOrderNo(orderNo);
@@ -141,10 +142,16 @@ public class PackingController {
         if(StringUtilsExt.isNotBlank(packingTaskCreateTimeEnd)){
         	orderQuery.setPackingTaskCreateTimeEnd(packingTaskCreateTimeEnd);
         }
+        
+        if(isShowPackingAssigns != null){
+        	//0显示未分配装箱工 1显示已分配装箱工
+        	 orderQuery.setShowPackingAssigns(isShowPackingAssigns ? 1 : 0);
+        }
         orderQuery.setManagerId(managerId);
         orderQuery.setConsigneeName(consigneeName);
         //orderQuery.setOrderStatus(7);//待装箱
         orderQuery.setPackingTaskStatus(packingTaskStatus);
+        
         if(SecurityUtils.getSubject().hasRole(AppConstants.PACKING_PERMISSION_CODE)){
             Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
             orderQuery.setPackingTaskUserId(userId);
