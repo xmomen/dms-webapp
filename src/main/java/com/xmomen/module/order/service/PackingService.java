@@ -11,6 +11,7 @@ import com.xmomen.module.order.model.*;
 import com.xmomen.module.system.entity.SysTask;
 import com.xmomen.module.system.model.CreateTask;
 import com.xmomen.module.system.service.TaskService;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -222,7 +223,7 @@ public class PackingService {
                         map.put(orderNo, packingId);
                         CreatePackingRecord createPackingRecord = new CreatePackingRecord();
                         createPackingRecord.setPackingInfo(map);
-                        createPackingRecord.setUpc(upc);
+                        createPackingRecord.setUpc(upc+String.valueOf((int)((Math.random()*9+1)*100000)));
                         ScanModel scanModel = createRecord(createPackingRecord);
                         scanModelList.add(scanModel);
                     }
