@@ -10,13 +10,13 @@ define(function () {
         };
         $scope.queryParam = {};
         $scope.getOrderList = function(){
-            //查询待配送的订单
+            //查询已配送的订单
             OrderAPI.query({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword,
                 hasNoShowCancel:true,
-                hasShowDespatch:false //不显示已分配的
+                hasShowDespatch:true //显示已分配的
             }, function(data){
                 $scope.orderList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;

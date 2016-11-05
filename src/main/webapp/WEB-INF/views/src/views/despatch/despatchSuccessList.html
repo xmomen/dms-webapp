@@ -12,13 +12,13 @@
 
 		<!-- NEW WIDGET START -->
 		<!-- WIDGET END -->
-        <article class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
             <!-- Widget ID (each widget will need unique ID)-->
             <div class="jarviswidget" id="wid-id-4">
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                    <h2>发运快递商</h2>
+                    <h2>已分配列表</h2>
                 </header>
                 <!-- widget div-->
                 <div>
@@ -29,70 +29,6 @@
                     <!-- end widget edit box -->
                     <!-- widget content -->
                     <div class="widget-body no-padding">
-                        <div class="table-responsive">
-                            <table class="table table-condensed table-hover smart-form has-tickbox">
-                                <thead>
-                                <tr>
-                                    <th>序号</th>
-                                    <th>快速商</th>
-                                    <th width="80">操作</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr ng-repeat="express in expressList"
-                                    ng-class="{'chose-tr':express.id == currentCustomer.id}"
-                                    ng-if="expressList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
-                                    <td ng-bind="$index*pageSetting.pageNum + 1"></td>
-                                    <td ng-bind="express.expressName"></td>
-                                    <td>
-                                        <div>
-                                            <a href="javascript:void(0);" data-ng-click="choseExpressUser($index)">
-                                                <span class="fa fa-inbox">选择</span>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr ng-if="expressList == null || expressList.length == 0">
-                                    <td colspan="5">
-                                        <div>暂无数据</div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="dt-toolbar-footer">
-                            <div class="col-xs-12 col-sm-12">
-                                <ug-pagination page-info="pageSetting" ></ug-pagination>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end widget content -->
-                </div>
-                <!-- end widget div -->
-            </div>
-            <!-- end widget -->
-
-        </article>
-        <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-
-            <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget" id="wid-id-4">
-                <header>
-                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                    <h2>待分配列表</h2>
-                </header>
-                <!-- widget div-->
-                <div>
-                    <!-- widget edit box -->
-                    <div class="jarviswidget-editbox">
-                        <!-- This area used as dropdown edit box -->
-                    </div>
-                    <!-- end widget edit box -->
-                    <!-- widget content -->
-                    <div class="widget-body no-padding">
-                        <div class="alert alert-info no-margin fade in">
-                            <label>快递商：{{currentCustomer.expressName}}</label>
-                        </div>
                         <div class="dt-toolbar">
                             <div class="col-sm-4">
                                 <div class="dataTables_filter">
@@ -105,12 +41,6 @@
                                 <button class="btn btn-primary" type="button" data-ng-click="getOrderList()">
                                     <i class="fa fa-refresh"></i>
                                     刷新
-                                </button>
-                            </div>
-                            <div class="col-sm-2">
-                                <button class="btn btn-primary" type="button" data-ng-click="batchBindExpress()">
-                                    <i class="fa fa-inbox"></i>
-                                    批量发运
                                 </button>
                             </div>
                         </div>
@@ -159,12 +89,7 @@
                                     <td ng-bind="order.consigneePhone"></td>
                                     <td ng-bind="order.consigneeAddress"></td>
                                     <td>
-                                        <div ng-show="order.expressName == null" >
-                                            <a href="javascript:void(0);" data-ng-click="bindExpress($index)" title="分配">
-                                                <span class="fa fa-inbox"></span>
-                                            </a>
-                                        </div>
-                                        <div ng-show="order.expressName != null" >
+                                        <div ng-show="order.orderStatus<=4" >
                                             <a href="javascript:void(0);" data-ng-click="unbindExpress($index)" title="取消">
                                                 <span class="fa fa-empire"></span>
                                             </a>

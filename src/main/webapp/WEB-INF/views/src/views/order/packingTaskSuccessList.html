@@ -11,110 +11,11 @@
 	<div class="row">
 
 		<!-- NEW WIDGET START -->
-		<article class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
 
-			<!-- Widget ID (each widget will need unique ID)-->
-			<div class="jarviswidget" id="wid-id-4">
-				<!-- widget options:
-                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                data-widget-colorbutton="false"
-                data-widget-editbutton="false"
-                data-widget-togglebutton="false"
-                data-widget-deletebutton="false"
-                data-widget-fullscreenbutton="false"
-                data-widget-custombutton="false"
-                data-widget-collapsed="true"
-                data-widget-sortable="false"
-
-                -->
-				<header>
-					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
-					<h2>装箱任务负责人列表</h2>
-				</header>
-				<!-- widget div-->
-				<div>
-					<!-- widget edit box -->
-					<div class="jarviswidget-editbox">
-						<!-- This area used as dropdown edit box -->
-					</div>
-					<!-- end widget edit box -->
-					<!-- widget content -->
-					<div class="widget-body no-padding">
-						<div class="dt-toolbar">
-							<div class="row">
-                                <div class="col-sm-4">
-                                    <div class="dataTables_filter">
-                                        <label>
-                                            <input type="search" placeholder="姓名" data-ng-keyup="getCustomerManagersList()" ng-model="queryParam.customerKeyword" class="form-control" aria-controls="dt_basic"></label>
-                                    </div>
-                                </div>
-							</div>
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <button class="btn btn-primary" type="button" data-ng-click="getCustomerManagersList()">
-                                        <i class="fa fa-refresh"></i>
-                                        刷新
-                                    </button>
-                                </div>
-                            </div>
-						</div>
-						<div class="table-responsive">
-							<table class="table table-condensed table-hover smart-form has-tickbox">
-								<thead>
-								<tr>
-									<th>序号</th>
-									<th width="120">负责人</th>
-									<th>待操作</th>
-									<th>操作中</th>
-									<th>已完成</th>
-									<th>合计</th>
-									<th width="80">操作</th>
-								</tr>
-								</thead>
-								<tbody>
-								<tr ng-repeat="companyCustomer in companyCustomerManagers"
-									ng-click="chosePackingCustomer($index)"
-									ng-class="{'chose-tr':companyCustomer.actorId==currentCustomer.actorId}"
-									title="点击选择为当前装箱负责人"
-									ng-if="companyCustomerManagers.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
-									<td ng-bind="$index*packingTaskPageInfoSetting.pageNum + 1"></td>
-									<td ng-bind="companyCustomer.actorName"></td>
-									<td ng-bind="companyCustomer.readyCount"></td>
-									<td ng-bind="companyCustomer.executingCount"></td>
-									<td ng-bind="companyCustomer.finishedCount"></td>
-									<td ng-bind="companyCustomer.totalCount"></td>
-									<td>
-										<div >
-
-										</div>
-									</td>
-								</tr>
-								<tr ng-if="companyCustomerManagers == null || companyCustomerManagers.length == 0">
-									<td colspan="4">
-										<div>暂无数据</div>
-									</td>
-								</tr>
-								</tbody>
-							</table>
-						</div>
-						<div class="dt-toolbar-footer">
-							<div class="col-xs-12 col-sm-12">
-								<ug-pagination page-info="packingTaskPageInfoSetting" ></ug-pagination>
-							</div>
-						</div>
-					</div>
-					<!-- end widget content -->
-				</div>
-				<!-- end widget div -->
-			</div>
-			<!-- end widget -->
-
-		</article>
 		<!-- WIDGET END -->
 
 		<!-- NEW WIDGET START -->
-		<article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
 			<!-- Widget ID (each widget will need unique ID)-->
 			<div class="jarviswidget" id="wid-id-4">
@@ -133,7 +34,7 @@
                 -->
 				<header>
 					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
-					<h2>装箱任务待分配</h2>
+					<h2>装箱任务已分配</h2>
 				</header>
 				<!-- widget div-->
 				<div>
@@ -144,9 +45,6 @@
 					<!-- end widget edit box -->
 					<!-- widget content -->
 					<div class="widget-body no-padding">
-						<div class="alert alert-info no-margin fade in">
-							<label>装箱负责人：{{currentCustomer.actorName}}     <a ng-show="currentCustomer.customerManger" href="#" ng-click="resetCurrentCustomer()">重选</a></label>
-						</div>
 						<div class="dt-toolbar">
                             <div class="row">
                                 <div class="col-sm-4">
@@ -179,12 +77,12 @@
                                         刷新
                                     </button>
                                 </div>
-                                <div class="col-sm-2">
-                                    <button class="btn btn-primary" type="button" data-ng-click="batchBindPackingTask()">
-                                        <i class="fa fa-inbox"></i>
-                                        批量分配
-                                    </button>
-                                </div>
+                                <!--<div class="col-sm-2">-->
+                                    <!--<button class="btn btn-primary" type="button" data-ng-click="batchBindPackingTask()">-->
+                                        <!--<i class="fa fa-inbox"></i>-->
+                                        <!--批量分配-->
+                                    <!--</button>-->
+                                <!--</div>-->
 							</div>
 						</div>
 						<div class="table-responsive">
@@ -232,11 +130,6 @@
 									</td>
 									<td ng-bind="order.packingTaskStatusDesc"></td>
 									<td>
-										<div ng-show="order.packingTaskStatus == null" >
-											<a href="javascript:void(0);" data-ng-click="bindPackingTask($index)" title="分配">
-												<span class="fa fa-inbox"> </span>
-											</a>
-										</div>
 										<div ng-show="order.packingTaskStatus == 0" >
 											<a href="javascript:void(0);" data-ng-click="unbindPackingTask($index)" title="取消">
 												<span class="fa fa-empire"> </span>

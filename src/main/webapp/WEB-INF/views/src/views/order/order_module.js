@@ -9,8 +9,9 @@ define([
     "views/order/packing",
     "views/order/order_packing",
     "views/order/packing_task",
+    "views/order/packingTaskSuccessList",
     "views/order/order_report"
-],function (order, order_create,order_update, purchase, packing, order_packing, packing_task, order_report) {
+],function (order, order_create,order_update, purchase, packing, order_packing, packing_task, packingTaskSuccessList,order_report) {
     angular.module('DMS.order', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -100,6 +101,18 @@ define([
                 controller: packing_task
             })
 
+            .state('packingTaskSuccessList', {
+                url: '/packing/packingTaskSuccessList',
+                templateUrl: 'views/order/packingTaskSuccessList.html',
+                data:{
+                    permissions:{
+                        only:["PACKING_TASK"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: packingTaskSuccessList
+            })
+
             .state('order_packing', {
                 url: '/order/packing',
                 templateUrl: 'views/order/order_packing.html',
@@ -111,5 +124,6 @@ define([
                 },
                 controller: order_packing
             })
+
     }]);
 });
