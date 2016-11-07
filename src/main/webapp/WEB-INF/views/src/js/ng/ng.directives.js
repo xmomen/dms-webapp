@@ -39,8 +39,31 @@ angular.module('app.main', [])
 			}
 		}
 	})
-
-	.factory('ribbon', ['$rootScope', function($rootScope) {
+	.directive('btnLoading', [function() {
+		return {
+			restrict: 'A',
+			link: function(scope, el, attr) {
+				var defaultLoadingText = attr.btnLoadingText;
+				if(!defaultLoadingText){
+					defaultLoadingText = "<i class='icon-refresh'>&nbsp;稍等</i>"
+				}
+				scope.prevText = el.html();
+				scope.$watch(function(){
+					return scope.$eval(attr.btnLoading)
+				}, function(value){
+					if(angular.isDefined(value)){
+						if(value){
+							el.attr("disabled", true);
+							el.html(defaultLoadingText);
+						}else{
+							el.removeAttr("disabled");
+							el.html(scope.prevText);
+						}
+					}
+				})
+			}
+		}
+	}]).factory('ribbon', ['$rootScope', function($rootScope) {
 		var ribbon = {
 			currentBreadcrumb: [],
 			updateBreadcrumb: function(crumbs) {
@@ -257,7 +280,7 @@ angular.module('app.main', [])
 		return {
 			restrict: 'A',
 			link: function(scope, element, attrs) {
-				element.append('<div class="demo"><span id="demo-setting"><i class="fa fa-cog txt-color-blueDark"></i></span> <form><legend class="no-padding margin-bottom-10">Layout Options</legend><section><label><input name="subscription" id="smart-fixed-header" type="checkbox" class="checkbox style-0"><span>Fixed Header</span></label><label><input type="checkbox" name="terms" id="smart-fixed-navigation" class="checkbox style-0"><span>Fixed Navigation</span></label><label><input type="checkbox" name="terms" id="smart-fixed-ribbon" class="checkbox style-0"><span>Fixed Ribbon</span></label><label><input type="checkbox" name="terms" id="smart-fixed-footer" class="checkbox style-0"><span>Fixed Footer</span></label><label><input type="checkbox" name="terms" id="smart-fixed-container" class="checkbox style-0"><span>Inside <b>.container</b> <div class="fonts-xs text-right">(non-responsive)</div></span></label><label style="display:block;"><input type="checkbox" id="smart-topmenu" class="checkbox style-0"><span>Menu on <b>top</b></span></label> <span id="smart-bgimages"></span></section><section><h6 class="margin-top-10 semi-bold margin-bottom-5">Clear Localstorage</h6><a href="javascript:void(0);" class="btn btn-xs btn-block btn-primary" id="reset-smart-widget"><i class="fa fa-refresh"></i> Factory Reset</a></section> <h6 class="margin-top-10 semi-bold margin-bottom-5">SmartAdmin Skins</h6><section id="smart-styles"><a href="javascript:void(0);" id="smart-style-0" data-skinlogo="img/logo.png" class="btn btn-block btn-xs txt-color-white margin-right-5" style="background-color:#4E463F;"><i class="fa fa-check fa-fw" id="skin-checked"></i>Smart Default</a><a href="javascript:void(0);" id="smart-style-1" data-skinlogo="img/logo-white.png" class="btn btn-block btn-xs txt-color-white" style="background:#3A4558;">Dark Elegance</a><a href="javascript:void(0);" id="smart-style-2" data-skinlogo="img/logo-blue.png" class="btn btn-xs btn-block txt-color-darken margin-top-5" style="background:#fff;">Ultra Light</a><a href="javascript:void(0);" id="smart-style-3" data-skinlogo="img/logo-pale.png" class="btn btn-xs btn-block txt-color-white margin-top-5" style="background:#f78c40">Google Skin</a></section></form> </div>')
+				element.append('<div class="demo"><span id="demo-setting"><i class="fa fa-cog txt-color-blueDark"></i></span> <form><legend class="no-padding margin-bottom-10">Layout Options</legend><section><label><input name="subscription" id="smart-fixed-header" type="checkbox" class="checkbox style-0"><span>Fixed Header</span></label><label><input type="checkbox" name="terms" id="smart-fixed-navigation" class="checkbox style-0"><span>Fixed Navigation</span></label><label><input type="checkbox" name="terms" id="smart-fixed-ribbon" class="checkbox style-0"><span>Fixed Ribbon</span></label><label><input type="checkbox" name="terms" id="smart-fixed-footer" class="checkbox style-0"><span>Fixed Footer</span></label><label><input type="checkbox" name="terms" id="smart-fixed-container" class="checkbox style-0"><span>Inside <b>.container</b> <div class="fonts-xs text-right">(non-responsive)</div></span></label><label style="display:block;"><input type="checkbox" id="smart-topmenu" class="checkbox style-0"><span>Menu on <b>top</b></span></label> <span id="smart-bgimages"></span></section><section><h6 class="margin-top-10 semi-bold margin-bottom-5">Clear Localstorage</h6><a href="javascript:void(0);" class="btn btn-xs btn-block btn-primary" id="reset-smart-widget"><i class="fa fa-refresh"></i> Factory Reset</a></section> <h6 class="margin-top-10 semi-bold margin-bottom-5">SmartAdmin Skins</h6><section id="smart-styles"><a href="javascript:void(0);" id="smart-style-0" data-skinlogo="img/logo.png" class="btn btn-block btn-xs txt-color-white margin-right-5" style="background-color:#4E463F;"><i class="fa fa-check fa-fw" id="skin-checked"></i>Smart Default</a><a href="javascript:void(0);" id="smart-style-1" data-skinlogo="img/logo-white.png" class="btn btn-block btn-xs txt-color-white" style="background:#3A4558;">Dark Elegance</a><a href="javascript:void(0);" id="smart-style-2" data-skinlogo="img/logo-blue.png" class="btn btn-xs btn-block txt-color-darken margin-top-5" style="background:#fff;">Ultra Light</a><a href="javascript:void(0);" id="smart-style-3" data-skinlogo="img/logo-pale.png" class="btn btn-xs btn-block txt-color-white margin-top-5" style="background:#f78c40">Google Skin</a></section></form> </div>');
 
 				// hide bg options
 				var smartbgimage = "<h6 class='margin-top-10 semi-bold'>Background</h6><img src='img/pattern/graphy-xs.png' data-htmlbg-url='img/pattern/graphy.png' width='22' height='22' class='margin-right-5 bordered cursor-pointer'><img src='img/pattern/tileable_wood_texture-xs.png' width='22' height='22' data-htmlbg-url='img/pattern/tileable_wood_texture.png' class='margin-right-5 bordered cursor-pointer'><img src='img/pattern/sneaker_mesh_fabric-xs.png' width='22' height='22' data-htmlbg-url='img/pattern/sneaker_mesh_fabric.png' class='margin-right-5 bordered cursor-pointer'><img src='img/pattern/nistri-xs.png' data-htmlbg-url='img/pattern/nistri.png' width='22' height='22' class='margin-right-5 bordered cursor-pointer'><img src='img/pattern/paper-xs.png' data-htmlbg-url='img/pattern/paper.png' width='22' height='22' class='bordered cursor-pointer'>";
@@ -269,7 +292,7 @@ angular.module('app.main', [])
 				        //console.log('setting');
 				        $('#ribbon .demo')
 				            .toggleClass('activate');
-				    })
+				    });
 				/*
 				 * FIXED HEADER
 				 */
@@ -437,10 +460,10 @@ angular.module('app.main', [])
 				                $("#smart-bgimages img")
 				                    .bind("click", function () {
 				                        var $this = $(this);
-				                        var $html = $('html')
+				                        var $html = $('html');
 				                        bgurl = ($this.data("htmlbg-url"));
 				                        $html.css("background-image", "url(" + bgurl + ")");
-				                    })
+				                    });
 				                smartbgimage = null;
 				            } else {
 				                $("#smart-bgimages")
@@ -505,7 +528,7 @@ angular.module('app.main', [])
 						// update DOM
 						scope.updateDOM();
 					}
-				})
+				});
 				scope.updateDOM = function() {
 					element.empty();
 					angular.forEach(scope.breadcrumbs, function(crumb) {
@@ -564,7 +587,7 @@ angular.module('app.localize', [])
 			link: function(scope, element, attrs) {
 				scope.$on('localizeLanguageChanged', function() {
 					var localizedText = localize.localizeText(scope.sourceText);
-					if (element.is('input, textarea')) element.attr('placeholder', localizedText)
+					if (element.is('input, textarea')) element.attr('placeholder', localizedText);
 					else element.text(localizedText);
 				});
 			}
@@ -662,8 +685,8 @@ angular.module('app.navigation', [])
 			//};
 	    	if (!angular.isDefined(view)) {
 				return ''
-			};
-	    	return view;
+			}
+			return view;
 	    };
 
 	    $scope.getItemTarget = function() {
@@ -686,7 +709,7 @@ angular.module('app.navigation', [])
 			},
 			link: function(scope, element, attrs, parentCtrls) {
 				var navCtrl = parentCtrls[0],
-					navgroupCtrl = parentCtrls[1]
+					navgroupCtrl = parentCtrls[1];
 
 				scope.$watch('active', function(newVal, oldVal) {
 					if (newVal) {
@@ -726,7 +749,7 @@ angular.module('app.navigation', [])
 						return true;
 					}
 					return false;
-				}
+				};
 	    		element.on('click', 'a[href!="#"]', function() {
 	    			if ($.root_.hasClass('mobile-view-activated')) {
 	    				$.root_.removeClass('hidden-menu');
@@ -1042,13 +1065,13 @@ angular.module('app.smartui', [])
 
 						});
 					}
-				}
+				};
 
 				scope.setup_widget_mobile = function() {
 					if ($.enableMobileWidgets && $.enableJarvisWidgets) {
 						scope.setup_widgets_desktop();
 					}
-				}
+				};
 
 				if ($.device === "desktop") {
 					scope.setup_widget_desktop();
@@ -1133,4 +1156,4 @@ angular.module('app.smartui', [])
 			replace: true,
 			template: '<div class="widget-body" data-ng-transclude=""></div>'
 		}
-	})
+	});

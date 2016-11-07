@@ -37,6 +37,7 @@ define(function () {
                 isOtherPaymentMode:0,
                 orderSource:3
             };
+            $scope.saveBtnLoading = false;
             $scope.addOrderForm = {};
             $scope.errors = null;
             $scope.saveOrder = function(type){
@@ -52,12 +53,15 @@ define(function () {
                 if($scope.addOrderForm.validator.form()){
                     $scope.order.totalPrice = $scope.totalItem.totalPrice;
                     $ugDialog.confirm("是否提交订单").then(function(){
+                        $scope.saveBtnLoading = true;
                         if($scope.order.batchNumber && type == 1){
                             OrderAPI.batch($scope.order, function(){
                                 $ugDialog.alert("订单提交成功！");
                                 $state.go("order");
                             }, function(data){
                                 $scope.errors = data.data;
+                            }).$promise.finally(function(){
+                                $scope.saveBtnLoading = false;
                             });
                         }else{
                             OrderAPI.save($scope.order, function(){
@@ -65,6 +69,8 @@ define(function () {
                                 $state.go("order");
                             }, function(data){
                                 $scope.errors = data.data;
+                            }).$promise.finally(function(){
+                                $scope.saveBtnLoading = false;
                             });
                         }
                     });
@@ -298,7 +304,7 @@ define(function () {
                                 });
                                 if(coupon.isUsed==1){
                                     $ugDialog.warn("劵号已使用！");
-                                    return;
+
                                 }
                             }
                         }else{
@@ -306,7 +312,7 @@ define(function () {
                         }
                     })
                 }
-            }
+            };
 
 
             $scope.choseOrderItemList = [];
@@ -417,7 +423,7 @@ define(function () {
                         $scope.order.discount = (1 - ($scope.order.discountPrice / $scope.totalItem.totalPrice).toFixed(2)) * 100;
                     }
                 }
-            }
+            };
 
             $scope.itemCategoryList = [];
             $scope.queryCategoryParam = {};
@@ -469,7 +475,7 @@ define(function () {
                 }
                 dateString = newDate.getFullYear() + "-" + monthString + "-" + dayString;
                 return dateString;
-            }
+            };
 
             $scope.reduceByTransDate = function(dateParameter, num) {
                 var translateDate = "", dateString = "", monthString = "", dayString = "";
@@ -492,7 +498,7 @@ define(function () {
                 }
                 dateString = newDate.getFullYear() + "-" + monthString + "-" + dayString;
                 return dateString;
-            }
+            };
 
             //得到日期  主方法
             $scope.showTime = function(pdVal) {
@@ -515,7 +521,7 @@ define(function () {
                 }
                 //处理
                 return trans_day;
-            }
+            };
 
             $scope.order.appointmentTime = $scope.showTime(1);
 
