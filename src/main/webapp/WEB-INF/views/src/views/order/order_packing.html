@@ -307,14 +307,14 @@
 								<div class="input-group">
 									<input class="form-control" type="text" required data-rule-minlength="7" ng-model="item.upc"  ng-keyup="scanItemEvent($event);"   placeholder="商品UPC">
 									<div class="input-group-btn">
-                                        <button ng-if="choosePackingOrders.length == 1" class="btn btn-default btn-primary" data-ng-click="nextPackingTask()" type="button">
+                                        <button ng-if="choosePackingOrders.length == 1" class="btn btn-default btn-primary margin-right-5" data-ng-click="nextPackingTask()" type="button">
                                             <i class="fa fa-next"></i> 下一个任务
                                         </button>
-                                        <button class="btn btn-default btn-primary" data-ng-click="autoPackingList()" type="button">
+                                        <button class="btn btn-default btn-primary margin-right-5" data-ng-click="autoPackingList()" type="button">
                                             <i class="fa fa-cube"></i> 自动装箱
                                         </button>
 										<button class="btn btn-default btn-primary" data-ng-click="finishOrderPacking()" type="button">
-											<i class="fa fa-cube"></i> 返回列表
+											<i class="fa fa-list"></i> 返回列表
 										</button>
 									</div>
 								</div>

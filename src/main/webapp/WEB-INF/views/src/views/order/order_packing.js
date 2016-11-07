@@ -3,6 +3,7 @@
  */
 define(function () {
     return ["$scope", "PackingAPI", "OrderAPI", "$modal", "$ugDialog", "$q", "DictionaryAPI","UserAPI", function($scope, PackingAPI, OrderAPI, $modal, $ugDialog, $q, DictionaryAPI,UserAPI){
+
         $scope.managers = [];
         $scope.getCustomerManagersList = function(){
             UserAPI.getCustomerManagerList({
@@ -240,12 +241,14 @@ define(function () {
             return false;
         };
         $scope.changeBox = function(index){
-            PackingAPI.save({
-                orderNo:$scope.currentPackingBoxList[index].orderNo
-            }, function(data){
-                $scope.currentPackingBoxList[index].currentPacking = data;
-                $scope.currentPackingBoxList[index].boxNum = $scope.currentPackingBoxList[index].boxNum + 1;
-            })
+            $ugDialog.confirm("是否进行换箱操作?").then(function() {
+                PackingAPI.save({
+                    orderNo:$scope.currentPackingBoxList[index].orderNo
+                }, function(data){
+                    $scope.currentPackingBoxList[index].currentPacking = data;
+                    $scope.currentPackingBoxList[index].boxNum = $scope.currentPackingBoxList[index].boxNum + 1;
+                });
+            });
         };
         $scope.packingHistory = [];
         $scope.scanItemForm = {};
@@ -482,6 +485,7 @@ define(function () {
             }, function(data){
                 var result = data;
                 var boxSize = result.packingModels.length;
+                var boxSize = prompt("请确认打印面单数",boxSize);
                 var LODOP=getLodop();
                 for(i=0;i<boxSize;i++){
                     LODOP.PRINT_INITA(0,0,"100.81mm","74.61mm","打印订单");

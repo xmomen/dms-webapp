@@ -122,9 +122,10 @@ public class ExpressServiceImpl implements ExpressService {
 		orderRef.setRefType("TAKE_DELIVERY");
 		orderRef.setRefValue(express.getExpressCode());
 		TbOrderRef orderRefDB = mybatisDao.selectOneByModel(orderRef);
-		if(orderRefDB != null){
-			mybatisDao.delete(orderRefDB);
-		}
+//		if(orderRefDB != null){
+//			mybatisDao.delete(orderRefDB);
+//		}
+		AssertExt.isTrue(orderRefDB == null, "该包裹已经提货，不能重复提货！");
 		mybatisDao.insert(orderRef);
 
 	}
@@ -142,7 +143,7 @@ public class ExpressServiceImpl implements ExpressService {
 		CdExpress express = mybatisDao.selectByPrimaryKey(CdExpress.class,order.getDespatchExpressId());
 		AssertExt.notNull(express,"分配的快递商不存在了，请确认！");
 		String username = (String) SecurityUtils.getSubject().getPrincipal();
-		AssertExt.isTrue(username.equals(express.getExpressCode()), "该包裹分配的快递商不符合，不能提货！");
+		AssertExt.isTrue(username.equals(express.getExpressCode()), "该包裹分配的快递商不符合，不能取消提货！");
 		
 		//更新订单为待出库
 		order.setOrderStatus("4");
