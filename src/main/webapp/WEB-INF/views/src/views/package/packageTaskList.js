@@ -81,11 +81,12 @@ define(function () {
                         pageSize:50,
                         pageNum:1
                     };
-                    $scope.getJobOperationLogList = function(id){
+                    $scope.getJobOperationLogList = function(){
                         JobOperationLogAPI.query({
                             limit:$scope.operationLogPageInfoSetting.pageSize,
                             offset:$scope.operationLogPageInfoSetting.pageNum,
-                            jobId:packageJob.id
+                            jobId:packageJob.id,
+                            upc:$scope.operationLogPageInfoSetting.upc
                         }, function(data){
                             $scope.jobOperationLogList = data.data;
                             $scope.operationLogPageInfoSetting = data.pageInfo;

@@ -16,6 +16,9 @@
 			<if test="jobId">
                   AND tjol.job_id = #{jobId}
             </if>
+            <if test="upc">
+            	AND tjol.bar_code like CONCAT('%',#{upc}, '%')
+            </if>
         </where>
 		order by tjol.job_time
     </select>
