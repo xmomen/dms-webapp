@@ -42,4 +42,7 @@ class OrderDeliveryReport implements Serializable {
     private Date appointmentTime;
     @Excel(name = "备注")
     private String remark;
+    private String orderStatusDesc;
+    private int totalBoxNum;
+    private int expressScanBoxNum;
 }

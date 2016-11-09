@@ -412,7 +412,7 @@ public class OrderService {
         tbOrder = mybatisDao.selectOneByModel(tbOrder);
         Integer payStatus = 0;
         //卡劵订单才记录扣款记录
-        if(tbOrder.getPaymentMode().equals(5) || tbOrder.getPaymentMode().equals(6)){
+        if(tbOrder.getPaymentMode().equals(5) || tbOrder.getPaymentMode().equals(7)){
             CdCoupon cdCoupon = new CdCoupon();
             cdCoupon.setCouponNumber(tbOrderRelation.getRefValue());
             cdCoupon = mybatisDao.selectOneByModel(cdCoupon);

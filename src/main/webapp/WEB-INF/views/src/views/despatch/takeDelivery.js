@@ -2,12 +2,7 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "$modal", "$ugDialog","ExpressAPI", function($scope,$modal, $ugDialog,ExpressAPI){
-        $scope.orderList = [];
-        $scope.pageInfoSetting = {
-            pageSize:10,
-            pageNum:1
-        };
+    return ["$scope", "$modal", "$ugDialog","ExpressAPI", "OrderAPI",function($scope,$modal, $ugDialog,ExpressAPI,OrderAPI){
 
         $scope.currentDate = function(date){
             var myDate = date;
@@ -21,6 +16,39 @@ define(function () {
                 date = '0'+date;
             }
             return fullYear+"-"+month+"-"+date;
+        };
+
+        //已分配未提货订单
+        $scope.orderTakeDeliveryList = [];
+        $scope.pageInfoTakeDeliverySetting = {
+            pageSize:10,
+            pageNum:1
+        };
+
+        $scope.queryTakeDeliveryParam = {
+            startTime :$scope.currentDate(new Date(new Date().getTime() + 86400000)),
+            endTime:$scope.currentDate(new Date(new Date().getTime() + 86400000))
+        };
+        $scope.getOrderTakeDeliveryList = function(){
+            //查询已分配未提货的订单
+            ExpressAPI.noScanOrder({
+                limit:$scope.pageInfoTakeDeliverySetting.pageSize,
+                offset:$scope.pageInfoTakeDeliverySetting.pageNum,
+                keyword:$scope.queryTakeDeliveryParam.keyword,
+                startTime:$scope.queryTakeDeliveryParam.startTime,
+                endTime:$scope.queryTakeDeliveryParam.endTime
+            }, function(data){
+                $scope.orderTakeDeliveryList = data.data;
+                $scope.pageInfoTakeDeliverySetting = data.pageInfo;
+                $scope.pageInfoTakeDeliverySetting.loadData = $scope.getOrderTakeDeliveryList;
+            });
+        };
+        $scope.getOrderTakeDeliveryList();
+
+        $scope.orderList = [];
+        $scope.pageInfoSetting = {
+            pageSize:10,
+            pageNum:1
         };
 
         $scope.queryParam = {
@@ -78,26 +106,25 @@ define(function () {
 
         //
         $scope.takeDelivery = function(){
-            if(!$scope.orderNo){
-                $ugDialog.warn("请扫描订单号");
+            if(!$scope.boxNo){
+                $ugDialog.warn("请扫描条形码");
                 return;
             }
 
             ExpressAPI.takeDelivery({
-                orderNo:$scope.orderNo
+                boxNo:$scope.boxNo
             }, function(){
-                debugger;
                 $ugDialog.alert("提货成功");
                 $scope.getOrderList();
-                $("#orderNo").focus();
-                $("#orderNo").select();
-                $("#orderNo").val("");
+                $("#boxNo").focus();
+                $("#boxNo").select();
+                $("#boxNo").val("");
+                $scope.getOrderTakeDeliveryList();
             },function(data){
-                debugger;
                 $ugDialog.warn(data.data.message);
-                $("#orderNo").focus();
-                $("#orderNo").select();
-                $("#orderNo").val("");
+                $("#boxNo").focus();
+                $("#boxNo").select();
+                $("#boxNo").val("");
             })
         }
 
@@ -107,14 +134,14 @@ define(function () {
             }, function(){
                 $ugDialog.alert("取消提货成功");
                 $scope.getOrderList();
-                $("#orderNo").focus();
-                $("#orderNo").select();
-                $("#orderNo").val("");
+                $("#boxNo").focus();
+                $("#boxNo").select();
+                $("#boxNo").val("");
             },function(data){
                 $ugDialog.warn(data.data.message)
-                $("#orderNo").focus();
-                $("#orderNo").select();
-                $("#orderNo").val("");
+                $("#boxNo").focus();
+                $("#boxNo").select();
+                $("#boxNo").val("");
             })
         }
 

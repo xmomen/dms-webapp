@@ -1,14 +1,13 @@
 package com.xmomen.module.plan.entity;
 
+import com.xmomen.framework.mybatis.model.BaseMybatisModel;
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import com.xmomen.framework.mybatis.model.BaseMybatisModel;
+import javax.persistence.Version;
 
 @Entity
 @Table(name = "tb_table_plan")
@@ -39,14 +38,14 @@ public class TbTablePlan extends BaseMybatisModel {
     private Integer cdMemberId;
 
     /**
-     * 客户编号
-     */
-    private String memberCode;
-
-    /**
      * 卡号
      */
     private String couponNumber;
+
+    /**
+     * 客户编号
+     */
+    private String memberCode;
 
     /**
      * 手机号
@@ -160,20 +159,6 @@ public class TbTablePlan extends BaseMybatisModel {
         addValidField("cdMemberId");
     }
 
-    @Column(name = "MEMBER_CODE")
-    public String getMemberCode() {
-        return memberCode;
-    }
-
-    public void setMemberCode(String memberCode) {
-        this.memberCode = memberCode;
-        if(memberCode == null){
-              removeValidField("memberCode");
-              return;
-        }
-        addValidField("memberCode");
-    }
-
     @Column(name = "COUPON_NUMBER")
     public String getCouponNumber() {
         return couponNumber;
@@ -186,6 +171,20 @@ public class TbTablePlan extends BaseMybatisModel {
               return;
         }
         addValidField("couponNumber");
+    }
+
+    @Column(name = "MEMBER_CODE")
+    public String getMemberCode() {
+        return memberCode;
+    }
+
+    public void setMemberCode(String memberCode) {
+        this.memberCode = memberCode;
+        if(memberCode == null){
+              removeValidField("memberCode");
+              return;
+        }
+        addValidField("memberCode");
     }
 
     @Column(name = "CONSIGNEE_PHONE")

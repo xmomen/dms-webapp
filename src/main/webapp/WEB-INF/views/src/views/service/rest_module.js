@@ -400,11 +400,14 @@ define(function () {
             unbindExpress:{method:"PUT",url:"/express/order/unbind", params:{
                 orderNos:"@orderNos"
             }},
+            noScanOrder:{method:"GET",url:"/express/noScanOrder",params:{
+
+            }},
             queryOrder:{method:"GET",url:"/express/order",params:{
 
             }},
             takeDelivery:{method:"PUT",url:"/express/order/takeDelivery", params:{
-                orderNo:"@orderNo"
+                boxNo:"@boxNo"
             }},
             unTakeDelivery:{method:"PUT",url:"/express/order/untakeDelivery", params:{
                 orderNo:"@orderNo"
