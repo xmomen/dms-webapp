@@ -172,38 +172,44 @@
 			if(tb.PAYMENT_MODE=4,pay.AMOUNT,null) payAmount,
 			if(tb.PAYMENT_MODE=4,other_pay.AMOUNT,null) otherPayAmount,
 			tb.appointment_time,
-			tb.remark			
-			FROM
-	 			tb_order tb 
-		
-			LEFT JOIN sys_dictionary payment on payment.DICTIONARY_CODE='PAYMENT_MODE'
-			left join sys_dictionary_parameter paymentp on paymentp.SYS_DICTIONARY_ID=payment.ID and tb.PAYMENT_MODE = paymentp.REAL_VALUE
+			tb.remark,
+	        ssp.SHOW_VALUE AS orderStatusDesc,
+	        tb.total_box_num,
+	        tb.EXPRESS_SCAN_BOX_NUM
+		FROM
+ 			tb_order tb 
+		 
+	 	LEFT JOIN sys_dictionary ss on ss.DICTIONARY_CODE='ORDER_STATUS'
+       	left join sys_dictionary_parameter ssp on ssp.SYS_DICTIONARY_ID=ss.ID and tb.ORDER_STATUS = ssp.REAL_VALUE
+       
+		LEFT JOIN sys_dictionary payment on payment.DICTIONARY_CODE='PAYMENT_MODE'
+		left join sys_dictionary_parameter paymentp on paymentp.SYS_DICTIONARY_ID=payment.ID and tb.PAYMENT_MODE = paymentp.REAL_VALUE
 
-			LEFT JOIN sys_dictionary otherPayment on otherPayment.DICTIONARY_CODE='PAYMENT_MODE'
-			left join sys_dictionary_parameter otherPaymentp on otherPaymentp.SYS_DICTIONARY_ID=otherPayment.ID and tb.PAYMENT_MODE = otherPaymentp.REAL_VALUE
+		LEFT JOIN sys_dictionary otherPayment on otherPayment.DICTIONARY_CODE='PAYMENT_MODE'
+		left join sys_dictionary_parameter otherPaymentp on otherPaymentp.SYS_DICTIONARY_ID=otherPayment.ID and tb.PAYMENT_MODE = otherPaymentp.REAL_VALUE
+		
+		left join cd_express ce on tb.despatch_express_id = ce.id
+		LEFT JOIN TB_TRADE_RECORD pay ON pay.TRADE_NO =tb.ORDER_NO and pay.TRADE_TYPE in('COUPON','CARD','NORMAL')
+		LEFT JOIN TB_TRADE_RECORD other_pay ON other_pay.TRADE_NO =tb.ORDER_NO and other_pay.TRADE_TYPE = tb.OTHER_PAYMENT_MODE
 			
-			left join cd_express ce on tb.despatch_express_id = ce.id
-			LEFT JOIN TB_TRADE_RECORD pay ON pay.TRADE_NO =tb.ORDER_NO and pay.TRADE_TYPE in('COUPON','CARD','NORMAL')
-			LEFT JOIN TB_TRADE_RECORD other_pay ON other_pay.TRADE_NO =tb.ORDER_NO and other_pay.TRADE_TYPE = tb.OTHER_PAYMENT_MODE
-			
-        	<where>
-	        	tb.DESPATCH_EXPRESS_ID is not NULL
-					and tb.ORDER_STATUS in( 1,2,3,4,13)
-	            <if test="orderCreateTimeStart">
-	                <![CDATA[
-	                  AND DATE_FORMAT(tb.APPOINTMENT_TIME ,'%Y-%m-%d')>= #{orderCreateTimeStart}
-	                ]]>
-	            </if>
-	            <if test="orderCreateTimeEnd">
-	                <![CDATA[
-	                  AND DATE_FORMAT(tb.APPOINTMENT_TIME ,'%Y-%m-%d')<= #{orderCreateTimeEnd}
-	                ]]>
-	            </if>
-	            <if test="despatchExpressCode">
-	            	AND ce.EXPRESS_CODE =#{despatchExpressCode}
-	            </if>
-          </where>
-          order by tb.CREATE_TIME desc
+       	<where>
+        	tb.DESPATCH_EXPRESS_ID is not NULL
+				and tb.ORDER_STATUS in(1,2,3,4,13)
+            <if test="orderCreateTimeStart">
+                <![CDATA[
+                  AND DATE_FORMAT(tb.APPOINTMENT_TIME ,'%Y-%m-%d')>= #{orderCreateTimeStart}
+                ]]>
+            </if>
+            <if test="orderCreateTimeEnd">
+                <![CDATA[
+                  AND DATE_FORMAT(tb.APPOINTMENT_TIME ,'%Y-%m-%d')<= #{orderCreateTimeEnd}
+                ]]>
+            </if>
+            <if test="despatchExpressCode">
+            	AND ce.EXPRESS_CODE =#{despatchExpressCode}
+            </if>
+         </where>
+         order by tb.CREATE_TIME desc
     </select>
 </mapper>
 

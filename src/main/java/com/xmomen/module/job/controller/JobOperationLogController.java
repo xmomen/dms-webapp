@@ -49,10 +49,12 @@ public class JobOperationLogController {
     public Page<JobOperationLogModel> getUserList(@RequestParam(value = "limit") Integer limit,
                                   @RequestParam(value = "offset") Integer offset,
                                   @RequestParam(value = "keyword", required = false) String keyword,
-                                  @RequestParam(value = "jobId", required = false) Integer jobId){
+                                  @RequestParam(value = "jobId", required = false) Integer jobId,
+                                  @RequestParam(value = "upc", required = false) String upc){
     	 Map param = new HashMap();
          param.put("keyword", keyword);
          param.put("jobId", jobId);
+         param.put("upc",upc);
         return  (Page<JobOperationLogModel>) mybatisDao.selectPage(JobOperationLogMapper.JobOperationLogMapperNameSpace + "getJobOperationLogList", param, limit, offset);
     }
 

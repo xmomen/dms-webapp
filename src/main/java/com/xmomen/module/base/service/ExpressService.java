@@ -31,4 +31,6 @@ public interface ExpressService {
 	public List<OrderDeliveryReport> getTakeDeliveryReportList(OrderQuery query);
 	
 	public List<OrderDeliveryReport> getOrderNoDespatchReportList(OrderQuery query);
+	
+	public Page<OrderModel> getOrderNoDespatchReportList(OrderQuery orderQuery, Integer limit, Integer offset);
 }	

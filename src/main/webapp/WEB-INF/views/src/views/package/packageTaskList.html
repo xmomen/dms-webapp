@@ -170,9 +170,6 @@
 </section>
 <!-- end widget grid -->
 
-
-
-
 <script type="text/ng-template" id="jobOperationLogList.html">
     <div class="modal-header">
         <h3 class="modal-title">包装记录</h3>
@@ -193,6 +190,13 @@
                     <!-- end widget edit box -->
                     <!-- widget content -->
                     <div class="widget-body no-padding">
+                        <div class="col-sm-6 margin-top-5">
+                            <div class="dataTables_filter">
+                                <label>
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                                    <input type="search" placeholder="条形码" data-ng-keyup="getJobOperationLogList()" ng-model="operationLogPageInfoSetting.upc" class="form-control" aria-controls="dt_basic"></label>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-striped table-condensed table-hover smart-form has-tickbox">
                                 <thead>

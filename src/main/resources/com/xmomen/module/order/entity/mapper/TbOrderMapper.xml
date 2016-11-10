@@ -17,16 +17,18 @@
     <result column="POSTCODE" property="postcode" jdbcType="VARCHAR" />
     <result column="TRANSPORT_MODE" property="transportMode" jdbcType="INTEGER" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="DISCOUNT_PRICE" property="discountPrice" jdbcType="DECIMAL" />
     <result column="TOTAL_AMOUNT" property="totalAmount" jdbcType="DECIMAL" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="APPOINTMENT_TIME" property="appointmentTime" jdbcType="TIMESTAMP" />
     <result column="CREATE_USER_ID" property="createUserId" jdbcType="INTEGER" />
     <result column="DESPATCH_EXPRESS_ID" property="despatchExpressId" jdbcType="INTEGER" />
     <result column="EXPRESS_MEMBER_ID" property="expressMemberId" jdbcType="INTEGER" />
-    <result column="DISCOUNT_PRICE" property="discountPrice" jdbcType="DOUBLE" />
-    <result column="MANAGER_ID" property="managerId" jdbcType="INTEGER" />
     <result column="COMPANY_ID" property="companyId" jdbcType="INTEGER" />
+    <result column="MANAGER_ID" property="managerId" jdbcType="INTEGER" />
     <result column="BATCH_NO" property="batchNo" jdbcType="VARCHAR" />
+    <result column="TOTAL_BOX_NUM" property="totalBoxNum" jdbcType="INTEGER" />
+    <result column="EXPRESS_SCAN_BOX_NUM" property="expressScanBoxNum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -89,8 +91,9 @@
   <sql id="Base_Column_List" >
     ID, ORDER_NO, ORDER_TYPE, ORDER_SOURCE, PAYMENT_MODE, OTHER_PAYMENT_MODE, MEMBER_CODE, 
     ORDER_STATUS, PAY_STATUS, CONSIGNEE_PHONE, CONSIGNEE_NAME, CONSIGNEE_ADDRESS, POSTCODE, 
-    TRANSPORT_MODE, REMARK, TOTAL_AMOUNT, CREATE_TIME, APPOINTMENT_TIME, CREATE_USER_ID, 
-    DESPATCH_EXPRESS_ID, EXPRESS_MEMBER_ID, DISCOUNT_PRICE, MANAGER_ID, COMPANY_ID, BATCH_NO
+    TRANSPORT_MODE, REMARK, DISCOUNT_PRICE, TOTAL_AMOUNT, CREATE_TIME, APPOINTMENT_TIME, 
+    CREATE_USER_ID, DESPATCH_EXPRESS_ID, EXPRESS_MEMBER_ID, COMPANY_ID, MANAGER_ID, BATCH_NO, 
+    TOTAL_BOX_NUM, EXPRESS_SCAN_BOX_NUM
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbOrderExample" >
     select
@@ -160,6 +163,9 @@
       <if test="remark != null" >
         REMARK,
       </if>
+      <if test="discountPrice != null" >
+        DISCOUNT_PRICE,
+      </if>
       <if test="totalAmount != null" >
         TOTAL_AMOUNT,
       </if>
@@ -178,17 +184,20 @@
       <if test="expressMemberId != null" >
         EXPRESS_MEMBER_ID,
       </if>
-      <if test="discountPrice != null" >
-        DISCOUNT_PRICE,
+      <if test="companyId != null" >
+        COMPANY_ID,
       </if>
       <if test="managerId != null" >
         MANAGER_ID,
       </if>
-      <if test="companyId != null" >
-        COMPANY_ID,
-      </if>
       <if test="batchNo != null" >
         BATCH_NO,
+      </if>
+      <if test="totalBoxNum != null" >
+        TOTAL_BOX_NUM,
+      </if>
+      <if test="expressScanBoxNum != null" >
+        EXPRESS_SCAN_BOX_NUM,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -237,6 +246,9 @@
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="discountPrice != null" >
+        #{discountPrice,jdbcType=DECIMAL},
+      </if>
       <if test="totalAmount != null" >
         #{totalAmount,jdbcType=DECIMAL},
       </if>
@@ -255,17 +267,20 @@
       <if test="expressMemberId != null" >
         #{expressMemberId,jdbcType=INTEGER},
       </if>
-      <if test="discountPrice != null" >
-        #{discountPrice,jdbcType=DOUBLE},
+      <if test="companyId != null" >
+        #{companyId,jdbcType=INTEGER},
       </if>
       <if test="managerId != null" >
         #{managerId,jdbcType=INTEGER},
       </if>
-      <if test="companyId != null" >
-        #{companyId,jdbcType=INTEGER},
-      </if>
       <if test="batchNo != null" >
         #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="totalBoxNum != null" >
+        #{totalBoxNum,jdbcType=INTEGER},
+      </if>
+      <if test="expressScanBoxNum != null" >
+        #{expressScanBoxNum,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -323,6 +338,9 @@
       <if test="record.remark != null" >
         REMARK = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.discountPrice != null" >
+        DISCOUNT_PRICE = #{record.discountPrice,jdbcType=DECIMAL},
+      </if>
       <if test="record.totalAmount != null" >
         TOTAL_AMOUNT = #{record.totalAmount,jdbcType=DECIMAL},
       </if>
@@ -341,17 +359,20 @@
       <if test="record.expressMemberId != null" >
         EXPRESS_MEMBER_ID = #{record.expressMemberId,jdbcType=INTEGER},
       </if>
-      <if test="record.discountPrice != null" >
-        DISCOUNT_PRICE = #{record.discountPrice,jdbcType=DOUBLE},
+      <if test="record.companyId != null" >
+        COMPANY_ID = #{record.companyId,jdbcType=INTEGER},
       </if>
       <if test="record.managerId != null" >
         MANAGER_ID = #{record.managerId,jdbcType=INTEGER},
       </if>
-      <if test="record.companyId != null" >
-        COMPANY_ID = #{record.companyId,jdbcType=INTEGER},
-      </if>
       <if test="record.batchNo != null" >
         BATCH_NO = #{record.batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalBoxNum != null" >
+        TOTAL_BOX_NUM = #{record.totalBoxNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.expressScanBoxNum != null" >
+        EXPRESS_SCAN_BOX_NUM = #{record.expressScanBoxNum,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >

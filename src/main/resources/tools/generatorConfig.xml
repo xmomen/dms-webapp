@@ -28,17 +28,17 @@
 
         <javaTypeResolver type="com.xmomen.maven.plugins.mybatis.generator.plugins.types.JavaTypeResolverDefaultImplExt"></javaTypeResolver>
 
-        <javaModelGenerator targetPackage="com.xmomen.module.plan.entity"
+        <javaModelGenerator targetPackage="com.xmomen.module.order.entity"
                             targetProject="./src/main/java" >
             <property name="rootClass" value="com.xmomen.framework.mybatis.model.BaseMybatisModel" />
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="com.xmomen.module.plan.entity.mapper"
+        <sqlMapGenerator targetPackage="com.xmomen.module.order.entity.mapper"
                          targetProject="./src/main/resources" />
-        <javaClientGenerator targetPackage="com.xmomen.module.plan.entity.mapper"
+        <javaClientGenerator targetPackage="com.xmomen.module.order.entity.mapper"
                              targetProject="./src/main/java" type="XMLMAPPER" >
         </javaClientGenerator>
         <!--    用户模块    -->
-        <table tableName="tb_table_plan" />
+        <table tableName="tb_order" />
     </context>
 </generatorConfiguration>

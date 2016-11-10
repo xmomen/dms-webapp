@@ -55,32 +55,47 @@ public class PackingService {
     }
 
     @Transactional
+    /***新增装箱记录****/
     public TbPacking create(CreatePacking createPacking){
-        TbPacking tbPacking = new TbPacking();
+        //生成一个装箱码
+    	TbPacking tbPacking = new TbPacking();
         tbPacking.setPackingNo(DateUtils.getDateTimeString());
         tbPacking.setPackingStatus(0);
         tbPacking = mybatisDao.insertByModel(tbPacking);
+        //记录订单的装箱码
         TbOrderRelation tbOrderRelation = new TbOrderRelation();
         tbOrderRelation.setOrderNo(createPacking.getOrderNo());
         tbOrderRelation.setRefType(OrderMapper.ORDER_PACKING_RELATION_CODE);
         tbOrderRelation.setRefValue(tbPacking.getPackingNo());
         mybatisDao.insert(tbOrderRelation);
+        //更新订单的总箱数
+        TbOrder order = new TbOrder();
+        order.setOrderNo(createPacking.getOrderNo());
+        order = mybatisDao.selectOneByModel(order);
+        order.setTotalBoxNum(order.getTotalBoxNum() + 1);
+        mybatisDao.update(order);
         return tbPacking;
     }
 
+    /**
+     * 生成装箱任务
+     * @param packingTask
+     */
     @Transactional
     public void dispatchPackingTask(PackingTask packingTask){
         for (String orderNo : packingTask.getOrderNos()) {
+        	//生成装箱任务
             CreateTask createTask = new CreateTask();
             createTask.setTaskHeadId(1);
             createTask.setExecutorId(packingTask.getPackingTaskUserId());
             SysTask sysTask = taskService.createTask(createTask);
+            //任务和订单关联关系
             TbOrderRelation tbOrderRelation = new TbOrderRelation();
             tbOrderRelation.setOrderNo(orderNo);
             tbOrderRelation.setRefType(OrderMapper.ORDER_PACKING_TASK_RELATION_CODE);
             tbOrderRelation.setRefValue(String.valueOf(sysTask.getId()));
             mybatisDao.insert(tbOrderRelation);
-            //更新订单状态未待装箱
+            //更新订单状态为待装箱
             orderService.updateOrderStatus(orderNo, "13");
         }
     }

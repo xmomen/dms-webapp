@@ -3,6 +3,7 @@
  */
 define(function () {
     return ["$scope", "PackingAPI", "OrderAPI", "$modal", "$ugDialog", "$q", "DictionaryAPI","UserAPI", function($scope, PackingAPI, OrderAPI, $modal, $ugDialog, $q, DictionaryAPI,UserAPI){
+
         $scope.managers = [];
         $scope.getCustomerManagersList = function(){
             UserAPI.getCustomerManagerList({
@@ -240,12 +241,14 @@ define(function () {
             return false;
         };
         $scope.changeBox = function(index){
-            PackingAPI.save({
-                orderNo:$scope.currentPackingBoxList[index].orderNo
-            }, function(data){
-                $scope.currentPackingBoxList[index].currentPacking = data;
-                $scope.currentPackingBoxList[index].boxNum = $scope.currentPackingBoxList[index].boxNum + 1;
-            })
+            $ugDialog.confirm("是否进行换箱操作?").then(function() {
+                PackingAPI.save({
+                    orderNo:$scope.currentPackingBoxList[index].orderNo
+                }, function(data){
+                    $scope.currentPackingBoxList[index].currentPacking = data;
+                    $scope.currentPackingBoxList[index].boxNum = $scope.currentPackingBoxList[index].boxNum + 1;
+                });
+            });
         };
         $scope.packingHistory = [];
         $scope.scanItemForm = {};
@@ -482,12 +485,21 @@ define(function () {
             }, function(data){
                 var result = data;
                 var boxSize = result.packingModels.length;
+                var newBoxSize = prompt("请确认打印面单数(注意：不能超过系统的装箱箱数！系统装箱箱数为："+boxSize,boxSize);
+               if(newBoxSize == null){
+                   newBoxSize = boxSize;
+               }
+                if(newBoxSize > boxSize){
+                    $ugDialog.warn("不能超过装箱数量："+boxSize);
+                    $scope.printOrder(order);
+                    return;
+                }
                 var LODOP=getLodop();
-                for(i=0;i<boxSize;i++){
+                for(i=0;i<newBoxSize;i++){
                     LODOP.PRINT_INITA(0,0,"100.81mm","74.61mm","打印订单");
                     LODOP.ADD_PRINT_BARCODE(23,266,43,43,"QRCode",order.orderNo+"&www.fygl.ehoyuan.cn/bind/auth?url=/wx/receipt");
                     LODOP.ADD_PRINT_BARCODE(23,317,40,42,"QRCode","http://fygl.ehoyuan.cn/bind/auth?url=/wx/receipt&param="+order.orderNo);
-                    LODOP.ADD_PRINT_BARCODE(99,23,"57.57mm","9.95mm","128Auto",order.orderNo);
+                    LODOP.ADD_PRINT_BARCODE(99,23,"57.57mm","9.95mm","128Auto",result.packingModels[i].packingNo);
                     LODOP.ADD_PRINT_TEXT(100,254,95,26,order.consigneeName);
                     LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
                     LODOP.SET_PRINT_STYLEA(0,"FontSize",12);
@@ -512,17 +524,17 @@ define(function () {
                     LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
                     var currentBox = i +1;
                     if(result.batchNum > 0){
-                        LODOP.ADD_PRINT_TEXT(237,283,85,35,currentBox + "/" + boxSize+"/"+ result.batchNum);
+                        LODOP.ADD_PRINT_TEXT(237,283,85,35,currentBox + "/" + newBoxSize+"/"+ result.batchNum);
                     }else{
-                        LODOP.ADD_PRINT_TEXT(237,283,85,35,currentBox + "/" + boxSize);
+                        LODOP.ADD_PRINT_TEXT(237,283,85,35,currentBox + "/" + newBoxSize);
                     }
                     LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
                     LODOP.SET_PRINT_STYLEA(0,"FontSize",12);
                     LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
                     LODOP.SET_PRINT_STYLEA(0,"Bold",1);
                     LODOP.ADD_PRINT_RECT(217,275,100,60,0,1);
-//                    LODOP.PRINT_DESIGN();
-                    LODOP.PRINT();
+                    LODOP.PRINT_DESIGN();
+//                    LODOP.PRINT();
                 }
             });
         }

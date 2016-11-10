@@ -1,6 +1,7 @@
 package com.xmomen.module.base.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -27,6 +28,7 @@ import com.xmomen.module.base.service.ExpressService;
 import com.xmomen.module.logger.Log;
 import com.xmomen.module.order.model.OrderModel;
 import com.xmomen.module.order.model.OrderQuery;
+import com.xmomen.module.report.model.OrderDeliveryReport;
 @RestController
 public class ExpressController {
 	@Autowired
@@ -61,6 +63,41 @@ public class ExpressController {
         }
         expressService.createExpress(createExpress);
     }
+    
+    
+    /**
+     * 快递商查询已分配未提货订单
+     * 
+     * @param limit
+     * @param offset
+     * @param keyword
+     * @return
+     */
+    @RequestMapping(value = "/express/noScanOrder", method = RequestMethod.GET)
+    @Log(actionName = "快递商查询已分配未提货订单")
+    public Page<OrderModel> noScanOrder(@RequestParam(value = "limit") Integer limit,
+                                  @RequestParam(value = "offset") Integer offset,
+                                  @RequestParam(value = "keyword", required = false) String keyword,
+                              		@RequestParam(value = "startTime", required = false) String startTime,
+                              		@RequestParam(value = "endTime", required = false) String endTime){
+    	OrderQuery orderQuery = new OrderQuery();
+		if (StringUtilsExt.isNotBlank(startTime)
+				&& !"undefined".equals(startTime)) {
+			orderQuery.setOrderCreateTimeStart(startTime.substring(0, 10));
+		}
+		if (StringUtilsExt.isNotBlank(endTime) && !"undefined".equals(endTime)) {
+			orderQuery.setOrderCreateTimeEnd(endTime.substring(0, 10));
+		}
+		// 运输部
+		if (SecurityUtils.getSubject().hasRole(
+				AppConstants.YUN_SHU_PERMISSION_CODE)) {
+			String despatchExpressCode = (String) SecurityUtils.getSubject()
+					.getPrincipal();
+			orderQuery.setDespatchExpressCode(despatchExpressCode);
+		}
+        return expressService.getOrderNoDespatchReportList(orderQuery, limit, offset);
+    }
+    
     
     /**
      * 订单列表
@@ -156,8 +193,12 @@ public class ExpressController {
     
     @RequestMapping(value ="/express/order/takeDelivery",method = RequestMethod.PUT)
     @Log(actionName = "快递商提货")
-    public void takeDelivery(@RequestParam(value = "orderNo",required = true)String orderNo){
-    	expressService.takeDelivery(orderNo);
+    /**
+     * 
+     * @param boxNo 箱号
+     */
+    public void takeDelivery(@RequestParam(value = "boxNo",required = true)String boxNo){
+    	expressService.takeDelivery(boxNo);
     }
     
     @RequestMapping(value ="/express/order/untakeDelivery",method = RequestMethod.PUT)

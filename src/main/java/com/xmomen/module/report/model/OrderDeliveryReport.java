@@ -41,5 +41,8 @@ class OrderDeliveryReport implements Serializable {
     @Excel(name = "送货日期" , exportFormat="yyyy-MM-dd", importFormat = "yyyy-MM-dd")
     private Date appointmentTime;
     @Excel(name = "备注")
-    private BigDecimal remark;
+    private String remark;
+    private String orderStatusDesc;
+    private int totalBoxNum;
+    private int expressScanBoxNum;
 }

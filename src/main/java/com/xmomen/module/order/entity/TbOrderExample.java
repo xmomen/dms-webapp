@@ -1087,6 +1087,66 @@ public class TbOrderExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
+        public Criteria andDiscountPriceIsNull() {
+            addCriterion("DISCOUNT_PRICE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountPriceIsNotNull() {
+            addCriterion("DISCOUNT_PRICE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountPriceEqualTo(BigDecimal value) {
+            addCriterion("DISCOUNT_PRICE =", value, "discountPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountPriceNotEqualTo(BigDecimal value) {
+            addCriterion("DISCOUNT_PRICE <>", value, "discountPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountPriceGreaterThan(BigDecimal value) {
+            addCriterion("DISCOUNT_PRICE >", value, "discountPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountPriceGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("DISCOUNT_PRICE >=", value, "discountPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountPriceLessThan(BigDecimal value) {
+            addCriterion("DISCOUNT_PRICE <", value, "discountPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountPriceLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("DISCOUNT_PRICE <=", value, "discountPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountPriceIn(List<BigDecimal> values) {
+            addCriterion("DISCOUNT_PRICE in", values, "discountPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountPriceNotIn(List<BigDecimal> values) {
+            addCriterion("DISCOUNT_PRICE not in", values, "discountPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountPriceBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("DISCOUNT_PRICE between", value1, value2, "discountPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDiscountPriceNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("DISCOUNT_PRICE not between", value1, value2, "discountPrice");
+            return (Criteria) this;
+        }
+
         public Criteria andTotalAmountIsNull() {
             addCriterion("TOTAL_AMOUNT is null");
             return (Criteria) this;
@@ -1447,63 +1507,63 @@ public class TbOrderExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andDiscountPriceIsNull() {
-            addCriterion("DISCOUNT_PRICE is null");
+        public Criteria andCompanyIdIsNull() {
+            addCriterion("COMPANY_ID is null");
             return (Criteria) this;
         }
 
-        public Criteria andDiscountPriceIsNotNull() {
-            addCriterion("DISCOUNT_PRICE is not null");
+        public Criteria andCompanyIdIsNotNull() {
+            addCriterion("COMPANY_ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDiscountPriceEqualTo(BigDecimal value) {
-            addCriterion("DISCOUNT_PRICE =", value, "discountPrice");
+        public Criteria andCompanyIdEqualTo(Integer value) {
+            addCriterion("COMPANY_ID =", value, "companyId");
             return (Criteria) this;
         }
 
-        public Criteria andDiscountPriceNotEqualTo(BigDecimal value) {
-            addCriterion("DISCOUNT_PRICE <>", value, "discountPrice");
+        public Criteria andCompanyIdNotEqualTo(Integer value) {
+            addCriterion("COMPANY_ID <>", value, "companyId");
             return (Criteria) this;
         }
 
-        public Criteria andDiscountPriceGreaterThan(BigDecimal value) {
-            addCriterion("DISCOUNT_PRICE >", value, "discountPrice");
+        public Criteria andCompanyIdGreaterThan(Integer value) {
+            addCriterion("COMPANY_ID >", value, "companyId");
             return (Criteria) this;
         }
 
-        public Criteria andDiscountPriceGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("DISCOUNT_PRICE >=", value, "discountPrice");
+        public Criteria andCompanyIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("COMPANY_ID >=", value, "companyId");
             return (Criteria) this;
         }
 
-        public Criteria andDiscountPriceLessThan(BigDecimal value) {
-            addCriterion("DISCOUNT_PRICE <", value, "discountPrice");
+        public Criteria andCompanyIdLessThan(Integer value) {
+            addCriterion("COMPANY_ID <", value, "companyId");
             return (Criteria) this;
         }
 
-        public Criteria andDiscountPriceLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("DISCOUNT_PRICE <=", value, "discountPrice");
+        public Criteria andCompanyIdLessThanOrEqualTo(Integer value) {
+            addCriterion("COMPANY_ID <=", value, "companyId");
             return (Criteria) this;
         }
 
-        public Criteria andDiscountPriceIn(List<BigDecimal> values) {
-            addCriterion("DISCOUNT_PRICE in", values, "discountPrice");
+        public Criteria andCompanyIdIn(List<Integer> values) {
+            addCriterion("COMPANY_ID in", values, "companyId");
             return (Criteria) this;
         }
 
-        public Criteria andDiscountPriceNotIn(List<BigDecimal> values) {
-            addCriterion("DISCOUNT_PRICE not in", values, "discountPrice");
+        public Criteria andCompanyIdNotIn(List<Integer> values) {
+            addCriterion("COMPANY_ID not in", values, "companyId");
             return (Criteria) this;
         }
 
-        public Criteria andDiscountPriceBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("DISCOUNT_PRICE between", value1, value2, "discountPrice");
+        public Criteria andCompanyIdBetween(Integer value1, Integer value2) {
+            addCriterion("COMPANY_ID between", value1, value2, "companyId");
             return (Criteria) this;
         }
 
-        public Criteria andDiscountPriceNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("DISCOUNT_PRICE not between", value1, value2, "discountPrice");
+        public Criteria andCompanyIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("COMPANY_ID not between", value1, value2, "companyId");
             return (Criteria) this;
         }
 
@@ -1564,66 +1624,6 @@ public class TbOrderExample extends BaseMybatisExample {
 
         public Criteria andManagerIdNotBetween(Integer value1, Integer value2) {
             addCriterion("MANAGER_ID not between", value1, value2, "managerId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdIsNull() {
-            addCriterion("COMPANY_ID is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdIsNotNull() {
-            addCriterion("COMPANY_ID is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdEqualTo(Integer value) {
-            addCriterion("COMPANY_ID =", value, "companyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdNotEqualTo(Integer value) {
-            addCriterion("COMPANY_ID <>", value, "companyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdGreaterThan(Integer value) {
-            addCriterion("COMPANY_ID >", value, "companyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("COMPANY_ID >=", value, "companyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdLessThan(Integer value) {
-            addCriterion("COMPANY_ID <", value, "companyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdLessThanOrEqualTo(Integer value) {
-            addCriterion("COMPANY_ID <=", value, "companyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdIn(List<Integer> values) {
-            addCriterion("COMPANY_ID in", values, "companyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdNotIn(List<Integer> values) {
-            addCriterion("COMPANY_ID not in", values, "companyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdBetween(Integer value1, Integer value2) {
-            addCriterion("COMPANY_ID between", value1, value2, "companyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("COMPANY_ID not between", value1, value2, "companyId");
             return (Criteria) this;
         }
 
@@ -1694,6 +1694,126 @@ public class TbOrderExample extends BaseMybatisExample {
 
         public Criteria andBatchNoNotBetween(String value1, String value2) {
             addCriterion("BATCH_NO not between", value1, value2, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBoxNumIsNull() {
+            addCriterion("TOTAL_BOX_NUM is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBoxNumIsNotNull() {
+            addCriterion("TOTAL_BOX_NUM is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBoxNumEqualTo(Integer value) {
+            addCriterion("TOTAL_BOX_NUM =", value, "totalBoxNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBoxNumNotEqualTo(Integer value) {
+            addCriterion("TOTAL_BOX_NUM <>", value, "totalBoxNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBoxNumGreaterThan(Integer value) {
+            addCriterion("TOTAL_BOX_NUM >", value, "totalBoxNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBoxNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("TOTAL_BOX_NUM >=", value, "totalBoxNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBoxNumLessThan(Integer value) {
+            addCriterion("TOTAL_BOX_NUM <", value, "totalBoxNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBoxNumLessThanOrEqualTo(Integer value) {
+            addCriterion("TOTAL_BOX_NUM <=", value, "totalBoxNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBoxNumIn(List<Integer> values) {
+            addCriterion("TOTAL_BOX_NUM in", values, "totalBoxNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBoxNumNotIn(List<Integer> values) {
+            addCriterion("TOTAL_BOX_NUM not in", values, "totalBoxNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBoxNumBetween(Integer value1, Integer value2) {
+            addCriterion("TOTAL_BOX_NUM between", value1, value2, "totalBoxNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBoxNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("TOTAL_BOX_NUM not between", value1, value2, "totalBoxNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressScanBoxNumIsNull() {
+            addCriterion("EXPRESS_SCAN_BOX_NUM is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressScanBoxNumIsNotNull() {
+            addCriterion("EXPRESS_SCAN_BOX_NUM is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressScanBoxNumEqualTo(Integer value) {
+            addCriterion("EXPRESS_SCAN_BOX_NUM =", value, "expressScanBoxNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressScanBoxNumNotEqualTo(Integer value) {
+            addCriterion("EXPRESS_SCAN_BOX_NUM <>", value, "expressScanBoxNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressScanBoxNumGreaterThan(Integer value) {
+            addCriterion("EXPRESS_SCAN_BOX_NUM >", value, "expressScanBoxNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressScanBoxNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("EXPRESS_SCAN_BOX_NUM >=", value, "expressScanBoxNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressScanBoxNumLessThan(Integer value) {
+            addCriterion("EXPRESS_SCAN_BOX_NUM <", value, "expressScanBoxNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressScanBoxNumLessThanOrEqualTo(Integer value) {
+            addCriterion("EXPRESS_SCAN_BOX_NUM <=", value, "expressScanBoxNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressScanBoxNumIn(List<Integer> values) {
+            addCriterion("EXPRESS_SCAN_BOX_NUM in", values, "expressScanBoxNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressScanBoxNumNotIn(List<Integer> values) {
+            addCriterion("EXPRESS_SCAN_BOX_NUM not in", values, "expressScanBoxNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressScanBoxNumBetween(Integer value1, Integer value2) {
+            addCriterion("EXPRESS_SCAN_BOX_NUM between", value1, value2, "expressScanBoxNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressScanBoxNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("EXPRESS_SCAN_BOX_NUM not between", value1, value2, "expressScanBoxNum");
             return (Criteria) this;
         }
     }

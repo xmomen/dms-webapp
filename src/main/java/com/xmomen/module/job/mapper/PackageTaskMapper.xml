@@ -49,8 +49,8 @@
             </if>
 		</where>
 		order by 
-		tj.JOB_STATUS,
-		tj.job_create_time
+		tj.job_create_time desc,
+		tj.JOB_STATUS
     </select>
     
     <update id="updateBeginTime" parameterType="java.lang.Integer">
