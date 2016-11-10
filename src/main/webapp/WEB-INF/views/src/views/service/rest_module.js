@@ -379,6 +379,10 @@ define(function () {
                     id:"@id",
                     locked:"@locked"
                 }
+            },
+            createPlanOrder:{
+                method:"PUT",
+                url:"/tablePlan/createPlanOrder"
             }
         });
     }]);

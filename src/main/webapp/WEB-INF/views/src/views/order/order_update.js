@@ -35,6 +35,7 @@ define(function () {
                     id: id,
                     orderNo:orderNo
                 },function(data){
+                    debugger;
                     $scope.order = data;
 
                     if($scope.order.orderType == 1){
@@ -43,6 +44,9 @@ define(function () {
                         }
                         $scope.getCouponByCouponNo();
                     }else if($scope.order.orderType == 2){
+                        $scope.coupon = {
+                            cardNumber : $scope.order.couponNumber
+                        }
                         $scope.getCouponByJuanNo();
                     }else if($scope.order.orderType == 0){
                         $scope.order.phone = $scope.order.consigneePhone;
@@ -265,40 +269,37 @@ define(function () {
                                     setMemberInfo(data);
                                 })
                             }
-                            if(coupon.relationItemList){
-                                var ids = [];
-                                for (var i = 0; i < coupon.relationItemList.length; i++) {
-                                    var obj = coupon.relationItemList[i];
-                                    ids.push(obj.itemId);
-                                }
-                                //  固定产品
-                                ItemAPI.query({
-                                    companyId:$scope.order.companyId,
-                                    limit:1000,
-                                    offset:1,
-                                    sellStatus:1,
-                                    ids:ids
-                                }, function(data){
-                                    var itemList = data.data;
-                                    for (var i = 0; i < itemList.length; i++) {
-                                        var obj1 = itemList[i];
-                                        for (var j = 0; j < coupon.relationItemList.length; j++) {
-                                            var obj2 = coupon.relationItemList[j];
-                                            if(obj1.id == obj2.itemId){
-                                                var item = itemList[i];
-                                                item.itemQty = obj2.itemNumber;
-                                                item.orderItemId = item.id;
-                                                $scope.choseOrderItemList.push(item);
-                                                $scope.calTotalItem();
-                                            }
-                                        }
-                                    }
-                                });
-                                if(coupon.isUsed==1){
-                                    $ugDialog.warn("劵号已使用！");
-                                    return;
-                                }
-                            }
+                            $scope.calTotalItem();
+//                            if(coupon.relationItemList){
+//                                var ids = [];
+//                                for (var i = 0; i < coupon.relationItemList.length; i++) {
+//                                    var obj = coupon.relationItemList[i];
+//                                    ids.push(obj.itemId);
+//                                }
+//                                //  固定产品
+//                                ItemAPI.query({
+//                                    companyId:$scope.order.companyId,
+//                                    limit:1000,
+//                                    offset:1,
+//                                    sellStatus:1,
+//                                    ids:ids
+//                                }, function(data){
+//                                    var itemList = data.data;
+//                                    for (var i = 0; i < itemList.length; i++) {
+//                                        var obj1 = itemList[i];
+//                                        for (var j = 0; j < coupon.relationItemList.length; j++) {
+//                                            var obj2 = coupon.relationItemList[j];
+//                                            if(obj1.id == obj2.itemId){
+//                                                var item = itemList[i];
+//                                                item.itemQty = obj2.itemNumber;
+//                                                item.orderItemId = item.id;
+//                                                $scope.choseOrderItemList.push(item);
+//                                                $scope.calTotalItem();
+//                                            }
+//                                        }
+//                                    }
+//                                });
+//                            }
                         }else{
                             $ugDialog.warn("劵号不存在！");
                         }

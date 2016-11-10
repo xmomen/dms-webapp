@@ -54,10 +54,15 @@ public @Data class TablePlanModel implements Serializable{
      * 单位
      */
     private String companyName;
+    
+    private int companyId;
+    
     /**
      * 所属客服经理
      */
     private String managerName;
+    
+    private int managerId;
     
     /**
      * 总配送次数
@@ -73,5 +78,34 @@ public @Data class TablePlanModel implements Serializable{
      * 生效时间
      */
     private Date beginTime;
+    
+    /**
+     * 配送频率（1周，2周，3周）
+     */
+    private Integer deliveryType;
+
+    /**
+     * 配送时间(一周的星期几）
+     */
+    private String deliveryTime;
+    /**
+     * 上次配送时间
+     */
+    private Date lastSendDate;
+    
+    /**
+     * 是否随机
+     */
+    private Integer isRandom;
+
+    /**
+     * 产品归属的类别
+     */
+    private Integer cdCategoryId;
+
+    /**
+     * 随机数
+     */
+    private Integer randomNum;
 
 }

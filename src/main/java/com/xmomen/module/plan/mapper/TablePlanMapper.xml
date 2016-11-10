@@ -7,8 +7,12 @@
         SELECT
         	ttp.*,
         	cp.plan_name,
+        	cp.delivery_type,
+        	cp.delivery_time,
+        	cc.id as company_id,
         	cc.company_name,
-        	su.realName as managerName
+        	su.realName as managerName,
+        	su.id as manager_id
         FROM
         	tb_table_plan  ttp
         left join cd_plan cp on ttp.cd_plan_id = cp.id
@@ -26,5 +30,38 @@
               	 AND cm.cd_user_id = #{userId}
               </if>
           </where>
+    </select>
+    
+    <!-- 获取有效的餐桌计划 -->
+   	<select id="getNormalTablePlanList" resultType="com.xmomen.module.plan.model.TablePlanModel" parameterType="java.util.HashMap">
+   		select 
+   			plan.DELIVERY_TIME,
+   			plan.DELIVERY_TYPE,
+   			plan.IS_RANDOM,
+   			plan.CD_CATEGORY_ID,
+   			plan.RANDOM_NUM,
+   			cc.id as company_id,
+        	cc.company_name,
+        	su.realName as managerName,
+        	su.id as manager_id,
+   			table_plan.* 
+   		from 
+   			tb_table_plan table_plan
+		left join cd_plan plan on table_plan.CD_PLAN_ID= plan.id 
+		left join cd_member cm on table_plan.cd_member_id = cm.id  
+        left join cd_company cc on cm.cd_company_id = cc.id
+        left join sys_users su on cm.cd_user_id = su.id
+		 <where>
+			table_plan.IS_STOP = 0
+			and table_plan.TOTAL_SEND_VALUE > table_plan.SEND_VALUE
+			 <if test="beginTime">
+			  <![CDATA[
+				AND DATE_FORMAT(table_plan.BEGIN_TIME ,'%Y-%m-%d') <= #{beginTime}
+			  ]]>
+			</if>
+			<if test="weekday">
+			and plan.DELIVERY_time = #{weekday}
+			</if>
+		 </where>
     </select>
 </mapper>

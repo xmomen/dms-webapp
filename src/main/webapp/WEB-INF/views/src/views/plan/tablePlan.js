@@ -27,6 +27,14 @@ define(function () {
             });
         };
 
+        $scope.createPlanOrder = function(){
+            TablePlanAPI.createPlanOrder({
+
+            }, function(data){
+              $ugDialog.alert("执行成功");
+            });
+        };
+
         $scope.open = function (index) {
             var modalInstance = $modal.open({
                 templateUrl: 'addTablePlan.html',

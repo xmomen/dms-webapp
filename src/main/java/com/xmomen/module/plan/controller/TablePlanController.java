@@ -126,4 +126,14 @@ public class TablePlanController {
         tablePlan.setId(id);
         mybatisDao.update(tablePlan);
     }
+    
+    /**
+     *  暂停配送
+     * @param id
+     */
+    @RequestMapping(value = "/tablePlan/createPlanOrder", method = RequestMethod.PUT)
+    @Log(actionName = "手工调用")
+    public void createPlanOrder(){
+    	tablePlanService.createTablePlanOrder();
+    }
 }
