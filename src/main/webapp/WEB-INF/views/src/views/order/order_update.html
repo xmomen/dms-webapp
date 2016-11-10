@@ -79,7 +79,7 @@
 									<label class="control-label col-md-2">卡号<span class="vaild">*</span></label>
 									<div class="col-md-4">
 											<input type="hidden" ng-model="card.id" name="cardId">
-											<input type="text" required="{{order.orderType == 1}}" disabled ng-model="card.cardNumber" placeholder="卡号" name="cardNumber" class="form-control">
+											<input type="text" required="{{order.orderType == 1}}" disabled ng-model="order.couponNumber" placeholder="卡号" name="cardNumber" class="form-control">
 						                    <!--<span class="input-group-btn">-->
 						                        <!--<button class="btn btn-default" data-ng-click="getCouponByCouponNo()" type="button">查询</button>-->
 						                    <!--</span>-->
@@ -529,8 +529,8 @@
                                             <label class="control-label" ng-if="order.paymentMode == 3">转账</label>
                                             <label class="control-label" ng-if="order.paymentMode == 4">物流公司代收</label>
                                             <label class="control-label" ng-if="order.paymentMode == 5">卡类扣款</label>
-                                            <label class="control-label" ng-if="order.paymentMode == 6">劵类扣款</label>
-                                            <label class="control-label" ng-if="order.paymentMode == 7">其他</label>
+                                            <label class="control-label" ng-if="order.paymentMode == 7">劵类扣款</label>
+                                            <label class="control-label" ng-if="order.paymentMode == 6">其他</label>
 										</div>
 									</div>
 									<div class="col-md-12">

@@ -157,6 +157,8 @@ public class OrderService {
         //订单总金额 如果是劵的 则就是劵面金额 不用累计商品总金额
         if (tbOrder.getOrderType() == 2) {
             tbOrder.setTotalAmount(createOrder.getTotalPrice());
+            totalAmount = createOrder.getTotalPrice();
+            tbOrder.setDiscountPrice(BigDecimal.ZERO);
         }
         else {
             tbOrder.setTotalAmount(totalAmount);
@@ -270,6 +272,7 @@ public class OrderService {
         //订单总金额 如果是劵的 则就是劵面金额 不用累计商品总金额
         if (tbOrder.getOrderType() == 2) {
             tbOrder.setTotalAmount(updateOrder.getTotalPrice());
+            totalAmount = updateOrder.getTotalPrice();
             tbOrder.setDiscountPrice(BigDecimal.ZERO);
         }
         else {
@@ -358,6 +361,27 @@ public class OrderService {
             refundOrder.setOtherPaymentMode(tbOrder.getOtherPaymentMode());
             refundOrder.setRemark("订单更新，金额变更");
             refundOrder(refundOrder);
+        }
+        //如果是劵 则将劵变为可用状态
+        else if(tbOrder.getOrderType() == 2){
+        	//获取劵号
+        	TbOrderRelationExample tbOrderRelationExample = new TbOrderRelationExample();
+        	tbOrderRelationExample.createCriteria()
+            .andOrderNoEqualTo(tbOrder.getOrderNo())
+            .andRefTypeEqualTo(OrderMapper.ORDER_PAY_RELATION_CODE);
+        	TbOrderRelation tbOrderRelation = mybatisDao.selectOneByExample(tbOrderRelationExample);
+        	
+        	CdCouponExample cdCouponExample = new CdCouponExample();
+            cdCouponExample.createCriteria().andCouponNumberEqualTo(tbOrderRelation.getRefValue());
+            CdCoupon updateCdCoupon = new CdCoupon();
+            updateCdCoupon.setIsUsed(0);
+            mybatisDao.updateOneByExampleSelective(updateCdCoupon, cdCouponExample);
+            
+            //删除原来的订单付款记录
+		    TbTradeRecordExample tradeRecordExample = new TbTradeRecordExample();
+		    tradeRecordExample.createCriteria().andTradeNoEqualTo(tbOrder.getOrderNo())
+		            .andTradeTypeEqualTo("COUPON");
+		    mybatisDao.deleteByExample(tradeRecordExample);
         }
     }
 
