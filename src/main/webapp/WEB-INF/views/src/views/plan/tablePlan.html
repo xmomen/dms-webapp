@@ -54,6 +54,10 @@
                                     <i class="fa fa-plus"></i>
                                     新增
                                 </button>
+                                <button class="btn btn-primary" type="button" data-ng-click="createPlanOrder()">
+                                    <i class="fa fa-fast-forward"></i>
+                                    手工执行
+                                </button>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -67,6 +71,7 @@
                                         </label>
                                     </th>
                                     <th width="120">餐桌计划</th>
+                                    <th>配送频率(周)/配送时间(星期)</th>
                                     <th>卡号</th>
                                     <th width="120">收货人姓名</th>
                                     <th>手机号</th>
@@ -89,6 +94,7 @@
                                         </label>
                                     </td>
                                     <td ng-bind="tablePlan.planName"></td>
+                                    <td>每{{tablePlan.deliveryType}}周/星期{{tablePlan.deliveryTime}}</td>
                                     <td ng-bind="tablePlan.couponNumber"></td>
                                     <td ng-bind="tablePlan.consigneeName"></td>
                                     <td ng-bind="tablePlan.consigneePhone"></td>

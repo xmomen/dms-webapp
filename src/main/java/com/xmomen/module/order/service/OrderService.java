@@ -135,7 +135,6 @@ public class OrderService {
         tbOrder.setConsigneeAddress(createOrder.getConsigneeAddress());
         tbOrder.setConsigneePhone(createOrder.getConsigneePhone());
         tbOrder.setCreateTime(mybatisDao.getSysdate());
-        tbOrder.setOrderSource(createOrder.getOrderSource());
         tbOrder.setPaymentMode(createOrder.getPaymentMode());
         tbOrder.setOtherPaymentMode(createOrder.getOtherPaymentMode());
         tbOrder.setMemberCode(createOrder.getMemberCode());
@@ -153,7 +152,7 @@ public class OrderService {
         orderRef.setRefType("SHOU_HUO_NO");
         orderRef.setRefValue(String.valueOf((int) ((Math.random() * 9 + 1) * 100000)));
         mybatisDao.insert(orderRef);
-        totalAmount = totalAmount.subtract(createOrder.getDiscountPrice());
+        totalAmount = totalAmount.subtract(createOrder.getDiscountPrice() == null ? BigDecimal.ZERO:createOrder.getDiscountPrice());
         //订单总金额 如果是劵的 则就是劵面金额 不用累计商品总金额
         if (tbOrder.getOrderType() == 2) {
             tbOrder.setTotalAmount(createOrder.getTotalPrice());
