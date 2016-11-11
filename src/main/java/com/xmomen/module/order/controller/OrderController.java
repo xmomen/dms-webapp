@@ -161,7 +161,7 @@ public class OrderController {
      * 订单商品列表
      * @param limit
      * @param offset
-     * @param keyword
+     * @param orderNo
      * @return
      */
     @RequestMapping(value = "/order/{id}/item", method = RequestMethod.GET)

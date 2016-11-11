@@ -152,9 +152,9 @@ public class OrderService {
         orderRef.setRefType("SHOU_HUO_NO");
         orderRef.setRefValue(String.valueOf((int) ((Math.random() * 9 + 1) * 100000)));
         mybatisDao.insert(orderRef);
-        totalAmount = totalAmount.subtract(createOrder.getDiscountPrice() == null ? BigDecimal.ZERO:createOrder.getDiscountPrice());
-        //订单总金额 如果是劵的 则就是劵面金额 不用累计商品总金额
-        if (tbOrder.getOrderType() == 2) {
+        totalAmount = totalAmount.subtract(createOrder.getDiscountPrice() == null ? BigDecimal.ZERO : createOrder.getDiscountPrice());
+        //订单总金额 如果是劵的 或者是餐桌计划的 则就是劵面金额 不用累计商品总金额
+        if (tbOrder.getOrderType() == 2 || tbOrder.getOrderType() == 3) {
             tbOrder.setTotalAmount(createOrder.getTotalPrice());
             totalAmount = createOrder.getTotalPrice();
             tbOrder.setDiscountPrice(BigDecimal.ZERO);
@@ -165,7 +165,7 @@ public class OrderService {
         }
         tbOrder.setAppointmentTime(createOrder.getAppointmentTime());
         tbOrder = mybatisDao.insertByModel(tbOrder);
-        if (StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null && (createOrder.getOrderType() == 1 || createOrder.getOrderType() == 2)) {
+        if (StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null && createOrder.getOrderType() > 0) {
             TbOrderRelation tbOrderRelation = new TbOrderRelation();
             tbOrderRelation.setOrderNo(orderNo);
             tbOrderRelation.setRefType(OrderMapper.ORDER_PAY_RELATION_CODE);// 订单支付关系
@@ -268,8 +268,8 @@ public class OrderService {
         tbOrder.setOrderType(updateOrder.getOrderType());
         tbOrder.setOrderSource(updateOrder.getOrderSource());
         totalAmount = totalAmount.subtract(updateOrder.getDiscountPrice());
-        //订单总金额 如果是劵的 则就是劵面金额 不用累计商品总金额
-        if (tbOrder.getOrderType() == 2) {
+        //订单总金额 如果是劵的 或者是餐桌计划的 则就是劵面金额 不用累计商品总金额
+        if (tbOrder.getOrderType() == 2 || tbOrder.getOrderType() == 3) {
             tbOrder.setTotalAmount(updateOrder.getTotalPrice());
             totalAmount = updateOrder.getTotalPrice();
             tbOrder.setDiscountPrice(BigDecimal.ZERO);
@@ -281,8 +281,8 @@ public class OrderService {
         tbOrder.setAppointmentTime(updateOrder.getAppointmentTime());
         mybatisDao.update(tbOrder);
 
-        //卡号，劵号
-        if (StringUtils.trimToNull(updateOrder.getPaymentRelationNo()) != null && updateOrder.getOrderType() == 1) {
+        //卡号，劵号，餐桌计划卡号
+        if (StringUtils.trimToNull(updateOrder.getPaymentRelationNo()) != null && updateOrder.getOrderType() > 0) {
             TbOrderRelationExample tbOrderRelationExample = new TbOrderRelationExample();
             tbOrderRelationExample.createCriteria()
                     .andOrderNoEqualTo(orderNo)
@@ -291,8 +291,8 @@ public class OrderService {
             tbOrderRelation.setRefValue(updateOrder.getPaymentRelationNo());
             mybatisDao.updateOneByExampleSelective(tbOrderRelation, tbOrderRelationExample);
         }
-        //订单类型不是券，修改订单的金额 修改方式 去掉之前的付款方式 重新生成（卡的钱先退回去）
-        if (tbOrder.getOrderType() != 2) {
+        //订单类型不是券或餐桌计划，修改订单的金额 修改方式 去掉之前的付款方式 重新生成（卡的钱先退回去）
+        if (!(tbOrder.getOrderType() == 2 || tbOrder.getOrderType() == 3)) {
             RefundOrder refundOrder = new RefundOrder();
             refundOrder.setOrderNo(oldTbOrder.getOrderNo());
             refundOrder.setPaymentMode(oldTbOrder.getPaymentMode());
@@ -352,7 +352,7 @@ public class OrderService {
         //订单取消状态
         tbOrder.setOrderStatus("9");
         mybatisDao.updateByModel(tbOrder);
-        //如果是卡类订单(将钱退回)
+        //如果是卡类订单或者是餐桌计划订单(将钱退回卡里面)
         if (tbOrder.getOrderType() == 1) {
             RefundOrder refundOrder = new RefundOrder();
             refundOrder.setOrderNo(tbOrder.getOrderNo());
@@ -362,25 +362,48 @@ public class OrderService {
             refundOrder(refundOrder);
         }
         //如果是劵 则将劵变为可用状态
-        else if(tbOrder.getOrderType() == 2){
-        	//获取劵号
-        	TbOrderRelationExample tbOrderRelationExample = new TbOrderRelationExample();
-        	tbOrderRelationExample.createCriteria()
-            .andOrderNoEqualTo(tbOrder.getOrderNo())
-            .andRefTypeEqualTo(OrderMapper.ORDER_PAY_RELATION_CODE);
-        	TbOrderRelation tbOrderRelation = mybatisDao.selectOneByExample(tbOrderRelationExample);
-        	
-        	CdCouponExample cdCouponExample = new CdCouponExample();
+        else if (tbOrder.getOrderType() == 2) {
+            //获取劵号
+            TbOrderRelationExample tbOrderRelationExample = new TbOrderRelationExample();
+            tbOrderRelationExample.createCriteria()
+                    .andOrderNoEqualTo(tbOrder.getOrderNo())
+                    .andRefTypeEqualTo(OrderMapper.ORDER_PAY_RELATION_CODE);
+            TbOrderRelation tbOrderRelation = mybatisDao.selectOneByExample(tbOrderRelationExample);
+
+            CdCouponExample cdCouponExample = new CdCouponExample();
             cdCouponExample.createCriteria().andCouponNumberEqualTo(tbOrderRelation.getRefValue());
             CdCoupon updateCdCoupon = new CdCoupon();
             updateCdCoupon.setIsUsed(0);
             mybatisDao.updateOneByExampleSelective(updateCdCoupon, cdCouponExample);
-            
+
             //删除原来的订单付款记录
-		    TbTradeRecordExample tradeRecordExample = new TbTradeRecordExample();
-		    tradeRecordExample.createCriteria().andTradeNoEqualTo(tbOrder.getOrderNo())
-		            .andTradeTypeEqualTo("COUPON");
-		    mybatisDao.deleteByExample(tradeRecordExample);
+            TbTradeRecordExample tradeRecordExample = new TbTradeRecordExample();
+            tradeRecordExample.createCriteria().andTradeNoEqualTo(tbOrder.getOrderNo())
+                    .andTradeTypeEqualTo("COUPON");
+            mybatisDao.deleteByExample(tradeRecordExample);
+        }
+        //如果是餐桌计划 则将已送次数-1 金额回退回去
+        else if (tbOrder.getOrderType() == 3) {
+            //获取餐桌计划卡号
+            TbOrderRelationExample tbOrderRelationExample = new TbOrderRelationExample();
+            tbOrderRelationExample.createCriteria()
+                    .andOrderNoEqualTo(tbOrder.getOrderNo())
+                    .andRefTypeEqualTo(OrderMapper.ORDER_PAY_RELATION_CODE);
+            TbOrderRelation tbOrderRelation = mybatisDao.selectOneByExample(tbOrderRelationExample);
+
+            //删除原来的订单付款记录
+            TbTradeRecordExample tradeRecordExample = new TbTradeRecordExample();
+            tradeRecordExample.createCriteria().andTradeNoEqualTo(tbOrder.getOrderNo())
+                    .andTradeTypeEqualTo("PLAN_CARD");
+            TbTradeRecord tradeRecord = mybatisDao.selectOneByExample(tradeRecordExample);
+            mybatisDao.deleteByExample(tradeRecordExample);
+
+            //将餐桌计划卡里面的钱回退回去
+            CdCouponExample couponExample = new CdCouponExample();
+            couponExample.createCriteria().andCouponNumberEqualTo(tbOrderRelation.getRefValue());
+            CdCoupon coupon = mybatisDao.selectOneByExample(couponExample);
+            coupon.setUserPrice(coupon.getUserPrice().add(tradeRecord.getAmount()));
+            mybatisDao.update(coupon);
         }
     }
 
@@ -430,6 +453,7 @@ public class OrderService {
             CdCouponExample couponExample = new CdCouponExample();
             couponExample.createCriteria().andCouponNumberEqualTo(tbOrderRelation.getRefValue());
             CdCoupon coupon = mybatisDao.selectOneByExample(couponExample);
+            //订单的钱回退回去
             coupon.setUserPrice(coupon.getUserPrice().add(tradeRecord.getAmount()));
             mybatisDao.update(coupon);
         }
@@ -451,11 +475,12 @@ public class OrderService {
         tbOrder = mybatisDao.selectOneByModel(tbOrder);
         Integer payStatus = 0;
         //卡劵订单才记录扣款记录
-        if (tbOrder.getPaymentMode().equals(5) || tbOrder.getPaymentMode().equals(7)) {
+        if (tbOrder.getOrderType() > 0) {
             CdCoupon cdCoupon = new CdCoupon();
             cdCoupon.setCouponNumber(tbOrderRelation.getRefValue());
             cdCoupon = mybatisDao.selectOneByModel(cdCoupon);
 
+            //卡类订单
             if (tbOrder.getOrderType() == 1) {
                 BigDecimal amount = BigDecimal.ZERO;
                 // 卡内支付
@@ -478,6 +503,7 @@ public class OrderService {
                     tbTradeRecord.setAmount(amount);
                     tbTradeRecord.setCreateTime(mybatisDao.getSysdate());
                     tbTradeRecord.setTradeNo(payOrder.getOrderNo());
+                    //卡类
                     tbTradeRecord.setTradeType("CARD");
                     mybatisDao.insert(tbTradeRecord);
                     // 代付金额
@@ -501,11 +527,13 @@ public class OrderService {
                     tbTradeRecord.setAmount(payOrder.getAmount());
                     tbTradeRecord.setCreateTime(mybatisDao.getSysdate());
                     tbTradeRecord.setTradeNo(payOrder.getOrderNo());
+                    //卡类
                     tbTradeRecord.setTradeType("CARD");
                     mybatisDao.insert(tbTradeRecord);
                     payStatus = 1;//已支付
                 }
             }
+            //劵类订单
             else if (tbOrder.getOrderType() == 2) {
                 Date now = mybatisDao.getSysdate();
                 if (cdCoupon.getBeginTime() != null && now.before(cdCoupon.getBeginTime())) {
@@ -529,9 +557,27 @@ public class OrderService {
                 tbTradeRecord.setAmount(payOrder.getAmount());
                 tbTradeRecord.setCreateTime(mybatisDao.getSysdate());
                 tbTradeRecord.setTradeNo(payOrder.getOrderNo());
+                //劵类
                 tbTradeRecord.setTradeType("COUPON");
                 mybatisDao.insert(tbTradeRecord);
                 payStatus = 1;//已支付
+            }
+            //餐桌计划订单
+            else if (tbOrder.getOrderType() == 3) {
+                CdCouponExample cdCouponExample = new CdCouponExample();
+                cdCouponExample.createCriteria().andCouponNumberEqualTo(tbOrderRelation.getRefValue());
+                CdCoupon updateCdCoupon = new CdCoupon();
+                updateCdCoupon.setIsUsed(1);
+                mybatisDao.updateOneByExampleSelective(updateCdCoupon, cdCouponExample);
+                TbTradeRecord tbTradeRecord = new TbTradeRecord();
+                tbTradeRecord.setAmount(payOrder.getAmount());
+                tbTradeRecord.setCreateTime(mybatisDao.getSysdate());
+                tbTradeRecord.setTradeNo(payOrder.getOrderNo());
+                //餐桌计划卡
+                tbTradeRecord.setTradeType("PLAN_CARD");
+                mybatisDao.insert(tbTradeRecord);
+                //已支付
+                payStatus = 1;
             }
         }
         TbOrderExample tbOrderExample = new TbOrderExample();
