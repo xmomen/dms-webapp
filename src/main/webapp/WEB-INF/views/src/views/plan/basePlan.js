@@ -124,7 +124,6 @@ define(function () {
                                     $scope.errors = data.data;
                                 })
                             }
-
                         }
                     };
                     $scope.cancel = function () {

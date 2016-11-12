@@ -48,6 +48,7 @@ public class TablePlanSercviceImpl implements TablePlanSercvice {
 			tablePlan.setSendValue(0);
 			CdPlan plan = mybatisDao.selectByPrimaryKey(CdPlan.class,tablePlan.getCdPlanId());
 			tablePlan.setTotalSendValue(plan.getDeliverCount());
+			tablePlan.setSendWeekDay(plan.getDeliveryTime());
 			mybatisDao.saveByModel(tablePlan);
 		}
 	}
@@ -62,6 +63,7 @@ public class TablePlanSercviceImpl implements TablePlanSercvice {
 		tablePlan.setConsigneeName(updateTablePlan.getConsigneeName());
 		tablePlan.setConsigneePhone(updateTablePlan.getConsigneePhone());
 		tablePlan.setCouponNumber(updateTablePlan.getCouponNumber());
+		tablePlan.setSendWeekDay(updateTablePlan.getSendWeekDay());
 		CdPlan plan = mybatisDao.selectByPrimaryKey(CdPlan.class,updateTablePlan.getCdPlanId());
 		tablePlan.setTotalSendValue(plan.getDeliverCount());
 		mybatisDao.saveByModel(tablePlan);
@@ -111,13 +113,13 @@ public class TablePlanSercviceImpl implements TablePlanSercvice {
 					continue; 
 				 }
 			}
-			//有效订单
-			if(tablePlanMap.containsKey(tablePlanModel.getConsigneePhone())){
+			//有效订单 (卡和手机号地址相同的合并成一个订单)
+			if(tablePlanMap.containsKey(tablePlanModel.getConsigneePhone()+tablePlanModel.getCouponNumber()+tablePlanModel.getConsigneeAddress())){
 				tablePlanMap.get(tablePlanModel.getConsigneePhone()).add(tablePlanModel);
 			}else{
 				List<TablePlanModel> tablePlanModels = new ArrayList<TablePlanModel>();
 				tablePlanModels.add(tablePlanModel);
-				tablePlanMap.put(tablePlanModel.getConsigneePhone(), tablePlanModels);
+				tablePlanMap.put(tablePlanModel.getConsigneePhone()+tablePlanModel.getCouponNumber()+tablePlanModel.getConsigneeAddress(), tablePlanModels);
 			}
 			//更新订单的最后次送货时间 和次数
 			TbTablePlanExample tbTablePlanExample = new TbTablePlanExample();
@@ -145,6 +147,8 @@ public class TablePlanSercviceImpl implements TablePlanSercvice {
 			createOrder.setConsigneeName(tablePlanModelHead.getConsigneeName());
 			createOrder.setConsigneeAddress(tablePlanModelHead.getConsigneeAddress());
 			createOrder.setConsigneePhone(tablePlanModelHead.getConsigneePhone());
+			//卡号
+			createOrder.setPaymentRelationNo(tablePlanModelHead.getCouponNumber());
 	        createOrder.setOrderSource(4);
 	        //其他付款方式
 	        createOrder.setPaymentMode(6);
@@ -153,13 +157,15 @@ public class TablePlanSercviceImpl implements TablePlanSercvice {
 	        createOrder.setManagerId(tablePlanModelHead.getManagerId());
 	        createOrder.setCompanyId(tablePlanModelHead.getCompanyId());
 	        createOrder.setAppointmentTime(addDate(mybatisDao.getSysdate(),1));
+	        //计算金额
+	        BigDecimal totalAmount = BigDecimal.ZERO;
 	        List<OrderItem> orderItemList = new ArrayList<OrderItem>();
 	        //查找商品
 			for(TablePlanModel tablePlanModel:tablePlanModels){
 				List<CdPlanItem> planItems  = new ArrayList<CdPlanItem>();
 				//随机送产品
 				if(tablePlanModel.getIsRandom() == 1){
-					
+					//随机取出对应产品类型的商品
 				}
 				else{
 					CdPlanItem cdPlanItem = new CdPlanItem();
@@ -173,9 +179,11 @@ public class TablePlanSercviceImpl implements TablePlanSercvice {
 					orderItem.setItemQty(new BigDecimal(planItem.getCountValue()));
 					orderItemList.add(orderItem);
 				}
+				totalAmount = totalAmount.add(tablePlanModel.getPrice().divide(new BigDecimal(tablePlanModel.getSendValue())).setScale(2,BigDecimal.ROUND_HALF_UP));
 			}
 			
 			createOrder.setOrderItemList(orderItemList);
+			createOrder.setTotalPrice(totalAmount);
 			//下单
 			orderService.createOrder(createOrder);
 		}

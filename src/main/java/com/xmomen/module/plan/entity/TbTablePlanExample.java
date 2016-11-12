@@ -853,6 +853,76 @@ public class TbTablePlanExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
+        public Criteria andSendWeekDayIsNull() {
+            addCriterion("SEND_WEEK_DAY is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendWeekDayIsNotNull() {
+            addCriterion("SEND_WEEK_DAY is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendWeekDayEqualTo(String value) {
+            addCriterion("SEND_WEEK_DAY =", value, "sendWeekDay");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendWeekDayNotEqualTo(String value) {
+            addCriterion("SEND_WEEK_DAY <>", value, "sendWeekDay");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendWeekDayGreaterThan(String value) {
+            addCriterion("SEND_WEEK_DAY >", value, "sendWeekDay");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendWeekDayGreaterThanOrEqualTo(String value) {
+            addCriterion("SEND_WEEK_DAY >=", value, "sendWeekDay");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendWeekDayLessThan(String value) {
+            addCriterion("SEND_WEEK_DAY <", value, "sendWeekDay");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendWeekDayLessThanOrEqualTo(String value) {
+            addCriterion("SEND_WEEK_DAY <=", value, "sendWeekDay");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendWeekDayLike(String value) {
+            addCriterion("SEND_WEEK_DAY like", value, "sendWeekDay");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendWeekDayNotLike(String value) {
+            addCriterion("SEND_WEEK_DAY not like", value, "sendWeekDay");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendWeekDayIn(List<String> values) {
+            addCriterion("SEND_WEEK_DAY in", values, "sendWeekDay");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendWeekDayNotIn(List<String> values) {
+            addCriterion("SEND_WEEK_DAY not in", values, "sendWeekDay");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendWeekDayBetween(String value1, String value2) {
+            addCriterion("SEND_WEEK_DAY between", value1, value2, "sendWeekDay");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendWeekDayNotBetween(String value1, String value2) {
+            addCriterion("SEND_WEEK_DAY not between", value1, value2, "sendWeekDay");
+            return (Criteria) this;
+        }
+
         public Criteria andTotalSendValueIsNull() {
             addCriterion("TOTAL_SEND_VALUE is null");
             return (Criteria) this;

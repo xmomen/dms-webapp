@@ -46,7 +46,7 @@
                                 <div class="dataTables_filter">
                                     <label>
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-                                        <input type="search" placeholder="姓名/手机号" data-ng-keyup="getTablePlanList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+                                        <input type="search" placeholder="姓名/手机号/卡号" data-ng-keyup="getTablePlanList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
                                 </div>
                             </div>
                             <div class="col-xs-1 col-sm-2">
@@ -94,7 +94,7 @@
                                         </label>
                                     </td>
                                     <td ng-bind="tablePlan.planName"></td>
-                                    <td>每{{tablePlan.deliveryType}}周/星期{{tablePlan.deliveryTime}}</td>
+                                    <td>每{{tablePlan.deliveryType}}周/星期{{tablePlan.sendWeekDay}}</td>
                                     <td ng-bind="tablePlan.couponNumber"></td>
                                     <td ng-bind="tablePlan.consigneeName"></td>
                                     <td ng-bind="tablePlan.consigneePhone"></td>
@@ -174,31 +174,47 @@
                     <div class="form-group" ng-show="tablePlan.id != null">
                         <label class="col-md-2 control-label">餐桌计划<span class="vaild">*</span></label>
                         <div class="col-md-10 input-group">
-                            <select ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;" required="true" ng-model="tablePlan.cdPlanIds" name="cdPlanId" >
-                                <option value="{{basePlan.id}}" ng-repeat="basePlan in basePlanList">{{basePlan.planName}}</option>
-                            </select>
+                            <!--<select ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;" required="true" ng-model="tablePlan.cdPlanIds" name="cdPlanId" >-->
+                                <!--<option value="{{basePlan.id}}" ng-repeat="basePlan in basePlanList">{{basePlan.planName}}</option>-->
+                            <!--</select>-->
+                            {{tablePlan.planName}}
                         </div>
                     </div>
                     <div class="form-group" ng-show="tablePlan.id != null">
-                        <label class="col-md-2 control-label">起效时间</label>
-                        <div class="col-md-4">
-                            <input class="form-control" required="true" ng-model="tablePlan.beginTime"  placeholder="格式:yyyy/mm/dd"  type="date">
-                        </div>
-                        <label class="col-md-2 control-label">是否启动</label>
-                        <div class="col-md-4">
-                            <label class="radio radio-inline">
-                                <input type="radio" class="radiobox" value="0" ng-model="tablePlan.isStop" ng-checked="item.isStop == 0" name="isStop">
-                                <span>启动</span>
-                            </label>
-                            <label class="radio radio-inline">
-                                <input type="radio" class="radiobox" value="1" ng-model="tablePlan.isStop" ng-checked="item.isStop == 1"  name="isStop">
-                                <span>暂停</span>
-                            </label>
+                        <label class="col-md-2 control-label">起效时间<span class="vaild">*</span></label>
+                        <div class="col-md-3  input-group">
+                            <!--<input class="form-control" required="true"  id="beginTime"  placeholder="格式:yyyy-mm-dd"  type="text">-->
+                            <input type="text" class="form-control"
+                                   datepicker-popup="yyyy-MM-dd"
+                                   placeholder="起效时间"
+                                   ng-model="tablePlan.beginTime"
+                                   required="true"
+                                   close-text="关闭"
+                                   current-text="今日"
+                                   clear-text="清除"
+                                   is-open="datepickerSetting.beginTime.opened"
+                                    />
+							<span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="open($event, 0)"><i class="glyphicon glyphicon-calendar"></i></button>
+							</span>
                         </div>
                     </div>
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-md-2 control-label">是否启动<span class="vaild">*</span></label>-->
+                        <!--<div class="col-md-10">-->
+                            <!--<label class="radio radio-inline">-->
+                                <!--<input type="radio" class="radiobox" value="0" ng-model="tablePlan.isStop" ng-checked="tablePlan.isStop == 0" name="isStop">-->
+                                <!--<span>启动</span>-->
+                            <!--</label>-->
+                            <!--<label class="radio radio-inline">-->
+                                <!--<input type="radio" class="radiobox" value="1" ng-model="tablePlan.isStop" ng-checked="tablePlan.isStop == 1" name="isStop">-->
+                                <!--<span>暂停</span>-->
+                            <!--</label>-->
+                        <!--</div>-->
+                    <!--</div>-->
                     <div class="form-group">
                         <label class="col-md-2 control-label">卡号<span class="vaild">*</span></label>
-                        <div class="input-group input-group-md">
+                        <div class="col-md-6 input-group input-group-md">
                             <input type="text" ng-model="tablePlan.couponNumber"  required="true" placeholder="卡号" name="couponNumber" class="form-control">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" data-ng-click="queryMemberByCouponNumber()" type="button">查询</button>
@@ -221,33 +237,40 @@
                             <input class="form-control" required="true" ng-model="tablePlan.consigneeAddress" name="address" placeholder="收货地址" type="text">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">配送时间（星期）<span class="vaild">*</span></label>
+                        <div class="col-md-4">
+                            <input class="form-control" required="true" ng-model="tablePlan.sendWeekDay" name="" placeholder="配送时间（星期）" type="text">
+                        </div>
+                    </div>
                     <div class="form-group" ng-if="errors">
                         <label class="col-md-2 control-label"></label>
                         <div class="col-md-10 error">
                             {{errors.message}}
                         </div>
                     </div>
+                    <div class="form-group" ng-if="tablePlan.id == null">
+                        <div ng-repeat="chooseTablePlan in chooseTablePlans">
+                            <div class="form-group">
 
-                    <div ng-repeat="chooseTablePlan in chooseTablePlans">
-                        <div class="form-group">
-
-                            <div class="col-md-3">
-                              <span ng-bind="chooseTablePlan.planName"></span>
-                            </div>
-                            <label class="col-md-2 control-label">起效时间</label>
-                            <div class="col-md-3">
-                                <input class="form-control" required="true" ng-model="chooseTablePlan.beginTime"  placeholder="格式:yyyy/mm/dd"  type="date">
-                            </div>
-                            <label class="col-md-2 control-label">是否启动</label>
-                            <div class="col-md-2">
-                                <label class="radio radio-inline">
-                                    <input type="radio" class="radiobox" value="0" ng-model="chooseTablePlan.isStop" ng-checked="item.isStop == 0">
-                                    <span>启动</span>
-                                </label>
-                                <label class="radio radio-inline">
-                                    <input type="radio" class="radiobox" value="1" ng-model="chooseTablePlan.isStop" ng-checked="item.isStop == 1">
-                                    <span>暂停</span>
-                                </label>
+                                <div class="col-md-3">
+                                  <span ng-bind="chooseTablePlan.planName"></span>
+                                </div>
+                                <label class="col-md-2 control-label">起效时间</label>
+                                <div class="col-md-3">
+                                    <input class="form-control" required="true" ng-model="chooseTablePlan.beginTime"  placeholder="格式:yyyy/mm/dd"  type="date">
+                                </div>
+                                <label class="col-md-2 control-label">是否启动</label>
+                                <div class="col-md-2">
+                                    <label class="radio radio-inline">
+                                        <input type="radio" class="radiobox" value="0" ng-model="chooseTablePlan.isStop" ng-checked="chooseTablePlan.isStop == 0">
+                                        <span>启动</span>
+                                    </label>
+                                    <label class="radio radio-inline">
+                                        <input type="radio" class="radiobox" value="1" ng-model="chooseTablePlan.isStop" ng-checked="chooseTablePlan.isStop == 1">
+                                        <span>暂停</span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -21,7 +21,7 @@
         left join sys_users su on cm.cd_user_id = su.id
         <where>
               <if test="keyword">
-                  AND ttp.member_code LIKE CONCAT('%', #{keyword}, '%') or ttp.consignee_Name LIKE CONCAT('%', #{keyword}, '%') or ttp.CONSIGNEE_PHONE like CONCAT('%', #{keyword}, '%')
+                  AND (ttp.COUPON_NUMBER LIKE CONCAT('%', #{keyword}, '%') or ttp.consignee_Name LIKE CONCAT('%', #{keyword}, '%') or ttp.CONSIGNEE_PHONE like CONCAT('%', #{keyword}, '%'))
               </if>
               <if test="id">
                   AND ttp.id = #{id}
@@ -40,6 +40,7 @@
    			plan.IS_RANDOM,
    			plan.CD_CATEGORY_ID,
    			plan.RANDOM_NUM,
+   			plan.price,
    			cc.id as company_id,
         	cc.company_name,
         	su.realName as managerName,
@@ -60,7 +61,7 @@
 			  ]]>
 			</if>
 			<if test="weekday">
-			and plan.DELIVERY_time = #{weekday}
+			and table_plan.send_week_day like CONCAT('%', #{weekday}, '%')
 			</if>
 		 </where>
     </select>

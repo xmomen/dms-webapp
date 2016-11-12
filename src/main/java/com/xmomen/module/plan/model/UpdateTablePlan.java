@@ -55,4 +55,6 @@ public @Data class UpdateTablePlan implements Serializable{
      * 生效时间
      */
     private Date beginTime;
+    
+    private String sendWeekDay;
 }

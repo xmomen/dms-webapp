@@ -1,6 +1,7 @@
 package com.xmomen.module.plan.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import lombok.Data;
@@ -87,7 +88,7 @@ public @Data class TablePlanModel implements Serializable{
     /**
      * 配送时间(一周的星期几）
      */
-    private String deliveryTime;
+    private String sendWeekDay;
     /**
      * 上次配送时间
      */
@@ -107,5 +108,9 @@ public @Data class TablePlanModel implements Serializable{
      * 随机数
      */
     private Integer randomNum;
-
+    
+    /**
+     * 计划的金额
+     */
+    private BigDecimal price;
 }

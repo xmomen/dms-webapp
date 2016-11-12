@@ -3,6 +3,7 @@
  */
 define(function () {
     return ["$scope", "TablePlanAPI", "$modal", "$ugDialog", function($scope, TablePlanAPI, $modal, $ugDialog){
+        $scope.isCouponNumberExist = false;
         $scope.tablePlanList = [];
         $scope.pageInfoSetting = {
             pageSize:10,
@@ -41,7 +42,27 @@ define(function () {
                 controller: ["$scope", "TablePlanAPI", "$modalInstance","currentTablePlan","BasePlanAPI","CouponAPI" ,"$rootScope", "$modalMemberAdd","MemberAPI", function ($scope, TablePlanAPI, $modalInstance,currentTablePlan,BasePlanAPI,CouponAPI,$rootScope,$modalMemberAdd,MemberAPI) {
                     $scope.chooseTablePlans = [];
                     $scope.ugSelect2Config = {};
-                    $scope.tablePlan = {};
+                    $scope.tablePlan = {
+                    };
+
+                    $scope.datepickerSetting = {
+                        datepickerPopupConfig:{
+                            "current-text":"今天",
+                            "clear-text":"清除",
+                            "close-text":"关闭"
+                        },
+                        beginTime:{
+                            opened:false
+                        }
+                    };
+                    $scope.open = function($event, index) {
+                        $event.preventDefault();
+                        $event.stopPropagation();
+                        if(index == 0){
+                            $scope.datepickerSetting.beginTime.opened = true;
+                        }
+                    };
+
                     if(currentTablePlan){
                         $scope.tablePlan = currentTablePlan;
                     }
@@ -69,24 +90,28 @@ define(function () {
                     $scope.errors = null;
                     $scope.addTablePlanForm = {};
                     $scope.saveOrUpdateTablePlan = function(){
-                        $scope.errors = null;
-                        if($scope.addTablePlanForm.validator.form()){
-                            if($scope.tablePlan.id){
-                                TablePlanAPI.update($scope.tablePlan, function(){
-                                    $modalInstance.close();
-                                }, function(data){
-                                    $scope.errors = data.data;
-                                })
-                            }else{
-                                $scope.tablePlan.tablePlans = $scope.chooseTablePlans;
-                                TablePlanAPI.save($scope.tablePlan, function(){
-                                    $modalInstance.close();
-                                }, function(data){
-                                    $scope.errors = data.data;
-                                })
+                            $scope.errors = null;
+                            if($scope.addTablePlanForm.validator.form()){
+                                if($scope.tablePlan.id){
+                                    TablePlanAPI.update($scope.tablePlan, function(){
+                                        $modalInstance.close();
+                                    }, function(data){
+                                        $scope.errors = data.data;
+                                    })
+                                }else{
+                                    if($scope.isCouponNumberExist){
+                                        $scope.tablePlan.tablePlans = $scope.chooseTablePlans;
+                                        TablePlanAPI.save($scope.tablePlan, function(){
+                                            $modalInstance.close();
+                                        }, function(data){
+                                            $scope.errors = data.data;
+                                        });
+                                    }else{
+                                        $ugDialog.alert("请先查询卡号信息");
+                                    }
+                                }
+                                $scope.isCouponNumberExist = false;
                             }
-
-                        }
                     };
                     var bindMember = function(){
                         $modalMemberAdd.open({
@@ -106,6 +131,7 @@ define(function () {
                                 couponType:1
                             }, function(data){
                                 if(data.data && data.data.length > 0){
+                                    $scope.isCouponNumberExist = true;
                                     var coupon = data.data[0];
                                     if(coupon.memberId){
                                         MemberAPI.get({
