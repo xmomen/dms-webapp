@@ -66,7 +66,7 @@
 									<th>配送时间（星期）</th>
                                     <th>配送次数</th>
                                     <th>金额</th>
-                                    <!--<th>起效时间</th>-->
+                                    <th>是否随机</th>
                                     <th>操作</th>
 								</tr>
 								</thead>
@@ -82,7 +82,10 @@
                                     <td ng-bind="basePlan.deliveryTime"></td>
                                     <td ng-bind="basePlan.deliverCount"></td>
                                     <td ng-bind="basePlan.price"></td>
-                                    <!--<td ng-bind="basePlan.beginTime | date: 'yyyy-MM-dd'"></td>-->
+                                    <td>
+                                        <span ng-if="basePlan.isRandom == 0">否</span>
+                                        <span ng-if="basePlan.isRandom == 1">是</span>
+                                    </td>
                                     <td>
                                         <div ng-show="show">
                                             <a href="javascript:void(0);" data-ng-click="removeBasePlan(basePlan)" title="删除：{{basePlan.planName}}">

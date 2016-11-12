@@ -1103,6 +1103,66 @@ public class TbTablePlanExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
+        public Criteria andNextSendDateIsNull() {
+            addCriterion("NEXT_SEND_DATE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNextSendDateIsNotNull() {
+            addCriterion("NEXT_SEND_DATE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNextSendDateEqualTo(Date value) {
+            addCriterionForJDBCDate("NEXT_SEND_DATE =", value, "nextSendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andNextSendDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("NEXT_SEND_DATE <>", value, "nextSendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andNextSendDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("NEXT_SEND_DATE >", value, "nextSendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andNextSendDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("NEXT_SEND_DATE >=", value, "nextSendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andNextSendDateLessThan(Date value) {
+            addCriterionForJDBCDate("NEXT_SEND_DATE <", value, "nextSendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andNextSendDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("NEXT_SEND_DATE <=", value, "nextSendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andNextSendDateIn(List<Date> values) {
+            addCriterionForJDBCDate("NEXT_SEND_DATE in", values, "nextSendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andNextSendDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("NEXT_SEND_DATE not in", values, "nextSendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andNextSendDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("NEXT_SEND_DATE between", value1, value2, "nextSendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andNextSendDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("NEXT_SEND_DATE not between", value1, value2, "nextSendDate");
+            return (Criteria) this;
+        }
+
         public Criteria andBeginTimeIsNull() {
             addCriterion("BEGIN_TIME is null");
             return (Criteria) this;

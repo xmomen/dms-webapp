@@ -88,6 +88,11 @@ public class TbTablePlan extends BaseMybatisModel {
     private Date lastSendDate;
 
     /**
+     * 下次配送时间
+     */
+    private Date nextSendDate;
+
+    /**
      * 生效时间
      */
     private Date beginTime;
@@ -302,6 +307,20 @@ public class TbTablePlan extends BaseMybatisModel {
               return;
         }
         addValidField("lastSendDate");
+    }
+
+    @Column(name = "NEXT_SEND_DATE")
+    public Date getNextSendDate() {
+        return nextSendDate;
+    }
+
+    public void setNextSendDate(Date nextSendDate) {
+        this.nextSendDate = nextSendDate;
+        if(nextSendDate == null){
+              removeValidField("nextSendDate");
+              return;
+        }
+        addValidField("nextSendDate");
     }
 
     @Column(name = "BEGIN_TIME")

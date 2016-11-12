@@ -1,5 +1,15 @@
 package com.xmomen.module.order.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.utils.DateUtils;
@@ -8,18 +18,27 @@ import com.xmomen.module.base.entity.CdCouponExample;
 import com.xmomen.module.base.model.ItemModel;
 import com.xmomen.module.base.model.ItemQuery;
 import com.xmomen.module.base.service.ItemService;
-import com.xmomen.module.order.entity.*;
+import com.xmomen.module.order.entity.TbOrder;
+import com.xmomen.module.order.entity.TbOrderExample;
+import com.xmomen.module.order.entity.TbOrderItem;
+import com.xmomen.module.order.entity.TbOrderItemExample;
+import com.xmomen.module.order.entity.TbOrderRef;
+import com.xmomen.module.order.entity.TbOrderRefExample;
+import com.xmomen.module.order.entity.TbOrderRelation;
+import com.xmomen.module.order.entity.TbOrderRelationExample;
+import com.xmomen.module.order.entity.TbPurchase;
+import com.xmomen.module.order.entity.TbTradeRecord;
+import com.xmomen.module.order.entity.TbTradeRecordExample;
 import com.xmomen.module.order.mapper.OrderMapper;
-import com.xmomen.module.order.model.*;
+import com.xmomen.module.order.model.CreateOrder;
+import com.xmomen.module.order.model.OrderModel;
+import com.xmomen.module.order.model.OrderQuery;
+import com.xmomen.module.order.model.PayOrder;
+import com.xmomen.module.order.model.RefundOrder;
+import com.xmomen.module.order.model.ReturnOrder;
+import com.xmomen.module.order.model.UpdateOrder;
+import com.xmomen.module.plan.entity.TbTablePlan;
 import com.xmomen.module.report.model.OrderReport;
-
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 /**
  * Created by Jeng on 16/4/5.
@@ -94,7 +113,10 @@ public class OrderService {
      */
     @Transactional
     public TbOrder createOrder(CreateOrder createOrder) {
-        String orderNo = DateUtils.getDateTimeString();
+    	String orderNo = createOrder.getOrderNo();
+    	if(StringUtils.isEmpty(orderNo)){
+    		orderNo = DateUtils.getDateTimeString();
+    	}
         List<Integer> itemIdList = new ArrayList<Integer>();
         for (CreateOrder.OrderItem orderItem : createOrder.getOrderItemList()) {
             itemIdList.add(orderItem.getOrderItemId());
@@ -291,6 +313,7 @@ public class OrderService {
             tbOrderRelation.setRefValue(updateOrder.getPaymentRelationNo());
             mybatisDao.updateOneByExampleSelective(tbOrderRelation, tbOrderRelationExample);
         }
+        
         //订单类型不是券或餐桌计划，修改订单的金额 修改方式 去掉之前的付款方式 重新生成（卡的钱先退回去）
         if (!(tbOrder.getOrderType() == 2 || tbOrder.getOrderType() == 3)) {
             RefundOrder refundOrder = new RefundOrder();
@@ -404,6 +427,18 @@ public class OrderService {
             CdCoupon coupon = mybatisDao.selectOneByExample(couponExample);
             coupon.setUserPrice(coupon.getUserPrice().add(tradeRecord.getAmount()));
             mybatisDao.update(coupon);
+            
+            //餐桌计划已送次数回退一个
+	        TbOrderRefExample tbOrderRefExample = new TbOrderRefExample();
+	        tbOrderRefExample.createCriteria()
+                    .andOrderNoEqualTo(tbOrder.getOrderNo())
+                    .andRefTypeEqualTo("ORDER_TABLE_PLAN");
+	        List<TbOrderRef> tbOrderRefs = mybatisDao.selectByExample(tbOrderRefExample);
+	        for(TbOrderRef tbOrderRef : tbOrderRefs){
+	        	TbTablePlan tablePlan = mybatisDao.selectByPrimaryKey(TbTablePlan.class, Integer.parseInt(tbOrderRef.getRefValue()));
+	        	tablePlan.setSendValue(tablePlan.getSendValue() - 1);
+	        	mybatisDao.update(tablePlan);
+	        }
         }
     }
 
@@ -479,7 +514,6 @@ public class OrderService {
             CdCoupon cdCoupon = new CdCoupon();
             cdCoupon.setCouponNumber(tbOrderRelation.getRefValue());
             cdCoupon = mybatisDao.selectOneByModel(cdCoupon);
-
             //卡类订单
             if (tbOrder.getOrderType() == 1) {
                 BigDecimal amount = BigDecimal.ZERO;
@@ -564,11 +598,13 @@ public class OrderService {
             }
             //餐桌计划订单
             else if (tbOrder.getOrderType() == 3) {
-                CdCouponExample cdCouponExample = new CdCouponExample();
-                cdCouponExample.createCriteria().andCouponNumberEqualTo(tbOrderRelation.getRefValue());
-                CdCoupon updateCdCoupon = new CdCoupon();
-                updateCdCoupon.setIsUsed(1);
-                mybatisDao.updateOneByExampleSelective(updateCdCoupon, cdCouponExample);
+            	 BigDecimal amount = cdCoupon.getUserPrice().subtract(tbOrder.getTotalAmount());
+                 CdCouponExample cdCouponExample = new CdCouponExample();
+                 cdCouponExample.createCriteria().andCouponNumberEqualTo(tbOrderRelation.getRefValue());
+                 CdCoupon updateCdCoupon = new CdCoupon();
+                 updateCdCoupon.setUserPrice(amount);
+                 mybatisDao.updateOneByExampleSelective(updateCdCoupon, cdCouponExample);
+                
                 TbTradeRecord tbTradeRecord = new TbTradeRecord();
                 tbTradeRecord.setAmount(payOrder.getAmount());
                 tbTradeRecord.setCreateTime(mybatisDao.getSysdate());

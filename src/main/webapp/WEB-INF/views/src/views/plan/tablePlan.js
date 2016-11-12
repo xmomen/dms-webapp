@@ -32,7 +32,8 @@ define(function () {
             TablePlanAPI.createPlanOrder({
 
             }, function(data){
-              $ugDialog.alert("执行成功");
+                $ugDialog.alert("执行成功");
+                $scope.getTablePlanList();
             });
         };
 

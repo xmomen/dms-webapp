@@ -28,6 +28,11 @@ class CreateOrder implements Serializable {
      */
     private Integer batchNumber;
     
+    /**
+     * 订单编号
+     */
+    private String orderNo;
+    
     private String batchNo;
 
     /**

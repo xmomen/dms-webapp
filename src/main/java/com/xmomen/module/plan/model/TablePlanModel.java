@@ -95,6 +95,10 @@ public @Data class TablePlanModel implements Serializable{
     private Date lastSendDate;
     
     /**
+     * 下次配送时间
+     */
+    private Date nextSendDate;
+    /**
      * 是否随机
      */
     private Integer isRandom;

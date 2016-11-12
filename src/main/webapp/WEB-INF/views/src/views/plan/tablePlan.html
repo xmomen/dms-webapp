@@ -237,10 +237,12 @@
                             <input class="form-control" required="true" ng-model="tablePlan.consigneeAddress" name="address" placeholder="收货地址" type="text">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">配送时间（星期）<span class="vaild">*</span></label>
-                        <div class="col-md-4">
-                            <input class="form-control" required="true" ng-model="tablePlan.sendWeekDay" name="" placeholder="配送时间（星期）" type="text">
+                    <div class="form-group" ng-if="tablePlan.id != null">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">配送时间（星期）<span class="vaild">*</span></label>
+                            <div class="col-md-4">
+                                <input class="form-control" required="true" ng-model="tablePlan.sendWeekDay" name="" placeholder="配送时间（星期）" type="text">
+                            </div>
                         </div>
                     </div>
                     <div class="form-group" ng-if="errors">
