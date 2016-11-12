@@ -373,7 +373,6 @@
         ON pr.ORDER_ITEM_ID = oi.ID
         LEFT JOIN tb_packing p
         ON p.ID = pr.PACKING_ID
-
         <where>
             <if test="orderId">
                 AND o.id = #{orderId}
@@ -394,8 +393,8 @@
                 AND oi.id = #{orderItemId}
             </if>
         </where>
-
         GROUP BY oi.id) as tt group by tt.ITEM_CODE
+        order by  sum(ITEM_QTY) - sum(packedItemQty) 
     </select>
 
     <select id="queryPackingOrderItemModel" resultType="com.xmomen.module.order.model.PackingOrderModel" parameterType="com.xmomen.module.order.model.PackingOrderQuery" >

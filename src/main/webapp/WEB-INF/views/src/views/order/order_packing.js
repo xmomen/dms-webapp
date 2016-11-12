@@ -368,7 +368,7 @@ define(function () {
                                 var num = parseInt(i) + 1;
                                 history.message ="商品已放入【" + num + "】号箱位。";
                                 $scope.showPutBoxNum = num;
-                                $ugDialog.alert(history.message);
+//                                $ugDialog.alert(history.message);
                                 $scope.packingHistory.push(history);
                                 oldBoxIndex = i;
                             }
