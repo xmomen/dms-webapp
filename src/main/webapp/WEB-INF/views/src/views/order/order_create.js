@@ -190,11 +190,16 @@ define(function () {
             };
             var setMemberInfo = function(member){
                 $scope.order.memberId = member.id;
-                $scope.order.companyId = member.cdCompanyId;
+                //卡劵单位和项目经理取卡劵自身的
+                if($scope.order.companyId == null || $scope.order.companyId == undefined){
+                    $scope.order.companyId = member.cdCompanyId;
+                    $scope.order.companyName = member.companyName;
+                }
+                if($scope.order.managerId == null || $scope.order.managerId == undefined){
+                    $scope.order.managerId = member.cdUserId;
+                    $scope.order.managerName = member.managerName;
+                }
                 $scope.order.name = member.name;
-                $scope.order.companyName = member.companyName;
-                $scope.order.managerId = member.cdUserId;
-                $scope.order.managerName = member.managerName;
                 $scope.order.phone = member.phoneNumber;
                 $scope.order.addressChose = 1;
                 $scope.order.consigneeAddress = member.address;
@@ -213,6 +218,7 @@ define(function () {
                     $scope.setting.disablesSpareName2 = false;
                 }
             };
+
             $scope.card = {};
             $scope.getCouponByCouponNo = function(){
                 if($scope.card.cardNumber){

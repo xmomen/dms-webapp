@@ -16,12 +16,12 @@
         FROM
         	tb_table_plan  ttp
         left join cd_plan cp on ttp.cd_plan_id = cp.id
-        left join cd_member cm on ttp.cd_member_id = cm.id  
+        left join cd_coupon cm on ttp.coupon_number = cm.coupon_number  
         left join cd_company cc on cm.cd_company_id = cc.id
         left join sys_users su on cm.cd_user_id = su.id
         <where>
               <if test="keyword">
-                  AND ttp.member_code LIKE CONCAT('%', #{keyword}, '%') or ttp.consignee_Name LIKE CONCAT('%', #{keyword}, '%') or ttp.CONSIGNEE_PHONE like CONCAT('%', #{keyword}, '%')
+                  AND (ttp.COUPON_NUMBER LIKE CONCAT('%', #{keyword}, '%') or ttp.consignee_Name LIKE CONCAT('%', #{keyword}, '%') or ttp.CONSIGNEE_PHONE like CONCAT('%', #{keyword}, '%'))
               </if>
               <if test="id">
                   AND ttp.id = #{id}
@@ -40,6 +40,7 @@
    			plan.IS_RANDOM,
    			plan.CD_CATEGORY_ID,
    			plan.RANDOM_NUM,
+   			plan.price,
    			cc.id as company_id,
         	cc.company_name,
         	su.realName as managerName,
@@ -54,14 +55,28 @@
 		 <where>
 			table_plan.IS_STOP = 0
 			and table_plan.TOTAL_SEND_VALUE > table_plan.SEND_VALUE
-			 <if test="beginTime">
+			 <if test="currentDate">
 			  <![CDATA[
-				AND DATE_FORMAT(table_plan.BEGIN_TIME ,'%Y-%m-%d') <= #{beginTime}
+				AND DATE_FORMAT(table_plan.BEGIN_TIME ,'%Y-%m-%d') <= #{currentDate}
 			  ]]>
 			</if>
 			<if test="weekday">
-			and plan.DELIVERY_time = #{weekday}
+			and table_plan.send_week_day like CONCAT('%', #{weekday}, '%')
 			</if>
 		 </where>
+    </select>
+    
+    
+  <!-- 随机获取某类商品 -->
+    <select  id="getRandItem" resultType="com.xmomen.module.base.entity.CdPlanItem" parameterType="java.util.HashMap">
+			select 
+				1 as count_value,
+				id as cd_item_id
+			from 
+				cd_item
+			where CD_CATEGORY_ID = #{categoryId}
+			order by 
+				RAND() 
+			LIMIT #{limit}
     </select>
 </mapper>

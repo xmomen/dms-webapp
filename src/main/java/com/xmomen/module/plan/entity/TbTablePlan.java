@@ -68,6 +68,11 @@ public class TbTablePlan extends BaseMybatisModel {
     private String postcode;
 
     /**
+     * 星期几配送
+     */
+    private String sendWeekDay;
+
+    /**
      * 总配送次数
      */
     private Integer totalSendValue;
@@ -81,6 +86,11 @@ public class TbTablePlan extends BaseMybatisModel {
      * 上次配送时间
      */
     private Date lastSendDate;
+
+    /**
+     * 下次配送时间
+     */
+    private Date nextSendDate;
 
     /**
      * 生效时间
@@ -243,6 +253,20 @@ public class TbTablePlan extends BaseMybatisModel {
         addValidField("postcode");
     }
 
+    @Column(name = "SEND_WEEK_DAY")
+    public String getSendWeekDay() {
+        return sendWeekDay;
+    }
+
+    public void setSendWeekDay(String sendWeekDay) {
+        this.sendWeekDay = sendWeekDay;
+        if(sendWeekDay == null){
+              removeValidField("sendWeekDay");
+              return;
+        }
+        addValidField("sendWeekDay");
+    }
+
     @Column(name = "TOTAL_SEND_VALUE")
     public Integer getTotalSendValue() {
         return totalSendValue;
@@ -283,6 +307,20 @@ public class TbTablePlan extends BaseMybatisModel {
               return;
         }
         addValidField("lastSendDate");
+    }
+
+    @Column(name = "NEXT_SEND_DATE")
+    public Date getNextSendDate() {
+        return nextSendDate;
+    }
+
+    public void setNextSendDate(Date nextSendDate) {
+        this.nextSendDate = nextSendDate;
+        if(nextSendDate == null){
+              removeValidField("nextSendDate");
+              return;
+        }
+        addValidField("nextSendDate");
     }
 
     @Column(name = "BEGIN_TIME")

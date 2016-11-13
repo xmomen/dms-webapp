@@ -13,9 +13,11 @@
     <result column="CONSIGNEE_NAME" property="consigneeName" jdbcType="VARCHAR" />
     <result column="CONSIGNEE_ADDRESS" property="consigneeAddress" jdbcType="VARCHAR" />
     <result column="POSTCODE" property="postcode" jdbcType="VARCHAR" />
+    <result column="SEND_WEEK_DAY" property="sendWeekDay" jdbcType="VARCHAR" />
     <result column="TOTAL_SEND_VALUE" property="totalSendValue" jdbcType="INTEGER" />
     <result column="SEND_VALUE" property="sendValue" jdbcType="INTEGER" />
     <result column="LAST_SEND_DATE" property="lastSendDate" jdbcType="DATE" />
+    <result column="NEXT_SEND_DATE" property="nextSendDate" jdbcType="DATE" />
     <result column="BEGIN_TIME" property="beginTime" jdbcType="DATE" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -78,8 +80,8 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, CD_PLAN_ID, AUDIT_STATUS, IS_STOP, CD_MEMBER_ID, COUPON_NUMBER, MEMBER_CODE, 
-    CONSIGNEE_PHONE, CONSIGNEE_NAME, CONSIGNEE_ADDRESS, POSTCODE, TOTAL_SEND_VALUE, SEND_VALUE, 
-    LAST_SEND_DATE, BEGIN_TIME
+    CONSIGNEE_PHONE, CONSIGNEE_NAME, CONSIGNEE_ADDRESS, POSTCODE, SEND_WEEK_DAY, TOTAL_SEND_VALUE, 
+    SEND_VALUE, LAST_SEND_DATE, NEXT_SEND_DATE, BEGIN_TIME
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.plan.entity.TbTablePlanExample" >
     select
@@ -137,6 +139,9 @@
       <if test="postcode != null" >
         POSTCODE,
       </if>
+      <if test="sendWeekDay != null" >
+        SEND_WEEK_DAY,
+      </if>
       <if test="totalSendValue != null" >
         TOTAL_SEND_VALUE,
       </if>
@@ -145,6 +150,9 @@
       </if>
       <if test="lastSendDate != null" >
         LAST_SEND_DATE,
+      </if>
+      <if test="nextSendDate != null" >
+        NEXT_SEND_DATE,
       </if>
       <if test="beginTime != null" >
         BEGIN_TIME,
@@ -184,6 +192,9 @@
       <if test="postcode != null" >
         #{postcode,jdbcType=VARCHAR},
       </if>
+      <if test="sendWeekDay != null" >
+        #{sendWeekDay,jdbcType=VARCHAR},
+      </if>
       <if test="totalSendValue != null" >
         #{totalSendValue,jdbcType=INTEGER},
       </if>
@@ -192,6 +203,9 @@
       </if>
       <if test="lastSendDate != null" >
         #{lastSendDate,jdbcType=DATE},
+      </if>
+      <if test="nextSendDate != null" >
+        #{nextSendDate,jdbcType=DATE},
       </if>
       <if test="beginTime != null" >
         #{beginTime,jdbcType=DATE},
@@ -240,6 +254,9 @@
       <if test="record.postcode != null" >
         POSTCODE = #{record.postcode,jdbcType=VARCHAR},
       </if>
+      <if test="record.sendWeekDay != null" >
+        SEND_WEEK_DAY = #{record.sendWeekDay,jdbcType=VARCHAR},
+      </if>
       <if test="record.totalSendValue != null" >
         TOTAL_SEND_VALUE = #{record.totalSendValue,jdbcType=INTEGER},
       </if>
@@ -248,6 +265,9 @@
       </if>
       <if test="record.lastSendDate != null" >
         LAST_SEND_DATE = #{record.lastSendDate,jdbcType=DATE},
+      </if>
+      <if test="record.nextSendDate != null" >
+        NEXT_SEND_DATE = #{record.nextSendDate,jdbcType=DATE},
       </if>
       <if test="record.beginTime != null" >
         BEGIN_TIME = #{record.beginTime,jdbcType=DATE},

@@ -63,10 +63,10 @@
 								<tr>
                                     <th>计划名称</th>
                                     <th>配送频率（周）</th>
-									<th>配送时间（星期）</th>
+									<!--<th>配送时间（星期）</th>-->
                                     <th>配送次数</th>
                                     <th>金额</th>
-                                    <!--<th>起效时间</th>-->
+                                    <th>是否随机</th>
                                     <th>操作</th>
 								</tr>
 								</thead>
@@ -79,10 +79,13 @@
                                         <span ng-if="basePlan.deliveryType == 3">3周</span>
                                         <span ng-if="basePlan.deliveryType == 4">4周</span>
                                     </td>
-                                    <td ng-bind="basePlan.deliveryTime"></td>
+                                    <!--<td ng-bind="basePlan.deliveryTime"></td>-->
                                     <td ng-bind="basePlan.deliverCount"></td>
                                     <td ng-bind="basePlan.price"></td>
-                                    <!--<td ng-bind="basePlan.beginTime | date: 'yyyy-MM-dd'"></td>-->
+                                    <td>
+                                        <span ng-if="basePlan.isRandom == 0">否</span>
+                                        <span ng-if="basePlan.isRandom == 1">是</span>
+                                    </td>
                                     <td>
                                         <div ng-show="show">
                                             <a href="javascript:void(0);" data-ng-click="removeBasePlan(basePlan)" title="删除：{{basePlan.planName}}">
@@ -138,7 +141,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">计划名称<span class="vaild">*</span></label>
                         <div class="col-md-10">
-                            <input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="20" ng-model="basePlan.planName" name="name" placeholder="计划名称" type="text">
+                            <input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="20" ng-model="basePlan.planName" name="planName" placeholder="计划名称" type="text">
                         </div>
                     </div>
                     <div class="form-group">
@@ -162,22 +165,22 @@
                             </label>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">配送时间<span class="vaild">*</span></label>
-                        <div class="col-md-10">
-                            <input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="20" ng-model="basePlan.deliveryTime" name="name" placeholder="配送时间(1-7代表周一至周天,分号分隔)" type="text">
-                        </div>
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-md-2 control-label">配送时间<span class="vaild">*</span></label>-->
+                        <!--<div class="col-md-10">-->
+                            <!--<input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="20" ng-model="basePlan.deliveryTime" name="deliveryTime" placeholder="配送时间(1-7代表周一至周天,分号分隔)" type="text">-->
+                        <!--</div>-->
+                    <!--</div>-->
                     <div class="form-group">
                         <label class="col-md-2 control-label">配送次数<span class="vaild">*</span></label>
                         <div class="col-md-10">
-                            <input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="20" ng-model="basePlan.deliverCount" name="name" placeholder="配送次数" type="text">
+                            <input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="20" ng-model="basePlan.deliverCount" name="deliverCount" placeholder="配送次数" type="text">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">金额<span class="vaild">*</span></label>
                         <div class="col-md-10">
-                            <input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="20" ng-model="basePlan.price" name="name" placeholder="金额" type="text">
+                            <input class="form-control" required="true" data-rule-minlength="1" data-rule-maxlength="20" ng-model="basePlan.price" name="price" placeholder="金额" type="text">
                         </div>
                     </div>
                     <!--<div class="form-group">-->

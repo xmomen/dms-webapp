@@ -104,6 +104,10 @@ define(function () {
                                         count :obj.count
                                     });
                                 }
+                                if($scope.basePlan.planItems.length == 0 && $scope.basePlan.isRandom == 0){
+                                    $ugDialog.warn("请选择产品！");
+                                    return ;
+                                }
                                 BasePlanAPI.update($scope.basePlan, function(){
                                     $modalInstance.close();
                                 }, function(data){
@@ -118,13 +122,16 @@ define(function () {
                                         count :obj.count
                                     });
                                 }
+                                if($scope.basePlan.planItems.length == 0 && $scope.basePlan.isRandom == 0){
+                                    $ugDialog.warn("请选择产品！");
+                                    return ;
+                                }
                                 BasePlanAPI.save($scope.basePlan, function(){
                                     $modalInstance.close();
                                 }, function(data){
                                     $scope.errors = data.data;
                                 })
                             }
-
                         }
                     };
                     $scope.cancel = function () {

@@ -35,7 +35,6 @@ define(function () {
                     id: id,
                     orderNo:orderNo
                 },function(data){
-                    debugger;
                     $scope.order = data;
 
                     if($scope.order.orderType == 1){
@@ -48,6 +47,11 @@ define(function () {
                             cardNumber : $scope.order.couponNumber
                         }
                         $scope.getCouponByJuanNo();
+                    }else if($scope.order.orderType == 3){
+                        $scope.coupon = {
+                            cardNumber : $scope.order.couponNumber
+                        }
+                        $scope.getCouponByPlanNumber();
                     }else if($scope.order.orderType == 0){
                         $scope.order.phone = $scope.order.consigneePhone;
                         $scope.queryMemberByPhoneNumber();
@@ -114,13 +118,7 @@ define(function () {
                     $scope.setting.disablesChosePayMode = false;
                 }
             };
-            //$scope.$watch('order.orderType', function(newVal, oldVal){
-            //    if(oldVal != newVal){
-            //        resetOrder();
-            //        $scope.order.orderType = newVal;
-            //        $scope.changeOrderType(newVal);
-            //    }
-            //});
+
             $scope.queryParam = {};
             $scope.pageInfoSetting = {
                 pageSize:10,
@@ -244,6 +242,7 @@ define(function () {
             };
             $scope.choseOrderItem = [];
             $scope.coupon ={};
+
             $scope.getCouponByJuanNo = function(){
                 if($scope.coupon.cardNumber){
                     CouponAPI.query({
@@ -270,42 +269,47 @@ define(function () {
                                 })
                             }
                             $scope.calTotalItem();
-//                            if(coupon.relationItemList){
-//                                var ids = [];
-//                                for (var i = 0; i < coupon.relationItemList.length; i++) {
-//                                    var obj = coupon.relationItemList[i];
-//                                    ids.push(obj.itemId);
-//                                }
-//                                //  固定产品
-//                                ItemAPI.query({
-//                                    companyId:$scope.order.companyId,
-//                                    limit:1000,
-//                                    offset:1,
-//                                    sellStatus:1,
-//                                    ids:ids
-//                                }, function(data){
-//                                    var itemList = data.data;
-//                                    for (var i = 0; i < itemList.length; i++) {
-//                                        var obj1 = itemList[i];
-//                                        for (var j = 0; j < coupon.relationItemList.length; j++) {
-//                                            var obj2 = coupon.relationItemList[j];
-//                                            if(obj1.id == obj2.itemId){
-//                                                var item = itemList[i];
-//                                                item.itemQty = obj2.itemNumber;
-//                                                item.orderItemId = item.id;
-//                                                $scope.choseOrderItemList.push(item);
-//                                                $scope.calTotalItem();
-//                                            }
-//                                        }
-//                                    }
-//                                });
-//                            }
                         }else{
                             $ugDialog.warn("劵号不存在！");
                         }
                     })
                 }
             }
+
+
+           $scope.getCouponByPlanNumber = function(){
+                if($scope.coupon.cardNumber){
+                    CouponAPI.query({
+                        limit:1,
+                        offset:1,
+                        couponNumber:$scope.coupon.cardNumber,
+                        couponType:1
+                    }, function(data){
+                        if(data.data && data.data.length > 0){
+                            var coupon = data.data[0];
+                            $scope.coupon.id = coupon.id;
+                            $scope.coupon.isUsed = coupon.isUsed;
+                            $scope.order.companyName = coupon.companyName;
+                            $scope.order.companyId = coupon.companyId;
+                            $scope.order.managerId = coupon.managerId;
+                            $scope.order.managerName = coupon.managerName;
+                            $scope.order.paymentRelationNo = coupon.couponNumber;
+                            if(coupon.memberId){
+                                MemberAPI.get({
+                                    id:coupon.memberId
+                                },function(data){
+                                    setMemberInfo(data);
+                                })
+                            }
+                            $scope.calTotalItem();
+                        }else{
+                            $ugDialog.warn("卡号不存在！");
+                        }
+                    })
+                }
+            }
+
+
 
 
             $scope.choseOrderItemList = [];
@@ -386,10 +390,15 @@ define(function () {
                     }
                 }
                 $scope.totalItem.totalNumber = totalNumber;
-                //如果是劵的话 订单总金额就是劵面金额
-                if($scope.order.orderType == 2){
+                debugger;
+                //如果是劵的话 订单总金额就是劵面金额 餐桌计划也是 固定金额
+                if($scope.order.orderType == 2 ){
                     $scope.totalItem.totalPrice = $scope.order.juanValue;
                     $scope.totalItem.totalPriceDiscount = $scope.order.juanValue;
+                }
+                else if($scope.order.orderType == 3){
+                    $scope.totalItem.totalPrice = $scope.order.totalAmount;
+                    $scope.totalItem.totalPriceDiscount = $scope.order.totalAmount;
                 }
                 else{
                     $scope.totalItem.totalPrice = totalPrice;
@@ -398,7 +407,7 @@ define(function () {
             };
             $scope.discountTotalPrice = function(type){
                 //如果是劵的话 不会打折
-                if($scope.order.orderType != 2){
+                if($scope.order.orderType != 2 && $scope.order.orderType != 3){
                     if(type == 1){
                         $scope.totalItem.totalPriceDiscount = $scope.totalItem.totalPrice * $scope.order.discount / 100;
                         $scope.order.discountPrice = $scope.totalItem.totalPrice - $scope.totalItem.totalPriceDiscount;
