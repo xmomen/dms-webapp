@@ -16,7 +16,7 @@
         FROM
         	tb_table_plan  ttp
         left join cd_plan cp on ttp.cd_plan_id = cp.id
-        left join cd_member cm on ttp.cd_member_id = cm.id  
+        left join cd_coupon cm on ttp.coupon_number = cm.coupon_number  
         left join cd_company cc on cm.cd_company_id = cc.id
         left join sys_users su on cm.cd_user_id = su.id
         <where>

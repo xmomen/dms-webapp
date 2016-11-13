@@ -50,7 +50,6 @@ public class TablePlanSercviceImpl implements TablePlanSercvice {
 			tablePlan.setSendValue(0);
 			CdPlan plan = mybatisDao.selectByPrimaryKey(CdPlan.class,tablePlan.getCdPlanId());
 			tablePlan.setTotalSendValue(plan.getDeliverCount());
-			tablePlan.setSendWeekDay(plan.getDeliveryTime());
 			mybatisDao.saveByModel(tablePlan);
 		}
 	}

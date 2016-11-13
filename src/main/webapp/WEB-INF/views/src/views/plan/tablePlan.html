@@ -79,7 +79,7 @@
                                     <th>所属单位</th>
                                     <th>客户经理</th>
                                     <th>总配送次数</th>
-                                    <th>已配送次数</th>
+                                    <th>剩余配送次数</th>
                                     <th>是否暂停</th>
                                     <th>生效时间</th>
                                     <th width="80">操作</th>
@@ -102,7 +102,7 @@
                                     <td ng-bind="tablePlan.companyName"></td>
                                     <td ng-bind="tablePlan.managerName"></td>
                                     <td ng-bind="tablePlan.totalSendValue"></td>
-                                    <td ng-bind="tablePlan.sendValue"></td>
+                                    <td ng-bind="tablePlan.totalSendValue - tablePlan.sendValue"></td>
                                     <td>
                                         <label class="checkbox">
                                             <input type="checkbox" ng-model="tablePlan.isStop" name="checkbox-inline"
@@ -174,16 +174,12 @@
                     <div class="form-group" ng-show="tablePlan.id != null">
                         <label class="col-md-2 control-label">餐桌计划<span class="vaild">*</span></label>
                         <div class="col-md-10 input-group">
-                            <!--<select ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;" required="true" ng-model="tablePlan.cdPlanIds" name="cdPlanId" >-->
-                                <!--<option value="{{basePlan.id}}" ng-repeat="basePlan in basePlanList">{{basePlan.planName}}</option>-->
-                            <!--</select>-->
                             {{tablePlan.planName}}
                         </div>
                     </div>
                     <div class="form-group" ng-show="tablePlan.id != null">
                         <label class="col-md-2 control-label">起效时间<span class="vaild">*</span></label>
                         <div class="col-md-3  input-group">
-                            <!--<input class="form-control" required="true"  id="beginTime"  placeholder="格式:yyyy-mm-dd"  type="text">-->
                             <input type="text" class="form-control"
                                    datepicker-popup="yyyy-MM-dd"
                                    placeholder="起效时间"
@@ -199,19 +195,12 @@
 							</span>
                         </div>
                     </div>
-                    <!--<div class="form-group">-->
-                        <!--<label class="col-md-2 control-label">是否启动<span class="vaild">*</span></label>-->
-                        <!--<div class="col-md-10">-->
-                            <!--<label class="radio radio-inline">-->
-                                <!--<input type="radio" class="radiobox" value="0" ng-model="tablePlan.isStop" ng-checked="tablePlan.isStop == 0" name="isStop">-->
-                                <!--<span>启动</span>-->
-                            <!--</label>-->
-                            <!--<label class="radio radio-inline">-->
-                                <!--<input type="radio" class="radiobox" value="1" ng-model="tablePlan.isStop" ng-checked="tablePlan.isStop == 1" name="isStop">-->
-                                <!--<span>暂停</span>-->
-                            <!--</label>-->
-                        <!--</div>-->
-                    <!--</div>-->
+                    <div class="form-group"  ng-show="tablePlan.id != null">
+                        <label class="col-md-2 control-label">配送时间(星期)<span class="vaild">*</span></label>
+                        <div class="col-md-4">
+                            <input class="form-control" required="true" ng-model="tablePlan.sendWeekDay" name="" placeholder="配送时间（星期几）" type="text">
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">卡号<span class="vaild">*</span></label>
                         <div class="col-md-6 input-group input-group-md">
@@ -237,14 +226,6 @@
                             <input class="form-control" required="true" ng-model="tablePlan.consigneeAddress" name="address" placeholder="收货地址" type="text">
                         </div>
                     </div>
-                    <div class="form-group" ng-if="tablePlan.id != null">
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">配送时间（星期）<span class="vaild">*</span></label>
-                            <div class="col-md-4">
-                                <input class="form-control" required="true" ng-model="tablePlan.sendWeekDay" name="" placeholder="配送时间（星期）" type="text">
-                            </div>
-                        </div>
-                    </div>
                     <div class="form-group" ng-if="errors">
                         <label class="col-md-2 control-label"></label>
                         <div class="col-md-10 error">
@@ -254,16 +235,18 @@
                     <div class="form-group" ng-if="tablePlan.id == null">
                         <div ng-repeat="chooseTablePlan in chooseTablePlans">
                             <div class="form-group">
-
-                                <div class="col-md-3">
+                                <label class="col-md-2 control-label">{{$index+1}}计划名称</label>
+                                <div class="col-md-4">
                                   <span ng-bind="chooseTablePlan.planName"></span>
                                 </div>
                                 <label class="col-md-2 control-label">起效时间</label>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <input class="form-control" required="true" ng-model="chooseTablePlan.beginTime"  placeholder="格式:yyyy/mm/dd"  type="date">
                                 </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-md-2 control-label">是否启动</label>
-                                <div class="col-md-2">
+                                <div class="col-md-4">
                                     <label class="radio radio-inline">
                                         <input type="radio" class="radiobox" value="0" ng-model="chooseTablePlan.isStop" ng-checked="chooseTablePlan.isStop == 0">
                                         <span>启动</span>
@@ -273,7 +256,12 @@
                                         <span>暂停</span>
                                     </label>
                                 </div>
+                                <label class="col-md-2 control-label">配送时间（星期）<span class="vaild">*</span></label>
+                                <div class="col-md-4">
+                                    <input class="form-control" required="true" ng-model="chooseTablePlan.sendWeekDay" name="" placeholder="配送时间（星期）" type="text">
+                                </div>
                             </div>
+                            <hr style="border:1px dashed; height:1px" color="#DDDDDD">
                         </div>
                     </div>
                 </fieldset>
