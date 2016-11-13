@@ -645,7 +645,7 @@
 										<button class="btn btn-default" type="button" ui-sref ="order">
 											取消
 										</button>
-										<button class="btn btn-primary" data-ng-click="saveOrder()" type="submit">
+										<button class="btn btn-primary" btn-loading="saveBtnLoading" data-ng-click="saveOrder()" type="submit">
 											<i class="fa fa-save"></i>
 											提交
 										</button>
@@ -704,7 +704,7 @@
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button class="btn btn-primary" type="submit" data-ng-click="saveItemNumber()">
+		<button class="btn btn-primary" type="submit"  data-ng-click="saveItemNumber()">
 			<i class="fa fa-save"></i>
 			确定
 		</button>
