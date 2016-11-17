@@ -55,6 +55,7 @@ public class OrderController {
                                   @RequestParam(value = "keyword", required = false) String keyword,
                                   @RequestParam(value = "orderCreateTimeStart",required = false) String orderCreateTimeStart,
                                   @RequestParam(value = "orderCreateTimeEnd",required = false) String orderCreateTimeEnd,
+                                  @RequestParam(value = "couponNumber",required = false) String couponNumber,
                                   @RequestParam(value = "managerId", required = false) Integer managerId,
                                   @RequestParam(value = "companyId", required = false) Integer companyId,
                                   @RequestParam(value = "consigneeName", required = false) String consigneeName,
@@ -69,6 +70,7 @@ public class OrderController {
         orderQuery.setConsigneeName(consigneeName);
         orderQuery.setDespatchExpressId(despatchExpressId);
         orderQuery.setCompanyId(companyId);
+        orderQuery.setCouponNumber(couponNumber);
         if(null != hasShowDespatch){
         	//0显示未分配快递商 1显示已分配快递商
         	 orderQuery.setShowDespatch(hasShowDespatch ? 1 : 0);
@@ -184,4 +186,16 @@ public class OrderController {
         orderService.cancelOrder(id);
     }
 
+    /**
+     * 更新订单装箱数
+     * @param createOrder
+     * @param bindingResult
+     * @return
+     */
+    @RequestMapping(value = "/order/updateTotalBox", method = RequestMethod.POST)
+    @Log(actionName = "更新订单装箱数")
+    public void updateTotalBox(@RequestParam(value = "orderNo") String orderNo,
+    		@RequestParam(value="totalBox") int totalBox) {
+        orderService.updateTotalBox(orderNo,totalBox);
+    }
 }

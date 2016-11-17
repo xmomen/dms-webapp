@@ -69,6 +69,7 @@ define(function () {
                 keyword:$scope.queryParam.keyword,
                 orderCreateTimeStart:$scope.queryParam.orderCreateTimeStart,
                 orderCreateTimeEnd: $scope.queryParam.orderCreateTimeEnd,
+                couponNumber:$scope.queryParam.couponNumber,
                 hasNoShowCancel:false
             }, function(data){
                 $scope.orderList = data.data;

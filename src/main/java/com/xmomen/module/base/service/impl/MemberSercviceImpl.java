@@ -47,7 +47,11 @@ public class MemberSercviceImpl implements MemberSercvice {
 		member.setSpareAddress2(createMember.getSpareAddress2());
 		member.setCdCompanyId(createMember.getCdCompanyId());
 		member.setCdUserId(createMember.getCdUserId());
-		member = mybatisDao.insertByModel(member);
+		try{
+			member = mybatisDao.insertByModel(member);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		if(!StringUtils.isBlank(createMember.getCouponNumber())){
 			CdMemberCouponRelation cdMemberCouponRelation = new CdMemberCouponRelation();
 			cdMemberCouponRelation.setCdMemberId(member.getId());

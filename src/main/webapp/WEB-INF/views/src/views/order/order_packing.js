@@ -494,6 +494,17 @@ define(function () {
                     $scope.printOrder(order);
                     return;
                 }
+
+                //输入的数量不相同 则更新订单总装箱数
+                if(boxSize != newBoxSize){
+                     OrderAPI.updateTotalBox({
+                         orderNo:order.orderNo,
+                         totalBox:newBoxSize
+                     }, function(data){
+
+                     });
+                }
+
                 var LODOP=getLodop();
                 for(i=0;i<newBoxSize;i++){
                     LODOP.PRINT_INITA(0,0,"100.81mm","74.61mm","打印订单");

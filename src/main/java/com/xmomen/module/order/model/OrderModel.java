@@ -140,6 +140,8 @@ class OrderModel implements Serializable {
      * 订单创建人ID
      */
     private Integer createUserId;
+    
+    private String createUser;
 
     /**
      * 配送时间
