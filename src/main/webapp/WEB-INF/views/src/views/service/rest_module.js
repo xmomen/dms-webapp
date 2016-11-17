@@ -301,6 +301,11 @@ define(function () {
                 method:"GET",
                 url:"/order/:id/item",
                 params:{id:"@id"}
+            },
+            updateTotalBox:{
+                method:"POST",
+                url:"/order/updateTotalBox",
+                params:{orderNo:"@orderNo",totalBox:"@totalBox"}
             }
         });
     }]);
