@@ -116,6 +116,16 @@
                   AND DATE_FORMAT(tb.CREATE_TIME ,'%Y-%m-%d')<= #{orderCreateTimeEnd}
                 ]]>
             </if>
+            <if test="appointmentTimeStart">
+                <![CDATA[
+                  AND DATE_FORMAT(tb.APPOINTMENT_TIME ,'%Y-%m-%d') >= #{appointmentTimeStart}
+                ]]>
+            </if>
+            <if test="appointmentTimeEnd">
+                <![CDATA[
+                  AND DATE_FORMAT(tb.APPOINTMENT_TIME ,'%Y-%m-%d') <= #{appointmentTimeEnd}
+                ]]>
+            </if>
             <if test="createUserId">
             	AND tb.create_user_id = #{createUserId}
             </if>
@@ -257,7 +267,8 @@
             p.TOTAL_WEIGHT as totalWeight,
        		p.DISTRIBUTE_VALUE,
 			p.PACKAGE_VALUE,
-			p.PACKING_VALUE
+			p.PACKING_VALUE,
+			p.create_Date
         FROM
           tb_purchase p
         LEFT JOIN cd_item i
@@ -290,7 +301,7 @@
               	AND i.SELL_UNIT = #{sellUnit}
               </if>
           </where>
-        ORDER BY i.sell_Unit
+        ORDER BY p.create_date desc,i.sell_Unit
     </select>
 
     <select id="getOrderPurchaseList" resultType="com.xmomen.module.order.model.OrderPurchaseModel" parameterType="java.util.HashMap">
@@ -311,12 +322,12 @@
             o.ORDER_STATUS = 1
             <if test="startTime">
                 <![CDATA[
-                  AND o.CREATE_TIME >= #{startTime}
+                  AND DATE_FORMAT(o.APPOINTMENT_TIME ,'%Y-%m-%d') >= #{startTime}
                 ]]>
             </if>
             <if test="endTime">
                 <![CDATA[
-                  AND o.CREATE_TIME <= #{endTime}
+                  AND DATE_FORMAT(o.APPOINTMENT_TIME ,'%Y-%m-%d') <= #{endTime}
                 ]]>
             </if>
         </where>
@@ -649,6 +660,16 @@
             <if test="packingTaskCreateTimeEnd">
                 <![CDATA[
                   AND DATE_FORMAT(st.CREATE_TIME ,'%Y-%m-%d')<= #{packingTaskCreateTimeEnd}
+                ]]>
+            </if>
+            <if test="appointmentTimeStart">
+                <![CDATA[
+                  AND DATE_FORMAT(tb.APPOINTMENT_TIME ,'%Y-%m-%d')>= #{appointmentTimeStart}
+                ]]>
+            </if>
+            <if test="appointmentTimeEnd">
+                <![CDATA[
+                  AND DATE_FORMAT(tb.APPOINTMENT_TIME ,'%Y-%m-%d')<= #{appointmentTimeEnd}
                 ]]>
             </if>
             <if test="createUserId">

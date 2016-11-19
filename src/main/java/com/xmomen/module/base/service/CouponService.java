@@ -26,6 +26,7 @@ import com.xmomen.module.order.entity.TbTradeRecord;
 import com.xmomen.module.pick.entity.TbExchangeCardLog;
 import com.xmomen.module.pick.entity.TbRechargeLog;
 import com.xmomen.module.system.entity.SysUserOrganization;
+import com.xmomen.module.wx.util.DateUtils;
 
 /**
  * Created by Jeng on 2016/3/30.
@@ -157,6 +158,7 @@ public class CouponService {
      * @param newCouponNo
      * @param newPassword
      */
+    @Transactional
     public void exchangeCard(String oldCouponNo,String oldPassword,String newCouponNo,String newPassword){
     	CdCoupon oldCoupon = new CdCoupon();
     	oldCoupon.setCouponNumber(oldCouponNo);
@@ -219,6 +221,7 @@ public class CouponService {
      * @param updatePrice
      * @param remark
      */
+    @Transactional
     public void updateBalance(String couponNo,BigDecimal updatePrice,String remark){
 		Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
 
@@ -251,6 +254,7 @@ public class CouponService {
      * 导入卡劵
      * @param couponReport
      */
+    @Transactional
 	public void importCoupon(CouponReportModel couponReport) {
 		// TODO Auto-generated method stub
 		CdCoupon coupon = new CdCoupon();
@@ -263,5 +267,14 @@ public class CouponService {
 		coupon.setPaymentType(couponReport.getPaymentType());
 		coupon.setCouponCategory(couponReport.getCouponCategoryId());
 		mybatisDao.save(coupon);
+	}
+	
+    @Transactional
+	public void auditCoupon(Integer id,boolean locked){
+		CdCoupon coupon = new CdCoupon();
+		coupon.setAuditDate(DateUtils.getNowDate());
+        coupon.setIsUseful(locked ? 1 : 0);
+        coupon.setId(id);
+        mybatisDao.update(coupon);
 	}
 }

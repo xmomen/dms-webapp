@@ -3,6 +3,8 @@ package com.xmomen.module.base.controller;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -82,6 +83,8 @@ public class CouponController {
                                   @RequestParam(value = "cdCompanyId",required = false) Integer cdCompanyId,
                                   @RequestParam(value = "customerMangerId",required = false) Integer customerMangerId,
                                   @RequestParam(value = "isUseful",required = false) Integer isUseful,
+                                  @RequestParam(value = "auditDateStart",required = false) String auditDateStart,
+                                  @RequestParam(value = "auditDateEnd",required = false) String auditDateEnd,
                                   @RequestParam(value = "isOver",required = false) Integer isOver,
                                   @RequestParam(value = "batch",required = false) String batch,
                                   @RequestParam(value = "keyword", required = false) String keyword){
@@ -95,6 +98,15 @@ public class CouponController {
         couponQuery.setIsOver(isOver);
         couponQuery.setIsSend(isSend);
         couponQuery.setIsUseful(isUseful);
+        
+        if(StringUtilsExt.isNotBlank(auditDateStart)){
+        	couponQuery.setAuditDateStart(auditDateStart.substring(0, 10));
+        }
+        
+        if(StringUtilsExt.isNotBlank(auditDateEnd)){
+        	couponQuery.setAuditDateEnd(auditDateEnd.substring(0, 10));
+        }
+        
         if(!StringUtils.isBlank(batch)){
             couponQuery.setBatch(batch);
         }
@@ -314,11 +326,23 @@ public class CouponController {
     @Log(actionName = "审核金额")
     public void audit(@PathVariable(value = "id") Integer id,
                       @RequestParam(value = "locked") Boolean locked){
-        CdCoupon coupon = new CdCoupon();
-        coupon.setIsUseful(locked ? 1 : 0);
-        coupon.setId(id);
-        mybatisDao.update(coupon);
+      this.couponService.auditCoupon(id, locked);
     }
+    
+    /**
+     *  批量审核金额
+     * @param id
+     */
+    @RequestMapping(value = "/coupon/batchAudit", method = RequestMethod.PUT)
+    @Log(actionName = "批量审核金额")
+    public void batchAudit(@RequestParam(value = "ids") String ids,
+                      @RequestParam(value = "locked") Boolean locked){
+        String[] idchars = ids.split(",");
+        for(String id :idchars){
+        	 this.couponService.auditCoupon(Integer.parseInt(id), locked);
+        }
+    }
+    
     /**
      *  退卡
      * @param id

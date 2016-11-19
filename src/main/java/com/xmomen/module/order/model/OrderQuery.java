@@ -36,4 +36,7 @@ class OrderQuery implements Serializable {
     private Integer despatchExpressId;
     
     private String couponNumber;
+    
+    private String appointmentTimeStart;
+    private String appointmentTimeEnd;
 }

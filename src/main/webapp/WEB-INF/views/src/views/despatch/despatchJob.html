@@ -94,11 +94,41 @@
                             <label>快递商：{{currentCustomer.expressName}}</label>
                         </div>
                         <div class="dt-toolbar">
-                            <div class="col-sm-4">
+                            <div class="col-md-2">
                                 <div class="dataTables_filter">
                                     <label>
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
                                         <input type="search" placeholder="订单号" data-ng-keyup="getOrderList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
+                                           placeholder="配送起始时间"
+                                           ng-model="queryParam.appointmentTimeStart"
+                                           close-text="关闭"
+                                           current-text="今日"
+                                           clear-text="清除"
+                                           is-open="datepickerSetting.appointmentTimeStart.opened"
+                                           ng-required="true" />
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="openDate($event, 0)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
+                                           placeholder="配送截止时间"
+                                           ng-model="queryParam.appointmentTimeEnd"
+                                           close-text="关闭"
+                                           current-text="今日"
+                                           clear-text="清除"
+                                           is-open="datepickerSetting.appointmentTimeEnd.opened"
+                                           ng-required="true" />
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="openDate($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-2">
@@ -106,8 +136,6 @@
                                     <i class="fa fa-refresh"></i>
                                     刷新
                                 </button>
-                            </div>
-                            <div class="col-sm-2">
                                 <button class="btn btn-primary" type="button" data-ng-click="batchBindExpress()">
                                     <i class="fa fa-inbox"></i>
                                     批量发运
@@ -132,6 +160,7 @@
                                     <th>客户姓名</th>
                                     <th>手机号</th>
                                     <th>地址</th>
+                                    <th>配送时间</th>
                                     <th width="80">操作</th>
                                 </tr>
                                 </thead>
@@ -158,6 +187,7 @@
                                     <td ng-bind="order.consigneeName"></td>
                                     <td ng-bind="order.consigneePhone"></td>
                                     <td ng-bind="order.consigneeAddress"></td>
+                                    <td ng-bind="order.appointmentTime | date: 'yyyy-MM-dd'"></td>
                                     <td>
                                         <div ng-show="order.expressName == null" >
                                             <a href="javascript:void(0);" data-ng-click="bindExpress($index)" title="分配">

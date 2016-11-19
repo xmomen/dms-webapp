@@ -71,6 +71,11 @@ public @Data class CouponModel implements Serializable {
      * 有效结束时间
      */
     private Date endTime;
+    
+    /**
+     * 审核时间
+     */
+    private Date auditDate;
 
     /**
      * 0-未使用，1-已使用
