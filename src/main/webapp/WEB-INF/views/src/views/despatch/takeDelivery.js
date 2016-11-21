@@ -26,8 +26,8 @@ define(function () {
         };
 
         $scope.queryTakeDeliveryParam = {
-            startTime :$scope.currentDate(new Date(new Date().getTime() + 86400000)),
-            endTime:$scope.currentDate(new Date(new Date().getTime() + 86400000))
+            startTime :$scope.currentDate(new Date(new Date().getTime())),
+            endTime:$scope.currentDate(new Date(new Date().getTime()))
         };
         $scope.getOrderTakeDeliveryList = function(){
             //查询已分配未提货的订单
@@ -52,8 +52,8 @@ define(function () {
         };
 
         $scope.queryParam = {
-            startTime :$scope.currentDate(new Date(new Date().getTime() + 86400000)),
-            endTime:$scope.currentDate(new Date(new Date().getTime() + 86400000))
+            startTime :$scope.currentDate(new Date(new Date().getTime())),
+            endTime:$scope.currentDate(new Date(new Date().getTime()))
         };
 
 
