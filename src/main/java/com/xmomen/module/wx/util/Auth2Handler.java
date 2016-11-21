@@ -17,10 +17,10 @@ public class Auth2Handler {
 	
 	static Logger logger = LoggerFactory.getLogger(Auth2Handler.class);
 	
-	private static final String STATE = "UDFEXWECHAT";
+	private static final String STATE = "WJHYORDER";
 	
-	private static final String APPID = "wxea7b77023d658002";
-	private static final String APPSECRET = "270944752d4b38dec1ac95231b6b3529";
+	private static final String APPID = "wxa763931415659227";
+	private static final String APPSECRET = "736f13fcd9c11c77ec0f02d0f315ec4e";
 	
 	
 	public static String getOauthUrl(String redirectUrl) {
