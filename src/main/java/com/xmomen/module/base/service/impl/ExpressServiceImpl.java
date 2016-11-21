@@ -3,7 +3,6 @@ package com.xmomen.module.base.service.impl;
 import java.util.List;
 
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,13 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.utils.AssertExt;
-import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.base.entity.CdExpress;
 import com.xmomen.module.base.mapper.ExpressMapper;
 import com.xmomen.module.base.model.ExpressTask;
 import com.xmomen.module.base.service.ExpressService;
 import com.xmomen.module.order.entity.TbOrder;
 import com.xmomen.module.order.entity.TbOrderRef;
+import com.xmomen.module.order.entity.TbOrderRefExample;
 import com.xmomen.module.order.entity.TbOrderRelation;
 import com.xmomen.module.order.mapper.OrderMapper;
 import com.xmomen.module.order.model.OrderModel;
@@ -174,6 +173,7 @@ public class ExpressServiceImpl implements ExpressService {
         order.setOrderNo(orderNo);
         order = mybatisDao.selectOneByModel(order);
         AssertExt.notNull(order.getDespatchExpressId(), "订单未分配不能取消提货！");
+        
 		//判断是否是快递商的货
 		CdExpress express = mybatisDao.selectByPrimaryKey(CdExpress.class,order.getDespatchExpressId());
 		AssertExt.notNull(express,"分配的快递商不存在了，请确认！");
@@ -182,6 +182,7 @@ public class ExpressServiceImpl implements ExpressService {
 		
 		//更新订单为待出库
 		order.setOrderStatus("4");
+		order.setExpressScanBoxNum(0);
 		mybatisDao.update(order);
 		//删除关系ref
 		TbOrderRef orderRef = new TbOrderRef();
@@ -192,6 +193,11 @@ public class ExpressServiceImpl implements ExpressService {
 		if(orderRefDB != null){
 			mybatisDao.delete(orderRefDB);
 		}		
+		//删除扫描的箱子 
+		TbOrderRefExample orderRefBoxNo = new TbOrderRefExample();
+		orderRefBoxNo.createCriteria().andOrderNoEqualTo(orderNo)
+		.andRefTypeEqualTo("TAKE_DELIVERY_BOXNO");
+		mybatisDao.deleteByExample(orderRefBoxNo);
 	}
 	
 	/**

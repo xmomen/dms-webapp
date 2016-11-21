@@ -51,6 +51,13 @@
 							</div>
                             <div class="col-sm-2">
                                 <div class="dataTables_filter">
+                                    <label>
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                                        <input type="search" placeholder="卡号" data-ng-keyup="getOrderList()" ng-model="queryParam.couponNumber" class="form-control" aria-controls="dt_basic"></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="dataTables_filter">
                                     <div class="dataTables_filter">
                                         <select ug-select2 style="width: 250px;" ng-model="queryParam.managerId" ng-change="getOrderList()"  name="managerId" >
                                             <option value="">--请选择客服经理--</option>
@@ -112,6 +119,7 @@
 									</th>
 									<th width="120">订单编号</th>
 									<th>订单类型</th>
+                                    <th>卡/劵号</th>
 									<th>订购日期</th>
 									<th>订单状态</th>
 									<th>付款方式</th>
@@ -120,6 +128,7 @@
                                     <th>付款金额</th>
 									<th>客户信息</th>
                                     <th>客户经理</th>
+                                    <th>下单人</th>
 									<th>备注</th>
 									<th width="80">操作</th>
 								</tr>
@@ -134,6 +143,7 @@
 									</td>
 									<td ng-bind="order.orderNo"></td>
 									<td ng-bind="order.orderTypeDesc"></td>
+                                    <td ng-bind="order.couponNumber"></td>
 									<td ng-bind="order.createTime | date: 'yyyy-MM-dd'"></td>
 									<td ng-bind="order.orderStatusDesc"></td>
 									<td ng-bind="order.paymentModeDesc"></td>
@@ -142,6 +152,7 @@
                                     <td ng-bind="order.totalAmount"></td>
 									<td ng-bind="order.consigneeName"></td>
                                     <td ng-bind="order.managerName"></td>
+                                    <td ng-bind="order.createUser"></td>
 									<td ng-bind="order.remark"></td>
 									<td width="180">
 											<a ng-show="show" href="javascript:void(0);" data-ng-click="viewOrder($index)" title="查看：{{order.orderDesc}}">

@@ -19,9 +19,13 @@
         stsdp.show_value as packingTaskStatusDesc,
         ce.express_name,
         users.realname as manager_name,
+        createUser.realname as create_user,
         tb.*
         FROM
         tb_order tb
+        
+        LEFT JOIN sys_users createUser ON createUser.id = tb.create_user_id
+        
         LEFT JOIN sys_dictionary s on s.DICTIONARY_CODE='ORDER_TYPE'
         left join sys_dictionary_parameter sp on sp.SYS_DICTIONARY_ID=s.ID and tb.ORDER_TYPE = sp.REAL_VALUE
 
@@ -52,6 +56,9 @@
                 or tb.consignee_phone LIKE CONCAT('%', #{keyword}, '%')
                 or tb.consignee_name like CONCAT('%', #{keyword}, '%')
                 )
+            </if>
+            <if test="couponNumber">
+            	AND torp.REF_VALUE = #{couponNumber}
             </if>
             <if test="id">
                 AND tb.id = #{id}
@@ -107,6 +114,16 @@
             <if test="orderCreateTimeEnd">
                 <![CDATA[
                   AND DATE_FORMAT(tb.CREATE_TIME ,'%Y-%m-%d')<= #{orderCreateTimeEnd}
+                ]]>
+            </if>
+            <if test="appointmentTimeStart">
+                <![CDATA[
+                  AND DATE_FORMAT(tb.APPOINTMENT_TIME ,'%Y-%m-%d') >= #{appointmentTimeStart}
+                ]]>
+            </if>
+            <if test="appointmentTimeEnd">
+                <![CDATA[
+                  AND DATE_FORMAT(tb.APPOINTMENT_TIME ,'%Y-%m-%d') <= #{appointmentTimeEnd}
                 ]]>
             </if>
             <if test="createUserId">
@@ -250,7 +267,8 @@
             p.TOTAL_WEIGHT as totalWeight,
        		p.DISTRIBUTE_VALUE,
 			p.PACKAGE_VALUE,
-			p.PACKING_VALUE
+			p.PACKING_VALUE,
+			p.create_Date
         FROM
           tb_purchase p
         LEFT JOIN cd_item i
@@ -283,7 +301,7 @@
               	AND i.SELL_UNIT = #{sellUnit}
               </if>
           </where>
-        ORDER BY i.sell_Unit
+        ORDER BY p.create_date desc,i.sell_Unit
     </select>
 
     <select id="getOrderPurchaseList" resultType="com.xmomen.module.order.model.OrderPurchaseModel" parameterType="java.util.HashMap">
@@ -304,12 +322,12 @@
             o.ORDER_STATUS = 1
             <if test="startTime">
                 <![CDATA[
-                  AND o.CREATE_TIME >= #{startTime}
+                  AND DATE_FORMAT(o.APPOINTMENT_TIME ,'%Y-%m-%d') >= #{startTime}
                 ]]>
             </if>
             <if test="endTime">
                 <![CDATA[
-                  AND o.CREATE_TIME <= #{endTime}
+                  AND DATE_FORMAT(o.APPOINTMENT_TIME ,'%Y-%m-%d') <= #{endTime}
                 ]]>
             </if>
         </where>
@@ -642,6 +660,16 @@
             <if test="packingTaskCreateTimeEnd">
                 <![CDATA[
                   AND DATE_FORMAT(st.CREATE_TIME ,'%Y-%m-%d')<= #{packingTaskCreateTimeEnd}
+                ]]>
+            </if>
+            <if test="appointmentTimeStart">
+                <![CDATA[
+                  AND DATE_FORMAT(tb.APPOINTMENT_TIME ,'%Y-%m-%d')>= #{appointmentTimeStart}
+                ]]>
+            </if>
+            <if test="appointmentTimeEnd">
+                <![CDATA[
+                  AND DATE_FORMAT(tb.APPOINTMENT_TIME ,'%Y-%m-%d')<= #{appointmentTimeEnd}
                 ]]>
             </if>
             <if test="createUserId">

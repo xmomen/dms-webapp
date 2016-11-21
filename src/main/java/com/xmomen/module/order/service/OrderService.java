@@ -645,5 +645,20 @@ public class OrderService {
 //            mybatisDao.insert(rItem);
 //        }
     }
+    
+    /**
+     * 更新订单总箱数
+     * @param orderNo
+     * @param totalBox
+     */
+    @Transactional
+    public void updateTotalBox(String orderNo ,int totalBox){
+    	  TbOrderExample orderExample = new TbOrderExample();
+    	  orderExample.createCriteria()
+                  .andOrderNoEqualTo(orderNo);
+          TbOrder order = new TbOrder();
+          order.setTotalBoxNum(totalBox);
+          mybatisDao.updateOneByExampleSelective(order, orderExample);
+    }
 
 }

@@ -32,22 +32,28 @@ public class MemberSercviceImpl implements MemberSercvice {
 	@Override
 	@Transactional
 	public void createMember(CreateMember createMember) {
+
 		CdMember member = new CdMember();
-		member.setMemberType(createMember.getMemberType());
-		member.setName(createMember.getName());
 		member.setPhoneNumber(createMember.getPhoneNumber());
-		member.setSpareName(createMember.getSpareName());
-		member.setSpareName2(createMember.getSpareName2());
-		member.setSpareTel(createMember.getSpareTel());
-		member.setSpareTel2(createMember.getSpareTel2());
-		member.setTelNumber(createMember.getTelNumber());
-		member.setOfficeTel(createMember.getOfficeTel());
-		member.setAddress(createMember.getAddress());
-		member.setSpareAddress(createMember.getSpareAddress());
-		member.setSpareAddress2(createMember.getSpareAddress2());
-		member.setCdCompanyId(createMember.getCdCompanyId());
-		member.setCdUserId(createMember.getCdUserId());
-		member = mybatisDao.insertByModel(member);
+		member = mybatisDao.selectOneByModel(member);
+		if(member == null){
+			member = new CdMember();
+			member.setMemberType(createMember.getMemberType());
+			member.setName(createMember.getName());
+			member.setPhoneNumber(createMember.getPhoneNumber());
+			member.setSpareName(createMember.getSpareName());
+			member.setSpareName2(createMember.getSpareName2());
+			member.setSpareTel(createMember.getSpareTel());
+			member.setSpareTel2(createMember.getSpareTel2());
+			member.setTelNumber(createMember.getTelNumber());
+			member.setOfficeTel(createMember.getOfficeTel());
+			member.setAddress(createMember.getAddress());
+			member.setSpareAddress(createMember.getSpareAddress());
+			member.setSpareAddress2(createMember.getSpareAddress2());
+			member.setCdCompanyId(createMember.getCdCompanyId());
+			member.setCdUserId(createMember.getCdUserId());
+			member = mybatisDao.insertByModel(member);
+		}
 		if(!StringUtils.isBlank(createMember.getCouponNumber())){
 			CdMemberCouponRelation cdMemberCouponRelation = new CdMemberCouponRelation();
 			cdMemberCouponRelation.setCdMemberId(member.getId());

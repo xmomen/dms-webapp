@@ -3,8 +3,8 @@
  */
 define(function () {
     return ["$scope", "PurchaseAPI", "$modal", "$ugDialog", function($scope, PurchaseAPI, $modal, $ugDialog){
-        $scope.currentDate = function(){
-            var myDate = new Date();
+        $scope.currentDate = function(date){
+            var myDate = date;
             var fullYear = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
             var month = myDate.getMonth() + 1;       //获取当前月份(0-11,0代表1月)
             if(month < 10){
@@ -15,7 +15,8 @@ define(function () {
                 date = '0'+date;
             }
             return fullYear+"-"+month+"-"+date;
-        }
+        };
+
         $scope.datepickerSetting = {
             datepickerPopupConfig:{
                 "current-text":"今天",
@@ -28,6 +29,12 @@ define(function () {
             },
             endTime:{
                 opened:false
+            },
+            appointmentTimeStart:{
+                opened:false
+            },
+            appointmentTimeEnd:{
+                opened:false
             }
         };
         $scope.openDatepicker = function($event, index) {
@@ -37,9 +44,13 @@ define(function () {
                 $scope.datepickerSetting.startTime.opened = true;
             }else if(index == 2){
                 $scope.datepickerSetting.endTime.opened = true;
+            }else if(index == 3){
+                $scope.datepickerSetting.appointmentTimeStart.opened = true;
+            }else if(index == 4){
+                $scope.datepickerSetting.appointmentTimeEnd.opened = true;
             }
         };
-
+        $scope.purchasePlan = {};
         $scope.purchaseList = [];
         $scope.pageInfoSetting = {
             pageSize:10,
@@ -47,8 +58,8 @@ define(function () {
         };
         $scope.queryParam = {
             purchaseStatus : "0",
-            startTime:$scope.currentDate(),
-            endTime :$scope.currentDate()
+            startTime:$scope.currentDate(new Date()),
+            endTime :$scope.currentDate(new Date())
         };
         $scope.getPurchaseList = function(){
             PurchaseAPI.query({
@@ -94,6 +105,22 @@ define(function () {
                 $ugDialog.warn(data.data.message);
             });
         }
+
+        $scope.createPlanAppointmenTime = function(){
+            if($scope.purchasePlan.appointmentTimeEnd == undefined || $scope.purchasePlan.appointmentTimeStart == undefined){
+                $ugDialog.warn("请输入起始结束日期");
+                return false;
+            }
+            PurchaseAPI.save({
+                appointmentTimeStart:$scope.purchasePlan.appointmentTimeStart,
+                appointmentTimeEnd:$scope.purchasePlan.appointmentTimeEnd
+            }, function(data){
+                $scope.getPurchaseList();
+            }, function(data){
+                $ugDialog.warn(data.data.message);
+            });
+        }
+
         $scope.updatePurchase = function(index){
             $scope.open(angular.copy($scope.purchaseList[index]));
         };

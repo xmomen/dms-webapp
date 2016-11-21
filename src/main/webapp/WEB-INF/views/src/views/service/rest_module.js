@@ -180,6 +180,14 @@ define(function () {
                     locked:"@locked"
                   }
             },
+            batchAudit:{
+                method:"PUT",
+                url:"/coupon/batchAudit" ,
+                params:{
+                    ids:"@ids",
+                    locked:"@locked"
+                }
+            },
             overCoupon:{
                 method:"PUT",
                 url:"/coupon/:id/overCoupon" ,
@@ -301,6 +309,11 @@ define(function () {
                 method:"GET",
                 url:"/order/:id/item",
                 params:{id:"@id"}
+            },
+            updateTotalBox:{
+                method:"POST",
+                url:"/order/updateTotalBox",
+                params:{orderNo:"@orderNo",totalBox:"@totalBox"}
             }
         });
     }]);

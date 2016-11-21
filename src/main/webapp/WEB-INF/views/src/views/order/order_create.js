@@ -54,6 +54,13 @@ define(function () {
                     $scope.order.totalPrice = $scope.totalItem.totalPrice;
                     $ugDialog.confirm("是否提交订单").then(function(){
                         $scope.saveBtnLoading = true;
+                        $scope.order.remark = "";
+                        if($scope.order.remark1 != undefined){
+                            $scope.order.remark += $scope.order.remark1;
+                        }
+                        if($scope.order.remark2 != undefined){
+                            $scope.order.remark+=" " +$scope.order.remark2;
+                        }
                         if($scope.order.batchNumber && type == 1){
                             OrderAPI.batch($scope.order, function(){
                                 $ugDialog.alert("订单提交成功！");

@@ -149,19 +149,19 @@
 						</div>
 						<div class="dt-toolbar">
                             <div class="row">
-                                <div class="col-sm-4">
+                                <div class="col-md-2">
                                     <div class="dataTables_filter">
                                         <label>
                                             <input type="search" placeholder="订单号" data-ng-keyup="getOrderList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-md-2">
                                     <div class="dataTables_filter">
                                         <label>
                                             <input type="search" placeholder="收货人" data-ng-keyup="getOrderList()" ng-model="queryParam.consigneeName" class="form-control" aria-controls="dt_basic"></label>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-md-2">
                                     <div class="dataTables_filter">
                                         <div class="dataTables_filter">
                                             <select ug-select2 style="width: 250px;" ng-model="queryParam.managerId" ng-change="getOrderList()"  name="managerId" >
@@ -171,6 +171,39 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
+                                               placeholder="配送起始时间"
+                                               ng-model="queryParam.appointmentTimeStart"
+                                               close-text="关闭"
+                                               current-text="今日"
+                                               clear-text="清除"
+                                               is-open="datepickerSetting.appointmentTimeStart.opened"
+                                               ng-required="true" />
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="openDate($event, 0)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
+                                               placeholder="配送截止时间"
+                                               ng-model="queryParam.appointmentTimeEnd"
+                                               close-text="关闭"
+                                               current-text="今日"
+                                               clear-text="清除"
+                                               is-open="datepickerSetting.appointmentTimeEnd.opened"
+                                               ng-required="true" />
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="openDate($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
 							<div class="row">
                                 <div class="col-sm-2">
@@ -187,7 +220,7 @@
                                 </div>
 							</div>
 						</div>
-						<div class="table-responsive">
+						<div class="table-responsive margin-top-10">
 							<table class="table table-condensed table-hover smart-form has-tickbox">
 								<thead>
 								<tr>
@@ -204,7 +237,7 @@
                                     <th>批次号</th>
 									<th>装箱任务负责人</th>
 									<th>分配状态</th>
-									<th>任务状态</th>
+									<th>配送时间</th>
 									<th width="80">操作</th>
 								</tr>
 								</thead>
@@ -230,7 +263,7 @@
 										<div ng-if="order.packingTaskStatus != null">已分配</div>
 										<div ng-if="order.packingTaskStatus == null">待分配</div>
 									</td>
-									<td ng-bind="order.packingTaskStatusDesc"></td>
+									<td ng-bind="order.appointmentTime | date: 'yyyy-MM-dd'"></td>
 									<td>
 										<div ng-show="order.packingTaskStatus == null" >
 											<a href="javascript:void(0);" data-ng-click="bindPackingTask($index)" title="分配">
