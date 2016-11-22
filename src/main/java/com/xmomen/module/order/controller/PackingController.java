@@ -125,6 +125,8 @@ public class PackingController {
                               @RequestParam(value = "isHasPackingTaskUserId", required = false) boolean isHasPackingTaskUserId,
                               @RequestParam(value = "packingTaskCreateTimeStart", required = false) String packingTaskCreateTimeStart,
                               @RequestParam(value = "packingTaskCreateTimeEnd", required = false) String packingTaskCreateTimeEnd,
+                              @RequestParam(value = "appointmentTimeStart", required = false) String appointmentTimeStart,
+                              @RequestParam(value = "appointmentTimeEnd", required = false) String appointmentTimeEnd,
                               @RequestParam(value = "offset") Integer offset,
                               @RequestParam(value = "packingTaskStatus", required = false) Integer packingTaskStatus,
                               @RequestParam(value = "keyword", required = false) String keyword,
@@ -141,6 +143,14 @@ public class PackingController {
         }
         if(StringUtilsExt.isNotBlank(packingTaskCreateTimeEnd)){
         	orderQuery.setPackingTaskCreateTimeEnd(packingTaskCreateTimeEnd);
+        }
+        
+        if(StringUtilsExt.isNotBlank(appointmentTimeStart)){
+        	orderQuery.setAppointmentTimeStart(appointmentTimeStart);
+        }
+        
+        if(StringUtilsExt.isNotBlank(appointmentTimeEnd)){
+        	orderQuery.setAppointmentTimeEnd(appointmentTimeEnd);
         }
         
         if(isShowPackingAssigns != null){

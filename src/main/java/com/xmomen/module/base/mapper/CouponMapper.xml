@@ -17,7 +17,7 @@
         WHERE ccc.ID = #{coupon_category}
     </select>
 
-    <!--        查询消息    -->
+    <!-- -->
 	<select id="getCouponList" resultMap="couponModelMap" parameterType="com.xmomen.module.base.model.CouponQuery">
         SELECT
         cc.*,
@@ -80,6 +80,16 @@
               <if test="isOver != null">
               	AND cc.is_over = #{isOver}
               </if>
+              <if test="auditDateStart">
+	                <![CDATA[
+	                  AND DATE_FORMAT(cc.AUDIT_DATE ,'%Y-%m-%d')>= #{auditDateStart}
+	                ]]>
+          		</if>
+	           	<if test="auditDateEnd">
+	                <![CDATA[
+	                  AND DATE_FORMAT(cc.AUDIT_DATE ,'%Y-%m-%d')<= #{auditDateEnd}
+	                ]]>
+	           	</if>
          </where>
     </select>
     

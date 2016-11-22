@@ -1,6 +1,7 @@
 package com.xmomen.module.base.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import lombok.Data;
 
@@ -23,4 +24,6 @@ class CouponQuery implements Serializable {
     private Integer isOver;
     private Integer managerId;
     private String batch;
+    private String auditDateStart;
+    private String auditDateEnd;
 }

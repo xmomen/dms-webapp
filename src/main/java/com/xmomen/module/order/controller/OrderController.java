@@ -61,6 +61,8 @@ public class OrderController {
                                   @RequestParam(value = "consigneeName", required = false) String consigneeName,
                                   @RequestParam(value = "hasNoShowCancel", required = false) Boolean hasNoShowCancel,
                                   @RequestParam(value = "hasShowDespatch", required = false) Boolean hasShowDespatch,
+                                  @RequestParam(value = "appointmentTimeStart", required = false) String appointmentTimeStart,
+                                  @RequestParam(value = "appointmentTimeEnd", required = false) String appointmentTimeEnd,
                                   @RequestParam(value = "despatchExpressId",required = false) Integer despatchExpressId){
         OrderQuery orderQuery = new OrderQuery();
         orderQuery.setKeyword(keyword);
@@ -81,7 +83,14 @@ public class OrderController {
         if(StringUtilsExt.isNotBlank(orderCreateTimeEnd)){
         	orderQuery.setOrderCreateTimeEnd(orderCreateTimeEnd.substring(0, 10));
         }
+
+        if(StringUtilsExt.isNotBlank(appointmentTimeStart)){
+        	orderQuery.setAppointmentTimeStart(appointmentTimeStart.substring(0, 10));
+        }
         
+        if(StringUtilsExt.isNotBlank(appointmentTimeEnd)){
+        	orderQuery.setAppointmentTimeEnd(appointmentTimeEnd.substring(0, 10));
+        }
         //客服经理过滤 如果有客服组权限则不过滤
         if(SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE) && !SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_PERMISSION_CODE)){
             Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);

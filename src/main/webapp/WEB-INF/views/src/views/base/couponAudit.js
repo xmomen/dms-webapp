@@ -94,19 +94,79 @@ define(function () {
         $scope.audit = function(index){
             CouponAPI.audit({
                 id: $scope.couponList[index].id,
-                locked: $scope.couponList[index].isUseful == 1 ? true : false
+                locked: true
             },function(data){
                 $scope.getCouponList();
                 $scope.getCouponAuditList();
             });
         };
+
+        $scope.batchUsefulCoupon = function(){
+            var ids = [];
+            for(var i in $scope.chooseCoupon){
+                ids.push($scope.chooseCoupon[i].id);
+            }
+            if(ids.length == 0){
+                $ugDialog.warn("请选择卡劵进行批量激活！");
+                return false;
+            }
+            CouponAPI.batchAudit({
+                ids:ids,
+                locked:true
+            },function(data){
+                $scope.getCouponList();
+                $scope.getCouponAuditList();
+            });
+        }
         //已审核列表
-        $scope.queryParamAudit = {}
         $scope.pageInfoAuditSetting = [];
         $scope.pageInfoAuditSetting = {
             pageSize:50,
             pageNum:1
         };
+
+        $scope.currentDate = function(){
+            var myDate = new Date();
+            var fullYear = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+            var month = myDate.getMonth() + 1;       //获取当前月份(0-11,0代表1月)
+            if(month < 10){
+                month = '0'+month;
+            }
+            var date = myDate.getDate();        //获取当前日(1-31)
+            if(date < 10){
+                date = '0'+date;
+            }
+            return fullYear+"-"+month+"-"+date;
+        }
+
+        $scope.datepickerSetting = {
+            datepickerPopupConfig:{
+                "current-text":"今天",
+                "clear-text":"清除",
+                "close-text":"关闭"
+            },
+            auditDateStart:{
+                opened:false
+            },
+            auditDateEnd:{
+                opened:false
+            }
+        };
+        $scope.openDate = function($event, index) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            if(index == 0){
+                $scope.datepickerSetting.auditDateStart.opened = true;
+            }else if(index == 1){
+                $scope.datepickerSetting.auditDateEnd.opened = true;
+            }
+        };
+
+        $scope.queryParamAudit = {
+            auditDateStart :$scope.currentDate(),
+            auditDateEnd:$scope.currentDate()
+        };
+
         $scope.getCouponAuditList = function(){
             CouponAPI.query({
                 limit:$scope.pageInfoAuditSetting.pageSize,
@@ -118,7 +178,9 @@ define(function () {
                 cdCompanyId:$scope.queryParamAudit.cdCompanyId,
                 customerMangerId:$scope.queryParamAudit.customerMangerId,
                 couponCategoryId:$scope.queryParamAudit.couponCategoryId,
-                batch:$scope.queryParamAudit.batch
+                batch:$scope.queryParamAudit.batch,
+                auditDateStart:$scope.queryParamAudit.auditDateStart,
+                auditDateEnd:$scope.queryParamAudit.auditDateEnd
             }, function(data){
                 $scope.couponAuditList = data.data;
                 $scope.pageInfoAuditSetting = data.pageInfo;
@@ -130,7 +192,7 @@ define(function () {
         $scope.noAudit = function(index){
             CouponAPI.audit({
                 id: $scope.couponAuditList[index].id,
-                locked: $scope.couponAuditList[index].isUseful == 1 ? true : false
+                locked:  false
             },function(data){
                 $scope.getCouponList();
                 $scope.getCouponAuditList();

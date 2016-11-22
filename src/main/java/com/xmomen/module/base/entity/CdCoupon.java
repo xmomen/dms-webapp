@@ -49,7 +49,22 @@ public class CdCoupon extends BaseMybatisModel {
     private BigDecimal userPrice;
 
     /**
-     * 0-未使用，1-已使用,2-已作废
+     * 单位
+     */
+    private Integer cdCompanyId;
+
+    /**
+     * 客服经理
+     */
+    private Integer cdUserId;
+
+    /**
+     * 描述
+     */
+    private String couponDesc;
+
+    /**
+     * 0-未使用，1-已使用
      */
     private Integer isUsed;
 
@@ -69,24 +84,9 @@ public class CdCoupon extends BaseMybatisModel {
     private Integer isSend;
 
     /**
-     * 是否预付款 1-预付款,2-后付款
+     * 付款方式 1-预付款，2-后付款
      */
     private Integer paymentType;
-
-    /**
-     * 所属单位
-     */
-    private Integer cdCompanyId;
-
-    /**
-     * 客服经理
-     */
-    private Integer cdUserId;
-
-    /**
-     * 描述
-     */
-    private String couponDesc;
 
     /**
      * 有效开始时间
@@ -104,7 +104,7 @@ public class CdCoupon extends BaseMybatisModel {
     private String notes;
 
     /**
-     * 0-未完结，1-完结
+     * 0-未完结 1-完结
      */
     private Integer isOver;
 
@@ -112,6 +112,11 @@ public class CdCoupon extends BaseMybatisModel {
      * 发卡批次
      */
     private String batch;
+
+    /**
+     * 审核时间
+     */
+    private Date auditDate;
 
     @Column(name = "ID")
     @Id
@@ -213,6 +218,48 @@ public class CdCoupon extends BaseMybatisModel {
         addValidField("userPrice");
     }
 
+    @Column(name = "CD_COMPANY_ID")
+    public Integer getCdCompanyId() {
+        return cdCompanyId;
+    }
+
+    public void setCdCompanyId(Integer cdCompanyId) {
+        this.cdCompanyId = cdCompanyId;
+        if(cdCompanyId == null){
+              removeValidField("cdCompanyId");
+              return;
+        }
+        addValidField("cdCompanyId");
+    }
+
+    @Column(name = "CD_USER_ID")
+    public Integer getCdUserId() {
+        return cdUserId;
+    }
+
+    public void setCdUserId(Integer cdUserId) {
+        this.cdUserId = cdUserId;
+        if(cdUserId == null){
+              removeValidField("cdUserId");
+              return;
+        }
+        addValidField("cdUserId");
+    }
+
+    @Column(name = "COUPON_DESC")
+    public String getCouponDesc() {
+        return couponDesc;
+    }
+
+    public void setCouponDesc(String couponDesc) {
+        this.couponDesc = couponDesc;
+        if(couponDesc == null){
+              removeValidField("couponDesc");
+              return;
+        }
+        addValidField("couponDesc");
+    }
+
     @Column(name = "IS_USED")
     public Integer getIsUsed() {
         return isUsed;
@@ -283,48 +330,6 @@ public class CdCoupon extends BaseMybatisModel {
         addValidField("paymentType");
     }
 
-    @Column(name = "CD_COMPANY_ID")
-    public Integer getCdCompanyId() {
-        return cdCompanyId;
-    }
-
-    public void setCdCompanyId(Integer cdCompanyId) {
-        this.cdCompanyId = cdCompanyId;
-        if(cdCompanyId == null){
-              removeValidField("cdCompanyId");
-              return;
-        }
-        addValidField("cdCompanyId");
-    }
-
-    @Column(name = "CD_USER_ID")
-    public Integer getCdUserId() {
-        return cdUserId;
-    }
-
-    public void setCdUserId(Integer cdUserId) {
-        this.cdUserId = cdUserId;
-        if(cdUserId == null){
-              removeValidField("cdUserId");
-              return;
-        }
-        addValidField("cdUserId");
-    }
-
-    @Column(name = "COUPON_DESC")
-    public String getCouponDesc() {
-        return couponDesc;
-    }
-
-    public void setCouponDesc(String couponDesc) {
-        this.couponDesc = couponDesc;
-        if(couponDesc == null){
-              removeValidField("couponDesc");
-              return;
-        }
-        addValidField("couponDesc");
-    }
-
     @Column(name = "BEGIN_TIME")
     public Date getBeginTime() {
         return beginTime;
@@ -393,5 +398,19 @@ public class CdCoupon extends BaseMybatisModel {
               return;
         }
         addValidField("batch");
+    }
+
+    @Column(name = "AUDIT_DATE")
+    public Date getAuditDate() {
+        return auditDate;
+    }
+
+    public void setAuditDate(Date auditDate) {
+        this.auditDate = auditDate;
+        if(auditDate == null){
+              removeValidField("auditDate");
+              return;
+        }
+        addValidField("auditDate");
     }
 }

@@ -1,9 +1,10 @@
 package com.xmomen.module.order.model;
 
-import lombok.Data;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
+
+import lombok.Data;
 
 import org.jeecgframework.poi.excel.annotation.Excel;
 
@@ -31,4 +32,5 @@ class PurchaseModel implements Serializable {
     private int packingValue;
     private String sellUnit;
     private String spec;
+    private Date createDate;
 }

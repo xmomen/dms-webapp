@@ -180,6 +180,14 @@ define(function () {
                     locked:"@locked"
                   }
             },
+            batchAudit:{
+                method:"PUT",
+                url:"/coupon/batchAudit" ,
+                params:{
+                    ids:"@ids",
+                    locked:"@locked"
+                }
+            },
             overCoupon:{
                 method:"PUT",
                 url:"/coupon/:id/overCoupon" ,

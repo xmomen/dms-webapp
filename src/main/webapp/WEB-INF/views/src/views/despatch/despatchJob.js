@@ -8,13 +8,57 @@ define(function () {
             pageSize:10,
             pageNum:1
         };
-        $scope.queryParam = {};
+
+        $scope.currentDate = function(date){
+            var myDate = date;
+            var fullYear = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+            var month = myDate.getMonth() + 1;       //获取当前月份(0-11,0代表1月)
+            if(month < 10){
+                month = '0'+month;
+            }
+            var date = myDate.getDate();        //获取当前日(1-31)
+            if(date < 10){
+                date = '0'+date;
+            }
+            return fullYear+"-"+month+"-"+date;
+        };
+
+        $scope.datepickerSetting = {
+            datepickerPopupConfig:{
+                "current-text":"今天",
+                "clear-text":"清除",
+                "close-text":"关闭"
+            },
+            appointmentTimeStart:{
+                opened:false
+            },
+            appointmentTimeEnd:{
+                opened:false
+            }
+        };
+        $scope.openDate = function($event, index) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            if(index == 0){
+                $scope.datepickerSetting.appointmentTimeStart.opened = true;
+            }else if(index == 1){
+                $scope.datepickerSetting.appointmentTimeEnd.opened = true;
+            }
+        };
+
+        $scope.queryParam = {
+            appointmentTimeStart :$scope.currentDate(new Date()),
+            appointmentTimeEnd  :$scope.currentDate(new Date(new Date().getTime() + 86400000))
+        };
+
         $scope.getOrderList = function(){
             //查询待配送的订单
             OrderAPI.query({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword,
+                appointmentTimeStart:$scope.queryParam.appointmentTimeStart,
+                appointmentTimeEnd:$scope.queryParam.appointmentTimeEnd,
                 hasNoShowCancel:true,
                 hasShowDespatch:false //不显示已分配的
             }, function(data){
