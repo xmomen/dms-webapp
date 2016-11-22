@@ -3,7 +3,9 @@ package com.xmomen.module.order.service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -241,7 +243,11 @@ public class OrderService {
         TbOrderItemExample tbOrderItemExample = new TbOrderItemExample();
         tbOrderItemExample.createCriteria().andOrderNoEqualTo(orderNo);
         List<TbOrderItem> tbOrderItems = mybatisDao.selectByExample(tbOrderItemExample);
-        mybatisDao.deleteByExample(tbOrderItemExample);
+//        mybatisDao.deleteByExample(tbOrderItemExample);
+        Map<String,TbOrderItem> oldOrderItemMap = new HashMap<String,TbOrderItem>();
+        for(TbOrderItem tbOrderItem:tbOrderItems){
+        	oldOrderItemMap.put(tbOrderItem.getItemCode(),tbOrderItem);
+        }
         boolean flagExists = false;
         List<UpdateOrder.OrderItem> changeOrderItems = new ArrayList<>();
         for (ItemModel cdItem : itemList) {
@@ -261,6 +267,12 @@ public class OrderService {
                         flagExists = false;
                     }
                     TbOrderItem tbOrderItem = new TbOrderItem();
+                    //map存在 说明是更新
+                    if(oldOrderItemMap.containsKey(cdItem.getItemCode())){
+                    	tbOrderItem.setId(oldOrderItemMap.get(cdItem.getItemCode()).getId());
+                    	//map 移除	
+                    	oldOrderItemMap.remove(cdItem.getItemCode());
+                    }
                     tbOrderItem.setOrderNo(orderNo);
                     tbOrderItem.setItemCode(cdItem.getItemCode());
                     tbOrderItem.setItemId(cdItem.getId());
@@ -277,6 +289,10 @@ public class OrderService {
                     mybatisDao.save(tbOrderItem);
                 }
             }
+        }
+        //将map里面还有的进行删除
+        for(String key : oldOrderItemMap.keySet()){
+        	mybatisDao.delete(oldOrderItemMap.get(key));
         }
         TbOrder tbOrder = mybatisDao.selectByPrimaryKey(TbOrder.class, updateOrder.getId());
         tbOrder.setConsigneeName(updateOrder.getConsigneeName());

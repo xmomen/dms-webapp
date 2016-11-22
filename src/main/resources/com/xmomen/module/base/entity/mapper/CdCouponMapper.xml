@@ -21,8 +21,8 @@
     <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
     <result column="NOTES" property="notes" jdbcType="VARCHAR" />
     <result column="IS_OVER" property="isOver" jdbcType="INTEGER" />
-    <result column="BATCH" property="batch" jdbcType="VARCHAR" />
     <result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP" />
+    <result column="BATCH" property="batch" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -85,7 +85,7 @@
   <sql id="Base_Column_List" >
     ID, COUPON_TYPE, COUPON_CATEGORY, COUPON_NUMBER, COUPON_PASSWORD, COUPON_VALUE, USER_PRICE, 
     CD_COMPANY_ID, CD_USER_ID, COUPON_DESC, IS_USED, IS_USEFUL, IS_GIFT, IS_SEND, PAYMENT_TYPE, 
-    BEGIN_TIME, END_TIME, NOTES, IS_OVER, BATCH, AUDIT_DATE
+    BEGIN_TIME, END_TIME, NOTES, IS_OVER, AUDIT_DATE, BATCH
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdCouponExample" >
     select
@@ -167,11 +167,11 @@
       <if test="isOver != null" >
         IS_OVER,
       </if>
-      <if test="batch != null" >
-        BATCH,
-      </if>
       <if test="auditDate != null" >
         AUDIT_DATE,
+      </if>
+      <if test="batch != null" >
+        BATCH,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -232,11 +232,11 @@
       <if test="isOver != null" >
         #{isOver,jdbcType=INTEGER},
       </if>
-      <if test="batch != null" >
-        #{batch,jdbcType=VARCHAR},
-      </if>
       <if test="auditDate != null" >
         #{auditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="batch != null" >
+        #{batch,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -306,11 +306,11 @@
       <if test="record.isOver != null" >
         IS_OVER = #{record.isOver,jdbcType=INTEGER},
       </if>
-      <if test="record.batch != null" >
-        BATCH = #{record.batch,jdbcType=VARCHAR},
-      </if>
       <if test="record.auditDate != null" >
         AUDIT_DATE = #{record.auditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.batch != null" >
+        BATCH = #{record.batch,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >

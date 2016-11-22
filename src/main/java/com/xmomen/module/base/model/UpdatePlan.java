@@ -42,6 +42,7 @@ public @Data class UpdatePlan implements Serializable {
     /**
      * 配送时间(一周的星期几）
      */
+  
     private String deliveryTime;
 
     /**

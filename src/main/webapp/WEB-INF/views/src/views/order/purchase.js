@@ -2,21 +2,7 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "PurchaseAPI", "$modal", "$ugDialog", function($scope, PurchaseAPI, $modal, $ugDialog){
-        $scope.currentDate = function(date){
-            var myDate = date;
-            var fullYear = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
-            var month = myDate.getMonth() + 1;       //获取当前月份(0-11,0代表1月)
-            if(month < 10){
-                month = '0'+month;
-            }
-            var date = myDate.getDate();        //获取当前日(1-31)
-            if(date < 10){
-                date = '0'+date;
-            }
-            return fullYear+"-"+month+"-"+date;
-        };
-
+    return ["$scope", "PurchaseAPI", "$modal", "$ugDialog","$filter", function($scope, PurchaseAPI, $modal, $ugDialog,$filter){
         $scope.datepickerSetting = {
             datepickerPopupConfig:{
                 "current-text":"今天",
@@ -58,8 +44,8 @@ define(function () {
         };
         $scope.queryParam = {
             purchaseStatus : "0",
-            startTime:$scope.currentDate(new Date()),
-            endTime :$scope.currentDate(new Date())
+            startTime:$filter('date')(new Date(new Date().getTime()), 'yyyy-MM-dd'),
+            endTime :$filter('date')(new Date(new Date().getTime()), 'yyyy-MM-dd')
         };
         $scope.getPurchaseList = function(){
             PurchaseAPI.query({

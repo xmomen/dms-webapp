@@ -2,26 +2,12 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "OrderAPI", "$modal", "$ugDialog","ExpressAPI", function($scope, OrderAPI, $modal, $ugDialog,ExpressAPI){
+    return ["$scope", "OrderAPI", "$modal", "$ugDialog","ExpressAPI","$filter", function($scope, OrderAPI, $modal, $ugDialog,ExpressAPI,$filter){
         $scope.orderList = [];
         $scope.pageInfoSetting = {
             pageSize:10,
             pageNum:1
         };
-        $scope.currentDate = function(date){
-            var myDate = date;
-            var fullYear = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
-            var month = myDate.getMonth() + 1;       //获取当前月份(0-11,0代表1月)
-            if(month < 10){
-                month = '0'+month;
-            }
-            var date = myDate.getDate();        //获取当前日(1-31)
-            if(date < 10){
-                date = '0'+date;
-            }
-            return fullYear+"-"+month+"-"+date;
-        };
-
         $scope.datepickerSetting = {
             datepickerPopupConfig:{
                 "current-text":"今天",
@@ -46,8 +32,8 @@ define(function () {
         };
 
         $scope.queryParam = {
-            appointmentTimeStart :$scope.currentDate(new Date()),
-            appointmentTimeEnd  :$scope.currentDate(new Date(new Date().getTime() + 86400000))
+            appointmentTimeStart :$filter('date')(new Date(new Date().getTime()), 'yyyy-MM-dd'),
+            appointmentTimeEnd  :$filter('date')(new Date(new Date().getTime()+86400000), 'yyyy-MM-dd')
         };
 
         $scope.getOrderList = function(){

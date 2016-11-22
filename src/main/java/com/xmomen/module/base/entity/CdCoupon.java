@@ -109,14 +109,14 @@ public class CdCoupon extends BaseMybatisModel {
     private Integer isOver;
 
     /**
-     * 发卡批次
-     */
-    private String batch;
-
-    /**
      * 审核时间
      */
     private Date auditDate;
+
+    /**
+     * 发卡批次
+     */
+    private String batch;
 
     @Column(name = "ID")
     @Id
@@ -386,20 +386,6 @@ public class CdCoupon extends BaseMybatisModel {
         addValidField("isOver");
     }
 
-    @Column(name = "BATCH")
-    public String getBatch() {
-        return batch;
-    }
-
-    public void setBatch(String batch) {
-        this.batch = batch;
-        if(batch == null){
-              removeValidField("batch");
-              return;
-        }
-        addValidField("batch");
-    }
-
     @Column(name = "AUDIT_DATE")
     public Date getAuditDate() {
         return auditDate;
@@ -412,5 +398,19 @@ public class CdCoupon extends BaseMybatisModel {
               return;
         }
         addValidField("auditDate");
+    }
+
+    @Column(name = "BATCH")
+    public String getBatch() {
+        return batch;
+    }
+
+    public void setBatch(String batch) {
+        this.batch = batch;
+        if(batch == null){
+              removeValidField("batch");
+              return;
+        }
+        addValidField("batch");
     }
 }
