@@ -1287,6 +1287,66 @@ public class CdCouponExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
+        public Criteria andAuditDateIsNull() {
+            addCriterion("AUDIT_DATE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateIsNotNull() {
+            addCriterion("AUDIT_DATE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateEqualTo(Date value) {
+            addCriterion("AUDIT_DATE =", value, "auditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateNotEqualTo(Date value) {
+            addCriterion("AUDIT_DATE <>", value, "auditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateGreaterThan(Date value) {
+            addCriterion("AUDIT_DATE >", value, "auditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("AUDIT_DATE >=", value, "auditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateLessThan(Date value) {
+            addCriterion("AUDIT_DATE <", value, "auditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateLessThanOrEqualTo(Date value) {
+            addCriterion("AUDIT_DATE <=", value, "auditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateIn(List<Date> values) {
+            addCriterion("AUDIT_DATE in", values, "auditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateNotIn(List<Date> values) {
+            addCriterion("AUDIT_DATE not in", values, "auditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateBetween(Date value1, Date value2) {
+            addCriterion("AUDIT_DATE between", value1, value2, "auditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateNotBetween(Date value1, Date value2) {
+            addCriterion("AUDIT_DATE not between", value1, value2, "auditDate");
+            return (Criteria) this;
+        }
+
         public Criteria andBatchIsNull() {
             addCriterion("BATCH is null");
             return (Criteria) this;
@@ -1354,66 +1414,6 @@ public class CdCouponExample extends BaseMybatisExample {
 
         public Criteria andBatchNotBetween(String value1, String value2) {
             addCriterion("BATCH not between", value1, value2, "batch");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditDateIsNull() {
-            addCriterion("AUDIT_DATE is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditDateIsNotNull() {
-            addCriterion("AUDIT_DATE is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditDateEqualTo(Date value) {
-            addCriterion("AUDIT_DATE =", value, "auditDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditDateNotEqualTo(Date value) {
-            addCriterion("AUDIT_DATE <>", value, "auditDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditDateGreaterThan(Date value) {
-            addCriterion("AUDIT_DATE >", value, "auditDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditDateGreaterThanOrEqualTo(Date value) {
-            addCriterion("AUDIT_DATE >=", value, "auditDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditDateLessThan(Date value) {
-            addCriterion("AUDIT_DATE <", value, "auditDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditDateLessThanOrEqualTo(Date value) {
-            addCriterion("AUDIT_DATE <=", value, "auditDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditDateIn(List<Date> values) {
-            addCriterion("AUDIT_DATE in", values, "auditDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditDateNotIn(List<Date> values) {
-            addCriterion("AUDIT_DATE not in", values, "auditDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditDateBetween(Date value1, Date value2) {
-            addCriterion("AUDIT_DATE between", value1, value2, "auditDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditDateNotBetween(Date value1, Date value2) {
-            addCriterion("AUDIT_DATE not between", value1, value2, "auditDate");
             return (Criteria) this;
         }
     }
