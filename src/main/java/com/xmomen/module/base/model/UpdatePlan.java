@@ -42,7 +42,7 @@ public @Data class UpdatePlan implements Serializable {
     /**
      * 配送时间(一周的星期几）
      */
-    @NotBlank
+    
     private String deliveryTime;
 
     /**
@@ -54,6 +54,7 @@ public @Data class UpdatePlan implements Serializable {
     /**
      * 价格
      */
+    @NotNull
     private BigDecimal price;
 
     /**
