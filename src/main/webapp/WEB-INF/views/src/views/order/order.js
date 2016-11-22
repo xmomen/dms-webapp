@@ -43,12 +43,11 @@ define(function () {
         };
 
         $scope.queryParam = {
-            orderCreateTimeStart :$filter('date')(new Date(new Date().getTime() - 3600*100*24), 'yyyy-MM-dd'),
+            orderCreateTimeStart :$filter('date')(new Date(new Date().getTime()), 'yyyy-MM-dd'),
             orderCreateTimeEnd:$filter('date')(new Date(new Date().getTime()), 'yyyy-MM-dd')
         };
 
         $scope.getOrderList = function(){
-            alert($scope.queryParam.orderCreateTimeStart)
             OrderAPI.query({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,

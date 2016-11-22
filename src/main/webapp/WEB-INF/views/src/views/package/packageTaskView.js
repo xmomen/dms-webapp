@@ -2,7 +2,7 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "PackageTaskAPI", "$modal", "$ugDialog","$stateParams", function($scope, PackageTaskAPI, $modal, $ugDialog,$stateParams){
+    return ["$scope", "PackageTaskAPI", "$modal", "$ugDialog","$stateParams","$filter", function($scope, PackageTaskAPI, $modal, $ugDialog,$stateParams,$filter){
 
         $scope.datepickerSetting = {
             datepickerPopupConfig:{
@@ -26,19 +26,6 @@ define(function () {
                 $scope.datepickerSetting.packageTaskCreateTimeEnd.opened = true;
             }
         };
-        $scope.currentDate = function(){
-            var myDate = new Date();
-            var fullYear = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
-            var month = myDate.getMonth() + 1;       //获取当前月份(0-11,0代表1月)
-            if(month < 10){
-                month = '0'+month;
-            }
-            var date = myDate.getDate();        //获取当前日(1-31)
-            if(date < 10){
-                date = '0'+date;
-            }
-            return fullYear+"-"+month+"-"+date;
-        }
 
         $scope.packageTaskList = [];
         $scope.pageInfoSetting = {
@@ -46,8 +33,8 @@ define(function () {
             pageNum:1
         };
         $scope.queryParam = {
-            packageTaskCreateTimeStart :$scope.currentDate(),
-            packageTaskCreateTimeEnd:$scope.currentDate()
+            packageTaskCreateTimeStart :$filter('date')(new Date(new Date().getTime()), 'yyyy-MM-dd'),
+            packageTaskCreateTimeEnd:$filter('date')(new Date(new Date().getTime()), 'yyyy-MM-dd')
         };
 
         $scope.getPackageTaskList = function(){

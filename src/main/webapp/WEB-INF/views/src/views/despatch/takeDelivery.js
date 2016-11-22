@@ -2,22 +2,7 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "$modal", "$ugDialog","ExpressAPI", "OrderAPI",function($scope,$modal, $ugDialog,ExpressAPI,OrderAPI){
-
-        $scope.currentDate = function(date){
-            var myDate = date;
-            var fullYear = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
-            var month = myDate.getMonth() + 1;       //获取当前月份(0-11,0代表1月)
-            if(month < 10){
-                month = '0'+month;
-            }
-            var date = myDate.getDate();        //获取当前日(1-31)
-            if(date < 10){
-                date = '0'+date;
-            }
-            return fullYear+"-"+month+"-"+date;
-        };
-
+    return ["$scope", "$modal", "$ugDialog","ExpressAPI", "OrderAPI","$filter",function($scope,$modal, $ugDialog,ExpressAPI,OrderAPI,$filter){
         //已分配未提货订单
         $scope.orderTakeDeliveryList = [];
         $scope.pageInfoTakeDeliverySetting = {
@@ -25,18 +10,55 @@ define(function () {
             pageNum:1
         };
 
-        $scope.queryTakeDeliveryParam = {
-            startTime :$scope.currentDate(new Date(new Date().getTime())),
-            endTime:$scope.currentDate(new Date(new Date().getTime()))
+
+        $scope.datepickerSetting = {
+            datepickerPopupConfig:{
+                "current-text":"今天",
+                "clear-text":"清除",
+                "close-text":"关闭"
+            },
+            startTime:{
+                opened:false
+            },
+            endTime:{
+                opened:false
+            },
+            takeDeliveryStartTime:{
+                opened:false
+            },
+            takeDeliveryEndTime:{
+                opened:false
+            }
         };
+        $scope.openDatepicker = function($event, index) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            if(index == 1){
+                $scope.datepickerSetting.startTime.opened = true;
+            }else if(index == 2){
+                $scope.datepickerSetting.endTime.opened = true;
+            }else if(index ==3){
+                $scope.datepickerSetting.takeDeliveryStartTime.opened = true;
+            }else if(index == 4){
+                $scope.datepickerSetting.takeDeliveryEndTime.opened = true;
+            }
+        };
+
+
+        $scope.queryTakeDeliveryParam = {
+            takeDeliveryStartTime :$filter('date')(new Date(new Date().getTime()), 'yyyy-MM-dd'),
+            takeDeliveryEndTime  :$filter('date')(new Date(new Date().getTime()), 'yyyy-MM-dd')
+        };
+
+
         $scope.getOrderTakeDeliveryList = function(){
             //查询已分配未提货的订单
             ExpressAPI.noScanOrder({
                 limit:$scope.pageInfoTakeDeliverySetting.pageSize,
                 offset:$scope.pageInfoTakeDeliverySetting.pageNum,
                 keyword:$scope.queryTakeDeliveryParam.keyword,
-                startTime:$scope.queryTakeDeliveryParam.startTime,
-                endTime:$scope.queryTakeDeliveryParam.endTime
+                startTime:$scope.queryTakeDeliveryParam.takeDeliveryStartTime,
+                endTime:$scope.queryTakeDeliveryParam.takeDeliveryEndTime
             }, function(data){
                 $scope.orderTakeDeliveryList = data.data;
                 $scope.pageInfoTakeDeliverySetting = data.pageInfo;
@@ -52,32 +74,8 @@ define(function () {
         };
 
         $scope.queryParam = {
-            startTime :$scope.currentDate(new Date(new Date().getTime())),
-            endTime:$scope.currentDate(new Date(new Date().getTime()))
-        };
-
-
-        $scope.datepickerSetting = {
-            datepickerPopupConfig:{
-                "current-text":"今天",
-                "clear-text":"清除",
-                "close-text":"关闭"
-            },
-            startTime:{
-                opened:false
-            },
-            endTime:{
-                opened:false
-            }
-        };
-        $scope.openDatepicker = function($event, index) {
-            $event.preventDefault();
-            $event.stopPropagation();
-            if(index == 1){
-                $scope.datepickerSetting.startTime.opened = true;
-            }else if(index == 2){
-                $scope.datepickerSetting.endTime.opened = true;
-            }
+            startTime :$filter('date')(new Date(new Date().getTime()), 'yyyy-MM-dd'),
+            endTime  :$filter('date')(new Date(new Date().getTime()), 'yyyy-MM-dd')
         };
 
         $scope.getOrderList = function(){

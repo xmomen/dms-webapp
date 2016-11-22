@@ -60,31 +60,31 @@
                             <div class="row">
                                 <div class="col-sm-3">
                                     <div class="input-group">
-                                        <input type="text" id="startTimeId" class="form-control" datepicker-popup="yyyy-MM-dd"
+                                        <input type="text" id="startTimeId" class="form-control" datepicker-popup="yyyy-MM-dd" datepicker-localdate
                                                placeholder="配送起始日期"
-                                               ng-model="queryTakeDeliveryParam.startTime"
+                                               ng-model="queryTakeDeliveryParam.takeDeliveryStartTime"
                                                close-text="关闭"
                                                current-text="今日"
                                                clear-text="清除"
-                                               is-open="datepickerSetting.startTime.opened"
+                                               is-open="datepickerSetting.takeDeliveryStartTime.opened"
                                                ng-required="true" />
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn btn-default" ng-click="openDatepicker($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                            <button type="button" class="btn btn-default" ng-click="openDatepicker($event, 3)"><i class="glyphicon glyphicon-calendar"></i></button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="input-group">
-                                        <input type="text" id="endTimeId" class="form-control" datepicker-popup="yyyy-MM-dd"
+                                        <input type="text" id="endTimeId" class="form-control" datepicker-popup="yyyy-MM-dd" datepicker-localdate
                                                placeholder="配送截止日期"
-                                               ng-model="queryTakeDeliveryParam.endTime"
+                                               ng-model="queryTakeDeliveryParam.takeDeliveryEndTime"
                                                close-text="关闭"
                                                current-text="今日"
                                                clear-text="清除"
-                                               is-open="datepickerSetting.endTime.opened"
+                                               is-open="datepickerSetting.takeDeliveryEndTime.opened"
                                                ng-required="true" />
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn btn-default" ng-click="openDatepicker($event, 2)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                            <button type="button" class="btn btn-default" ng-click="openDatepicker($event, 4)"><i class="glyphicon glyphicon-calendar"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -180,7 +180,7 @@
                             <div class="row">
                                 <div class="col-sm-3">
                                     <div class="input-group">
-                                        <input type="text" id="startTimeId" class="form-control" datepicker-popup="yyyy-MM-dd"
+                                        <input type="text" id="startTimeId" class="form-control" datepicker-popup="yyyy-MM-dd" datepicker-localdate
                                                placeholder="配送起始日期"
                                                ng-model="queryParam.startTime"
                                                close-text="关闭"
@@ -195,7 +195,7 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="input-group">
-                                        <input type="text" id="endTimeId" class="form-control" datepicker-popup="yyyy-MM-dd"
+                                        <input type="text" id="endTimeId" class="form-control" datepicker-popup="yyyy-MM-dd" datepicker-localdate
                                                placeholder="配送截止日期"
                                                ng-model="queryParam.endTime"
                                                close-text="关闭"
