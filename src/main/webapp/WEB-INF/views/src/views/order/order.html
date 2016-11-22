@@ -68,7 +68,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
+                                    <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" datepicker-localdate
                                            placeholder="下单起始日期"
                                            ng-model="queryParam.orderCreateTimeStart"
                                            close-text="关闭"
@@ -83,7 +83,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd"
+                                    <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" datepicker-localdate
                                            placeholder="下单截止日期"
                                            ng-model="queryParam.orderCreateTimeEnd"
                                            close-text="关闭"
@@ -121,6 +121,7 @@
 									<th>订单类型</th>
                                     <th>卡/劵号</th>
 									<th>订购日期</th>
+                                    <th>配送日期</th>
 									<th>订单状态</th>
 									<th>付款方式</th>
 									<th>总金额</th>
@@ -145,6 +146,7 @@
 									<td ng-bind="order.orderTypeDesc"></td>
                                     <td ng-bind="order.couponNumber"></td>
 									<td ng-bind="order.createTime | date: 'yyyy-MM-dd'"></td>
+                                    <td ng-bind="order.appointmentTime | date: 'yyyy-MM-dd'"></td>
 									<td ng-bind="order.orderStatusDesc"></td>
 									<td ng-bind="order.paymentModeDesc"></td>
 									<td ng-bind="order.totalAmount + order.discountPrice"></td>
