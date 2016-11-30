@@ -150,12 +150,13 @@ define(function () {
                 $scope.isCheckCombine = 1;
             }
         };
-
+        $scope.saveBtnLoading = false;
         $scope.batchBindPackingTask = function(){
             if(!$scope.currentCustomer.actorId){
                 $ugDialog.warn("请选择需要分配的责任人");
                 return;
             }
+            $scope.saveBtnLoading = true;
             var orderNos = [];
             for(var i in $scope.chooseOrder){
                 orderNos.push($scope.chooseOrder[i].orderNo);
@@ -166,7 +167,9 @@ define(function () {
             }, function(){
                 $scope.getOrderList();
                 $scope.getCustomerManagersList();
-            })
+            }).$promise.finally(function(){
+                $scope.saveBtnLoading = false;
+            });
         };
     }];
 });
