@@ -268,9 +268,9 @@
 									<td ng-bind="order.appointmentTime | date: 'yyyy-MM-dd'"></td>
 									<td>
 										<div ng-show="order.packingTaskStatus == null && order.orderStatus != 1" >
-											<a href="javascript:void(0);" data-ng-click="bindPackingTask($index)" title="分配">
-												<span class="fa fa-inbox"> </span>
-											</a>
+                                            <button class="btn btn-primary" btn-loading="order.saveBtnLoading" data-ng-click="bindPackingTask($index)" title="分配">
+                                                <i class="fa fa-inbox"></i>分配
+                                            </button>
 										</div>
 										<div ng-show="order.packingTaskStatus == 0" >
 											<a href="javascript:void(0);" data-ng-click="unbindPackingTask($index)" title="取消">
