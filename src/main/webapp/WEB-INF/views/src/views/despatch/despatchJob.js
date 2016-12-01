@@ -126,12 +126,13 @@ define(function () {
                 $scope.isCheckCombine = 1;
             }
         };
-
+        $scope.saveBtnLoading = false;
         $scope.batchBindExpress = function(){
             if(!$scope.currentCustomer){
                 $ugDialog.warn("请选择运输的快递商");
                 return;
             }
+            $scope.saveBtnLoading = true;
             var orderNos = [];
             for(var i in $scope.chooseOrder){
                 orderNos.push($scope.chooseOrder[i].orderNo);
@@ -142,7 +143,9 @@ define(function () {
             }, function(){
                 $scope.getOrderList();
                 $scope.getExpressList();
-            })
+            }).$promise.finally(function(){
+                    $scope.saveBtnLoading = false;
+            });
         };
     }];
 });
