@@ -236,6 +236,7 @@
                                     <th>收货人</th>
                                     <th>批次号</th>
 									<th>装箱任务负责人</th>
+                                    <th>订单状态</th>
 									<th>分配状态</th>
 									<th>配送时间</th>
 									<th width="80">操作</th>
@@ -244,7 +245,7 @@
 								<tbody>
 								<tr ng-repeat="order in orderList"  ng-if="orderList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
                                     <td style="width : 20px;">
-                                        <label class="checkbox" ng-if="order.packingTaskStatus == null">
+                                        <label class="checkbox" ng-if="order.packingTaskStatus == null && order.orderStatus != 1">
                                             <input type="checkbox"
                                                    checklist-model="chooseOrder"
                                                    checklist-before-change="changeOrderList()"
@@ -259,13 +260,14 @@
                                     <td ng-bind="order.consigneeName"></td>
                                     <td ng-bind="order.batchNo"></td>
 									<td ng-bind="order.packingTaskUsername"></td>
+                                    <td ng-bind="order.orderStatusDesc"></td>
 									<td>
 										<div ng-if="order.packingTaskStatus != null">已分配</div>
 										<div ng-if="order.packingTaskStatus == null">待分配</div>
 									</td>
 									<td ng-bind="order.appointmentTime | date: 'yyyy-MM-dd'"></td>
 									<td>
-										<div ng-show="order.packingTaskStatus == null" >
+										<div ng-show="order.packingTaskStatus == null && order.orderStatus != 1" >
 											<a href="javascript:void(0);" data-ng-click="bindPackingTask($index)" title="分配">
 												<span class="fa fa-inbox"> </span>
 											</a>
