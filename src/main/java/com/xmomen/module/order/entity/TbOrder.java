@@ -148,6 +148,11 @@ public class TbOrder extends BaseMybatisModel {
      */
     private Integer expressScanBoxNum;
 
+    /**
+     * 0无下架商品、1有下架商品
+     */
+    private Integer xiajia;
+
     @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
@@ -526,5 +531,19 @@ public class TbOrder extends BaseMybatisModel {
               return;
         }
         addValidField("expressScanBoxNum");
+    }
+
+    @Column(name = "XIAJIA")
+    public Integer getXiajia() {
+        return xiajia;
+    }
+
+    public void setXiajia(Integer xiajia) {
+        this.xiajia = xiajia;
+        if(xiajia == null){
+              removeValidField("xiajia");
+              return;
+        }
+        addValidField("xiajia");
     }
 }

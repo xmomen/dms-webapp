@@ -1816,6 +1816,66 @@ public class TbOrderExample extends BaseMybatisExample {
             addCriterion("EXPRESS_SCAN_BOX_NUM not between", value1, value2, "expressScanBoxNum");
             return (Criteria) this;
         }
+
+        public Criteria andXiajiaIsNull() {
+            addCriterion("XIAJIA is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXiajiaIsNotNull() {
+            addCriterion("XIAJIA is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXiajiaEqualTo(Integer value) {
+            addCriterion("XIAJIA =", value, "xiajia");
+            return (Criteria) this;
+        }
+
+        public Criteria andXiajiaNotEqualTo(Integer value) {
+            addCriterion("XIAJIA <>", value, "xiajia");
+            return (Criteria) this;
+        }
+
+        public Criteria andXiajiaGreaterThan(Integer value) {
+            addCriterion("XIAJIA >", value, "xiajia");
+            return (Criteria) this;
+        }
+
+        public Criteria andXiajiaGreaterThanOrEqualTo(Integer value) {
+            addCriterion("XIAJIA >=", value, "xiajia");
+            return (Criteria) this;
+        }
+
+        public Criteria andXiajiaLessThan(Integer value) {
+            addCriterion("XIAJIA <", value, "xiajia");
+            return (Criteria) this;
+        }
+
+        public Criteria andXiajiaLessThanOrEqualTo(Integer value) {
+            addCriterion("XIAJIA <=", value, "xiajia");
+            return (Criteria) this;
+        }
+
+        public Criteria andXiajiaIn(List<Integer> values) {
+            addCriterion("XIAJIA in", values, "xiajia");
+            return (Criteria) this;
+        }
+
+        public Criteria andXiajiaNotIn(List<Integer> values) {
+            addCriterion("XIAJIA not in", values, "xiajia");
+            return (Criteria) this;
+        }
+
+        public Criteria andXiajiaBetween(Integer value1, Integer value2) {
+            addCriterion("XIAJIA between", value1, value2, "xiajia");
+            return (Criteria) this;
+        }
+
+        public Criteria andXiajiaNotBetween(Integer value1, Integer value2) {
+            addCriterion("XIAJIA not between", value1, value2, "xiajia");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
