@@ -10,7 +10,8 @@ import lombok.Data;
 /**
  * Created by Jeng on 16/4/6.
  */
-public @Data
+public
+@Data
 class OrderModel implements Serializable {
 
     /**
@@ -59,7 +60,7 @@ class OrderModel implements Serializable {
     private String orderStatus;
 
     /**
-     *  装箱任务负责人名称
+     * 装箱任务负责人名称
      */
     private String packingTaskUsername;
     /**
@@ -120,7 +121,7 @@ class OrderModel implements Serializable {
      * 订单备注
      */
     private String remark;
-    
+
     /**
      * 折扣价
      */
@@ -140,7 +141,7 @@ class OrderModel implements Serializable {
      * 订单创建人ID
      */
     private Integer createUserId;
-    
+
     private String createUser;
 
     /**
@@ -152,31 +153,33 @@ class OrderModel implements Serializable {
      * 支付卡（券）号
      */
     private String couponNumber;
-    
+
     /**
      * 快递商
      */
     private String expressName;
-    
+
     private Integer despatchExpressId;
-    
+
     /**
-     *项目经理
+     * 项目经理
      */
     private String managerName;
     /**
      * 单位
      */
     private String companyName;
-    
+
     /**
      * 总箱数
      */
     private List<PackingModel> packingModels;
-    
+
     private String batchNo;
-    
+
     //每批次的订单数
     private int batchNum;
-     
+
+    private int xiajia;
+
 }

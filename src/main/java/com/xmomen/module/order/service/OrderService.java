@@ -115,10 +115,10 @@ public class OrderService {
      */
     @Transactional
     public TbOrder createOrder(CreateOrder createOrder) {
-    	String orderNo = createOrder.getOrderNo();
-    	if(StringUtils.isEmpty(orderNo)){
-    		orderNo = DateUtils.getDateTimeString();
-    	}
+        String orderNo = createOrder.getOrderNo();
+        if (StringUtils.isEmpty(orderNo)) {
+            orderNo = DateUtils.getDateTimeString();
+        }
         List<Integer> itemIdList = new ArrayList<Integer>();
         for (CreateOrder.OrderItem orderItem : createOrder.getOrderItemList()) {
             itemIdList.add(orderItem.getOrderItemId());
@@ -129,8 +129,13 @@ public class OrderService {
         itemQuery.setCompanyId(createOrder.getCompanyId());
         List<ItemModel> itemList = itemService.queryItemList(itemQuery);
         BigDecimal totalAmount = BigDecimal.ZERO;
+        int xiajia = 0;
         for (ItemModel cdItem : itemList) {
             for (CreateOrder.OrderItem orderItem : createOrder.getOrderItemList()) {
+                //查看商品是否下架了
+                if (cdItem.getSellStatus() == 0) {
+                    xiajia = 1;
+                }
                 if (cdItem.getId().equals(orderItem.getOrderItemId())) {
                     TbOrderItem tbOrderItem = new TbOrderItem();
                     tbOrderItem.setOrderNo(orderNo);
@@ -170,6 +175,7 @@ public class OrderService {
         tbOrder.setManagerId(createOrder.getManagerId());
         tbOrder.setCompanyId(createOrder.getCompanyId());
         tbOrder.setBatchNo(createOrder.getBatchNo());
+        tbOrder.setXiajia(xiajia);
         //生成收货码
         TbOrderRef orderRef = new TbOrderRef();
         orderRef.setOrderNo(orderNo);
@@ -244,15 +250,21 @@ public class OrderService {
         tbOrderItemExample.createCriteria().andOrderNoEqualTo(orderNo);
         List<TbOrderItem> tbOrderItems = mybatisDao.selectByExample(tbOrderItemExample);
 //        mybatisDao.deleteByExample(tbOrderItemExample);
-        Map<String,TbOrderItem> oldOrderItemMap = new HashMap<String,TbOrderItem>();
-        for(TbOrderItem tbOrderItem:tbOrderItems){
-        	oldOrderItemMap.put(tbOrderItem.getItemCode(),tbOrderItem);
+        Map<String, TbOrderItem> oldOrderItemMap = new HashMap<String, TbOrderItem>();
+        for (TbOrderItem tbOrderItem : tbOrderItems) {
+            oldOrderItemMap.put(tbOrderItem.getItemCode(), tbOrderItem);
         }
         boolean flagExists = false;
+        //是否有下架商品 0 无 1有
+        int xiajia = 0;
         List<UpdateOrder.OrderItem> changeOrderItems = new ArrayList<>();
         for (ItemModel cdItem : itemList) {
             for (UpdateOrder.OrderItem orderItem : updateOrder.getOrderItemList()) {
                 if (cdItem.getId().equals(orderItem.getOrderItemId())) {
+                    //查看商品是否下架了
+                    if (cdItem.getSellStatus() == 0) {
+                        xiajia = 1;
+                    }
                     //如果订单状态大于等于3则认为是补货或者更换货的 需要生成采购计划
                     if (Integer.parseInt(oldTbOrder.getOrderStatus()) >= 3) {
                         //计算是否是新增的商品
@@ -268,10 +280,10 @@ public class OrderService {
                     }
                     TbOrderItem tbOrderItem = new TbOrderItem();
                     //map存在 说明是更新
-                    if(oldOrderItemMap.containsKey(cdItem.getItemCode())){
-                    	tbOrderItem.setId(oldOrderItemMap.get(cdItem.getItemCode()).getId());
-                    	//map 移除	
-                    	oldOrderItemMap.remove(cdItem.getItemCode());
+                    if (oldOrderItemMap.containsKey(cdItem.getItemCode())) {
+                        tbOrderItem.setId(oldOrderItemMap.get(cdItem.getItemCode()).getId());
+                        //map 移除
+                        oldOrderItemMap.remove(cdItem.getItemCode());
                     }
                     tbOrderItem.setOrderNo(orderNo);
                     tbOrderItem.setItemCode(cdItem.getItemCode());
@@ -291,8 +303,8 @@ public class OrderService {
             }
         }
         //将map里面还有的进行删除
-        for(String key : oldOrderItemMap.keySet()){
-        	mybatisDao.delete(oldOrderItemMap.get(key));
+        for (String key : oldOrderItemMap.keySet()) {
+            mybatisDao.delete(oldOrderItemMap.get(key));
         }
         TbOrder tbOrder = mybatisDao.selectByPrimaryKey(TbOrder.class, updateOrder.getId());
         tbOrder.setConsigneeName(updateOrder.getConsigneeName());
@@ -305,6 +317,7 @@ public class OrderService {
         tbOrder.setRemark(updateOrder.getRemark());
         tbOrder.setOrderType(updateOrder.getOrderType());
         tbOrder.setOrderSource(updateOrder.getOrderSource());
+        tbOrder.setXiajia(xiajia);
         totalAmount = totalAmount.subtract(updateOrder.getDiscountPrice());
         //订单总金额 如果是劵的 或者是餐桌计划的 则就是劵面金额 不用累计商品总金额
         if (tbOrder.getOrderType() == 2 || tbOrder.getOrderType() == 3) {
@@ -329,7 +342,7 @@ public class OrderService {
             tbOrderRelation.setRefValue(updateOrder.getPaymentRelationNo());
             mybatisDao.updateOneByExampleSelective(tbOrderRelation, tbOrderRelationExample);
         }
-        
+
         //订单类型不是券或餐桌计划，修改订单的金额 修改方式 去掉之前的付款方式 重新生成（卡的钱先退回去）
         if (!(tbOrder.getOrderType() == 2 || tbOrder.getOrderType() == 3)) {
             RefundOrder refundOrder = new RefundOrder();
@@ -443,18 +456,18 @@ public class OrderService {
             CdCoupon coupon = mybatisDao.selectOneByExample(couponExample);
             coupon.setUserPrice(coupon.getUserPrice().add(tradeRecord.getAmount()));
             mybatisDao.update(coupon);
-            
+
             //餐桌计划已送次数回退一个
-	        TbOrderRefExample tbOrderRefExample = new TbOrderRefExample();
-	        tbOrderRefExample.createCriteria()
+            TbOrderRefExample tbOrderRefExample = new TbOrderRefExample();
+            tbOrderRefExample.createCriteria()
                     .andOrderNoEqualTo(tbOrder.getOrderNo())
                     .andRefTypeEqualTo("ORDER_TABLE_PLAN");
-	        List<TbOrderRef> tbOrderRefs = mybatisDao.selectByExample(tbOrderRefExample);
-	        for(TbOrderRef tbOrderRef : tbOrderRefs){
-	        	TbTablePlan tablePlan = mybatisDao.selectByPrimaryKey(TbTablePlan.class, Integer.parseInt(tbOrderRef.getRefValue()));
-	        	tablePlan.setSendValue(tablePlan.getSendValue() - 1);
-	        	mybatisDao.update(tablePlan);
-	        }
+            List<TbOrderRef> tbOrderRefs = mybatisDao.selectByExample(tbOrderRefExample);
+            for (TbOrderRef tbOrderRef : tbOrderRefs) {
+                TbTablePlan tablePlan = mybatisDao.selectByPrimaryKey(TbTablePlan.class, Integer.parseInt(tbOrderRef.getRefValue()));
+                tablePlan.setSendValue(tablePlan.getSendValue() - 1);
+                mybatisDao.update(tablePlan);
+            }
         }
     }
 
@@ -616,13 +629,13 @@ public class OrderService {
             }
             //餐桌计划订单
             else if (tbOrder.getOrderType() == 3) {
-            	 BigDecimal amount = cdCoupon.getUserPrice().subtract(tbOrder.getTotalAmount());
-                 CdCouponExample cdCouponExample = new CdCouponExample();
-                 cdCouponExample.createCriteria().andCouponNumberEqualTo(tbOrderRelation.getRefValue());
-                 CdCoupon updateCdCoupon = new CdCoupon();
-                 updateCdCoupon.setUserPrice(amount);
-                 mybatisDao.updateOneByExampleSelective(updateCdCoupon, cdCouponExample);
-                
+                BigDecimal amount = cdCoupon.getUserPrice().subtract(tbOrder.getTotalAmount());
+                CdCouponExample cdCouponExample = new CdCouponExample();
+                cdCouponExample.createCriteria().andCouponNumberEqualTo(tbOrderRelation.getRefValue());
+                CdCoupon updateCdCoupon = new CdCoupon();
+                updateCdCoupon.setUserPrice(amount);
+                mybatisDao.updateOneByExampleSelective(updateCdCoupon, cdCouponExample);
+
                 TbTradeRecord tbTradeRecord = new TbTradeRecord();
                 tbTradeRecord.setAmount(payOrder.getAmount());
                 tbTradeRecord.setCreateTime(mybatisDao.getSysdate());
@@ -661,20 +674,21 @@ public class OrderService {
 //            mybatisDao.insert(rItem);
 //        }
     }
-    
+
     /**
      * 更新订单总箱数
+     *
      * @param orderNo
      * @param totalBox
      */
     @Transactional
-    public void updateTotalBox(String orderNo ,int totalBox){
-    	  TbOrderExample orderExample = new TbOrderExample();
-    	  orderExample.createCriteria()
-                  .andOrderNoEqualTo(orderNo);
-          TbOrder order = new TbOrder();
-          order.setTotalBoxNum(totalBox);
-          mybatisDao.updateOneByExampleSelective(order, orderExample);
+    public void updateTotalBox(String orderNo, int totalBox) {
+        TbOrderExample orderExample = new TbOrderExample();
+        orderExample.createCriteria()
+                .andOrderNoEqualTo(orderNo);
+        TbOrder order = new TbOrder();
+        order.setTotalBoxNum(totalBox);
+        mybatisDao.updateOneByExampleSelective(order, orderExample);
     }
 
 }
