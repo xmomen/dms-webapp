@@ -181,5 +181,13 @@ class OrderModel implements Serializable {
     private int batchNum;
 
     private int xiajia;
+    /**
+     * 付款方式
+     */
+    private Integer otherPaymentMode;
+    
+    private String otherPaymentModeDesc;
+    
+    private BigDecimal otherPayAmount;
 
 }

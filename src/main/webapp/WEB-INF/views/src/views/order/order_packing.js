@@ -493,6 +493,7 @@ define(function () {
 
                 var LODOP=getLodop();
                 for(i=0;i<newBoxSize;i++){
+                    debugger;
                     LODOP.PRINT_INITA(0,0,"100.81mm","74.61mm","打印订单");
                     LODOP.ADD_PRINT_BARCODE(23,261,64,68,"QRCode",order.orderNo+"&www.fygl.ehoyuan.cn/bind/auth?url=/wx/receipt");
                     LODOP.ADD_PRINT_BARCODE(23,319,75,64,"QRCode","http://fygl.ehoyuan.cn/bind/auth?url=/wx/receipt&param="+order.orderNo);
@@ -509,7 +510,12 @@ define(function () {
                     LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
                     LODOP.ADD_PRINT_TEXT(186,20,341,24,"备注:"+order.remark);
                     LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
-                    LODOP.ADD_PRINT_TEXT(212,19,341,25,"收款方式："+order.paymentModeDesc);
+                    if(order.otherPaymentMode == 4){
+                        var otherPayAmount = 0 - order.otherPayAmount;
+                        LODOP.ADD_PRINT_TEXT(212,19,341,25,"收款方式："+order.paymentModeDesc +" 物流代收：￥"+ otherPayAmount+"元");
+                    }else{
+                        LODOP.ADD_PRINT_TEXT(212,19,341,25,"收款方式："+order.paymentModeDesc);
+                    }
                     LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
                     LODOP.ADD_PRINT_TEXT(239,18,181,25,"客户经理："+order.managerName);
                     LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
@@ -530,8 +536,8 @@ define(function () {
                     LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
                     LODOP.SET_PRINT_STYLEA(0,"Bold",1);
                     LODOP.ADD_PRINT_RECT(217,275,100,60,0,1);
-                    // LODOP.PRINT_DESIGN();
-                   LODOP.PRINT();
+                    LODOP.PRINT_DESIGN();
+//                   LODOP.PRINT();
                 }
             });
         }

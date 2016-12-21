@@ -124,9 +124,11 @@
                                     <th>配送日期</th>
                                     <th>订单状态</th>
                                     <th>付款方式</th>
+                                    <th>附件付款方式</th>
                                     <th>总金额</th>
                                     <th>优惠金额</th>
                                     <th>付款金额</th>
+                                    <th>附加付款金额</th>
                                     <th>客户信息</th>
                                     <th>客户经理</th>
                                     <th>下单人</th>
@@ -151,9 +153,11 @@
                                     <td ng-bind="order.appointmentTime | date: 'yyyy-MM-dd'"></td>
                                     <td ng-bind="order.orderStatusDesc"></td>
                                     <td ng-bind="order.paymentModeDesc"></td>
+                                    <td ng-bind="order.otherPaymentModeDesc"></td>
                                     <td ng-bind="order.totalAmount + order.discountPrice"></td>
                                     <td ng-bind="order.discountPrice"></td>
                                     <td ng-bind="order.totalAmount"></td>
+                                    <td ng-bind="0-order.otherPayAmount"></td>
                                     <td ng-bind="order.consigneeName"></td>
                                     <td ng-bind="order.managerName"></td>
                                     <td ng-bind="order.createUser"></td>
