@@ -14,4 +14,12 @@ class ReturnOrderQuery implements Serializable {
     private String returnTimeStart;
     private String returnTimeEnd;
     private String keyword;
+    private String returnStatus;
+    
+    private String managerId;
+    private String consigneeName;
+    private int hasNoShowCancel;
+    private int showDespatch;
+    private int createUserId;
+    private int despatchExpressId;
 }

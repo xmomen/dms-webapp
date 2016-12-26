@@ -41,7 +41,7 @@ define([
                         redirectTo:"unauthorized"
                     }
                 },
-                controller: receivingCodeRequest
+                controller: returnOrder
             })
     }]);
 });

@@ -101,10 +101,6 @@
                                     <i class="fa fa-refresh"></i>
                                     刷新
                                 </button>
-                                <button class="btn btn-primary" type="button" ui-sref="order_create">
-                                    <i class="fa fa-plus"></i>
-                                    新增订单
-                                </button>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -122,18 +118,12 @@
                                     <th>卡/劵号</th>
                                     <th>订购日期</th>
                                     <th>配送日期</th>
-                                    <th>订单状态</th>
-                                    <th>付款方式</th>
-                                    <th>附件付款方式</th>
-                                    <th>总金额</th>
-                                    <th>优惠金额</th>
-                                    <th>付款金额</th>
-                                    <th>附加付款金额</th>
+                                    <th>退货日期</th>
+                                    <th>退货状态</th>
                                     <th>客户信息</th>
                                     <th>客户经理</th>
                                     <th>下单人</th>
                                     <th>备注</th>
-                                    <th>是否有下架商品</th>
                                     <th width="80">操作</th>
                                 </tr>
                                 </thead>
@@ -151,28 +141,15 @@
                                     <td ng-bind="order.couponNumber"></td>
                                     <td ng-bind="order.createTime | date: 'yyyy-MM-dd'"></td>
                                     <td ng-bind="order.appointmentTime | date: 'yyyy-MM-dd'"></td>
+                                    <td ng-bind="order.returnTime | date:'yyyy-MM-dd"></td>
                                     <td ng-bind="order.orderStatusDesc"></td>
-                                    <td ng-bind="order.paymentModeDesc"></td>
-                                    <td ng-bind="order.otherPaymentModeDesc"></td>
-                                    <td ng-bind="order.totalAmount + order.discountPrice"></td>
-                                    <td ng-bind="order.discountPrice"></td>
-                                    <td ng-bind="order.totalAmount"></td>
-                                    <td ng-bind="0-order.otherPayAmount"></td>
                                     <td ng-bind="order.consigneeName"></td>
                                     <td ng-bind="order.managerName"></td>
                                     <td ng-bind="order.createUser"></td>
                                     <td ng-bind="order.remark"></td>
-                                    <td ng-if="order.xiajia == 1">有</td>
-                                    <td ng-if="order.xiajia == 0">无</td>
                                     <td width="180">
                                         <a ng-show="show" href="javascript:void(0);" data-ng-click="viewOrder($index)" title="查看：{{order.orderDesc}}">
                                             <span class="fa fa-eye"></span>
-                                        </a>
-                                        <a ng-show="show" ng-if="order.orderStatus <4 || order.orderStatus == 13" href="javascript:void(0);" ui-sref="order_update({id:order.id, orderNo:order.orderNo})" title="编辑：{{order.orderDesc}}">
-                                            <span class="fa fa-edit"></span>
-                                        </a>
-                                        <a ng-show="show" ng-if="order.orderStatus != 9" href="javascript:void(0);" data-ng-click="cancelOrder($index)" title="取消：{{order.orderDesc}}">
-                                            <span class="fa fa-recycle"></span>
                                         </a>
                                     </td>
                                 </tr>
