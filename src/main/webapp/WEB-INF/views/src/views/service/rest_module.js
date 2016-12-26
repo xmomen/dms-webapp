@@ -318,6 +318,17 @@ define(function () {
         });
     }]);
 
+    ngREST.factory("ReturnOrderAPI", ["$resource", function($resource){
+        return $resource("/returnOrder/:id", { id:"@id"}, {
+            query:{ isArray:false},
+            getItemList:{
+                method:"GET",
+                url:"/returnOrder/:id/item",
+                params:{id:"@id"}
+            }
+        });
+    }]);
+
     ngREST.factory("PackingAPI", ["$resource", function($resource){
         return $resource("/packing/:id", { id:"@id"}, {
             query:{ isArray:false},
@@ -446,4 +457,9 @@ define(function () {
         });
     }]);
 
+    ngREST.factory("ReceivingCodeRequestAPI", ["$resource", function($resource){
+        return $resource("/receivingCodeRequest/:id", { id:"@id" }, {
+            query:{ isArray:false}
+        });
+    }]);
 });

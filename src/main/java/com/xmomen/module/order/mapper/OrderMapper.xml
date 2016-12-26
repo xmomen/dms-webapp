@@ -21,7 +21,8 @@
         ce.express_name,
         users.realname as manager_name,
         createUser.realname as create_user,
-         pay2.`AMOUNT` AS otherPayAmount,
+        pay2.`AMOUNT` AS otherPayAmount,
+        receiving_code.ref_value as receivingCode,
         tb.*
         FROM
         tb_order tb
@@ -54,6 +55,8 @@
         left join cd_express ce on tb.despatch_express_id = ce.id
         
         left join sys_users users on users.id = tb.MANAGER_ID
+        
+        left join tb_order_ref receiving_code on receiving_code.order_no = tb.order_no and receiving_code.ref_type = 'SHOU_HUO_NO'
         <where>
             <if test="orderStatus">
                   AND tb.order_status = #{orderStatus}

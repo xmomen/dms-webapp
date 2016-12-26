@@ -107,14 +107,12 @@
 	</div>
 	<script>
 		if (!window.jQuery) {
-			document
-					.write('<script src="${webRoot}/js/libs/jquery-2.0.2.min.js"><\/script>');
+			document.write('<script src="${webRoot}/js/libs/jquery-2.0.2.min.js"><\/script>');
 		}
 	</script>
 	<script>
 		if (!window.jQuery.ui) {
-			document
-					.write('<script src="${webRoot}/js/libs/jquery-ui-1.10.3.min.js"><\/script>');
+			document.write('<script src="${webRoot}/js/libs/jquery-ui-1.10.3.min.js"><\/script>');
 		}
 	</script>
 

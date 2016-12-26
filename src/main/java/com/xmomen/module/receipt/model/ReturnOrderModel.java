@@ -1,20 +1,20 @@
-package com.xmomen.module.order.model;
+package com.xmomen.module.receipt.model;
+
+import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import lombok.Data;
+import com.xmomen.module.order.model.PackingModel;
 
 /**
- * Created by Jeng on 16/4/6.
+ * Created by tanxinzheng on 16/8/17.
  */
-public
-@Data
-class OrderModel implements Serializable {
+public @Data class ReturnOrderModel implements Serializable {
 
-    /**
+	/**
      * 订单ID
      */
     private Integer id;
@@ -170,17 +170,9 @@ class OrderModel implements Serializable {
      */
     private String companyName;
 
-    /**
-     * 总箱数
-     */
-    private List<PackingModel> packingModels;
 
     private String batchNo;
 
-    //每批次的订单数
-    private int batchNum;
-
-    private int xiajia;
     /**
      * 付款方式
      */
@@ -191,5 +183,6 @@ class OrderModel implements Serializable {
     private BigDecimal otherPayAmount;
     
     private String receivingCode;
+    private List<ReturnItemModel> itemList;
 
 }

@@ -149,6 +149,20 @@ will not initialize.
         </nav:group>
     </div>
 
+    <div permission only="'RECEIPT_MENU'">
+        <nav:group data-icon="fa fa-fw fa-lock" title="收退货管理">
+            <div permission only="'RECEIVING_CODE'">
+                <nav:item ui-sref="receivingCode" title="收货码管理" />
+            </div>
+            <div permission only="'RECEIVING_CODE_REQUEST'">
+                <nav:item ui-sref="receivingCodeRequest" title="收货码请求" />
+            </div>
+            <div permission only="'RETURN_AUDIT'">
+                <nav:item ui-sref="returnOrder" title="退货订单" />
+            </div>
+        </nav:group>
+    </div>
+
     <div permission only="'PICK_MENU'">
         <nav:group data-icon="fa fa-fw fa-paragraph" title="采摘管理">
             <div permission only="'PICK'">
