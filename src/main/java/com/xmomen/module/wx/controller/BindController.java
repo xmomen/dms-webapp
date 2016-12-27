@@ -34,6 +34,7 @@ import com.xmomen.module.order.entity.TbOrderRef;
 import com.xmomen.module.order.service.OrderService;
 import com.xmomen.module.receipt.entity.TbReceivingCodeRequest;
 import com.xmomen.module.wx.model.AccessTokenOAuth;
+import com.xmomen.module.wx.model.AjaxResult;
 import com.xmomen.module.wx.service.BindService;
 import com.xmomen.module.wx.util.Auth2Handler;
 import com.xmomen.module.wx.util.PropertiesUtils;
@@ -214,11 +215,12 @@ public class BindController {
 	 */
 	@RequestMapping(value="/wx/shouhuo",method = RequestMethod.GET)
 	@ResponseBody
-	public boolean shouhuo(HttpServletRequest request,HttpServletResponse response,
+	public AjaxResult shouhuo(HttpServletRequest request,HttpServletResponse response,
     		@RequestParam(value="shouhuoNo",required=false) String shouhuoNo,
     		@RequestParam(value="openId") String openId,
     		@RequestParam(value="orderNo") String orderNo
     		){
+		AjaxResult ajaxResult = new AjaxResult();
 		//如果有收货码 判断收货码是否正确
 		TbOrderRef orderRef = new TbOrderRef();
 		orderRef.setOrderNo(orderNo);
@@ -226,9 +228,11 @@ public class BindController {
 		orderRef = mybatisDao.selectOneByModel(orderRef);
 		//判断输入的收货码是否正确
 		if(StringUtilsExt.isBlank(shouhuoNo) || (StringUtilsExt.isNotBlank(shouhuoNo) && shouhuoNo.equals(orderRef.getRefValue()))){
-			return this.bindService.orderShouhuo(openId, orderNo,shouhuoNo);
+			return this.bindService.orderShouhuo(openId, orderNo,shouhuoNo,ajaxResult);
 		}else{
-			return false;
+			ajaxResult.setMessage("收货码不正确。");
+			ajaxResult.setResult(0);
+			return ajaxResult;
 		}
 	}
 	
@@ -269,6 +273,12 @@ public class BindController {
     		@RequestParam(value="phone") String phone,
     		@RequestParam(value="orderNo") String orderNo
     		){
+		TbOrder order = new TbOrder();
+		order.setOrderNo(orderNo);
+		order = mybatisDao.selectOneByModel(order);
+		//二次配送
+		order.setOrderStatus("8");
+		mybatisDao.save(order);
 		return true;
 	}
 	@Autowired
