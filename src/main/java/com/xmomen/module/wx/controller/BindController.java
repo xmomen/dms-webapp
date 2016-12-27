@@ -3,6 +3,7 @@ package com.xmomen.module.wx.controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import com.xmomen.framework.web.exceptions.ArgumentValidException;
 import com.xmomen.module.logger.Log;
 import com.xmomen.module.order.model.CreateOrder;
 import com.xmomen.module.order.model.ReturnOrder;
+
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +32,7 @@ import com.xmomen.module.order.entity.TbOrder;
 import com.xmomen.module.order.entity.TbOrderItem;
 import com.xmomen.module.order.entity.TbOrderRef;
 import com.xmomen.module.order.service.OrderService;
+import com.xmomen.module.receipt.entity.TbReceivingCodeRequest;
 import com.xmomen.module.wx.model.AccessTokenOAuth;
 import com.xmomen.module.wx.service.BindService;
 import com.xmomen.module.wx.util.Auth2Handler;
@@ -60,7 +63,7 @@ public class BindController {
 			String callbackUrl;
 			try {
 				String reqServer = PropertiesUtils.findPropertiesKey("wx.domain");
-				callbackUrl = reqServer+"/bind/auth2Url?url=" + URLEncoder.encode(url,"UTF-8") + "&param=" + param;
+				callbackUrl = "http://www.j9soft.com/bind/auth2Url?url=" + URLEncoder.encode(url,"UTF-8") + "&param=" + param;
 				logger.info("oauth callbackurl <--->" + callbackUrl);
 				redirectUrl = Auth2Handler.getOauthUrl(callbackUrl);
 				logger.info("oauth redirectUrl<---->" + redirectUrl);
@@ -111,7 +114,8 @@ public class BindController {
 				CdExpressMember expressMember = new CdExpressMember();
 				expressMember.setPhone(phone);
 				List<CdExpressMember> expressMembers = mybatisDao.selectByModel(expressMember);
-				if(!(expressMembers == null || expressMembers.size() == 0)){
+				if(expressMembers != null && expressMembers.size() > 0){
+					//快递员扫描
 					request.setAttribute("express", "1");
 				}else{
 					if(!order.getConsigneePhone().equals(phone)){
@@ -120,6 +124,7 @@ public class BindController {
 						return "wx/receiptNoAuth";
 					}
 				}
+				request.setAttribute("phone", phone);
 				return url;
 			}
 			//扫码送货
@@ -140,6 +145,7 @@ public class BindController {
 		}
 		return null;
 	}
+	
 	/**
 	 * 绑定页面跳转
 	 * 
@@ -224,7 +230,45 @@ public class BindController {
 			return false;
 		}
 	}
+	
+	/**
+	 * 收货码请求
+	 */
+	@RequestMapping(value="/wx/shouhuoRequest",method = RequestMethod.GET)
+	@ResponseBody
+	public boolean shouhuoRequest(HttpServletRequest request,HttpServletResponse response,
+    		@RequestParam(value="phone") String phone,
+    		@RequestParam(value="openId") String openId,
+    		@RequestParam(value="orderNo") String orderNo
+    		){
+		TbReceivingCodeRequest receivingCodeRequest = new TbReceivingCodeRequest();
+		receivingCodeRequest.setOrderNo(orderNo);
+		receivingCodeRequest.setRequestPhone(phone);
+		CdExpressMember expressMember = new CdExpressMember();
+		expressMember.setPhone(phone);
+		List<CdExpressMember> expressMembers = mybatisDao.selectByModel(expressMember);
+		if(expressMembers != null && expressMembers.size() > 0){
+			CdExpressMember expressMember2 = expressMembers.get(0);
+			receivingCodeRequest.setRequestUser(expressMember2.getMemberName());
+			receivingCodeRequest.setRequestTime(new Date());
+			receivingCodeRequest.setRequestExpressId(expressMember2.getCdExpressId());
+		}
+		this.mybatisDao.save(receivingCodeRequest);
+		return true;
+	}
 
+	
+	/**
+	 * 二次配送
+	 */
+	@RequestMapping(value="/wx/twoPeiSong",method = RequestMethod.GET)
+	@ResponseBody
+	public boolean twoPeiSong(HttpServletRequest request,HttpServletResponse response,
+    		@RequestParam(value="phone") String phone,
+    		@RequestParam(value="orderNo") String orderNo
+    		){
+		return true;
+	}
 	@Autowired
 	OrderService orderService;
 

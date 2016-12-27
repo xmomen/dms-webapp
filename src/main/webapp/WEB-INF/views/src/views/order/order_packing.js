@@ -493,10 +493,13 @@ define(function () {
 
                 var LODOP=getLodop();
                 for(i=0;i<newBoxSize;i++){
-                    debugger;
                     LODOP.PRINT_INITA(0,0,"100.81mm","74.61mm","打印订单");
-                    LODOP.ADD_PRINT_BARCODE(23,261,64,68,"QRCode",order.orderNo+"&www.fygl.ehoyuan.cn/bind/auth?url=/wx/receipt");
-                    LODOP.ADD_PRINT_BARCODE(23,319,75,64,"QRCode","http://fygl.ehoyuan.cn/bind/auth?url=/wx/receipt&param="+order.orderNo);
+                    LODOP.ADD_PRINT_BARCODE(23,261,89,86,"QRCode",order.orderNo+"&www.fygl.ehoyuan.cn/bind/auth?url=/wx/receipt");
+                    LODOP.SET_PRINT_STYLEA(0,"QRCodeVersion",10);
+                    LODOP.SET_PRINT_STYLEA(0,"QRCodeErrorLevel","H");
+                    LODOP.ADD_PRINT_BARCODE(23,319,75,64,"QRCode","http://www.j9soft.com/bind/auth?url=/wx/receipt&param="+order.orderNo);
+                    LODOP.SET_PRINT_STYLEA(0,"QRCodeVersion",10);
+                    LODOP.SET_PRINT_STYLEA(0,"QRCodeErrorLevel","H");
                     LODOP.ADD_PRINT_BARCODE(99,23,"57.57mm","9.95mm","128Auto",result.packingModels[i].packingNo);
                     LODOP.ADD_PRINT_TEXT(100,254,95,26,order.consigneeName);
                     LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
@@ -519,10 +522,10 @@ define(function () {
                     LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
                     LODOP.ADD_PRINT_TEXT(239,18,181,25,"客户经理："+order.managerName);
                     LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
-                    LODOP.ADD_PRINT_TEXT(79,270,45,15,"物流专用");
+                    LODOP.ADD_PRINT_TEXT(82,274,45,15,"物流专用");
                     LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
                     LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
-                    LODOP.ADD_PRINT_TEXT(77,322,50,15,"收退货专用");
+                    LODOP.ADD_PRINT_TEXT(82,327,50,15,"收退货专用");
                     LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
                     LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
                     var currentBox = i +1;

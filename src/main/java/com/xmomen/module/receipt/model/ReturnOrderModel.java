@@ -184,5 +184,8 @@ public @Data class ReturnOrderModel implements Serializable {
     
     private String receivingCode;
     private List<ReturnItemModel> itemList;
-
+    
+    private Date returnTime;
+    
+    private String returnStatus;
 }

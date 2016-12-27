@@ -84,7 +84,7 @@
 									</div>
 								</div>
 							</fieldset>
-							<c:if test="${express == 0}">
+							<c:if test="${express == 1}">
 								<fieldset>
 									<section>
 										<label class="label">收货码</label> <label class="input">
@@ -95,9 +95,15 @@
 							</c:if>
 
 							<input type="hidden" id="openId" name="openId" value="${openId}">
+							<input type="hidden" id="phone" name="phone" value="${phone}">
 							<div class="error">${message}</div>
 							<footer>
+								<c:if test="${express == 1}">
+									<button type="button" onclick="shouhuoRequest();" class="btn btn-primary">获取收货码</button>
+									<button type="button" onclick="twoPeiSong();" class="btn btn-primary">二次配送</button>
+								</c:if>
 								<button type="button" onclick="shouhuoEvent();" class="btn btn-primary">确认收货</button>
+								<button type="button" onclick="returnOrder();" class="btn btn-primary">退货</button>
 							</footer>
 						</form>
 					</div>
@@ -119,17 +125,18 @@
 	<!-- BOOTSTRAP JS -->
 	<script src="${webRoot}/js/bootstrap/bootstrap.min.js"></script>
 	<script type="text/javascript">
+		//收货操作
 		function shouhuoEvent(){
 			var express = ${express};
 			var shouhuoNo = $("#shouhuoNo").val();
 			var openId = $("#openId").val();
 			var orderNo = ${orderInfo.orderNo};
-			if(express == 0 && !shouhuoNo){
+			if(express == 1 && (shouhuoNo == null || shouhuoNo == "" || shouhuoNo == undefined || shouhuoNo == "undefined")){
 				alert("请输入收货码");
 				return ;
 			}
 			$.ajax({
-			    url:"/wx/shouhuo?openId="+openId+"shouhuoNo="+shouhuoNo+"&orderNo="+orderNo,
+			    url:"/wx/shouhuo?openId="+openId+"&shouhuoNo="+shouhuoNo+"&orderNo="+orderNo,
 				type:"get",
 			    dataType:"json",
 			    success:function(data){
@@ -137,6 +144,34 @@
 			    		alert("收货码错误");
 			    	}
 			  }
+			});
+		}
+		//收货码请求
+		function shouhuoRequest(){
+			var phone = $("#phone").val();
+			var openId = $("#openId").val();
+			var orderNo = ${orderInfo.orderNo};
+			$.ajax({
+			    url:"/wx/shouhuoRequest?openId="+openId+"&phone="+phone+"&orderNo="+orderNo,
+				type:"get",
+			    dataType:"json",
+			    success:function(data){
+			    	alert("请求发送成功!");
+			  }
+			});
+		}
+		
+		//二次配送
+		function twoPeiSong(){
+			var phone = $("#phone").val();
+			var orderNo = ${orderInfo.orderNo};
+			$.ajax({
+				url:"/wx/twoPeiSong?orderNo="+orderNo+"&phone="+phone,
+				type:"get",
+			    dataType:"json",
+			    success:function(data){
+			    	alert("请求发送成功!");
+			  }		
 			});
 		}
 	</script>

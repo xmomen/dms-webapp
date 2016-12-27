@@ -62,9 +62,6 @@ define(function () {
                 $scope.pageInfoSetting.loadData = $scope.getOrderList;
             });
         };
-        $scope.updateOrder = function(index){
-            $scope.open(angular.copy($scope.orderList[index]));
-        };
         $scope.viewOrder = function (index) {
             var modalInstance = $modal.open({
                 templateUrl: 'viewOrderDetail.html',
@@ -89,6 +86,7 @@ define(function () {
                         offset: $scope.setting.pageInfo.pageNum,
                         id:$scope.order.id
                     }, function(data){
+                        debugger;
                         $scope.order.itemList = data.data;
                         $scope.calTotalItem();
                     });
