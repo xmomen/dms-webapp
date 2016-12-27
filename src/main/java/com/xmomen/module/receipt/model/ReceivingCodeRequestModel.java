@@ -40,4 +40,9 @@ public @Data class ReceivingCodeRequestModel {
      * 收货码
      */
     private String receivingCode;
+    
+    /**
+     * 收货人
+     */
+    private String consigneeName;
 }

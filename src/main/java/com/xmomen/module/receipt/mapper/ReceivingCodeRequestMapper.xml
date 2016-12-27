@@ -7,10 +7,12 @@
        select 
        	express.express_name,
        	receiving_code.ref_value as receivingCode,
+       	tborder.consignee_name,
        	main.*
        from tb_receiving_code_request main
        left join cd_express express on express.id = main.request_express_id
        left join tb_order_ref receiving_code on receiving_code.order_no = main.order_no and receiving_code.ref_type = 'SHOU_HUO_NO'
+       left join tb_order tborder on tborder.order_no = main.order_no
 		<where>
               <if test="keyword">
                   AND main.request_phone LIKE CONCAT('%', #{keyword}, '%')

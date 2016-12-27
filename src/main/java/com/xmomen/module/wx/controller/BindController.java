@@ -109,6 +109,10 @@ public class BindController {
 				orderItem.setOrderNo(param);
 				List<TbOrderItem> orderItems = mybatisDao.selectByModel(orderItem);
 				request.setAttribute("orderItemInfo", orderItems);
+				request.setAttribute("phone", phone);
+				if(order.getConsigneePhone().equals(phone)){
+					return url;
+				}
 				//查询扫描的是不是快递员 如果是快递员 则需要输入收货码
 				//查找快递员信息
 				CdExpressMember expressMember = new CdExpressMember();
@@ -118,13 +122,10 @@ public class BindController {
 					//快递员扫描
 					request.setAttribute("express", "1");
 				}else{
-					if(!order.getConsigneePhone().equals(phone)){
-						String message = "您绑定手机号和订单收货人手机号不一致，不能收货，请确认";
-						request.setAttribute("message", message);
-						return "wx/receiptNoAuth";
-					}
+					String message = "您绑定手机号和订单收货人手机号不一致，不能收货，请确认";
+					request.setAttribute("message", message);
+					return "wx/receiptNoAuth";
 				}
-				request.setAttribute("phone", phone);
 				return url;
 			}
 			//扫码送货
@@ -225,7 +226,7 @@ public class BindController {
 		orderRef = mybatisDao.selectOneByModel(orderRef);
 		//判断输入的收货码是否正确
 		if(StringUtilsExt.isBlank(shouhuoNo) || (StringUtilsExt.isNotBlank(shouhuoNo) && shouhuoNo.equals(orderRef.getRefValue()))){
-			return this.bindService.orderShouhuo(openId, orderNo);
+			return this.bindService.orderShouhuo(openId, orderNo,shouhuoNo);
 		}else{
 			return false;
 		}
@@ -241,6 +242,7 @@ public class BindController {
     		@RequestParam(value="openId") String openId,
     		@RequestParam(value="orderNo") String orderNo
     		){
+		logger.info("请求的订单编号：",orderNo);
 		TbReceivingCodeRequest receivingCodeRequest = new TbReceivingCodeRequest();
 		receivingCodeRequest.setOrderNo(orderNo);
 		receivingCodeRequest.setRequestPhone(phone);

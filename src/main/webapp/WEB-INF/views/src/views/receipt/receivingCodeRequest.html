@@ -105,6 +105,7 @@
                                         </label>
                                     </th>
                                     <th width="120">订单编号</th>
+                                    <th>收货人</th>
                                     <th>请求人</th>
                                     <th>请求人手机号</th>
                                     <th>请求时间</th>
@@ -121,6 +122,7 @@
                                         </label>
                                     </td>
                                     <td ng-bind="receivingCodeRequest.orderNo"></td>
+                                    <td ng-bind="receivingCodeRequest.consigneeName"></td>
                                     <td ng-bind="receivingCodeRequest.requestUser"></td>
                                     <td ng-bind="receivingCodeRequest.requestPhone"></td>
                                     <td ng-bind="receivingCodeRequest.requestTime | date: 'yyyy-MM-dd hh:mm:ss'"></td>

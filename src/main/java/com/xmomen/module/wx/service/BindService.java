@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
+import com.xmomen.framework.utils.StringUtils;
+import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.module.base.entity.CdBind;
 import com.xmomen.module.base.entity.CdExpressMember;
 import com.xmomen.module.base.entity.CdMember;
@@ -111,12 +113,15 @@ public class BindService {
 	 * @return
 	 */
 	@Transactional
-	public boolean orderShouhuo(String openId,String orderNo){
+	public boolean orderShouhuo(String openId,String orderNo,String shouhuoNo){
 		TbOrder order = new TbOrder();
 		order.setOrderNo(orderNo);
 		order = mybatisDao.selectOneByModel(order);
-		//收货状态
-		order.setOrderStatus("6");
+		if(StringUtilsExt.isNotBlank(shouhuoNo)){
+			order.setOrderStatus("7");
+		}else{
+			order.setOrderStatus("6");
+		}
 		mybatisDao.save(order);
 		return true;
 	}

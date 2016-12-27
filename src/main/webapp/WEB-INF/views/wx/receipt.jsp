@@ -42,6 +42,7 @@
 										<div id="collapseOne" class="accordion-body collapse in">
 											<div class="accordion-inner">
 												<div class="well well-large">
+													<span>订单编号:<strong>${orderInfo.orderNo}</strong></span><br>
 													<span>订购人姓名:<strong>${orderInfo.consigneeName}</strong></span><br>
 													<span>电话:<strong>${orderInfo.consigneePhone}</strong></span><br>
 													<span>地址:<strong>${orderInfo.consigneeAddress}</strong></span><br>
