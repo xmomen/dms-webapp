@@ -100,15 +100,15 @@
 							<input type="hidden" id="orderNo" name="orderNo" value="${orderInfo.orderNo}">
 							<input type="hidden" id="express" name="express" value="${express}">
 							<div class="error">${message}</div>
-							<footer id="footer">
+						</form>
+						<footer id="footer">
 								<c:if test="${express == 1}">
 									<button type="button" onclick="shouhuoRequest();" class="btn btn-primary">获取收货码</button>
 									<button type="button" onclick="twoPeiSong();" class="btn btn-primary">二次配送</button>
 								</c:if>
 								<button type="button" onclick="shouhuoEvent();" class="btn btn-primary">确认收货</button>
-								<button type="button" onclick="returnOrder();" class="btn btn-primary">退货</button>
-							</footer>
-						</form>
+								<button type="button" onclick="returnOrder();" class="btn btn-primary">拒收&退货</button>
+						</footer>
 					</div>
 				</div>
 			</div>

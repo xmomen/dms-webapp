@@ -1,0 +1,142 @@
+<!--
+	The ID "widget-grid" will start to initialize all widgets below 
+	You do not need to use widgets if you dont want to. Simply remove 
+	the <section></section> and you can use wells or panels instead 
+	-->
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+		<!-- NEW WIDGET START -->
+		<!-- WIDGET END -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-4">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>二次配送审核列表</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+                        <div class="dt-toolbar">
+                            <div class="col-sm-4">
+                                <div class="dataTables_filter">
+                                    <label>
+                                        <input type="search" placeholder="订单编号" data-ng-keyup="getOrderList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="dataTables_filter">
+                                    <label>
+                                        <input type="search" placeholder="客户姓名" data-ng-keyup="getOrderList()" ng-model="queryParam.customerName" class="form-control" aria-controls="dt_basic"></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="dataTables_filter">
+                                    <label>
+                                        <select ug-select2 ug-select2-config="ugSelect2Config" style="width: 250px;"ng-change="getOrderList()" ng-model="queryParam.despatchExpressId" name="despatchExpressId" >
+                                            <option value="">--请选择快递商--</option>
+                                            <option value="{{express.id}}" ng-repeat="express in expressList">{{express.expressName}}</option>
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-primary" type="button" data-ng-click="getPackageTaskList()">
+                                    <i class="fa fa-refresh"></i>
+                                    刷新
+                                </button>
+                                <!--<button class="btn btn-primary" type="button" ui-sref="packageTask_create">-->
+                                <!--<i class="fa fa-plus"></i>-->
+                                <!--生成采购计划-->
+                                <!--</button>-->
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-condensed table-hover smart-form has-tickbox">
+                                <thead>
+                                <tr>
+                                    <th style="width : 20px;">
+                                        <label class="checkbox">
+                                            <input type="checkbox" ng-model="chooseAllCheck.isCheckOrder" ng-true-value="0" ng-false-value="1" ng-change="checkedAllOrder()" />
+                                            <i></i>
+                                        </label>
+                                    </th>
+                                    <th>序号</th>
+                                    <th width="120">订单编号</th>
+                                    <th>订单状态</th>
+                                    <th>快递商</th>
+                                    <th>分配状态</th>
+                                    <th>客户姓名</th>
+                                    <th>手机号</th>
+                                    <th>地址</th>
+                                    <th width="80">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="order in orderList"  ng-if="orderList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+                                    <td style="width : 20px;">
+                                        <label class="checkbox" ng-if="order.expressName == null">
+                                            <input type="checkbox"
+                                                   checklist-model="chooseOrder"
+                                                   checklist-before-change="changeOrderList()"
+                                                   checklist-value="order"
+                                                    >
+                                            <i></i>
+                                        </label>
+                                    </td>
+                                    <td ng-bind="$index*pageInfoSetting.pageNum + 1"></td>
+                                    <td ng-bind="order.orderNo"></td>
+                                    <td ng-bind="order.orderStatusDesc"></td>
+                                    <td ng-bind="order.expressName"></td>
+                                    <td>
+                                        <div ng-if="order.expressName != null">已分配</div>
+                                        <div ng-if="order.expressName == null">待分配</div>
+                                    </td>
+                                    <td ng-bind="order.consigneeName"></td>
+                                    <td ng-bind="order.consigneePhone"></td>
+                                    <td ng-bind="order.consigneeAddress"></td>
+                                    <td>
+                                        <div>
+                                            <a href="javascript:void(0);" data-ng-click="unTakeDelivery(order.orderNo)" title="审核">
+                                                <span class="fa fa-empire"></span>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr ng-if="orderList == null || orderList.length == 0">
+                                    <td colspan="5">
+                                        <div>暂无数据</div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="dt-toolbar-footer">
+                            <div class="col-xs-12 col-sm-12">
+                                <ug-pagination page-info="pageInfoSetting" ></ug-pagination>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+            <!-- end widget -->
+
+        </article>
+	</div>
+
+	<!-- end row -->
+
+</section>
+<!-- end widget grid -->
