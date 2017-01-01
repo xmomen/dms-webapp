@@ -147,9 +147,9 @@
                                         <a ng-show="show" ng-if="order.auditDate == null" href="javascript:void(0);" data-ng-click="auditYes($index)" title="同意退货">
                                             <span class="fa fa-check"></span>
                                         </a>
-                                        <!--<a ng-show="show"  ng-if="order.auditDate == null"  href="javascript:void(0);" data-ng-click="auditNo($index)" title="拒绝退货">-->
-                                            <!--<span class="fa fa-delicious"></span>-->
-                                        <!--</a>-->
+                                        <a ng-show="show"  ng-if="order.auditDate == null"  href="javascript:void(0);" data-ng-click="auditNo($index)" title="拒绝退货">
+                                            <span class="fa fa-delicious"></span>
+                                        </a>
                                     </td>
                                 </tr>
                                 <tr ng-if="orderList == null || orderList.length == 0">

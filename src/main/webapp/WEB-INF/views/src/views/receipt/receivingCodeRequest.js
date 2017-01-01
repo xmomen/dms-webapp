@@ -32,8 +32,8 @@ define(function () {
         };
 
         $scope.queryParam = {
-            orderCreateTimeStart :$filter('date')(new Date(new Date().getTime()), 'yyyy-MM-dd'),
-            orderCreateTimeEnd:$filter('date')(new Date(new Date().getTime()), 'yyyy-MM-dd')
+            requestTimeStart :$filter('date')(new Date(new Date().getTime()), 'yyyy-MM-dd'),
+            requestTimeEnd:$filter('date')(new Date(new Date().getTime()), 'yyyy-MM-dd')
         };
 
         $scope.getReceivingCodeRequestList = function(){
@@ -41,13 +41,13 @@ define(function () {
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword,
-                orderCreateTimeStart:$scope.queryParam.orderCreateTimeStart,
-                orderCreateTimeEnd: $scope.queryParam.orderCreateTimeEnd,
+                requestTimeStart:$scope.queryParam.requestTimeStart,
+                requestTimeEnd: $scope.queryParam.requestTimeEnd,
                 orderNo:$scope.queryParam.orderNo
             }, function(data){
                 $scope.receivingCodeRequestList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;
-                $scope.pageInfoSetting.loadData = $scope.getOrderList;
+                $scope.pageInfoSetting.loadData = $scope.getReceivingCodeRequestList;
             });
         };
         $scope.getReceivingCodeRequestList();

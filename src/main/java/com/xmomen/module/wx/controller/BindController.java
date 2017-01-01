@@ -336,6 +336,27 @@ public class BindController {
 
 	@Autowired
 	OrderService orderService;
+	
+	/**
+	 * 拒绝收货
+	 * 
+	 * @param returnOrder
+	 * @param bindingResult
+	 * @return
+	 */
+	@RequestMapping(value = "/wx/returnOrder", method = RequestMethod.POST)
+	@Log(actionName = "拒绝收货")
+	@ResponseBody
+	public AjaxResult returnOrder(@RequestParam(value = "orderNo") String orderNo,
+			@RequestParam(value = "phone") String phone,
+			@RequestParam(value="expressId") Integer expressId){
+		String message = returnOrderService.noShouhuo(orderNo,phone,expressId);
+		AjaxResult ajaxResult = new AjaxResult();
+		ajaxResult.setMessage(message);
+		ajaxResult.setResult(0);
+		return ajaxResult;
+	}
+	
 
 	/**
 	 * 新增部分退货订单
@@ -347,7 +368,7 @@ public class BindController {
 	@RequestMapping(value = "/wx/returnOrderEvent", method = RequestMethod.POST)
 	@Log(actionName = "微信回调接口－订单退货")
 	@ResponseBody
-	public AjaxResult returnOrder(@RequestParam(value = "orderNo") String orderNo,
+	public AjaxResult returnOrderEvent(@RequestParam(value = "orderNo") String orderNo,
 			@RequestParam(value = "itemIds") String itemIds){
 		String message = returnOrderService.returnOrder(orderNo,itemIds);
 		AjaxResult ajaxResult = new AjaxResult();

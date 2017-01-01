@@ -63,7 +63,53 @@ public class ReturnOrderService {
         return mybatisDao.getSqlSessionTemplate().selectList(ReturnOrderMapper.RETURN_ORDER_MAPPER_NAMESPACE + "getReturnOrderList", orderQuery);
     }
     
-
+    /**
+     * 订单拒绝收货
+     * @param orderNo
+     * @param phone
+     * @return
+     */
+    @Transactional
+    public String noShouhuo(String orderNo,String phone,int expressId){
+    	//判断订单状态
+    	TbReturnOrderExample tbOrderExample = new TbReturnOrderExample();
+    	tbOrderExample.createCriteria().andOrderNoEqualTo(orderNo);
+    	TbReturnOrder tbReturnOrder = mybatisDao.selectOneByExample(tbOrderExample);
+    	if(tbReturnOrder != null){
+    		return "订单不能拒绝，请联系客服人员";
+    	}
+    	tbReturnOrder = new TbReturnOrder();
+        tbReturnOrder.setOrderNo(orderNo);
+        //退货运输中
+        tbReturnOrder.setReturnStatus(14);
+        tbReturnOrder.setTakeGoodsDate(mybatisDao.getSysdate());
+        tbReturnOrder.setTakeGoodsPhone(phone);
+        tbReturnOrder.setTakeGoodsUserId(expressId);
+        tbReturnOrder.setReturnTime(mybatisDao.getSysdate());
+        tbReturnOrder = mybatisDao.insertByModel(tbReturnOrder);
+        TbOrderItem orderItemDb = new TbOrderItem();
+        orderItemDb.setOrderNo(orderNo);
+        List<TbOrderItem> returnOrderItems = mybatisDao.selectByModel(orderItemDb);
+        for (TbOrderItem orderItem : returnOrderItems) {
+            TbReturnOrderItem returnOrderItem = new TbReturnOrderItem();
+            returnOrderItem.setItemCode(orderItem.getItemCode());
+            returnOrderItem.setReturnOrderId(tbReturnOrder.getId());
+            returnOrderItem.setItemNumber(orderItem.getItemQty().intValue());
+            returnOrderItem.setItemName(orderItem.getItemName());
+            returnOrderItem.setIsNeed(1);
+            mybatisDao.insert(returnOrderItem);
+        }
+        
+        //更新原订单状态
+        TbOrderExample orderExample = new TbOrderExample();
+        orderExample.createCriteria().andOrderNoEqualTo(orderNo);
+        TbOrder order = new TbOrder();
+        //退货运输中
+        order.setOrderStatus("14");
+        mybatisDao.updateOneByExampleSelective(order, orderExample);
+        return "订单已拒收，请及时送回仓库。";
+    }
+    
     /**
      * 订单退货
      *
@@ -106,7 +152,6 @@ public class ReturnOrderService {
         return "退货申请提交成功，请等待客服审核。";
     }
     
-    
     /**
      * 退货订单收货
      *
@@ -146,19 +191,35 @@ public class ReturnOrderService {
     	TbReturnOrder returnOrder = this.mybatisDao.selectByPrimaryKey(TbReturnOrder.class, id);
     	returnOrder.setAuditStatus(statusCd);
     	returnOrder.setAuditDate(mybatisDao.getSysdate());
-    	//退货中
-    	returnOrder.setReturnStatus(11);
-    	Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
-    	returnOrder.setAuditUserId(userId);
-    	this.mybatisDao.save(returnOrder);
-    	 //更新原订单状态
-        TbOrderExample orderExample = new TbOrderExample();
-        orderExample.createCriteria()
-                .andOrderNoEqualTo(returnOrder.getOrderNo());
-        TbOrder order = new TbOrder();
-        //退货中
-        order.setOrderStatus("11");
-        mybatisDao.updateOneByExampleSelective(order, orderExample);
+    	if(statusCd == 1){
+	    	//退货中
+	    	returnOrder.setReturnStatus(11);
+	    	Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
+	    	returnOrder.setAuditUserId(userId);
+	    	this.mybatisDao.save(returnOrder);
+	    	 //更新原订单状态
+	        TbOrderExample orderExample = new TbOrderExample();
+	        orderExample.createCriteria()
+	                .andOrderNoEqualTo(returnOrder.getOrderNo());
+	        TbOrder order = new TbOrder();
+	        //退货中
+	        order.setOrderStatus("11");
+	        mybatisDao.updateOneByExampleSelective(order, orderExample);
+    	}else{
+    		//拒绝退货
+	    	returnOrder.setReturnStatus(16);
+	    	Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
+	    	returnOrder.setAuditUserId(userId);
+	    	this.mybatisDao.save(returnOrder);
+	    	 //更新原订单状态
+	        TbOrderExample orderExample = new TbOrderExample();
+	        orderExample.createCriteria()
+	                .andOrderNoEqualTo(returnOrder.getOrderNo());
+	        TbOrder order = new TbOrder();
+	        //拒绝退货
+	        order.setOrderStatus("16");
+	        mybatisDao.updateOneByExampleSelective(order, orderExample);
+    	}
     }
     
     

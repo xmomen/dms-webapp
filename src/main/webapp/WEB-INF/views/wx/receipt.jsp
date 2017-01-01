@@ -97,9 +97,9 @@
 
 							<input type="hidden" id="openId" name="openId" value="${openId}">
 							<input type="hidden" id="phone" name="phone" value="${phone}">
-							<input type="hidden" id="orderNo" name="orderNo"
-								value="${orderInfo.orderNo}"> <input type="hidden"
-								id="express" name="express" value="${express}">
+							<input type="hidden" id="orderNo" name="orderNo" value="${orderInfo.orderNo}"> 
+							<input type="hidden" id="express" name="express" value="${express}">
+							<input type="hidden" id="expressId" name="expressId" value="${expressId}">
 							<div class="error">${message}</div>
 						</form>
 						<footer id="footer">
@@ -111,8 +111,8 @@
 							</c:if>
 							<button type="button" onclick="shouhuoEvent();"
 								class="btn btn-primary">确认收货</button>
-<!-- 							<button type="button" onclick="returnOrder();" -->
-<!-- 								class="btn btn-primary">拒收&退货</button> -->
+							<button type="button" onclick="returnOrder();"
+								class="btn btn-primary">拒收&退货</button>
 						</footer>
 					</div>
 				</div>
@@ -197,7 +197,16 @@
 		
 		//拒收 退货
 		function returnOrder(){
-			
+			var phone = $("#phone").val();
+			var orderNo =$("#orderNo").val();
+			$.ajax({
+				url:"/wx/returnOrder?orderNo="+orderNo+"&phone="+phone,
+				type:"get",
+			    dataType:"json",
+			    success:function(data){
+			    	alert("请求发送成功!");
+			  }		
+			});
 		}
 	</script>
 </body>
