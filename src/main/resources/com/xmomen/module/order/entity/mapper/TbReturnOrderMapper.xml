@@ -6,6 +6,10 @@
     <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
     <result column="RETURN_TIME" property="returnTime" jdbcType="TIMESTAMP" />
     <result column="RETURN_STATUS" property="returnStatus" jdbcType="INTEGER" />
+    <result column="INSERT_DATE" property="insertDate" jdbcType="TIMESTAMP" />
+    <result column="AUDIT_STATUS" property="auditStatus" jdbcType="INTEGER" />
+    <result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP" />
+    <result column="AUDIT_USER_ID" property="auditUserId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -66,7 +70,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, ORDER_NO, RETURN_TIME, RETURN_STATUS
+    ID, ORDER_NO, RETURN_TIME, RETURN_STATUS, INSERT_DATE, AUDIT_STATUS, AUDIT_DATE, 
+    AUDIT_USER_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbReturnOrderExample" >
     select
@@ -103,6 +108,18 @@
       <if test="returnStatus != null" >
         RETURN_STATUS,
       </if>
+      <if test="insertDate != null" >
+        INSERT_DATE,
+      </if>
+      <if test="auditStatus != null" >
+        AUDIT_STATUS,
+      </if>
+      <if test="auditDate != null" >
+        AUDIT_DATE,
+      </if>
+      <if test="auditUserId != null" >
+        AUDIT_USER_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -116,6 +133,18 @@
       </if>
       <if test="returnStatus != null" >
         #{returnStatus,jdbcType=INTEGER},
+      </if>
+      <if test="insertDate != null" >
+        #{insertDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditStatus != null" >
+        #{auditStatus,jdbcType=INTEGER},
+      </if>
+      <if test="auditDate != null" >
+        #{auditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditUserId != null" >
+        #{auditUserId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -139,6 +168,18 @@
       </if>
       <if test="record.returnStatus != null" >
         RETURN_STATUS = #{record.returnStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.insertDate != null" >
+        INSERT_DATE = #{record.insertDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.auditStatus != null" >
+        AUDIT_STATUS = #{record.auditStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.auditDate != null" >
+        AUDIT_DATE = #{record.auditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.auditUserId != null" >
+        AUDIT_USER_ID = #{record.auditUserId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >

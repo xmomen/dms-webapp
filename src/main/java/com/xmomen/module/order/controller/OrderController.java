@@ -27,6 +27,7 @@ import com.xmomen.module.order.model.OrderModel;
 import com.xmomen.module.order.model.OrderQuery;
 import com.xmomen.module.order.model.UpdateOrder;
 import com.xmomen.module.order.service.OrderService;
+import com.xmomen.module.wx.model.AjaxResult;
 
 /**
  * Created by Jeng on 2016/3/30.
@@ -63,7 +64,8 @@ public class OrderController {
                                   @RequestParam(value = "hasShowDespatch", required = false) Boolean hasShowDespatch,
                                   @RequestParam(value = "appointmentTimeStart", required = false) String appointmentTimeStart,
                                   @RequestParam(value = "appointmentTimeEnd", required = false) String appointmentTimeEnd,
-                                  @RequestParam(value = "despatchExpressId",required = false) Integer despatchExpressId){
+                                  @RequestParam(value = "despatchExpressId",required = false) Integer despatchExpressId,
+                                  @RequestParam(value = "isTwoSend",required = false) Integer isTwoSend){
         OrderQuery orderQuery = new OrderQuery();
         orderQuery.setKeyword(keyword);
         orderQuery.setOrderStatus(orderStatus);
@@ -73,6 +75,7 @@ public class OrderController {
         orderQuery.setDespatchExpressId(despatchExpressId);
         orderQuery.setCompanyId(companyId);
         orderQuery.setCouponNumber(couponNumber);
+        orderQuery.setIsTwoSend(isTwoSend);
         if(null != hasShowDespatch){
         	//0显示未分配快递商 1显示已分配快递商
         	 orderQuery.setShowDespatch(hasShowDespatch ? 1 : 0);
@@ -206,5 +209,19 @@ public class OrderController {
     public void updateTotalBox(@RequestParam(value = "orderNo") String orderNo,
     		@RequestParam(value="totalBox") int totalBox) {
         orderService.updateTotalBox(orderNo,totalBox);
+    }
+    
+    /**
+     *  二次配送审核
+     * @param id
+     */
+    @RequestMapping(value = "/order/{id}/twoSend", method = RequestMethod.POST)
+    @Log(actionName = "二次配送审核")
+    public AjaxResult twoSendOrder(@PathVariable(value = "id") Integer id,@RequestParam(value="auditStatusCd") Integer auditStatusCd){
+        orderService.twoSendOrder(id,auditStatusCd);
+        AjaxResult ajaxResult = new AjaxResult();
+        ajaxResult.setResult(1);
+        ajaxResult.setMessage("审核成功。");
+        return ajaxResult;
     }
 }

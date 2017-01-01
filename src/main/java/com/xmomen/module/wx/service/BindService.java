@@ -118,8 +118,8 @@ public class BindService {
 		TbOrder order = new TbOrder();
 		order.setOrderNo(orderNo);
 		order = mybatisDao.selectOneByModel(order);
-		//不等于配送中或者二次配送的订单 不能再收货
-		if(!order.getOrderStatus().equals("5") || !order.getOrderStatus().equals("8") ){
+		//不等于配送中 不能再收货
+		if(!order.getOrderStatus().equals("5")){
 			ajaxResult.setResult(0);
 			ajaxResult.setMessage("订单状态不对，不能收货。");
 			return ajaxResult;

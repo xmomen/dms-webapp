@@ -39,4 +39,6 @@ class OrderQuery implements Serializable {
     
     private String appointmentTimeStart;
     private String appointmentTimeEnd;
+    
+    private Integer isTwoSend;
 }

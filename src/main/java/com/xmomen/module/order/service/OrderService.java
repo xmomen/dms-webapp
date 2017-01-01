@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.utils.DateUtils;
+import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.base.entity.CdCoupon;
 import com.xmomen.module.base.entity.CdCouponExample;
 import com.xmomen.module.base.model.ItemModel;
@@ -689,6 +691,31 @@ public class OrderService {
         TbOrder order = new TbOrder();
         order.setTotalBoxNum(totalBox);
         mybatisDao.updateOneByExampleSelective(order, orderExample);
+    }
+    
+    /**
+     * 二次配送审核
+     * @param id
+     * @param auditStatusCd
+     */
+    @Transactional
+    public void twoSendOrder(int id,int auditStatusCd){
+    	TbOrder order = this.mybatisDao.selectByPrimaryKey(TbOrder.class, id);
+    	order.setIsTwoSend(auditStatusCd);
+    	order.setTwoSendAuditDate(new Date());
+    	Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
+    	order.setTwoSendAuditUserId(userId);
+    	//审核通过
+    	if(auditStatusCd == 1){
+    		//将订单状态改为待配送 同时清空快递员的配送信息
+    		order.setExpressMemberId(0);
+    		order.setOrderStatus("4");
+    	}
+    	//审核不通过
+    	else{
+    		
+    	}
+    	this.mybatisDao.save(order);
     }
 
 }

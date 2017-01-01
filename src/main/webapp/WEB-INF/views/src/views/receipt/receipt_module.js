@@ -5,8 +5,9 @@ define([
     "views/receipt/receivingCode",
     "views/receipt/receivingCodeRequest",
     "views/receipt/returnOrder",
-    "views/receipt/reviewDespatch"
-],function (receivingCode,receivingCodeRequest,returnOrder,reviewDespatch) {
+    "views/receipt/reviewDespatch",
+    "views/receipt/twoSendOrder"
+],function (receivingCode,receivingCodeRequest,returnOrder,reviewDespatch,twoSendOrder) {
     angular.module('DMS.receipt', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -54,6 +55,17 @@ define([
                     }
                 },
                 controller: reviewDespatch
+            })
+            .state('twoSendOrderList', {
+                url: '/twoSendOrderList',
+                templateUrl: 'views/receipt/twoSendOrder.html',
+                data:{
+                    permissions:{
+                        only:["REVIEW_DESPATCH"],
+                        redirectTo:"unauthorized"
+                    }
+                },
+                controller: twoSendOrder
             })
     }]);
 });

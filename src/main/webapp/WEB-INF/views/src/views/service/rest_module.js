@@ -314,7 +314,8 @@ define(function () {
                 method:"POST",
                 url:"/order/updateTotalBox",
                 params:{orderNo:"@orderNo",totalBox:"@totalBox"}
-            }
+            },
+            auditTwoSend:{method:"POST",url:"/order/:id/twoSend",params:{id:"@id",auditStatusCd:"@auditStatusCd"}}
         });
     }]);
 

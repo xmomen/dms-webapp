@@ -88,10 +88,10 @@ public class ReturnOrderController {
      * @param statusCd
      * @return
      */
-    @RequestMapping(value = "/returnOrder/audit", method = RequestMethod.POST)
+    @RequestMapping(value = "/returnOrder/{id}/audit", method = RequestMethod.POST)
     @Log(actionName = "审核退货订单")
-    public void updateTotalBox(@RequestParam(value = "orderNo") String orderNo,
+    public void updateTotalBox(@PathVariable(value = "id") Integer id,
     		@RequestParam(value="statusCd") int statusCd) {
-       
+       this.returnOrderService.auditReturnOrder(id,statusCd);
     }
 }

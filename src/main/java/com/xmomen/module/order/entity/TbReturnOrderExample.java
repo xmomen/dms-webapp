@@ -355,6 +355,246 @@ public class TbReturnOrderExample extends BaseMybatisExample {
             addCriterion("RETURN_STATUS not between", value1, value2, "returnStatus");
             return (Criteria) this;
         }
+
+        public Criteria andInsertDateIsNull() {
+            addCriterion("INSERT_DATE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertDateIsNotNull() {
+            addCriterion("INSERT_DATE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertDateEqualTo(Date value) {
+            addCriterion("INSERT_DATE =", value, "insertDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertDateNotEqualTo(Date value) {
+            addCriterion("INSERT_DATE <>", value, "insertDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertDateGreaterThan(Date value) {
+            addCriterion("INSERT_DATE >", value, "insertDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("INSERT_DATE >=", value, "insertDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertDateLessThan(Date value) {
+            addCriterion("INSERT_DATE <", value, "insertDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertDateLessThanOrEqualTo(Date value) {
+            addCriterion("INSERT_DATE <=", value, "insertDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertDateIn(List<Date> values) {
+            addCriterion("INSERT_DATE in", values, "insertDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertDateNotIn(List<Date> values) {
+            addCriterion("INSERT_DATE not in", values, "insertDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertDateBetween(Date value1, Date value2) {
+            addCriterion("INSERT_DATE between", value1, value2, "insertDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andInsertDateNotBetween(Date value1, Date value2) {
+            addCriterion("INSERT_DATE not between", value1, value2, "insertDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusIsNull() {
+            addCriterion("AUDIT_STATUS is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusIsNotNull() {
+            addCriterion("AUDIT_STATUS is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusEqualTo(Integer value) {
+            addCriterion("AUDIT_STATUS =", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusNotEqualTo(Integer value) {
+            addCriterion("AUDIT_STATUS <>", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusGreaterThan(Integer value) {
+            addCriterion("AUDIT_STATUS >", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("AUDIT_STATUS >=", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusLessThan(Integer value) {
+            addCriterion("AUDIT_STATUS <", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("AUDIT_STATUS <=", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusIn(List<Integer> values) {
+            addCriterion("AUDIT_STATUS in", values, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusNotIn(List<Integer> values) {
+            addCriterion("AUDIT_STATUS not in", values, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusBetween(Integer value1, Integer value2) {
+            addCriterion("AUDIT_STATUS between", value1, value2, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("AUDIT_STATUS not between", value1, value2, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateIsNull() {
+            addCriterion("AUDIT_DATE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateIsNotNull() {
+            addCriterion("AUDIT_DATE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateEqualTo(Date value) {
+            addCriterion("AUDIT_DATE =", value, "auditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateNotEqualTo(Date value) {
+            addCriterion("AUDIT_DATE <>", value, "auditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateGreaterThan(Date value) {
+            addCriterion("AUDIT_DATE >", value, "auditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("AUDIT_DATE >=", value, "auditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateLessThan(Date value) {
+            addCriterion("AUDIT_DATE <", value, "auditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateLessThanOrEqualTo(Date value) {
+            addCriterion("AUDIT_DATE <=", value, "auditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateIn(List<Date> values) {
+            addCriterion("AUDIT_DATE in", values, "auditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateNotIn(List<Date> values) {
+            addCriterion("AUDIT_DATE not in", values, "auditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateBetween(Date value1, Date value2) {
+            addCriterion("AUDIT_DATE between", value1, value2, "auditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditDateNotBetween(Date value1, Date value2) {
+            addCriterion("AUDIT_DATE not between", value1, value2, "auditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditUserIdIsNull() {
+            addCriterion("AUDIT_USER_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditUserIdIsNotNull() {
+            addCriterion("AUDIT_USER_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditUserIdEqualTo(Integer value) {
+            addCriterion("AUDIT_USER_ID =", value, "auditUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditUserIdNotEqualTo(Integer value) {
+            addCriterion("AUDIT_USER_ID <>", value, "auditUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditUserIdGreaterThan(Integer value) {
+            addCriterion("AUDIT_USER_ID >", value, "auditUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("AUDIT_USER_ID >=", value, "auditUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditUserIdLessThan(Integer value) {
+            addCriterion("AUDIT_USER_ID <", value, "auditUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("AUDIT_USER_ID <=", value, "auditUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditUserIdIn(List<Integer> values) {
+            addCriterion("AUDIT_USER_ID in", values, "auditUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditUserIdNotIn(List<Integer> values) {
+            addCriterion("AUDIT_USER_ID not in", values, "auditUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("AUDIT_USER_ID between", value1, value2, "auditUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("AUDIT_USER_ID not between", value1, value2, "auditUserId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

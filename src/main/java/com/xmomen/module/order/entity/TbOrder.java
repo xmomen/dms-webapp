@@ -149,9 +149,24 @@ public class TbOrder extends BaseMybatisModel {
     private Integer expressScanBoxNum;
 
     /**
-     * 0无下架商品、1有下架商品
+     * 0无下架商品，1有下架商品
      */
     private Integer xiajia;
+
+    /**
+     * 是否二次配送订单
+     */
+    private Integer isTwoSend;
+
+    /**
+     * 二次配送审核时间
+     */
+    private Date twoSendAuditDate;
+
+    /**
+     * 二次配送审核人
+     */
+    private Integer twoSendAuditUserId;
 
     @Column(name = "ID")
     @Id
@@ -545,5 +560,47 @@ public class TbOrder extends BaseMybatisModel {
               return;
         }
         addValidField("xiajia");
+    }
+
+    @Column(name = "IS_TWO_SEND")
+    public Integer getIsTwoSend() {
+        return isTwoSend;
+    }
+
+    public void setIsTwoSend(Integer isTwoSend) {
+        this.isTwoSend = isTwoSend;
+        if(isTwoSend == null){
+              removeValidField("isTwoSend");
+              return;
+        }
+        addValidField("isTwoSend");
+    }
+
+    @Column(name = "TWO_SEND_AUDIT_DATE")
+    public Date getTwoSendAuditDate() {
+        return twoSendAuditDate;
+    }
+
+    public void setTwoSendAuditDate(Date twoSendAuditDate) {
+        this.twoSendAuditDate = twoSendAuditDate;
+        if(twoSendAuditDate == null){
+              removeValidField("twoSendAuditDate");
+              return;
+        }
+        addValidField("twoSendAuditDate");
+    }
+
+    @Column(name = "TWO_SEND_AUDIT_USER_ID")
+    public Integer getTwoSendAuditUserId() {
+        return twoSendAuditUserId;
+    }
+
+    public void setTwoSendAuditUserId(Integer twoSendAuditUserId) {
+        this.twoSendAuditUserId = twoSendAuditUserId;
+        if(twoSendAuditUserId == null){
+              removeValidField("twoSendAuditUserId");
+              return;
+        }
+        addValidField("twoSendAuditUserId");
     }
 }

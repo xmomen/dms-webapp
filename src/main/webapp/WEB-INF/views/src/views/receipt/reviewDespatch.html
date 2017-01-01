@@ -51,14 +51,10 @@
                                 </div>
                             </div>
                             <div class="col-sm-2">
-                                <button class="btn btn-primary" type="button" data-ng-click="getPackageTaskList()">
+                                <button class="btn btn-primary" type="button" data-ng-click="getOrderList()">
                                     <i class="fa fa-refresh"></i>
                                     刷新
                                 </button>
-                                <!--<button class="btn btn-primary" type="button" ui-sref="packageTask_create">-->
-                                <!--<i class="fa fa-plus"></i>-->
-                                <!--生成采购计划-->
-                                <!--</button>-->
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -107,7 +103,7 @@
                                     <td ng-bind="order.consigneeAddress"></td>
                                     <td>
                                         <div>
-                                            <a href="javascript:void(0);" data-ng-click="unTakeDelivery(order.orderNo)" title="审核">
+                                            <a href="javascript:void(0);" data-ng-click="auditTwoSend(order.id)" title="审核">
                                                 <span class="fa fa-empire"></span>
                                             </a>
                                         </div>

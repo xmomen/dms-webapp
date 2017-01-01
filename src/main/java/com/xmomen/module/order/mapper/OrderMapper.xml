@@ -142,6 +142,9 @@
             <if test="despatchExpressId">
             	AND tb.DESPATCH_EXPRESS_ID = #{despatchExpressId}
             </if>
+             <if test="isTwoSend">
+            	AND tb.is_two_send = #{isTwoSend}
+            </if>
           </where>
           order by tb.CREATE_TIME desc
     </select>
