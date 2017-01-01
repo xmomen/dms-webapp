@@ -356,66 +356,6 @@ public class TbReturnOrderExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andInsertDateIsNull() {
-            addCriterion("INSERT_DATE is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andInsertDateIsNotNull() {
-            addCriterion("INSERT_DATE is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andInsertDateEqualTo(Date value) {
-            addCriterion("INSERT_DATE =", value, "insertDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andInsertDateNotEqualTo(Date value) {
-            addCriterion("INSERT_DATE <>", value, "insertDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andInsertDateGreaterThan(Date value) {
-            addCriterion("INSERT_DATE >", value, "insertDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andInsertDateGreaterThanOrEqualTo(Date value) {
-            addCriterion("INSERT_DATE >=", value, "insertDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andInsertDateLessThan(Date value) {
-            addCriterion("INSERT_DATE <", value, "insertDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andInsertDateLessThanOrEqualTo(Date value) {
-            addCriterion("INSERT_DATE <=", value, "insertDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andInsertDateIn(List<Date> values) {
-            addCriterion("INSERT_DATE in", values, "insertDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andInsertDateNotIn(List<Date> values) {
-            addCriterion("INSERT_DATE not in", values, "insertDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andInsertDateBetween(Date value1, Date value2) {
-            addCriterion("INSERT_DATE between", value1, value2, "insertDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andInsertDateNotBetween(Date value1, Date value2) {
-            addCriterion("INSERT_DATE not between", value1, value2, "insertDate");
-            return (Criteria) this;
-        }
-
         public Criteria andAuditStatusIsNull() {
             addCriterion("AUDIT_STATUS is null");
             return (Criteria) this;
@@ -593,6 +533,196 @@ public class TbReturnOrderExample extends BaseMybatisExample {
 
         public Criteria andAuditUserIdNotBetween(Integer value1, Integer value2) {
             addCriterion("AUDIT_USER_ID not between", value1, value2, "auditUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsDateIsNull() {
+            addCriterion("TAKE_GOODS_DATE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsDateIsNotNull() {
+            addCriterion("TAKE_GOODS_DATE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsDateEqualTo(Date value) {
+            addCriterion("TAKE_GOODS_DATE =", value, "takeGoodsDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsDateNotEqualTo(Date value) {
+            addCriterion("TAKE_GOODS_DATE <>", value, "takeGoodsDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsDateGreaterThan(Date value) {
+            addCriterion("TAKE_GOODS_DATE >", value, "takeGoodsDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("TAKE_GOODS_DATE >=", value, "takeGoodsDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsDateLessThan(Date value) {
+            addCriterion("TAKE_GOODS_DATE <", value, "takeGoodsDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsDateLessThanOrEqualTo(Date value) {
+            addCriterion("TAKE_GOODS_DATE <=", value, "takeGoodsDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsDateIn(List<Date> values) {
+            addCriterion("TAKE_GOODS_DATE in", values, "takeGoodsDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsDateNotIn(List<Date> values) {
+            addCriterion("TAKE_GOODS_DATE not in", values, "takeGoodsDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsDateBetween(Date value1, Date value2) {
+            addCriterion("TAKE_GOODS_DATE between", value1, value2, "takeGoodsDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsDateNotBetween(Date value1, Date value2) {
+            addCriterion("TAKE_GOODS_DATE not between", value1, value2, "takeGoodsDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsUserIdIsNull() {
+            addCriterion("TAKE_GOODS_USER_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsUserIdIsNotNull() {
+            addCriterion("TAKE_GOODS_USER_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsUserIdEqualTo(Integer value) {
+            addCriterion("TAKE_GOODS_USER_ID =", value, "takeGoodsUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsUserIdNotEqualTo(Integer value) {
+            addCriterion("TAKE_GOODS_USER_ID <>", value, "takeGoodsUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsUserIdGreaterThan(Integer value) {
+            addCriterion("TAKE_GOODS_USER_ID >", value, "takeGoodsUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("TAKE_GOODS_USER_ID >=", value, "takeGoodsUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsUserIdLessThan(Integer value) {
+            addCriterion("TAKE_GOODS_USER_ID <", value, "takeGoodsUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("TAKE_GOODS_USER_ID <=", value, "takeGoodsUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsUserIdIn(List<Integer> values) {
+            addCriterion("TAKE_GOODS_USER_ID in", values, "takeGoodsUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsUserIdNotIn(List<Integer> values) {
+            addCriterion("TAKE_GOODS_USER_ID not in", values, "takeGoodsUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("TAKE_GOODS_USER_ID between", value1, value2, "takeGoodsUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("TAKE_GOODS_USER_ID not between", value1, value2, "takeGoodsUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsPhoneIsNull() {
+            addCriterion("TAKE_GOODS_PHONE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsPhoneIsNotNull() {
+            addCriterion("TAKE_GOODS_PHONE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsPhoneEqualTo(String value) {
+            addCriterion("TAKE_GOODS_PHONE =", value, "takeGoodsPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsPhoneNotEqualTo(String value) {
+            addCriterion("TAKE_GOODS_PHONE <>", value, "takeGoodsPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsPhoneGreaterThan(String value) {
+            addCriterion("TAKE_GOODS_PHONE >", value, "takeGoodsPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsPhoneGreaterThanOrEqualTo(String value) {
+            addCriterion("TAKE_GOODS_PHONE >=", value, "takeGoodsPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsPhoneLessThan(String value) {
+            addCriterion("TAKE_GOODS_PHONE <", value, "takeGoodsPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsPhoneLessThanOrEqualTo(String value) {
+            addCriterion("TAKE_GOODS_PHONE <=", value, "takeGoodsPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsPhoneLike(String value) {
+            addCriterion("TAKE_GOODS_PHONE like", value, "takeGoodsPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsPhoneNotLike(String value) {
+            addCriterion("TAKE_GOODS_PHONE not like", value, "takeGoodsPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsPhoneIn(List<String> values) {
+            addCriterion("TAKE_GOODS_PHONE in", values, "takeGoodsPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsPhoneNotIn(List<String> values) {
+            addCriterion("TAKE_GOODS_PHONE not in", values, "takeGoodsPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsPhoneBetween(String value1, String value2) {
+            addCriterion("TAKE_GOODS_PHONE between", value1, value2, "takeGoodsPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andTakeGoodsPhoneNotBetween(String value1, String value2) {
+            addCriterion("TAKE_GOODS_PHONE not between", value1, value2, "takeGoodsPhone");
             return (Criteria) this;
         }
     }

@@ -6,10 +6,12 @@
     <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
     <result column="RETURN_TIME" property="returnTime" jdbcType="TIMESTAMP" />
     <result column="RETURN_STATUS" property="returnStatus" jdbcType="INTEGER" />
-    <result column="INSERT_DATE" property="insertDate" jdbcType="TIMESTAMP" />
     <result column="AUDIT_STATUS" property="auditStatus" jdbcType="INTEGER" />
     <result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP" />
     <result column="AUDIT_USER_ID" property="auditUserId" jdbcType="INTEGER" />
+    <result column="TAKE_GOODS_DATE" property="takeGoodsDate" jdbcType="TIMESTAMP" />
+    <result column="TAKE_GOODS_USER_ID" property="takeGoodsUserId" jdbcType="INTEGER" />
+    <result column="TAKE_GOODS_PHONE" property="takeGoodsPhone" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -70,8 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, ORDER_NO, RETURN_TIME, RETURN_STATUS, INSERT_DATE, AUDIT_STATUS, AUDIT_DATE, 
-    AUDIT_USER_ID
+    ID, ORDER_NO, RETURN_TIME, RETURN_STATUS, AUDIT_STATUS, AUDIT_DATE, AUDIT_USER_ID, 
+    TAKE_GOODS_DATE, TAKE_GOODS_USER_ID, TAKE_GOODS_PHONE
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbReturnOrderExample" >
     select
@@ -108,9 +110,6 @@
       <if test="returnStatus != null" >
         RETURN_STATUS,
       </if>
-      <if test="insertDate != null" >
-        INSERT_DATE,
-      </if>
       <if test="auditStatus != null" >
         AUDIT_STATUS,
       </if>
@@ -119,6 +118,15 @@
       </if>
       <if test="auditUserId != null" >
         AUDIT_USER_ID,
+      </if>
+      <if test="takeGoodsDate != null" >
+        TAKE_GOODS_DATE,
+      </if>
+      <if test="takeGoodsUserId != null" >
+        TAKE_GOODS_USER_ID,
+      </if>
+      <if test="takeGoodsPhone != null" >
+        TAKE_GOODS_PHONE,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -134,9 +142,6 @@
       <if test="returnStatus != null" >
         #{returnStatus,jdbcType=INTEGER},
       </if>
-      <if test="insertDate != null" >
-        #{insertDate,jdbcType=TIMESTAMP},
-      </if>
       <if test="auditStatus != null" >
         #{auditStatus,jdbcType=INTEGER},
       </if>
@@ -145,6 +150,15 @@
       </if>
       <if test="auditUserId != null" >
         #{auditUserId,jdbcType=INTEGER},
+      </if>
+      <if test="takeGoodsDate != null" >
+        #{takeGoodsDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="takeGoodsUserId != null" >
+        #{takeGoodsUserId,jdbcType=INTEGER},
+      </if>
+      <if test="takeGoodsPhone != null" >
+        #{takeGoodsPhone,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -169,9 +183,6 @@
       <if test="record.returnStatus != null" >
         RETURN_STATUS = #{record.returnStatus,jdbcType=INTEGER},
       </if>
-      <if test="record.insertDate != null" >
-        INSERT_DATE = #{record.insertDate,jdbcType=TIMESTAMP},
-      </if>
       <if test="record.auditStatus != null" >
         AUDIT_STATUS = #{record.auditStatus,jdbcType=INTEGER},
       </if>
@@ -180,6 +191,15 @@
       </if>
       <if test="record.auditUserId != null" >
         AUDIT_USER_ID = #{record.auditUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.takeGoodsDate != null" >
+        TAKE_GOODS_DATE = #{record.takeGoodsDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.takeGoodsUserId != null" >
+        TAKE_GOODS_USER_ID = #{record.takeGoodsUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.takeGoodsPhone != null" >
+        TAKE_GOODS_PHONE = #{record.takeGoodsPhone,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >

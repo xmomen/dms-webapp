@@ -89,7 +89,7 @@
 								<fieldset>
 									<section>
 										<label class="label">收货码</label> <label class="input">
-										 <input type="text" name="shouhuoNo" id="shouhuoNo"> 
+											<input type="text" name="shouhuoNo" id="shouhuoNo">
 										</label>
 									</section>
 								</fieldset>
@@ -97,17 +97,22 @@
 
 							<input type="hidden" id="openId" name="openId" value="${openId}">
 							<input type="hidden" id="phone" name="phone" value="${phone}">
-							<input type="hidden" id="orderNo" name="orderNo" value="${orderInfo.orderNo}">
-							<input type="hidden" id="express" name="express" value="${express}">
+							<input type="hidden" id="orderNo" name="orderNo"
+								value="${orderInfo.orderNo}"> <input type="hidden"
+								id="express" name="express" value="${express}">
 							<div class="error">${message}</div>
 						</form>
 						<footer id="footer">
-								<c:if test="${express == 1}">
-									<button type="button" onclick="shouhuoRequest();" class="btn btn-primary">获取收货码</button>
-									<button type="button" onclick="twoPeiSong();" class="btn btn-primary">二次配送</button>
-								</c:if>
-								<button type="button" onclick="shouhuoEvent();" class="btn btn-primary">确认收货</button>
-								<button type="button" onclick="returnOrder();" class="btn btn-primary">拒收&退货</button>
+							<c:if test="${express == 1}">
+								<button type="button" onclick="shouhuoRequest();"
+									class="btn btn-primary">获取收货码</button>
+								<button type="button" onclick="twoPeiSong();"
+									class="btn btn-primary">二次配送</button>
+							</c:if>
+							<button type="button" onclick="shouhuoEvent();"
+								class="btn btn-primary">确认收货</button>
+<!-- 							<button type="button" onclick="returnOrder();" -->
+<!-- 								class="btn btn-primary">拒收&退货</button> -->
 						</footer>
 					</div>
 				</div>
@@ -134,12 +139,18 @@
 			var shouhuoNo = $("#shouhuoNo").val();
 			var openId = $("#openId").val();
 			var orderNo =$("#orderNo").val();
+			var url = "";
 			if(express == 1 && (shouhuoNo == null || shouhuoNo == "" || shouhuoNo == undefined || shouhuoNo == "undefined")){
 				alert("请输入收货码");
 				return ;
 			}
+			url = "/wx/shouhuo?openId="+openId+"&orderNo="+orderNo;
+			if(express == 1){
+				url +="&shouhuoNo="+shouhuoNo;
+			}
+			
 			$.ajax({
-			    url:"/wx/shouhuo?openId="+openId+"&shouhuoNo="+shouhuoNo+"&orderNo="+orderNo,
+			    url:url,
 				type:"get",
 			    dataType:"json",
 			    success:function(data){
@@ -154,6 +165,7 @@
 			  }
 			});
 		}
+		
 		//收货码请求
 		function shouhuoRequest(){
 			var phone = $("#phone").val();
@@ -181,6 +193,11 @@
 			    	alert("请求发送成功!");
 			  }		
 			});
+		}
+		
+		//拒收 退货
+		function returnOrder(){
+			
 		}
 	</script>
 </body>

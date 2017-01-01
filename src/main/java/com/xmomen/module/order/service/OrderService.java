@@ -657,27 +657,6 @@ public class OrderService {
     }
 
     /**
-     * 订单部分退货
-     *
-     * @param returnOrder
-     */
-    @Transactional
-    public void returnOrder(ReturnOrder returnOrder) {
-//        TbReturnOrder tbReturnOrder = new TbReturnOrder();
-//        tbReturnOrder.setOrderNo(returnOrder.getOrderNo());
-//        tbReturnOrder.setReturnStatus(0);//退货中
-//        tbReturnOrder.setReturnTime(mybatisDao.getSysdate());
-//        tbReturnOrder = mybatisDao.insertByModel(tbReturnOrder);
-//        for (ReturnOrder.Item item : returnOrder.getItemList()) {
-//            TbReturnOrderItem rItem = new TbReturnOrderItem();
-//            rItem.setItemCode(item.getItemCode());
-//            rItem.setReturnOrderId(tbReturnOrder.getId());
-//            rItem.setItemNumber(item.getItemNumber());
-//            mybatisDao.insert(rItem);
-//        }
-    }
-
-    /**
      * 更新订单总箱数
      *
      * @param orderNo
@@ -702,14 +681,14 @@ public class OrderService {
     public void twoSendOrder(int id,int auditStatusCd){
     	TbOrder order = this.mybatisDao.selectByPrimaryKey(TbOrder.class, id);
     	order.setIsTwoSend(auditStatusCd);
-    	order.setTwoSendAuditDate(new Date());
+    	order.setTwoSendAuditDate(mybatisDao.getSysdate());
     	Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
     	order.setTwoSendAuditUserId(userId);
     	//审核通过
     	if(auditStatusCd == 1){
     		//将订单状态改为待配送 同时清空快递员的配送信息
     		order.setExpressMemberId(0);
-    		order.setOrderStatus("4");
+    		order.setOrderStatus("12");
     	}
     	//审核不通过
     	else{

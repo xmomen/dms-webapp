@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import com.xmomen.module.order.entity.TbReturnOrderItem;
 import com.xmomen.module.order.model.PackingModel;
 
 /**
@@ -18,6 +19,11 @@ public @Data class ReturnOrderModel implements Serializable {
      * 订单ID
      */
     private Integer id;
+    
+    /**
+     * 退货订单id
+     */
+    private Integer returnOrderId;
 
     /**
      * 订单类型
@@ -183,9 +189,45 @@ public @Data class ReturnOrderModel implements Serializable {
     private BigDecimal otherPayAmount;
     
     private String receivingCode;
-    private List<ReturnItemModel> itemList;
+    
+    private List<TbReturnOrderItem> itemList;
     
     private Date returnTime;
     
     private String returnStatus;
+    
+    private String returnStatusDesc;
+    
+    /**
+     * 审核状态（0-不同意，1-同意）
+     */
+    private Integer auditStatus;
+
+    /**
+     * 审核时间
+     */
+    private Date auditDate;
+
+    /**
+     * 审核人
+     */
+    private Integer auditUserId;
+    
+    private String auditUserName;
+
+    /**
+     * 拿货时间
+     */
+    private Date takeGoodsDate;
+
+    /**
+     * 拿货人
+     */
+    private Integer takeGoodsUserId;
+
+    private String takeGoodsUserName;
+    /**
+     * 拿货人手机号
+     */
+    private String takeGoodsPhone;
 }

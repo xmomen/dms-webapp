@@ -6,8 +6,9 @@ define([
     "views/receipt/receivingCodeRequest",
     "views/receipt/returnOrder",
     "views/receipt/reviewDespatch",
-    "views/receipt/twoSendOrder"
-],function (receivingCode,receivingCodeRequest,returnOrder,reviewDespatch,twoSendOrder) {
+    "views/receipt/twoSendOrder",
+    "views/receipt/returnOrderShouHuo"
+],function (receivingCode,receivingCodeRequest,returnOrder,reviewDespatch,twoSendOrder,returnOrderShouHuo) {
     angular.module('DMS.receipt', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -66,6 +67,18 @@ define([
                     }
                 },
                 controller: twoSendOrder
+            })
+
+            .state('returnOrderShouHuo', {
+                url: '/returnOrderShouHuo',
+                templateUrl: 'views/receipt/returnOrderShouHuo.html',
+//                data:{
+//                    permissions:{
+//                        only:["RETURN_ORDER_SHOUHUO"],
+//                        redirectTo:"unauthorized"
+//                    }
+//                },
+                controller: returnOrderShouHuo
             })
     }]);
 });

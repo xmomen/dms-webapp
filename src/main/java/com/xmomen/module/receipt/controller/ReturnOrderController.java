@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
@@ -90,8 +91,29 @@ public class ReturnOrderController {
      */
     @RequestMapping(value = "/returnOrder/{id}/audit", method = RequestMethod.POST)
     @Log(actionName = "审核退货订单")
-    public void updateTotalBox(@PathVariable(value = "id") Integer id,
-    		@RequestParam(value="statusCd") int statusCd) {
+    public void auditReturnOrder(@PathVariable(value = "id") Integer id,
+    		@RequestParam(value="statusCd") Integer statusCd) {
        this.returnOrderService.auditReturnOrder(id,statusCd);
     }
+    
+    /**
+     * 退货收货扫描操作
+     * @param boxNo 箱号
+     */
+    @RequestMapping(value ="/returnOrder/returnOrderShouhuo",method = RequestMethod.PUT)
+    @Log(actionName = "退货收货扫描操作")
+    public ReturnOrderModel returnOrderShouhuo(@RequestParam(value = "boxNo")String boxNo){
+    	return this.returnOrderService.returnOrderShouhuo(boxNo);
+    }
+    
+    /**
+     * 退货收货操作
+     * @param boxNo 箱号
+     */
+    @RequestMapping(value ="/returnOrder/shouhuo",method = RequestMethod.PUT)
+    @Log(actionName = "退货收货操作")
+    public void orderNo(@RequestParam(value = "orderNo")String orderNo){
+    	this.returnOrderService.shouhuo(orderNo);
+    }
+    
 }

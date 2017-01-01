@@ -2,7 +2,7 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "ReturnOrderAPI", "$modal", "$ugDialog","UserAPI","$filter", function($scope, ReturnOrderAPI, $modal, $ugDialog,UserAPI,$filter){
+    return ["$scope", "OrderAPI", "$modal", "$ugDialog","UserAPI","$filter", function($scope, OrderAPI, $modal, $ugDialog,UserAPI,$filter){
 
         $scope.managers = [];
         $scope.getCustomerManagersList = function(){
@@ -19,41 +19,43 @@ define(function () {
             pageSize:10,
             pageNum:1
         };
-        $scope.datepickerSetting = {
-            datepickerPopupConfig:{
-                "current-text":"今天",
-                "clear-text":"清除",
-                "close-text":"关闭"
-            },
-            orderCreateTimeStart:{
-                opened:false
-            },
-            orderCreateTimeEnd:{
-                opened:false
-            }
-        };
-        $scope.openDate = function($event, index) {
-            $event.preventDefault();
-            $event.stopPropagation();
-            if(index == 0){
-                $scope.datepickerSetting.orderCreateTimeStart.opened = true;
-            }else if(index == 1){
-                $scope.datepickerSetting.orderCreateTimeEnd.opened = true;
-            }
-        };
+
+//        $scope.datepickerSetting = {
+//            datepickerPopupConfig:{
+//                "current-text":"今天",
+//                "clear-text":"清除",
+//                "close-text":"关闭"
+//            },
+//            orderCreateTimeStart:{
+//                opened:false
+//            },
+//            orderCreateTimeEnd:{
+//                opened:false
+//            }
+//        };
+//        $scope.openDate = function($event, index) {
+//            $event.preventDefault();
+//            $event.stopPropagation();
+//            if(index == 0){
+//                $scope.datepickerSetting.orderCreateTimeStart.opened = true;
+//            }else if(index == 1){
+//                $scope.datepickerSetting.orderCreateTimeEnd.opened = true;
+//            }
+//        };
 
         $scope.queryParam = {
-            orderCreateTimeStart :$filter('date')(new Date(new Date().getTime()), 'yyyy-MM-dd'),
-            orderCreateTimeEnd:$filter('date')(new Date(new Date().getTime()), 'yyyy-MM-dd')
+//            orderCreateTimeStart :$filter('date')(new Date(new Date().getTime()), 'yyyy-MM-dd'),
+//            orderCreateTimeEnd:$filter('date')(new Date(new Date().getTime()), 'yyyy-MM-dd')
         };
 
         $scope.getOrderList = function(){
-            ReturnOrderAPI.query({
+            OrderAPI.query({
                 limit:$scope.pageInfoSetting.pageSize,
                 offset:$scope.pageInfoSetting.pageNum,
                 keyword:$scope.queryParam.keyword,
-                orderCreateTimeStart:$scope.queryParam.orderCreateTimeStart,
-                orderCreateTimeEnd: $scope.queryParam.orderCreateTimeEnd,
+                isTwoSend:1,
+//                orderCreateTimeStart:$scope.queryParam.orderCreateTimeStart,
+//                orderCreateTimeEnd: $scope.queryParam.orderCreateTimeEnd,
                 couponNumber:$scope.queryParam.couponNumber,
                 hasNoShowCancel:false
             }, function(data){
@@ -62,6 +64,7 @@ define(function () {
                 $scope.pageInfoSetting.loadData = $scope.getOrderList;
             });
         };
+
         $scope.viewOrder = function (index) {
             var modalInstance = $modal.open({
                 templateUrl: 'viewOrderDetail.html',
@@ -70,7 +73,7 @@ define(function () {
                         return angular.copy($scope.orderList[index]);
                     }
                 },
-                controller: ["$scope", "ReturnOrderAPI", "CurrentOrder", "$modalInstance", function ($scope, ReturnOrderAPI, CurrentOrder, $modalInstance) {
+                controller: ["$scope", "OrderAPI", "CurrentOrder", "$modalInstance", function ($scope, OrderAPI, CurrentOrder, $modalInstance) {
                     $scope.order = {};
                     if(CurrentOrder){
                         $scope.order = CurrentOrder;
@@ -81,12 +84,12 @@ define(function () {
                             pageNum:1
                         }
                     };
-                    ReturnOrderAPI.getItemList({
+                    OrderAPI.getItemList({
                         limit: $scope.setting.pageInfo.pageSize,
                         offset: $scope.setting.pageInfo.pageNum,
-                        id:$scope.order.id
+                        id:$scope.order.id,
+                        orderNo:$scope.order.orderNo
                     }, function(data){
-                        debugger;
                         $scope.order.itemList = data.data;
                         $scope.calTotalItem();
                     });
@@ -112,26 +115,5 @@ define(function () {
             });
         };
         $scope.getOrderList();
-
-        //审核退货订单
-        $scope.auditYes = function(index){
-          var returnOrder = angular.copy($scope.orderList[index]);
-            ReturnOrderAPI.auditReturnOrder({
-                id: returnOrder.returnOrderId,
-                statusCd: 1
-            }, function(data){
-                $scope.getOrderList();
-            });
-        };
-
-        $scope.auditNo = function(index){
-            var returnOrder = angular.copy($scope.orderList[index]);
-            ReturnOrderAPI.auditReturnOrder({
-                id: returnOrder.returnOrderId,
-                statusCd: 0
-            }, function(data){
-                $scope.getOrderList();
-            });
-        };
     }];
 });

@@ -39,6 +39,6 @@
                              targetProject="./src/main/java" type="XMLMAPPER" >
         </javaClientGenerator>
         <!--    用户模块    -->
-        <table tableName="tb_order" />
+        <table tableName="tb_return_order" />
     </context>
 </generatorConfiguration>

@@ -33,11 +33,6 @@ public class TbReturnOrder extends BaseMybatisModel {
     private Integer returnStatus;
 
     /**
-     * 申请退货日期
-     */
-    private Date insertDate;
-
-    /**
      * 审核状态（0-不同意，1-同意）
      */
     private Integer auditStatus;
@@ -51,6 +46,21 @@ public class TbReturnOrder extends BaseMybatisModel {
      * 审核人
      */
     private Integer auditUserId;
+
+    /**
+     * 拿货时间
+     */
+    private Date takeGoodsDate;
+
+    /**
+     * 拿货人
+     */
+    private Integer takeGoodsUserId;
+
+    /**
+     * 拿货人手机号
+     */
+    private String takeGoodsPhone;
 
     @Column(name = "ID")
     @Id
@@ -110,20 +120,6 @@ public class TbReturnOrder extends BaseMybatisModel {
         addValidField("returnStatus");
     }
 
-    @Column(name = "INSERT_DATE")
-    public Date getInsertDate() {
-        return insertDate;
-    }
-
-    public void setInsertDate(Date insertDate) {
-        this.insertDate = insertDate;
-        if(insertDate == null){
-              removeValidField("insertDate");
-              return;
-        }
-        addValidField("insertDate");
-    }
-
     @Column(name = "AUDIT_STATUS")
     public Integer getAuditStatus() {
         return auditStatus;
@@ -164,5 +160,47 @@ public class TbReturnOrder extends BaseMybatisModel {
               return;
         }
         addValidField("auditUserId");
+    }
+
+    @Column(name = "TAKE_GOODS_DATE")
+    public Date getTakeGoodsDate() {
+        return takeGoodsDate;
+    }
+
+    public void setTakeGoodsDate(Date takeGoodsDate) {
+        this.takeGoodsDate = takeGoodsDate;
+        if(takeGoodsDate == null){
+              removeValidField("takeGoodsDate");
+              return;
+        }
+        addValidField("takeGoodsDate");
+    }
+
+    @Column(name = "TAKE_GOODS_USER_ID")
+    public Integer getTakeGoodsUserId() {
+        return takeGoodsUserId;
+    }
+
+    public void setTakeGoodsUserId(Integer takeGoodsUserId) {
+        this.takeGoodsUserId = takeGoodsUserId;
+        if(takeGoodsUserId == null){
+              removeValidField("takeGoodsUserId");
+              return;
+        }
+        addValidField("takeGoodsUserId");
+    }
+
+    @Column(name = "TAKE_GOODS_PHONE")
+    public String getTakeGoodsPhone() {
+        return takeGoodsPhone;
+    }
+
+    public void setTakeGoodsPhone(String takeGoodsPhone) {
+        this.takeGoodsPhone = takeGoodsPhone;
+        if(takeGoodsPhone == null){
+              removeValidField("takeGoodsPhone");
+              return;
+        }
+        addValidField("takeGoodsPhone");
     }
 }

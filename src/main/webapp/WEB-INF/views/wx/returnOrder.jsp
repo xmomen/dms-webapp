@@ -51,63 +51,47 @@
 											</div>
 										</div>
 									</div>
-									<div class="accordion-group">
-										<div class="accordion-heading">
-											<a class="accordion-toggle" data-toggle="collapse"
-												data-parent="#accordion2" href="#collapseTwo"> <strong>商品明细</strong>
-											</a>
-										</div>
-										<div id="collapseTwo" class="accordion-body collapse">
-											<div class="accordion-inner">
-												<div class="well well-large">
-													<div class="table-responsive">
-														<table class="table">
-															<thead>
-																<tr>
-																	<th width="80%">产品名称</th>
-																	<th width="20%">份数</th>
-																</tr>
-															</thead>
-															<tbody>
-																<c:forEach var="orderItem" items="${orderItemInfo}"
-																	varStatus="status">
-																	<tr>
-																		<td><c:out value="${orderItem.itemName}" /></td>
-																		<td><c:out value="${orderItem.itemQty}" /></td>
-																	</tr>
-																</c:forEach>
-															</tbody>
-														</table>
-													</div>
-												</div>
-											</div>
+									
+									<div class="well well-large">
+										<div class="table-responsive">
+											<table class="table">
+												<thead>
+													<tr>
+														<th></th>
+														<th width="80%">产品名称</th>
+														<th width="20%">份数</th>
+													</tr>
+												</thead>
+												<tbody>
+													<c:forEach var="orderItem" items="${orderItemInfo}"
+														varStatus="status">
+														<tr>
+															<td><input type="checkbox" value="${orderItem.id}"></input></td>
+															<td><c:out value="${orderItem.itemName}" /></td>
+															<td><c:out value="${orderItem.itemQty}" /></td>
+														</tr>
+													</c:forEach>
+												</tbody>
+											</table>
 										</div>
 									</div>
 								</div>
 							</fieldset>
-							<c:if test="${express == 1}">
-								<fieldset>
-									<section>
-										<label class="label">收货码</label> <label class="input">
-										 <input type="text" name="shouhuoNo" id="shouhuoNo"> 
-										</label>
-									</section>
-								</fieldset>
-							</c:if>
-
 							<input type="hidden" id="openId" name="openId" value="${openId}">
 							<input type="hidden" id="phone" name="phone" value="${phone}">
 							<input type="hidden" id="orderNo" name="orderNo" value="${orderInfo.orderNo}">
 							<input type="hidden" id="express" name="express" value="${express}">
+							<input type="hidden" id="expressId" name="expressId" value="${expressId}">
 							<div class="error">${message}</div>
 						</form>
 						<footer id="footer">
 								<c:if test="${express == 1}">
-									<button type="button" onclick="shouhuoRequest();" class="btn btn-primary">获取收货码</button>
-									<button type="button" onclick="twoPeiSong();" class="btn btn-primary">二次配送</button>
+									<button type="button" onclick="shouhuoReturn();" class="btn btn-primary">确认收货</button>
 								</c:if>
-								<button type="button" onclick="shouhuoEvent();" class="btn btn-primary">确认收货</button>
-								<button type="button" onclick="returnOrder();" class="btn btn-primary">拒收&退货</button>
+								<c:if test="${express == 0}">
+									<button type="button" onclick="bufenReturn();" class="btn btn-primary">部分退货</button>
+									<button type="button" onclick="allReturn();" class="btn btn-primary">全部退货</button>
+								</c:if>
 						</footer>
 					</div>
 				</div>
@@ -129,19 +113,78 @@
 	<script src="${webRoot}/js/bootstrap/bootstrap.min.js"></script>
 	<script type="text/javascript">
 		//收货操作
-		function shouhuoEvent(){
-			var express = $("#express").val();
-			var shouhuoNo = $("#shouhuoNo").val();
-			var openId = $("#openId").val();
+		function shouhuoReturn(){
+			var expressId = $("#expressId").val();
 			var orderNo =$("#orderNo").val();
-			if(express == 1 && (shouhuoNo == null || shouhuoNo == "" || shouhuoNo == undefined || shouhuoNo == "undefined")){
-				alert("请输入收货码");
-				return ;
+			var phone =$("#phone").val();
+			var a=confirm("确定收到退货货物了吗？");
+			 if(a==true)
+			 {
+				 $.ajax({
+					    url:"/wx/shouhuoReturn?expressId="+expressId+"&orderNo="+orderNo+"&phone="+phone,
+						type:"get",
+					    dataType:"json",
+					    success:function(data){
+					    	alert(data.result);
+					    	if(data.result == 1){
+					    		alert(data.message);
+					    		//按钮隐藏
+					    		$("#footer").hide();
+					    	}
+					    	else{
+					    		alert(data.message);
+					    	}
+					  }
+					});
+			 }
+			
+		}
+		
+		//全部退货
+		function allReturn(){
+			var itemIds ="";
+			var orderNo =$("#orderNo").val();
+			$("input[type='checkbox']").attr("checked","true"); 
+			$("input[type='checkbox']:checkbox:checked").each(function(){
+			    itemIds = $(this).val()+",";
+			});
+			
+			var a=confirm("确定要全部退货吗？");
+			 if(a==true)
+			 {
+				 returnOrderEvent(orderNo,itemIds);
+			 }
+		}
+		
+		//部门退货
+		function bufenReturn(){
+			var itemIds ="";
+			var orderNo =$("#orderNo").val();
+			$("input[type='checkbox']:checkbox:checked").each(function(){
+			    itemIds = $(this).val()+",";
+			});
+			if(itemIds == ""){
+				alert('请选择需要退货的商品。');
+				return;
 			}
+
+			var a=confirm("确定要部分退货吗？");
+			 if(a==true)
+			 {
+				 returnOrderEvent(orderNo,itemIds);
+			 }
+			
+		}
+		
+		function returnOrderEvent(orderNo,itemIds){
 			$.ajax({
-			    url:"/wx/shouhuo?openId="+openId+"&shouhuoNo="+shouhuoNo+"&orderNo="+orderNo,
-				type:"get",
+			    url:"/wx/returnOrderEvent",
+				type:"post",
 			    dataType:"json",
+			    data:{
+			    	orderNo:orderNo,
+			    	itemIds:itemIds
+			    },
 			    success:function(data){
 			    	if(data.result == 1){
 			    		alert(data.message);
@@ -152,34 +195,6 @@
 			    		alert(data.message);
 			    	}
 			  }
-			});
-		}
-		//收货码请求
-		function shouhuoRequest(){
-			var phone = $("#phone").val();
-			var openId = $("#openId").val();
-			var orderNo =$("#orderNo").val();
-			$.ajax({
-			    url:"/wx/shouhuoRequest?openId="+openId+"&phone="+phone+"&orderNo="+orderNo,
-				type:"get",
-			    dataType:"json",
-			    success:function(data){
-			    	alert("请求发送成功!");
-			  }
-			});
-		}
-		
-		//二次配送
-		function twoPeiSong(){
-			var phone = $("#phone").val();
-			var orderNo =$("#orderNo").val();
-			$.ajax({
-				url:"/wx/twoPeiSong?orderNo="+orderNo+"&phone="+phone,
-				type:"get",
-			    dataType:"json",
-			    success:function(data){
-			    	alert("请求发送成功!");
-			  }		
 			});
 		}
 	</script>

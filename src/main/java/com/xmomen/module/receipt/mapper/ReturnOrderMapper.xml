@@ -5,25 +5,34 @@
     <!--    查询订单    -->
     <select id="getReturnOrderList" resultType="com.xmomen.module.receipt.model.ReturnOrderModel" parameterType="com.xmomen.module.receipt.model.ReturnOrderQuery">
         select 
-        	main.RETURN_TIME,
-        	main.RETURN_STATUS,
-        	torp.REF_VALUE as couponNumber,
-        sp.SHOW_VALUE AS orderTypeDesc,
-        ssp.SHOW_VALUE AS orderStatusDesc,
-        paymentp.SHOW_VALUE AS paymentModeDesc,
-        paymentp2.`SHOW_VALUE` as otherPaymentModeDesc,
-        osp.SHOW_VALUE AS orderSourceDesc,
-        st.EXECUTOR_ID AS packingTaskUserId,
-        st.CREATE_TIME as packingTaskCreateTime,
-        st.START_TIME as packingTaskStartTime,
-        st.FINISH_TIME as packingTaskEndTime,
-        u.realname AS packingTaskUsername,
-        st.TASK_STATUS as packingTaskStatus,
-        stsdp.show_value as packingTaskStatusDesc,
-        ce.express_name,
-        users.realname as manager_name,
-        createUser.realname as create_user,
-        pay2.`AMOUNT` AS otherPayAmount,
+	       	main.return_time,
+	       	main.return_status,
+	       	main.audit_status,
+	       	main.audit_user_id,
+	       	audit_return_user.realname audit_user_name,
+	       	main.audit_date,
+	       	main.take_goods_date,
+	       	main.take_goods_user_id,
+	       	express_user.member_name take_goods_user_name,
+	       	main.take_goods_phone,
+	       	main.id return_order_id,
+	       	torp.REF_VALUE as couponNumber,
+	        sp.SHOW_VALUE AS orderTypeDesc,
+	        ssp.SHOW_VALUE AS orderStatusDesc,
+	        paymentp.SHOW_VALUE AS paymentModeDesc,
+	        paymentp2.`SHOW_VALUE` as otherPaymentModeDesc,
+	        osp.SHOW_VALUE AS orderSourceDesc,
+	        st.EXECUTOR_ID AS packingTaskUserId,
+	        st.CREATE_TIME as packingTaskCreateTime,
+	        st.START_TIME as packingTaskStartTime,
+	        st.FINISH_TIME as packingTaskEndTime,
+	        u.realname AS packingTaskUsername,
+	        st.TASK_STATUS as packingTaskStatus,
+	        stsdp.show_value as packingTaskStatusDesc,
+	        ce.express_name,
+	        users.realname as manager_name,
+	        createUser.realname as create_user,
+	        pay2.`AMOUNT` AS otherPayAmount,
         	tb.*
         from tb_return_order main
         left join tb_order tb on tb.order_no = main.order_no
@@ -54,9 +63,10 @@
         LEFT JOIN sys_dictionary stsd on stsd.DICTIONARY_CODE='JOB_STATUS'
         left join sys_dictionary_parameter stsdp on stsdp.SYS_DICTIONARY_ID=stsd.ID and st.TASK_STATUS = stsdp.REAL_VALUE
         left join cd_express ce on tb.despatch_express_id = ce.id
-        
         left join sys_users users on users.id = tb.MANAGER_ID
         
+        LEFT JOIN sys_users audit_return_user ON audit_return_user.id = main.audit_user_id
+        LEFT JOIN cd_express_member express_user ON express_user.id = main.take_goods_user_id
         <where>
 <!--             <if test="returnStatus"> -->
 <!--                   AND main.return_status = #{returnStatus} -->
@@ -107,6 +117,6 @@
 <!--             	AND tb.DESPATCH_EXPRESS_ID = #{despatchExpressId} -->
 <!--             </if> -->
           </where>
-          order by main.RETURN_TIME desc
+          order by main.return_time desc
     </select>
 </mapper>

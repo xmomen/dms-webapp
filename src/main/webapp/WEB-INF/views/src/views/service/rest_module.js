@@ -326,7 +326,20 @@ define(function () {
                 method:"GET",
                 url:"/returnOrder/:id/item",
                 params:{id:"@id"}
-            }
+            },
+            auditReturnOrder:{
+                method:"POST",url:"/returnOrder/:id/audit",
+                params:{
+                    id:"@id",
+                    statusCd:"@statusCd"
+                }
+            },
+            returnOrderShouhuo:{method:"PUT",url:"/returnOrder/returnOrderShouhuo", params:{
+                boxNo:"@boxNo"
+            }},
+            shouhuo:{method:"PUT",url:"/returnOrder/shouhuo", params:{
+                orderNo:"@orderNo"
+            }}
         });
     }]);
 
