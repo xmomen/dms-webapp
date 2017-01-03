@@ -384,10 +384,7 @@ public class BindController {
 	public AjaxResult shouhuoReturn(@RequestParam(value = "orderNo") String orderNo,
 			@RequestParam(value = "phone") String phone,
 			@RequestParam(value = "expressId") int expressId){
-		String message = returnOrderService.shouhuoReturn(orderNo,phone,expressId);
-		AjaxResult ajaxResult = new AjaxResult();
-		ajaxResult.setMessage(message);
-		ajaxResult.setResult(0);
+		AjaxResult ajaxResult = returnOrderService.shouhuoReturn(orderNo,phone,expressId);
 		return ajaxResult;
 	}
 	
