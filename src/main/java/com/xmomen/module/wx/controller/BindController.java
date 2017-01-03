@@ -350,10 +350,7 @@ public class BindController {
 	public AjaxResult refuse(@RequestParam(value = "orderNo") String orderNo,
 			@RequestParam(value = "phone") String phone,
 			@RequestParam(value="expressId") Integer expressId){
-		String message = returnOrderService.noShouhuo(orderNo,phone,expressId);
-		AjaxResult ajaxResult = new AjaxResult();
-		ajaxResult.setMessage(message);
-		ajaxResult.setResult(0);
+		AjaxResult ajaxResult = returnOrderService.noShouhuo(orderNo,phone,expressId);
 		return ajaxResult;
 	}
 	
@@ -370,10 +367,7 @@ public class BindController {
 	@ResponseBody
 	public AjaxResult returnOrderEvent(@RequestParam(value = "orderNo") String orderNo,
 			@RequestParam(value = "itemIds") String itemIds){
-		String message = returnOrderService.returnOrder(orderNo,itemIds);
-		AjaxResult ajaxResult = new AjaxResult();
-		ajaxResult.setMessage(message);
-		ajaxResult.setResult(0);
+		AjaxResult ajaxResult = returnOrderService.returnOrder(orderNo,itemIds);
 		return ajaxResult;
 	}
 	

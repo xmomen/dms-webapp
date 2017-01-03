@@ -190,7 +190,14 @@
 				type:"get",
 			    dataType:"json",
 			    success:function(data){
-			    	alert(data.message);
+			    	if(data.result == 1){
+			    		alert(data.message);
+			    		//按钮隐藏
+			    		$("#footer").hide();
+			    	}
+			    	else{
+			    		alert(data.message);
+			    	}
 			  }		
 			});
 		}
@@ -205,7 +212,14 @@
 				type:"get",
 			    dataType:"json",
 			    success:function(data){
-			    	alert(data.message);
+			    	if(data.result == 1){
+			    		alert(data.message);
+			    		//按钮隐藏
+			    		$("#footer").hide();
+			    	}
+			    	else{
+			    		alert(data.message);
+			    	}
 			  }		
 			});
 		}
