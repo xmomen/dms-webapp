@@ -97,9 +97,9 @@ public class BindController {
 			@RequestParam("url") String url,
 			@RequestParam(value = "param", required = false) String param)
 			throws IOException {
-		 AccessTokenOAuth accessToken = Auth2Handler.getAccessToken(code);
-		 String openId = accessToken.getOpenid();
-//		String openId = "o7IPCuBl9Q9u2ysgrzUYEEsVSrr8";
+//		 AccessTokenOAuth accessToken = Auth2Handler.getAccessToken(code);
+//		 String openId = accessToken.getOpenid();
+		String openId = "o7IPCuBl9Q9u2ysgrzUYEEsVSrr8";
 		logger.info("openid----->" + openId);
 		// 查询是否有绑定
 		CdBind bind = new CdBind();
@@ -344,10 +344,10 @@ public class BindController {
 	 * @param bindingResult
 	 * @return
 	 */
-	@RequestMapping(value = "/wx/returnOrder", method = RequestMethod.POST)
+	@RequestMapping(value = "/wx/refuse", method = RequestMethod.GET)
 	@Log(actionName = "拒绝收货")
 	@ResponseBody
-	public AjaxResult returnOrder(@RequestParam(value = "orderNo") String orderNo,
+	public AjaxResult refuse(@RequestParam(value = "orderNo") String orderNo,
 			@RequestParam(value = "phone") String phone,
 			@RequestParam(value="expressId") Integer expressId){
 		String message = returnOrderService.noShouhuo(orderNo,phone,expressId);

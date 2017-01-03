@@ -125,7 +125,6 @@
 						type:"get",
 					    dataType:"json",
 					    success:function(data){
-					    	alert(data.result);
 					    	if(data.result == 1){
 					    		alert(data.message);
 					    		//按钮隐藏

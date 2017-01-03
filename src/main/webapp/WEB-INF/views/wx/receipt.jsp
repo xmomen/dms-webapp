@@ -190,7 +190,7 @@
 				type:"get",
 			    dataType:"json",
 			    success:function(data){
-			    	alert("请求发送成功!");
+			    	alert(data.message);
 			  }		
 			});
 		}
@@ -199,12 +199,13 @@
 		function returnOrder(){
 			var phone = $("#phone").val();
 			var orderNo =$("#orderNo").val();
+			var expressId =$("#expressId").val();
 			$.ajax({
-				url:"/wx/returnOrder?orderNo="+orderNo+"&phone="+phone,
+				url:"/wx/refuse?orderNo="+orderNo+"&phone="+phone+"&expressId="+expressId,
 				type:"get",
 			    dataType:"json",
 			    success:function(data){
-			    	alert("请求发送成功!");
+			    	alert(data.message);
 			  }		
 			});
 		}
