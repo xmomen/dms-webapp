@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.receipt.mapper.ReturnOrderMapper" >
+
+    <!--    查询订单    -->
+    <select id="getReturnOrderList" resultType="com.xmomen.module.receipt.model.ReturnOrderModel" parameterType="com.xmomen.module.receipt.model.ReturnOrderQuery">
+        select 
+	       	main.return_time,
+	       	main.return_status,
+	       	main.audit_status,
+	       	main.audit_user_id,
+	       	audit_return_user.realname audit_user_name,
+	       	main.audit_date,
+	       	main.take_goods_date,
+	       	main.take_goods_user_id,
+	       	express_user.member_name take_goods_user_name,
+	       	main.take_goods_phone,
+	       	main.id return_order_id,
+	       	torp.REF_VALUE as couponNumber,
+	        sp.SHOW_VALUE AS orderTypeDesc,
+	        ssp.SHOW_VALUE AS orderStatusDesc,
+	        paymentp.SHOW_VALUE AS paymentModeDesc,
+	        paymentp2.`SHOW_VALUE` as otherPaymentModeDesc,
+	        osp.SHOW_VALUE AS orderSourceDesc,
+	        st.EXECUTOR_ID AS packingTaskUserId,
+	        st.CREATE_TIME as packingTaskCreateTime,
+	        st.START_TIME as packingTaskStartTime,
+	        st.FINISH_TIME as packingTaskEndTime,
+	        u.realname AS packingTaskUsername,
+	        st.TASK_STATUS as packingTaskStatus,
+	        stsdp.show_value as packingTaskStatusDesc,
+	        ce.express_name,
+	        users.realname as manager_name,
+	        createUser.realname as create_user,
+	        pay2.`AMOUNT` AS otherPayAmount,
+        	tb.*
+        from tb_return_order main
+        left join tb_order tb on tb.order_no = main.order_no
+        
+        LEFT JOIN sys_users createUser ON createUser.id = tb.create_user_id
+        
+        LEFT JOIN sys_dictionary s on s.DICTIONARY_CODE='ORDER_TYPE'
+        left join sys_dictionary_parameter sp on sp.SYS_DICTIONARY_ID=s.ID and tb.ORDER_TYPE = sp.REAL_VALUE
+
+        LEFT JOIN sys_dictionary ss on ss.DICTIONARY_CODE='ORDER_STATUS'
+        left join sys_dictionary_parameter ssp on ssp.SYS_DICTIONARY_ID=ss.ID and tb.ORDER_STATUS = ssp.REAL_VALUE
+
+        LEFT JOIN sys_dictionary payment on payment.DICTIONARY_CODE='PAYMENT_MODE'
+        left join sys_dictionary_parameter paymentp on paymentp.SYS_DICTIONARY_ID=payment.ID and tb.PAYMENT_MODE = paymentp.REAL_VALUE
+        
+		LEFT JOIN sys_dictionary payment2 on payment2.DICTIONARY_CODE='PAYMENT_MODE'
+        left join sys_dictionary_parameter paymentp2 on paymentp2.SYS_DICTIONARY_ID=payment2.ID and tb.`OTHER_PAYMENT_MODE` = paymentp2.REAL_VALUE
+
+        LEFT JOIN sys_dictionary oss on oss.DICTIONARY_CODE='ORDER_SOURCE'
+        left join sys_dictionary_parameter osp on osp.SYS_DICTIONARY_ID=oss.ID and tb.ORDER_SOURCE = osp.REAL_VALUE
+
+		left join `tb_trade_record` pay2 on pay2.`TRADE_NO` = tb.`ORDER_NO` and pay2.`TRADE_TYPE` = tb.`OTHER_PAYMENT_MODE`
+
+        LEFT JOIN tb_order_relation tor ON tor.ORDER_NO = tb.ORDER_NO AND tor.REF_TYPE = 'ORDER_PACKING_TASK_RELATION'
+        LEFT JOIN tb_order_relation torp ON torp.ORDER_NO = tb.ORDER_NO AND torp.REF_TYPE = 'ORDER_PAY_RELATION'
+        LEFT JOIN sys_task st on st.ID= tor.REF_VALUE
+        LEFT JOIN sys_users u ON u.id = st.EXECUTOR_ID
+        LEFT JOIN sys_dictionary stsd on stsd.DICTIONARY_CODE='JOB_STATUS'
+        left join sys_dictionary_parameter stsdp on stsdp.SYS_DICTIONARY_ID=stsd.ID and st.TASK_STATUS = stsdp.REAL_VALUE
+        left join cd_express ce on tb.despatch_express_id = ce.id
+        left join sys_users users on users.id = tb.MANAGER_ID
+        
+        LEFT JOIN sys_users audit_return_user ON audit_return_user.id = main.audit_user_id
+        LEFT JOIN cd_express_member express_user ON express_user.id = main.take_goods_user_id
+        <where>
+<!--             <if test="returnStatus"> -->
+<!--                   AND main.return_status = #{returnStatus} -->
+<!--             </if> -->
+            <if test="keyword">
+                AND (tb.order_no LIKE CONCAT('%', #{keyword}, '%')
+                or tb.consignee_phone LIKE CONCAT('%', #{keyword}, '%')
+                or tb.consignee_name like CONCAT('%', #{keyword}, '%')
+                )
+            </if>
+<!--             <if test="id"> -->
+<!--                 AND tb.id = #{id} -->
+<!--             </if> -->
+<!--              <if test="managerId"> -->
+<!--                 AND tb.MANAGER_ID = #{managerId} -->
+<!--             </if> -->
+<!--              <if test="consigneeName"> -->
+<!--                 AND tb.consignee_name LIKE CONCAT('%', #{consigneeName}, '%') -->
+<!--             </if> -->
+<!--             <if test="orderNo"> -->
+<!--                 AND tb.ORDER_NO = #{orderNo} -->
+<!--             </if> -->
+<!--             <if test="hasNoShowCancel"> -->
+<!--                 AND tb.order_status != 9 -->
+<!--             </if> -->
+<!--            	<if test="showDespatch == 1"> -->
+<!-- 				AND tb.despatch_express_id is not null -->
+<!--            	</if> -->
+<!--            	 <if test="showDespatch == 0"> -->
+<!-- 				AND tb.despatch_express_id is null -->
+<!--            	</if> -->
+         
+<!--             <if test="returnTimeStart"> -->
+<!--                 <![CDATA[ -->
+<!--                   AND DATE_FORMAT(main.RETURN_TIME ,'%Y-%m-%d')>= #{returnTimeStart} -->
+<!--                 ]]> -->
+<!--             </if> -->
+<!--             <if test="returnTimeEnd"> -->
+<!--                 <![CDATA[ -->
+<!--                   AND DATE_FORMAT(main.CREATE_TIME ,'%Y-%m-%d')<= #{returnTimeEnd} -->
+<!--                 ]]> -->
+<!--             </if> -->
+           
+<!--             <if test="createUserId"> -->
+<!--             	AND tb.create_user_id = #{createUserId} -->
+<!--             </if> -->
+<!--             <if test="despatchExpressId"> -->
+<!--             	AND tb.DESPATCH_EXPRESS_ID = #{despatchExpressId} -->
+<!--             </if> -->
+          </where>
+          order by main.return_time desc
+    </select>
+</mapper>

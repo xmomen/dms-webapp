@@ -9,6 +9,7 @@
         sp.SHOW_VALUE AS orderTypeDesc,
         ssp.SHOW_VALUE AS orderStatusDesc,
         paymentp.SHOW_VALUE AS paymentModeDesc,
+        paymentp2.`SHOW_VALUE` as otherPaymentModeDesc,
         osp.SHOW_VALUE AS orderSourceDesc,
         st.EXECUTOR_ID AS packingTaskUserId,
         st.CREATE_TIME as packingTaskCreateTime,
@@ -20,6 +21,8 @@
         ce.express_name,
         users.realname as manager_name,
         createUser.realname as create_user,
+        pay2.`AMOUNT` AS otherPayAmount,
+        receiving_code.ref_value as receivingCode,
         tb.*
         FROM
         tb_order tb
@@ -34,9 +37,14 @@
 
         LEFT JOIN sys_dictionary payment on payment.DICTIONARY_CODE='PAYMENT_MODE'
         left join sys_dictionary_parameter paymentp on paymentp.SYS_DICTIONARY_ID=payment.ID and tb.PAYMENT_MODE = paymentp.REAL_VALUE
+        
+		LEFT JOIN sys_dictionary payment2 on payment2.DICTIONARY_CODE='PAYMENT_MODE'
+        left join sys_dictionary_parameter paymentp2 on paymentp2.SYS_DICTIONARY_ID=payment2.ID and tb.`OTHER_PAYMENT_MODE` = paymentp2.REAL_VALUE
 
         LEFT JOIN sys_dictionary oss on oss.DICTIONARY_CODE='ORDER_SOURCE'
         left join sys_dictionary_parameter osp on osp.SYS_DICTIONARY_ID=oss.ID and tb.ORDER_SOURCE = osp.REAL_VALUE
+
+		left join `tb_trade_record` pay2 on pay2.`TRADE_NO` = tb.`ORDER_NO` and pay2.`TRADE_TYPE` = tb.`OTHER_PAYMENT_MODE`
 
         LEFT JOIN tb_order_relation tor ON tor.ORDER_NO = tb.ORDER_NO AND tor.REF_TYPE = 'ORDER_PACKING_TASK_RELATION'
         LEFT JOIN tb_order_relation torp ON torp.ORDER_NO = tb.ORDER_NO AND torp.REF_TYPE = 'ORDER_PAY_RELATION'
@@ -47,6 +55,8 @@
         left join cd_express ce on tb.despatch_express_id = ce.id
         
         left join sys_users users on users.id = tb.MANAGER_ID
+        
+        left join tb_order_ref receiving_code on receiving_code.order_no = tb.order_no and receiving_code.ref_type = 'SHOU_HUO_NO'
         <where>
             <if test="orderStatus">
                   AND tb.order_status = #{orderStatus}
@@ -132,6 +142,9 @@
             <if test="despatchExpressId">
             	AND tb.DESPATCH_EXPRESS_ID = #{despatchExpressId}
             </if>
+             <if test="isTwoSend">
+            	AND tb.is_two_send = #{isTwoSend}
+            </if>
           </where>
           order by tb.CREATE_TIME desc
     </select>
@@ -165,6 +178,7 @@
 
  		LEFT JOIN sys_dictionary payment2 on payment2.DICTIONARY_CODE='PAYMENT_MODE'
         left join sys_dictionary_parameter paymentp2 on paymentp2.SYS_DICTIONARY_ID=payment2.ID and tb.`OTHER_PAYMENT_MODE` = paymentp2.REAL_VALUE
+        
         left join `tb_trade_record` pay on pay.`TRADE_NO` = tb.`ORDER_NO` and (pay.`TRADE_TYPE` = 'CARD' || pay.`TRADE_TYPE` = 'COUPON')
         left join `tb_trade_record` pay2 on pay2.`TRADE_NO` = tb.`ORDER_NO` and pay2.`TRADE_TYPE` = tb.`OTHER_PAYMENT_MODE`
 
@@ -582,6 +596,7 @@
         stsdp.show_value as packingTaskStatusDesc,
         ce.express_name,
         users.realname as manager_name,
+        pay2.`AMOUNT` AS otherPayAmount,
         tb.*
         FROM
         tb_order tb
@@ -596,7 +611,9 @@
 
         LEFT JOIN sys_dictionary oss on oss.DICTIONARY_CODE='ORDER_SOURCE'
         left join sys_dictionary_parameter osp on osp.SYS_DICTIONARY_ID=oss.ID and tb.ORDER_SOURCE = osp.REAL_VALUE
-
+		
+		left join `tb_trade_record` pay2 on pay2.`TRADE_NO` = tb.`ORDER_NO` and pay2.`TRADE_TYPE` = tb.`OTHER_PAYMENT_MODE`
+		
         LEFT JOIN tb_order_relation tor ON tor.ORDER_NO = tb.ORDER_NO AND tor.REF_TYPE = 'ORDER_PACKING_TASK_RELATION'
         LEFT JOIN tb_order_relation torp ON torp.ORDER_NO = tb.ORDER_NO AND torp.REF_TYPE = 'ORDER_PAY_RELATION'
         LEFT JOIN sys_task st on st.ID= tor.REF_VALUE

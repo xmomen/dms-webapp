@@ -31,6 +31,16 @@ public class TbReturnOrderItem extends BaseMybatisModel {
      */
     private Integer itemNumber;
 
+    /**
+     * 商品名称
+     */
+    private String itemName;
+
+    /**
+     * 0-不需要 1-需要
+     */
+    private Integer isNeed;
+
     @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
@@ -87,5 +97,33 @@ public class TbReturnOrderItem extends BaseMybatisModel {
               return;
         }
         addValidField("itemNumber");
+    }
+
+    @Column(name = "ITEM_NAME")
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+        if(itemName == null){
+              removeValidField("itemName");
+              return;
+        }
+        addValidField("itemName");
+    }
+
+    @Column(name = "IS_NEED")
+    public Integer getIsNeed() {
+        return isNeed;
+    }
+
+    public void setIsNeed(Integer isNeed) {
+        this.isNeed = isNeed;
+        if(isNeed == null){
+              removeValidField("isNeed");
+              return;
+        }
+        addValidField("isNeed");
     }
 }

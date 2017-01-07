@@ -1816,6 +1816,246 @@ public class TbOrderExample extends BaseMybatisExample {
             addCriterion("EXPRESS_SCAN_BOX_NUM not between", value1, value2, "expressScanBoxNum");
             return (Criteria) this;
         }
+
+        public Criteria andXiajiaIsNull() {
+            addCriterion("XIAJIA is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXiajiaIsNotNull() {
+            addCriterion("XIAJIA is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXiajiaEqualTo(Integer value) {
+            addCriterion("XIAJIA =", value, "xiajia");
+            return (Criteria) this;
+        }
+
+        public Criteria andXiajiaNotEqualTo(Integer value) {
+            addCriterion("XIAJIA <>", value, "xiajia");
+            return (Criteria) this;
+        }
+
+        public Criteria andXiajiaGreaterThan(Integer value) {
+            addCriterion("XIAJIA >", value, "xiajia");
+            return (Criteria) this;
+        }
+
+        public Criteria andXiajiaGreaterThanOrEqualTo(Integer value) {
+            addCriterion("XIAJIA >=", value, "xiajia");
+            return (Criteria) this;
+        }
+
+        public Criteria andXiajiaLessThan(Integer value) {
+            addCriterion("XIAJIA <", value, "xiajia");
+            return (Criteria) this;
+        }
+
+        public Criteria andXiajiaLessThanOrEqualTo(Integer value) {
+            addCriterion("XIAJIA <=", value, "xiajia");
+            return (Criteria) this;
+        }
+
+        public Criteria andXiajiaIn(List<Integer> values) {
+            addCriterion("XIAJIA in", values, "xiajia");
+            return (Criteria) this;
+        }
+
+        public Criteria andXiajiaNotIn(List<Integer> values) {
+            addCriterion("XIAJIA not in", values, "xiajia");
+            return (Criteria) this;
+        }
+
+        public Criteria andXiajiaBetween(Integer value1, Integer value2) {
+            addCriterion("XIAJIA between", value1, value2, "xiajia");
+            return (Criteria) this;
+        }
+
+        public Criteria andXiajiaNotBetween(Integer value1, Integer value2) {
+            addCriterion("XIAJIA not between", value1, value2, "xiajia");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTwoSendIsNull() {
+            addCriterion("IS_TWO_SEND is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTwoSendIsNotNull() {
+            addCriterion("IS_TWO_SEND is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTwoSendEqualTo(Integer value) {
+            addCriterion("IS_TWO_SEND =", value, "isTwoSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTwoSendNotEqualTo(Integer value) {
+            addCriterion("IS_TWO_SEND <>", value, "isTwoSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTwoSendGreaterThan(Integer value) {
+            addCriterion("IS_TWO_SEND >", value, "isTwoSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTwoSendGreaterThanOrEqualTo(Integer value) {
+            addCriterion("IS_TWO_SEND >=", value, "isTwoSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTwoSendLessThan(Integer value) {
+            addCriterion("IS_TWO_SEND <", value, "isTwoSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTwoSendLessThanOrEqualTo(Integer value) {
+            addCriterion("IS_TWO_SEND <=", value, "isTwoSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTwoSendIn(List<Integer> values) {
+            addCriterion("IS_TWO_SEND in", values, "isTwoSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTwoSendNotIn(List<Integer> values) {
+            addCriterion("IS_TWO_SEND not in", values, "isTwoSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTwoSendBetween(Integer value1, Integer value2) {
+            addCriterion("IS_TWO_SEND between", value1, value2, "isTwoSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTwoSendNotBetween(Integer value1, Integer value2) {
+            addCriterion("IS_TWO_SEND not between", value1, value2, "isTwoSend");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditDateIsNull() {
+            addCriterion("TWO_SEND_AUDIT_DATE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditDateIsNotNull() {
+            addCriterion("TWO_SEND_AUDIT_DATE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditDateEqualTo(Date value) {
+            addCriterion("TWO_SEND_AUDIT_DATE =", value, "twoSendAuditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditDateNotEqualTo(Date value) {
+            addCriterion("TWO_SEND_AUDIT_DATE <>", value, "twoSendAuditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditDateGreaterThan(Date value) {
+            addCriterion("TWO_SEND_AUDIT_DATE >", value, "twoSendAuditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("TWO_SEND_AUDIT_DATE >=", value, "twoSendAuditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditDateLessThan(Date value) {
+            addCriterion("TWO_SEND_AUDIT_DATE <", value, "twoSendAuditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditDateLessThanOrEqualTo(Date value) {
+            addCriterion("TWO_SEND_AUDIT_DATE <=", value, "twoSendAuditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditDateIn(List<Date> values) {
+            addCriterion("TWO_SEND_AUDIT_DATE in", values, "twoSendAuditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditDateNotIn(List<Date> values) {
+            addCriterion("TWO_SEND_AUDIT_DATE not in", values, "twoSendAuditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditDateBetween(Date value1, Date value2) {
+            addCriterion("TWO_SEND_AUDIT_DATE between", value1, value2, "twoSendAuditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditDateNotBetween(Date value1, Date value2) {
+            addCriterion("TWO_SEND_AUDIT_DATE not between", value1, value2, "twoSendAuditDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditUserIdIsNull() {
+            addCriterion("TWO_SEND_AUDIT_USER_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditUserIdIsNotNull() {
+            addCriterion("TWO_SEND_AUDIT_USER_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditUserIdEqualTo(Integer value) {
+            addCriterion("TWO_SEND_AUDIT_USER_ID =", value, "twoSendAuditUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditUserIdNotEqualTo(Integer value) {
+            addCriterion("TWO_SEND_AUDIT_USER_ID <>", value, "twoSendAuditUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditUserIdGreaterThan(Integer value) {
+            addCriterion("TWO_SEND_AUDIT_USER_ID >", value, "twoSendAuditUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("TWO_SEND_AUDIT_USER_ID >=", value, "twoSendAuditUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditUserIdLessThan(Integer value) {
+            addCriterion("TWO_SEND_AUDIT_USER_ID <", value, "twoSendAuditUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("TWO_SEND_AUDIT_USER_ID <=", value, "twoSendAuditUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditUserIdIn(List<Integer> values) {
+            addCriterion("TWO_SEND_AUDIT_USER_ID in", values, "twoSendAuditUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditUserIdNotIn(List<Integer> values) {
+            addCriterion("TWO_SEND_AUDIT_USER_ID not in", values, "twoSendAuditUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("TWO_SEND_AUDIT_USER_ID between", value1, value2, "twoSendAuditUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTwoSendAuditUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("TWO_SEND_AUDIT_USER_ID not between", value1, value2, "twoSendAuditUserId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -9,10 +9,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
+import com.xmomen.framework.utils.StringUtils;
+import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.module.base.entity.CdBind;
 import com.xmomen.module.base.entity.CdExpressMember;
 import com.xmomen.module.base.entity.CdMember;
 import com.xmomen.module.order.entity.TbOrder;
+import com.xmomen.module.wx.model.AjaxResult;
 
 /**
  * Created by Jeng on 2016/3/30.
@@ -111,13 +114,25 @@ public class BindService {
 	 * @return
 	 */
 	@Transactional
-	public boolean orderShouhuo(String openId,String orderNo){
+	public AjaxResult orderShouhuo(String openId,String orderNo,String shouhuoNo,AjaxResult ajaxResult){
 		TbOrder order = new TbOrder();
 		order.setOrderNo(orderNo);
 		order = mybatisDao.selectOneByModel(order);
-		//收货状态
-		order.setOrderStatus("6");
+		//不等于配送中 不能再收货
+		if(!order.getOrderStatus().equals("5")){
+			ajaxResult.setResult(0);
+			ajaxResult.setMessage("订单状态不对，不能收货。");
+			return ajaxResult;
+		}
+		
+		if(StringUtilsExt.isNotBlank(shouhuoNo)){
+			order.setOrderStatus("7");
+		}else{
+			order.setOrderStatus("6");
+		}
+		ajaxResult.setResult(1);
+		ajaxResult.setMessage("收货成功。");
 		mybatisDao.save(order);
-		return true;
+		return ajaxResult;
 	}
 }

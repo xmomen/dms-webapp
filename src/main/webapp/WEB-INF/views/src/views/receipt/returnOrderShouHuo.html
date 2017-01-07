@@ -1,0 +1,102 @@
+<!--
+	The ID "widget-grid" will start to initialize all widgets below 
+	You do not need to use widgets if you dont want to. Simply remove 
+	the <section></section> and you can use wells or panels instead 
+	-->
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-4">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>退货收货操作</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+            <fieldset class="demo-switcher-1">
+                <legend>工作区</legend>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <div class="input-group input-group-md">
+                            <input type="text"  ng-model="boxNo" ng-keyup="saoOrderNoEvent($event);"  placeholder="扫描面单上的条形码"  name="boxNo" class="form-control" id="boxNo">
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+                        </div>
+                    </div>
+                </div>
+        </article>
+
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-4">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>退货商品信息</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th colspan="8">退货商品<span class="vaild">*</span></th>
+                                </tr>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>商品编码</th>
+                                    <th>商品名称</th>
+                                    <th class="text-align-right">退货份数</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="returnOrderItem in returnOrderItemList">
+                                    <td ng-bind="$index + 1"></td>
+                                    <td>{{returnOrderItem.itemCode}}</td>
+                                    <td>{{returnOrderItem.itemName}}</td>
+                                    <td class="text-align-right">{{returnOrderItem.itemNumber | number:2}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="dt-toolbar-footer">
+                            <div class="col-sm-2" ng-if="returnOrderItemList.length > 0">
+                                <button class="btn btn-primary" type="button" data-ng-click="shouhuo()">
+                                    <i class="fa fa-check"></i>
+                                    确认收货
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+            <!-- end widget -->
+        </article>
+	</div>
+
+	<!-- end row -->
+
+</section>
+<!-- end widget grid -->

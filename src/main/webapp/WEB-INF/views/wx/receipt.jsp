@@ -42,6 +42,7 @@
 										<div id="collapseOne" class="accordion-body collapse in">
 											<div class="accordion-inner">
 												<div class="well well-large">
+													<span>订单编号:<strong>${orderInfo.orderNo}</strong></span><br>
 													<span>订购人姓名:<strong>${orderInfo.consigneeName}</strong></span><br>
 													<span>电话:<strong>${orderInfo.consigneePhone}</strong></span><br>
 													<span>地址:<strong>${orderInfo.consigneeAddress}</strong></span><br>
@@ -84,22 +85,35 @@
 									</div>
 								</div>
 							</fieldset>
-							<c:if test="${express == 0}">
+							<c:if test="${express == 1}">
 								<fieldset>
 									<section>
 										<label class="label">收货码</label> <label class="input">
-										 <input type="text" name="shouhuoNo" id="shouhuoNo"> 
+											<input type="text" name="shouhuoNo" id="shouhuoNo">
 										</label>
 									</section>
 								</fieldset>
 							</c:if>
 
 							<input type="hidden" id="openId" name="openId" value="${openId}">
+							<input type="hidden" id="phone" name="phone" value="${phone}">
+							<input type="hidden" id="orderNo" name="orderNo" value="${orderInfo.orderNo}"> 
+							<input type="hidden" id="express" name="express" value="${express}">
+							<input type="hidden" id="expressId" name="expressId" value="${expressId}">
 							<div class="error">${message}</div>
-							<footer>
-								<button type="button" onclick="shouhuoEvent();" class="btn btn-primary">确认收货</button>
-							</footer>
 						</form>
+						<footer id="footer">
+							<c:if test="${express == 1}">
+								<button type="button" onclick="shouhuoRequest();"
+									class="btn btn-primary">获取收货码</button>
+								<button type="button" onclick="twoPeiSong();"
+									class="btn btn-primary">二次配送</button>
+							</c:if>
+							<button type="button" onclick="shouhuoEvent();"
+								class="btn btn-primary">确认收货</button>
+							<button type="button" onclick="returnOrder();"
+								class="btn btn-primary">拒收&退货</button>
+						</footer>
 					</div>
 				</div>
 			</div>
@@ -107,38 +121,106 @@
 	</div>
 	<script>
 		if (!window.jQuery) {
-			document
-					.write('<script src="${webRoot}/js/libs/jquery-2.0.2.min.js"><\/script>');
+			document.write('<script src="${webRoot}/js/libs/jquery-2.0.2.min.js"><\/script>');
 		}
 	</script>
 	<script>
 		if (!window.jQuery.ui) {
-			document
-					.write('<script src="${webRoot}/js/libs/jquery-ui-1.10.3.min.js"><\/script>');
+			document.write('<script src="${webRoot}/js/libs/jquery-ui-1.10.3.min.js"><\/script>');
 		}
 	</script>
 
 	<!-- BOOTSTRAP JS -->
 	<script src="${webRoot}/js/bootstrap/bootstrap.min.js"></script>
 	<script type="text/javascript">
+		//收货操作
 		function shouhuoEvent(){
-			var express = ${express};
+			var express = $("#express").val();
 			var shouhuoNo = $("#shouhuoNo").val();
 			var openId = $("#openId").val();
-			var orderNo = ${orderInfo.orderNo};
-			if(express == 0 && !shouhuoNo){
+			var orderNo =$("#orderNo").val();
+			var url = "";
+			if(express == 1 && (shouhuoNo == null || shouhuoNo == "" || shouhuoNo == undefined || shouhuoNo == "undefined")){
 				alert("请输入收货码");
 				return ;
 			}
+			url = "/wx/shouhuo?openId="+openId+"&orderNo="+orderNo;
+			if(express == 1){
+				url +="&shouhuoNo="+shouhuoNo;
+			}
+			
 			$.ajax({
-			    url:"/wx/shouhuo?openId="+openId+"shouhuoNo="+shouhuoNo+"&orderNo="+orderNo,
+			    url:url,
 				type:"get",
 			    dataType:"json",
 			    success:function(data){
-			    	if(!data){
-			    		alert("收货码错误");
+			    	if(data.result == 1){
+			    		alert(data.message);
+			    		//按钮隐藏
+			    		$("#footer").hide();
+			    	}
+			    	else{
+			    		alert(data.message);
 			    	}
 			  }
+			});
+		}
+		
+		//收货码请求
+		function shouhuoRequest(){
+			var phone = $("#phone").val();
+			var openId = $("#openId").val();
+			var orderNo =$("#orderNo").val();
+			$.ajax({
+			    url:"/wx/shouhuoRequest?openId="+openId+"&phone="+phone+"&orderNo="+orderNo,
+				type:"get",
+			    dataType:"json",
+			    success:function(data){
+			    	alert("请求发送成功!");
+			  }
+			});
+		}
+		
+		//二次配送
+		function twoPeiSong(){
+			var phone = $("#phone").val();
+			var orderNo =$("#orderNo").val();
+			$.ajax({
+				url:"/wx/twoPeiSong?orderNo="+orderNo+"&phone="+phone,
+				type:"get",
+			    dataType:"json",
+			    success:function(data){
+			    	if(data.result == 1){
+			    		alert(data.message);
+			    		//按钮隐藏
+			    		$("#footer").hide();
+			    	}
+			    	else{
+			    		alert(data.message);
+			    	}
+			  }		
+			});
+		}
+		
+		//拒收 退货
+		function returnOrder(){
+			var phone = $("#phone").val();
+			var orderNo =$("#orderNo").val();
+			var expressId =$("#expressId").val();
+			$.ajax({
+				url:"/wx/refuse?orderNo="+orderNo+"&phone="+phone+"&expressId="+expressId,
+				type:"get",
+			    dataType:"json",
+			    success:function(data){
+			    	if(data.result == 1){
+			    		alert(data.message);
+			    		//按钮隐藏
+			    		$("#footer").hide();
+			    	}
+			    	else{
+			    		alert(data.message);
+			    	}
+			  }		
 			});
 		}
 	</script>

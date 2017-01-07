@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.receipt.mapper.ReceivingCodeRequestMapper" >
+
+    <!--    查询消息    -->
+    <select id="getReceivingCodeRequestList" resultType="com.xmomen.module.receipt.model.ReceivingCodeRequestModel" parameterType="java.util.HashMap">
+       select 
+       	express.express_name,
+       	receiving_code.ref_value as receivingCode,
+       	tborder.consignee_name,
+       	main.*
+       from tb_receiving_code_request main
+       left join cd_express express on express.id = main.request_express_id
+       left join tb_order_ref receiving_code on receiving_code.order_no = main.order_no and receiving_code.ref_type = 'SHOU_HUO_NO'
+       left join tb_order tborder on tborder.order_no = main.order_no
+		<where>
+              <if test="keyword">
+                  AND main.request_phone LIKE CONCAT('%', #{keyword}, '%')
+                   or main.request_user LIKE CONCAT('%', #{keyword}, '%')
+              </if>
+              <if test="orderNo">
+                  AND main.order_no LIKE CONCAT('%', #{orderNo}, '%')
+              </if>
+               <if test="requestTimeStart">
+                <![CDATA[
+                  AND DATE_FORMAT(main.request_time ,'%Y-%m-%d')>= #{requestTimeStart}
+                ]]>
+            	</if>
+	            <if test="requestTimeEnd">
+	                <![CDATA[
+	                  AND DATE_FORMAT(main.request_time ,'%Y-%m-%d')<= #{requestTimeEnd}
+	                ]]>
+	            </if>
+        </where>
+        order by main.request_time desc
+    </select>
+</mapper>
+

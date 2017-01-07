@@ -314,7 +314,32 @@ define(function () {
                 method:"POST",
                 url:"/order/updateTotalBox",
                 params:{orderNo:"@orderNo",totalBox:"@totalBox"}
-            }
+            },
+            auditTwoSend:{method:"POST",url:"/order/:id/twoSend",params:{id:"@id",auditStatusCd:"@auditStatusCd"}}
+        });
+    }]);
+
+    ngREST.factory("ReturnOrderAPI", ["$resource", function($resource){
+        return $resource("/returnOrder/:id", { id:"@id"}, {
+            query:{ isArray:false},
+            getItemList:{
+                method:"GET",
+                url:"/returnOrder/:id/item",
+                params:{id:"@id"}
+            },
+            auditReturnOrder:{
+                method:"POST",url:"/returnOrder/:id/audit",
+                params:{
+                    id:"@id",
+                    statusCd:"@statusCd"
+                }
+            },
+            returnOrderShouhuo:{method:"PUT",url:"/returnOrder/returnOrderShouhuo", params:{
+                boxNo:"@boxNo"
+            }},
+            shouhuo:{method:"PUT",url:"/returnOrder/shouhuo", params:{
+                orderNo:"@orderNo"
+            }}
         });
     }]);
 
@@ -446,4 +471,9 @@ define(function () {
         });
     }]);
 
+    ngREST.factory("ReceivingCodeRequestAPI", ["$resource", function($resource){
+        return $resource("/receivingCodeRequest/:id", { id:"@id" }, {
+            query:{ isArray:false}
+        });
+    }]);
 });

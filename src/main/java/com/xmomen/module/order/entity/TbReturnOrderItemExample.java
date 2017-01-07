@@ -354,6 +354,136 @@ public class TbReturnOrderItemExample extends BaseMybatisExample {
             addCriterion("ITEM_NUMBER not between", value1, value2, "itemNumber");
             return (Criteria) this;
         }
+
+        public Criteria andItemNameIsNull() {
+            addCriterion("ITEM_NAME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNameIsNotNull() {
+            addCriterion("ITEM_NAME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNameEqualTo(String value) {
+            addCriterion("ITEM_NAME =", value, "itemName");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNameNotEqualTo(String value) {
+            addCriterion("ITEM_NAME <>", value, "itemName");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNameGreaterThan(String value) {
+            addCriterion("ITEM_NAME >", value, "itemName");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNameGreaterThanOrEqualTo(String value) {
+            addCriterion("ITEM_NAME >=", value, "itemName");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNameLessThan(String value) {
+            addCriterion("ITEM_NAME <", value, "itemName");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNameLessThanOrEqualTo(String value) {
+            addCriterion("ITEM_NAME <=", value, "itemName");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNameLike(String value) {
+            addCriterion("ITEM_NAME like", value, "itemName");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNameNotLike(String value) {
+            addCriterion("ITEM_NAME not like", value, "itemName");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNameIn(List<String> values) {
+            addCriterion("ITEM_NAME in", values, "itemName");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNameNotIn(List<String> values) {
+            addCriterion("ITEM_NAME not in", values, "itemName");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNameBetween(String value1, String value2) {
+            addCriterion("ITEM_NAME between", value1, value2, "itemName");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemNameNotBetween(String value1, String value2) {
+            addCriterion("ITEM_NAME not between", value1, value2, "itemName");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNeedIsNull() {
+            addCriterion("IS_NEED is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNeedIsNotNull() {
+            addCriterion("IS_NEED is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNeedEqualTo(Integer value) {
+            addCriterion("IS_NEED =", value, "isNeed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNeedNotEqualTo(Integer value) {
+            addCriterion("IS_NEED <>", value, "isNeed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNeedGreaterThan(Integer value) {
+            addCriterion("IS_NEED >", value, "isNeed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNeedGreaterThanOrEqualTo(Integer value) {
+            addCriterion("IS_NEED >=", value, "isNeed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNeedLessThan(Integer value) {
+            addCriterion("IS_NEED <", value, "isNeed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNeedLessThanOrEqualTo(Integer value) {
+            addCriterion("IS_NEED <=", value, "isNeed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNeedIn(List<Integer> values) {
+            addCriterion("IS_NEED in", values, "isNeed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNeedNotIn(List<Integer> values) {
+            addCriterion("IS_NEED not in", values, "isNeed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNeedBetween(Integer value1, Integer value2) {
+            addCriterion("IS_NEED between", value1, value2, "isNeed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNeedNotBetween(Integer value1, Integer value2) {
+            addCriterion("IS_NEED not between", value1, value2, "isNeed");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

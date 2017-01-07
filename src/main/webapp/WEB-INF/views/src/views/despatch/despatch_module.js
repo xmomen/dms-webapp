@@ -4,9 +4,8 @@
 define([
     "views/despatch/despatchJob",
     "views/despatch/despatchSuccessList",
-    "views/despatch/takeDelivery",
-    "views/despatch/reviewDespatch"
-],function (despatchJob,despatchSuccessList,takeDelivery,reviewDespatch) {
+    "views/despatch/takeDelivery"
+],function (despatchJob,despatchSuccessList,takeDelivery) {
     angular.module('DMS.despatch', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -46,16 +45,6 @@ define([
                 },
                 controller: takeDelivery
             })
-            .state('reviewDespatch', {
-                url: '/reviewDespatch',
-                templateUrl: 'views/despatch/reviewDespatch.html',
-                data:{
-                    permissions:{
-                        only:["REVIEW_DESPATCH"],
-                        redirectTo:"unauthorized"
-                    }
-                },
-                controller: reviewDespatch
-            })
+
     }]);
 });

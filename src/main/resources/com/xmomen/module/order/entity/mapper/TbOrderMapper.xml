@@ -29,6 +29,10 @@
     <result column="BATCH_NO" property="batchNo" jdbcType="VARCHAR" />
     <result column="TOTAL_BOX_NUM" property="totalBoxNum" jdbcType="INTEGER" />
     <result column="EXPRESS_SCAN_BOX_NUM" property="expressScanBoxNum" jdbcType="INTEGER" />
+    <result column="XIAJIA" property="xiajia" jdbcType="INTEGER" />
+    <result column="IS_TWO_SEND" property="isTwoSend" jdbcType="INTEGER" />
+    <result column="TWO_SEND_AUDIT_DATE" property="twoSendAuditDate" jdbcType="TIMESTAMP" />
+    <result column="TWO_SEND_AUDIT_USER_ID" property="twoSendAuditUserId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -93,7 +97,7 @@
     ORDER_STATUS, PAY_STATUS, CONSIGNEE_PHONE, CONSIGNEE_NAME, CONSIGNEE_ADDRESS, POSTCODE, 
     TRANSPORT_MODE, REMARK, DISCOUNT_PRICE, TOTAL_AMOUNT, CREATE_TIME, APPOINTMENT_TIME, 
     CREATE_USER_ID, DESPATCH_EXPRESS_ID, EXPRESS_MEMBER_ID, COMPANY_ID, MANAGER_ID, BATCH_NO, 
-    TOTAL_BOX_NUM, EXPRESS_SCAN_BOX_NUM
+    TOTAL_BOX_NUM, EXPRESS_SCAN_BOX_NUM, XIAJIA, IS_TWO_SEND, TWO_SEND_AUDIT_DATE, TWO_SEND_AUDIT_USER_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbOrderExample" >
     select
@@ -199,6 +203,18 @@
       <if test="expressScanBoxNum != null" >
         EXPRESS_SCAN_BOX_NUM,
       </if>
+      <if test="xiajia != null" >
+        XIAJIA,
+      </if>
+      <if test="isTwoSend != null" >
+        IS_TWO_SEND,
+      </if>
+      <if test="twoSendAuditDate != null" >
+        TWO_SEND_AUDIT_DATE,
+      </if>
+      <if test="twoSendAuditUserId != null" >
+        TWO_SEND_AUDIT_USER_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -281,6 +297,18 @@
       </if>
       <if test="expressScanBoxNum != null" >
         #{expressScanBoxNum,jdbcType=INTEGER},
+      </if>
+      <if test="xiajia != null" >
+        #{xiajia,jdbcType=INTEGER},
+      </if>
+      <if test="isTwoSend != null" >
+        #{isTwoSend,jdbcType=INTEGER},
+      </if>
+      <if test="twoSendAuditDate != null" >
+        #{twoSendAuditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="twoSendAuditUserId != null" >
+        #{twoSendAuditUserId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -373,6 +401,18 @@
       </if>
       <if test="record.expressScanBoxNum != null" >
         EXPRESS_SCAN_BOX_NUM = #{record.expressScanBoxNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.xiajia != null" >
+        XIAJIA = #{record.xiajia,jdbcType=INTEGER},
+      </if>
+      <if test="record.isTwoSend != null" >
+        IS_TWO_SEND = #{record.isTwoSend,jdbcType=INTEGER},
+      </if>
+      <if test="record.twoSendAuditDate != null" >
+        TWO_SEND_AUDIT_DATE = #{record.twoSendAuditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.twoSendAuditUserId != null" >
+        TWO_SEND_AUDIT_USER_ID = #{record.twoSendAuditUserId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >
