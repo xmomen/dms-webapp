@@ -786,6 +786,66 @@ public class TbReturnOrderExample extends BaseMybatisExample {
             addCriterion("RETURN_TOTAL_AMOUNT not between", value1, value2, "returnTotalAmount");
             return (Criteria) this;
         }
+
+        public Criteria andIsNormalIsNull() {
+            addCriterion("IS_NORMAL is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNormalIsNotNull() {
+            addCriterion("IS_NORMAL is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNormalEqualTo(Integer value) {
+            addCriterion("IS_NORMAL =", value, "isNormal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNormalNotEqualTo(Integer value) {
+            addCriterion("IS_NORMAL <>", value, "isNormal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNormalGreaterThan(Integer value) {
+            addCriterion("IS_NORMAL >", value, "isNormal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNormalGreaterThanOrEqualTo(Integer value) {
+            addCriterion("IS_NORMAL >=", value, "isNormal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNormalLessThan(Integer value) {
+            addCriterion("IS_NORMAL <", value, "isNormal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNormalLessThanOrEqualTo(Integer value) {
+            addCriterion("IS_NORMAL <=", value, "isNormal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNormalIn(List<Integer> values) {
+            addCriterion("IS_NORMAL in", values, "isNormal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNormalNotIn(List<Integer> values) {
+            addCriterion("IS_NORMAL not in", values, "isNormal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNormalBetween(Integer value1, Integer value2) {
+            addCriterion("IS_NORMAL between", value1, value2, "isNormal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsNormalNotBetween(Integer value1, Integer value2) {
+            addCriterion("IS_NORMAL not between", value1, value2, "isNormal");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

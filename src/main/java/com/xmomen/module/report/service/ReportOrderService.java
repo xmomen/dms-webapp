@@ -12,6 +12,7 @@ import com.xmomen.module.receipt.mapper.ReturnOrderMapper;
 import com.xmomen.module.receipt.model.ReturnOrderModel;
 import com.xmomen.module.receipt.model.ReturnOrderQuery;
 import com.xmomen.module.report.mapper.ReportOrderMapper;
+import com.xmomen.module.report.model.ExpressReport;
 import com.xmomen.module.report.model.OrderReport;
 import com.xmomen.module.report.model.ReportQuery;
 import com.xmomen.module.wx.model.AjaxResult;
@@ -94,4 +95,25 @@ public class ReportOrderService {
 
         return orderReportList;
     }
+
+    /**
+     * 查询订单报表
+     *
+     * @param reportQuery
+     * @return
+     */
+    public List<ExpressReport> getExpressReportList(ReportQuery reportQuery) {
+        List<ExpressReport> expressReportList = mybatisDao.getSqlSessionTemplate().selectList(ReportOrderMapper.REPORT_ORDER_MAPPER_NAMESPACE + "getReportExpressList", reportQuery);
+        for (ExpressReport expressReport : expressReportList) {
+            if(expressReport.getIsReject() == 0){
+                expressReport.setIsNormal(1);
+                expressReport.setIsNoNormal(0);
+            }else{
+                expressReport.setIsNormal(0);
+                expressReport.setIsNoNormal(1);
+            }
+        }
+        return expressReportList;
+    }
+
 }

@@ -168,6 +168,21 @@ public class TbOrder extends BaseMybatisModel {
      */
     private Integer twoSendAuditUserId;
 
+    /**
+     * 出库时间
+     */
+    private Date outDate;
+
+    /**
+     * 确认收货时间
+     */
+    private Date shouHuoDate;
+
+    /**
+     * 是否拒绝收货（0-不 1-是）
+     */
+    private Integer isReject;
+
     @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
@@ -602,5 +617,47 @@ public class TbOrder extends BaseMybatisModel {
               return;
         }
         addValidField("twoSendAuditUserId");
+    }
+
+    @Column(name = "OUT_DATE")
+    public Date getOutDate() {
+        return outDate;
+    }
+
+    public void setOutDate(Date outDate) {
+        this.outDate = outDate;
+        if(outDate == null){
+              removeValidField("outDate");
+              return;
+        }
+        addValidField("outDate");
+    }
+
+    @Column(name = "SHOU_HUO_DATE")
+    public Date getShouHuoDate() {
+        return shouHuoDate;
+    }
+
+    public void setShouHuoDate(Date shouHuoDate) {
+        this.shouHuoDate = shouHuoDate;
+        if(shouHuoDate == null){
+              removeValidField("shouHuoDate");
+              return;
+        }
+        addValidField("shouHuoDate");
+    }
+
+    @Column(name = "IS_REJECT")
+    public Integer getIsReject() {
+        return isReject;
+    }
+
+    public void setIsReject(Integer isReject) {
+        this.isReject = isReject;
+        if(isReject == null){
+              removeValidField("isReject");
+              return;
+        }
+        addValidField("isReject");
     }
 }

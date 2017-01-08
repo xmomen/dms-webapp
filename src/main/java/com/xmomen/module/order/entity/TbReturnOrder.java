@@ -68,6 +68,11 @@ public class TbReturnOrder extends BaseMybatisModel {
      */
     private BigDecimal returnTotalAmount;
 
+    /**
+     * 0-正常退货，1-超时退货，
+     */
+    private Integer isNormal;
+
     @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
@@ -222,5 +227,19 @@ public class TbReturnOrder extends BaseMybatisModel {
               return;
         }
         addValidField("returnTotalAmount");
+    }
+
+    @Column(name = "IS_NORMAL")
+    public Integer getIsNormal() {
+        return isNormal;
+    }
+
+    public void setIsNormal(Integer isNormal) {
+        this.isNormal = isNormal;
+        if(isNormal == null){
+              removeValidField("isNormal");
+              return;
+        }
+        addValidField("isNormal");
     }
 }

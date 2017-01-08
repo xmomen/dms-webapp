@@ -24,11 +24,11 @@ class OrderReport implements Serializable {
 
     @Excel(name = "订单类型")
     private String orderType;
-    @Excel(name = "订单号", width = 30)
+    @Excel(name = "订单号", width = 20)
     private String orderNo;
     @Excel(name = "客户姓名")
     private String consigneeName;
-    @Excel(name = "电话", width = 20)
+    @Excel(name = "电话", width = 15)
     private String consigneePhone;
     @Excel(name = "单位/个人")
     private String companyName;
@@ -36,7 +36,7 @@ class OrderReport implements Serializable {
     private String managerName;
     @Excel(name = "物流公司")
     private String expressName;
-    @Excel(name = "客户经理代收", width = 20)
+    @Excel(name = "客户经理代收", width = 15)
     private BigDecimal managerAmount;
     @Excel(name = "物流代收")
     private BigDecimal expressAmount;

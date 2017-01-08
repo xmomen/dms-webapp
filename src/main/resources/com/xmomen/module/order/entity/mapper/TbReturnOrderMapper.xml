@@ -13,6 +13,7 @@
     <result column="TAKE_GOODS_USER_ID" property="takeGoodsUserId" jdbcType="INTEGER" />
     <result column="TAKE_GOODS_PHONE" property="takeGoodsPhone" jdbcType="VARCHAR" />
     <result column="RETURN_TOTAL_AMOUNT" property="returnTotalAmount" jdbcType="DECIMAL" />
+    <result column="IS_NORMAL" property="isNormal" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -74,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, ORDER_NO, RETURN_TIME, RETURN_STATUS, AUDIT_STATUS, AUDIT_DATE, AUDIT_USER_ID, 
-    TAKE_GOODS_DATE, TAKE_GOODS_USER_ID, TAKE_GOODS_PHONE, RETURN_TOTAL_AMOUNT
+    TAKE_GOODS_DATE, TAKE_GOODS_USER_ID, TAKE_GOODS_PHONE, RETURN_TOTAL_AMOUNT, IS_NORMAL
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbReturnOrderExample" >
     select
@@ -132,6 +133,9 @@
       <if test="returnTotalAmount != null" >
         RETURN_TOTAL_AMOUNT,
       </if>
+      <if test="isNormal != null" >
+        IS_NORMAL,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -166,6 +170,9 @@
       </if>
       <if test="returnTotalAmount != null" >
         #{returnTotalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="isNormal != null" >
+        #{isNormal,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -210,6 +217,9 @@
       </if>
       <if test="record.returnTotalAmount != null" >
         RETURN_TOTAL_AMOUNT = #{record.returnTotalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isNormal != null" >
+        IS_NORMAL = #{record.isNormal,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >

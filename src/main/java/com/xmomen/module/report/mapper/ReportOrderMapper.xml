@@ -58,4 +58,59 @@
       </where>
       order by tb.order_type ASC ,tb.CREATE_TIME desc
     </select>
+
+
+    <!--物流报表-->
+    <select id="getReportExpressList" resultType="com.xmomen.module.report.model.ExpressReport" parameterType="com.xmomen.module.report.model.ReportQuery">
+        SELECT
+            -- 订单号
+            tb.order_no,
+            -- 总箱数
+            tb.TOTAL_BOX_NUM,
+            -- 二次配送
+            tb.IS_TWO_SEND,
+            -- 出库时间
+            tb.OUT_DATE,
+            -- 确认收货时间
+            tb.SHOU_HUO_DATE,
+            -- 物流公司
+            ce.EXPRESS_NAME,
+            -- 付款金额
+            (CASE
+              WHEN tb.PAYMENT_MODE ='4' and (tb.ORDER_TYPE = '1' or tb.order_type = '2' or tb.order_type= '3' )THEN pay.AMOUNT
+              WHEN tb.PAYMENT_MODE ='4' THEN tb.TOTAL_AMOUNT
+              ELSE 0 END
+            +
+            CASE
+              WHEN tb.OTHER_PAYMENT_MODE ='4' THEN 0-pay2.amount
+              ELSE 0 END)express_amount,
+            -- 是否拒收
+            tb.IS_REJECT ,
+            -- 退款金额
+            return_order.return_total_amount
+        FROM
+            tb_order tb
+            LEFT JOIN cd_company company ON company.id = tb.COMPANY_ID
+            left join tb_trade_record pay on pay.TRADE_NO = tb.ORDER_NO and (pay.TRADE_TYPE = 'CARD' || pay.TRADE_TYPE = 'COUPON' || pay.TRADE_TYPE = 'PLAN_CARD')
+            LEFT JOIN tb_trade_record pay2 on pay2.`TRADE_NO` = tb.`ORDER_NO` and pay2.`TRADE_TYPE` = tb.`OTHER_PAYMENT_MODE`
+            LEFT JOIN cd_express ce on tb.despatch_express_id = ce.id
+            LEFT JOIN tb_return_order return_order on return_order.ORDER_NO = tb.ORDER_NO and return_order.IS_NORMAL = 1
+        <where>
+            tb.order_status > '5' and tb.order_status!='13' and tb.order_status !='12' and tb.order_status !='9'
+            <if test="managerId">
+                AND tb.MANAGER_ID = #{managerId}
+            </if>
+            <if test="beginTime">
+                <![CDATA[
+                  AND DATE_FORMAT(tb.CREATE_TIME ,'%Y-%m-%d')>= #{beginTime}
+                ]]>
+            </if>
+            <if test="endTime">
+                <![CDATA[
+                  AND DATE_FORMAT(tb.CREATE_TIME ,'%Y-%m-%d')<= #{endTime}
+                ]]>
+            </if>
+        </where>
+        ORDER BY tb.despatch_express_id ,tb.out_date desc
+    </select>
 </mapper>
