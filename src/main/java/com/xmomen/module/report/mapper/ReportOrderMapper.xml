@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.report.mapper.ReportOrderMapper" >
+
+    <!--    查询订单    -->
+    <select id="getReportOrderList" resultType="com.xmomen.module.report.model.OrderReport" parameterType="com.xmomen.module.report.model.ReportQuery">
+        SELECT
+        -- 订单类型
+        sp.show_value AS orderType,
+        -- 订单号
+        tb.order_no,
+        -- 客户名称
+        tb.CONSIGNEE_NAME,
+        -- 客户手机号
+        tb.CONSIGNEE_PHONE,
+        -- 单位/个人
+        company.COMPANY_NAME,
+        -- 客户经理
+        manager_user.realname as manager_name,
+        -- 物流公司
+        ce.EXPRESS_NAME,
+        -- 付款方式
+        tb.PAYMENT_MODE,
+        -- 付款金额
+        CASE
+        WHEN tb.ORDER_TYPE = '1' or tb.order_type = '2' or tb.order_type= '3' THEN pay.AMOUNT
+        ELSE tb.TOTAL_AMOUNT END pay_amount,
+        -- 额外付款方式
+        tb.OTHER_PAYMENT_MODE as otherPaymentMode,
+        -- 额外付款金额
+        0-pay2.amount AS otherPayAmount,
+        -- 退款金额
+        return_order.return_total_amount
+        FROM
+        tb_order tb
+        LEFT JOIN sys_dictionary s ON s.DICTIONARY_CODE='ORDER_TYPE'
+        LEFT JOIN sys_dictionary_parameter sp ON sp.SYS_DICTIONARY_ID=s.ID AND tb.ORDER_TYPE = sp.REAL_VALUE
+        LEFT JOIN sys_users manager_user ON manager_user.id = tb.MANAGER_ID
+        LEFT JOIN cd_company company ON company.id = tb.COMPANY_ID
+        left join tb_trade_record pay on pay.TRADE_NO = tb.ORDER_NO and (pay.TRADE_TYPE = 'CARD' || pay.TRADE_TYPE = 'COUPON' || pay.TRADE_TYPE = 'PLAN_CARD')
+        LEFT JOIN tb_trade_record pay2 on pay2.`TRADE_NO` = tb.`ORDER_NO` and pay2.`TRADE_TYPE` = tb.`OTHER_PAYMENT_MODE`
+        LEFT JOIN cd_express ce on tb.despatch_express_id = ce.id
+        LEFT JOIN tb_return_order return_order on return_order.ORDER_NO = tb.ORDER_NO
+      <where>
+          <if test="managerId">
+              AND tb.MANAGER_ID = #{managerId}
+          </if>
+          <if test="beginTime">
+              <![CDATA[
+                  AND DATE_FORMAT(tb.CREATE_TIME ,'%Y-%m-%d')>= #{beginTime}
+                ]]>
+          </if>
+          <if test="endTime">
+              <![CDATA[
+                  AND DATE_FORMAT(tb.CREATE_TIME ,'%Y-%m-%d')<= #{endTime}
+                ]]>
+          </if>
+      </where>
+      order by tb.order_type ASC ,tb.CREATE_TIME desc
+    </select>
+</mapper>

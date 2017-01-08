@@ -1,6 +1,7 @@
 package com.xmomen.module.order.entity;
 
 import com.xmomen.framework.mybatis.model.BaseMybatisModel;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -61,6 +62,11 @@ public class TbReturnOrder extends BaseMybatisModel {
      * 拿货人手机号
      */
     private String takeGoodsPhone;
+
+    /**
+     * 退款金额
+     */
+    private BigDecimal returnTotalAmount;
 
     @Column(name = "ID")
     @Id
@@ -202,5 +208,19 @@ public class TbReturnOrder extends BaseMybatisModel {
               return;
         }
         addValidField("takeGoodsPhone");
+    }
+
+    @Column(name = "RETURN_TOTAL_AMOUNT")
+    public BigDecimal getReturnTotalAmount() {
+        return returnTotalAmount;
+    }
+
+    public void setReturnTotalAmount(BigDecimal returnTotalAmount) {
+        this.returnTotalAmount = returnTotalAmount;
+        if(returnTotalAmount == null){
+              removeValidField("returnTotalAmount");
+              return;
+        }
+        addValidField("returnTotalAmount");
     }
 }

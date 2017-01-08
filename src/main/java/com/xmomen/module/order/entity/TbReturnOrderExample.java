@@ -1,6 +1,7 @@
 package com.xmomen.module.order.entity;
 
 import com.xmomen.framework.mybatis.model.BaseMybatisExample;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -723,6 +724,66 @@ public class TbReturnOrderExample extends BaseMybatisExample {
 
         public Criteria andTakeGoodsPhoneNotBetween(String value1, String value2) {
             addCriterion("TAKE_GOODS_PHONE not between", value1, value2, "takeGoodsPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnTotalAmountIsNull() {
+            addCriterion("RETURN_TOTAL_AMOUNT is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnTotalAmountIsNotNull() {
+            addCriterion("RETURN_TOTAL_AMOUNT is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnTotalAmountEqualTo(BigDecimal value) {
+            addCriterion("RETURN_TOTAL_AMOUNT =", value, "returnTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnTotalAmountNotEqualTo(BigDecimal value) {
+            addCriterion("RETURN_TOTAL_AMOUNT <>", value, "returnTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnTotalAmountGreaterThan(BigDecimal value) {
+            addCriterion("RETURN_TOTAL_AMOUNT >", value, "returnTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnTotalAmountGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("RETURN_TOTAL_AMOUNT >=", value, "returnTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnTotalAmountLessThan(BigDecimal value) {
+            addCriterion("RETURN_TOTAL_AMOUNT <", value, "returnTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnTotalAmountLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("RETURN_TOTAL_AMOUNT <=", value, "returnTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnTotalAmountIn(List<BigDecimal> values) {
+            addCriterion("RETURN_TOTAL_AMOUNT in", values, "returnTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnTotalAmountNotIn(List<BigDecimal> values) {
+            addCriterion("RETURN_TOTAL_AMOUNT not in", values, "returnTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnTotalAmountBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("RETURN_TOTAL_AMOUNT between", value1, value2, "returnTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnTotalAmountNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("RETURN_TOTAL_AMOUNT not between", value1, value2, "returnTotalAmount");
             return (Criteria) this;
         }
     }
