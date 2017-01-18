@@ -53,6 +53,22 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
+                                    <div class="dataTables_filter">
+                                        <select ug-select2 style="width: 250px;;" ng-model="queryParam.cdCompanyId_order" name="company">
+                                            <option value="">--请选择单位--</option>
+                                            <option value="{{company.id}}" ng-repeat="company in companyList">{{company.companyName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="dataTables_filter">
+                                        <select ug-select2 style="width: 250px;" ng-model="queryParam.customerMangerId_order" name="customerManager" >
+                                            <option value="">--请选择客服经理--</option>
+                                            <option value="{{customerManager.customerMangerId}}" ng-repeat="customerManager in companyCustomerManagers">{{customerManager.customerManger}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
                                     <div class="input-group">
                                         <div class="input-group-btn">
                                             <button class="btn btn-primary" type="button" ng-click="exportOrderExcel()">
@@ -123,6 +139,24 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="col-sm-3">
+                                    <div class="dataTables_filter">
+                                        <select ug-select2 style="width: 250px;;" ng-model="queryParam.cdCompanyId_express" name="company">
+                                            <option value="">--请选择单位--</option>
+                                            <option value="{{company.id}}" ng-repeat="company in companyList">{{company.companyName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="dataTables_filter">
+                                        <select ug-select2 style="width: 250px;" ng-model="queryParam.customerMangerId_express" name="customerManager" >
+                                            <option value="">--请选择客服经理--</option>
+                                            <option value="{{customerManager.customerMangerId}}" ng-repeat="customerManager in companyCustomerManagers">{{customerManager.customerManger}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <div class="col-sm-3">
                                     <div class="input-group">
                                         <div class="input-group-btn">

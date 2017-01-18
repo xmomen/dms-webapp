@@ -3,7 +3,6 @@
  */
 define(function () {
     return ["$scope", "ReportOrderAPI", "$modal", "$ugDialog", "$filter", "CouponCategoryAPI", "CompanyAPI", "UserAPI", function ($scope, ReportOrderAPI, $modal, $ugDialog, $filter, CouponCategoryAPI, CompanyAPI, UserAPI) {
-
         $scope.queryParam = {};
 
         $scope.pageInfoSetting = {
@@ -45,14 +44,9 @@ define(function () {
             },
             endTime: {
                 opened: false
-            },
-            startTimeExpress: {
-                opened: false
-            },
-            endTimeExpress: {
-                opened: false
             }
         };
+
         $scope.openDatepicker = function ($event, index) {
             $event.preventDefault();
             $event.stopPropagation();
@@ -60,49 +54,29 @@ define(function () {
                 $scope.datepickerSetting.startTime.opened = true;
             } else if (index == 2) {
                 $scope.datepickerSetting.endTime.opened = true;
-            } else if (index == 3) {
-                $scope.datepickerSetting.startTimeExpress.opened = true;
-            } else if (index == 4) {
-                $scope.datepickerSetting.endTimeExpress.opened = true;
             }
         };
 
 
-        $scope.exportOrderExcel = function () {
-            if (!$("#startTimeId").val()) {
-                $ugDialog.warn("请输入开始时间");
-                return;
+        $scope.exportFinanceExcel = function () {
+            // if (!$("#startTimeId").val()) {
+            //     $ugDialog.warn("请输入开始时间");
+            //     return;
+            // }
+            // if (!$("#endTimeId").val()) {
+            //     $ugDialog.warn("请输入结束时间");
+            //     return;
+            // }
+            var url = "/report/finance"
+            if ($scope.queryParam.cdCompanyId != undefined) {
+                url += "?companyId=" + $scope.queryParam.cdCompanyId;
             }
-            if (!$("#endTimeId").val()) {
-                $ugDialog.warn("请输入结束时间");
-                return;
-            }
-            var url = "/report/order?beginTime=" + $("#startTimeId").val() + "&endTime=" + $("#endTimeId").val();
-            if ($scope.queryParam.cdCompanyId_order != undefined) {
-                url += "&companyId=" + $scope.queryParam.cdCompanyId_order;
-            }
-            alert($scope.queryParam.cdCompanyId_order);
-            if ($scope.queryParam.customerMangerId_order != undefined) {
-                url += "&managerId=" + $scope.queryParam.customerMangerId_order;
-            }
-            window.location.href = url
-        }
-
-        $scope.exportExpressExcel = function () {
-            if (!$("#startTimeId_express").val()) {
-                $ugDialog.warn("请输入开始时间");
-                return;
-            }
-            if (!$("#endTimeId_express").val()) {
-                $ugDialog.warn("请输入结束时间");
-                return;
-            }
-            var url = "/report/express?beginTime=" + $("#startTimeId_express").val() + "&endTime=" + $("#endTimeId_express").val();
-            if ($scope.queryParam.cdCompanyId_express != 'undefined') {
-                url += "&companyId=" + $scope.queryParam.cdCompanyId_express;
-            }
-            if ($scope.queryParam.customerMangerId_express != 'undefined') {
-                url += "&managerId=" + $scope.queryParam.customerMangerId_express;
+            if ($scope.queryParam.customerMangerId != undefined) {
+                if(url.indexOf("?") > 0){
+                    url += "&managerId=" + $scope.queryParam.customerMangerId;
+                }else{
+                    url += "?managerId=" + $scope.queryParam.customerMangerId;
+                }
             }
             window.location.href = url;
         }
