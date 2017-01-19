@@ -1,12 +1,5 @@
 package com.xmomen.module.base.service.impl;
 
-import java.util.List;
-
-import org.apache.shiro.SecurityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.utils.AssertExt;
@@ -21,7 +14,14 @@ import com.xmomen.module.order.entity.TbOrderRelation;
 import com.xmomen.module.order.mapper.OrderMapper;
 import com.xmomen.module.order.model.OrderModel;
 import com.xmomen.module.order.model.OrderQuery;
-import com.xmomen.module.report.model.OrderDeliveryReport;
+import com.xmomen.module.report.model.ExpressReport;
+import com.xmomen.module.wx.util.DateUtils;
+import org.apache.shiro.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class ExpressServiceImpl implements ExpressService {
@@ -81,7 +81,7 @@ public class ExpressServiceImpl implements ExpressService {
      * @param offset
      * @return
      */
-    public List<OrderDeliveryReport> getTakeDeliveryReportList(OrderQuery orderQuery){
+    public List<ExpressReport> getTakeDeliveryReportList(OrderQuery orderQuery){
         return mybatisDao.getSqlSessionTemplate().selectList(ExpressMapper.ExpressMapperNameSpace + "getOrderReportList", orderQuery);
     }
     
@@ -103,7 +103,7 @@ public class ExpressServiceImpl implements ExpressService {
      * @param offset
      * @return
      */
-    public List<OrderDeliveryReport> getOrderNoDespatchReportList(OrderQuery orderQuery){
+    public List<ExpressReport> getOrderNoDespatchReportList(OrderQuery orderQuery){
         return mybatisDao.getSqlSessionTemplate().selectList(ExpressMapper.ExpressMapperNameSpace + "getOrderNoDespatchReportList", orderQuery);
     }
 	
@@ -152,6 +152,8 @@ public class ExpressServiceImpl implements ExpressService {
 		if(totalBoxNum == scanBoxNum){
 			//更新订单为待配送
 			order.setOrderStatus("12");
+			//更新出库时间
+			order.setOutDate(DateUtils.getNowDate());
 			//订单加入order_ref 表示整个订单的箱子全部扫描
 			TbOrderRef orderRef = new TbOrderRef();
 			orderRef.setOrderNo(tbOrderRelation.getOrderNo());

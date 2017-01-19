@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.report.mapper.ReportOrderMapper">
+
+    <!--    查询订单    -->
+    <select id="getReportOrderList" resultType="com.xmomen.module.report.model.OrderReport" parameterType="com.xmomen.module.report.model.ReportQuery">
+        SELECT
+        -- 订单类型
+        sp.show_value AS orderType,
+        -- 订单号
+        tb.order_no,
+        -- 客户名称
+        tb.CONSIGNEE_NAME,
+        -- 客户手机号
+        tb.CONSIGNEE_PHONE,
+        -- 单位/个人
+        company.COMPANY_NAME,
+        -- 客户经理
+        manager_user.realname as manager_name,
+        -- 物流公司
+        ce.EXPRESS_NAME,
+        -- 付款方式
+        tb.PAYMENT_MODE,
+        -- 付款金额
+        CASE
+        WHEN tb.ORDER_TYPE = '1' or tb.order_type = '2' or tb.order_type= '3' THEN pay.AMOUNT
+        ELSE tb.TOTAL_AMOUNT END pay_amount,
+        -- 额外付款方式
+        tb.OTHER_PAYMENT_MODE as otherPaymentMode,
+        -- 额外付款金额
+        0-pay2.amount AS otherPayAmount,
+        -- 退款金额
+        return_order.return_total_amount
+        FROM
+        tb_order tb
+        LEFT JOIN sys_dictionary s ON s.DICTIONARY_CODE='ORDER_TYPE'
+        LEFT JOIN sys_dictionary_parameter sp ON sp.SYS_DICTIONARY_ID=s.ID AND tb.ORDER_TYPE = sp.REAL_VALUE
+        LEFT JOIN sys_users manager_user ON manager_user.id = tb.MANAGER_ID
+        LEFT JOIN cd_company company ON company.id = tb.COMPANY_ID
+        left join tb_trade_record pay on pay.TRADE_NO = tb.ORDER_NO and (pay.TRADE_TYPE = 'CARD' || pay.TRADE_TYPE = 'COUPON' || pay.TRADE_TYPE = 'PLAN_CARD')
+        LEFT JOIN tb_trade_record pay2 on pay2.`TRADE_NO` = tb.`ORDER_NO` and pay2.`TRADE_TYPE` = tb.`OTHER_PAYMENT_MODE`
+        LEFT JOIN cd_express ce on tb.despatch_express_id = ce.id
+        LEFT JOIN tb_return_order return_order on return_order.ORDER_NO = tb.ORDER_NO
+        <where>
+            <if test="managerId">
+                AND tb.MANAGER_ID = #{managerId}
+            </if>
+            <if test="companyId">
+                AND tb.COMPANY_ID = #{companyId}
+            </if>
+            <if test="beginTime">
+                <![CDATA[
+                  AND DATE_FORMAT(tb.CREATE_TIME ,'%Y-%m-%d')>= #{beginTime}
+                ]]>
+            </if>
+            <if test="endTime">
+                <![CDATA[
+                  AND DATE_FORMAT(tb.CREATE_TIME ,'%Y-%m-%d')<= #{endTime}
+                ]]>
+            </if>
+        </where>
+        order by tb.order_type ASC ,tb.CREATE_TIME desc
+    </select>
+
+
+    <!--物流报表-->
+    <select id="getReportExpressList" resultType="com.xmomen.module.report.model.ExpressReport" parameterType="com.xmomen.module.report.model.ReportQuery">
+        SELECT
+        -- 订单号
+        tb.order_no,
+        -- 总箱数
+        tb.TOTAL_BOX_NUM,
+        -- 二次配送
+        tb.IS_TWO_SEND,
+        -- 出库时间
+        tb.OUT_DATE,
+        -- 确认收货时间
+        tb.SHOU_HUO_DATE,
+        -- 物流公司
+        ce.EXPRESS_NAME,
+        -- 付款金额
+        (CASE
+        WHEN tb.PAYMENT_MODE ='4' and (tb.ORDER_TYPE = '1' or tb.order_type = '2' or tb.order_type= '3' )THEN pay.AMOUNT
+        WHEN tb.PAYMENT_MODE ='4' THEN tb.TOTAL_AMOUNT
+        ELSE 0 END
+        +
+        CASE
+        WHEN tb.OTHER_PAYMENT_MODE ='4' THEN 0-pay2.amount
+        ELSE 0 END)express_amount,
+        -- 是否拒收
+        tb.IS_REJECT ,
+        -- 退款金额
+        return_order.return_total_amount
+        FROM
+        tb_order tb
+        LEFT JOIN cd_company company ON company.id = tb.COMPANY_ID
+        left join tb_trade_record pay on pay.TRADE_NO = tb.ORDER_NO and (pay.TRADE_TYPE = 'CARD' || pay.TRADE_TYPE = 'COUPON' || pay.TRADE_TYPE = 'PLAN_CARD')
+        LEFT JOIN tb_trade_record pay2 on pay2.`TRADE_NO` = tb.`ORDER_NO` and pay2.`TRADE_TYPE` = tb.`OTHER_PAYMENT_MODE`
+        LEFT JOIN cd_express ce on tb.despatch_express_id = ce.id
+        LEFT JOIN tb_return_order return_order on return_order.ORDER_NO = tb.ORDER_NO and return_order.IS_NORMAL = 1
+        <where>
+            tb.order_status > '5' and tb.order_status!='13' and tb.order_status !='12' and tb.order_status !='9'
+            <if test="managerId">
+                AND tb.MANAGER_ID = #{managerId}
+            </if>
+            <if test="companyId">
+                AND tb.COMPANY_ID = #{companyId}
+            </if>
+            <if test="beginTime">
+                <![CDATA[
+                  AND DATE_FORMAT(tb.CREATE_TIME ,'%Y-%m-%d')>= #{beginTime}
+                ]]>
+            </if>
+            <if test="endTime">
+                <![CDATA[
+                  AND DATE_FORMAT(tb.CREATE_TIME ,'%Y-%m-%d')<= #{endTime}
+                ]]>
+            </if>
+        </where>
+        ORDER BY tb.despatch_express_id ,tb.out_date desc
+    </select>
+
+    <!--财务报表-->
+    <select id="getReportFinanceList" resultType="com.xmomen.module.report.model.FinanceReport" parameterType="com.xmomen.module.report.model.ReportQuery">
+        SELECT
+        temp_table.cd_company_id
+        ,company.company_name
+        ,temp_table.cd_user_id
+        ,manager.realname manager_name
+        -- 总张数
+        ,temp_table.before_coupon_count
+        -- 总金额
+        ,temp_table.before_total_value
+        -- 充值金额
+        ,temp_table.before_total_recharge_value
+        -- 已付
+        ,temp_table.before_total_yes_value
+        -- 未付
+        ,temp_table.before_total_no_value
+        -- 余额
+        ,temp_table.before_user_total_value
+        -- 回馈总金额
+        ,temp_table.before_gift_total_value
+        -- 回馈剩余金额
+        ,temp_table.before_gift_user_total_value
+
+        -- 后付款
+        -- 总张数
+        ,temp_table.after_coupon_count
+        -- 总金额
+        ,temp_table.after_total_value
+        -- 充值金额
+        ,temp_table.after_total_recharge_value
+        -- 已付
+        ,temp_table.after_total_yes_value
+        -- 未付
+        ,temp_table.after_total_no_value
+        -- 余额
+        ,temp_table.after_user_total_value
+        -- 回馈总金额
+        ,temp_table.after_gift_total_value
+        -- 回馈剩余金额
+        ,temp_table.after_gift_user_total_value
+        ,COUNT(tb_order.id) total_order
+        ,SUM(tb_order.total_amount) total_order_amount
+        ,0 gift_order_total
+        ,order_temp_amount.manager_amount
+        ,order_temp_amount.pos_amount
+        ,order_temp_amount.zhuan_amount
+        ,order_temp_amount.express_amount
+        FROM
+        (-- 总张数 总金额 充值金额 已付 未付 余额 回馈总金额 回馈剩余金额
+        SELECT
+        coupon_table.cd_company_id
+        ,coupon_table.cd_user_id
+        -- 预付款
+        -- 总张数
+        ,sum(before_coupon_count) before_coupon_count
+        -- 总金额
+        ,sum(before_total_value) before_total_value
+        -- 充值金额
+        ,sum(before_total_recharge_value) before_total_recharge_value
+        -- 已付
+        ,sum(before_total_yes_value) before_total_yes_value
+        -- 未付
+        ,sum(before_total_no_value) before_total_no_value
+        -- 余额
+        ,sum(before_user_total_value) before_user_total_value
+        -- 回馈总金额
+        ,sum(before_gift_total_value) before_gift_total_value
+        -- 回馈剩余金额
+        ,sum(before_gift_user_total_value) before_gift_user_total_value
+
+        -- 后付款
+        -- 总张数
+        ,sum(after_coupon_count) after_coupon_count
+        -- 总金额
+        ,sum(after_total_value) after_total_value
+        -- 充值金额
+        ,sum(after_total_recharge_value) after_total_recharge_value
+        -- 已付
+        ,sum(after_total_yes_value) after_total_yes_value
+        -- 未付
+        ,sum(after_total_no_value) after_total_no_value
+        -- 余额
+        ,sum(after_user_total_value) after_user_total_value
+        -- 回馈总金额
+        ,sum(after_gift_total_value) after_gift_total_value
+        -- 回馈剩余金额
+        ,sum(after_gift_user_total_value) after_gift_user_total_value
+        FROM
+        (SELECT
+        coupon.cd_company_id
+        ,coupon.cd_user_id
+        -- 预付款
+        -- 总张数
+        ,count(1) before_coupon_count
+        -- 总金额
+        ,sum(coupon.COUPON_VALUE) before_total_value
+        -- 充值金额
+        ,sum(trade_record.AMOUNT) before_total_recharge_value
+        -- 已付
+        ,sum(coupon_ref.REF_VALUE) before_total_yes_value
+        -- 未付
+        ,sum(coupon.COUPON_VALUE) - sum(coupon_ref.REF_VALUE) before_total_no_value
+        -- 余额
+        ,sum(coupon.USER_PRICE) before_user_total_value
+        -- 回馈总金额
+        ,0 as before_gift_total_value
+        -- 回馈剩余金额
+        ,0 before_gift_user_total_value
+
+        -- 后付款
+        -- 总张数
+        ,0 after_coupon_count
+        -- 总金额
+        ,0 after_total_value
+        -- 充值金额
+        ,0 after_total_recharge_value
+        -- 已付
+        ,0 after_total_yes_value
+        -- 未付
+        ,0 after_total_no_value
+        -- 余额
+        ,0 after_user_total_value
+        -- 回馈总金额
+        ,0 after_gift_total_value
+        -- 回馈剩余金额
+        ,0 after_gift_user_total_value
+        FROM
+        cd_coupon coupon
+        LEFT JOIN
+        tb_trade_record trade_record ON trade_record.TRADE_NO AND trade_record.TRADE_NO = coupon.COUPON_NUMBER AND trade_record.TRADE_TYPE ='recharge'
+        LEFT JOIN
+        cd_coupon_ref coupon_ref ON coupon_ref.CD_COUPON_ID = coupon.ID AND coupon_ref.REF_TYPE = 'RECEIVED_PRICE'
+        WHERE
+        coupon.IS_SEND = 1 AND coupon.CD_COMPANY_ID IS NOT NULL AND coupon.PAYMENT_TYPE = 1
+        GROUP BY
+        coupon.CD_COMPANY_ID,coupon.CD_USER_ID
+        UNION ALL
+        SELECT
+        coupon.cd_company_id
+        ,coupon.cd_user_id
+        -- 预付款
+        -- 总张数
+        ,0 before_coupon_count
+        -- 总金额
+        ,0 before_total_value
+        -- 充值金额
+        ,0 before_total_recharge_value
+        -- 已付
+        ,0 before_total_yes_value
+        -- 未付
+        ,0 before_total_no_value
+        -- 余额
+        ,sum(coupon.USER_PRICE) before_user_total_value
+        -- 回馈总金额
+        ,sum(coupon.COUPON_VALUE) before_gift_total_value
+        -- 回馈剩余金额
+        ,sum(coupon.USER_PRICE) before_gift_user_total_value
+
+        -- 后付款
+        -- 总张数
+        ,0 after_coupon_count
+        -- 总金额
+        ,0 after_total_value
+        -- 充值金额
+        ,0 after_total_recharge_value
+        -- 已付
+        ,0 after_total_yes_value
+        -- 未付
+        ,0 after_total_no_value
+        -- 余额
+        ,0 after_user_total_value
+        -- 回馈总金额
+        ,0 after_gift_total_value
+        -- 回馈剩余金额
+        ,0 after_gift_user_total_value
+
+        FROM
+        cd_coupon coupon
+        WHERE
+        coupon.IS_SEND = 1 AND coupon.CD_COMPANY_ID IS NOT NULL AND coupon.PAYMENT_TYPE = 1 AND coupon.IS_GIFT = 1
+        GROUP BY
+        coupon.CD_COMPANY_ID,coupon.CD_USER_ID
+        UNION ALL
+        SELECT
+        coupon.cd_company_id
+        ,coupon.cd_user_id
+
+        -- 预付款
+        -- 总张数
+        ,0 before_coupon_count
+        -- 总金额
+        ,0 before_total_value
+        -- 充值金额
+        ,0 before_total_recharge_value
+        -- 已付
+        ,0 before_total_yes_value
+        -- 未付
+        ,0 before_total_no_value
+        -- 余额
+        ,0 before_user_total_value
+        -- 回馈总金额
+        ,0 before_gift_total_value
+        -- 回馈剩余金额
+        ,0 before_gift_user_total_value
+
+        -- 后付款
+        -- 总张数
+        ,count(1) after_coupon_count
+        -- 总金额
+        ,sum(coupon.COUPON_VALUE) after_total_value
+        -- 充值金额
+        ,0 total_recharge_value
+        -- 已付
+        ,sum(coupon_ref.REF_VALUE) after_total_yes_value
+        -- 未付
+        ,sum(coupon.COUPON_VALUE) - sum(coupon_ref.REF_VALUE) after_total_no_value
+        -- 余额
+        ,sum(coupon.USER_PRICE) after_user_total_value
+        -- 回馈总金额
+        ,0 after_gift_total_value
+        -- 回馈剩余金额
+        ,0 after_gift_user_total_value
+        FROM
+        cd_coupon coupon
+        LEFT JOIN
+        cd_coupon_ref coupon_ref ON coupon_ref.CD_COUPON_ID = coupon.ID AND coupon_ref.REF_TYPE = 'RECEIVED_PRICE'
+        WHERE
+        coupon.IS_SEND = 1 AND coupon.CD_COMPANY_ID IS NOT NULL AND coupon.PAYMENT_TYPE = 2
+        GROUP BY
+        coupon.CD_COMPANY_ID,coupon.CD_USER_ID
+        UNION ALL
+        SELECT
+        coupon.cd_company_id
+        ,coupon.cd_user_id
+
+        -- 预付款
+        -- 总张数
+        ,0 before_coupon_count
+        -- 总金额
+        ,0 before_total_value
+        -- 充值金额
+        ,0 before_total_recharge_value
+        -- 已付
+        ,0 before_total_yes_value
+        -- 未付
+        ,0 before_total_no_value
+        -- 余额
+        ,0 before_user_total_value
+        -- 回馈总金额
+        ,0 before_gift_total_value
+        -- 回馈剩余金额
+        ,0 before_gift_user_total_value
+
+        -- 后付款
+        -- 总张数
+        ,0 after_coupon_count
+        -- 总金额
+        ,0 after_total_value
+        -- 充值金额
+        ,0 after_total_recharge_value
+        -- 已付
+        ,0 after_total_yes_value
+        -- 未付
+        ,0 after_total_no_value
+        -- 余额
+        ,sum(coupon.USER_PRICE) after_user_total_value
+        -- 回馈总金额
+        ,sum(coupon.COUPON_VALUE) after_gift_total_value
+        -- 回馈剩余金额
+        ,sum(coupon.USER_PRICE) after_gift_user_total_value
+        FROM
+        cd_coupon coupon
+        WHERE
+        coupon.IS_SEND = 1 AND coupon.CD_COMPANY_ID IS NOT NULL AND coupon.PAYMENT_TYPE = 2 AND coupon.IS_GIFT = 1
+        GROUP BY
+        coupon.CD_COMPANY_ID,coupon.CD_USER_ID) coupon_table
+        group by coupon_table.CD_COMPANY_ID,coupon_table.CD_USER_ID
+        )temp_table
+        left join tb_order tb_order ON tb_order.company_Id = temp_table.CD_COMPANY_ID and tb_order.MANAGER_ID = temp_table.cd_user_id
+        LEFT JOIN
+        (
+        SELECT
+        order_temp_amount.MANAGER_ID
+        ,order_temp_amount.COMPANY_ID
+        ,sum(order_temp_amount.manager_amount)manager_amount
+        ,sum(order_temp_amount.pos_amount)pos_amount
+        ,sum(order_temp_amount.zhuan_amount)zhuan_amount
+        ,sum(order_temp_amount.express_amount)express_amount
+        FROM
+        (SELECT
+        tb.MANAGER_ID
+        ,tb.COMPANY_ID
+        ,SUM(CASE WHEN tb.PAYMENT_MODE = 1 then pay.AMOUNT ELSE 0 END) manager_amount
+        ,SUM(CASE WHEN tb.PAYMENT_MODE = 2 then pay.AMOUNT ELSE 0 END) pos_amount
+        ,SUM(CASE WHEN tb.PAYMENT_MODE = 3 then pay.AMOUNT ELSE 0 END) zhuan_amount
+        ,SUM(CASE WHEN tb.PAYMENT_MODE = 4 then pay.AMOUNT ELSE 0 END) express_amount
+        FROM tb_order tb
+        LEFT JOIN tb_trade_record pay ON pay.TRADE_NO = tb.ORDER_NO AND (pay.TRADE_TYPE = 'CARD' || pay.TRADE_TYPE = 'COUPON' || pay.TRADE_TYPE = 'PLAN_CARD')
+        GROUP BY tb.MANAGER_ID ,tb.COMPANY_ID
+        UNION ALL
+        SELECT
+        tb.MANAGER_ID
+        ,tb.COMPANY_ID
+        ,SUM(CASE WHEN tb.OTHER_PAYMENT_MODE = 1 then 0-pay2.AMOUNT ELSE 0 END) manager_amount
+        ,SUM(CASE WHEN tb.OTHER_PAYMENT_MODE = 2 then 0-pay2.AMOUNT ELSE 0 END) pos_amount
+        ,SUM(CASE WHEN tb.OTHER_PAYMENT_MODE = 3 then 0-pay2.AMOUNT ELSE 0 END) zhuan_amount
+        ,SUM(CASE WHEN tb.OTHER_PAYMENT_MODE = 4 then 0-pay2.AMOUNT ELSE 0 END) express_amount
+        FROM tb_order tb
+        LEFT JOIN tb_trade_record pay2 ON pay2.`TRADE_NO` = tb.`ORDER_NO` AND pay2.`TRADE_TYPE` = tb.`OTHER_PAYMENT_MODE`
+        GROUP BY tb.MANAGER_ID ,tb.COMPANY_ID)order_temp_amount
+        GROUP BY order_temp_amount.MANAGER_ID ,order_temp_amount.COMPANY_ID) order_temp_amount
+        ON order_temp_amount.COMPANY_ID = temp_table.cd_company_id AND order_temp_amount.MANAGER_ID = temp_table.cd_user_id
+        LEFT JOIN cd_company company ON company.id = order_temp_amount.COMPANY_ID
+        LEFT JOIN sys_users manager ON manager.id = order_temp_amount.MANAGER_ID
+        WHERE REALNAME IS NOT NULL
+
+        <if test="managerId">
+            AND temp_table.cd_user_id = #{managerId}
+        </if>
+        <if test="companyId">
+            AND temp_table.cd_company_id = #{companyId}
+        </if>
+
+        group by temp_table.CD_COMPANY_ID,temp_table.CD_USER_ID
+
+    </select>
+</mapper>

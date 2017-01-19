@@ -33,6 +33,9 @@
     <result column="IS_TWO_SEND" property="isTwoSend" jdbcType="INTEGER" />
     <result column="TWO_SEND_AUDIT_DATE" property="twoSendAuditDate" jdbcType="TIMESTAMP" />
     <result column="TWO_SEND_AUDIT_USER_ID" property="twoSendAuditUserId" jdbcType="INTEGER" />
+    <result column="OUT_DATE" property="outDate" jdbcType="TIMESTAMP" />
+    <result column="SHOU_HUO_DATE" property="shouHuoDate" jdbcType="TIMESTAMP" />
+    <result column="IS_REJECT" property="isReject" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -97,7 +100,8 @@
     ORDER_STATUS, PAY_STATUS, CONSIGNEE_PHONE, CONSIGNEE_NAME, CONSIGNEE_ADDRESS, POSTCODE, 
     TRANSPORT_MODE, REMARK, DISCOUNT_PRICE, TOTAL_AMOUNT, CREATE_TIME, APPOINTMENT_TIME, 
     CREATE_USER_ID, DESPATCH_EXPRESS_ID, EXPRESS_MEMBER_ID, COMPANY_ID, MANAGER_ID, BATCH_NO, 
-    TOTAL_BOX_NUM, EXPRESS_SCAN_BOX_NUM, XIAJIA, IS_TWO_SEND, TWO_SEND_AUDIT_DATE, TWO_SEND_AUDIT_USER_ID
+    TOTAL_BOX_NUM, EXPRESS_SCAN_BOX_NUM, XIAJIA, IS_TWO_SEND, TWO_SEND_AUDIT_DATE, TWO_SEND_AUDIT_USER_ID, 
+    OUT_DATE, SHOU_HUO_DATE, IS_REJECT
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbOrderExample" >
     select
@@ -215,6 +219,15 @@
       <if test="twoSendAuditUserId != null" >
         TWO_SEND_AUDIT_USER_ID,
       </if>
+      <if test="outDate != null" >
+        OUT_DATE,
+      </if>
+      <if test="shouHuoDate != null" >
+        SHOU_HUO_DATE,
+      </if>
+      <if test="isReject != null" >
+        IS_REJECT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -309,6 +322,15 @@
       </if>
       <if test="twoSendAuditUserId != null" >
         #{twoSendAuditUserId,jdbcType=INTEGER},
+      </if>
+      <if test="outDate != null" >
+        #{outDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shouHuoDate != null" >
+        #{shouHuoDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isReject != null" >
+        #{isReject,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -413,6 +435,15 @@
       </if>
       <if test="record.twoSendAuditUserId != null" >
         TWO_SEND_AUDIT_USER_ID = #{record.twoSendAuditUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.outDate != null" >
+        OUT_DATE = #{record.outDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.shouHuoDate != null" >
+        SHOU_HUO_DATE = #{record.shouHuoDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isReject != null" >
+        IS_REJECT = #{record.isReject,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >

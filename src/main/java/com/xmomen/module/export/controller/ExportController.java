@@ -1,8 +1,6 @@
 package com.xmomen.module.export.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,30 +8,23 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.base.service.ExpressService;
 import com.xmomen.module.export.service.ExportService;
-import com.xmomen.module.export.util.PrintUtils;
-import com.xmomen.module.order.model.OrderModel;
 import com.xmomen.module.order.model.OrderQuery;
 import com.xmomen.module.order.model.PurchaseModel;
 import com.xmomen.module.order.service.PurchaseService;
-import com.xmomen.module.report.model.OrderDeliveryReport;
-import com.xmomen.module.report.model.OrderReport;
+import com.xmomen.module.report.model.ExpressReport;
 
 @Controller
 public class ExportController {
@@ -100,19 +91,19 @@ public class ExportController {
 			orderQuery.setDespatchExpressCode(despatchExpressCode);
 		}
 		if (type == 1) {
-			List<OrderDeliveryReport> takeDeliverys = expressService
+			List<ExpressReport> takeDeliverys = expressService
 					.getTakeDeliveryReportList(orderQuery);
 			modelMap.put(NormalExcelConstants.FILE_NAME, "已提货订单信息");
 			modelMap.put(NormalExcelConstants.DATA_LIST, takeDeliverys);
 		} else {
-			List<OrderDeliveryReport> takeDeliverys = expressService
+			List<ExpressReport> takeDeliverys = expressService
 					.getOrderNoDespatchReportList(orderQuery);
 			modelMap.put(NormalExcelConstants.FILE_NAME, "已分配未提货订单信息");
 			modelMap.put(NormalExcelConstants.DATA_LIST, takeDeliverys);
 		}
 
 		modelMap.put(NormalExcelConstants.PARAMS, new ExportParams());
-		modelMap.put(NormalExcelConstants.CLASS, OrderDeliveryReport.class);
+		modelMap.put(NormalExcelConstants.CLASS, ExpressReport.class);
 
 		return NormalExcelConstants.JEECG_EXCEL_VIEW;
 	}

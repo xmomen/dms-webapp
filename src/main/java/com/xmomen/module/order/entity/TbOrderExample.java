@@ -2056,6 +2056,186 @@ public class TbOrderExample extends BaseMybatisExample {
             addCriterion("TWO_SEND_AUDIT_USER_ID not between", value1, value2, "twoSendAuditUserId");
             return (Criteria) this;
         }
+
+        public Criteria andOutDateIsNull() {
+            addCriterion("OUT_DATE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutDateIsNotNull() {
+            addCriterion("OUT_DATE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutDateEqualTo(Date value) {
+            addCriterion("OUT_DATE =", value, "outDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutDateNotEqualTo(Date value) {
+            addCriterion("OUT_DATE <>", value, "outDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutDateGreaterThan(Date value) {
+            addCriterion("OUT_DATE >", value, "outDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("OUT_DATE >=", value, "outDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutDateLessThan(Date value) {
+            addCriterion("OUT_DATE <", value, "outDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutDateLessThanOrEqualTo(Date value) {
+            addCriterion("OUT_DATE <=", value, "outDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutDateIn(List<Date> values) {
+            addCriterion("OUT_DATE in", values, "outDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutDateNotIn(List<Date> values) {
+            addCriterion("OUT_DATE not in", values, "outDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutDateBetween(Date value1, Date value2) {
+            addCriterion("OUT_DATE between", value1, value2, "outDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutDateNotBetween(Date value1, Date value2) {
+            addCriterion("OUT_DATE not between", value1, value2, "outDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouHuoDateIsNull() {
+            addCriterion("SHOU_HUO_DATE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouHuoDateIsNotNull() {
+            addCriterion("SHOU_HUO_DATE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouHuoDateEqualTo(Date value) {
+            addCriterion("SHOU_HUO_DATE =", value, "shouHuoDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouHuoDateNotEqualTo(Date value) {
+            addCriterion("SHOU_HUO_DATE <>", value, "shouHuoDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouHuoDateGreaterThan(Date value) {
+            addCriterion("SHOU_HUO_DATE >", value, "shouHuoDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouHuoDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("SHOU_HUO_DATE >=", value, "shouHuoDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouHuoDateLessThan(Date value) {
+            addCriterion("SHOU_HUO_DATE <", value, "shouHuoDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouHuoDateLessThanOrEqualTo(Date value) {
+            addCriterion("SHOU_HUO_DATE <=", value, "shouHuoDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouHuoDateIn(List<Date> values) {
+            addCriterion("SHOU_HUO_DATE in", values, "shouHuoDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouHuoDateNotIn(List<Date> values) {
+            addCriterion("SHOU_HUO_DATE not in", values, "shouHuoDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouHuoDateBetween(Date value1, Date value2) {
+            addCriterion("SHOU_HUO_DATE between", value1, value2, "shouHuoDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouHuoDateNotBetween(Date value1, Date value2) {
+            addCriterion("SHOU_HUO_DATE not between", value1, value2, "shouHuoDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRejectIsNull() {
+            addCriterion("IS_REJECT is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRejectIsNotNull() {
+            addCriterion("IS_REJECT is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRejectEqualTo(Integer value) {
+            addCriterion("IS_REJECT =", value, "isReject");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRejectNotEqualTo(Integer value) {
+            addCriterion("IS_REJECT <>", value, "isReject");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRejectGreaterThan(Integer value) {
+            addCriterion("IS_REJECT >", value, "isReject");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRejectGreaterThanOrEqualTo(Integer value) {
+            addCriterion("IS_REJECT >=", value, "isReject");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRejectLessThan(Integer value) {
+            addCriterion("IS_REJECT <", value, "isReject");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRejectLessThanOrEqualTo(Integer value) {
+            addCriterion("IS_REJECT <=", value, "isReject");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRejectIn(List<Integer> values) {
+            addCriterion("IS_REJECT in", values, "isReject");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRejectNotIn(List<Integer> values) {
+            addCriterion("IS_REJECT not in", values, "isReject");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRejectBetween(Integer value1, Integer value2) {
+            addCriterion("IS_REJECT between", value1, value2, "isReject");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRejectNotBetween(Integer value1, Integer value2) {
+            addCriterion("IS_REJECT not between", value1, value2, "isReject");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
