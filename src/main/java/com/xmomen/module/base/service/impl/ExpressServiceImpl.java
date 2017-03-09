@@ -15,6 +15,7 @@ import com.xmomen.module.order.mapper.OrderMapper;
 import com.xmomen.module.order.model.OrderModel;
 import com.xmomen.module.order.model.OrderQuery;
 import com.xmomen.module.report.model.ExpressReport;
+import com.xmomen.module.report.model.OrderDeliveryReport;
 import com.xmomen.module.wx.util.DateUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +82,7 @@ public class ExpressServiceImpl implements ExpressService {
      * @param offset
      * @return
      */
-    public List<ExpressReport> getTakeDeliveryReportList(OrderQuery orderQuery){
+    public List<OrderDeliveryReport> getTakeDeliveryReportList(OrderQuery orderQuery){
         return mybatisDao.getSqlSessionTemplate().selectList(ExpressMapper.ExpressMapperNameSpace + "getOrderReportList", orderQuery);
     }
     
@@ -103,7 +104,7 @@ public class ExpressServiceImpl implements ExpressService {
      * @param offset
      * @return
      */
-    public List<ExpressReport> getOrderNoDespatchReportList(OrderQuery orderQuery){
+    public List<OrderDeliveryReport> getOrderNoDespatchReportList(OrderQuery orderQuery){
         return mybatisDao.getSqlSessionTemplate().selectList(ExpressMapper.ExpressMapperNameSpace + "getOrderNoDespatchReportList", orderQuery);
     }
 	

@@ -109,7 +109,7 @@
     </select>
     
     <!--    查询提货订单 导出   -->
-    <select id="getOrderReportList" resultType="com.xmomen.module.report.model.ExpressReport" parameterType="com.xmomen.module.order.model.OrderQuery">
+    <select id="getOrderReportList" resultType="com.xmomen.module.report.model.OrderDeliveryReport" parameterType="com.xmomen.module.order.model.OrderQuery">
         select
 			paymentp.SHOW_VALUE AS paymentModeDesc,
 			otherPaymentp.show_value as otherPaymentModeDesc,
@@ -158,7 +158,7 @@
     
     
     <!--    查询已分配未提货的订单 导出   -->
-    <select id="getOrderNoDespatchReportList" resultType="com.xmomen.module.report.model.ExpressReport" parameterType="com.xmomen.module.order.model.OrderQuery">
+    <select id="getOrderNoDespatchReportList" resultType="com.xmomen.module.report.model.OrderDeliveryReport" parameterType="com.xmomen.module.order.model.OrderQuery">
         select
 			paymentp.SHOW_VALUE AS paymentModeDesc,
 			otherPaymentp.show_value as otherPaymentModeDesc,
