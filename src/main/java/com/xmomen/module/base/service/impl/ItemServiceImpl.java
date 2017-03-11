@@ -56,6 +56,12 @@ public class ItemServiceImpl implements ItemService {
 		item.setCaizaiUser(createItem.getCaizaiUser());
 		item.setJianceUser(createItem.getJianceUser());
 		item.setNongCanLv(createItem.getNongCanLv());
+		item.setBaoZhiQi(createItem.getBaoZhiQi());
+		item.setYiYangChenFen(createItem.getYiYangChenFen());
+		item.setShiYiRenQun(createItem.getShiYiRenQun());
+		item.setReMaiTuiJian(createItem.getReMaiTuiJian());
+		item.setXinPinChangXian(createItem.getXinPinChangXian());
+		item.setXianShiQiangGou(createItem.getXianShiQiangGou());
 		item = mybatisDao.saveByModel(item);
 		if(createItem.getChildItems() != null){
 			for(ItemChildModel childItem : createItem.getChildItems()){
@@ -90,6 +96,12 @@ public class ItemServiceImpl implements ItemService {
 		item.setCaizaiUser(updateItem.getCaizaiUser());
 		item.setJianceUser(updateItem.getJianceUser());
 		item.setNongCanLv(updateItem.getNongCanLv());
+		item.setBaoZhiQi(updateItem.getBaoZhiQi());
+		item.setYiYangChenFen(updateItem.getYiYangChenFen());
+		item.setShiYiRenQun(updateItem.getShiYiRenQun());
+		item.setReMaiTuiJian(updateItem.getReMaiTuiJian());
+		item.setXinPinChangXian(updateItem.getXinPinChangXian());
+		item.setXianShiQiangGou(updateItem.getXianShiQiangGou());
 		if(updateItem.getChildItems() != null){
 			//先删除再添加
 			CdItemRefExample itemRefDel = new CdItemRefExample();

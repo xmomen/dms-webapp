@@ -1416,6 +1416,386 @@ public class CdItemExample extends BaseMybatisExample {
             addCriterion("NONG_CAN_LV not between", value1, value2, "nongCanLv");
             return (Criteria) this;
         }
+
+        public Criteria andYiYangChenFenIsNull() {
+            addCriterion("YI_YANG_CHEN_FEN is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYiYangChenFenIsNotNull() {
+            addCriterion("YI_YANG_CHEN_FEN is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYiYangChenFenEqualTo(String value) {
+            addCriterion("YI_YANG_CHEN_FEN =", value, "yiYangChenFen");
+            return (Criteria) this;
+        }
+
+        public Criteria andYiYangChenFenNotEqualTo(String value) {
+            addCriterion("YI_YANG_CHEN_FEN <>", value, "yiYangChenFen");
+            return (Criteria) this;
+        }
+
+        public Criteria andYiYangChenFenGreaterThan(String value) {
+            addCriterion("YI_YANG_CHEN_FEN >", value, "yiYangChenFen");
+            return (Criteria) this;
+        }
+
+        public Criteria andYiYangChenFenGreaterThanOrEqualTo(String value) {
+            addCriterion("YI_YANG_CHEN_FEN >=", value, "yiYangChenFen");
+            return (Criteria) this;
+        }
+
+        public Criteria andYiYangChenFenLessThan(String value) {
+            addCriterion("YI_YANG_CHEN_FEN <", value, "yiYangChenFen");
+            return (Criteria) this;
+        }
+
+        public Criteria andYiYangChenFenLessThanOrEqualTo(String value) {
+            addCriterion("YI_YANG_CHEN_FEN <=", value, "yiYangChenFen");
+            return (Criteria) this;
+        }
+
+        public Criteria andYiYangChenFenLike(String value) {
+            addCriterion("YI_YANG_CHEN_FEN like", value, "yiYangChenFen");
+            return (Criteria) this;
+        }
+
+        public Criteria andYiYangChenFenNotLike(String value) {
+            addCriterion("YI_YANG_CHEN_FEN not like", value, "yiYangChenFen");
+            return (Criteria) this;
+        }
+
+        public Criteria andYiYangChenFenIn(List<String> values) {
+            addCriterion("YI_YANG_CHEN_FEN in", values, "yiYangChenFen");
+            return (Criteria) this;
+        }
+
+        public Criteria andYiYangChenFenNotIn(List<String> values) {
+            addCriterion("YI_YANG_CHEN_FEN not in", values, "yiYangChenFen");
+            return (Criteria) this;
+        }
+
+        public Criteria andYiYangChenFenBetween(String value1, String value2) {
+            addCriterion("YI_YANG_CHEN_FEN between", value1, value2, "yiYangChenFen");
+            return (Criteria) this;
+        }
+
+        public Criteria andYiYangChenFenNotBetween(String value1, String value2) {
+            addCriterion("YI_YANG_CHEN_FEN not between", value1, value2, "yiYangChenFen");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaoZhiQiIsNull() {
+            addCriterion("BAO_ZHI_QI is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaoZhiQiIsNotNull() {
+            addCriterion("BAO_ZHI_QI is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaoZhiQiEqualTo(Integer value) {
+            addCriterion("BAO_ZHI_QI =", value, "baoZhiQi");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaoZhiQiNotEqualTo(Integer value) {
+            addCriterion("BAO_ZHI_QI <>", value, "baoZhiQi");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaoZhiQiGreaterThan(Integer value) {
+            addCriterion("BAO_ZHI_QI >", value, "baoZhiQi");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaoZhiQiGreaterThanOrEqualTo(Integer value) {
+            addCriterion("BAO_ZHI_QI >=", value, "baoZhiQi");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaoZhiQiLessThan(Integer value) {
+            addCriterion("BAO_ZHI_QI <", value, "baoZhiQi");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaoZhiQiLessThanOrEqualTo(Integer value) {
+            addCriterion("BAO_ZHI_QI <=", value, "baoZhiQi");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaoZhiQiIn(List<Integer> values) {
+            addCriterion("BAO_ZHI_QI in", values, "baoZhiQi");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaoZhiQiNotIn(List<Integer> values) {
+            addCriterion("BAO_ZHI_QI not in", values, "baoZhiQi");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaoZhiQiBetween(Integer value1, Integer value2) {
+            addCriterion("BAO_ZHI_QI between", value1, value2, "baoZhiQi");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaoZhiQiNotBetween(Integer value1, Integer value2) {
+            addCriterion("BAO_ZHI_QI not between", value1, value2, "baoZhiQi");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiYiRenQunIsNull() {
+            addCriterion("SHI_YI_REN_QUN is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiYiRenQunIsNotNull() {
+            addCriterion("SHI_YI_REN_QUN is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiYiRenQunEqualTo(String value) {
+            addCriterion("SHI_YI_REN_QUN =", value, "shiYiRenQun");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiYiRenQunNotEqualTo(String value) {
+            addCriterion("SHI_YI_REN_QUN <>", value, "shiYiRenQun");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiYiRenQunGreaterThan(String value) {
+            addCriterion("SHI_YI_REN_QUN >", value, "shiYiRenQun");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiYiRenQunGreaterThanOrEqualTo(String value) {
+            addCriterion("SHI_YI_REN_QUN >=", value, "shiYiRenQun");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiYiRenQunLessThan(String value) {
+            addCriterion("SHI_YI_REN_QUN <", value, "shiYiRenQun");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiYiRenQunLessThanOrEqualTo(String value) {
+            addCriterion("SHI_YI_REN_QUN <=", value, "shiYiRenQun");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiYiRenQunLike(String value) {
+            addCriterion("SHI_YI_REN_QUN like", value, "shiYiRenQun");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiYiRenQunNotLike(String value) {
+            addCriterion("SHI_YI_REN_QUN not like", value, "shiYiRenQun");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiYiRenQunIn(List<String> values) {
+            addCriterion("SHI_YI_REN_QUN in", values, "shiYiRenQun");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiYiRenQunNotIn(List<String> values) {
+            addCriterion("SHI_YI_REN_QUN not in", values, "shiYiRenQun");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiYiRenQunBetween(String value1, String value2) {
+            addCriterion("SHI_YI_REN_QUN between", value1, value2, "shiYiRenQun");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiYiRenQunNotBetween(String value1, String value2) {
+            addCriterion("SHI_YI_REN_QUN not between", value1, value2, "shiYiRenQun");
+            return (Criteria) this;
+        }
+
+        public Criteria andXianShiQiangGouIsNull() {
+            addCriterion("XIAN_SHI_QIANG_GOU is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXianShiQiangGouIsNotNull() {
+            addCriterion("XIAN_SHI_QIANG_GOU is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXianShiQiangGouEqualTo(Integer value) {
+            addCriterion("XIAN_SHI_QIANG_GOU =", value, "xianShiQiangGou");
+            return (Criteria) this;
+        }
+
+        public Criteria andXianShiQiangGouNotEqualTo(Integer value) {
+            addCriterion("XIAN_SHI_QIANG_GOU <>", value, "xianShiQiangGou");
+            return (Criteria) this;
+        }
+
+        public Criteria andXianShiQiangGouGreaterThan(Integer value) {
+            addCriterion("XIAN_SHI_QIANG_GOU >", value, "xianShiQiangGou");
+            return (Criteria) this;
+        }
+
+        public Criteria andXianShiQiangGouGreaterThanOrEqualTo(Integer value) {
+            addCriterion("XIAN_SHI_QIANG_GOU >=", value, "xianShiQiangGou");
+            return (Criteria) this;
+        }
+
+        public Criteria andXianShiQiangGouLessThan(Integer value) {
+            addCriterion("XIAN_SHI_QIANG_GOU <", value, "xianShiQiangGou");
+            return (Criteria) this;
+        }
+
+        public Criteria andXianShiQiangGouLessThanOrEqualTo(Integer value) {
+            addCriterion("XIAN_SHI_QIANG_GOU <=", value, "xianShiQiangGou");
+            return (Criteria) this;
+        }
+
+        public Criteria andXianShiQiangGouIn(List<Integer> values) {
+            addCriterion("XIAN_SHI_QIANG_GOU in", values, "xianShiQiangGou");
+            return (Criteria) this;
+        }
+
+        public Criteria andXianShiQiangGouNotIn(List<Integer> values) {
+            addCriterion("XIAN_SHI_QIANG_GOU not in", values, "xianShiQiangGou");
+            return (Criteria) this;
+        }
+
+        public Criteria andXianShiQiangGouBetween(Integer value1, Integer value2) {
+            addCriterion("XIAN_SHI_QIANG_GOU between", value1, value2, "xianShiQiangGou");
+            return (Criteria) this;
+        }
+
+        public Criteria andXianShiQiangGouNotBetween(Integer value1, Integer value2) {
+            addCriterion("XIAN_SHI_QIANG_GOU not between", value1, value2, "xianShiQiangGou");
+            return (Criteria) this;
+        }
+
+        public Criteria andXinPinChangXianIsNull() {
+            addCriterion("XIN_PIN_CHANG_XIAN is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXinPinChangXianIsNotNull() {
+            addCriterion("XIN_PIN_CHANG_XIAN is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXinPinChangXianEqualTo(Integer value) {
+            addCriterion("XIN_PIN_CHANG_XIAN =", value, "xinPinChangXian");
+            return (Criteria) this;
+        }
+
+        public Criteria andXinPinChangXianNotEqualTo(Integer value) {
+            addCriterion("XIN_PIN_CHANG_XIAN <>", value, "xinPinChangXian");
+            return (Criteria) this;
+        }
+
+        public Criteria andXinPinChangXianGreaterThan(Integer value) {
+            addCriterion("XIN_PIN_CHANG_XIAN >", value, "xinPinChangXian");
+            return (Criteria) this;
+        }
+
+        public Criteria andXinPinChangXianGreaterThanOrEqualTo(Integer value) {
+            addCriterion("XIN_PIN_CHANG_XIAN >=", value, "xinPinChangXian");
+            return (Criteria) this;
+        }
+
+        public Criteria andXinPinChangXianLessThan(Integer value) {
+            addCriterion("XIN_PIN_CHANG_XIAN <", value, "xinPinChangXian");
+            return (Criteria) this;
+        }
+
+        public Criteria andXinPinChangXianLessThanOrEqualTo(Integer value) {
+            addCriterion("XIN_PIN_CHANG_XIAN <=", value, "xinPinChangXian");
+            return (Criteria) this;
+        }
+
+        public Criteria andXinPinChangXianIn(List<Integer> values) {
+            addCriterion("XIN_PIN_CHANG_XIAN in", values, "xinPinChangXian");
+            return (Criteria) this;
+        }
+
+        public Criteria andXinPinChangXianNotIn(List<Integer> values) {
+            addCriterion("XIN_PIN_CHANG_XIAN not in", values, "xinPinChangXian");
+            return (Criteria) this;
+        }
+
+        public Criteria andXinPinChangXianBetween(Integer value1, Integer value2) {
+            addCriterion("XIN_PIN_CHANG_XIAN between", value1, value2, "xinPinChangXian");
+            return (Criteria) this;
+        }
+
+        public Criteria andXinPinChangXianNotBetween(Integer value1, Integer value2) {
+            addCriterion("XIN_PIN_CHANG_XIAN not between", value1, value2, "xinPinChangXian");
+            return (Criteria) this;
+        }
+
+        public Criteria andReMaiTuiJianIsNull() {
+            addCriterion("RE_MAI_TUI_JIAN is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReMaiTuiJianIsNotNull() {
+            addCriterion("RE_MAI_TUI_JIAN is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReMaiTuiJianEqualTo(Integer value) {
+            addCriterion("RE_MAI_TUI_JIAN =", value, "reMaiTuiJian");
+            return (Criteria) this;
+        }
+
+        public Criteria andReMaiTuiJianNotEqualTo(Integer value) {
+            addCriterion("RE_MAI_TUI_JIAN <>", value, "reMaiTuiJian");
+            return (Criteria) this;
+        }
+
+        public Criteria andReMaiTuiJianGreaterThan(Integer value) {
+            addCriterion("RE_MAI_TUI_JIAN >", value, "reMaiTuiJian");
+            return (Criteria) this;
+        }
+
+        public Criteria andReMaiTuiJianGreaterThanOrEqualTo(Integer value) {
+            addCriterion("RE_MAI_TUI_JIAN >=", value, "reMaiTuiJian");
+            return (Criteria) this;
+        }
+
+        public Criteria andReMaiTuiJianLessThan(Integer value) {
+            addCriterion("RE_MAI_TUI_JIAN <", value, "reMaiTuiJian");
+            return (Criteria) this;
+        }
+
+        public Criteria andReMaiTuiJianLessThanOrEqualTo(Integer value) {
+            addCriterion("RE_MAI_TUI_JIAN <=", value, "reMaiTuiJian");
+            return (Criteria) this;
+        }
+
+        public Criteria andReMaiTuiJianIn(List<Integer> values) {
+            addCriterion("RE_MAI_TUI_JIAN in", values, "reMaiTuiJian");
+            return (Criteria) this;
+        }
+
+        public Criteria andReMaiTuiJianNotIn(List<Integer> values) {
+            addCriterion("RE_MAI_TUI_JIAN not in", values, "reMaiTuiJian");
+            return (Criteria) this;
+        }
+
+        public Criteria andReMaiTuiJianBetween(Integer value1, Integer value2) {
+            addCriterion("RE_MAI_TUI_JIAN between", value1, value2, "reMaiTuiJian");
+            return (Criteria) this;
+        }
+
+        public Criteria andReMaiTuiJianNotBetween(Integer value1, Integer value2) {
+            addCriterion("RE_MAI_TUI_JIAN not between", value1, value2, "reMaiTuiJian");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

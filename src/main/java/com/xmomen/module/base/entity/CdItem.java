@@ -113,6 +113,36 @@ public class CdItem extends BaseMybatisModel {
      */
     private String nongCanLv;
 
+    /**
+     * 营养成分
+     */
+    private String yiYangChenFen;
+
+    /**
+     * 保质期
+     */
+    private Integer baoZhiQi;
+
+    /**
+     * 适应人群
+     */
+    private String shiYiRenQun;
+
+    /**
+     * 限时抢购
+     */
+    private Integer xianShiQiangGou;
+
+    /**
+     * 新品尝鲜
+     */
+    private Integer xinPinChangXian;
+
+    /**
+     * 热卖推荐
+     */
+    private Integer reMaiTuiJian;
+
     @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
@@ -393,5 +423,89 @@ public class CdItem extends BaseMybatisModel {
               return;
         }
         addValidField("nongCanLv");
+    }
+
+    @Column(name = "YI_YANG_CHEN_FEN")
+    public String getYiYangChenFen() {
+        return yiYangChenFen;
+    }
+
+    public void setYiYangChenFen(String yiYangChenFen) {
+        this.yiYangChenFen = yiYangChenFen;
+        if(yiYangChenFen == null){
+              removeValidField("yiYangChenFen");
+              return;
+        }
+        addValidField("yiYangChenFen");
+    }
+
+    @Column(name = "BAO_ZHI_QI")
+    public Integer getBaoZhiQi() {
+        return baoZhiQi;
+    }
+
+    public void setBaoZhiQi(Integer baoZhiQi) {
+        this.baoZhiQi = baoZhiQi;
+        if(baoZhiQi == null){
+              removeValidField("baoZhiQi");
+              return;
+        }
+        addValidField("baoZhiQi");
+    }
+
+    @Column(name = "SHI_YI_REN_QUN")
+    public String getShiYiRenQun() {
+        return shiYiRenQun;
+    }
+
+    public void setShiYiRenQun(String shiYiRenQun) {
+        this.shiYiRenQun = shiYiRenQun;
+        if(shiYiRenQun == null){
+              removeValidField("shiYiRenQun");
+              return;
+        }
+        addValidField("shiYiRenQun");
+    }
+
+    @Column(name = "XIAN_SHI_QIANG_GOU")
+    public Integer getXianShiQiangGou() {
+        return xianShiQiangGou;
+    }
+
+    public void setXianShiQiangGou(Integer xianShiQiangGou) {
+        this.xianShiQiangGou = xianShiQiangGou;
+        if(xianShiQiangGou == null){
+              removeValidField("xianShiQiangGou");
+              return;
+        }
+        addValidField("xianShiQiangGou");
+    }
+
+    @Column(name = "XIN_PIN_CHANG_XIAN")
+    public Integer getXinPinChangXian() {
+        return xinPinChangXian;
+    }
+
+    public void setXinPinChangXian(Integer xinPinChangXian) {
+        this.xinPinChangXian = xinPinChangXian;
+        if(xinPinChangXian == null){
+              removeValidField("xinPinChangXian");
+              return;
+        }
+        addValidField("xinPinChangXian");
+    }
+
+    @Column(name = "RE_MAI_TUI_JIAN")
+    public Integer getReMaiTuiJian() {
+        return reMaiTuiJian;
+    }
+
+    public void setReMaiTuiJian(Integer reMaiTuiJian) {
+        this.reMaiTuiJian = reMaiTuiJian;
+        if(reMaiTuiJian == null){
+              removeValidField("reMaiTuiJian");
+              return;
+        }
+        addValidField("reMaiTuiJian");
     }
 }
