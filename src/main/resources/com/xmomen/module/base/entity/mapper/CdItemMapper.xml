@@ -22,6 +22,12 @@
     <result column="CAIZAI_USER" property="caizaiUser" jdbcType="VARCHAR" />
     <result column="JIANCE_USER" property="jianceUser" jdbcType="VARCHAR" />
     <result column="NONG_CAN_LV" property="nongCanLv" jdbcType="VARCHAR" />
+    <result column="YI_YANG_CHEN_FEN" property="yiYangChenFen" jdbcType="VARCHAR" />
+    <result column="BAO_ZHI_QI" property="baoZhiQi" jdbcType="INTEGER" />
+    <result column="SHI_YI_REN_QUN" property="shiYiRenQun" jdbcType="VARCHAR" />
+    <result column="XIAN_SHI_QIANG_GOU" property="xianShiQiangGou" jdbcType="INTEGER" />
+    <result column="XIN_PIN_CHANG_XIAN" property="xinPinChangXian" jdbcType="INTEGER" />
+    <result column="RE_MAI_TUI_JIAN" property="reMaiTuiJian" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -84,7 +90,8 @@
   <sql id="Base_Column_List" >
     ID, ITEM_CODE, CD_CATEGORY_ID, ITEM_NAME, ITEM_DESCRIBE, ITEM_TYPE, YIELDLY, SPEC, 
     BASE_PRICE, MEMBER_PRICE, PRICING_MANNER, SELL_STATUS, SELL_UNIT, SELL_PRICE, IS_AUDIT, 
-    CREATE_DATE_TIME, CREATE_USER_CODE, CAIZAI_USER, JIANCE_USER, NONG_CAN_LV
+    CREATE_DATE_TIME, CREATE_USER_CODE, CAIZAI_USER, JIANCE_USER, NONG_CAN_LV, YI_YANG_CHEN_FEN, 
+    BAO_ZHI_QI, SHI_YI_REN_QUN, XIAN_SHI_QIANG_GOU, XIN_PIN_CHANG_XIAN, RE_MAI_TUI_JIAN
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdItemExample" >
     select
@@ -169,6 +176,24 @@
       <if test="nongCanLv != null" >
         NONG_CAN_LV,
       </if>
+      <if test="yiYangChenFen != null" >
+        YI_YANG_CHEN_FEN,
+      </if>
+      <if test="baoZhiQi != null" >
+        BAO_ZHI_QI,
+      </if>
+      <if test="shiYiRenQun != null" >
+        SHI_YI_REN_QUN,
+      </if>
+      <if test="xianShiQiangGou != null" >
+        XIAN_SHI_QIANG_GOU,
+      </if>
+      <if test="xinPinChangXian != null" >
+        XIN_PIN_CHANG_XIAN,
+      </if>
+      <if test="reMaiTuiJian != null" >
+        RE_MAI_TUI_JIAN,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -230,6 +255,24 @@
       </if>
       <if test="nongCanLv != null" >
         #{nongCanLv,jdbcType=VARCHAR},
+      </if>
+      <if test="yiYangChenFen != null" >
+        #{yiYangChenFen,jdbcType=VARCHAR},
+      </if>
+      <if test="baoZhiQi != null" >
+        #{baoZhiQi,jdbcType=INTEGER},
+      </if>
+      <if test="shiYiRenQun != null" >
+        #{shiYiRenQun,jdbcType=VARCHAR},
+      </if>
+      <if test="xianShiQiangGou != null" >
+        #{xianShiQiangGou,jdbcType=INTEGER},
+      </if>
+      <if test="xinPinChangXian != null" >
+        #{xinPinChangXian,jdbcType=INTEGER},
+      </if>
+      <if test="reMaiTuiJian != null" >
+        #{reMaiTuiJian,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -301,6 +344,24 @@
       </if>
       <if test="record.nongCanLv != null" >
         NONG_CAN_LV = #{record.nongCanLv,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yiYangChenFen != null" >
+        YI_YANG_CHEN_FEN = #{record.yiYangChenFen,jdbcType=VARCHAR},
+      </if>
+      <if test="record.baoZhiQi != null" >
+        BAO_ZHI_QI = #{record.baoZhiQi,jdbcType=INTEGER},
+      </if>
+      <if test="record.shiYiRenQun != null" >
+        SHI_YI_REN_QUN = #{record.shiYiRenQun,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xianShiQiangGou != null" >
+        XIAN_SHI_QIANG_GOU = #{record.xianShiQiangGou,jdbcType=INTEGER},
+      </if>
+      <if test="record.xinPinChangXian != null" >
+        XIN_PIN_CHANG_XIAN = #{record.xinPinChangXian,jdbcType=INTEGER},
+      </if>
+      <if test="record.reMaiTuiJian != null" >
+        RE_MAI_TUI_JIAN = #{record.reMaiTuiJian,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >

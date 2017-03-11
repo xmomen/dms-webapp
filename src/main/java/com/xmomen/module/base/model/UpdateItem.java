@@ -99,6 +99,36 @@ public class UpdateItem implements Serializable {
      * 农残率
      */
     private String nongCanLv;
+
+	/**
+	 * 营养成分
+	 */
+	private String yiYangChenFen;
+
+	/**
+	 * 保质期
+	 */
+	private Integer baoZhiQi;
+
+	/**
+	 * 适应人群
+	 */
+	private String shiYiRenQun;
+
+	/**
+	 * 限时抢购
+	 */
+	private Integer xianShiQiangGou;
+
+	/**
+	 * 新品尝鲜
+	 */
+	private Integer xinPinChangXian;
+
+	/**
+	 * 热卖推荐
+	 */
+	private Integer reMaiTuiJian;
     
     private List<ItemChildModel> childItems;
     
@@ -260,5 +290,53 @@ public class UpdateItem implements Serializable {
 
 	public void setNongCanLv(String nongCanLv) {
 		this.nongCanLv = nongCanLv;
+	}
+
+	public String getYiYangChenFen() {
+		return yiYangChenFen;
+	}
+
+	public void setYiYangChenFen(String yiYangChenFen) {
+		this.yiYangChenFen = yiYangChenFen;
+	}
+
+	public Integer getBaoZhiQi() {
+		return baoZhiQi;
+	}
+
+	public void setBaoZhiQi(Integer baoZhiQi) {
+		this.baoZhiQi = baoZhiQi;
+	}
+
+	public String getShiYiRenQun() {
+		return shiYiRenQun;
+	}
+
+	public void setShiYiRenQun(String shiYiRenQun) {
+		this.shiYiRenQun = shiYiRenQun;
+	}
+
+	public Integer getXianShiQiangGou() {
+		return xianShiQiangGou;
+	}
+
+	public void setXianShiQiangGou(Integer xianShiQiangGou) {
+		this.xianShiQiangGou = xianShiQiangGou;
+	}
+
+	public Integer getXinPinChangXian() {
+		return xinPinChangXian;
+	}
+
+	public void setXinPinChangXian(Integer xinPinChangXian) {
+		this.xinPinChangXian = xinPinChangXian;
+	}
+
+	public Integer getReMaiTuiJian() {
+		return reMaiTuiJian;
+	}
+
+	public void setReMaiTuiJian(Integer reMaiTuiJian) {
+		this.reMaiTuiJian = reMaiTuiJian;
 	}
 }
