@@ -18,6 +18,7 @@ require.config({
         ugDialog:"js/ug-ui/ug-dialog",
         select2:"js/plugin/select2/select2.min",
         uploadify:"js/uploadify/jquery.uploadify.min",
+        ugEditor:"js/ug-ui/ug-editor",
         jquery:"js/libs/jquery-2.0.2.min"
     },
     map:{
@@ -39,7 +40,7 @@ require.config({
             deps:["ngResource"]
         },
         ngApp:{
-            deps:["ugPagination", "EnvModule", "ugValidate", "amsRest", "ugDialog", "select2", "uploadify"]
+            deps:["ugPagination", "ugEditor", "EnvModule", "ugValidate", "amsRest", "ugDialog", "select2", "uploadify"]
         }
     }
 });

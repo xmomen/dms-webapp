@@ -244,12 +244,12 @@ define(function () {
             var modalInstance = $modal.open({
                 templateUrl: 'itemDetail.html',
                 controller: ["$scope", "ItemCategoryAPI", "$modalInstance", function ($scope, ItemCategoryAPI, $modalInstance) {
-                    $scope.itemCategoryList = [];
+                    $scope.itemDetail = {};
                     $scope.queryParam = {};
                     ItemCategoryAPI.query({
                         id: $scope.queryParam.id
                     }, function (data) {
-                        $scope.itemCategoryList = data;
+                        $scope.itemDetail = data;
                         $rootScope.$broadcast("loadingTree");
                     });
                     $scope.cancel = function () {
