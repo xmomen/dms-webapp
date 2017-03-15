@@ -242,7 +242,8 @@ define(function () {
         //商品详情页
         $scope.openDetail = function (index) {
             var modalInstance = $modal.open({
-                templateUrl: 'itemDetail.html',
+                //templateUrl: 'views/base/item.detail.html',
+                templateUrl:'itemDetail.html',
                 controller: ["$scope", "ItemCategoryAPI", "$modalInstance", function ($scope, ItemCategoryAPI, $modalInstance) {
                     $scope.itemDetail = {};
                     $scope.queryParam = {};
@@ -258,6 +259,7 @@ define(function () {
                     $scope.chooseCategory = function (category) {
                         $modalInstance.close(category);
                     }
+                    //var ue = UE.getEditor('container');
                 }],
                 resolve: {
                     currentItem: function () {
