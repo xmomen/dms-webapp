@@ -160,8 +160,8 @@ define(function () {
         return $resource("/coupon/:id", {id: "@id"}, {
             query: {isArray: false},
             update: {method: "PUT", params: {id: "@id"}},
-            sendOneCoupon: {method: "GET", url: "/coupon/sendOneCoupon", params: {id: "@id", companyId: "@companyId", couponNumber: "@couponNumber", batch: "@batch"}},
-            sendMoreCoupon: {method: "GET", url: "/coupon/sendMoreCoupon", params: {companyId: "@companyId", couponNumberList: "@couponNumberList", batch: "@batch"}},
+            sendOneCoupon: {method: "GET", url: "/coupon/sendOneCoupon", params: {id: "@id", companyId: "@companyId", couponNumber: "@couponNumber", batch: "@batch", isGift: "@isGift"}},
+            sendMoreCoupon: {method: "GET", url: "/coupon/sendMoreCoupon", params: {companyId: "@companyId", couponNumberList: "@couponNumberList", batch: "@batch", isGift: "@isGift"}},
             updateBatchCoupon: {method: "GET", url: "/coupon/updateBatchCoupon", params: {companyId: "@companyId", customerMangerId: "@customerMangerId", batch: "@batch"}},
             updateBatchCouponType: {method: "GET", url: "/coupon/updateBatchCouponType", params: {couponCategoryId: "@couponCategoryId", couponNumberList: "@couponNumberList"}},
             activityAddress: {method: "POST", url: "/coupon/activityAddress"},

@@ -390,7 +390,6 @@ define(function () {
                     }
                 }
                 $scope.totalItem.totalNumber = totalNumber;
-                debugger;
                 //如果是劵的话 订单总金额就是劵面金额 餐桌计划也是 固定金额
                 if($scope.order.orderType == 2 ){
                     $scope.totalItem.totalPrice = $scope.order.juanValue;
