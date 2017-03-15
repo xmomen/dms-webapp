@@ -258,8 +258,7 @@ define(function () {
                     };
                     $scope.chooseCategory = function (category) {
                         $modalInstance.close(category);
-                    }
-                    //var ue = UE.getEditor('container');
+                    };
                 }],
                 resolve: {
                     currentItem: function () {
