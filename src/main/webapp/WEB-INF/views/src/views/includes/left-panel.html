@@ -187,8 +187,12 @@ will not initialize.
     </div>
     <div permission only="'REPORT_MENU'">
         <nav:group data-icon="fa fa-fw fa-cubes" title="报表管理">
-            <div permission only="'ORDER_REPORT'">
-                <nav:item ui-sref="order_report" title="订单报表" />
+            <div permission only="'REPORT_ORDER'">
+                <nav:item ui-sref="reportOrder" title="报表下载" />
+            </div>
+
+            <div permission only="'REPORT_FINANCE'">
+                <nav:item ui-sref="reportFinance" title="财务报表" />
             </div>
         </nav:group>
     </div>

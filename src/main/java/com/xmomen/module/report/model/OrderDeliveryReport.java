@@ -18,15 +18,15 @@ class OrderDeliveryReport implements Serializable {
 
     @Excel(name = "下单日期" , exportFormat="yyyy-MM-dd", importFormat = "yyyy-MM-dd")
     private Date createTime;
-    @Excel(name = "订单号")
+    @Excel(name = "订单号",width = 20)
     private String orderNo;
     @Excel(name="快递商")
     private String expressName;
-    @Excel(name = "收货人姓名")
+    @Excel(name = "收货人姓名",width = 15)
     private String consigneeName;
-    @Excel(name = "收货人电话")
+    @Excel(name = "收货人电话",width = 15)
     private String consigneePhone;
-    @Excel(name = "收货人地址")
+    @Excel(name = "收货人地址",width = 30)
     private String consigneeAddress;
     @Excel(name = "金额")
     private BigDecimal totalAmount;
@@ -40,7 +40,7 @@ class OrderDeliveryReport implements Serializable {
     private BigDecimal otherPayAmount;
     @Excel(name = "送货日期" , exportFormat="yyyy-MM-dd", importFormat = "yyyy-MM-dd")
     private Date appointmentTime;
-    @Excel(name = "备注")
+    @Excel(name = "备注",width = 30)
     private String remark;
     private String orderStatusDesc;
     private int totalBoxNum;
