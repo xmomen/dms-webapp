@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
 
-    <title> 订单管理系统 </title>
+    <title> 个人礼品市场后台管理系统 </title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -64,7 +64,7 @@
     <!--<span id="logo"></span>-->
 
     <div id="logo-group">
-        <span id="logo"> <img src="./img/logo.png" alt="订单管理系统"> </span>
+        <span id="logo"> <img src="./img/logo.png" alt="个人礼品市场后台管理系统"> </span>
 
         <!-- END AJAX-DROPDOWN -->
     </div>
@@ -82,7 +82,7 @@
                 <div class="well no-padding">
                     <form  action="" method="post" id="login-form" class="smart-form client-form">
                         <header>
-                            登录
+                            登录 - 个人礼品市场后台管理系统
                         </header>
                         <fieldset>
                             <div class="error">
