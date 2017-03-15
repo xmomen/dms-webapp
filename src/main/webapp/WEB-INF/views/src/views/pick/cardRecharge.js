@@ -24,7 +24,6 @@ define(function () {
 
                 //指定密码，以下密码为厂家出厂密码
                 var mypicckey = "ffffffffffff";
-                debugger;
                 strls=IcCardReader.piccreadex(myctrlword, mypiccserial,myareano,authmode,mypicckey);
                 errorno = strls.substr(0,4);
                 switch(errorno)
@@ -116,7 +115,6 @@ define(function () {
 
         $scope.pickForm = {};
         $scope.cardRecharge = function(){
-            debugger;
             if($scope.pick.couponNo == "" || $scope.pick.couponNo == null || $scope.pick.couponNo == undefined  ){
                 $ugDialog.alert("请刷卡");
                 return;

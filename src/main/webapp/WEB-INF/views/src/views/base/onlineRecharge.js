@@ -32,7 +32,6 @@ define(function () {
 
         $scope.pickForm = {};
         $scope.cardRecharge = function(){
-            debugger;
             if($scope.pick.couponNo == "" || $scope.pick.couponNo == null || $scope.pick.couponNo == undefined  ){
                 $ugDialog.alert("请输入卡号");
                 return;

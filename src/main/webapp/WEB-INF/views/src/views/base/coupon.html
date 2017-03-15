@@ -446,6 +446,21 @@
                             </select>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">是否赠送<span class="vaild">*</span></label>
+                        <div class="col-md-10 input-group">
+                            <div class="col-md-10 input-group">
+                                <label class="radio radio-inline">
+                                    <input type="radio" class="radiobox"  ng-model="coupon.isGift" value="0" ng-checked="coupon.isGift==0"  name="isGift">
+                                    <span>未赠送</span>
+                                </label>
+                                <label class="radio radio-inline">
+                                    <input type="radio" class="radiobox" ng-model="coupon.isGift" value="1" ng-checked="coupon.isGift==1" name="isGift">
+                                    <span>已赠送</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group" ng-if="errors">
                         <label class="col-md-2 control-label"></label>
                         <div class="col-md-10 error">
@@ -593,6 +608,21 @@
                                 <option value="">--请选择--</option>
                                 <option value="{{customerManager.customerMangerId}}" ng-repeat="customerManager in companyCustomerManagers">{{customerManager.customerManger}}</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">是否赠送<span class="vaild">*</span></label>
+                        <div class="col-md-10 input-group">
+                            <div class="col-md-10 input-group">
+                                <label class="radio radio-inline">
+                                    <input type="radio" class="radiobox"  ng-model="coupon.isGift" value="0" ng-checked="coupon.isGift==0"  name="isGift">
+                                    <span>未赠送</span>
+                                </label>
+                                <label class="radio radio-inline">
+                                    <input type="radio" class="radiobox" ng-model="coupon.isGift" value="1" ng-checked="coupon.isGift==1" name="isGift">
+                                    <span>已赠送</span>
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group" ng-if="errors">

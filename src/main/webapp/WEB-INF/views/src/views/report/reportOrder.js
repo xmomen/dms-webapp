@@ -81,7 +81,6 @@ define(function () {
             if ($scope.queryParam.cdCompanyId_order != undefined) {
                 url += "&companyId=" + $scope.queryParam.cdCompanyId_order;
             }
-            alert($scope.queryParam.cdCompanyId_order);
             if ($scope.queryParam.customerMangerId_order != undefined) {
                 url += "&managerId=" + $scope.queryParam.customerMangerId_order;
             }

@@ -113,7 +113,6 @@ define(function () {
                 PickAPI.pickCard($scope.member, function(){
                     alert("办卡成功");
                 }, function(data){
-                    debugger;
                     alert(data.data.error);
                 })
             }

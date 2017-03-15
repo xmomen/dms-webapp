@@ -86,7 +86,6 @@ define(function () {
                         offset: $scope.setting.pageInfo.pageNum,
                         id: $scope.order.id
                     }, function (data) {
-                        debugger;
                         $scope.order.itemList = data.data;
                         $scope.calTotalItem();
                     });

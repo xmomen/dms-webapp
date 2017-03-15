@@ -40,3 +40,7 @@ aside{ background: #e8e8e8}
 .tdred{
     background:red;
 }
+
+.edui-default {
+    z-index: 1100;
+}

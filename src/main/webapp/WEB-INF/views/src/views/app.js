@@ -14,7 +14,9 @@ define([
     "views/report/report_module"
 ],function (user_module,order_module,schedule_module, dashboard, base_module, template_module,checklist_model,plan_module,package_module,despatch_module,report_module) {
     angular.module('DMS', [
-        "smartApp", "ui.router", "DMS.schedule", "DMS.order", "DMS.tpls", "DMS.user","DMS.base", "ug.pagination", "EnvModule", "permission", "ug.validate","ug.dialog",
+        "smartApp", "ui.router",
+        "ug.editor",
+        "DMS.schedule", "DMS.order", "DMS.tpls", "DMS.user","DMS.base", "ug.pagination", "EnvModule", "permission", "ug.validate","ug.dialog",
         "DMS.REST","checklist-model","DMS.plan","DMS.package","DMS.pick","DMS.despatch","DMS.receipt","DMS.report"
     ]).filter(
         'to_trusted', ['$sce', function ($sce) {
@@ -168,7 +170,6 @@ define([
                     uxUploadConfig : '='
                 },
                 link:function(scope,elem,attr,ctrl){
-                    debugger
                     var config = scope.uxUploadConfig;
                     var defaultConfig = {
                         buttonClass     : "btn btn-outline btn-primary",

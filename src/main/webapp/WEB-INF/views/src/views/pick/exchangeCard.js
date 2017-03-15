@@ -4,14 +4,12 @@
 define(function () {
     return ["$scope", "CouponAPI","$modal", "$ugDialog","$stateParams", function($scope, CouponAPI,$modal, $ugDialog,$stateParams){
         $scope.readOldCard = function(){
-            debugger
             if($scope.pick.couponNo && $scope.pick.password){
                 //查找卡信息
                 CouponAPI.readCard({
                     couponNo:$scope.pick.couponNo,
                     password:$scope.pick.password
                 }, function (data) {
-                    debugger;
                     if(data.userName == null || data.userName == undefined){
                         $ugDialog.warn("卡号或者密码错误!");
                         $scope.pick.couponNo = "";
@@ -49,7 +47,6 @@ define(function () {
 
                 //指定密码，以下密码为厂家出厂密码
                 var mypicckey = "ffffffffffff";
-                debugger;
                 strls=IcCardReader.piccreadex(myctrlword, mypiccserial,myareano,authmode,mypicckey);
                 errorno = strls.substr(0,4);
                 switch(errorno)
