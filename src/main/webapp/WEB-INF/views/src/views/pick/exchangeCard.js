@@ -4,7 +4,6 @@
 define(function () {
     return ["$scope", "CouponAPI","$modal", "$ugDialog","$stateParams", function($scope, CouponAPI,$modal, $ugDialog,$stateParams){
         $scope.readOldCard = function(){
-            debugger
             if($scope.pick.couponNo && $scope.pick.password){
                 //查找卡信息
                 CouponAPI.readCard({

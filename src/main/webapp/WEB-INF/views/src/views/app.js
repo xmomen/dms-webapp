@@ -170,7 +170,6 @@ define([
                     uxUploadConfig : '='
                 },
                 link:function(scope,elem,attr,ctrl){
-                    debugger
                     var config = scope.uxUploadConfig;
                     var defaultConfig = {
                         buttonClass     : "btn btn-outline btn-primary",
