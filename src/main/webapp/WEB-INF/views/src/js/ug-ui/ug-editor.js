@@ -38,8 +38,7 @@ define(function () {
                     if (ele.onload == null) {
                         ele.onload = function() {
                         };
-                    }
-                    else {
+                    } else {
                         ele.onreadystatechange = function() {
                         };
                     }
@@ -95,8 +94,7 @@ define(function () {
                                         }
                                     });
                                 });
-                            }
-                            else {
+                            } else {
                                 UEditorService.loadScript(base + '/ueditor.config.js', null);
                                 UEditorService.loadScript(base + '/ueditor.all.min.js', function() {
                                     _self.init();
@@ -115,9 +113,9 @@ define(function () {
                     };
                     editorHandler.init();
                     //事件
-                    $rootScope.$on('$routeChangeStart', function() {
-                        editor && editor.destroy();
-                    });
+                    //$rootScope.$on('$routeChangeStart', function() {
+                    //    editor && editor.destroy();
+                    //});
                 }
             }
         }
