@@ -49,7 +49,7 @@ public class CouponReportModel implements Serializable {
     /**
      * 是否预付款 1-预付款,2-后付款
      */
-	@Excel(name="是否预付款 ",replace={"预付款_1","后付款_2"}) 
+	@Excel(name="是否预付款",replace={"预付款_1","后付款_2"})
     private Integer paymentType;
 
 	public Integer getCouponType() {
