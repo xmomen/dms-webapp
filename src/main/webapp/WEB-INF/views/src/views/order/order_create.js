@@ -210,6 +210,9 @@ define(function () {
                 $scope.order.name = member.name;
                 $scope.order.phone = member.phoneNumber;
                 $scope.order.addressChose = 1;
+                $scope.order.defaultConsigneeAddress = member.address;
+                $scope.order.defaultConsigneeName = member.name;
+                $scope.order.defaultConsigneePhone = member.phoneNumber;
                 $scope.order.consigneeAddress = member.address;
                 $scope.order.consigneeName = member.name;
                 $scope.order.consigneePhone = member.phoneNumber;
@@ -330,7 +333,23 @@ define(function () {
                 }
             };
 
-
+            $scope.$watch("order.addressChose", function(newVal, oldVal){
+                if(oldVal != newVal){
+                    if(newVal == "1"){
+                        $scope.order.consigneeAddress = $scope.order.defaultConsigneeAddress;
+                        $scope.order.consigneeName = $scope.order.defaultConsigneeName;
+                        $scope.order.phone = $scope.order.defaultConsigneePhone;
+                    }else if(newVal == "2"){
+                        $scope.order.consigneeAddress = $scope.order.spareAddress;
+                        $scope.order.consigneeName = $scope.order.spareName;
+                        $scope.order.phone = $scope.order.spareTel;
+                    }else if(newVal == "3"){
+                        $scope.order.consigneeAddress = $scope.order.spareAddress2;
+                        $scope.order.consigneeName = $scope.order.spareName2;
+                        $scope.order.consigneePhone = $scope.order.spareTel2;
+                    }
+                }
+            });
             $scope.choseOrderItemList = [];
             $scope.choseItem = function (index, number) {
                 var item = $scope.itemList[index];
