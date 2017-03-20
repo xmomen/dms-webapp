@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.product.mapper.ProductCategoryMapper" >
+	<select id="getProductCategoryList" resultType="com.xmomen.module.product.entity.Category">
+        SELECT
+        	category.ID as id,
+            category.CATEGORY_NAMe as name,
+            category.PARENT_ID as parentId
+        FROM
+          cd_category category
+        ORDER BY parent_id
+    </select>
+</mapper>
