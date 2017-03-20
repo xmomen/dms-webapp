@@ -346,7 +346,7 @@ define(function () {
                     }else if(newVal == "3"){
                         $scope.order.consigneeAddress = $scope.order.spareAddress2;
                         $scope.order.consigneeName = $scope.order.spareName2;
-                        $scope.order.consigneePhone = $scope.order.spareTel2;
+                        $scope.order.phone = $scope.order.spareTel2;
                     }
                 }
             });
