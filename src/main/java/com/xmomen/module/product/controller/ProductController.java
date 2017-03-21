@@ -1,17 +1,22 @@
 package com.xmomen.module.product.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xmomen.framework.mybatis.page.Page;
+import com.xmomen.module.product.model.ProductLabel;
 import com.xmomen.module.product.model.ProductModel;
 import com.xmomen.module.product.model.ProductQuery;
+import com.xmomen.module.product.model.ProductQueryFilter;
 import com.xmomen.module.product.service.ProductService;
 
 @Controller
@@ -28,12 +33,30 @@ public class ProductController {
             @PathVariable(value="categoryId") Integer categoryId,
             @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(value = "orderField", required = false) String orderField,
-            @RequestParam(value = "orderDirection", required = false, defaultValue="0") Integer orderDirection) {
+            @RequestParam(value = "isAsc", required = false, defaultValue="true") Boolean isAsc,
+            @RequestParam(value = "labels", required = false) String labels) {
 		ProductQuery productQuery = new ProductQuery();
 		productQuery.setKeyword(keyword);
 		productQuery.setCategoryId(categoryId);
-		/*productQuery.setOrderField(orderField);
-		productQuery.setOrderDirection(orderDirection);*/
+		List<String> labelEntityFields = new ArrayList<String>();
+		if(!StringUtils.isEmpty(labels)) {
+			productQuery.setFilterLabels(new ArrayList<String>());
+			String[] labelStrs = labels.split(",");
+			for(String labelStr: labelStrs) {
+				ProductLabel label = ProductLabel.enumOf(labelStr);
+				if(label != null) {
+					labelEntityFields.add(label.getEntityField());
+				}
+			}
+			
+		}
+		productQuery.setFilterLabels(labelEntityFields);
+		ProductQueryFilter orderFieldType = ProductQueryFilter.enumOf(orderField);
+		if(orderFieldType != null) {
+			productQuery.setOrderField(orderFieldType.getFieldName());
+			productQuery.setIsAsc(isAsc);
+		}
+		
 		return productService.getProductList(productQuery, limit, offset);
 	}
 	
@@ -43,11 +66,28 @@ public class ProductController {
             @RequestParam(value = "offset") Integer offset,
             @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(value = "orderField", required = false) String orderField,
-            @RequestParam(value = "orderDirection", required = false, defaultValue="0") Integer orderDirection) {
+            @RequestParam(value = "isAsc", required = false, defaultValue="true") Boolean isAsc,
+            @RequestParam(value = "labels", required = false) String labels) {
 		ProductQuery productQuery = new ProductQuery();
 		productQuery.setKeyword(keyword);
-		/*productQuery.setOrderField(orderField);
-		productQuery.setOrderDirection(orderDirection);*/
+		List<String> labelEntityFields = new ArrayList<String>();
+		if(!StringUtils.isEmpty(labels)) {
+			productQuery.setFilterLabels(new ArrayList<String>());
+			String[] labelStrs = labels.split(",");
+			for(String labelStr: labelStrs) {
+				ProductLabel label = ProductLabel.enumOf(labelStr);
+				if(label != null) {
+					labelEntityFields.add(label.getEntityField());
+				}
+			}
+			
+		}
+		productQuery.setFilterLabels(labelEntityFields);
+		ProductQueryFilter orderFieldType = ProductQueryFilter.enumOf(orderField);
+		if(orderFieldType != null) {
+			productQuery.setOrderField(orderFieldType.getFieldName());
+			productQuery.setIsAsc(isAsc);
+		}
 		return productService.getProductList(productQuery, limit, offset);
 	}
 	

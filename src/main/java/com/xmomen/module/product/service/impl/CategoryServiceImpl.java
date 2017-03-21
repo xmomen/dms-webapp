@@ -35,14 +35,18 @@ public class CategoryServiceImpl implements CategoryService {
 				model.setId(category.getId());
 				model.setLeaf(true);
 				model.setName(category.getName());
-				model.setChildren(new ArrayList<CategoryModel>());
 				if(category.getParentId() == null) {
 					topCategories.put(String.valueOf(category.getId()), model);
 				} else {
 					CategoryModel parentCategory = topCategories.get(String.valueOf(category.getParentId()));
 					if(parentCategory != null) {
 						parentCategory.setLeaf(false);
-						parentCategory.getChildren().add(model);
+						model.setParentId(parentCategory.getId());
+						model.setParentName(parentCategory.getName());
+						if(parentCategory.getNodes() == null) {
+							parentCategory.setNodes(new ArrayList<CategoryModel>());
+						}
+						parentCategory.getNodes().add(model);
 					}
 				}
 				

@@ -23,7 +23,7 @@ public @Data class ProductModel {
 	private String sellUnit;
 	private Double sellPrice;
 	
-	private Boolean xianShiXianGou;
+	private Boolean xianShiQiangGou;
 	private Boolean xinPinChangXian;
 	private Boolean reMaiTuiJian;
 	
