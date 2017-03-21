@@ -244,20 +244,14 @@ define(function () {
             var modalInstance = $modal.open({
                 //templateUrl: 'views/base/item.detail.html',
                 templateUrl:'itemDetail.html',
-                controller: ["$scope", "ItemCategoryAPI", "$modalInstance", function ($scope, ItemCategoryAPI, $modalInstance) {
-                    $scope.itemDetail = {};
+                controller: ["$scope", "ItemCategoryAPI", "$modalInstance", "currentItem", function ($scope, ItemCategoryAPI, $modalInstance, currentItem) {
+                    $scope.currentItem = angular.copy(currentItem);
                     $scope.queryParam = {};
-                    ItemCategoryAPI.query({
-                        id: $scope.queryParam.id
-                    }, function (data) {
-                        $scope.itemDetail = data;
-                        $rootScope.$broadcast("loadingTree");
-                    });
                     $scope.cancel = function () {
                         $modalInstance.dismiss('cancel');
                     };
-                    $scope.chooseCategory = function (category) {
-                        $modalInstance.close(category);
+                    $scope.save = function(){
+                        $modalInstance.close($scope.currentItem);
                     };
                 }],
                 resolve: {
@@ -267,9 +261,8 @@ define(function () {
                 },
                 size: 'lg'
             });
-            modalInstance.result.then(function (category) {
-                $scope.item.categoryName = category.name;
-                $scope.item.cdCategoryId = category.id;
+            modalInstance.result.then(function (item) {
+                $scope.itemList[index].content = item.content;
             });
         };
         $scope.getItemList();
