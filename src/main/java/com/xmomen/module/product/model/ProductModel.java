@@ -10,6 +10,7 @@ public @Data class ProductModel {
 
 	private Integer id;
 	private String itemCode;
+	private String itemName;
 	private Integer categoryId;
 	private String categoryName;
 	private String itemDescribe;
