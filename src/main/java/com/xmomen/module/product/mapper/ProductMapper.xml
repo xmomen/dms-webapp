@@ -36,7 +36,13 @@
             <if test="keyword">
                   AND (item.ITEM_NAME LIKE CONCAT('%', #{keyword}, '%')
             </if>
+            <foreach collection="filterLabels" item="label">
+                  AND item.${label} = 1
+            </foreach>
         </where>
+        <if test="orderField">
+            ORDER BY item.${orderField} <choose><when test="isAsc">ASC</when><otherwise>DESC</otherwise></choose>
+        </if>
     </select>
     <select id="getProductDetail" resultType="com.xmomen.module.product.model.ProductModel" 
 		parameterType="java.lang.Integer">

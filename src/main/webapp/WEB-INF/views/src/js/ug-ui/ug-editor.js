@@ -55,6 +55,7 @@ define(function () {
                 require: 'ngModel',
                 link: function(scope, ele, attrs, ctrl) {
                     $rootScope.$emit('loading', '初始化编辑器...');//广播loading事件，可以删除
+                    UE = undefined;
                     var _self = this,
                         _initContent,
                         editor,
@@ -93,6 +94,8 @@ define(function () {
                                             });
                                         }
                                     });
+                                    _initContent = ctrl.$isEmpty(ctrl.$viewValue) ? '' : ctrl.$viewValue;
+                                    editorHandler.setContent(_initContent);//双向绑定
                                 });
                             } else {
                                 UEditorService.loadScript(base + '/ueditor.config.js', null);
@@ -113,9 +116,9 @@ define(function () {
                     };
                     editorHandler.init();
                     //事件
-                    //$rootScope.$on('$routeChangeStart', function() {
-                    //    editor && editor.destroy();
-                    //});
+                    $rootScope.$on('$routeChangeStart', function() {
+                        editor && editor.destroy();
+                    });
                 }
             }
         }
