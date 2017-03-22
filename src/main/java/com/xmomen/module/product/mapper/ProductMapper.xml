@@ -31,10 +31,11 @@
           item.CD_CATEGORY_ID = category.id
         <where>
             <if test="categoryId">
-                  AND item.CD_CATEGORY_ID = #{categoryId}
+                  AND item.CD_CATEGORY_ID IN (
+                  	SELECT id from cd_category where cd_category.id = #{categoryId} or cd_category.parent_id = #{categoryId}) 
             </if>
             <if test="keyword">
-                  AND (item.ITEM_NAME LIKE CONCAT('%', #{keyword}, '%')
+                  AND (item.ITEM_NAME LIKE CONCAT('%', #{keyword}, '%'))
             </if>
             <foreach collection="filterLabels" item="label">
                   AND item.${label} = 1

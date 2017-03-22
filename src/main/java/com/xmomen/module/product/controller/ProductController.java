@@ -20,56 +20,25 @@ import com.xmomen.module.product.model.ProductQueryFilter;
 import com.xmomen.module.product.service.ProductService;
 
 @Controller
-@RequestMapping("/product")
 public class ProductController {
 
 	@Autowired
 	ProductService productService;
 
-	@RequestMapping(value = "/{categoryId}/list", method = RequestMethod.GET)
 	@ResponseBody
-	public Page<ProductModel> getProductsByCategory(@RequestParam(value = "limit") Integer limit,
-            @RequestParam(value = "offset") Integer offset,
-            @PathVariable(value="categoryId") Integer categoryId,
-            @RequestParam(value = "keyword", required = false) String keyword,
-            @RequestParam(value = "orderField", required = false) String orderField,
-            @RequestParam(value = "isAsc", required = false, defaultValue="true") Boolean isAsc,
-            @RequestParam(value = "labels", required = false) String labels) {
-		ProductQuery productQuery = new ProductQuery();
-		productQuery.setKeyword(keyword);
-		productQuery.setCategoryId(categoryId);
-		List<String> labelEntityFields = new ArrayList<String>();
-		if(!StringUtils.isEmpty(labels)) {
-			productQuery.setFilterLabels(new ArrayList<String>());
-			String[] labelStrs = labels.split(",");
-			for(String labelStr: labelStrs) {
-				ProductLabel label = ProductLabel.enumOf(labelStr);
-				if(label != null) {
-					labelEntityFields.add(label.getEntityField());
-				}
-			}
-			
-		}
-		productQuery.setFilterLabels(labelEntityFields);
-		ProductQueryFilter orderFieldType = ProductQueryFilter.enumOf(orderField);
-		if(orderFieldType != null) {
-			productQuery.setOrderField(orderFieldType.getFieldName());
-			productQuery.setIsAsc(isAsc);
-		}
-		
-		return productService.getProductList(productQuery, limit, offset);
-	}
-	
-	@ResponseBody
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/product", method = RequestMethod.GET)
 	public Page<ProductModel> getProducts(@RequestParam(value = "limit") Integer limit,
             @RequestParam(value = "offset") Integer offset,
+            @RequestParam(value="categoryId", required= false) Integer categoryId,
             @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(value = "orderField", required = false) String orderField,
             @RequestParam(value = "isAsc", required = false, defaultValue="true") Boolean isAsc,
             @RequestParam(value = "labels", required = false) String labels) {
 		ProductQuery productQuery = new ProductQuery();
 		productQuery.setKeyword(keyword);
+		if(categoryId != null && categoryId > 0) {
+			productQuery.setCategoryId(categoryId);
+		}
 		List<String> labelEntityFields = new ArrayList<String>();
 		if(!StringUtils.isEmpty(labels)) {
 			productQuery.setFilterLabels(new ArrayList<String>());
@@ -92,7 +61,7 @@ public class ProductController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
 	public ProductModel detail(@PathVariable(value="id") Integer productId) {
 		return productService.getDetailById(productId);
 	}
