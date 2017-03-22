@@ -51,7 +51,11 @@ public class ProductController {
 			}
 			
 		}
-		productQuery.setFilterLabels(labelEntityFields);
+		if(!labelEntityFields.isEmpty()) {
+			productQuery.setFilterLabels(labelEntityFields);
+		} else {
+			productQuery.setFilterLabels(null);
+		}
 		ProductQueryFilter orderFieldType = ProductQueryFilter.enumOf(orderField);
 		if(orderFieldType != null) {
 			productQuery.setOrderField(orderFieldType.getFieldName());
