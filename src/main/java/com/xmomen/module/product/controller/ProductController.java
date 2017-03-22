@@ -25,8 +25,8 @@ public class ProductController {
 	@Autowired
 	ProductService productService;
 
-	@ResponseBody
 	@RequestMapping(value = "/product", method = RequestMethod.GET)
+    @ResponseBody
 	public Page<ProductModel> getProducts(@RequestParam(value = "limit") Integer limit,
             @RequestParam(value = "offset") Integer offset,
             @RequestParam(value="categoryId", required= false) Integer categoryId,
