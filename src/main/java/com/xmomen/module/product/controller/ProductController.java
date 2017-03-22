@@ -30,7 +30,7 @@ public class ProductController {
 	@ResponseBody
 	public Page<ProductModel> getProductsByCategory(@RequestParam(value = "limit") Integer limit,
             @RequestParam(value = "offset") Integer offset,
-            @PathVariable(value="categoryId") Integer categoryId,
+            @PathVariable(value = "categoryId") Integer categoryId,
             @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(value = "orderField", required = false) String orderField,
             @RequestParam(value = "isAsc", required = false, defaultValue="true") Boolean isAsc,
@@ -61,15 +61,17 @@ public class ProductController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public Page<ProductModel> getProducts(@RequestParam(value = "limit") Integer limit,
             @RequestParam(value = "offset") Integer offset,
             @RequestParam(value = "keyword", required = false) String keyword,
+		  	@RequestParam(value = "categoryId", required = false) Integer categoryId,
             @RequestParam(value = "orderField", required = false) String orderField,
             @RequestParam(value = "isAsc", required = false, defaultValue="true") Boolean isAsc,
             @RequestParam(value = "labels", required = false) String labels) {
 		ProductQuery productQuery = new ProductQuery();
 		productQuery.setKeyword(keyword);
+		productQuery.setCategoryId(categoryId);
 		List<String> labelEntityFields = new ArrayList<String>();
 		if(!StringUtils.isEmpty(labels)) {
 			productQuery.setFilterLabels(new ArrayList<String>());
