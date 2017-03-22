@@ -146,23 +146,23 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-2">单位／个人<span class="vaild">*</span></label>
                                     <div class="col-md-4">
-                                        <input type="hidden" name="companyId" ng-model="order.companyId" required ng-disabled="order.orderType != 2 " class="form-control">
-                                        <input type="text" name="companyName" ng-model="order.companyName" required ng-disabled="order.orderType != 2 " placeholder="查询后自动填充" class="form-control">
+                                        <input type="hidden" ng-model="order.companyId" required ng-disabled="order.orderType != 2 " class="form-control">
+                                        <input type="text" ng-model="order.companyName" required ng-disabled="order.orderType != 2 " placeholder="查询后自动填充" class="form-control">
                                     </div>
                                     <label class="control-label col-md-2">客户经理<span class="vaild">*</span></label>
                                     <div class="col-md-4">
-                                        <input type="hidden" name="managerId" ng-model="order.managerId" required ng-disabled="order.orderType != 2 " class="form-control">
-                                        <input type="text" name="managerName" ng-model="order.managerName" required ng-disabled="order.orderType != 2 " placeholder="查询后自动填充" class="form-control">
+                                        <input type="hidden" ng-model="order.managerId" required ng-disabled="order.orderType != 2 " class="form-control">
+                                        <input type="text" ng-model="order.managerName" required ng-disabled="order.orderType != 2 " placeholder="查询后自动填充" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-2">默认收货人<span class="vaild">*</span></label>
                                     <div class="col-md-4">
                                         <div class="input-group">
-                                            <input type="text" name="consigneeName" ng-model="order.defaultConsigneeName" required ng-disabled="order.orderType != 2 " placeholder="查询后自动填充" class="form-control">
+                                            <input type="text" ng-model="order.consigneeName" required ng-disabled="order.orderType != 2 " placeholder="查询后自动填充" class="form-control">
 											<span class="input-group-addon" ng-show="order.orderType != 2 ">
 												<span class="onoffswitch">
-													<input type="radio" ng-disabled="!order.consigneeName"  value="1"ng-model="order.addressChose" data-ng-checked="order.addressChose == 1" name="start_interval" class="onoffswitch-checkbox"
+													<input type="radio" ng-disabled="!order.consigneeName" ng-model="order.addressChose" data-ng-checked="order.addressChose == 1" name="start_interval" class="onoffswitch-checkbox"
                                                            id="default_address">
 													<label class="onoffswitch-label" for="default_address">
                                                         <span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
@@ -180,18 +180,18 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-2">收货地址<span class="vaild">*</span></label>
                                     <div class="col-md-10">
-                                        <input type="text" name="consigneeAddress" required ng-model="order.defaultConsigneeAddress" ng-disabled="order.orderType != 2 " placeholder="查询后自动填充" class="form-control">
+                                        <input type="text" required ng-model="order.consigneeAddress" ng-disabled="order.orderType != 2 " placeholder="查询后自动填充" class="form-control">
                                     </div>
                                 </div>
                                 <div ng-show="order.orderType != 2">
                                     <div class="form-group">
-                                        <label class="control-label col-md-2">备用收货人{{order.addressChose}}</label>
+                                        <label class="control-label col-md-2">备用收货人</label>
                                         <div class="col-md-4">
                                             <div class="input-group">
                                                 <input type="text" disabled ng-model="order.spareName" placeholder="查询后自动填充" class="form-control">
 											<span class="input-group-addon">
 												<span class="onoffswitch">
-													<input type="radio" ng-disabled="setting.disablesSpareName" value="2" ng-model="order.addressChose" data-ng-checked="order.addressChose == 2" name="start_interval" class="onoffswitch-checkbox"
+													<input type="radio" ng-disabled="setting.disablesSpareName" ng-change="changeRadio(2)" ng-model="order.addressChose" data-ng-checked="order.addressChose == 2" name="start_interval" class="onoffswitch-checkbox"
                                                            id="backup_address">
 													<label class="onoffswitch-label" for="backup_address">
                                                         <span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
@@ -220,7 +220,7 @@
                                                 <input type="text" disabled ng-model="order.spareName2" placeholder="查询后自动填充" class="form-control">
 											<span class="input-group-addon">
 												<span class="onoffswitch">
-													<input type="radio" ng-disabled="setting.disablesSpareName2" value="3" ng-model="order.addressChose" data-ng-checked="order.addressChose == 3" name="start_interval" class="onoffswitch-checkbox"
+													<input type="radio" ng-disabled="setting.disablesSpareName2" ng-model="order.addressChose" data-ng-checked="order.addressChose == 3" name="start_interval" class="onoffswitch-checkbox"
                                                            id="backup_address2">
 													<label class="onoffswitch-label" for="backup_address2">
                                                         <span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>

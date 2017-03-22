@@ -123,8 +123,8 @@
 								<div class="form-group" ng-if="order.orderType==0">
 									<label class="control-label col-md-2">电话号码<span class="vaild">*</span></label>
 									<div class="col-md-4">
-											<input type="text" ng-model="order.phone" data-rule-telephone="true" required="true" disabled placeholder="电话／手机号码" class="form-control">
-										<input ng-if="order.orderType!=0" disabled type="text" data-rule-telephone="true" ng-model="order.phone" placeholder="电话／手机号码" class="form-control">
+											<input type="text" ng-model="order.phone" data-rule-minlength="11" data-rule-maxlength="11" required="true" disabled placeholder="电话／手机号码" class="form-control">
+										<input ng-if="order.orderType!=0" disabled type="text" data-rule-minlength="11" data-rule-maxlength="11" ng-model="order.phone" placeholder="电话／手机号码" class="form-control">
 									</div>
 									<label class="control-label col-md-2">姓名<span class="vaild">*</span></label>
 									<div class="col-md-4">
