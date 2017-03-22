@@ -323,7 +323,6 @@ define(function () {
                                 });
                                 if (coupon.isUsed == 1) {
                                     $ugDialog.warn("劵号已使用！");
-
                                 }
                             }
                         } else {
@@ -350,6 +349,7 @@ define(function () {
                     }
                 }
             });
+
             $scope.choseOrderItemList = [];
             $scope.choseItem = function (index, number) {
                 var item = $scope.itemList[index];
