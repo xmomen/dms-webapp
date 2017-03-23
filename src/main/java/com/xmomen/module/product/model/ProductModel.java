@@ -28,7 +28,6 @@ public @Data class ProductModel {
 	private Boolean xinPinChangXian;
 	private Boolean reMaiTuiJian;
 	
-	@JsonIgnore
 	private String picUrl;
 	
 	private List<String> picUrls;

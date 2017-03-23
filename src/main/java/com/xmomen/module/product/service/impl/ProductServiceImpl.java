@@ -23,7 +23,15 @@ public class ProductServiceImpl implements ProductService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Page<ProductModel> getProductList(ProductQuery productQuery, Integer limit, Integer offset) {
-		return (Page<ProductModel>) mybatisDao.selectPage(ProductMapper.ProductMapperNameSpace + "getProductList", productQuery, limit, offset);
+		Page<ProductModel> pageModel = (Page<ProductModel>) mybatisDao.selectPage(ProductMapper.ProductMapperNameSpace + "getProductList", productQuery, limit, offset);
+		List<ProductModel> products = pageModel.getResult();
+		//TODO mock data
+		if(products != null) {
+			for(ProductModel product: products) {
+				product.setPicUrl("http://pic.58pic.com/58pic/15/35/55/12p58PICZv8_1024.jpg");
+			}
+		}
+		return pageModel;
 	}
 
 	@Override
