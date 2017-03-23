@@ -15,10 +15,16 @@
 	
 	<!-- 扫描所有的controller 但是不扫描service-->
 	<context:component-scan base-package="com.xmomen">
+		<!--<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />-->
+		<!--<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />-->
 	</context:component-scan>
 	<context:component-scan base-package="org.jeecgframework.poi.excel.view"></context:component-scan>
 
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
+
+	<!--	swagger config	-->
+	<!--<bean id="springSwaggerConfig" class="com.mangofactory.swagger.configuration.SpringSwaggerConfig" />-->
+	<!--<bean id="documentationConfig" class="com.xmomen.module.core.web.ApplicationSwaggerConfig" />-->
 
 	<bean id="loggerAspect" class="com.xmomen.module.system.LoggerAspect"/>
 
