@@ -10,10 +10,13 @@
            ci.CONTRACT_VALUE
            AS DISCOUNT_PRICE,
         </if>
-        cc.category_name
+        cc.category_name,
+        cid.id item_detail_id,
+        cid.item_detail_content
         FROM
         cd_item cm
         left join cd_category cc on cm.cd_category_id = cc.id
+        left join cd_item_detail cid on cid.cd_item_id = cm.id
         <if test="companyId">
             left join cd_contract c on c.CD_COMPANY_ID= ${companyId}  and c.IS_DEL =0
             left join cd_contract_item ci on ci.CD_ITEM_ID=cm.ID and ci.CD_CONTRACT_ID=c.id

@@ -139,6 +139,9 @@ public class ItemModel implements Serializable {
 	 */
 	private Integer reMaiTuiJian;
 
+	private Integer itemDetailId;
+	private String itemDetailContent;
+
 	public Integer getId() {
 		return id;
 	}
@@ -361,5 +364,21 @@ public class ItemModel implements Serializable {
 
 	public void setReMaiTuiJian(Integer reMaiTuiJian) {
 		this.reMaiTuiJian = reMaiTuiJian;
+	}
+
+	public Integer getItemDetailId() {
+		return itemDetailId;
+	}
+
+	public void setItemDetailId(Integer itemDetailId) {
+		this.itemDetailId = itemDetailId;
+	}
+
+	public String getItemDetailContent() {
+		return itemDetailContent;
+	}
+
+	public void setItemDetailContent(String itemDetailContent) {
+		this.itemDetailContent = itemDetailContent;
 	}
 }

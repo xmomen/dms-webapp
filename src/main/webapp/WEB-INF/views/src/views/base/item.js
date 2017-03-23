@@ -243,15 +243,42 @@ define(function () {
         $scope.openDetail = function (index) {
             var modalInstance = $modal.open({
                 //templateUrl: 'views/base/item.detail.html',
-                templateUrl:'itemDetail.html',
-                controller: ["$scope", "ItemCategoryAPI", "$modalInstance", "currentItem", function ($scope, ItemCategoryAPI, $modalInstance, currentItem) {
+                templateUrl: 'itemDetail.html',
+                controller: ["$scope", "ItemDetailAPI", "$modalInstance", "currentItem", function ($scope, ItemDetailAPI, $modalInstance, currentItem) {
                     $scope.currentItem = angular.copy(currentItem);
                     $scope.queryParam = {};
                     $scope.cancel = function () {
                         $modalInstance.dismiss('cancel');
                     };
-                    $scope.save = function(){
-                        $modalInstance.close($scope.currentItem);
+
+                    $scope.saveItemDetail = function () {
+                        if ($scope.currentItem.itemDetailContent) {
+                            var currentItemDetail = {
+                                itemDetailContent: $scope.currentItem.itemDetailContent,
+                                cdItemId: $scope.currentItem.id,
+                                id: $scope.currentItem.itemDetailId
+                            }
+                            //编辑
+                            if (currentItemDetail.id) {
+                                ItemDetailAPI.update(currentItemDetail, function () {
+                                    $modalInstance.close($scope.currentItem);
+                                    $scope.getItemList();
+                                }, function (data) {
+                                    $scope.errors = data.data;
+                                })
+                            }
+                            //新增
+                            else {
+                                ItemDetailAPI.save(currentItemDetail, function () {
+                                    $modalInstance.close($scope.currentItem);
+                                    $scope.getItemList();
+                                }, function (data) {
+                                    $scope.errors = data.data;
+                                })
+                            }
+                        } else {
+                            $ugDialog.alert("请填写内容");
+                        }
                     };
                 }],
                 resolve: {
@@ -265,6 +292,7 @@ define(function () {
                 $scope.itemList[index].content = item.content;
             });
         };
+
         $scope.getItemList();
     }];
 });
