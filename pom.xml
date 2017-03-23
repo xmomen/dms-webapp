@@ -8,22 +8,22 @@
 	<version>1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<!--<repositories>-->
-		<!--<repository>-->
-			<!--<id>sonatype-nexus-snapshots</id>-->
-			<!--<name>Nexus Snapshots Repository</name>-->
-			<!--<layout>default</layout>-->
-			<!--<url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
-		<!--</repository>-->
-	<!--</repositories>-->
-	<!--<pluginRepositories>-->
-		<!--<pluginRepository>-->
-			<!--<id>sonatype-nexus-snapshots</id>-->
-			<!--<name>Nexus Snapshots Repository</name>-->
-			<!--<layout>default</layout>-->
-			<!--<url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
-		<!--</pluginRepository>-->
-	<!--</pluginRepositories>-->
+	<repositories>
+		<repository>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Nexus Snapshots Repository</name>
+			<layout>default</layout>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Nexus Snapshots Repository</name>
+			<layout>default</layout>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</pluginRepository>
+	</pluginRepositories>
 
 	<!--<repositories> -->
 	<!--<repository> -->
@@ -230,13 +230,13 @@
 			<artifactId>json</artifactId>
 			<version>20160212</version>
 		</dependency>
-		<dependency>
-			<groupId>com.baidu.ueditor</groupId>
-			<artifactId>ueditor</artifactId>
-			<version>1.1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/ueditor-1.1.2.jar</systemPath>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>com.baidu.ueditor</groupId>-->
+			<!--<artifactId>ueditor</artifactId>-->
+			<!--<version>1.1.0</version>-->
+			<!--<scope>system</scope>-->
+			<!--<systemPath>${project.basedir}/lib/ueditor-1.1.2.jar</systemPath>-->
+		<!--</dependency>-->
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
