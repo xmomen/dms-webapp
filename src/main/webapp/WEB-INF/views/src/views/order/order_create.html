@@ -159,16 +159,11 @@
                                     <label class="control-label col-md-2">默认收货人<span class="vaild">*</span></label>
                                     <div class="col-md-4">
                                         <div class="input-group">
-                                            <input type="text" ng-model="order.consigneeName" required ng-disabled="order.orderType != 2 " placeholder="查询后自动填充" class="form-control">
-											<span class="input-group-addon" ng-show="order.orderType != 2 ">
-												<span class="onoffswitch">
-													<input type="radio" ng-disabled="!order.consigneeName" ng-model="order.addressChose" data-ng-checked="order.addressChose == 1" name="start_interval" class="onoffswitch-checkbox"
-                                                           id="default_address">
-													<label class="onoffswitch-label" for="default_address">
-                                                        <span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
-                                                        <span class="onoffswitch-switch"></span>
-                                                    </label>
-												</span>
+                                            <input type="text" ng-model="order.defaultConsigneeName" required ng-disabled="order.orderType != 2 " placeholder="查询后自动填充" class="form-control">
+											<span class="input-group-btn" ng-show="order.orderType != 2 ">
+                                                <button class="btn btn-default" ng-disabled="!order.defaultConsigneeName || order.addressChose == 1"
+                                                        data-ng-click="order.addressChose = 1"
+                                                        type="button" ng-bind="order.addressChose == 1?'已启用':'未启用'"></button>
 											</span>
                                         </div>
                                     </div>
@@ -180,7 +175,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-2">收货地址<span class="vaild">*</span></label>
                                     <div class="col-md-10">
-                                        <input type="text" required ng-model="order.consigneeAddress" ng-disabled="order.orderType != 2 " placeholder="查询后自动填充" class="form-control">
+                                        <input type="text" required ng-model="order.defaultConsigneeAddress" ng-disabled="order.orderType != 2 " placeholder="查询后自动填充" class="form-control">
                                     </div>
                                 </div>
                                 <div ng-show="order.orderType != 2">
@@ -189,16 +184,11 @@
                                         <div class="col-md-4">
                                             <div class="input-group">
                                                 <input type="text" disabled ng-model="order.spareName" placeholder="查询后自动填充" class="form-control">
-											<span class="input-group-addon">
-												<span class="onoffswitch">
-													<input type="radio" ng-disabled="setting.disablesSpareName" ng-change="changeRadio(2)" ng-model="order.addressChose" data-ng-checked="order.addressChose == 2" name="start_interval" class="onoffswitch-checkbox"
-                                                           id="backup_address">
-													<label class="onoffswitch-label" for="backup_address">
-                                                        <span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
-                                                        <span class="onoffswitch-switch"></span>
-                                                    </label>
-												</span>
-											</span>
+                                                <span class="input-group-btn" ng-show="order.orderType != 2 ">
+                                                    <button class="btn btn-default" ng-disabled="!order.spareName || order.addressChose == 2"
+                                                            data-ng-click="order.addressChose = 2"
+                                                            type="button" ng-bind="order.addressChose == 2?'已启用':'未启用'"></button>
+                                                </span>
                                             </div>
                                         </div>
                                         <label class="control-label col-md-2">联系方式</label>
@@ -218,16 +208,11 @@
                                         <div class="col-md-4">
                                             <div class="input-group">
                                                 <input type="text" disabled ng-model="order.spareName2" placeholder="查询后自动填充" class="form-control">
-											<span class="input-group-addon">
-												<span class="onoffswitch">
-													<input type="radio" ng-disabled="setting.disablesSpareName2" ng-model="order.addressChose" data-ng-checked="order.addressChose == 3" name="start_interval" class="onoffswitch-checkbox"
-                                                           id="backup_address2">
-													<label class="onoffswitch-label" for="backup_address2">
-                                                        <span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
-                                                        <span class="onoffswitch-switch"></span>
-                                                    </label>
-												</span>
-											</span>
+                                                 <span class="input-group-btn">
+                                                    <button class="btn btn-default" ng-disabled="!order.spareName2 || order.addressChose == 3"
+                                                            data-ng-click="order.addressChose = 3"
+                                                            type="button" ng-bind="order.addressChose == 3?'已启用':'未启用'"></button>
+                                                </span>
                                             </div>
                                         </div>
                                         <label class="control-label col-md-2">联系方式</label>
