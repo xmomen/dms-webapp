@@ -4,7 +4,7 @@
 
 	<select id="getPackageTaskList" resultType="com.xmomen.module.job.model.PackageTaskModel" parameterType="java.util.HashMap">
 		SELECT 
-			TJ.*,
+			tj.*,
 			(tj.COUNT_VALUE-tj.FINISH_value) as noFinishValue,
 			CI.ITEM_CODE,
 			CI.ITEM_NAME,
@@ -14,9 +14,9 @@
 			CI.SPEC,
 			CI.sell_Unit,
 			SU.REALNAME as jobUserName
-		FROM tb_job TJ
-		LEFT JOIN cd_item CI ON TJ.CD_ITEM_ID = CI.ID
-		LEFT JOIN sys_users SU ON TJ.JOB_USER = SU.ID
+		FROM tb_job tj
+		LEFT JOIN cd_item CI ON tj.CD_ITEM_ID = CI.ID
+		LEFT JOIN sys_users SU ON tj.JOB_USER = SU.ID
 		<where>
 			<if test="keyword">
                   AND tj.PURCHASE_CODE LIKE CONCAT('%', #{keyword}, '%')

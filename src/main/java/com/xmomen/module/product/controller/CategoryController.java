@@ -12,13 +12,12 @@ import com.xmomen.module.product.model.CategoryModel;
 import com.xmomen.module.product.service.CategoryService;
 
 @Controller
-@RequestMapping("/category")
 public class CategoryController {
 
 	@Autowired
 	private CategoryService categoryService;
 	
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = "/category", method = RequestMethod.GET)
 	@ResponseBody
 	public List<CategoryModel> getAllProductCategories() {
 		return categoryService.getAllProductCategory();
