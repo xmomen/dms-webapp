@@ -3,6 +3,7 @@ package com.xmomen.module.product.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -68,21 +69,19 @@ public class ProductController {
 		  	@RequestParam(value = "categoryId", required = false) Integer categoryId,
             @RequestParam(value = "orderField", required = false) String orderField,
             @RequestParam(value = "isAsc", required = false, defaultValue="true") Boolean isAsc,
-            @RequestParam(value = "labels", required = false) String labels) {
+            @RequestParam(value = "labels", required = false) List<String> labels) {
 		ProductQuery productQuery = new ProductQuery();
 		productQuery.setKeyword(keyword);
 		productQuery.setCategoryId(categoryId);
 		List<String> labelEntityFields = new ArrayList<String>();
-		if(!StringUtils.isEmpty(labels)) {
+		if(!CollectionUtils.isEmpty(labels)) {
 			productQuery.setFilterLabels(new ArrayList<String>());
-			String[] labelStrs = labels.split(",");
-			for(String labelStr: labelStrs) {
+			for(String labelStr: labels) {
 				ProductLabel label = ProductLabel.enumOf(labelStr);
 				if(label != null) {
 					labelEntityFields.add(label.getEntityField());
 				}
 			}
-			
 		}
 		productQuery.setFilterLabels(labelEntityFields);
 		ProductQueryFilter orderFieldType = ProductQueryFilter.enumOf(orderField);
