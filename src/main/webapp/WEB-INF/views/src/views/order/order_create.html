@@ -191,7 +191,7 @@
                                                 <input type="text" disabled ng-model="order.spareName" placeholder="查询后自动填充" class="form-control">
 											<span class="input-group-addon">
 												<span class="onoffswitch">
-													<input type="radio" ng-disabled="setting.disablesSpareName" ng-model="order.addressChose" data-ng-checked="order.addressChose == 2" name="start_interval" class="onoffswitch-checkbox"
+													<input type="radio" ng-disabled="setting.disablesSpareName" ng-change="changeRadio(2)" ng-model="order.addressChose" data-ng-checked="order.addressChose == 2" name="start_interval" class="onoffswitch-checkbox"
                                                            id="backup_address">
 													<label class="onoffswitch-label" for="backup_address">
                                                         <span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
