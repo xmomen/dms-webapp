@@ -268,15 +268,24 @@
                         <label class="col-md-2 control-label">销售属性</label>
                         <div class="col-md-10">
                             <label class="checkbox checkbox-inline">
-                                <input type="checkbox" class="checkbox" value="1" ng-model="item.xianShiQiangGou" ng-checked="item.xianShiQiangGou == 1" name="xianShiQiangGou">
+                                <input type="checkbox" class="checkbox" ng-model="item.xianShiQiangGou"
+                                       data-ng-true-value="1"
+                                       data-ng-false-value="0"
+                                       ng-checked="item.xianShiQiangGou == 1" name="xianShiQiangGou">
                                 <span>限时抢购</span>
                             </label>
                             <label class="checkbox checkbox-inline">
-                                <input type="checkbox" class="checkbox" value="1" ng-model="item.reMaiTuiJian" ng-checked="item.reMaiTuiJian == 1" name="reMaiTuiJian">
+                                <input type="checkbox" class="checkbox" ng-model="item.reMaiTuiJian"
+                                       data-ng-true-value="1"
+                                       data-ng-false-value="0"
+                                       ng-checked="item.reMaiTuiJian == 1" name="reMaiTuiJian">
                                 <span>热卖推荐</span>
                             </label>
                             <label class="checkbox checkbox-inline">
-                                <input type="checkbox" class="checkbox" value="1" ng-model="item.xinPinChangXian" ng-checked="item.xinPinChangXian == 1" name="xinPinChangXian">
+                                <input type="checkbox" class="checkbox" ng-model="item.xinPinChangXian"
+                                       data-ng-true-value="1"
+                                       data-ng-false-value="0"
+                                       ng-checked="item.xinPinChangXian == 1" name="xinPinChangXian">
                                 <span>新品尝鲜</span>
                             </label>
                         </div>
