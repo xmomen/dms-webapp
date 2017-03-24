@@ -14,14 +14,6 @@
 			<name>Nexus Snapshots Repository</name>
 			<layout>default</layout>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-			</releases>
 		</repository>
 	</repositories>
 	<pluginRepositories>
@@ -30,14 +22,6 @@
 			<name>Nexus Snapshots Repository</name>
 			<layout>default</layout>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-			</releases>
 		</pluginRepository>
 	</pluginRepositories>
 
@@ -209,6 +193,35 @@
 					<overwrite>true</overwrite>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>com.xmomen.maven.plugins</groupId>
+				<artifactId>xmomen-generator-maven-plugin</artifactId>
+				<version>1.0-SNAPSHOT</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.mybatis.generator</groupId>
+						<artifactId>mybatis-generator-core</artifactId>
+						<version>1.3.2</version>
+					</dependency>
+					<dependency>
+						<groupId>com.xmomen.maven.plugins</groupId>
+						<artifactId>mybatis-generator</artifactId>
+						<version>1.1.0-SNAPSHOT</version>
+						<scope>compile</scope>
+					</dependency>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>5.1.31</version>
+						<scope>runtime</scope>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<configurationFiles>
+						<configurationFile>src/main/resources/tools/generatorConfig-member.xml</configurationFile>
+					</configurationFiles>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
@@ -217,13 +230,13 @@
 			<artifactId>json</artifactId>
 			<version>20160212</version>
 		</dependency>
-		<dependency>
-			<groupId>com.baidu.ueditor</groupId>
-			<artifactId>ueditor</artifactId>
-			<version>1.1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/ueditor-1.1.2.jar</systemPath>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>com.baidu.ueditor</groupId>-->
+			<!--<artifactId>ueditor</artifactId>-->
+			<!--<version>1.1.0</version>-->
+			<!--<scope>system</scope>-->
+			<!--<systemPath>${project.basedir}/lib/ueditor-1.1.2.jar</systemPath>-->
+		<!--</dependency>-->
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
@@ -252,8 +265,14 @@
 		<dependency>
 			<groupId>com.xmomen.framework</groupId>
 			<artifactId>easy-mybatis</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.1.0-SNAPSHOT</version>
 		</dependency>
+
+		<!--<dependency>-->
+			<!--<groupId>com.mangofactory</groupId>-->
+			<!--<artifactId>swagger-springmvc</artifactId>-->
+			<!--<version>0.9.4</version>-->
+		<!--</dependency>-->
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -491,6 +510,19 @@
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.3.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis.generator</groupId>
+			<artifactId>mybatis-generator-core</artifactId>
+			<version>1.3.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.xmomen.maven.plugins</groupId>
+			<artifactId>mybatis-generator</artifactId>
+			<version>1.1.0-SNAPSHOT</version>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>

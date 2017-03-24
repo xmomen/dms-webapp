@@ -3,6 +3,7 @@ package com.xmomen.module.product.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,14 +41,13 @@ public class ProductController {
 			productQuery.setCategoryId(categoryId);
 		}
 		List<String> labelEntityFields = new ArrayList<String>();
-		if(labels != null && !labels.isEmpty()) {
+		if(!CollectionUtils.isEmpty(labels)) {
 			for(String labelStr: labels) {
 				ProductLabel label = ProductLabel.enumOf(labelStr);
 				if(label != null) {
 					labelEntityFields.add(label.getEntityField());
 				}
 			}
-			
 		}
 		if(!labelEntityFields.isEmpty()) {
 			productQuery.setFilterLabels(labelEntityFields);
