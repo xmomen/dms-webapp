@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.wx.module.order.mapper.MyOrderMapper" >
+    <resultMap type="com.xmomen.module.wx.module.order.model.OrderModel" id="orderModel">
+        <id column="ID" property="id"></id>
+        <result column="ORDER_NO" property="orderNo"></result>
+        <result column="ORDER_TYPE" property="orderType"></result>
+        <result column="ORDER_SOURCE" property="orderSource"></result>
+        <result column="PAYMENT_MODE" property="paymentMode"></result>
+        <result column="ORDER_STATUS" property="orderStatus"></result>
+        <result column="PAY_STATUS" property="payStatus"></result>
+        <result column="TOTAL_AMOUNT" property="totalAmount"></result>
+        <result column="CREATE_TIME" property="createTime"></result>
+        <result column="APPOINTMENT_TIME" property="appointmentTime"></result>
+        <collection property="products" resultMap="orderProductItem"></collection>
+    </resultMap>
+    
+    <resultMap type="com.xmomen.module.wx.module.order.model.OrderDetailModel" id="orderDetailModel">
+        <id column="ID" property="id"></id>
+        <result column="ORDER_NO" property="orderNo"></result>
+        <result column="ORDER_TYPE" property="orderType"></result>
+        <result column="ORDER_SOURCE" property="orderSource"></result>
+        <result column="PAYMENT_MODE" property="paymentMode"></result>
+        <result column="OTHER_PAYMENT_MODE" property="otherPaymentMode"></result>
+        <result column="ORDER_STATUS" property="orderStatus"></result>
+        <result column="PAY_STATUS" property="payStatus"></result>
+        <result column="CONSIGNEE_PHONE" property="consigneePhone"></result>
+        <result column="CONSIGNEE_NAME" property="consigneeName"></result>
+        <result column="CONSIGNEE_ADDRESS" property="consigneeAddress"></result>
+        <result column="POSTCODE" property="postcode"></result>
+        <result column="TRANSPORT_MODE" property="transportMode"></result>
+        <result column="REMARK" property="remark"></result>
+        <result column="TOTAL_AMOUNT" property="discountPrice"></result>
+        <result column="TOTAL_AMOUNT" property="totalAmount"></result>
+        <result column="CREATE_TIME" property="createTime"></result>
+        <result column="APPOINTMENT_TIME" property="appointmentTime"></result>
+        <result column="OUT_DATE" property="outDate"></result>
+        <result column="SHOU_HUO_DATE" property="shouHuoDate"></result>
+        <result column="IS_REJECT" property="isReject"></result>
+        <collection property="products" resultMap="orderProductItem"></collection>
+    </resultMap>
+    
+    <resultMap type="com.xmomen.module.wx.module.order.model.OrderProductItem" id="orderProductItem">
+        <result column="ITEM_ID" property="itemId"></result>
+        <result column="ITEM_NAME" property="itemName"></result>
+        <result column="ITEM_CODE" property="itemCode"></result>
+        <result column="ITEM_PRICE" property="itemPrice"></result>
+        <result column="ITEM_QTY" property="itemQty"></result>
+        <result column="ITEM_UNIT" property="itemUnit"></result>
+    </resultMap>
+    
+    <select id="selectOrdersByMemberCode" parameterType="String" resultMap="orderModel">
+        SELECT 
+        tb_order.ID,
+        tb_order.ORDER_NO,
+        tb_order.ORDER_TYPE,
+        tb_order.ORDER_SOURCE,
+        tb_order.PAYMENT_MODE,
+        tb_order.ORDER_STATUS,
+        tb_order.PAY_STATUS,
+        tb_order.TOTAL_AMOUNT,
+        tb_order.CREATE_TIME,
+        tb_order.APPOINTMENT_TIME,
+        order_item.ITEM_ID,
+        order_item.ITEM_NAME,
+        order_item.ITEM_CODE,
+        order_item.ITEM_PRICE,
+        order_item.ITEM_QTY,
+        order_item.ITEM_UNIT
+        FROM tb_order
+        LEFT JOIN tb_order_item order_item
+        ON
+        	tb_order.ORDER_NO = order_item.ORDER_NO
+        WHERE tb_order.MEMBER_CODE = #{memberCode}
+    </select>
+
+	<select id="selectOrders" parameterType="String" resultMap="orderModel">
+        SELECT 
+        tb_order.ID,
+        tb_order.ORDER_NO,
+        tb_order.ORDER_TYPE,
+        tb_order.ORDER_SOURCE,
+        tb_order.PAYMENT_MODE,
+        tb_order.ORDER_STATUS,
+        tb_order.PAY_STATUS,
+        tb_order.TOTAL_AMOUNT,
+        tb_order.CREATE_TIME,
+        tb_order.APPOINTMENT_TIME,
+        order_item.ITEM_ID,
+        order_item.ITEM_NAME,
+        order_item.ITEM_CODE,
+        order_item.ITEM_PRICE,
+        order_item.ITEM_QTY,
+        order_item.ITEM_UNIT
+        FROM tb_order
+        LEFT JOIN tb_order_item order_item
+        ON
+        	tb_order.ORDER_NO = order_item.ORDER_NO
+        WHERE tb_order.ORDER_NO in ('20170315184219011', '20170315184533193')
+    </select>
+    
+    <select id="getOrderDetail" parameterType="java.lang.Integer" resultMap="orderDetailModel">
+        SELECT 
+        tb_order.*,
+        order_item.ITEM_ID,
+        order_item.ITEM_NAME,
+        order_item.ITEM_CODE,
+        order_item.ITEM_PRICE,
+        order_item.ITEM_QTY,
+        order_item.ITEM_UNIT
+        FROM tb_order
+        LEFT JOIN tb_order_item order_item
+        ON
+        	tb_order.ORDER_NO = order_item.ORDER_NO
+        WHERE tb_order.id = #{orderId}
+    </select>
+</mapper>

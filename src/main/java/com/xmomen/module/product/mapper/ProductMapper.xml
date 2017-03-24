@@ -31,14 +31,18 @@
           item.CD_CATEGORY_ID = category.id
         <where>
             <if test="categoryId">
-                  AND item.CD_CATEGORY_ID = #{categoryId}
+                  AND item.CD_CATEGORY_ID IN (
+                  	SELECT id from cd_category where cd_category.id = #{categoryId} or cd_category.parent_id = #{categoryId}) 
             </if>
             <if test="keyword">
-                  AND (item.ITEM_NAME LIKE CONCAT('%', #{keyword}, '%')
+                  AND (item.ITEM_NAME LIKE CONCAT('%', #{keyword}, '%'))
             </if>
-            <foreach collection="filterLabels" item="label">
-                  AND item.${label} = 1
-            </foreach>
+            <if test="filterLabels">
+                  AND 
+                <foreach collection="filterLabels" item="label" index="index" open="(" separator=" OR " close=")">
+                   item.${label} = 1
+                </foreach>
+            </if>
         </where>
         <if test="orderField">
             ORDER BY item.${orderField} <choose><when test="isAsc">ASC</when><otherwise>DESC</otherwise></choose>
@@ -79,5 +83,41 @@
           item.ID = detail.CD_ITEM_ID
         WHERE item.iD = #{id}
         <!-- left join resources to get pictures -->
+    </select>
+    
+    <select id="getProductsInCart" resultType="com.xmomen.module.product.model.ProductModel" 
+		parameterType="com.xmomen.module.product.model.ProductQuery">
+    	SELECT
+            item.ID,
+            item.ITEM_CODE,
+            item.CD_CATEGORY_ID as categoryId,
+            category.CATEGORY_NAME as categoryName,
+            item.ITEM_NAME,
+            item.ITEM_DESCRIBE,
+            item.YIELDLY,
+            item.SPEC,
+            item.BASE_PRICE,
+            item.MEMBER_PRICE,
+            item.PRICING_MANNER,
+            item.SELL_STATUS,
+            item.SELL_UNIT,
+            item.SELL_PRICE,
+            item.BAO_ZHI_QI,
+            item.SHI_YI_REN_QUN,
+            item.XIAN_SHI_QIANG_GOU,
+            item.XIN_PIN_CHANG_XIAN,
+            item.RE_MAI_TUI_JIAN
+        FROM
+          cd_item item
+        INNER JOIN
+          cd_category category
+        ON
+          item.CD_CATEGORY_ID = category.id
+        <where>
+        	item.ID in 
+        	<foreach collection="productIds" item="productId" index="index" open="(" separator=" , " close=")">
+                   #{productId}
+            </foreach>
+        </where>
     </select>
 </mapper>

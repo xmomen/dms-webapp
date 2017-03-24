@@ -23,7 +23,15 @@ public class ProductServiceImpl implements ProductService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Page<ProductModel> getProductList(ProductQuery productQuery, Integer limit, Integer offset) {
-		return (Page<ProductModel>) mybatisDao.selectPage(ProductMapper.ProductMapperNameSpace + "getProductList", productQuery, limit, offset);
+		Page<ProductModel> pageModel = (Page<ProductModel>) mybatisDao.selectPage(ProductMapper.ProductMapperNameSpace + "getProductList", productQuery, limit, offset);
+		List<ProductModel> products = pageModel.getResult();
+		//TODO mock data
+		if(products != null) {
+			for(ProductModel product: products) {
+				product.setPicUrl("http://pic.58pic.com/58pic/15/35/55/12p58PICZv8_1024.jpg");
+			}
+		}
+		return pageModel;
 	}
 
 	@Override
@@ -46,5 +54,34 @@ public class ProductServiceImpl implements ProductService {
 			return detail;
 		}
 		return null;
+	}
+
+	@Override
+	public List<ProductModel> getProductsInCart(ProductQuery productQuery) {
+		//TODO we only use productIds currently, memberCode will use in future
+		/*if(StringUtils.isEmpty(productQuery.getMemberCode()) 
+				&& (productQuery.getProductIds() == null || productQuery.getProductIds().isEmpty())) {
+			return new ArrayList<ProductModel>();
+		}*/
+		if(productQuery.getProductIds() == null || productQuery.getProductIds().isEmpty()) {
+			return new ArrayList<ProductModel>();
+		}
+		List<ProductModel> products = mybatisDao.getSqlSessionTemplate().selectList(ProductMapper.ProductMapperNameSpace + "getProductsInCart", productQuery);
+		List<String> picUrls = new ArrayList<String>();
+		if(products != null && !products.isEmpty()) {
+			for(ProductModel product: products) {
+				if(!StringUtils.isEmpty(product.getPicUrl())) {
+					picUrls.add(product.getPicUrl());
+				}
+			}
+			ProductModel detail = products.get(0);
+			//TODO mock
+			picUrls.add("http://pic.58pic.com/58pic/15/35/55/12p58PICZv8_1024.jpg");
+			picUrls.add("http://www.cqsxsp.com/images/201410/goods_img/68_P_1413356080309.jpg");
+			picUrls.add("http://pic.58pic.com/58pic/15/38/18/52e58PICDE4_1024.jpg");
+			detail.setPicUrls(picUrls);
+			detail.setPicUrl(null);
+		}
+		return products;
 	}
 }
