@@ -11,17 +11,24 @@ public @Data class OrderDetailModel {
 	private Integer id;
 	private String orderNo;
 	private String orderType;
+	private String orderTypeDesc;
 	private Integer orderSource;
+	private String orderSourceDesc;
 	private Integer paymentMode;
+	private String paymentModeDesc;
 	private Integer otherPaymentMode;
+	private String otherPaymentModeDesc;
 	private String memberCode;
 	private String orderStatus;
+	private String orderStatusDesc;
 	private Integer payStatus;
+	private String payStatusDesc;
 	private String consigneePhone;
 	private String consigneeName;
 	private String consigneeAddress;
 	private String postcode;
 	private Integer transportMode;
+	private String transportModeDesc;
 	private String remark;
 	
 	private BigDecimal discountPrice;
@@ -33,6 +40,7 @@ public @Data class OrderDetailModel {
 	private Date appointmentTime;
 	
 	private Boolean isReject;
+	private String expressName;
 	
 	
 	List<OrderProductItem> products;
