@@ -15,7 +15,7 @@ import java.io.Serializable;
 
 /**
  * @author  tanxinzheng
- * @date    2017-3-23 13:38:09
+ * @date    2017-3-23 14:57:22
  * @version 1.0.0
  */
 @ExcelTarget(value = "MemberAddressModel")

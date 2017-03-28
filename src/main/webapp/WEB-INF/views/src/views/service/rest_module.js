@@ -148,6 +148,13 @@ define(function () {
         });
     }]);
 
+    ngREST.factory("ItemDetailAPI", ["$resource", function ($resource) {
+        return $resource("/itemDetail/:id", {id: "@id"}, {
+            query: {isArray: false},
+            update: {method: "PUT", params: {id: "@id"}}
+        });
+    }]);
+
     ngREST.factory("CouponCategoryAPI", ["$resource", function ($resource) {
         return $resource("/couponCategory/:id", {id: "@id"}, {
             query: {isArray: false},
