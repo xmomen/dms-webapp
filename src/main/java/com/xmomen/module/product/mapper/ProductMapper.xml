@@ -84,4 +84,40 @@
         WHERE item.iD = #{id}
         <!-- left join resources to get pictures -->
     </select>
+    
+    <select id="getProductsInCart" resultType="com.xmomen.module.product.model.ProductModel" 
+		parameterType="com.xmomen.module.product.model.ProductQuery">
+    	SELECT
+            item.ID,
+            item.ITEM_CODE,
+            item.CD_CATEGORY_ID as categoryId,
+            category.CATEGORY_NAME as categoryName,
+            item.ITEM_NAME,
+            item.ITEM_DESCRIBE,
+            item.YIELDLY,
+            item.SPEC,
+            item.BASE_PRICE,
+            item.MEMBER_PRICE,
+            item.PRICING_MANNER,
+            item.SELL_STATUS,
+            item.SELL_UNIT,
+            item.SELL_PRICE,
+            item.BAO_ZHI_QI,
+            item.SHI_YI_REN_QUN,
+            item.XIAN_SHI_QIANG_GOU,
+            item.XIN_PIN_CHANG_XIAN,
+            item.RE_MAI_TUI_JIAN
+        FROM
+          cd_item item
+        INNER JOIN
+          cd_category category
+        ON
+          item.CD_CATEGORY_ID = category.id
+        <where>
+        	item.ID in 
+        	<foreach collection="productIds" item="productId" index="index" open="(" separator=" , " close=")">
+                   #{productId}
+            </foreach>
+        </where>
+    </select>
 </mapper>

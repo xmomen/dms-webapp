@@ -17,6 +17,11 @@ public class WeixinConsts {
     public static final String SEND_TEMPLATE_MESSAGE = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={ACCESS_TOKEN}";
 
     /**
+     * 获取jsapi_ticket
+     */
+    public static final String JS_API_TICKET = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token={ACCESS_TOKEN}&type=jsapi";
+
+    /**
      * 创建微信菜单
      * POST请求
      */

@@ -6,11 +6,14 @@ import com.xmomen.module.wx.constants.WeixinConsts;
 import com.xmomen.module.wx.entity.WxAppSetting;
 import com.xmomen.module.wx.model.AccessToken;
 import com.xmomen.module.wx.model.AccessTokenOAuth;
+import com.xmomen.module.wx.model.JsApiTicket;
 import com.xmomen.module.wx.model.WeixinUserInfo;
 import com.xmomen.module.wx.util.DateUtils;
 import com.xmomen.module.wx.util.HttpUtils;
 import com.xmomen.module.wx.util.JsonUtils;
 
+import com.xmomen.module.wx.util.SignUtil;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Map;
 
 /**
  * 微信认证处理类
@@ -67,20 +71,19 @@ public class WeixinApiService {
         WxAppSetting appSettingExt = appSettingService.getAppSetting(publicUid);
 
         if (appSettingExt == null) {
-            return StringUtilsExt.EMPTY;
+            return StringUtils.EMPTY;
         }
-
         //获取缓存的access_token
         AccessToken accessToken = new AccessToken(appSettingExt.getAccessToken(), String.valueOf(appSettingExt.getExpiresIn()), appSettingExt.getLastGetTime());
 
         //判断是否access_token是否过期
-        if (accessToken.isExpired()) {
+        if (accessToken.getAccess_token() == null || accessToken.isExpired()) {
             //过期重新获取accessToken
             String url = WeixinConsts.GET_ACCESS_TOKEN_URL.replace("{APPID}", appSettingExt.getAppId()).replace("{APPSECRET}", appSettingExt.getAppSecret());
 
             //get请求微信服务器获取到accessToken
             String result = HttpUtils.doGet(url);
-            if (!StringUtilsExt.isEmpty(result)) {
+            if (!StringUtils.isEmpty(result)) {
                 try {
                     accessToken = JsonUtils.parseJSON(StringEscapeUtils.unescapeJson(result), AccessToken.class);
 
@@ -132,5 +135,36 @@ public class WeixinApiService {
             log.error("获取accessToken失败", e);
         }
         return accessToken;
+    }
+
+    /**
+     * 获取jsapi-ticket
+     * @param publicUid
+     * @return JsApiTicket
+     */
+    public JsApiTicket getJsApiTicket(String publicUid){
+        String accessToken = getAccessToken(publicUid);
+        String url = WeixinConsts.JS_API_TICKET.replace("{ACCESS_TOKEN}", accessToken);
+        JsApiTicket jsApiTicket = null;
+        //get请求微信服务器
+        String result = HttpUtils.doGet(url);
+        log.info("微信[js_api_ticket]请求结果：" + result);
+        if (StringUtils.isNotEmpty(result)) {
+            jsApiTicket = JsonUtils.parseJSON(StringEscapeUtils.unescapeJson(result), JsApiTicket.class);
+        }
+        return jsApiTicket;
+    }
+
+    /**
+     * 获取jsapi-sdk签名信息
+     * @param publicUid
+     * @param url
+     * @return
+     */
+    public Map getJsSDKConfig(String publicUid, String url){
+        getAccessToken(publicUid);
+        JsApiTicket jsApiTicket = getJsApiTicket(publicUid);
+        Map map = SignUtil.sign(jsApiTicket.getTicket(), url);
+        return map;
     }
 }

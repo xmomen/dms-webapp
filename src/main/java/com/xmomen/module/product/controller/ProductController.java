@@ -42,7 +42,6 @@ public class ProductController {
 		}
 		List<String> labelEntityFields = new ArrayList<String>();
 		if(!CollectionUtils.isEmpty(labels)) {
-			productQuery.setFilterLabels(new ArrayList<String>());
 			for(String labelStr: labels) {
 				ProductLabel label = ProductLabel.enumOf(labelStr);
 				if(label != null) {
@@ -67,5 +66,15 @@ public class ProductController {
 	@RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
 	public ProductModel detail(@PathVariable(value="id") Integer productId) {
 		return productService.getDetailById(productId);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value ="cart", method = RequestMethod.GET)
+	public List<ProductModel> getCartProduct(@RequestParam(value = "memberCode", required = false) String memberCode,
+			@RequestParam(value="productIds", required = false) List<Integer> productIds) {
+		ProductQuery productQuery = new ProductQuery();
+		productQuery.setMemberCode(memberCode);
+		productQuery.setProductIds(productIds);
+		return productService.getProductsInCart(productQuery);
 	}
 }

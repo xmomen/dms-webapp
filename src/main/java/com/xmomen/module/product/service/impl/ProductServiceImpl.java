@@ -55,4 +55,25 @@ public class ProductServiceImpl implements ProductService {
 		}
 		return null;
 	}
+
+	@Override
+	public List<ProductModel> getProductsInCart(ProductQuery productQuery) {
+		//TODO we only use productIds currently, memberCode will use in future
+		/*if(StringUtils.isEmpty(productQuery.getMemberCode()) 
+				&& (productQuery.getProductIds() == null || productQuery.getProductIds().isEmpty())) {
+			return new ArrayList<ProductModel>();
+		}*/
+		if(productQuery.getProductIds() == null || productQuery.getProductIds().isEmpty()) {
+			return new ArrayList<ProductModel>();
+		}
+		List<ProductModel> products = mybatisDao.getSqlSessionTemplate().selectList(ProductMapper.ProductMapperNameSpace + "getProductsInCart", productQuery);
+		if(products != null && !products.isEmpty()) {
+			for(ProductModel product: products) {
+				if(StringUtils.isEmpty(product.getPicUrl())) {
+					product.setPicUrl("http://pic.58pic.com/58pic/15/35/55/12p58PICZv8_1024.jpg");
+				}
+			}
+		}
+		return products;
+	}
 }
