@@ -230,13 +230,13 @@
 			<artifactId>json</artifactId>
 			<version>20160212</version>
 		</dependency>
-		<!--<dependency>-->
-			<!--<groupId>com.baidu.ueditor</groupId>-->
-			<!--<artifactId>ueditor</artifactId>-->
-			<!--<version>1.1.0</version>-->
-			<!--<scope>system</scope>-->
-			<!--<systemPath>${project.basedir}/lib/ueditor-1.1.2.jar</systemPath>-->
-		<!--</dependency>-->
+		<dependency>
+			<groupId>com.baidu.ueditor</groupId>
+			<artifactId>ueditor</artifactId>
+			<version>1.1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/ueditor-1.1.2.jar</systemPath>
+		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>

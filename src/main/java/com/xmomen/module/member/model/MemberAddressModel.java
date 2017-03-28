@@ -15,7 +15,7 @@ import java.io.Serializable;
 
 /**
  * @author  tanxinzheng
- * @date    2017-3-23 14:57:22
+ * @date    2017-3-28 12:53:37
  * @version 1.0.0
  */
 @ExcelTarget(value = "MemberAddressModel")
@@ -32,17 +32,14 @@ public @Data class MemberAddressModel implements Serializable {
     private Integer cdMemberId;
     /**  */
     @Excel(name = "")
-    @NotBlank(message = "为必填项")
     @Range(max = 999999999, min = -999999999, message = "数值范围[999999999,-999999999]")
     private Integer province;
     /** 城市 */
     @Excel(name = "城市")
-    @NotBlank(message = "城市为必填项")
     @Range(max = 999999999, min = -999999999, message = "城市数值范围[999999999,-999999999]")
     private Integer city;
     /** 区域 */
     @Excel(name = "区域")
-    @NotBlank(message = "区域为必填项")
     @Range(max = 999999999, min = -999999999, message = "区域数值范围[999999999,-999999999]")
     private Integer area;
     /** 详细地址 */
@@ -55,6 +52,21 @@ public @Data class MemberAddressModel implements Serializable {
     @NotBlank(message = "完整地址为必填项")
     @Length(max = 256, message = "完整地址字符长度限制[0,256]")
     private String fullAddress;
+    /**  */
+    @Excel(name = "")
+    @NotBlank(message = "为必填项")
+    @Length(max = 32, message = "字符长度限制[0,32]")
+    private String name;
+    /**  */
+    @Excel(name = "")
+    @NotBlank(message = "为必填项")
+    @Length(max = 32, message = "字符长度限制[0,32]")
+    private String mobile;
+    /** 是否默认地址 */
+    @Excel(name = "是否默认地址")
+    @NotBlank(message = "是否默认地址为必填项")
+    @Range(max = 999999999, min = -999999999, message = "是否默认地址数值范围[999999999,-999999999]")
+    private Integer isDefalut;
 
     /**
     * Get MemberAddress Entity Object

@@ -9,6 +9,9 @@
     <result column="area" property="area" jdbcType="INTEGER" />
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="full_address" property="fullAddress" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="is_defalut" property="isDefalut" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, cd_member_id, province, city, area, address, full_address
+    id, cd_member_id, province, city, area, address, full_address, name, mobile, is_defalut
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.member.entity.MemberAddressExample" >
     select
@@ -116,6 +119,15 @@
       <if test="fullAddress != null" >
         full_address,
       </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="isDefalut != null" >
+        is_defalut,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{id,jdbcType=VARCHAR},
@@ -136,6 +148,15 @@
       </if>
       <if test="fullAddress != null" >
         #{fullAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefalut != null" >
+        #{isDefalut,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -168,6 +189,15 @@
       </if>
       <if test="record.fullAddress != null" >
         full_address = #{record.fullAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null" >
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDefalut != null" >
+        is_defalut = #{record.isDefalut,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >
