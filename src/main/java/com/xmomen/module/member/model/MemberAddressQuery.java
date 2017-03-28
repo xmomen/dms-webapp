@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * @author  tanxinzheng
- * @date    2017-3-23 14:57:22
+ * @date    2017-3-28 12:53:37
  * @version 1.0.0
  */
 public @Data class MemberAddressQuery implements Serializable {

@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 /**
  * @author  tanxinzheng
- * @date    2017-3-23 14:57:22
+ * @date    2017-3-28 12:53:37
  * @version 1.0.0
  */
 public @Data class MemberAddressUpdate implements Serializable {
@@ -29,6 +29,12 @@ public @Data class MemberAddressUpdate implements Serializable {
     private String address;
     /** 完整地址 */
     private String fullAddress;
+    /**  */
+    private String name;
+    /**  */
+    private String mobile;
+    /** 是否默认地址 */
+    private Integer isDefalut;
 
 
     public MemberAddress getEntity(){

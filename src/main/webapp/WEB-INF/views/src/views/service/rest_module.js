@@ -125,6 +125,13 @@ define(function () {
         });
     }]);
 
+    ngREST.factory("MemberAddressAPI", ["$resource", function ($resource) {
+        return $resource("/memberAddress/:id", {id: "@id"}, {
+            query: {isArray: false},
+            update: {method: "PUT", params: {id: "@id"}}
+        });
+    }]);
+
     ngREST.factory("CompanyAPI", ["$resource", function ($resource) {
         return $resource("/company/:id", {id: "@id"}, {
             query: {isArray: false},

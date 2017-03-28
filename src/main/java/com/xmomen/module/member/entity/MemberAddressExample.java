@@ -554,6 +554,206 @@ public class MemberAddressExample extends BaseMybatisExample {
             addCriterion("full_address not between", value1, value2, "fullAddress");
             return (Criteria) this;
         }
+
+        public Criteria andNameIsNull() {
+            addCriterion("name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameIsNotNull() {
+            addCriterion("name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameEqualTo(String value) {
+            addCriterion("name =", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotEqualTo(String value) {
+            addCriterion("name <>", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameGreaterThan(String value) {
+            addCriterion("name >", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameGreaterThanOrEqualTo(String value) {
+            addCriterion("name >=", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLessThan(String value) {
+            addCriterion("name <", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLessThanOrEqualTo(String value) {
+            addCriterion("name <=", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLike(String value) {
+            addCriterion("name like", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotLike(String value) {
+            addCriterion("name not like", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameIn(List<String> values) {
+            addCriterion("name in", values, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotIn(List<String> values) {
+            addCriterion("name not in", values, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameBetween(String value1, String value2) {
+            addCriterion("name between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotBetween(String value1, String value2) {
+            addCriterion("name not between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileIsNull() {
+            addCriterion("mobile is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileIsNotNull() {
+            addCriterion("mobile is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileEqualTo(String value) {
+            addCriterion("mobile =", value, "mobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileNotEqualTo(String value) {
+            addCriterion("mobile <>", value, "mobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileGreaterThan(String value) {
+            addCriterion("mobile >", value, "mobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileGreaterThanOrEqualTo(String value) {
+            addCriterion("mobile >=", value, "mobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileLessThan(String value) {
+            addCriterion("mobile <", value, "mobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileLessThanOrEqualTo(String value) {
+            addCriterion("mobile <=", value, "mobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileLike(String value) {
+            addCriterion("mobile like", value, "mobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileNotLike(String value) {
+            addCriterion("mobile not like", value, "mobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileIn(List<String> values) {
+            addCriterion("mobile in", values, "mobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileNotIn(List<String> values) {
+            addCriterion("mobile not in", values, "mobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileBetween(String value1, String value2) {
+            addCriterion("mobile between", value1, value2, "mobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileNotBetween(String value1, String value2) {
+            addCriterion("mobile not between", value1, value2, "mobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDefalutIsNull() {
+            addCriterion("is_defalut is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDefalutIsNotNull() {
+            addCriterion("is_defalut is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDefalutEqualTo(Integer value) {
+            addCriterion("is_defalut =", value, "isDefalut");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDefalutNotEqualTo(Integer value) {
+            addCriterion("is_defalut <>", value, "isDefalut");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDefalutGreaterThan(Integer value) {
+            addCriterion("is_defalut >", value, "isDefalut");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDefalutGreaterThanOrEqualTo(Integer value) {
+            addCriterion("is_defalut >=", value, "isDefalut");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDefalutLessThan(Integer value) {
+            addCriterion("is_defalut <", value, "isDefalut");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDefalutLessThanOrEqualTo(Integer value) {
+            addCriterion("is_defalut <=", value, "isDefalut");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDefalutIn(List<Integer> values) {
+            addCriterion("is_defalut in", values, "isDefalut");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDefalutNotIn(List<Integer> values) {
+            addCriterion("is_defalut not in", values, "isDefalut");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDefalutBetween(Integer value1, Integer value2) {
+            addCriterion("is_defalut between", value1, value2, "isDefalut");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDefalutNotBetween(Integer value1, Integer value2) {
+            addCriterion("is_defalut not between", value1, value2, "isDefalut");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

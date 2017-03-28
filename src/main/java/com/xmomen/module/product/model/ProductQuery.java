@@ -12,4 +12,7 @@ public @Data class ProductQuery {
 	private Boolean isAsc = true;
 	private List<String> filterLabels;
 	
+	private List<Integer> productIds;
+	private String memberCode;
+	
 }

@@ -46,6 +46,21 @@ public class MemberAddress extends BaseMybatisModel {
      */
     private String fullAddress;
 
+    /**
+     * 
+     */
+    private String name;
+
+    /**
+     * 
+     */
+    private String mobile;
+
+    /**
+     * 是否默认地址
+     */
+    private Integer isDefalut;
+
     @Column(name = "id")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
@@ -144,5 +159,47 @@ public class MemberAddress extends BaseMybatisModel {
               return;
         }
         addValidField("fullAddress");
+    }
+
+    @Column(name = "name")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+        if(name == null){
+              removeValidField("name");
+              return;
+        }
+        addValidField("name");
+    }
+
+    @Column(name = "mobile")
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+        if(mobile == null){
+              removeValidField("mobile");
+              return;
+        }
+        addValidField("mobile");
+    }
+
+    @Column(name = "is_defalut")
+    public Integer getIsDefalut() {
+        return isDefalut;
+    }
+
+    public void setIsDefalut(Integer isDefalut) {
+        this.isDefalut = isDefalut;
+        if(isDefalut == null){
+              removeValidField("isDefalut");
+              return;
+        }
+        addValidField("isDefalut");
     }
 }

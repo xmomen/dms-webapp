@@ -8,7 +8,7 @@
 	response.setHeader("Content-Type" , "text/html");
 	
 	String rootPath = application.getRealPath( "/" );
-	
+//	String rootUploadPath = (String) request.getSession().getAttribute("rootUploadPath");
+
 	out.write( new ActionEnter( request, rootPath ).exec() );
-	
 %>
