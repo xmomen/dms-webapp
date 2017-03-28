@@ -1,7 +1,12 @@
 package com.xmomen.module.wx.controller;
 
 import com.xmomen.framework.utils.StringUtilsExt;
+import com.xmomen.module.base.constant.AppConstants;
+import com.xmomen.module.wx.model.AccessTokenOAuth;
+import com.xmomen.module.wx.model.JsApiTicket;
 import com.xmomen.module.wx.service.MessageHandlerService;
+import com.xmomen.module.wx.service.WeixinApiService;
+import com.xmomen.module.wx.util.Auth2Handler;
 import com.xmomen.module.wx.util.SignUtil;
 
 import org.apache.commons.io.IOUtils;
@@ -10,23 +15,40 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 /**
  * 微信后端接入控制器
  */
-@Controller
+@RestController
 @RequestMapping("/wx/api")
 public class WeixinController {
+
     @Autowired
     MessageHandlerService messageHandlerService;
 
+    @Autowired
+    WeixinApiService weixinApiService;
+
     private Logger log = LoggerFactory.getLogger(WeixinController.class);
+
+    /**
+     * 获取js-sdk的config信息
+     * @param url
+     * @return
+     */
+    @RequestMapping(value = "/jsapi_ticket")
+    public Map getJsapiTicket(@RequestParam(value = "url") String url) {
+        return weixinApiService.getJsSDKConfig("gh_67c2b712d650", url);
+    }
 
     /**
      * 微信接口接入API主方法

@@ -2,32 +2,32 @@ package com.xmomen.module.wx.module.order.controller;
 
 import java.util.List;
 
+import com.xmomen.module.base.constant.AppConstants;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.xmomen.module.wx.module.order.model.OrderDetailModel;
 import com.xmomen.module.wx.module.order.model.OrderModel;
 import com.xmomen.module.wx.module.order.service.MyOrderService;
 
-@Controller
+@RestController
 public class MyOrderController {
 
 	@Autowired
 	MyOrderService myOrderService;
 
-	@RequestMapping("/myOrder")
+	@RequestMapping(value = "/myOrder", method = RequestMethod.GET)
 	@ResponseBody
 	public List<OrderModel> myOrder(@RequestParam("memberCode") String memberCode) {
+		Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
 		return myOrderService.myOrder(memberCode);
 	}
 	
-	@RequestMapping("/myOrder/{orderId}")
+	@RequestMapping(value = "/myOrder/{orderId}", method = RequestMethod.GET)
 	@ResponseBody
-	public  OrderDetailModel orderDetail(@PathVariable("orderId") Integer orderId) {
+	public OrderDetailModel orderDetail(@PathVariable("orderId") Integer orderId) {
 		return myOrderService.getOrderDetail(orderId);
 	}
 }

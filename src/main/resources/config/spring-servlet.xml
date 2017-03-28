@@ -40,6 +40,7 @@
 		</property>
 	</bean>
 
+	<mvc:resources mapping="/ueditor/jsp/upload/image/**" location="/ueditor/jsp/upload/image/"/>
 	<mvc:resources mapping="/**" location="/WEB-INF/views/src/"/>
 
 	<!-- 以下 validator  ConversionService 在使用 mvc:annotation-driven 会 自动注册-->

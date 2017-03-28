@@ -128,6 +128,7 @@
                 /login = authc
                 /js/**  =  anon
                 /css/** =  anon
+                /product/** =  anon
                 /img/** = anon
                 /MP_verify_YdpEW0051d07BR8X.txt = anon
                 /MP_verify_jWIslpvFiCq3GKYd.txt = anon
