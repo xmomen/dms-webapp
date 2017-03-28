@@ -262,7 +262,6 @@ define(function () {
                             if (currentItemDetail.id) {
                                 ItemDetailAPI.update(currentItemDetail, function () {
                                     $modalInstance.close($scope.currentItem);
-                                    $scope.getItemList();
                                 }, function (data) {
                                     $scope.errors = data.data;
                                 })
@@ -271,7 +270,6 @@ define(function () {
                             else {
                                 ItemDetailAPI.save(currentItemDetail, function () {
                                     $modalInstance.close($scope.currentItem);
-                                    $scope.getItemList();
                                 }, function (data) {
                                     $scope.errors = data.data;
                                 })
@@ -290,6 +288,7 @@ define(function () {
             });
             modalInstance.result.then(function (item) {
                 $scope.itemList[index].content = item.content;
+                $scope.getItemList();
             });
         };
 
