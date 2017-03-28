@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.module.wx.module.order.mapper.MyOrderMapper;
+import com.xmomen.module.wx.module.order.model.MyOrderQuery;
 import com.xmomen.module.wx.module.order.model.OrderDetailModel;
 import com.xmomen.module.wx.module.order.model.OrderModel;
 import com.xmomen.module.wx.module.order.model.OrderProductItem;
@@ -19,8 +20,8 @@ public class MyOrderServiceImpl implements MyOrderService {
 	MybatisDao mybatisDao;
 
 	@Override
-	public List<OrderModel> myOrder(String memberCode) {
-		List<OrderModel> orders = mybatisDao.getSqlSessionTemplate().selectList(MyOrderMapper.MY_ORDER_MAPPER_NAMESPACE + "selectOrders", memberCode);
+	public List<OrderModel> myOrder(MyOrderQuery myOrderQuery) {
+		List<OrderModel> orders = mybatisDao.getSqlSessionTemplate().selectList(MyOrderMapper.MY_ORDER_MAPPER_NAMESPACE + "selectOrders", myOrderQuery);
 		if(orders != null) {
 			for(OrderModel order: orders) {
 				List<OrderProductItem> items = order.getProducts();
