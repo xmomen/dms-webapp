@@ -41,6 +41,7 @@ import com.xmomen.module.order.model.PayOrder;
 import com.xmomen.module.order.model.RefundOrder;
 import com.xmomen.module.order.model.ReturnOrder;
 import com.xmomen.module.order.model.UpdateOrder;
+import com.xmomen.module.order.model.WxCreateOrder;
 import com.xmomen.module.plan.entity.TbTablePlan;
 import com.xmomen.module.report.model.OrderReport;
 
@@ -697,4 +698,111 @@ public class OrderService {
     	this.mybatisDao.save(order);
     }
 
+    @Transactional
+    public TbOrder createWxOrder(WxCreateOrder createOrder) {
+    	String orderNo = createOrder.getOrderNo();
+        if (StringUtils.isEmpty(orderNo)) {
+            orderNo = DateUtils.getDateTimeString();
+        }
+        createOrder.setOrderSource(1);
+        List<Integer> itemIdList = new ArrayList<Integer>();
+        for (WxCreateOrder.OrderItem orderItem : createOrder.getOrderItemList()) {
+            itemIdList.add(orderItem.getOrderItemId());
+        }
+        ItemQuery itemQuery = new ItemQuery();
+        Integer[] array = new Integer[itemIdList.size()];
+        itemQuery.setIds(itemIdList.toArray(array));
+        List<ItemModel> itemList = itemService.queryItemList(itemQuery);
+        BigDecimal totalAmount = BigDecimal.ZERO;
+        int xiajia = 0;
+        for (ItemModel cdItem : itemList) {
+            for (WxCreateOrder.OrderItem orderItem : createOrder.getOrderItemList()) {
+                //查看商品是否下架了
+                if (cdItem.getSellStatus() == 0) {
+                    xiajia = 1;
+                }
+                if (cdItem.getId().equals(orderItem.getOrderItemId())) {
+                    TbOrderItem tbOrderItem = new TbOrderItem();
+                    tbOrderItem.setOrderNo(orderNo);
+                    tbOrderItem.setItemCode(cdItem.getItemCode());
+                    tbOrderItem.setItemId(cdItem.getId());
+                    tbOrderItem.setItemName(cdItem.getItemName());
+                    tbOrderItem.setItemQty(orderItem.getItemQty());
+                    tbOrderItem.setItemUnit(cdItem.getPricingManner());
+                    if (cdItem.getDiscountPrice() != null) {
+                        tbOrderItem.setItemPrice(cdItem.getDiscountPrice());
+                    }
+                    else {
+                        tbOrderItem.setItemPrice(cdItem.getSellPrice());
+                    }
+                    totalAmount = totalAmount.add(tbOrderItem.getItemPrice().multiply(orderItem.getItemQty()));
+                    mybatisDao.insert(tbOrderItem);
+                }
+            }
+        }
+        TbOrder tbOrder = new TbOrder();
+        // 订单新建 待采购状态
+        tbOrder.setOrderStatus("1");
+        tbOrder.setPayStatus(0);//待支付
+        tbOrder.setTransportMode(1);// 默认快递
+        tbOrder.setConsigneeName(createOrder.getConsigneeName());
+        tbOrder.setConsigneeAddress(createOrder.getConsigneeAddress());
+        tbOrder.setConsigneePhone(createOrder.getConsigneePhone());
+        tbOrder.setCreateTime(mybatisDao.getSysdate());
+        if(createOrder.getPaymentMode() == null) {
+        	tbOrder.setPaymentMode(0);//设置非空值
+        } else {
+        	tbOrder.setPaymentMode(createOrder.getPaymentMode());
+        }
+        if (StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null && createOrder.getOrderType() == 2) {
+        	tbOrder.setPaymentMode(7);
+        }
+        tbOrder.setOtherPaymentMode(createOrder.getOtherPaymentMode());
+        
+        tbOrder.setMemberCode(createOrder.getMemberCode());
+        tbOrder.setRemark(createOrder.getRemark());
+        tbOrder.setOrderType(createOrder.getOrderType());
+        tbOrder.setOrderNo(orderNo);
+        tbOrder.setOrderSource(createOrder.getOrderSource());
+        tbOrder.setCreateUserId(createOrder.getCreateUserId());
+        tbOrder.setXiajia(xiajia);
+        
+        
+        totalAmount = totalAmount.subtract(createOrder.getDiscountPrice() == null ? BigDecimal.ZERO : createOrder.getDiscountPrice());
+        //订单总金额 如果是劵的 或者是餐桌计划的 则就是劵面金额 不用累计商品总金额
+        if ((tbOrder.getOrderType() == 2 && StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null)
+        		|| tbOrder.getOrderType() == 3 ) {
+            tbOrder.setTotalAmount(createOrder.getTotalPrice());
+            totalAmount = createOrder.getTotalPrice();
+            tbOrder.setDiscountPrice(BigDecimal.ZERO);
+            //生成收货码
+            TbOrderRef orderRef = new TbOrderRef();
+            orderRef.setOrderNo(orderNo);
+            orderRef.setRefType("SHOU_HUO_NO");
+            orderRef.setRefValue(String.valueOf((int) ((Math.random() * 9 + 1) * 100000)));
+            mybatisDao.insert(orderRef);
+        }
+        else {
+            tbOrder.setTotalAmount(totalAmount);
+            tbOrder.setDiscountPrice(createOrder.getDiscountPrice());
+        }
+        tbOrder.setAppointmentTime(createOrder.getAppointmentTime());
+        tbOrder = mybatisDao.insertByModel(tbOrder);
+        // tbOrderNo validation
+        if (StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null && createOrder.getOrderType() > 0) {
+            TbOrderRelation tbOrderRelation = new TbOrderRelation();
+            tbOrderRelation.setOrderNo(orderNo);
+            tbOrderRelation.setRefType(OrderMapper.ORDER_PAY_RELATION_CODE);// 订单支付关系
+            tbOrderRelation.setRefValue(createOrder.getPaymentRelationNo());
+            mybatisDao.insert(tbOrderRelation);
+        }
+        if((tbOrder.getOrderType() == 2 && StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null)
+        		|| tbOrder.getOrderType() == 3) {
+        	PayOrder payOrder = new PayOrder();
+            payOrder.setOrderNo(tbOrder.getOrderNo());
+            payOrder.setAmount(totalAmount);
+            payOrder(payOrder);
+        }
+        return tbOrder;
+    }
 }
