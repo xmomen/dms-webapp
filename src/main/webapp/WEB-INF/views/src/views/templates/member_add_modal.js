@@ -22,19 +22,6 @@ define(function () {
             });
         };
 
-        $scope.getMemberAddressList = function () {
-            MemberAddressAPI.query({
-                limit: $scope.pageSetting.pageSize,
-                offset: $scope.pageSetting.pageNum
-            }, function (data) {
-                $scope.companyList = data.data;
-                $scope.pageInfoSetting = data.pageInfo;
-                $scope.pageInfoSetting.loadData = $scope.getCompanyList;
-                $scope.ugSelect2Config.initSelectData($scope.member.cdCompanyId);
-                $scope.managerUgSelect2Config.initSelectData($scope.member.cdUserId);
-            });
-        }
-
         $scope.managerUgSelect2Config = {};
         $scope.getCompanyList();
         $scope.changeCompany = function (id) {
