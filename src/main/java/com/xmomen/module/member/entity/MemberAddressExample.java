@@ -695,63 +695,73 @@ public class MemberAddressExample extends BaseMybatisExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsDefalutIsNull() {
-            addCriterion("is_defalut is null");
+        public Criteria andIsDefaultIsNull() {
+            addCriterion("is_default is null");
             return (Criteria) this;
         }
 
-        public Criteria andIsDefalutIsNotNull() {
-            addCriterion("is_defalut is not null");
+        public Criteria andIsDefaultIsNotNull() {
+            addCriterion("is_default is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIsDefalutEqualTo(Integer value) {
-            addCriterion("is_defalut =", value, "isDefalut");
+        public Criteria andIsDefaultEqualTo(Boolean value) {
+            addCriterion("is_default =", value, "isDefault");
             return (Criteria) this;
         }
 
-        public Criteria andIsDefalutNotEqualTo(Integer value) {
-            addCriterion("is_defalut <>", value, "isDefalut");
+        public Criteria andIsDefaultNotEqualTo(Boolean value) {
+            addCriterion("is_default <>", value, "isDefault");
             return (Criteria) this;
         }
 
-        public Criteria andIsDefalutGreaterThan(Integer value) {
-            addCriterion("is_defalut >", value, "isDefalut");
+        public Criteria andIsDefaultGreaterThan(Boolean value) {
+            addCriterion("is_default >", value, "isDefault");
             return (Criteria) this;
         }
 
-        public Criteria andIsDefalutGreaterThanOrEqualTo(Integer value) {
-            addCriterion("is_defalut >=", value, "isDefalut");
+        public Criteria andIsDefaultGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_default >=", value, "isDefault");
             return (Criteria) this;
         }
 
-        public Criteria andIsDefalutLessThan(Integer value) {
-            addCriterion("is_defalut <", value, "isDefalut");
+        public Criteria andIsDefaultLessThan(Boolean value) {
+            addCriterion("is_default <", value, "isDefault");
             return (Criteria) this;
         }
 
-        public Criteria andIsDefalutLessThanOrEqualTo(Integer value) {
-            addCriterion("is_defalut <=", value, "isDefalut");
+        public Criteria andIsDefaultLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_default <=", value, "isDefault");
             return (Criteria) this;
         }
 
-        public Criteria andIsDefalutIn(List<Integer> values) {
-            addCriterion("is_defalut in", values, "isDefalut");
+        public Criteria andIsDefaultLike(Boolean value) {
+            addCriterion("is_default like", value, "isDefault");
             return (Criteria) this;
         }
 
-        public Criteria andIsDefalutNotIn(List<Integer> values) {
-            addCriterion("is_defalut not in", values, "isDefalut");
+        public Criteria andIsDefaultNotLike(Boolean value) {
+            addCriterion("is_default not like", value, "isDefault");
             return (Criteria) this;
         }
 
-        public Criteria andIsDefalutBetween(Integer value1, Integer value2) {
-            addCriterion("is_defalut between", value1, value2, "isDefalut");
+        public Criteria andIsDefaultIn(List<Boolean> values) {
+            addCriterion("is_default in", values, "isDefault");
             return (Criteria) this;
         }
 
-        public Criteria andIsDefalutNotBetween(Integer value1, Integer value2) {
-            addCriterion("is_defalut not between", value1, value2, "isDefalut");
+        public Criteria andIsDefaultNotIn(List<Boolean> values) {
+            addCriterion("is_default not in", values, "isDefault");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDefaultBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_default between", value1, value2, "isDefault");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDefaultNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_default not between", value1, value2, "isDefault");
             return (Criteria) this;
         }
     }
