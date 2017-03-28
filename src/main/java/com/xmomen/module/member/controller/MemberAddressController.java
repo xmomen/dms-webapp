@@ -33,7 +33,7 @@ import java.util.List;
  * @version 1.0.0
  */
 @RestController
-@RequestMapping(value = "\memberAddress")
+@RequestMapping(value = "/memberAddress")
 public class MemberAddressController {
 
     @Autowired
