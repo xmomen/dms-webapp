@@ -106,11 +106,11 @@ public @Data class WxCreateOrder implements Serializable {
     /**
      * 订单总金额（劵直接取,卡、常规订单后台在计算金额）
      */
-    @NotNull
     private BigDecimal totalPrice;
     
-    @NotNull
-    @NotEmpty
+    /**
+     * 券的物品直接从后台获取
+     */
     private List<OrderItem> orderItemList;
 
     public static class OrderItem implements Serializable {

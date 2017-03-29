@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,8 +20,11 @@ import com.xmomen.framework.utils.DateUtils;
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.base.entity.CdCoupon;
 import com.xmomen.module.base.entity.CdCouponExample;
+import com.xmomen.module.base.model.CouponModel;
+import com.xmomen.module.base.model.CouponRelationItem;
 import com.xmomen.module.base.model.ItemModel;
 import com.xmomen.module.base.model.ItemQuery;
+import com.xmomen.module.base.service.CouponService;
 import com.xmomen.module.base.service.ItemService;
 import com.xmomen.module.order.entity.TbOrder;
 import com.xmomen.module.order.entity.TbOrderExample;
@@ -56,6 +60,9 @@ public class OrderService {
 
     @Autowired
     ItemService itemService;
+    
+    @Autowired
+    CouponService couponService;
 
     /**
      * 查询订单
@@ -706,6 +713,27 @@ public class OrderService {
         }
         createOrder.setOrderSource(1);
         List<Integer> itemIdList = new ArrayList<Integer>();
+        
+        if(createOrder.getOrderType() == 2 && StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null) {
+        	CouponModel couponModel = couponService.getCouponModel(createOrder.getPaymentRelationNo());
+        	if(couponModel == null || couponModel.getCouponType() != 2) {
+        		throw new IllegalArgumentException("无效的券!");
+        	}
+        	List<CouponRelationItem> items = couponModel.getRelationItemList();
+        	List<WxCreateOrder.OrderItem> orderList = new ArrayList<WxCreateOrder.OrderItem>();
+        	for(CouponRelationItem item: items) {
+        		WxCreateOrder.OrderItem orderItem = new WxCreateOrder.OrderItem();
+        		orderItem.setOrderItemId(item.getItemId());
+        		orderItem.setItemQty(item.getItemNumber());
+        		orderList.add(orderItem);
+        	}
+        	createOrder.setOrderItemList(orderList);
+        	//券下单的总价格就是券的价格
+        	createOrder.setTotalPrice(couponModel.getCouponValue());
+        }
+        if(CollectionUtils.isEmpty(createOrder.getOrderItemList())) {
+        	throw new IllegalArgumentException("订单不能为空!");
+        }
         for (WxCreateOrder.OrderItem orderItem : createOrder.getOrderItemList()) {
             itemIdList.add(orderItem.getOrderItemId());
         }
@@ -769,9 +797,8 @@ public class OrderService {
         
         
         totalAmount = totalAmount.subtract(createOrder.getDiscountPrice() == null ? BigDecimal.ZERO : createOrder.getDiscountPrice());
-        //订单总金额 如果是劵的 或者是餐桌计划的 则就是劵面金额 不用累计商品总金额
-        if ((tbOrder.getOrderType() == 2 && StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null)
-        		|| tbOrder.getOrderType() == 3 ) {
+        //订单总金额 如果是劵的 则就是劵面金额 不用累计商品总金额
+        if ((tbOrder.getOrderType() == 2 && StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null)) {
             tbOrder.setTotalAmount(createOrder.getTotalPrice());
             totalAmount = createOrder.getTotalPrice();
             tbOrder.setDiscountPrice(BigDecimal.ZERO);
@@ -796,8 +823,7 @@ public class OrderService {
             tbOrderRelation.setRefValue(createOrder.getPaymentRelationNo());
             mybatisDao.insert(tbOrderRelation);
         }
-        if((tbOrder.getOrderType() == 2 && StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null)
-        		|| tbOrder.getOrderType() == 3) {
+        if((tbOrder.getOrderType() == 2 && StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null)) {
         	PayOrder payOrder = new PayOrder();
             payOrder.setOrderNo(tbOrder.getOrderNo());
             payOrder.setAmount(totalAmount);
