@@ -9,14 +9,13 @@ import org.jeecgframework.poi.excel.annotation.Excel;
 import org.jeecgframework.poi.excel.annotation.ExcelTarget;
 import org.springframework.beans.BeanUtils;
 
-import java.lang.Boolean;
-import java.lang.String;
 import java.lang.Integer;
+import java.lang.String;
 import java.io.Serializable;
 
 /**
  * @author  tanxinzheng
- * @date    2017-3-29 0:27:52
+ * @date    2017-3-28 12:53:37
  * @version 1.0.0
  */
 @ExcelTarget(value = "MemberAddressModel")
@@ -65,6 +64,7 @@ public @Data class MemberAddressModel implements Serializable {
     private String mobile;
     /** 是否默认地址 */
     @Excel(name = "是否默认地址")
+    @Range(max = 999999999, min = -999999999, message = "是否默认地址数值范围[999999999,-999999999]")
     @NotBlank(message = "是否默认地址为必填项")
     private Boolean isDefault;
 

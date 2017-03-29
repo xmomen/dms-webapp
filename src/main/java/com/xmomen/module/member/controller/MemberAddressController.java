@@ -2,12 +2,14 @@ package com.xmomen.module.member.controller;
 
 import com.xmomen.framework.exception.BusinessException;
 import com.xmomen.framework.mybatis.page.Page;
+import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.logger.Log;
 import com.xmomen.module.member.model.MemberAddressQuery;
 import com.xmomen.module.member.model.MemberAddressModel;
 import com.xmomen.module.member.service.MemberAddressService;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.shiro.SecurityUtils;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
@@ -81,6 +83,8 @@ public class MemberAddressController {
     @RequestMapping(method = RequestMethod.POST)
     @Log(actionName = "新增客户地址")
     public MemberAddressModel createMemberAddress(@RequestBody @Valid MemberAddressModel memberAddressModel) {
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
+        memberAddressModel.setCdMemberId(userId);
         return memberAddressService.createMemberAddress(memberAddressModel);
     }
 
