@@ -22,12 +22,12 @@ import java.io.Serializable;
 public @Data class MemberAddressModel implements Serializable {
 
     /**  */
-    @NotBlank(message = "为必填项")
+//    @NotBlank(message = "为必填项")
     @Length(max = 32, message = "字符长度限制[0,32]")
     private String id;
     /** 客户ID */
     @Excel(name = "客户ID")
-    @NotBlank(message = "客户ID为必填项")
+//    @NotNull(message = "客户ID为必填项")
     @Range(max = 999999999, min = -999999999, message = "客户ID数值范围[999999999,-999999999]")
     private Integer cdMemberId;
     /**  */
@@ -65,7 +65,7 @@ public @Data class MemberAddressModel implements Serializable {
     /** 是否默认地址 */
     @Excel(name = "是否默认地址")
     @Range(max = 999999999, min = -999999999, message = "是否默认地址数值范围[999999999,-999999999]")
-    @NotBlank(message = "是否默认地址为必填项")
+    //@NotBlank(message = "是否默认地址为必填项")
     private Boolean isDefault;
 
     /**
