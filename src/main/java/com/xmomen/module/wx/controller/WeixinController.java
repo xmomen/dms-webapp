@@ -4,6 +4,7 @@ import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.wx.model.AccessTokenOAuth;
 import com.xmomen.module.wx.model.JsApiTicket;
+import com.xmomen.module.wx.pay.model.PayResData;
 import com.xmomen.module.wx.service.MessageHandlerService;
 import com.xmomen.module.wx.service.WeixinApiService;
 import com.xmomen.module.wx.util.Auth2Handler;
@@ -14,9 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,12 +41,53 @@ public class WeixinController {
 
     /**
      * 获取js-sdk的config信息
+     *
      * @param url
      * @return
      */
     @RequestMapping(value = "/jsapi_ticket")
     public Map getJsapiTicket(@RequestParam(value = "url") String url) {
         return weixinApiService.getJsSDKConfig("gh_67c2b712d650", url);
+    }
+
+    /**
+     * 订单支付下单
+     *
+     * @param outTradeNo 订单号
+     * @param totalFee   总金额
+     * @param openId     openId
+     * @return
+     */
+    @RequestMapping(value = "/payOrder", method = RequestMethod.POST)
+    @ResponseBody
+    public PayResData payOrder(String outTradeNo, Integer totalFee, String openId, HttpServletRequest request) {
+        return weixinApiService.payOrder(outTradeNo, totalFee, openId, request);
+    }
+
+    /**
+     * 支付回调方法
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/notify")
+    @ResponseBody
+    public String notify(HttpServletRequest request) {
+        // 获取微信POST过来反馈信息
+        System.out.print("微信支付回调获取数据开始");
+        log.info("微信支付回调获取数据开始");
+        String inputLine;
+        String notityXml = "";
+        try {
+            while ((inputLine = request.getReader().readLine()) != null) {
+                notityXml += inputLine;
+            }
+            request.getReader().close();
+        } catch (Exception e) {
+            log.info("xml获取失败：" + e);
+        }
+        log.info("收到微信异步回调：" + notityXml);
+        return this.weixinApiService.notify(notityXml);
     }
 
     /**
@@ -65,7 +105,7 @@ public class WeixinController {
 
         if (StringUtilsExt.isEmpty(echostr)) {
             try {
-            	 log.info("请求服务器");
+                log.info("请求服务器");
                 //设置response字符串格式为UTF-8
                 response.setCharacterEncoding("utf-8");
 
@@ -127,7 +167,7 @@ public class WeixinController {
         String nonce = request.getParameter("nonce");
 
         String publicUid = request.getParameter("publicUid");
-        
+
         String token = request.getParameter("token");
 
         if (StringUtilsExt.isEmpty(publicUid)) {
