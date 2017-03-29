@@ -64,9 +64,9 @@ public @Data class MemberAddressModel implements Serializable {
     private String mobile;
     /** 是否默认地址 */
     @Excel(name = "是否默认地址")
-//    @NotNull(message = "是否默认地址为必填项")
     @Range(max = 999999999, min = -999999999, message = "是否默认地址数值范围[999999999,-999999999]")
-    private Integer isDefalut;
+    //@NotBlank(message = "是否默认地址为必填项")
+    private Boolean isDefault;
 
     /**
     * Get MemberAddress Entity Object

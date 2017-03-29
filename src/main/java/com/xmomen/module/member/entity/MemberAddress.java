@@ -59,7 +59,7 @@ public class MemberAddress extends BaseMybatisModel {
     /**
      * 是否默认地址
      */
-    private Integer isDefalut;
+    private Boolean isDefault;
 
     @Column(name = "id")
     @Id
@@ -189,17 +189,17 @@ public class MemberAddress extends BaseMybatisModel {
         addValidField("mobile");
     }
 
-    @Column(name = "is_defalut")
-    public Integer getIsDefalut() {
-        return isDefalut;
+    @Column(name = "is_default")
+    public Boolean getIsDefault() {
+        return isDefault;
     }
 
-    public void setIsDefalut(Integer isDefalut) {
-        this.isDefalut = isDefalut;
-        if(isDefalut == null){
-              removeValidField("isDefalut");
+    public void setIsDefault(Boolean isDefault) {
+        this.isDefault = isDefault;
+        if(isDefault == null){
+              removeValidField("isDefault");
               return;
         }
-        addValidField("isDefalut");
+        addValidField("isDefault");
     }
 }

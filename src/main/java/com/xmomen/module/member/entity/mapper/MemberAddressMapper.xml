@@ -11,7 +11,7 @@
     <result column="full_address" property="fullAddress" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
-    <result column="is_defalut" property="isDefalut" jdbcType="INTEGER" />
+    <result column="is_default" property="isDefault" jdbcType="CHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -72,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, cd_member_id, province, city, area, address, full_address, name, mobile, is_defalut
+    id, cd_member_id, province, city, area, address, full_address, name, mobile, is_default
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.member.entity.MemberAddressExample" >
     select
@@ -125,8 +125,8 @@
       <if test="mobile != null" >
         mobile,
       </if>
-      <if test="isDefalut != null" >
-        is_defalut,
+      <if test="isDefault != null" >
+        is_default,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -155,8 +155,8 @@
       <if test="mobile != null" >
         #{mobile,jdbcType=VARCHAR},
       </if>
-      <if test="isDefalut != null" >
-        #{isDefalut,jdbcType=INTEGER},
+      <if test="isDefault != null" >
+        #{isDefault,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
@@ -196,8 +196,8 @@
       <if test="record.mobile != null" >
         mobile = #{record.mobile,jdbcType=VARCHAR},
       </if>
-      <if test="record.isDefalut != null" >
-        is_defalut = #{record.isDefalut,jdbcType=INTEGER},
+      <if test="record.isDefault != null" >
+        is_default = #{record.isDefault,jdbcType=CHAR},
       </if>
     </set>
     <if test="_parameter != null" >
