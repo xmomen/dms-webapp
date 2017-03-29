@@ -11,6 +11,9 @@
             <if test="id">
                 AND t.ID = #{id}
             </if>
+            <if test="cdMemberId">
+                AND t.cd_member_id = #{cdMemberId}
+            </if>
             <if test="ids">
                 AND t.ID IN
                 <foreach collection="ids" item="item" separator="," open="(" close=")">
