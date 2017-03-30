@@ -44,5 +44,21 @@
 		where 
 			cmc.CD_COMPANY_ID = #{id}
 	</select>
+
+
+	<select id="queryCompanyManagerListById" resultType="com.xmomen.module.base.model.CompanyCustomerManager" parameterType="java.util.HashMap">
+		select
+			su.realName as customerManger,
+			su.id as customerMangerId
+		from
+			cd_manager_company cmc
+		left join
+			sys_users su on cmc.CD_MANAGER_ID = su.id
+		where
+			cmc.CD_COMPANY_ID = #{id}
+		<if test="managerId">
+			AND cmc.CD_MANAGER_ID = #{managerId}
+		</if>
+	</select>
 </mapper>
 

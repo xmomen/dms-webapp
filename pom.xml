@@ -272,9 +272,9 @@
 		</dependency>
 		<!-- xml parse begin -->
 		<dependency>
-			<groupId>xstream</groupId>
+			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
-			<version>1.2.2</version>
+			<version>1.4.7</version>
 		</dependency>
 		<!-- xml parse end -->
 
