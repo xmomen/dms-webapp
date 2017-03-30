@@ -134,8 +134,8 @@
 			left join sys_dictionary_parameter otherPaymentp on otherPaymentp.SYS_DICTIONARY_ID=otherPayment.ID and tb.PAYMENT_MODE = otherPaymentp.REAL_VALUE
 			
 			left join cd_express ce on tb.despatch_express_id = ce.id
-			LEFT JOIN TB_TRADE_RECORD pay ON pay.TRADE_NO =tb.ORDER_NO and pay.TRADE_TYPE in('COUPON','CARD','NORMAL')
-			LEFT JOIN TB_TRADE_RECORD other_pay ON other_pay.TRADE_NO =tb.ORDER_NO and other_pay.TRADE_TYPE = tb.OTHER_PAYMENT_MODE
+			LEFT JOIN tb_trade_record pay ON pay.TRADE_NO =tb.ORDER_NO and pay.TRADE_TYPE in('COUPON','CARD','NORMAL')
+			LEFT JOIN tb_trade_record other_pay ON other_pay.TRADE_NO =tb.ORDER_NO and other_pay.TRADE_TYPE = tb.OTHER_PAYMENT_MODE
         <where>
         	 tb.order_status = 12
             <if test="orderCreateTimeStart">
@@ -189,8 +189,8 @@
 		left join sys_dictionary_parameter otherPaymentp on otherPaymentp.SYS_DICTIONARY_ID=otherPayment.ID and tb.PAYMENT_MODE = otherPaymentp.REAL_VALUE
 		
 		left join cd_express ce on tb.despatch_express_id = ce.id
-		LEFT JOIN TB_TRADE_RECORD pay ON pay.TRADE_NO =tb.ORDER_NO and pay.TRADE_TYPE in('COUPON','CARD','NORMAL')
-		LEFT JOIN TB_TRADE_RECORD other_pay ON other_pay.TRADE_NO =tb.ORDER_NO and other_pay.TRADE_TYPE = tb.OTHER_PAYMENT_MODE
+		LEFT JOIN tb_trade_record pay ON pay.TRADE_NO =tb.ORDER_NO and pay.TRADE_TYPE in('COUPON','CARD','NORMAL')
+		LEFT JOIN tb_trade_record other_pay ON other_pay.TRADE_NO =tb.ORDER_NO and other_pay.TRADE_TYPE = tb.OTHER_PAYMENT_MODE
 			
        	<where>
         	tb.DESPATCH_EXPRESS_ID is not NULL

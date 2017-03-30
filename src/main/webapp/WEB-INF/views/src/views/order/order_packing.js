@@ -539,8 +539,8 @@ define(function () {
                     LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
                     LODOP.SET_PRINT_STYLEA(0,"Bold",1);
                     LODOP.ADD_PRINT_RECT(217,275,100,60,0,1);
-                    LODOP.PRINT_DESIGN();
-//                   LODOP.PRINT();
+                    // LODOP.PRINT_DESIGN();
+                  LODOP.PRINT();
                 }
             });
         }
