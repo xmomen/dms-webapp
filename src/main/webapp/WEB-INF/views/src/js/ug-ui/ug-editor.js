@@ -79,7 +79,8 @@ define(function () {
                                             'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
                                             'insertorderedlist', 'insertunorderedlist', '|',
                                             'link', 'unlink', '|',
-                                            'emotion'
+                                            'emotion','|',
+                                            'preview'
                                         ]
                                     ]
                                 });
