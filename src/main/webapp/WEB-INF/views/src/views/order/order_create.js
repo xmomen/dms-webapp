@@ -2,8 +2,8 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "OrderAPI", "ItemAPI", "MemberAPI", "ItemCategoryAPI", "$modal", "$ugDialog", "$state", "CouponAPI", "$modalMemberAdd", "$rootScope", "MemberAddressAPI",
-        function ($scope, OrderAPI, ItemAPI, MemberAPI, ItemCategoryAPI, $modal, $ugDialog, $state, CouponAPI, $modalMemberAdd, $rootScope, MemberAddressAPI) {
+    return ["$scope", "OrderAPI", "ItemAPI", "MemberAPI", "ItemCategoryAPI", "$modal", "$ugDialog", "$state", "CouponAPI", "$modalMemberAdd", "$rootScope", "MemberAddressAPI", "CompanyAPI",
+        function ($scope, OrderAPI, ItemAPI, MemberAPI, ItemCategoryAPI, $modal, $ugDialog, $state, CouponAPI, $modalMemberAdd, $rootScope, MemberAddressAPI, CompanyAPI) {
             $scope.setting = {
                 disablesSpareName2: true,
                 disablesSpareName: true,
@@ -184,7 +184,8 @@ define(function () {
                     MemberAPI.query({
                         limit: 1,
                         offset: 1,
-                        phoneNumber: $scope.order.phone
+                        phoneNumber: $scope.order.phone,
+                        isFilter: 1
                     }, function (data) {
                         if (data.data && data.data.length > 0) {
                             var member = data.data[0];
@@ -198,10 +199,36 @@ define(function () {
                 }
             };
 
+            $scope.companyList = [];
+            $scope.ugSelect2Config = {};
+            $scope.getCompanyList = function () {
+                CompanyAPI.query({
+                    limit: 1000,
+                    offset: 1
+                }, function (data) {
+                    $scope.companyList = data.data;
+                    $scope.pageInfoSetting = data.pageInfo;
+                    $scope.pageInfoSetting.loadData = $scope.getCompanyList;
+                    $scope.ugSelect2Config.initSelectData($scope.order.companyId);
+                    $scope.managerUgSelect2Config.initSelectData($scope.order.managerId);
+                });
+            };
+
+            $scope.managerUgSelect2Config = {};
+
+            $scope.changeCompany = function (id) {
+                for (var i in $scope.companyList) {
+                    var company = $scope.companyList[i];
+                    if (company.id == parseInt(id)) {
+                        $scope.companyCustomerManagers = company.companyCustomerManagers;
+                    }
+                }
+            };
+
+
             $scope.memberAddressList = [];
 
             var setMemberInfo = function (member) {
-                debugger;
                 $scope.order.memberId = member.id;
                 //卡劵单位和项目经理取卡劵自身的
                 if ($scope.order.companyId == null || $scope.order.companyId == undefined) {
@@ -213,6 +240,9 @@ define(function () {
                     $scope.order.managerName = member.managerName;
                 }
 
+                if ($scope.order.orderType == 0) {
+                    $scope.getCompanyList();
+                }
 
                 $scope.order.name = member.name;
                 $scope.order.phone = member.phoneNumber;
@@ -336,7 +366,6 @@ define(function () {
             };
 
             $scope.$watch("order.addressChose", function (newVal, oldVal) {
-                debugger;
                 if (oldVal != newVal) {
                     var index = parseInt(newVal);
                     $scope.order.consigneeAddress = $scope.memberAddressList[index].address;

@@ -46,79 +46,87 @@ public class MemberController {
 
     /**
      * 查询客户信息
+     *
      * @param id
      * @return
      */
     @RequestMapping(value = "/member", method = RequestMethod.GET)
     @Log(actionName = "查询客户信息")
     public Page<MemberModel> getMemberList(@RequestParam(value = "limit") Integer limit,
-            @RequestParam(value = "offset") Integer offset,
-            @RequestParam(value = "id", required = false) Integer id,
-            @RequestParam(value = "keyword", required = false) String keyword,
-            @RequestParam(value = "phoneNumber", required = false) String phoneNumber,
-            @RequestParam(value = "couponNumber", required = false) String couponNumber){
-    	 Map map = new HashMap<String,Object>();
-         map.put("id", id);
-         if(StringUtils.trimToNull(keyword) != null){
-        	 map.put("keyword", keyword);
-         }
-         if(StringUtils.trimToNull(phoneNumber) != null){
-             map.put("phoneNumber", phoneNumber);
-         }
-         if(StringUtils.trimToNull(couponNumber) != null){
-             map.put("couponNumber", couponNumber);
-         }
-         //客服经理过滤 如果有客服组权限则不过滤
-         if(SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE) && !SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_PERMISSION_CODE)){
-            Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
-            map.put("managerId", userId);
-         }
+                                           @RequestParam(value = "offset") Integer offset,
+                                           @RequestParam(value = "id", required = false) Integer id,
+                                           @RequestParam(value = "keyword", required = false) String keyword,
+                                           @RequestParam(value = "phoneNumber", required = false) String phoneNumber,
+                                           @RequestParam(value = "isFilter", required = false) String isFilter,
+                                           @RequestParam(value = "couponNumber", required = false) String couponNumber) {
+        Map map = new HashMap<String, Object>();
+        map.put("id", id);
+        if (StringUtils.trimToNull(keyword) != null) {
+            map.put("keyword", keyword);
+        }
+        if (StringUtils.trimToNull(phoneNumber) != null) {
+            map.put("phoneNumber", phoneNumber);
+        }
+        if (StringUtils.trimToNull(couponNumber) != null) {
+            map.put("couponNumber", couponNumber);
+        }
+        //是否过滤
+        if (StringUtils.isEmpty(isFilter)) {
+            //客服经理过滤 如果有客服组权限则不过滤
+            if (SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE) && !SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_PERMISSION_CODE)) {
+                Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
+                map.put("managerId", userId);
+            }
+        }
         return (Page<MemberModel>) mybatisDao.selectPage(MemberMapper.MemberMapperNameSpace + "getMemberList", map, limit, offset);
     }
-    
-    
+
+
     @RequestMapping(value = "/member", method = RequestMethod.POST)
     @Log(actionName = "新增客户")
     public void createMember(@RequestBody @Valid CreateMember createMember, BindingResult bindingResult) throws ArgumentValidException {
-        if(bindingResult != null && bindingResult.hasErrors()){
+        if (bindingResult != null && bindingResult.hasErrors()) {
             throw new ArgumentValidException(bindingResult);
         }
         memberService.createMember(createMember);
     }
 
     /**
-     *  根据ID查询客户信息
+     * 根据ID查询客户信息
+     *
      * @param id
      */
     @RequestMapping(value = "/member/{id}", method = RequestMethod.GET)
     @Log(actionName = "根据ID查询客户信息")
-    public MemberModel getMember(@PathVariable(value = "id") Integer id){
-        Map map = new HashMap<String,Object>();
+    public MemberModel getMember(@PathVariable(value = "id") Integer id) {
+        Map map = new HashMap<String, Object>();
         map.put("id", id);
         return mybatisDao.getSqlSessionTemplate().selectOne(MemberMapper.MemberMapperNameSpace + "getMemberList", map);
     }
 
     /**
-     *  修改
+     * 修改
+     *
      * @param id
      */
     @RequestMapping(value = "/member/{id}", method = RequestMethod.PUT)
     @Log(actionName = "修改客户信息")
     public void updateMember(@PathVariable(value = "id") Integer id,
-                                @RequestBody @Valid UpdateMember updateMember, BindingResult bindingResult) throws ArgumentValidException {
-        if(bindingResult != null && bindingResult.hasErrors()){
+                             @RequestBody @Valid UpdateMember updateMember, BindingResult bindingResult) throws ArgumentValidException {
+        if (bindingResult != null && bindingResult.hasErrors()) {
             throw new ArgumentValidException(bindingResult);
         }
-        memberService.updateMember(id,updateMember);
+        memberService.updateMember(id, updateMember);
     }
-    
+
     /**
-     *  删除
+     * 删除
+     *
      * @param id
      */
     @RequestMapping(value = "/member/{id}", method = RequestMethod.DELETE)
     @Log(actionName = "删除客户信息")
-    public void deleteMember(@PathVariable(value = "id") Integer id){
-    	memberService.delete(id);
+    public void deleteMember(@PathVariable(value = "id") Integer id) {
+        memberService.delete(id);
     }
 }
