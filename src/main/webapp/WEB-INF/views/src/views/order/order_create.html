@@ -143,87 +143,80 @@
                                         <input type="text" ng-model="card.amount" disabled placeholder="查询后自动填充" class="form-control">
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" ng-if="order.orderType != 0">
                                     <label class="control-label col-md-2">单位／个人<span class="vaild">*</span></label>
                                     <div class="col-md-4">
-                                        <input type="hidden" ng-model="order.companyId" required ng-disabled="order.orderType != 2 " class="form-control">
-                                        <input type="text" ng-model="order.companyName" required ng-disabled="order.orderType != 2 " placeholder="查询后自动填充" class="form-control">
+                                        <input type="hidden" ng-model="order.companyId" required ng-disabled="true" class="form-control">
+                                        <input type="text" ng-model="order.companyName" required ng-disabled="true" placeholder="查询后自动填充" class="form-control">
                                     </div>
                                     <label class="control-label col-md-2">客户经理<span class="vaild">*</span></label>
                                     <div class="col-md-4">
-                                        <input type="hidden" ng-model="order.managerId" required ng-disabled="order.orderType != 2 " class="form-control">
-                                        <input type="text" ng-model="order.managerName" required ng-disabled="order.orderType != 2 " placeholder="查询后自动填充" class="form-control">
+                                        <input type="hidden" ng-model="order.managerId" required ng-disabled="true" class="form-control">
+                                        <input type="text" ng-model="order.managerName" required ng-disabled="true" placeholder="查询后自动填充" class="form-control">
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-2">默认收货人<span class="vaild">*</span></label>
-                                    <div class="col-md-4">
-                                        <div class="input-group">
-                                            <input type="text" ng-model="order.defaultConsigneeName" required ng-disabled="order.orderType != 2 " placeholder="查询后自动填充" class="form-control">
-											<span class="input-group-btn" ng-show="order.orderType != 2 ">
-                                                <button class="btn btn-default" ng-disabled="!order.defaultConsigneeName || order.addressChose == 1"
-                                                        data-ng-click="order.addressChose = 1"
-                                                        type="button" ng-bind="order.addressChose == 1?'已启用':'未启用'"></button>
-											</span>
-                                        </div>
-                                    </div>
-                                    <label class="control-label col-md-2">联系方式<span class="vaild">*</span></label>
-                                    <div class="col-md-4">
-                                        <input type="text"  name="consigneePhone" ng-model="order.defaultConsigneePhone" data-rule-telephone="true" ng-disabled="order.orderType != 2 " placeholder="查询后自动填充" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-2">收货地址<span class="vaild">*</span></label>
-                                    <div class="col-md-10">
-                                        <input type="text" required ng-model="order.defaultConsigneeAddress" ng-disabled="order.orderType != 2 " placeholder="查询后自动填充" class="form-control">
-                                    </div>
-                                </div>
-                                <div ng-show="order.orderType != 2">
-                                    <div class="form-group">
-                                        <label class="control-label col-md-2">备用收货人</label>
-                                        <div class="col-md-4">
-                                            <div class="input-group">
-                                                <input type="text" disabled ng-model="order.spareName" placeholder="查询后自动填充" class="form-control">
-                                                <span class="input-group-btn" ng-show="order.orderType != 2 ">
-                                                    <button class="btn btn-default" ng-disabled="!order.spareName || order.addressChose == 2"
-                                                            data-ng-click="order.addressChose = 2"
-                                                            type="button" ng-bind="order.addressChose == 2?'已启用':'未启用'"></button>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <label class="control-label col-md-2">联系方式</label>
-                                        <div class="col-md-4">
-                                            <input type="text" disabled ng-model="order.spareTel" data-rule-telephone="true" placeholder="查询后自动填充" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-2">收货地址</label>
-                                        <div class="col-md-10">
-                                            <input type="text" disabled ng-model="order.spareAddress" placeholder="查询后自动填充" class="form-control">
-                                        </div>
-                                    </div>
 
+                                <div class="form-group" ng-if="order.orderType == 0">
+
+                                    <label class="col-md-2 control-label">公司/单位<span class="vaild">*</span></label>
+                                    <div class="col-md-4">
+                                        <select ug-select2 ug-select2-config="ugSelect2Config" style="width: 100%;" required="true" ng-model="order.companyId" name="companyId" ng-change="changeCompany(order.companyId)">
+                                            <option value="">--请选择--</option>
+                                            <option value="{{company.id}}" ng-repeat="company in companyList">{{company.companyName}}</option>
+                                        </select>
+                                    </div>
+                                    <label class="col-md-2 control-label">客户经理<span class="vaild">*</span></label>
+                                    <div class="col-md-4">
+                                        <select ug-select2 ug-select2-config="managerUgSelect2Config" style="width: 100%;" required="true" ng-model="order.managerId" name="managerId">
+                                            <option value="">--请选择--</option>
+                                            <option value="{{customerManager.customerMangerId}}" ng-repeat="customerManager in companyCustomerManagers">{{customerManager.customerManger}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!--劵类订单-->
+                                <div ng-show="order.orderType == 2">
                                     <div class="form-group">
-                                        <label class="control-label col-md-2">备用收货人</label>
-                                        <div class="col-md-4">
+                                        <label class="control-label col-md-2">默认收货人<span class="vaild">*</span></label>
+                                        <div class="col-md-2">
                                             <div class="input-group">
-                                                <input type="text" disabled ng-model="order.spareName2" placeholder="查询后自动填充" class="form-control">
-                                                 <span class="input-group-btn">
-                                                    <button class="btn btn-default" ng-disabled="!order.spareName2 || order.addressChose == 3"
-                                                            data-ng-click="order.addressChose = 3"
-                                                            type="button" ng-bind="order.addressChose == 3?'已启用':'未启用'"></button>
-                                                </span>
+                                                <input type="text" ng-model="order.defaultConsigneeName" required placeholder="查询后自动填充" class="form-control">
                                             </div>
                                         </div>
-                                        <label class="control-label col-md-2">联系方式</label>
+                                        <label class="control-label col-md-1">联系方式<span class="vaild">*</span></label>
+                                        <div class="col-md-2">
+                                            <input type="text" name="consigneePhone" ng-model="order.defaultConsigneePhone" data-rule-telephone="true" placeholder="查询后自动填充" class="form-control">
+                                        </div>
+                                        <label class="control-label col-md-1">收货地址<span class="vaild">*</span></label>
                                         <div class="col-md-4">
-                                            <input type="text" disabled ng-model="order.spareTel2" data-rule-telephone="true" placeholder="查询后自动填充" class="form-control">
+                                            <input type="text" required ng-model="order.defaultConsigneeAddress" placeholder="查询后自动填充" class="form-control">
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-2">收货地址</label>
-                                        <div class="col-md-10">
-                                            <input type="text" disabled ng-model="order.spareAddress2" placeholder="查询后自动填充" class="form-control">
+                                </div>
+
+                                <!--非劵类订单-->
+                                <div ng-show="order.orderType != 2">
+                                    <div ng-repeat="memberAddress in memberAddressList" class="mt12">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2">收货人</label>
+                                            <div class="col-md-2">
+                                                <div class="input-group">
+                                                    <input type="text" ng-model="memberAddress.name" required ng-disabled="true" placeholder="查询后自动填充" class="form-control">
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-default" ng-disabled="order.addressChose == {{$index}}"
+                                                                data-ng-click="order.addressChose = $index"
+                                                                type="button" ng-bind="order.addressChose == {{$index}}?'已启用':'未启用'"></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <label class="control-label col-md-1">联系方式</label>
+                                            <div class="col-md-2">
+                                                <input type="text" name="consigneePhone" ng-model="memberAddress.mobile" data-rule-telephone="true" ng-disabled="true" placeholder="查询后自动填充" class="form-control">
+                                            </div>
+                                            <label class="control-label col-md-1">收货地址</label>
+                                            <div class="col-md-4">
+                                                <input type="text" required ng-model="memberAddress.address" ng-disabled="true" placeholder="查询后自动填充" class="form-control">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -538,6 +531,12 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12">
+                                        <label class="control-label col-md-2">收货人联系方式<span class="vaild">*</span>：</label>
+                                        <div class="col-md-10">
+                                            <label class="control-label" ng-bind="order.consigneePhone"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
                                         <label class="control-label col-md-2">收货人地址<span class="vaild">*</span>：</label>
                                         <div class="col-md-10">
                                             <label class="control-label" ng-bind="order.consigneeAddress"></label>
@@ -546,7 +545,7 @@
                                     <div class="col-md-12">
                                         <label class="control-label col-md-2">付款方式<span class="vaild">*</span>：</label>
                                         <div class="col-md-10">
-                                            <!--<label class="control-label" ng-if="order.paymentMode == 0">回馈</label>-->
+                                            <label class="control-label" ng-if="order.paymentMode == 0">回馈</label>
                                             <label class="control-label" ng-if="order.paymentMode == 1">客户经理代收</label>
                                             <label class="control-label" ng-if="order.paymentMode == 2">刷POS</label>
                                             <label class="control-label" ng-if="order.paymentMode == 3">转账</label>

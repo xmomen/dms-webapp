@@ -4,13 +4,14 @@ import lombok.Data;
 import com.xmomen.module.member.entity.MemberAddress;
 import org.springframework.beans.BeanUtils;
 
-    import java.lang.Integer;
+    import java.lang.Boolean;
     import java.lang.String;
+    import java.lang.Integer;
 import java.io.Serializable;
 
 /**
  * @author  tanxinzheng
- * @date    2017-3-23 14:57:22
+ * @date    2017-3-29 0:27:52
  * @version 1.0.0
  */
 public @Data class MemberAddressCreate implements Serializable {
@@ -29,6 +30,12 @@ public @Data class MemberAddressCreate implements Serializable {
     private String address;
     /** 完整地址 */
     private String fullAddress;
+    /**  */
+    private String name;
+    /**  */
+    private String mobile;
+    /** 是否默认地址 */
+    private boolean isDefault;
 
     public MemberAddress getEntity(){
         MemberAddress memberAddress = new MemberAddress();

@@ -1,5 +1,6 @@
 package com.xmomen.module.member.service.impl;
 
+import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.module.member.entity.MemberAddress;
 import com.xmomen.module.member.entity.MemberAddressExample;
 import com.xmomen.module.member.mapper.MemberAddressMapperExt;
@@ -10,6 +11,7 @@ import com.xmomen.module.member.model.MemberAddressModel;
 import com.xmomen.module.member.service.MemberAddressService;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
+import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,7 @@ import java.util.List;
 
 /**
  * @author  tanxinzheng
- * @date    2017-3-23 14:57:22
+ * @date    2017-3-29 0:27:52
  * @version 1.0.0
  */
 @Service
@@ -56,6 +58,9 @@ public class MemberAddressServiceImpl implements MemberAddressService {
     @Override
     @Transactional
     public MemberAddress createMemberAddress(MemberAddress memberAddress) {
+        if(StringUtils.trimToNull(memberAddress.getId()) == null){
+            memberAddress.setId(StringUtilsExt.getUUID(32));
+        }
         return mybatisDao.insertByModel(memberAddress);
     }
 

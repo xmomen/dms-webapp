@@ -2,8 +2,8 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "OrderAPI", "ItemAPI", "MemberAPI", "ItemCategoryAPI", "$modal", "$ugDialog", "$state", "CouponAPI", "$modalMemberAdd", "$rootScope",
-        function ($scope, OrderAPI, ItemAPI, MemberAPI, ItemCategoryAPI, $modal, $ugDialog, $state, CouponAPI, $modalMemberAdd, $rootScope) {
+    return ["$scope", "OrderAPI", "ItemAPI", "MemberAPI", "ItemCategoryAPI", "$modal", "$ugDialog", "$state", "CouponAPI", "$modalMemberAdd", "$rootScope", "MemberAddressAPI", "CompanyAPI",
+        function ($scope, OrderAPI, ItemAPI, MemberAPI, ItemCategoryAPI, $modal, $ugDialog, $state, CouponAPI, $modalMemberAdd, $rootScope, MemberAddressAPI, CompanyAPI) {
             $scope.setting = {
                 disablesSpareName2: true,
                 disablesSpareName: true,
@@ -22,6 +22,7 @@ define(function () {
                 $scope.card = {};
                 $scope.choseOrderItemList = [];
                 $scope.totalItem = {};
+                $scope.memberAddressList = [];
                 $scope.order = {
                     discount: 100,
                     discountPrice: 0,
@@ -183,7 +184,8 @@ define(function () {
                     MemberAPI.query({
                         limit: 1,
                         offset: 1,
-                        phoneNumber: $scope.order.phone
+                        phoneNumber: $scope.order.phone,
+                        isFilter: 1
                     }, function (data) {
                         if (data.data && data.data.length > 0) {
                             var member = data.data[0];
@@ -196,6 +198,36 @@ define(function () {
                     })
                 }
             };
+
+            $scope.companyList = [];
+            $scope.ugSelect2Config = {};
+            $scope.getCompanyList = function () {
+                CompanyAPI.query({
+                    limit: 1000,
+                    offset: 1
+                }, function (data) {
+                    $scope.companyList = data.data;
+                    $scope.pageInfoSetting = data.pageInfo;
+                    $scope.pageInfoSetting.loadData = $scope.getCompanyList;
+                    $scope.ugSelect2Config.initSelectData($scope.order.companyId);
+                    $scope.managerUgSelect2Config.initSelectData($scope.order.managerId);
+                });
+            };
+
+            $scope.managerUgSelect2Config = {};
+
+            $scope.changeCompany = function (id) {
+                for (var i in $scope.companyList) {
+                    var company = $scope.companyList[i];
+                    if (company.id == parseInt(id)) {
+                        $scope.companyCustomerManagers = company.companyCustomerManagers;
+                    }
+                }
+            };
+
+
+            $scope.memberAddressList = [];
+
             var setMemberInfo = function (member) {
                 $scope.order.memberId = member.id;
                 //卡劵单位和项目经理取卡劵自身的
@@ -207,27 +239,28 @@ define(function () {
                     $scope.order.managerId = member.cdUserId;
                     $scope.order.managerName = member.managerName;
                 }
+
+                if ($scope.order.orderType == 0) {
+                    $scope.getCompanyList();
+                }
+
                 $scope.order.name = member.name;
                 $scope.order.phone = member.phoneNumber;
-                $scope.order.addressChose = 1;
-                $scope.order.defaultConsigneeAddress = member.address;
-                $scope.order.defaultConsigneeName = member.name;
-                $scope.order.defaultConsigneePhone = member.phoneNumber;
-                $scope.order.consigneeAddress = member.address;
-                $scope.order.consigneeName = member.name;
-                $scope.order.consigneePhone = member.phoneNumber;
-                $scope.order.spareAddress = member.spareAddress;
-                $scope.order.spareName = member.spareName;
-                $scope.order.spareTel = member.spareTel;
-                $scope.order.spareAddress2 = member.spareAddress2;
-                $scope.order.spareName2 = member.spareName2;
-                $scope.order.spareTel2 = member.spareTel2;
-                if ($scope.order.spareName) {
-                    $scope.setting.disablesSpareName = false;
-                }
-                if ($scope.order.spareName2) {
-                    $scope.setting.disablesSpareName2 = false;
-                }
+
+                $scope.order.addressChose = 0;
+                //查询收货地址
+                MemberAddressAPI.query({
+                    cdMemberId: member.id,
+                    limit: 1000,
+                    offset: 1
+                }, function (result) {
+                    if (result) {
+                        $scope.memberAddressList = result.data;
+                        $scope.order.consigneeAddress = $scope.memberAddressList[0].address;
+                        $scope.order.consigneeName = $scope.memberAddressList[0].name;
+                        $scope.order.consigneePhone = $scope.memberAddressList[0].mobile;
+                    }
+                });
             };
 
             $scope.card = {};
@@ -332,21 +365,12 @@ define(function () {
                 }
             };
 
-            $scope.$watch("order.addressChose", function(newVal, oldVal){
-                if(oldVal != newVal){
-                    if(newVal == "1"){
-                        $scope.order.consigneeAddress = $scope.order.defaultConsigneeAddress;
-                        $scope.order.consigneeName = $scope.order.defaultConsigneeName;
-                        $scope.order.phone = $scope.order.defaultConsigneePhone;
-                    }else if(newVal == "2"){
-                        $scope.order.consigneeAddress = $scope.order.spareAddress;
-                        $scope.order.consigneeName = $scope.order.spareName;
-                        $scope.order.phone = $scope.order.spareTel;
-                    }else if(newVal == "3"){
-                        $scope.order.consigneeAddress = $scope.order.spareAddress2;
-                        $scope.order.consigneeName = $scope.order.spareName2;
-                        $scope.order.phone = $scope.order.spareTel2;
-                    }
+            $scope.$watch("order.addressChose", function (newVal, oldVal) {
+                if (oldVal != newVal) {
+                    var index = parseInt(newVal);
+                    $scope.order.consigneeAddress = $scope.memberAddressList[index].address;
+                    $scope.order.consigneeName = $scope.memberAddressList[index].name;
+                    $scope.order.consigneePhone = $scope.memberAddressList[index].mobile;
                 }
             });
 

@@ -1,19 +1,38 @@
 package com.xmomen.module.member.controller;
 
+import com.xmomen.framework.exception.BusinessException;
 import com.xmomen.framework.mybatis.page.Page;
+import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.logger.Log;
-import com.xmomen.module.member.model.MemberAddressModel;
 import com.xmomen.module.member.model.MemberAddressQuery;
+import com.xmomen.module.member.model.MemberAddressModel;
 import com.xmomen.module.member.service.MemberAddressService;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.shiro.SecurityUtils;
+import org.jeecgframework.poi.excel.ExcelImportUtil;
+import org.jeecgframework.poi.excel.entity.ExportParams;
+import org.jeecgframework.poi.excel.entity.ImportParams;
+import org.jeecgframework.poi.excel.entity.result.ExcelImportResult;
+import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
+import org.jeecgframework.poi.exception.excel.ExcelImportException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.io.Serializable;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 
 /**
  * @author tanxinzheng
  * @version 1.0.0
- * @date 2017-3-23 14:57:22
+ * @date 2017-3-29 0:27:52
  */
 @RestController
 @RequestMapping(value = "/memberAddress")
@@ -38,11 +57,13 @@ public class MemberAddressController {
                                                          @RequestParam(value = "offset") Integer offset,
                                                          @RequestParam(value = "id", required = false) String id,
                                                          @RequestParam(value = "ids", required = false) String[] ids,
+                                                         @RequestParam(value = "cdMemberId") String cdMemberId,
                                                          @RequestParam(value = "excludeIds", required = false) String[] excludeIds) {
         MemberAddressQuery memberAddressQuery = new MemberAddressQuery();
         memberAddressQuery.setId(id);
         memberAddressQuery.setExcludeIds(excludeIds);
         memberAddressQuery.setIds(ids);
+        memberAddressQuery.setCdMemberId(cdMemberId);
         return memberAddressService.getMemberAddressModelPage(limit, offset, memberAddressQuery);
     }
 
@@ -67,6 +88,8 @@ public class MemberAddressController {
     @RequestMapping(method = RequestMethod.POST)
     @Log(actionName = "新增客户地址")
     public MemberAddressModel createMemberAddress(@RequestBody @Valid MemberAddressModel memberAddressModel) {
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
+        memberAddressModel.setCdMemberId(userId);
         return memberAddressService.createMemberAddress(memberAddressModel);
     }
 
