@@ -45,7 +45,7 @@ public class MyOrderController {
 	 * @param maxCreateTime
 	 * @return
 	 */
-	@RequestMapping(value = "/myOrder", method = RequestMethod.GET)
+	@RequestMapping(value = "/wx/order", method = RequestMethod.GET)
 	@ResponseBody
 	public List<OrderModel> myOrder(@RequestParam(value = "memberCode", required = false) String memberCode,
 			@RequestParam(value = "status", required = false) Integer status, 
@@ -59,7 +59,7 @@ public class MyOrderController {
 		return myOrderService.myOrder(myOrderQuery);
 	}
 	
-	@RequestMapping(value = "/myOrder/{orderId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/wx/order/{orderId}", method = RequestMethod.GET)
 	@ResponseBody
 	public OrderDetailModel orderDetail(@PathVariable("orderId") Integer orderId) {
 		return myOrderService.getOrderDetail(orderId);
@@ -74,6 +74,13 @@ public class MyOrderController {
         Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("user_id");
         createOrder.setCreateUserId(userId);
         return orderService.createWxOrder(createOrder);
+	}
+	
+	@RequestMapping(value = "/wx/order/confirm", method = RequestMethod.POST)
+	@ResponseBody
+	public Boolean confirmOrder(@RequestParam("id") Integer orderId) throws ArgumentValidException {
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("user_id");
+        return myOrderService.confirmReceiveOrder(orderId, userId);
 	}
 	
 	@InitBinder
