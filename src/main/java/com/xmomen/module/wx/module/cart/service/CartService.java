@@ -1,14 +1,18 @@
 package com.xmomen.module.wx.module.cart.service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +27,7 @@ import com.xmomen.module.wx.util.Constant;
 @Service
 public class CartService {
 
-	private ConcurrentHashMap<String, CartModel> mapCache = new ConcurrentHashMap<String, CartModel>();
+	private ConcurrentHashMap<String, CartModel> cartCache = new ConcurrentHashMap<String, CartModel>();
 	
 	@Autowired
 	private ProductService productService;
@@ -34,7 +38,7 @@ public class CartService {
 		for(CartItemModel cartItem: items) {
 			itemNumberMap.put(String.valueOf(cartItem.getItemId()), cartItem.getItemNumber());
 		}
-		List<Integer> productIds = new ArrayList<Integer>();
+		ArrayList<Integer> productIds = new ArrayList<Integer>();
 		for(CartItemModel item: items) {
 			productIds.add(item.getItemId());
 		}
@@ -48,29 +52,77 @@ public class CartService {
 		return products;
 	}
 
-	public List<CartItemModel> getCartItems(String userToken) {
-		CartModel cartModel = mapCache.get(userToken);
-		List<CartItemModel> cartItems = new ArrayList<CartItemModel>();
+	public List<CartItemModel> getCartItems(String userToken, boolean alwaysSync) {
+		CartModel cartModel = cartCache.get(userToken);
+		ArrayList<CartItemModel> cartItems = new ArrayList<CartItemModel>();
+		boolean needCreate = false;
+		
+		// 从数据库中那购物车信息,如果内存中没有则合并到内存中，否则以内存中为主(数目)
+		List<CartItemModel> persistentCartItems = null;
+		if(alwaysSync) {
+			persistentCartItems = this.getItemsFromDB(userToken);
+		} else {
+			if(cartModel == null) {
+				persistentCartItems = this.getItemsFromDB(userToken);
+			}
+		}
+		CopyOnWriteArrayList<CartMetadata> cartItemMetas = null;
+		Map<String, CartMetadata> memoryCartMap = new HashMap<String, CartMetadata>();
+		if(cartModel != null && cartModel.getItems() != null) {
+			for(CartMetadata cartMetadata: cartModel.getItems()) {
+				memoryCartMap.put(String.valueOf(cartMetadata.getItemId()), cartMetadata);
+			}
+		}
 		if(cartModel != null) {
-			List<CartMetadata> cartItemMetas = cartModel.getItems();
-			//TODO 从数据库中那购物车信息,如果内存中没有并且没有标注为DELETE,则合并到内存中
-			if(cartItemMetas != null) {
-				for(CartMetadata metaData: cartItemMetas) {
-					if(!Constant.DELETE.equalsIgnoreCase(metaData.getStatus())) {
-						CartItemModel cartItem = new CartItemModel();
-						cartItem.setItemId(metaData.getItemId());
-						cartItem.setItemNumber(metaData.getItemNumber());
-						cartItems.add(cartItem);
+			cartItemMetas = cartModel.getItems();
+		}
+		if(!CollectionUtils.isEmpty(persistentCartItems)) {
+			//同步数据到内存中
+			//TODO 当数据量很大的时候也要同步进内存吗？恶意大量数据可能会造成内存问题
+			for(CartItemModel cartItem: persistentCartItems) {
+				String itemId = String.valueOf(cartItem.getItemId());
+				if(!memoryCartMap.containsKey(itemId)) {
+					CartMetadata pCartItem = this.newCartMetadata(userToken, cartItem.getItemId(), cartItem.getItemNumber());
+					if(cartItemMetas == null) {
+						cartItemMetas = new CopyOnWriteArrayList<CartMetadata>();
+						if(cartModel == null) {
+							needCreate = true;
+						} else {
+							cartModel.setItems(cartItemMetas);
+						}
 					}
+					cartItemMetas.add(pCartItem);
+				}
+			}
+		}
+		if(needCreate) {
+			CartModel newCartModel = new CartModel();
+			newCartModel.setStatus(Constant.CLEAN);
+			newCartModel.setSyncTime(new Timestamp(new Date().getTime()));
+			newCartModel.setUserToken(userToken);
+			newCartModel.setItems(cartItemMetas);
+			cartCache.put(userToken, newCartModel);
+		}
+		if(cartItemMetas != null) {
+			for(CartMetadata metaData: cartItemMetas) {
+				if(!Constant.DELETE.equalsIgnoreCase(metaData.getStatus())) {
+					CartItemModel cartItem = new CartItemModel();
+					cartItem.setItemId(metaData.getItemId());
+					cartItem.setItemNumber(metaData.getItemNumber());
+					cartItems.add(cartItem);
 				}
 			}
 		}
 		return cartItems;
 	}
 
-	public void modify(CartModel newCartModel) {
+	public List<CartItemModel> getCartItems(String userToken) {
+		return getCartItems(userToken, false);
+	}
+	public void modify(CartModel newCartModel) throws Exception {
 		String userToken = newCartModel.getUserToken();
-		CartModel sourceCart = mapCache.get(userToken);
+		if(StringUtils.isEmpty(userToken)) throw new Exception("userToken不能为空!");
+		CartModel sourceCart = cartCache.get(userToken);
 		if(CollectionUtils.isEmpty(newCartModel.getItems())) {
 			// 如果购物车被清空
 			if(sourceCart != null) {
@@ -83,8 +135,8 @@ public class CartService {
 		if(sourceCart == null) {
 			sourceCart = new CartModel();
 			sourceCart.setUserToken(newCartModel.getUserToken());
-			sourceCart.setItems(new ArrayList<CartMetadata>());
-			mapCache.put(userToken, sourceCart);
+			sourceCart.setItems(new CopyOnWriteArrayList<CartMetadata>());
+			cartCache.put(userToken, sourceCart);
 		}
 		if(this.compareAndUpdate(sourceCart, newCartModel)) {
 			sourceCart.setStatus(Constant.DIRTY);
@@ -92,20 +144,21 @@ public class CartService {
 	}
 	
 	public void change(String userToken, Integer itemId, Integer number) {
-		CartModel sourceCart = mapCache.get(userToken);
+		CartModel sourceCart = cartCache.get(userToken);
 		if(number >= 0) {
 			if(sourceCart == null) {
 				CartModel cartModel = new CartModel();
-				List<CartMetadata> items = new ArrayList<CartMetadata>();
+				cartModel.setUserToken(userToken);
+				CopyOnWriteArrayList<CartMetadata> items = new CopyOnWriteArrayList<CartMetadata>();
 				cartModel.setItems(items);
-				CartMetadata metadata = this.newCartMetadata(itemId, number);
+				CartMetadata metadata = this.newCartMetadata(userToken, itemId, number);
 				items.add(metadata);
 				cartModel.setStatus(Constant.DIRTY);
-				mapCache.put(userToken, cartModel);
+				cartCache.put(userToken, cartModel);
 			} else {
-				List<CartMetadata> items = sourceCart.getItems();
-				if(CollectionUtils.isEmpty(items)) {
-					items = new ArrayList<CartMetadata>();
+				CopyOnWriteArrayList<CartMetadata> items = sourceCart.getItems();
+				if(items == null) {
+					items = new CopyOnWriteArrayList<CartMetadata>();
 					sourceCart.setItems(items);
 				}
 				boolean newAdd = true;
@@ -119,7 +172,7 @@ public class CartService {
 					}
 				}
 				if(newAdd) {
-					CartMetadata metadata = this.newCartMetadata(itemId, number);
+					CartMetadata metadata = this.newCartMetadata(userToken, itemId, number);
 					if(metadata != null) {
 						updated = items.add(metadata);
 					}
@@ -137,9 +190,12 @@ public class CartService {
 	 * @return
 	 */
 	private Boolean compareAndUpdate(CartModel cartModel, CartModel newCartModel) {
-		if(cartModel == null || cartModel == null) return Boolean.FALSE;
-		List<CartMetadata> sourceItems = cartModel.getItems();
-		List<CartMetadata> newItems = newCartModel.getItems() == null ? new ArrayList<CartMetadata>() : newCartModel.getItems();
+		if(cartModel == null || newCartModel == null) return Boolean.FALSE;
+		if(cartModel.getItems() == null) {
+			cartModel.setItems(new CopyOnWriteArrayList<CartMetadata>());
+		}
+		CopyOnWriteArrayList<CartMetadata> sourceItems = cartModel.getItems();
+		CopyOnWriteArrayList<CartMetadata> newItems = newCartModel.getItems() == null ? new CopyOnWriteArrayList<CartMetadata>() : newCartModel.getItems();
 		Map<String, Integer> sourceItemMap = new HashMap<String,Integer>();
 		Map<String, CartMetadata> sourceItemModelMap = new HashMap<String,CartMetadata>();
 		Boolean updated = Boolean.FALSE;
@@ -154,7 +210,7 @@ public class CartService {
 			String itemId = String.valueOf(item.getItemId());
 			CartMetadata sourceItem = sourceItemModelMap.get(itemId);
 			if(sourceItem == null) {
-				sourceItem = this.newCartMetadata(item.getItemId(), item.getItemNumber());
+				sourceItem = this.newCartMetadata(newCartModel.getUserToken(), item.getItemId(), item.getItemNumber());
 				if(sourceItem != null) {
 					updated = sourceItems.add(sourceItem);
 				}
@@ -171,11 +227,54 @@ public class CartService {
 		return updated;
 	}
 	
-	public CartMetadata newCartMetadata(Integer itemId, Integer number) {
+	public CartMetadata newCartMetadata(String userToken, Integer itemId, Integer number) {
 		if(number <= 0) return null;
 		CartMetadata metadata = new CartMetadata();
+		metadata.setUserToken(userToken);
 		metadata.setItemId(itemId);
 		metadata.setItemNumber(number);
 		return metadata;
+	}
+	
+	private List<CartItemModel> getItemsFromDB(String userToken) {
+		//TODO 根据userToken查找购物车中的物品
+		return new ArrayList<CartItemModel>();
+	}
+	
+	/**
+	 * 同步当前用户的购物车信息到购物车
+	 * @param userToken
+	 */
+	public void syncToDB(String userToken) {
+		CartModel cartModel = cartCache.get(userToken);
+		if(cartModel != null && Constant.DIRTY.equalsIgnoreCase(cartModel.getStatus())) {
+			List<CartMetadata> cartMetadatas = cartModel.getItems();
+			List<CartMetadata> beRemovedList = new ArrayList<CartMetadata>();
+			List<CartMetadata> beUpdatedList = new ArrayList<CartMetadata>();
+			for(CartMetadata cartMetadata: cartMetadatas) {
+				if(Constant.DELETE.equalsIgnoreCase(cartMetadata.getStatus())) {
+					beRemovedList.add(cartMetadata);
+				} else if(Constant.MODIFY.equalsIgnoreCase(cartMetadata.getStatus())) {
+					beUpdatedList.add(cartMetadata);
+				}
+			}
+			//TODO 删除标记为删除的物品,然后再从内存中删除
+			cartMetadatas.removeAll(beRemovedList);
+			//TODO 同步更新字段的DB，然后将状态设置为clean
+			for(CartMetadata updatedCartItem: beUpdatedList) {
+				//TODO UPDATE to DB
+				updatedCartItem.setStatus(Constant.CLEAN);
+				updatedCartItem.setUpdateTime(null);
+			}
+			cartModel.setStatus(Constant.CLEAN);
+			cartModel.setSyncTime(new Timestamp(new Date().getTime()));
+		}
+	}
+	
+	/**
+	 * 同步内存中的数据到数据库
+	 */
+	public void batchSyncToDB() {
+		//TODO 
 	}
 }

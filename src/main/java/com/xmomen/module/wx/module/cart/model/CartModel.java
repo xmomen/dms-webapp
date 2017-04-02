@@ -1,10 +1,14 @@
 package com.xmomen.module.wx.module.cart.model;
 
 import java.sql.Timestamp;
-import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import lombok.Data;
 
+/**
+ * @author xiao
+ *
+ */
 public @Data class CartModel {
 
 	/**
@@ -13,19 +17,19 @@ public @Data class CartModel {
 	private String userToken;
 	
 	/**
-	 * 购物车中的商品
+	 * 购物车中的商品(一般购物车中数目有限，复制的开销不大,如果后期出现数据问题，可只存储改变量)
 	 */
-	private List<CartMetadata> items;
+	private CopyOnWriteArrayList<CartMetadata> items;
 	
 	/**
 	 * 上一次同步到数据库的时间
 	 */
-	private Timestamp syncTime;
+	private volatile Timestamp syncTime;
 	
 	/**
 	 * 购物车的状态
 	 * CLEAN -- 没有改动
 	 * DIRTY -- 有修改
 	 */
-	private String status;
+	private volatile String status;
 }

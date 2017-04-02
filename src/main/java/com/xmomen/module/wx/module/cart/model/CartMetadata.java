@@ -8,7 +8,8 @@ import com.xmomen.module.wx.util.Constant;
 import lombok.Data;
 
 public @Data class CartMetadata {
-
+	
+	private String userToken;
 	/**
 	 * 商品ID
 	 */
@@ -24,9 +25,9 @@ public @Data class CartMetadata {
 	 * DELETE 物品删除
 	 * CLEAN 已与DB同步了
 	 */
-	private String status = Constant.CLEAN;
+	private volatile String status = Constant.CLEAN;
 	
-	private Timestamp updateTime;
+	private volatile Timestamp updateTime;
 	
 	
 	/**
