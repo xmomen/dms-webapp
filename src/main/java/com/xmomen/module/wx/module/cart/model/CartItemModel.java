@@ -3,6 +3,10 @@ package com.xmomen.module.wx.module.cart.model;
 import lombok.Data;
 
 public @Data class CartItemModel {
+	
+	private String id;
+	private String userToken;
+	
     private Integer itemId;
     private Integer itemNumber;
     

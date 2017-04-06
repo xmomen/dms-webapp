@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.wx.module.cart.mapper.CartMapper" >
+
+	<select id="getCartItemList" resultType="com.xmomen.module.wx.module.cart.model.CartItemModel" 
+		parameterType="com.xmomen.module.wx.module.cart.model.CartItemQuery">
+	    SELECT
+	        ID,
+	        USER_TOKEN,
+	        ITEM_ID,
+	        ITEM_NUMBER
+	    FROM TB_SHOPPING_CART
+	    <where>
+	    	USER_TOKEN = #{userToken}
+	    	<if test="itemId">
+	    	    AND ITEM_ID = #{itemId}
+	    	</if>
+	    </where>
+	    
+	</select>
+	
+	<delete id="removeCartItems" parameterType="java.util.HashMap">
+	    DELETE FROM TB_SHOPPING_CART WHERE USER_TOKEN = #{userToken}
+	    AND ITEM_ID in 
+	    <foreach collection="itemIds" item="id" open="(" separator="," close=")"> #{id}</foreach>
+	</delete>
+	
+	<insert id="saveOrUpdateItem" parameterType="com.xmomen.module.wx.module.cart.entity.TbCartItem">
+		<choose>
+	        <when test="id">
+	            UPDATE TB_SHOPPING_CART set ITEM_NUMBER = #{itemNumber}
+					WHERE USER_TOKEN = #{userToken} AND ITEM_ID = #{itemId}
+	        </when>
+	        <otherwise>
+	        	INSERT INTO TB_SHOPPING_CART(ID, USER_TOKEN, ITEM_ID, ITEM_NUMBER)
+			VALUES((SELECT replace(uuid(), '-', '') from dual), #{userToken}, #{itemId}, #{itemNumber})
+	        </otherwise>
+	    </choose>
+	</insert>
+</mapper>

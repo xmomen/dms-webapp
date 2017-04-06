@@ -27,7 +27,7 @@ public class CartController {
 
 	@ResponseBody
 	@RequestMapping(value ="/cart", method = RequestMethod.GET)
-	public List<ProductModel> getCartProduct(@RequestParam(value = "memberCode", required = true) String userOpenId) {
+	public List<ProductModel> getCartProduct(@RequestParam(value = "userToken", required = true) String userOpenId) {
 		ProductQuery productQuery = new ProductQuery();
 		productQuery.setMemberCode(userOpenId);
 		return cartService.getProductsInCart(productQuery);
@@ -40,6 +40,13 @@ public class CartController {
             throw new ArgumentValidException(bindingResult);
         }
 		cartService.change(updateCartModel.getUserToken(), updateCartModel.getItemId(), updateCartModel.getItemNumber());
+		return Boolean.TRUE;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/cart/sync", method = RequestMethod.GET)
+	public Boolean syncCart(@RequestParam(value = "userToken", required = true) String userToken) {
+		cartService.syncToDB(userToken);
 		return Boolean.TRUE;
 	}
 }
