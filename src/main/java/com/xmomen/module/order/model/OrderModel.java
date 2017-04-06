@@ -30,6 +30,11 @@ class OrderModel implements Serializable {
     private String orderTypeDesc;
 
     /**
+     * 下单人客户ID
+     */
+    private String memberCode;
+
+    /**
      * 订单来源：1-微信订单，2-商城订单，3-客服下单，4-采摘订单
      */
     private Integer orderSource;

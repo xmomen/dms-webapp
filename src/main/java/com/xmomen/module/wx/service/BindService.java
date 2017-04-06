@@ -58,7 +58,6 @@ public class BindService {
         List<CdBind> binds = mybatisDao.selectByModel(bind);
         if (binds != null && binds.size() > 0) {
             bind.setId(binds.get(0).getId());
-            ;
         }
         bind.setOpenId(openId);
         bind.setPhone(phone);

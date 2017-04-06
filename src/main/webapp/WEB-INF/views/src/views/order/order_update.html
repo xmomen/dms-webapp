@@ -7,15 +7,15 @@
 <!-- widget grid -->
 <section id="widget-grid" class="">
 
-	<!-- row -->
-	<div class="row">
+    <!-- row -->
+    <div class="row">
 
-		<!-- NEW WIDGET START -->
-		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-			<!-- Widget ID (each widget will need unique ID)-->
-			<div class="jarviswidget" id="wid-id-4">
-				<!-- widget options:
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-4">
+                <!-- widget options:
                 usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
 
                 data-widget-colorbutton="false"
@@ -28,40 +28,40 @@
                 data-widget-sortable="false"
 
                 -->
-				<header>
-					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
-					<h2>编辑订单</h2>
-				</header>
-				<!-- widget div-->
-				<div>
-					<!-- widget edit box -->
-					<div class="jarviswidget-editbox">
-						<!-- This area used as dropdown edit box -->
-					</div>
-					<!-- end widget edit box -->
-					<!-- widget content -->
-					<div class="widget-body">
-						<form class="form-horizontal" ug-validate="updateOrderForm" name="updateOrderForm2" novalidate="">
-							<input type="hidden" disabled="disabled" ng-model="order.id" name="id">
-							<fieldset class="demo-switcher-1">
-								<legend>订单类型</legend>
-								<div class="form-group">
-									<label class="col-md-2 control-label">订单编号：</label>
-									<div class="col-md-10">
-										<label class="control-label" ng-bind="order.orderNo"></label>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-md-2 control-label">订单类型：</label>
-									<div class="col-md-10">
-										<label class="radio radio-inline">
-											<input type="radio" class="radiobox" disabled="disabled" required="true" value="1" ng-model="order.orderType" ng-checked="order.orderType==1" name="orderType">
-											<span>卡类订单</span>
-										</label>
-										<label class="radio radio-inline">
-											<input type="radio" class="radiobox" disabled="disabled" required="true" value="2" ng-model="order.orderType" ng-checked="order.orderType==2" name="orderType">
-											<span>券类订单</span>
-										</label>
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>编辑订单</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body">
+                        <form class="form-horizontal" ug-validate="updateOrderForm" name="updateOrderForm2" novalidate="">
+                            <input type="hidden" disabled="disabled" ng-model="order.id" name="id">
+                            <fieldset class="demo-switcher-1">
+                                <legend>订单类型</legend>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">订单编号：</label>
+                                    <div class="col-md-10">
+                                        <label class="control-label" ng-bind="order.orderNo"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">订单类型：</label>
+                                    <div class="col-md-10">
+                                        <label class="radio radio-inline">
+                                            <input type="radio" class="radiobox" disabled="disabled" required="true" value="1" ng-model="order.orderType" ng-checked="order.orderType==1" name="orderType">
+                                            <span>卡类订单</span>
+                                        </label>
+                                        <label class="radio radio-inline">
+                                            <input type="radio" class="radiobox" disabled="disabled" required="true" value="2" ng-model="order.orderType" ng-checked="order.orderType==2" name="orderType">
+                                            <span>券类订单</span>
+                                        </label>
                                         <label class="radio radio-inline">
                                             <!--	0-客服下单	-->
                                             <input type="radio" class="radiobox" disabled="disabled" required="true" value="0" ng-model="order.orderType" ng-checked="order.orderType==0" name="orderType">
@@ -72,171 +72,135 @@
                                             <input type="radio" class="radiobox" disabled="disabled" required="true" value="3" ng-model="order.orderType" ng-checked="order.orderType==3" name="orderType">
                                             <span>餐桌计划</span>
                                         </label>
-									</div>
-								</div>
+                                    </div>
+                                </div>
 
-							</fieldset>
+                            </fieldset>
 
 
-							<fieldset class="demo-switcher-1" >
-								<legend>客户信息</legend>
-								<div class="form-group" ng-if="order.orderType==1">
-									<label class="control-label col-md-2">卡号<span class="vaild">*</span></label>
-									<div class="col-md-4">
-											<input type="hidden" ng-model="card.id" name="cardId">
-											<input type="text" required="{{order.orderType == 1}}" disabled ng-model="order.couponNumber" placeholder="卡号" name="cardNumber" class="form-control">
+                            <fieldset class="demo-switcher-1">
+                                <legend>客户信息</legend>
+                                <div class="form-group" ng-if="order.orderType==1">
+                                    <label class="control-label col-md-2">卡号<span class="vaild">*</span></label>
+                                    <div class="col-md-4">
+                                        <input type="hidden" ng-model="card.id" name="cardId">
+                                        <input type="text" required="{{order.orderType == 1}}" disabled ng-model="order.couponNumber" placeholder="卡号" name="cardNumber" class="form-control">
 											<span class="input-group-btn" ng-show="card.id && order.memberId">
 						                        <button class="btn btn-default" data-ng-click="editMember()" type="button">用户地址</button>
 						                    </span>
-									</div>
-									<label class="control-label col-md-2">姓名<span class="vaild">*</span></label>
-									<div class="col-md-4">
-										<input type="text" ng-model="order.name" disabled placeholder="查询后自动填充" class="form-control">
-									</div>
-								</div>
-								<div class="form-group" ng-if="order.orderType==2">
-									<label class="control-label col-md-2">券号<span class="vaild">*</span></label>
-									<div class="col-md-4">
-										<input type="text" required="{{order.orderType == 2}}" disabled ng-model="coupon.cardNumber" placeholder="券号" class="form-control">
-									</div>
-									<label class="control-label col-md-2">使用状态</label>
-									<div class="col-md-4">
+                                    </div>
+                                    <label class="control-label col-md-2">姓名<span class="vaild">*</span></label>
+                                    <div class="col-md-4">
+                                        <input type="text" ng-model="order.name" disabled placeholder="查询后自动填充" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-if="order.orderType==2">
+                                    <label class="control-label col-md-2">券号<span class="vaild">*</span></label>
+                                    <div class="col-md-4">
+                                        <input type="text" required="{{order.orderType == 2}}" disabled ng-model="coupon.cardNumber" placeholder="券号" class="form-control">
+                                    </div>
+                                    <label class="control-label col-md-2">使用状态</label>
+                                    <div class="col-md-4">
                                         <label class="radio radio-inline">
                                             <input type="radio" class="radiobox" disabled value="0" ng-model="coupon.isUsed" ng-checked="coupon.isUsed==0" name="isUse">
                                             <span>未使用</span>
                                         </label>
-										<label class="radio radio-inline">
-											<input type="radio" class="radiobox" disabled value="1" ng-model="coupon.isUsed" ng-checked="coupon.isUsed==1" name="isUse">
-											<span>已使用</span>
-										</label>
-									</div>
-								</div>
+                                        <label class="radio radio-inline">
+                                            <input type="radio" class="radiobox" disabled value="1" ng-model="coupon.isUsed" ng-checked="coupon.isUsed==1" name="isUse">
+                                            <span>已使用</span>
+                                        </label>
+                                    </div>
+                                </div>
                                 <!--餐桌计划-->
                                 <div class="form-group" ng-if="order.orderType==3">
                                     <label class="control-label col-md-2">卡号<span class="vaild">*</span></label>
                                     <div class="col-md-4">
                                         <input type="hidden" ng-model="card.id" name="cardId">
-                                        <input type="text"  disabled ng-model="order.couponNumber" placeholder="卡号" name="cardNumber" class="form-control">
+                                        <input type="text" disabled ng-model="order.couponNumber" placeholder="卡号" name="cardNumber" class="form-control">
                                     </div>
                                 </div>
 
-								<div class="form-group" ng-if="order.orderType==0">
-									<label class="control-label col-md-2">电话号码<span class="vaild">*</span></label>
-									<div class="col-md-4">
-											<input type="text" ng-model="order.phone" data-rule-minlength="11" data-rule-maxlength="11" required="true" disabled placeholder="电话／手机号码" class="form-control">
-										<input ng-if="order.orderType!=0" disabled type="text" data-rule-minlength="11" data-rule-maxlength="11" ng-model="order.phone" placeholder="电话／手机号码" class="form-control">
-									</div>
-									<label class="control-label col-md-2">姓名<span class="vaild">*</span></label>
-									<div class="col-md-4">
-										<input type="text" ng-model="order.name" required="true" disabled placeholder="查询后自动填充" class="form-control">
-									</div>
-								</div>
-								<div class="form-group" ng-if="order.orderType==1">
-									<label class="control-label col-md-2">密码</label>
-									<div class="col-md-4">
-										<input type="text" ng-model="card.password" disabled placeholder="查询后自动填充" class="form-control">
-									</div>
-									<label class="control-label col-md-2">余额</label>
-									<div class="col-md-4">
-										<input type="text" ng-model="card.amount" disabled placeholder="查询后自动填充" class="form-control">
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label col-md-2">单位／个人<span class="vaild">*</span></label>
-									<div class="col-md-4">
-										<input type="hidden" ng-model="order.companyId" required="true" ng-disabled="order.orderType != 2" class="form-control">
-										<input type="text" ng-model="order.companyName" required="true" ng-disabled="order.orderType != 2" placeholder="查询后自动填充" class="form-control">
-									</div>
-									<label class="control-label col-md-2">客户经理<span class="vaild">*</span></label>
-									<div class="col-md-4">
-										<input type="hidden" ng-model="order.managerId" required="true" ng-disabled="order.orderType != 2" class="form-control">
-										<input type="text" ng-model="order.managerName" required="true" ng-disabled="order.orderType != 2" placeholder="查询后自动填充" class="form-control">
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label col-md-2">默认收货人<span class="vaild">*</span></label>
-									<div class="col-md-4">
-										<div class="input-group">
-											<input type="text" ng-model="order.consigneeName" ng-disabled="order.orderType != 2  && order.orderType != 3" placeholder="查询后自动填充" class="form-control">
-											<span class="input-group-addon" ng-show="order.orderType != 2  && order.orderType != 3">
-												<span class="onoffswitch">
-													<input type="radio" ng-disabled="!order.consigneeName" ng-model="order.addressChose" data-ng-checked="order.addressChose == 1" name="start_interval" class="onoffswitch-checkbox" id="default_address">
-													<label class="onoffswitch-label" for="default_address" >
-														<span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
-														<span class="onoffswitch-switch"></span>
-													</label>
-												</span>
-											</span>
-										</div>
-									</div>
-									<label class="control-label col-md-2">联系方式<span class="vaild">*</span></label>
-									<div class="col-md-4">
-										<input type="text" ng-model="order.consigneePhone" ng-disabled="order.orderType != 2  && order.orderType != 3" placeholder="查询后自动填充" class="form-control">
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label col-md-2">收货地址<span class="vaild">*</span></label>
-									<div class="col-md-10">
-										<input type="text" ng-model="order.consigneeAddress" ng-disabled="order.orderType != 2  && order.orderType != 3" placeholder="查询后自动填充" class="form-control">
-									</div>
-								</div>
-                                <div ng-show="order.orderType != 2  && order.orderType != 3">
-                                    <div class="form-group">
-                                        <label class="control-label col-md-2">备用收货人</label>
-                                        <div class="col-md-4">
-                                            <div class="input-group">
-                                                <input type="text" disabled ng-model="order.spareName" placeholder="查询后自动填充" class="form-control">
-											<span class="input-group-addon">
-												<span class="onoffswitch">
-													<input type="radio" ng-disabled="setting.disablesSpareName" ng-model="order.addressChose" data-ng-checked="order.addressChose == 2" name="start_interval" class="onoffswitch-checkbox" id="backup_address">
-													<label class="onoffswitch-label" for="backup_address">
-                                                        <span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
-                                                        <span class="onoffswitch-switch"></span>
-                                                    </label>
-												</span>
-											</span>
-                                            </div>
-                                        </div>
-                                        <label class="control-label col-md-2">联系方式</label>
-                                        <div class="col-md-4">
-                                            <input type="text" disabled ng-model="order.spareTel" placeholder="查询后自动填充" class="form-control">
-                                        </div>
+                                <div class="form-group" ng-if="order.orderType==0">
+                                    <label class="control-label col-md-2">电话号码<span class="vaild">*</span></label>
+                                    <div class="col-md-4">
+                                        <input type="text" ng-model="order.phone" data-rule-minlength="11" data-rule-maxlength="11" required="true" disabled placeholder="电话／手机号码" class="form-control">
+                                        <input ng-if="order.orderType!=0" disabled type="text" data-rule-minlength="11" data-rule-maxlength="11" ng-model="order.phone" placeholder="电话／手机号码" class="form-control">
                                     </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-2">收货地址</label>
-                                        <div class="col-md-10">
-                                            <input type="text" disabled ng-model="order.spareAddress" placeholder="查询后自动填充" class="form-control">
-                                        </div>
+                                    <label class="control-label col-md-2">姓名<span class="vaild">*</span></label>
+                                    <div class="col-md-4">
+                                        <input type="text" ng-model="order.name" required="true" disabled placeholder="查询后自动填充" class="form-control">
                                     </div>
+                                </div>
+                                <div class="form-group" ng-if="order.orderType==1">
+                                    <label class="control-label col-md-2">密码</label>
+                                    <div class="col-md-4">
+                                        <input type="text" ng-model="card.password" disabled placeholder="查询后自动填充" class="form-control">
+                                    </div>
+                                    <label class="control-label col-md-2">余额</label>
+                                    <div class="col-md-4">
+                                        <input type="text" ng-model="card.amount" disabled placeholder="查询后自动填充" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">单位／个人<span class="vaild">*</span></label>
+                                    <div class="col-md-4">
+                                        <input type="hidden" ng-model="order.companyId" required="true" disabled class="form-control">
+                                        <input type="text" ng-model="order.companyName" required="true" disabled placeholder="查询后自动填充" class="form-control">
+                                    </div>
+                                    <label class="control-label col-md-2">客户经理<span class="vaild">*</span></label>
+                                    <div class="col-md-4">
+                                        <input type="hidden" ng-model="order.managerId" required="true" disabled class="form-control">
+                                        <input type="text" ng-model="order.managerName" required="true" disabled placeholder="查询后自动填充" class="form-control">
+                                    </div>
+                                </div>
 
+                                <!--劵类订单 餐桌计划-->
+                                <div ng-show="order.orderType == 2" || ng-show="order.orderType == 3">
                                     <div class="form-group">
-                                        <label class="control-label col-md-2">备用收货人</label>
-                                        <div class="col-md-4">
+                                        <label class="control-label col-md-2">默认收货人<span class="vaild">*</span></label>
+                                        <div class="col-md-2">
                                             <div class="input-group">
-                                                <input type="text" disabled ng-model="order.spareName2" placeholder="查询后自动填充" class="form-control">
-											<span class="input-group-addon">
-												<span class="onoffswitch">
-													<input type="radio" ng-disabled="setting.disablesSpareName2" ng-model="order.addressChose" data-ng-checked="order.addressChose == 3" name="start_interval" class="onoffswitch-checkbox" id="backup_address2">
-													<label class="onoffswitch-label" for="backup_address2">
-                                                        <span class="onoffswitch-inner" data-swchon-text="启用" data-swchoff-text="禁用"></span>
-                                                        <span class="onoffswitch-switch"></span>
-                                                    </label>
-												</span>
-											</span>
+                                                <input type="text" ng-model="order.consigneeName" required placeholder="手工输入" class="form-control">
                                             </div>
                                         </div>
-                                        <label class="control-label col-md-2">联系方式</label>
-                                        <div class="col-md-4">
-                                            <input type="text" disabled ng-model="order.spareTel2" placeholder="查询后自动填充" class="form-control">
+                                        <label class="control-label col-md-1">联系方式<span class="vaild">*</span></label>
+                                        <div class="col-md-2">
+                                            <input type="text" name="consigneePhone" ng-model="order.consigneePhone" data-rule-telephone="true" placeholder="手工输入" class="form-control">
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-2">收货地址</label>
-                                        <div class="col-md-10">
-                                            <input type="text" disabled ng-model="order.spareAddress2" placeholder="查询后自动填充" class="form-control">
+                                        <label class="control-label col-md-1">收货地址<span class="vaild">*</span></label>
+                                        <div class="col-md-4">
+                                            <input type="text" required ng-model="order.consigneeAddress" placeholder="手工输入" class="form-control">
                                         </div>
                                     </div>
                                 </div>
+
+                                <!--非劵类订单-->
+                                <div ng-show="order.orderType != 2">
+                                    <div ng-repeat="memberAddress in memberAddressList" class="mt12">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2">收货人</label>
+                                            <div class="col-md-2">
+                                                <div class="input-group">
+                                                    <input type="text" ng-model="memberAddress.name" required ng-disabled="true" placeholder="查询后自动填充" class="form-control">
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-default" ng-disabled="order.addressChose == {{$index}}"
+                                                                data-ng-click="order.addressChose = $index"
+                                                                type="button" ng-bind="order.addressChose == {{$index}}?'已启用':'未启用'"></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <label class="control-label col-md-1">联系方式</label>
+                                            <div class="col-md-2">
+                                                <input type="text" name="consigneePhone" ng-model="memberAddress.mobile" data-rule-telephone="true" ng-disabled="true" placeholder="查询后自动填充" class="form-control">
+                                            </div>
+                                            <label class="control-label col-md-1">收货地址</label>
+                                            <div class="col-md-4">
+                                                <input type="text" required ng-model="memberAddress.address" ng-disabled="true" placeholder="查询后自动填充" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="form-group">
                                     <label class="col-md-2 control-label">预约时间</label>
                                     <div class="col-md-4">
@@ -247,23 +211,23 @@
                                                current-text="今日"
                                                clear-text="清除"
                                                is-open="datepickerSetting.appointmentTime.opened"
-                                               ng-required="true" />
+                                               ng-required="true"/>
                                             <span class="input-group-btn">
                                                 <button type="button" class="btn btn-default" ng-click="open($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
                                             </span>
                                     </div>
                                 </div>
-								<div class="form-group">
-									<label class="control-label col-md-2">客户要求</label>
-									<div class="col-md-10">
-										<input type="text" ng-model="order.remark" placeholder="周末送达，工作日送达" class="form-control">
-									</div>
-								</div>
-							</fieldset>
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">客户要求</label>
+                                    <div class="col-md-10">
+                                        <input type="text" ng-model="order.remark" placeholder="周末送达，工作日送达" class="form-control">
+                                    </div>
+                                </div>
+                            </fieldset>
 
-							<fieldset class="demo-switcher-1">
-								<legend>订购产品</legend>
-								<div class="row">
+                            <fieldset class="demo-switcher-1">
+                                <legend>订购产品</legend>
+                                <div class="row">
                                     <div class="row">
                                         <div class="table-responsive" ng-class="{'col-md-2':!setting.disablesChoseItems}" ng-show="!setting.disablesChoseItems">
                                             <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -286,17 +250,17 @@
                                                 </div>
                                             </article>
                                         </div>
-                                        <div class="table-responsive" ng-class="{'col-md-10':!setting.disablesChoseItems,'col-md-12':setting.disablesChoseItems}" >
+                                        <div class="table-responsive" ng-class="{'col-md-10':!setting.disablesChoseItems,'col-md-12':setting.disablesChoseItems}">
                                             <div class="row" ng-show="!setting.disablesChoseItems">
                                                 <div class="col-sm-3">
-													<div class="input-group">
-														<input class="form-control" type="text" ng-model="queryParam.keyword"  data-ng-keyup="getItemList()" placeholder="产品分类/名称/编号">
-														<div class="input-group-btn">
-															<button class="btn btn-default btn-primary" data-ng-click="getItemList()" type="button">
-																<i class="fa fa-search"></i> 查询
-															</button>
-														</div>
-													</div>
+                                                    <div class="input-group">
+                                                        <input class="form-control" type="text" ng-model="queryParam.keyword" data-ng-keyup="getItemList()" placeholder="产品分类/名称/编号">
+                                                        <div class="input-group-btn">
+                                                            <button class="btn btn-default btn-primary" data-ng-click="getItemList()" type="button">
+                                                                <i class="fa fa-search"></i> 查询
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <table class="table table-bordered" ng-show="!setting.disablesChoseItems">
@@ -311,7 +275,7 @@
                                                     <th>名称</th>
                                                     <th>规格</th>
                                                     <th class="text-align-right">单价</th>
-													<th class="text-align-right">折扣价</th>
+                                                    <th class="text-align-right">折扣价</th>
                                                     <th>操作</th>
                                                 </tr>
                                                 </thead>
@@ -321,7 +285,7 @@
                                                     <td>{{item.itemName}}</td>
                                                     <td>{{item.spec}}</td>
                                                     <td class="text-align-right">{{item.sellPrice | number:2}}</td>
-													<td class="text-align-right">{{item.discountPrice | number:2}}</td>
+                                                    <td class="text-align-right">{{item.discountPrice | number:2}}</td>
                                                     <td>
                                                         <div>
                                                             <a href="javascript:void(0);" data-ng-click="openItemNumber($index)" title="订购：{{item.itemName}}">
@@ -334,7 +298,7 @@
                                                 <tfoot>
                                                 <tr>
                                                     <td colspan="6">
-                                                        <ug-pagination page-info="pageInfoSetting" ></ug-pagination>
+                                                        <ug-pagination page-info="pageInfoSetting"></ug-pagination>
                                                     </td>
                                                 </tr>
                                                 </tfoot>
@@ -381,7 +345,7 @@
                                                     <td class="text-align-right">{{totalItem.totalPrice | number:2}}</td>
                                                     <td>
                                                         <div>
-                                                            <a ng-if="choseOrderItemList.length > 0"  ng-show="!setting.disablesUpdateChoseItems" href="javascript:void(0);" data-ng-click="removeAllItem()" title="移除所有：{{choseItem.itemName}}">
+                                                            <a ng-if="choseOrderItemList.length > 0" ng-show="!setting.disablesUpdateChoseItems" href="javascript:void(0);" data-ng-click="removeAllItem()" title="移除所有：{{choseItem.itemName}}">
                                                                 <span class="glyphicon glyphicon-trash"></span>
                                                             </a>
                                                         </div>
@@ -392,33 +356,33 @@
                                         </div>
                                     </div>
                                     <!--<div>-->
-                                        <!--<div class="form-group">-->
-                                            <!--<label class="control-label col-md-2">客户要求</label>-->
-                                            <!--<div class="col-md-10">-->
-                                                <!--<input type="text" ng-model="order.remark2" placeholder="要新鲜的" class="form-control">-->
-                                            <!--</div>-->
-                                        <!--</div>-->
+                                    <!--<div class="form-group">-->
+                                    <!--<label class="control-label col-md-2">客户要求</label>-->
+                                    <!--<div class="col-md-10">-->
+                                    <!--<input type="text" ng-model="order.remark2" placeholder="要新鲜的" class="form-control">-->
                                     <!--</div>-->
-								</div>
-							</fieldset>
+                                    <!--</div>-->
+                                    <!--</div>-->
+                                </div>
+                            </fieldset>
 
-							<fieldset class="demo-switcher-1">
-								<legend>订单金额</legend>
-								<div class="form-group">
-									<label class="control-label col-md-2">订单总金额</label>
-									<div class="col-md-4">
-										<label class="control-label" ng-if="!totalItem.totalPrice">由系统自动计算</label>
-										<label class="control-label">{{totalItem.totalPrice | number:2}} ￥</label>
-										<!--<input type="text" disabled placeholder="由系统自动计算" class="form-control" ng-model="totalItem.totalPrice">-->
-									</div>
-									<label class="col-md-2 control-label">订单折后总金额</label>
-									<div class="col-md-4">
-										<label class="control-label" ng-if="!totalItem.totalPriceDiscount">由系统自动计算</label>
-										<label class="control-label">{{totalItem.totalPriceDiscount | number:2}} ￥</label>
-										<!--<input type="text" disabled placeholder="由系统自动计算" class="form-control" ng-model="totalItem.totalPriceDiscount">-->
-									</div>
-								</div>
-								<div class="form-group">
+                            <fieldset class="demo-switcher-1">
+                                <legend>订单金额</legend>
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">订单总金额</label>
+                                    <div class="col-md-4">
+                                        <label class="control-label" ng-if="!totalItem.totalPrice">由系统自动计算</label>
+                                        <label class="control-label">{{totalItem.totalPrice | number:2}} ￥</label>
+                                        <!--<input type="text" disabled placeholder="由系统自动计算" class="form-control" ng-model="totalItem.totalPrice">-->
+                                    </div>
+                                    <label class="col-md-2 control-label">订单折后总金额</label>
+                                    <div class="col-md-4">
+                                        <label class="control-label" ng-if="!totalItem.totalPriceDiscount">由系统自动计算</label>
+                                        <label class="control-label">{{totalItem.totalPriceDiscount | number:2}} ￥</label>
+                                        <!--<input type="text" disabled placeholder="由系统自动计算" class="form-control" ng-model="totalItem.totalPriceDiscount">-->
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label class="control-label col-md-1">折扣</label>
                                     <div class="col-md-2">
                                         <input type="text" ng-model="order.discount" placeholder="折扣百分比" class="form-control" data-ng-keyup="discountTotalPrice(1)">
@@ -427,104 +391,104 @@
                                     <div class="col-md-2">
                                         <input type="text" ng-model="order.discountPrice" placeholder="折扣金额" class="form-control" data-ng-keyup="discountTotalPrice(2)">
                                     </div>
-									<label class="col-md-2 control-label">显示订单金额</label>
-									<div class="col-md-2">
-										<div class="checkbox">
-											<label>
-												<input type="checkbox" ng-model="order.isShowAmount" class="checkbox style-0" name="isShowAmount" checked="checked" ng-true-value="0" ng-false-value="1">
-												<span>显示</span>
-											</label>
-										</div>
-									</div>
-								</div>
+                                    <label class="col-md-2 control-label">显示订单金额</label>
+                                    <div class="col-md-2">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-model="order.isShowAmount" class="checkbox style-0" name="isShowAmount" checked="checked" ng-true-value="0" ng-false-value="1">
+                                                <span>显示</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
 
-							</fieldset>
+                            </fieldset>
 
 
-							<fieldset class="demo-switcher-1">
-								<legend>付款方式</legend>
-								<div class="form-group">
-									<label class="control-label col-md-2">付款方式<span class="vaild">*</span></label>
-									<input type="hidden" ng-model="order.paymentRelationNo" name="paymentRelationNo">
-									<div class="col-md-10">
-										<label class="radio radio-inline">
-											<input type="radio" required class="radiobox" ng-disabled="setting.disablesChosePayMode" value="0" ng-model="order.paymentMode" ng-checked="order.paymentMode==0" name="paymentMode">
-											<span>回馈</span>
-										</label>
-										<label class="radio radio-inline">
-											<input type="radio" required class="radiobox" ng-disabled="setting.disablesChosePayMode" value="1" ng-model="order.paymentMode" ng-checked="order.paymentMode==1" name="paymentMode">
-											<span>客户经理代收</span>
-										</label>
-										<label class="radio radio-inline">
-											<input type="radio" required class="radiobox" ng-disabled="setting.disablesChosePayMode" value="2" ng-model="order.paymentMode" ng-checked="order.paymentMode==2" name="paymentMode">
-											<span>刷POS</span>
-										</label>
-										<label class="radio radio-inline">
-											<input type="radio" required class="radiobox" ng-disabled="setting.disablesChosePayMode" value="3" ng-model="order.paymentMode" ng-checked="order.paymentMode==3" name="paymentMode">
-											<span>转账</span>
-										</label>
-										<label class="radio radio-inline">
-											<input type="radio" required class="radiobox" ng-disabled="setting.disablesChosePayMode" value="4" ng-model="order.paymentMode" ng-checked="order.paymentMode==4" name="paymentMode">
-											<span>物流公司代收</span>
-										</label>
-										<label class="radio radio-inline">
-											<input type="radio" required class="radiobox" ng-disabled="setting.disablesChosePayMode" value="5" ng-model="order.paymentMode" ng-checked="order.paymentMode==5" name="paymentMode">
-											<span>卡类扣款</span>
-										</label>
-										<label class="radio radio-inline">
-											<input type="radio" required class="radiobox" ng-disabled="setting.disablesChosePayMode" value="7" ng-model="order.paymentMode" ng-checked="order.paymentMode==7" name="paymentMode">
-											<span>劵类扣款</span>
-										</label>
-										<label class="radio radio-inline">
-											<input type="radio" required class="radiobox" ng-disabled="setting.disablesChosePayMode" value="6" ng-model="order.paymentMode" ng-checked="order.paymentMode==6" name="paymentMode">
-											<span>其它</span>
-										</label>
-									</div>
-								</div>
-							</fieldset>
+                            <fieldset class="demo-switcher-1">
+                                <legend>付款方式</legend>
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">付款方式<span class="vaild">*</span></label>
+                                    <input type="hidden" ng-model="order.paymentRelationNo" name="paymentRelationNo">
+                                    <div class="col-md-10">
+                                        <label class="radio radio-inline">
+                                            <input type="radio" required class="radiobox" ng-disabled="setting.disablesChosePayMode" value="0" ng-model="order.paymentMode" ng-checked="order.paymentMode==0" name="paymentMode">
+                                            <span>回馈</span>
+                                        </label>
+                                        <label class="radio radio-inline">
+                                            <input type="radio" required class="radiobox" ng-disabled="setting.disablesChosePayMode" value="1" ng-model="order.paymentMode" ng-checked="order.paymentMode==1" name="paymentMode">
+                                            <span>客户经理代收</span>
+                                        </label>
+                                        <label class="radio radio-inline">
+                                            <input type="radio" required class="radiobox" ng-disabled="setting.disablesChosePayMode" value="2" ng-model="order.paymentMode" ng-checked="order.paymentMode==2" name="paymentMode">
+                                            <span>刷POS</span>
+                                        </label>
+                                        <label class="radio radio-inline">
+                                            <input type="radio" required class="radiobox" ng-disabled="setting.disablesChosePayMode" value="3" ng-model="order.paymentMode" ng-checked="order.paymentMode==3" name="paymentMode">
+                                            <span>转账</span>
+                                        </label>
+                                        <label class="radio radio-inline">
+                                            <input type="radio" required class="radiobox" ng-disabled="setting.disablesChosePayMode" value="4" ng-model="order.paymentMode" ng-checked="order.paymentMode==4" name="paymentMode">
+                                            <span>物流公司代收</span>
+                                        </label>
+                                        <label class="radio radio-inline">
+                                            <input type="radio" required class="radiobox" ng-disabled="setting.disablesChosePayMode" value="5" ng-model="order.paymentMode" ng-checked="order.paymentMode==5" name="paymentMode">
+                                            <span>卡类扣款</span>
+                                        </label>
+                                        <label class="radio radio-inline">
+                                            <input type="radio" required class="radiobox" ng-disabled="setting.disablesChosePayMode" value="7" ng-model="order.paymentMode" ng-checked="order.paymentMode==7" name="paymentMode">
+                                            <span>劵类扣款</span>
+                                        </label>
+                                        <label class="radio radio-inline">
+                                            <input type="radio" required class="radiobox" ng-disabled="setting.disablesChosePayMode" value="6" ng-model="order.paymentMode" ng-checked="order.paymentMode==6" name="paymentMode">
+                                            <span>其它</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </fieldset>
 
-							<fieldset class="demo-switcher-1">
-								<legend>订单快照</legend>
-								<div class="form-group">
-									<div class="col-md-12">
-										<label class="control-label col-md-2">订单编号<span class="vaild">*</span>：</label>
-										<div class="col-md-4">
-											<label class="control-label" ng-bind="order.orderNo"></label>
-										</div>
-									</div>
-									<div class="col-md-12"  ng-if="order.orderType != 2  && order.orderType != 3">
-										<label class="control-label col-md-2">客户姓名<span class="vaild">*</span>：</label>
-										<div class="col-md-4">
-											<label class="control-label" ng-bind="order.name"></label>
-										</div>
-									</div>
-									<div class="col-md-12"  ng-if="order.orderType != 2  && order.orderType != 3">
-										<label class="control-label col-md-2">客户联系方式<span class="vaild">*</span>：</label>
-										<div class="col-md-4">
-											<label class="control-label" ng-bind="order.phone"></label>
-										</div>
-									</div>
-									<div class="col-md-12">
-										<label class="control-label col-md-2">收货人<span class="vaild">*</span>：</label>
-										<div class="col-md-4">
-											<label class="control-label" ng-bind="order.consigneeName"></label>
-										</div>
-									</div>
-									<div class="col-md-12">
-										<label class="control-label col-md-2">收货人联系方式<span class="vaild">*</span>：</label>
-										<div class="col-md-4">
-											<label class="control-label" ng-bind="order.consigneePhone"></label>
-										</div>
-									</div>
-									<div class="col-md-12">
-										<label class="control-label col-md-2">收货人地址<span class="vaild">*</span>：</label>
-										<div class="col-md-10">
-											<label class="control-label" ng-bind="order.consigneeAddress"></label>
-										</div>
-									</div>
-									<div class="col-md-12">
-										<label class="control-label col-md-2">付款方式<span class="vaild">*</span>：</label>
-										<div class="col-md-10">
+                            <fieldset class="demo-switcher-1">
+                                <legend>订单快照</legend>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label class="control-label col-md-2">订单编号<span class="vaild">*</span>：</label>
+                                        <div class="col-md-4">
+                                            <label class="control-label" ng-bind="order.orderNo"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" ng-if="order.orderType != 2  && order.orderType != 3">
+                                        <label class="control-label col-md-2">客户姓名<span class="vaild">*</span>：</label>
+                                        <div class="col-md-4">
+                                            <label class="control-label" ng-bind="order.name"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" ng-if="order.orderType != 2  && order.orderType != 3">
+                                        <label class="control-label col-md-2">客户联系方式<span class="vaild">*</span>：</label>
+                                        <div class="col-md-4">
+                                            <label class="control-label" ng-bind="order.phone"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="control-label col-md-2">收货人<span class="vaild">*</span>：</label>
+                                        <div class="col-md-4">
+                                            <label class="control-label" ng-bind="order.consigneeName"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="control-label col-md-2">收货人联系方式<span class="vaild">*</span>：</label>
+                                        <div class="col-md-4">
+                                            <label class="control-label" ng-bind="order.consigneePhone"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="control-label col-md-2">收货人地址<span class="vaild">*</span>：</label>
+                                        <div class="col-md-10">
+                                            <label class="control-label" ng-bind="order.consigneeAddress"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="control-label col-md-2">付款方式<span class="vaild">*</span>：</label>
+                                        <div class="col-md-10">
                                             <label class="control-label" ng-if="order.paymentMode == 0">回馈</label>
                                             <label class="control-label" ng-if="order.paymentMode == 1">客户经理代收</label>
                                             <label class="control-label" ng-if="order.paymentMode == 2">刷POS</label>
@@ -533,134 +497,134 @@
                                             <label class="control-label" ng-if="order.paymentMode == 5">卡类扣款</label>
                                             <label class="control-label" ng-if="order.paymentMode == 7">劵类扣款</label>
                                             <label class="control-label" ng-if="order.paymentMode == 6">其他</label>
-										</div>
-									</div>
-									<div class="col-md-12">
-										<label class="control-label col-md-2">客户要求：</label>
-										<div class="col-md-10">
-											<label class="control-label" ng-bind="order.remark"></label>
-										</div>
-									</div>
-									<div class="col-md-12">
-										<label class="control-label col-md-2">订购产品详情<span class="vaild">*</span>：</label>
-										<div class="table-responsive col-md-6" style="padding-top: 10px;">
-											<table class="table table-bordered">
-												<thead>
-												<tr>
-													<th colspan="5">已选购产品</th>
-												</tr>
-												<tr>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="control-label col-md-2">客户要求：</label>
+                                        <div class="col-md-10">
+                                            <label class="control-label" ng-bind="order.remark"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="control-label col-md-2">订购产品详情<span class="vaild">*</span>：</label>
+                                        <div class="table-responsive col-md-6" style="padding-top: 10px;">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th colspan="5">已选购产品</th>
+                                                </tr>
+                                                <tr>
                                                     <th>序号</th>
-													<th>名称</th>
-													<th class="text-align-right">单价</th>
-													<th class="text-align-right">份数</th>
-													<th class="text-align-right">总价</th>
-												</tr>
-												</thead>
-												<tbody>
-												<tr ng-repeat="choseItem in choseOrderItemList">
+                                                    <th>名称</th>
+                                                    <th class="text-align-right">单价</th>
+                                                    <th class="text-align-right">份数</th>
+                                                    <th class="text-align-right">总价</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="choseItem in choseOrderItemList">
                                                     <td ng-bind="$index + 1"></td>
-													<td>{{choseItem.itemName}}</td>
-													<td class="text-align-right">{{choseItem.sellPrice | number:2}}</td>
-													<td class="text-align-right">{{choseItem.itemQty | number:2}}</td>
-													<td class="text-align-right">{{totalItemPrice(choseItem) | number:2}}</td>
-												</tr>
-												</tbody>
-												<tfoot>
-												<tr>
-													<td colspan="3">合计</td>
-													<td class="text-align-right">{{totalItem.totalNumber | number:2}}</td>
-													<td class="text-align-right">{{totalItem.totalPrice | number:2}}</td>
-												</tr>
-												</tfoot>
-											</table>
-										</div>
-									</div>
-								</div>
-							</fieldset>
-							<fieldset class="demo-switcher-1" ng-if="errors">
-								<legend class="error">错误信息</legend>
-								<div class="form-group">
-									<div class="col-md-12">
-										<div class="error">{{errors.message}}</div>
-									</div>
-								</div>
-							</fieldset>
-							<div class="form-actions">
-								<div class="row">
-									<div class="col-md-12">
-										<button class="btn btn-default" type="button" ui-sref ="order">
-											取消
-										</button>
-										<button class="btn btn-primary" data-ng-click="saveOrder()" type="submit">
-											<i class="fa fa-save"></i>
-											提交
-										</button>
-									</div>
-								</div>
-							</div>
+                                                    <td>{{choseItem.itemName}}</td>
+                                                    <td class="text-align-right">{{choseItem.sellPrice | number:2}}</td>
+                                                    <td class="text-align-right">{{choseItem.itemQty | number:2}}</td>
+                                                    <td class="text-align-right">{{totalItemPrice(choseItem) | number:2}}</td>
+                                                </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                <tr>
+                                                    <td colspan="3">合计</td>
+                                                    <td class="text-align-right">{{totalItem.totalNumber | number:2}}</td>
+                                                    <td class="text-align-right">{{totalItem.totalPrice | number:2}}</td>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset class="demo-switcher-1" ng-if="errors">
+                                <legend class="error">错误信息</legend>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="error">{{errors.message}}</div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button class="btn btn-default" type="button" ui-sref="order">
+                                            取消
+                                        </button>
+                                        <button class="btn btn-primary" data-ng-click="saveOrder()" type="submit">
+                                            <i class="fa fa-save"></i>
+                                            提交
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
 
-						</form>
-					</div>
-					<!-- end widget content -->
-				</div>
-				<!-- end widget div -->
-			</div>
-			<!-- end widget -->
+                        </form>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+            <!-- end widget -->
 
-		</article>
-		<!-- WIDGET END -->
+        </article>
+        <!-- WIDGET END -->
 
-	</div>
+    </div>
 
-	<!-- end row -->
+    <!-- end row -->
 
 </section>
 <!-- end widget grid -->
 
 <script type="text/ng-template" id="addItemNumber.html">
-	<div class="modal-header">
-		<h3 class="modal-title">订购【{{orderItem.itemName}}】</h3>
-	</div>
-	<div class="modal-body">
-		<div class="widget-body">
+    <div class="modal-header">
+        <h3 class="modal-title">订购【{{orderItem.itemName}}】</h3>
+    </div>
+    <div class="modal-body">
+        <div class="widget-body">
 
-			<form class="form-horizontal" ug-validate="addItemNumberForm" name="addItemNumberForm" novalidate="">
+            <form class="form-horizontal" ug-validate="addItemNumberForm" name="addItemNumberForm" novalidate="">
 
-				<fieldset>
+                <fieldset>
 
-					<div class="form-group">
-						<label class="col-md-2 control-label">订购数量</label>
-						<div class="col-md-10 input-group">
-							<input class="form-control" required data-rule-number="true" ng-model="orderItem.number" name="number" placeholder="产品订购数量" type="text">
-						</div>
-					</div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">订购数量</label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control" required data-rule-number="true" ng-model="orderItem.number" name="number" placeholder="产品订购数量" type="text">
+                        </div>
+                    </div>
 
-					<div class="form-group" ng-if="errors">
-						<label class="col-md-2 control-label"></label>
-						<div class="col-md-10 error">
-							{{errors.message}}
-						</div>
-					</div>
-				</fieldset>
-			</form>
-		</div>
-	</div>
-	<div class="modal-footer">
-		<button class="btn btn-primary" type="submit" data-ng-click="saveItemNumber()">
-			<i class="fa fa-save"></i>
-			确定
-		</button>
-		<button class="btn btn-warning" ng-click="cancel()">取消</button>
-	</div>
+                    <div class="form-group" ng-if="errors">
+                        <label class="col-md-2 control-label"></label>
+                        <div class="col-md-10 error">
+                            {{errors.message}}
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit" data-ng-click="saveItemNumber()">
+            <i class="fa fa-save"></i>
+            确定
+        </button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
 </script>
 
 
 <script type="text/ng-template" id="tree_view_table.html">
-	<span ng-mouseenter="item.show=true" ng-mouseleave="item.show=false">
+    <span ng-mouseenter="item.show=true" ng-mouseleave="item.show=false">
 		<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i>
 		<a ng-show="item.parentId != null" ng-click="getItemList(item.name)">{{item.name}}</a>
-		<lable ng-show="item.parentId == null" >{{item.name}}</lable>
+		<lable ng-show="item.parentId == null">{{item.name}}</lable>
 	</span>
     <ul ng-if="item.nodes && item.nodes.length > 0" class="tree-hide">
         <li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view_table.html'"></li>

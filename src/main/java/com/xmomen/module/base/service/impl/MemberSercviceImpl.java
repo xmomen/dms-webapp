@@ -65,7 +65,7 @@ public class MemberSercviceImpl implements MemberSercvice {
             member.setOfficeTel(createMember.getOfficeTel());
             member.setCdCompanyId(createMember.getCdCompanyId());
             member.setCdUserId(createMember.getCdUserId());
-            member = mybatisDao.insertByModel(member);
+            member = mybatisDao.updateByModel(member);
             //保存收货地址
             for (MemberAddressCreate memberAddressCreate : createMember.getMemberAddressList()) {
                 MemberAddress memberAddress = new MemberAddress();
