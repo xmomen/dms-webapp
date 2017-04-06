@@ -29,6 +29,7 @@ import com.xmomen.module.wx.module.order.model.OrderModel;
 import com.xmomen.module.wx.module.order.service.MyOrderService;
 
 @Controller
+@RequestMapping(value = "/wx/order")
 public class MyOrderController {
 
 	@Autowired
@@ -41,11 +42,11 @@ public class MyOrderController {
 	 * 
 	 * @param memberCode
 	 * @param status 0-未支付 1 待收货
-	 * @param minCreateTime
-	 * @param maxCreateTime
+	 * @param minCreateTime 昨日
+	 * @param maxCreateTime 今日
 	 * @return
 	 */
-	@RequestMapping(value = "/myOrder", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
 	public List<OrderModel> myOrder(@RequestParam(value = "memberCode", required = false) String memberCode,
 			@RequestParam(value = "status", required = false) Integer status, 
@@ -59,18 +60,15 @@ public class MyOrderController {
 		return myOrderService.myOrder(myOrderQuery);
 	}
 	
-	@RequestMapping(value = "/myOrder/{orderId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{orderId}", method = RequestMethod.GET)
 	@ResponseBody
 	public OrderDetailModel orderDetail(@PathVariable("orderId") Integer orderId) {
 		return myOrderService.getOrderDetail(orderId);
 	}
 	
-	@RequestMapping(value = "/wx/order", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
-	public TbOrder createModel(@RequestBody @Valid WxCreateOrder createOrder, BindingResult bindingResult) throws ArgumentValidException {
-        if(bindingResult != null && bindingResult.hasErrors()){
-            throw new ArgumentValidException(bindingResult);
-        }
+	public TbOrder createModel(@RequestBody @Valid WxCreateOrder createOrder){
         Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("user_id");
         createOrder.setCreateUserId(userId);
         return orderService.createWxOrder(createOrder);

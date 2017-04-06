@@ -9,6 +9,7 @@ import java.util.List;
 public class AccountSettingDto implements Serializable {
 
     private String username;
+//    private String
     private List<NavItem> navItems;
     private List<Role> roles;
 
