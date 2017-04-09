@@ -11,5 +11,5 @@ public interface ProductService {
 	
 	public ProductModel getDetailById(Integer id);
 	
-	public List<ProductModel> getProductsInCart(ProductQuery productQuery);
+	public List<ProductModel> getProducts(List<Integer> itemIds);
 }
