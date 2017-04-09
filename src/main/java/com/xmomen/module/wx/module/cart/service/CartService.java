@@ -16,10 +16,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.module.product.model.ProductModel;
 import com.xmomen.module.product.model.ProductQuery;
 import com.xmomen.module.product.service.ProductService;
+import com.xmomen.module.wx.module.cart.entity.TbCartItem;
+import com.xmomen.module.wx.module.cart.mapper.CartMapper;
 import com.xmomen.module.wx.module.cart.model.CartItemModel;
+import com.xmomen.module.wx.module.cart.model.CartItemQuery;
 import com.xmomen.module.wx.module.cart.model.CartMetadata;
 import com.xmomen.module.wx.module.cart.model.CartModel;
 import com.xmomen.module.wx.util.Constant;
@@ -32,6 +36,15 @@ public class CartService {
 	@Autowired
 	private ProductService productService;
 	
+	@Autowired
+	private MybatisDao mybatisDao;
+	
+	public List<CartItemModel> getCartItemsByUserToken(String userToken) {
+		CartItemQuery cartItemQuery = new CartItemQuery();
+		cartItemQuery.setUserToken(userToken);
+		return mybatisDao.getSqlSessionTemplate().selectList(CartMapper.CART_MAPPER_NAMESPACE + "getCartItemList", cartItemQuery);
+	}
+		
 	public List<ProductModel> getProductsInCart(ProductQuery productQuery) {
 		List<CartItemModel> items = this.getCartItems(productQuery.getMemberCode());
 		Map<String, Integer> itemNumberMap = new HashMap<String, Integer>();
@@ -60,10 +73,10 @@ public class CartService {
 		// 从数据库中那购物车信息,如果内存中没有则合并到内存中，否则以内存中为主(数目)
 		List<CartItemModel> persistentCartItems = null;
 		if(alwaysSync) {
-			persistentCartItems = this.getItemsFromDB(userToken);
+			persistentCartItems = this.getCartItemsByUserToken(userToken);
 		} else {
-			if(cartModel == null) {
-				persistentCartItems = this.getItemsFromDB(userToken);
+			if(cartModel == null || CollectionUtils.isEmpty(cartModel.getItems())) {
+				persistentCartItems = this.getCartItemsByUserToken(userToken);
 			}
 		}
 		CopyOnWriteArrayList<CartMetadata> cartItemMetas = null;
@@ -235,17 +248,14 @@ public class CartService {
 		metadata.setItemNumber(number);
 		return metadata;
 	}
-	
-	private List<CartItemModel> getItemsFromDB(String userToken) {
-		//TODO 根据userToken查找购物车中的物品
-		return new ArrayList<CartItemModel>();
-	}
+
 	
 	/**
 	 * 同步当前用户的购物车信息到购物车
 	 * @param userToken
 	 */
 	public void syncToDB(String userToken) {
+		if(StringUtils.isEmpty(userToken)) return;
 		CartModel cartModel = cartCache.get(userToken);
 		if(cartModel != null && Constant.DIRTY.equalsIgnoreCase(cartModel.getStatus())) {
 			List<CartMetadata> cartMetadatas = cartModel.getItems();
@@ -258,11 +268,34 @@ public class CartService {
 					beUpdatedList.add(cartMetadata);
 				}
 			}
-			//TODO 删除标记为删除的物品,然后再从内存中删除
-			cartMetadatas.removeAll(beRemovedList);
-			//TODO 同步更新字段的DB，然后将状态设置为clean
+			// 删除标记为删除的物品,然后再从内存中删除
+			if(beRemovedList.size() > 0) {
+				List<Integer> itemIds = new ArrayList<Integer>();
+				for(CartMetadata cartItem: beRemovedList){
+					itemIds.add(cartItem.getItemId());
+				}
+				Map<String, Object> params = new HashMap<String, Object>();
+				params.put("userToken", userToken);
+				params.put("itemIds", itemIds);
+				mybatisDao.getSqlSessionTemplate().delete(CartMapper.CART_MAPPER_NAMESPACE + "removeCartItems", params);
+				cartMetadatas.removeAll(beRemovedList);
+			}
+			
+			// 同步更新字段的DB，然后将状态设置为clean
 			for(CartMetadata updatedCartItem: beUpdatedList) {
-				//TODO UPDATE to DB
+				// UPDATE to DB(saveOrUpdate)
+				CartItemQuery cartItemQuery = new CartItemQuery();
+				cartItemQuery.setUserToken(userToken);
+				cartItemQuery.setItemId(updatedCartItem.getItemId());
+				List<CartItemModel> persistentCartItems =  mybatisDao.getSqlSessionTemplate().selectList(CartMapper.CART_MAPPER_NAMESPACE + "getCartItemList", cartItemQuery);
+				TbCartItem tbCartItem = new TbCartItem();
+				tbCartItem.setItemId(updatedCartItem.getItemId());
+				tbCartItem.setUserToken(updatedCartItem.getUserToken());
+				tbCartItem.setItemNumber(updatedCartItem.getItemNumber());
+				if(!CollectionUtils.isEmpty(persistentCartItems)) {
+					tbCartItem.setId(persistentCartItems.get(0).getId());
+				}
+				mybatisDao.getSqlSessionTemplate().insert(CartMapper.CART_MAPPER_NAMESPACE + "saveOrUpdateItem", tbCartItem);
 				updatedCartItem.setStatus(Constant.CLEAN);
 				updatedCartItem.setUpdateTime(null);
 			}

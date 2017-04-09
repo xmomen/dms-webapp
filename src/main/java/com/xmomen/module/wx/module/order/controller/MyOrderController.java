@@ -52,11 +52,13 @@ public class MyOrderController {
 			@RequestParam(value = "status", required = false) Integer status, 
 			@RequestParam(value = "minOrderTime", required = false) Date minCreateTime,
 			@RequestParam(value = "maxOrderTime", required = false) Date maxCreateTime) {
+		Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("user_id");
 		MyOrderQuery myOrderQuery  = new MyOrderQuery();
 		myOrderQuery.setMemberCode(memberCode);
 		myOrderQuery.setStatus(status);
 		myOrderQuery.setMinOrderTime(minCreateTime);
 		myOrderQuery.setMaxOrderTime(maxCreateTime);
+		myOrderQuery.setUserId(userId);
 		return myOrderService.myOrder(myOrderQuery);
 	}
 	
