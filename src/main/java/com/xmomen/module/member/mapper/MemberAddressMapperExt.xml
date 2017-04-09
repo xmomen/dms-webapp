@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xmomen.module.member.mapper.MemberAddressMapperExt" >
+<mapper namespace="com.xmomen.module.member.mapper.MemberAddressMapperExt">
 
     <!--    查询消息    -->
     <select id="getMemberAddressModel"
@@ -17,7 +17,7 @@
             <if test="ids">
                 AND t.ID IN
                 <foreach collection="ids" item="item" separator="," open="(" close=")">
-                #{item}
+                    #{item}
                 </foreach>
             </if>
             <if test="excludeIds">
@@ -26,8 +26,16 @@
                     #{item}
                 </foreach>
             </if>
-          </where>
-          ORDER BY t.id
+        </where>
+        ORDER BY t.id
     </select>
 
+    <update id="updateAddressByMemberId" parameterType="java.lang.Integer">
+        update
+    		cd_member_address
+    	set
+    		is_default = 0
+    	where
+    		cd_member_id=#{memberId}
+    </update>
 </mapper>
