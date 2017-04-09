@@ -46,6 +46,8 @@ import com.xmomen.module.order.model.RefundOrder;
 import com.xmomen.module.order.model.UpdateOrder;
 import com.xmomen.module.order.model.WxCreateOrder;
 import com.xmomen.module.plan.entity.TbTablePlan;
+import com.xmomen.module.product.model.ProductModel;
+import com.xmomen.module.product.service.ProductService;
 import com.xmomen.module.report.model.OrderReport;
 import com.xmomen.module.wx.module.order.model.MyOrderQuery;
 import com.xmomen.module.wx.module.order.model.OrderDetailModel;
@@ -70,6 +72,9 @@ public class OrderService {
     
     @Autowired
     MyOrderService myOrderService;
+    
+    @Autowired
+    ProductService productService;
 
     /**
      * 查询订单
@@ -863,4 +868,23 @@ public class OrderService {
         mybatisDao.update(tbOrder);
         return true;
     }
+    
+	public List<ProductModel> getCouponItems(String couponNo) {
+		CouponModel couponModel = couponService.getCouponModel(couponNo);
+    	if(couponModel == null || couponModel.getCouponType() != 2) {
+    		throw new IllegalArgumentException("无效的券!");
+    	}
+    	List<CouponRelationItem> items = couponModel.getRelationItemList();
+    	Map<Integer, Integer> itemInfoMap = new HashMap<Integer, Integer>();
+    	List<Integer> itemIds = new ArrayList<Integer>();
+    	for(CouponRelationItem item: items) {
+    		itemInfoMap.put(item.getItemId(), item.getItemNumber().intValue());
+    		itemIds.add(item.getItemId());
+    	}
+    	List<ProductModel> productModels = productService.getProducts(itemIds);
+    	for(ProductModel productModel: productModels) {
+    		productModel.setItemNumber(itemInfoMap.get(productModel.getId()));
+    	}
+		return productModels;
+	}
 }

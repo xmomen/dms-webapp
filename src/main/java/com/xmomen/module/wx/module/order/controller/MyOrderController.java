@@ -23,9 +23,11 @@ import com.xmomen.framework.web.exceptions.ArgumentValidException;
 import com.xmomen.module.order.entity.TbOrder;
 import com.xmomen.module.order.model.WxCreateOrder;
 import com.xmomen.module.order.service.OrderService;
+import com.xmomen.module.product.model.ProductModel;
 import com.xmomen.module.wx.module.order.model.MyOrderQuery;
 import com.xmomen.module.wx.module.order.model.OrderDetailModel;
 import com.xmomen.module.wx.module.order.model.OrderModel;
+import com.xmomen.module.wx.module.order.model.OrderProductItem;
 import com.xmomen.module.wx.module.order.model.PayOrderModel;
 import com.xmomen.module.wx.module.order.service.MyOrderService;
 
@@ -83,9 +85,9 @@ public class MyOrderController {
 	
 	@RequestMapping(value = "/wx/order/confirm", method = RequestMethod.POST)
 	@ResponseBody
-	public Boolean confirmOrder(@RequestParam("id") Integer orderId) throws ArgumentValidException {
-        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("user_id");
-        return myOrderService.confirmReceiveOrder(orderId, userId);
+	public Boolean confirmOrder(@RequestParam("id") Integer orderId, @RequestParam("memberId") Integer memberId) throws ArgumentValidException {
+        //Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("user_id");
+        return myOrderService.confirmReceiveOrder(orderId, memberId);
 	}
 	
 	@RequestMapping(value = "/wx/order/pay", method = RequestMethod.POST)
@@ -95,6 +97,12 @@ public class MyOrderController {
             throw new ArgumentValidException(bindingResult);
         }
 		return orderService.payWxOrder(payOrderModel);
+	}
+	
+	@RequestMapping(value = "/wx/coupon", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ProductModel> getCouponItems(@RequestParam("couponNo") String couponNo) {
+		return orderService.getCouponItems(couponNo);
 	}
 	
 	@InitBinder

@@ -56,7 +56,7 @@ public class CartService {
 			productIds.add(item.getItemId());
 		}
 		productQuery.setProductIds(productIds);
-		List<ProductModel> products = productService.getProductsInCart(productQuery);
+		List<ProductModel> products = productService.getProducts(productIds);
 		
 		for(ProductModel product: products) {
 			String itemId = String.valueOf(product.getId());
