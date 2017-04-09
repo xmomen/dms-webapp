@@ -31,7 +31,7 @@ public class ProductController {
     @ResponseBody
 	public Page<ProductModel> getProducts(@RequestParam(value = "limit") Integer limit,
             @RequestParam(value = "offset") Integer offset,
-            @RequestParam(value="categoryId", required= false) Integer categoryId,
+            @RequestParam(value = "categoryId", required= false) Integer categoryId,
             @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(value = "orderField", required = false) String orderField,
             @RequestParam(value = "isAsc", required = false, defaultValue="true") Boolean isAsc,

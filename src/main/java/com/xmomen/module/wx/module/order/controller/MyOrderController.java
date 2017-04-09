@@ -85,13 +85,13 @@ public class MyOrderController {
         return myOrderService.confirmReceiveOrder(orderId, memberId);
 	}
 	
-	@RequestMapping(value = "/wx/order/pay", method = RequestMethod.POST)
+	@RequestMapping(value = "/pay", method = RequestMethod.POST)
 	@ResponseBody
 	public Boolean payOrder(@RequestBody @Valid PayOrderModel payOrderModel, BindingResult bindingResult){
 		return orderService.payWxOrder(payOrderModel);
 	}
 	
-	@RequestMapping(value = "/wx/coupon", method = RequestMethod.GET)
+	@RequestMapping(value = "/coupon", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ProductModel> getCouponItems(@RequestParam("couponNo") String couponNo) {
 		return orderService.getCouponItems(couponNo);
