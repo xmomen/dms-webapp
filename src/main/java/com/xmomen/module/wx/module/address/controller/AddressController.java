@@ -36,7 +36,7 @@ public class AddressController {
      */
     @RequestMapping(value = "/wx/defaultAddress", method = RequestMethod.GET)
     @ResponseBody
-    public Boolean myOrder(
+    public Boolean defaultAddress(
             @RequestParam(value = "addressId") String addressId) {
         memberAddressService.defaultAddress(addressId);
         return Boolean.TRUE;
