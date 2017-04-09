@@ -10,4 +10,5 @@ public interface MemberSercvice {
 	
 	public void delete(Integer id);
 
+	public void bindMember(String mobile,String openId);
 }

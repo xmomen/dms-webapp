@@ -1,10 +1,7 @@
 package com.xmomen.module.base.service.impl;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
-import com.xmomen.module.base.entity.CdActivityAddress;
-import com.xmomen.module.base.entity.CdMember;
-import com.xmomen.module.base.entity.CdMemberCouponRelation;
-import com.xmomen.module.base.entity.CdMemberCouponRelationExample;
+import com.xmomen.module.base.entity.*;
 import com.xmomen.module.base.model.CreateMember;
 import com.xmomen.module.base.model.UpdateMember;
 import com.xmomen.module.base.service.CouponService;
@@ -65,7 +62,7 @@ public class MemberSercviceImpl implements MemberSercvice {
             member.setOfficeTel(createMember.getOfficeTel());
             member.setCdCompanyId(createMember.getCdCompanyId());
             member.setCdUserId(createMember.getCdUserId());
-            member = mybatisDao.insertByModel(member);
+            member = mybatisDao.updateByModel(member);
             //保存收货地址
             for (MemberAddressCreate memberAddressCreate : createMember.getMemberAddressList()) {
                 MemberAddress memberAddress = new MemberAddress();
@@ -145,4 +142,25 @@ public class MemberSercviceImpl implements MemberSercvice {
         mybatisDao.deleteByExample(memberAddressExample);
     }
 
+    /**
+     * 绑定
+     *
+     * @param mobile
+     * @param openId
+     */
+    public void bindMember(String mobile, String openId) {
+        CdBind bind = new CdBind();
+        bind.setPhone(mobile);
+        bind.setOpenId(openId);
+        this.mybatisDao.save(bind);
+        //手机号是否在member表存在 不存在则新增
+        CdMember member = new CdMember();
+        member.setPhoneNumber(mobile);
+        List<CdMember> members = mybatisDao.selectByModel(member);
+        if (members.size() == 0) {
+            member = new CdMember();
+            member.setPhoneNumber(mobile);
+            member = mybatisDao.insertByModel(member);
+        }
+    }
 }

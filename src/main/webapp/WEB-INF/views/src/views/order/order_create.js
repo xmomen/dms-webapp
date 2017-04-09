@@ -230,6 +230,8 @@ define(function () {
 
             var setMemberInfo = function (member) {
                 $scope.order.memberId = member.id;
+                //客户CODE 存储memberId
+                $scope.order.memberCode = member.id;
                 //卡劵单位和项目经理取卡劵自身的
                 if ($scope.order.companyId == null || $scope.order.companyId == undefined) {
                     $scope.order.companyId = member.cdCompanyId;
@@ -256,9 +258,11 @@ define(function () {
                 }, function (result) {
                     if (result) {
                         $scope.memberAddressList = result.data;
-                        $scope.order.consigneeAddress = $scope.memberAddressList[0].address;
-                        $scope.order.consigneeName = $scope.memberAddressList[0].name;
-                        $scope.order.consigneePhone = $scope.memberAddressList[0].mobile;
+                        if ($scope.memberAddressList.length > 0) {
+                            $scope.order.consigneeAddress = $scope.memberAddressList[0].address;
+                            $scope.order.consigneeName = $scope.memberAddressList[0].name;
+                            $scope.order.consigneePhone = $scope.memberAddressList[0].mobile;
+                        }
                     }
                 });
             };
