@@ -10,6 +10,5 @@ public @Data class UpdateCartModel {
 	private String userToken;
 	@NotNull
 	private Integer itemId;
-	@NotNull
 	private Integer itemNumber;
 }

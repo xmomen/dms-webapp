@@ -13,4 +13,7 @@ public @Data class MyOrderQuery {
 	private Date maxOrderTime;
 	
 	private Integer userId;
+
+	private Integer orderId;
+	private String orderNo;
 }

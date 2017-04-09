@@ -10,7 +10,7 @@ import com.xmomen.module.wx.module.order.model.OrderModel;
 public interface MyOrderService {
 
 	List<OrderModel> myOrder(MyOrderQuery myOrderQuery);
-	OrderDetailModel getOrderDetail(Integer orderId);
+	OrderDetailModel getOrderDetail(MyOrderQuery myOrderQuery);
 	
 	Boolean confirmReceiveOrder(Integer orderId, Integer userId);
 }
