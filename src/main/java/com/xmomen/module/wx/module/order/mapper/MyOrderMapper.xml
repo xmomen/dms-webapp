@@ -196,7 +196,7 @@
         LEFT JOIN cd_express ce on tb_order.despatch_express_id = ce.id
         <where>
         	<if test="orderId">
-        	    tb_order.ORDER_ID = #{orderId}
+        	    tb_order.ID = #{orderId}
         	</if>
         	<if test="orderNo">
         	    tb_order.ORDER_NO = #{orderNo}
