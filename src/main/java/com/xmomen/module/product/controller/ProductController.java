@@ -21,6 +21,7 @@ import com.xmomen.module.product.model.ProductQueryFilter;
 import com.xmomen.module.product.service.ProductService;
 
 @Controller
+@RequestMapping(value = "/wx")
 public class ProductController {
 
 	@Autowired
