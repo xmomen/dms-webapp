@@ -133,4 +133,6 @@ public interface MemberAddressService {
      * @param addressId
      */
     public void defaultAddress(String addressId);
+    
+    public List<MemberAddressModel> getMemberAddressModels(MemberAddressQuery memberAddressQuery);
 }

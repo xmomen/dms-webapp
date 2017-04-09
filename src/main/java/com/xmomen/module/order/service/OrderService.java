@@ -26,6 +26,9 @@ import com.xmomen.module.base.model.ItemModel;
 import com.xmomen.module.base.model.ItemQuery;
 import com.xmomen.module.base.service.CouponService;
 import com.xmomen.module.base.service.ItemService;
+import com.xmomen.module.member.model.MemberAddressModel;
+import com.xmomen.module.member.model.MemberAddressQuery;
+import com.xmomen.module.member.service.MemberAddressService;
 import com.xmomen.module.order.entity.TbOrder;
 import com.xmomen.module.order.entity.TbOrderExample;
 import com.xmomen.module.order.entity.TbOrderItem;
@@ -79,6 +82,9 @@ public class OrderService {
     
     @Autowired
     CartService cartServcie;
+    
+    @Autowired
+    MemberAddressService memberAddressService;
 
     /**
      * 查询订单
@@ -791,8 +797,27 @@ public class OrderService {
         tbOrder.setPayStatus(0);//待支付
         tbOrder.setTransportMode(1);// 默认快递
         tbOrder.setConsigneeName(createOrder.getConsigneeName());
+        
+        MemberAddressQuery memberAddressQuery = new MemberAddressQuery();
+        memberAddressQuery.setCdMemberId(String.valueOf(tbOrder.getCreateUserId()));
         tbOrder.setConsigneeAddress(createOrder.getConsigneeAddress());
         tbOrder.setConsigneePhone(createOrder.getConsigneePhone());
+        List<MemberAddressModel> addresses  = memberAddressService.getMemberAddressModels(memberAddressQuery);
+        if(addresses != null) {
+        	int size = addresses.size();
+            for(int i = 0; i < size; i++) {
+            	MemberAddressModel address = addresses.get(i);
+            	if(i == 0) {
+            		tbOrder.setConsigneeAddress(address.getFullAddress());
+                    tbOrder.setConsigneePhone(address.getMobile());
+            	}
+            	if(address.getIsDefault()) {
+            		tbOrder.setConsigneeAddress(address.getFullAddress());
+                    tbOrder.setConsigneePhone(address.getMobile());
+            		break;
+            	}
+            }
+        }
         tbOrder.setCreateTime(mybatisDao.getSysdate());
         if(createOrder.getPaymentMode() == null) {
         	tbOrder.setPaymentMode(0);//设置非空值
@@ -893,7 +918,7 @@ public class OrderService {
     	}
     	List<ProductModel> productModels = productService.getProducts(itemIds);
     	for(ProductModel productModel: productModels) {
-    		productModel.setItemNumber(itemInfoMap.get(productModel.getId()));
+    		productModel.setItemQty(itemInfoMap.get(productModel.getId()));
     	}
 		return productModels;
 	}

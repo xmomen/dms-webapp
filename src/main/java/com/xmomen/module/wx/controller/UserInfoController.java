@@ -43,8 +43,7 @@ public class UserInfoController {
 				userInfo.setHeadimgurl(weixinUserInfo.getHeadimgurl());
 			}
 			
-		}
-		if(memberId != null) {
+		} else if(memberId != null) {
 			Map<String, Object> map = new HashMap<String,Object>();
 	        map.put("id", memberId);
 	        MemberModel memberModel = mybatisDao.getSqlSessionTemplate().selectOne(MemberMapper.MemberMapperNameSpace + "getMemberList", map);

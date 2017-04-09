@@ -1,4 +1,4 @@
-package com.xmomen.module.wx.module.bind;
+package com.xmomen.module.wx.module.bind.controller;
 
 import com.xmomen.module.base.entity.CdMember;
 import com.xmomen.module.base.service.MemberSercvice;

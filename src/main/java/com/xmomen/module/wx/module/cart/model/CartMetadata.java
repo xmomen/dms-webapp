@@ -18,7 +18,7 @@ public @Data class CartMetadata {
 	/**
 	 * 商品数目
 	 */
-	private Integer itemNumber = 0;
+	private Integer itemQty = 0;
 	
 	/**
 	 * MODIFY 数目改动，包含新增
@@ -35,16 +35,16 @@ public @Data class CartMetadata {
 	 * @param number
 	 * return order是否有改变
 	 */
-	public boolean setItemNumber(Integer number) {
-		if(this.itemNumber == null && this.itemNumber == number) return false;
-		if(this.itemNumber != null && this.itemNumber.equals(number)) return false;
+	public boolean setItemQty(Integer number) {
+		if(this.itemQty == null && this.itemQty == number) return false;
+		if(this.itemQty != null && this.itemQty.equals(number)) return false;
 		if(number == 0) {
-			this.itemNumber = number;
+			this.itemQty = number;
 			this.status = Constant.DELETE;
 			this.updateTime = new Timestamp(new Date().getTime());
 			return true;
 		} else if(number > 0) {
-			this.itemNumber = number;
+			this.itemQty = number;
 			this.status = Constant.MODIFY;
 			this.updateTime = new Timestamp(new Date().getTime());
 			return true;

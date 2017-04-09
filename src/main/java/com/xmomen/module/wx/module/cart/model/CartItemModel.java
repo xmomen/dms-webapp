@@ -8,15 +8,15 @@ public @Data class CartItemModel {
 	private String userToken;
 	
     private Integer itemId;
-    private Integer itemNumber;
+    private Integer itemQty;
     
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("CartItemModel [itemId=");
 		builder.append(itemId);
-		builder.append(", itemNumber=");
-		builder.append(itemNumber);
+		builder.append(", itemQty=");
+		builder.append(itemQty);
 		builder.append("]");
 		return builder.toString();
 	}

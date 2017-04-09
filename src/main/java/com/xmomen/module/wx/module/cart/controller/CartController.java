@@ -37,7 +37,7 @@ public class CartController {
 	@ResponseBody
 	@RequestMapping(value ="/cart", method = RequestMethod.POST)
 	public Boolean updateCart(@RequestBody @Valid UpdateCartModel updateCartModel){
-		cartService.change(String.valueOf(updateCartModel.getMemberId()), updateCartModel.getItemId(), updateCartModel.getItemNumber());
+		cartService.change(String.valueOf(updateCartModel.getMemberId()), updateCartModel.getItemId(), updateCartModel.getItemId());
 		return Boolean.TRUE;
 	}
 

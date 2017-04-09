@@ -74,8 +74,6 @@ public class MyOrderController {
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
 	public TbOrder createModel(@RequestBody @Valid WxCreateOrder createOrder){
-        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("user_id");
-        createOrder.setCreateUserId(userId);
         return orderService.createWxOrder(createOrder);
 	}
 	
@@ -85,13 +83,13 @@ public class MyOrderController {
         return myOrderService.confirmReceiveOrder(orderId, memberId);
 	}
 	
-	@RequestMapping(value = "/wx/order/pay", method = RequestMethod.POST)
+	@RequestMapping(value = "/pay", method = RequestMethod.POST)
 	@ResponseBody
 	public Boolean payOrder(@RequestBody @Valid PayOrderModel payOrderModel, BindingResult bindingResult){
 		return orderService.payWxOrder(payOrderModel);
 	}
 	
-	@RequestMapping(value = "/wx/coupon", method = RequestMethod.GET)
+	@RequestMapping(value = "/coupon", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ProductModel> getCouponItems(@RequestParam("couponNo") String couponNo) {
 		return orderService.getCouponItems(couponNo);

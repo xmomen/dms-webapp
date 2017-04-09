@@ -8,7 +8,7 @@
 	        ID,
 	        USER_TOKEN,
 	        ITEM_ID,
-	        ITEM_NUMBER
+	        ITEM_NUMBER as itemQty
 	    FROM TB_SHOPPING_CART
 	    <where>
 	    	USER_TOKEN = #{userToken}
