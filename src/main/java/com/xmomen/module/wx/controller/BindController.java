@@ -5,6 +5,7 @@ import com.xmomen.framework.utils.AssertExt;
 import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.module.base.entity.CdBind;
 import com.xmomen.module.base.entity.CdExpressMember;
+import com.xmomen.module.base.entity.CdMember;
 import com.xmomen.module.logger.Log;
 import com.xmomen.module.order.entity.TbOrder;
 import com.xmomen.module.order.entity.TbOrderItem;
@@ -91,14 +92,19 @@ public class BindController {
             throws IOException {
         AccessTokenOAuth accessToken = Auth2Handler.getAccessToken(code);
         String openId = accessToken.getOpenid();
-//        String openId = "oL8rKwskGvfQinxVS5EASK0RVXJ4";
         logger.info("openid----->" + openId);
         logger.info("跳转的url" + url);
-        return "redirect:" + url + "?openId=" + openId;
-//        // 查询是否有绑定
-//        CdBind bind = new CdBind();
-//        bind.setOpenId(openId);
-//        List<CdBind> binds = mybatisDao.selectByModel(bind);
+        // 查询是否有绑定
+        CdBind bind = new CdBind();
+        bind.setOpenId(openId);
+        List<CdBind> binds = mybatisDao.selectByModel(bind);
+        Integer memberId = null;
+        if (binds.size() > 0) {
+            CdMember member = new CdMember();
+            member.setPhoneNumber(binds.get(0).getPhone());
+            List<CdMember> members = mybatisDao.selectByModel(member);
+            memberId = members.get(0).getId();
+        }
 //        request.setAttribute("openId", openId);
 //        if (binds != null && binds.size() > 0) {
 //            bind = binds.get(0);
@@ -185,6 +191,7 @@ public class BindController {
 //            request.setAttribute("message", "请先绑定手机号，再进行操作!");
 //            return "wx/bind";
 //        }
+        return "redirect:" + url + "?openId=" + openId + "&memberId=" + memberId;
     }
 
     /**
