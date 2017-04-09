@@ -81,16 +81,13 @@ public class MyOrderController {
 	
 	@RequestMapping(value = "/confirm", method = RequestMethod.POST)
 	@ResponseBody
-	public Boolean confirmOrder(@RequestParam("id") Integer orderId, @RequestParam("memberId") Integer memberId) throws ArgumentValidException {
+	public Boolean confirmOrder(@RequestParam("id") Integer orderId, @RequestParam("memberId") Integer memberId) {
         return myOrderService.confirmReceiveOrder(orderId, memberId);
 	}
 	
 	@RequestMapping(value = "/wx/order/pay", method = RequestMethod.POST)
 	@ResponseBody
-	public Boolean payOrder(@RequestBody @Valid PayOrderModel payOrderModel, BindingResult bindingResult) throws ArgumentValidException {
-		if(bindingResult != null && bindingResult.hasErrors()){
-            throw new ArgumentValidException(bindingResult);
-        }
+	public Boolean payOrder(@RequestBody @Valid PayOrderModel payOrderModel, BindingResult bindingResult){
 		return orderService.payWxOrder(payOrderModel);
 	}
 	
