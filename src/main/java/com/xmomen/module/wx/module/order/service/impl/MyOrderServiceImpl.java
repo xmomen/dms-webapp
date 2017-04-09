@@ -1,11 +1,14 @@
 package com.xmomen.module.wx.module.order.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xmomen.framework.mybatis.dao.MybatisDao;
+import com.xmomen.module.order.entity.TbOrder;
+import com.xmomen.module.order.service.OrderService;
 import com.xmomen.module.wx.module.order.mapper.MyOrderMapper;
 import com.xmomen.module.wx.module.order.model.MyOrderQuery;
 import com.xmomen.module.wx.module.order.model.OrderDetailModel;
@@ -18,6 +21,9 @@ public class MyOrderServiceImpl implements MyOrderService {
 
 	@Autowired
 	MybatisDao mybatisDao;
+	
+	@Autowired
+	OrderService orderService;
 
 	@Override
 	public List<OrderModel> myOrder(MyOrderQuery myOrderQuery) {
@@ -45,6 +51,18 @@ public class MyOrderServiceImpl implements MyOrderService {
 			}
 	    }
 	    return orderDetail;
+	}
+
+	@Override
+	public Boolean confirmReceiveOrder(Integer orderId, Integer userId) {
+		TbOrder tbOrder = mybatisDao.selectByPrimaryKey(TbOrder.class, orderId);
+		if(tbOrder == null || userId == null || !userId.equals(tbOrder.getCreateUserId())) {
+			throw new IllegalArgumentException("订单不存在或者不属于当前用户!");
+		}
+		tbOrder.setOrderStatus("6");//确认本人收货
+		tbOrder.setShouHuoDate(new Date());
+		mybatisDao.update(tbOrder);
+		return Boolean.TRUE;
 	}
 
 	

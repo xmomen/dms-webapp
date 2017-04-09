@@ -68,13 +68,14 @@ public class ProductController {
 		return productService.getDetailById(productId);
 	}
 	
-	@ResponseBody
-	@RequestMapping(value ="cart", method = RequestMethod.GET)
+	/*@ResponseBody
+	@RequestMapping(value ="/cart", method = RequestMethod.GET)
 	public List<ProductModel> getCartProduct(@RequestParam(value = "memberCode", required = false) String memberCode,
 			@RequestParam(value="productIds", required = false) List<Integer> productIds) {
 		ProductQuery productQuery = new ProductQuery();
 		productQuery.setMemberCode(memberCode);
 		productQuery.setProductIds(productIds);
 		return productService.getProductsInCart(productQuery);
-	}
+	}*/
+
 }

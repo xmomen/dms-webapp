@@ -74,6 +74,13 @@ public class MyOrderController {
         return orderService.createWxOrder(createOrder);
 	}
 	
+	@RequestMapping(value = "/confirm", method = RequestMethod.POST)
+	@ResponseBody
+	public Boolean confirmOrder(@RequestParam("id") Integer orderId) throws ArgumentValidException {
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("user_id");
+        return myOrderService.confirmReceiveOrder(orderId, userId);
+	}
+	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {

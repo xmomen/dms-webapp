@@ -100,7 +100,8 @@
         osp.SHOW_VALUE AS ORDER_SOURCE_DESC,
         case tb_order.PAY_STATUS
             WHEN 1 THEN '已支付'
-            WHEN 0 THEN '未支付'
+            WHEN 0 THEN '待付款'
+            WHEN 2 THEN '待付款'
         END as PAY_STATUS_DESC,
         tb_order.ORDER_SOURCE,
         tb_order.PAYMENT_MODE,
@@ -135,7 +136,7 @@
         <where>
         	tb_order.ORDER_NO in ('20170324000550433', '20170315184533193', '20170118205559593', '20170118203939439', '20170118193129321', '20170118203444998')
        	    <choose>
-       	        <when test="status == 0">
+       	        <when test="status == 0 or status == 2">
        	            AND tb_order.PAY_STATUS = 0
        	        </when>
        	        <when test="status == 1">
@@ -171,7 +172,8 @@
         osp.SHOW_VALUE AS ORDER_SOURCE_DESC,
         case tb_order.PAY_STATUS
             WHEN 1 THEN '已支付'
-            WHEN 0 THEN '未支付'
+            WHEN 0 THEN '待付款'
+            WHEN 2 THEN '待付款'
         END as PAY_STATUS_DESC,
         ce.EXPRESS_NAME
         FROM tb_order
