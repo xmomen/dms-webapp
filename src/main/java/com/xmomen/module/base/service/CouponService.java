@@ -296,4 +296,8 @@ public class CouponService {
         coupon.setId(id);
         mybatisDao.update(coupon);
     }
+    
+    public CouponModel getCouponModel(String couponNumber) {
+    	return mybatisDao.getSqlSessionTemplate().selectOne(CouponMapper.CouponMapperNameSpace + "getCouponItemsByByCouponNo", couponNumber);
+    }
 }
