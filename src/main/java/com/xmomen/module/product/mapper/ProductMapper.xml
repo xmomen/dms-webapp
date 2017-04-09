@@ -85,7 +85,7 @@
         <!-- left join resources to get pictures -->
     </select>
     
-    <select id="getProductsInCart" resultType="com.xmomen.module.product.model.ProductModel" 
+    <select id="getProductsByIds" resultType="com.xmomen.module.product.model.ProductModel" 
 		parameterType="com.xmomen.module.product.model.ProductQuery">
     	SELECT
             item.ID,

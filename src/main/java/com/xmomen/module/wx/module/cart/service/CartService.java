@@ -56,7 +56,7 @@ public class CartService {
 			productIds.add(item.getItemId());
 		}
 		productQuery.setProductIds(productIds);
-		List<ProductModel> products = productService.getProductsInCart(productQuery);
+		List<ProductModel> products = productService.getProducts(productIds);
 		
 		for(ProductModel product: products) {
 			String itemId = String.valueOf(product.getId());
@@ -158,7 +158,19 @@ public class CartService {
 	
 	public void change(String userToken, Integer itemId, Integer number) {
 		CartModel sourceCart = cartCache.get(userToken);
-		if(number >= 0) {
+		if(number == null) {
+			Integer newNumber = 1;
+			if(sourceCart != null && !CollectionUtils.isEmpty(sourceCart.getItems())) {
+				List<CartMetadata> cartItems = sourceCart.getItems();
+				for(CartMetadata cartItem: cartItems) {
+					if(cartItem.getItemId().equals(itemId)) {
+						newNumber += cartItem.getItemNumber();
+						break;
+					}
+				}
+			}
+			this.change(userToken, itemId, newNumber);
+		} else if(number >= 0) {
 			if(sourceCart == null) {
 				CartModel cartModel = new CartModel();
 				cartModel.setUserToken(userToken);

@@ -3,6 +3,7 @@ package com.xmomen.module.wx.module.order.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,8 +43,11 @@ public class MyOrderServiceImpl implements MyOrderService {
 	}
 
 	@Override
-	public OrderDetailModel getOrderDetail(Integer orderId) {
-		OrderDetailModel orderDetail =mybatisDao.getSqlSessionTemplate().selectOne(MyOrderMapper.MY_ORDER_MAPPER_NAMESPACE + "getOrderDetail", orderId);
+	public OrderDetailModel getOrderDetail(MyOrderQuery myOrderQuery) {
+		if(myOrderQuery.getOrderId() == null && StringUtils.isEmpty(myOrderQuery.getOrderNo())) {
+			return null;
+		}
+		OrderDetailModel orderDetail =mybatisDao.getSqlSessionTemplate().selectOne(MyOrderMapper.MY_ORDER_MAPPER_NAMESPACE + "getOrderDetail", myOrderQuery);
 	    if(orderDetail != null) {
 	    	List<OrderProductItem> items = orderDetail.getProducts();
 	    	for(OrderProductItem item: items) {

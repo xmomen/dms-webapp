@@ -43,11 +43,17 @@ import com.xmomen.module.order.model.OrderModel;
 import com.xmomen.module.order.model.OrderQuery;
 import com.xmomen.module.order.model.PayOrder;
 import com.xmomen.module.order.model.RefundOrder;
-import com.xmomen.module.order.model.ReturnOrder;
 import com.xmomen.module.order.model.UpdateOrder;
 import com.xmomen.module.order.model.WxCreateOrder;
 import com.xmomen.module.plan.entity.TbTablePlan;
+import com.xmomen.module.product.model.ProductModel;
+import com.xmomen.module.product.service.ProductService;
 import com.xmomen.module.report.model.OrderReport;
+import com.xmomen.module.wx.module.order.model.MyOrderQuery;
+import com.xmomen.module.wx.module.order.model.OrderDetailModel;
+import com.xmomen.module.wx.module.order.model.OrderProductItem;
+import com.xmomen.module.wx.module.order.model.PayOrderModel;
+import com.xmomen.module.wx.module.order.service.MyOrderService;
 
 /**
  * Created by Jeng on 16/4/5.
@@ -63,6 +69,12 @@ public class OrderService {
     
     @Autowired
     CouponService couponService;
+    
+    @Autowired
+    MyOrderService myOrderService;
+    
+    @Autowired
+    ProductService productService;
 
     /**
      * 查询订单
@@ -831,4 +843,48 @@ public class OrderService {
         }
         return tbOrder;
     }
+    
+    @Transactional
+    public Boolean payWxOrder(PayOrderModel payOrderModel) {
+    	Integer orderId = payOrderModel.getOrderId();
+    	MyOrderQuery myOrderQuery = new MyOrderQuery();
+    	myOrderQuery.setOrderId(orderId);
+    	OrderDetailModel orderDetailModel = myOrderService.getOrderDetail(myOrderQuery);
+    	List<OrderProductItem> itemList = orderDetailModel.getProducts();
+    	BigDecimal totalAmount = BigDecimal.ZERO;
+    	for (OrderProductItem cdItem : itemList) {
+    		BigDecimal price = cdItem.getItemPrice();
+    		totalAmount = totalAmount.add(price.multiply(cdItem.getItemQty()));
+            
+        }
+    	PayOrder payOrder = new PayOrder();
+        payOrder.setOrderNo(orderDetailModel.getOrderNo());
+        payOrder.setAmount(totalAmount);
+        payOrder(payOrder);
+        
+        TbOrder tbOrder = mybatisDao.selectByPrimaryKey(TbOrder.class, orderId);
+        //设置为卡支付订单
+        tbOrder.setPaymentMode(1);
+        mybatisDao.update(tbOrder);
+        return true;
+    }
+    
+	public List<ProductModel> getCouponItems(String couponNo) {
+		CouponModel couponModel = couponService.getCouponModel(couponNo);
+    	if(couponModel == null || couponModel.getCouponType() != 2) {
+    		throw new IllegalArgumentException("无效的券!");
+    	}
+    	List<CouponRelationItem> items = couponModel.getRelationItemList();
+    	Map<Integer, Integer> itemInfoMap = new HashMap<Integer, Integer>();
+    	List<Integer> itemIds = new ArrayList<Integer>();
+    	for(CouponRelationItem item: items) {
+    		itemInfoMap.put(item.getItemId(), item.getItemNumber().intValue());
+    		itemIds.add(item.getItemId());
+    	}
+    	List<ProductModel> productModels = productService.getProducts(itemIds);
+    	for(ProductModel productModel: productModels) {
+    		productModel.setItemNumber(itemInfoMap.get(productModel.getId()));
+    	}
+		return productModels;
+	}
 }
