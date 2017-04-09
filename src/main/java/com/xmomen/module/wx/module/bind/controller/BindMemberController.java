@@ -1,7 +1,7 @@
 package com.xmomen.module.wx.module.bind;
 
+import com.xmomen.module.base.entity.CdMember;
 import com.xmomen.module.base.service.MemberSercvice;
-import com.xmomen.module.member.service.MemberAddressService;
 import com.xmomen.module.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,12 +19,11 @@ public class BindMemberController {
     @Autowired
     OrderService orderService;
 
-    @RequestMapping(value = "/wx/bindMember", method = RequestMethod.GET)
+    @RequestMapping(value = "/wx/bindMember", method = RequestMethod.PUT)
     @ResponseBody
-    public Boolean myOrder(
+    public CdMember myOrder(
             @RequestParam(value = "mobile") String mobile,
             @RequestParam(value = "openId") String openId) {
-        memberSercvice.bindMember(mobile, openId);
-        return Boolean.TRUE;
+        return memberSercvice.bindMember(mobile, openId);
     }
 }

@@ -28,7 +28,7 @@ public class CartController {
 
 	@ResponseBody
 	@RequestMapping(value ="/cart", method = RequestMethod.GET)
-	public List<ProductModel> getCartProduct(@RequestParam(value = "userToken", required = true) String userOpenId) {
+	public List<ProductModel> getCartProduct(@RequestParam(value = "memberId", required = true) String userOpenId) {
 		ProductQuery productQuery = new ProductQuery();
 		productQuery.setMemberCode(userOpenId);
 		return cartService.getProductsInCart(productQuery);
@@ -37,7 +37,7 @@ public class CartController {
 	@ResponseBody
 	@RequestMapping(value ="/cart", method = RequestMethod.POST)
 	public Boolean updateCart(@RequestBody @Valid UpdateCartModel updateCartModel) {
-		cartService.change(updateCartModel.getUserToken(), updateCartModel.getItemId(), updateCartModel.getItemNumber());
+		cartService.change(updateCartModel.getMemberId(), updateCartModel.getItemId(), updateCartModel.getItemNumber());
 		return Boolean.TRUE;
 	}
 
