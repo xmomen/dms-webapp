@@ -49,6 +49,7 @@ import com.xmomen.module.plan.entity.TbTablePlan;
 import com.xmomen.module.product.model.ProductModel;
 import com.xmomen.module.product.service.ProductService;
 import com.xmomen.module.report.model.OrderReport;
+import com.xmomen.module.wx.module.cart.service.CartService;
 import com.xmomen.module.wx.module.order.model.MyOrderQuery;
 import com.xmomen.module.wx.module.order.model.OrderDetailModel;
 import com.xmomen.module.wx.module.order.model.OrderProductItem;
@@ -75,6 +76,9 @@ public class OrderService {
     
     @Autowired
     ProductService productService;
+    
+    @Autowired
+    CartService cartServcie;
 
     /**
      * 查询订单
@@ -725,8 +729,9 @@ public class OrderService {
         }
         createOrder.setOrderSource(1);
         List<Integer> itemIdList = new ArrayList<Integer>();
-        
+        boolean normalOrder = true;
         if(createOrder.getOrderType() == 2 && StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null) {
+        	normalOrder = false;
         	CouponModel couponModel = couponService.getCouponModel(createOrder.getPaymentRelationNo());
         	if(couponModel == null || couponModel.getCouponType() != 2) {
         		throw new IllegalArgumentException("无效的券!");
@@ -840,6 +845,11 @@ public class OrderService {
             payOrder.setOrderNo(tbOrder.getOrderNo());
             payOrder.setAmount(totalAmount);
             payOrder(payOrder);
+        }
+        // 非券类订单则要将对应的物品从购物车只移除
+        String userToken = String.valueOf(createOrder.getCreateUserId());
+        if(normalOrder) {
+        	cartServcie.removeItems(userToken, itemIdList);
         }
         return tbOrder;
     }

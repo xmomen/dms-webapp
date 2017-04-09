@@ -43,7 +43,7 @@ public class MyOrderController {
 
 	/**
 	 * 
-	 * @param memberCode
+	 * @param memberId
 	 * @param status 0-未支付 1 待收货
 	 * @param minCreateTime 昨日
 	 * @param maxCreateTime 今日
@@ -55,9 +55,7 @@ public class MyOrderController {
 			@RequestParam(value = "status", required = false) Integer status, 
 			@RequestParam(value = "minOrderTime", required = false) Date minCreateTime,
 			@RequestParam(value = "maxOrderTime", required = false) Date maxCreateTime) {
-		//Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("user_id");
 		MyOrderQuery myOrderQuery  = new MyOrderQuery();
-		//myOrderQuery.setMemberCode(memberCode);
 		myOrderQuery.setStatus(status);
 		myOrderQuery.setMinOrderTime(minCreateTime);
 		myOrderQuery.setMaxOrderTime(maxCreateTime);
@@ -84,7 +82,6 @@ public class MyOrderController {
 	@RequestMapping(value = "/confirm", method = RequestMethod.POST)
 	@ResponseBody
 	public Boolean confirmOrder(@RequestParam("id") Integer orderId, @RequestParam("memberId") Integer memberId) throws ArgumentValidException {
-        //Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("user_id");
         return myOrderService.confirmReceiveOrder(orderId, memberId);
 	}
 	

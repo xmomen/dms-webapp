@@ -64,6 +64,23 @@ public class CartService {
 		}
 		return products;
 	}
+	
+	public void removeItems(String userToken, List<Integer> itemIds) {
+		CartModel cartModel = cartCache.get(userToken);
+		if(CollectionUtils.isEmpty(itemIds)) return;
+		if(cartModel != null && !CollectionUtils.isEmpty(cartModel.getItems())) {
+			List<CartMetadata> cartItems = cartModel.getItems();
+			boolean changed = false;
+			for(CartMetadata item: cartItems) {
+				if(itemIds.contains(item.getItemId())) {
+					item.setItemNumber(0);
+					changed = true;
+				}
+			}
+			if(changed) cartModel.setStatus(Constant.DIRTY);
+			this.syncToDB(userToken);
+		}
+	}
 
 	public List<CartItemModel> getCartItems(String userToken, boolean alwaysSync) {
 		CartModel cartModel = cartCache.get(userToken);
