@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xmomen.module.member.mapper.MemberAddressMapperExt">
+<mapper namespace="com.xmomen.module.resource.mapper.ResourceMapperExt">
 
     <!--    查询消息    -->
-    <select id="getMemberAddressModel"
-            resultType="com.xmomen.module.member.model.MemberAddressModel"
-            parameterType="com.xmomen.module.member.model.MemberAddressQuery">
-        SELECT * FROM cd_member_address t
+    <select id="getResourceModel"
+            resultType="com.xmomen.module.resource.model.ResourceModel"
+            parameterType="com.xmomen.module.resource.model.ResourceQuery">
+        SELECT * FROM cd_resource t
         <where>
             <if test="id">
                 AND t.ID = #{id}
             </if>
-            <if test="cdMemberId">
-                AND t.cd_member_id = #{cdMemberId}
+            <if test="entityId">
+                AND t.ENTITY_ID = #{entityId}
+            </if>
+            <if test="entityType">
+                AND t.ENTITY_TYPE = #{entityType}
             </if>
             <if test="ids">
                 AND t.ID IN
@@ -30,12 +33,4 @@
         ORDER BY t.id
     </select>
 
-    <update id="updateAddressByMemberId" parameterType="java.lang.Integer">
-        update
-        cd_member_address
-        set
-        is_default = 0
-        where
-        cd_member_id=#{memberId}
-    </update>
 </mapper>

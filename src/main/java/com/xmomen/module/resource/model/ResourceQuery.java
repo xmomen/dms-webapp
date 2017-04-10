@@ -1,4 +1,4 @@
-package com.xmomen.module.member.model;
+package com.xmomen.module.resource.model;
 
 import lombok.Data;
 
@@ -7,11 +7,11 @@ import java.io.Serializable;
 /**
  * @author tanxinzheng
  * @version 1.0.0
- * @date 2017-3-29 0:27:52
+ * @date 2017-4-10 23:26:20
  */
 public
 @Data
-class MemberAddressQuery implements Serializable {
+class ResourceQuery implements Serializable {
     /**
      * 主键
      */
@@ -25,6 +25,8 @@ class MemberAddressQuery implements Serializable {
      */
     private String[] excludeIds;
 
-    private String cdMemberId;
+    private String entityType;
+
+    private String entityId;
 
 }

@@ -1,73 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:mvc="http://www.springframework.org/schema/mvc"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xmlns:context="http://www.springframework.org/schema/context"
-	   xmlns:aop="http://www.springframework.org/schema/aop"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context-4.0.xsd
 	http://www.springframework.org/schema/mvc
 	http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-	<context:annotation-config/>
-	
-	<!-- 扫描所有的controller 但是不扫描service-->
-	<context:component-scan base-package="com.xmomen">
-		<!--<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />-->
-		<!--<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />-->
-	</context:component-scan>
-	<context:component-scan base-package="org.jeecgframework.poi.excel.view"></context:component-scan>
+    <context:annotation-config/>
 
-	<aop:aspectj-autoproxy proxy-target-class="true"/>
+    <!-- 扫描所有的controller 但是不扫描service-->
+    <context:component-scan base-package="com.xmomen">
+        <!--<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />-->
+        <!--<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />-->
+    </context:component-scan>
+    <context:component-scan base-package="org.jeecgframework.poi.excel.view"></context:component-scan>
 
-	<!--	swagger config	-->
-	<!--<bean id="springSwaggerConfig" class="com.mangofactory.swagger.configuration.SpringSwaggerConfig" />-->
-	<!--<bean id="documentationConfig" class="com.xmomen.module.core.web.ApplicationSwaggerConfig" />-->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
 
-	<bean id="loggerAspect" class="com.xmomen.module.system.LoggerAspect"/>
+    <!--	swagger config	-->
+    <!--<bean id="springSwaggerConfig" class="com.mangofactory.swagger.configuration.SpringSwaggerConfig" />-->
+    <!--<bean id="documentationConfig" class="com.xmomen.module.core.web.ApplicationSwaggerConfig" />-->
 
-	<bean id="jacksonObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="targetObject" ref="jacksonObjectMapper" />
-		<property name="targetMethod" value="configure" />
-		<property name="arguments">
-			<list>
-				<value type="com.fasterxml.jackson.databind.DeserializationFeature">FAIL_ON_UNKNOWN_PROPERTIES</value>
-				<value>false</value>
-			</list>
-		</property>
-	</bean>
+    <bean id="loggerAspect" class="com.xmomen.module.system.LoggerAspect"/>
 
-	<mvc:resources mapping="/ueditor/jsp/upload/image/**" location="/ueditor/jsp/upload/image/"/>
-	<mvc:resources mapping="/**" location="/WEB-INF/views/src/"/>
+    <bean id="jacksonObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject" ref="jacksonObjectMapper"/>
+        <property name="targetMethod" value="configure"/>
+        <property name="arguments">
+            <list>
+                <value type="com.fasterxml.jackson.databind.DeserializationFeature">FAIL_ON_UNKNOWN_PROPERTIES</value>
+                <value>false</value>
+            </list>
+        </property>
+    </bean>
 
-	<!-- 以下 validator  ConversionService 在使用 mvc:annotation-driven 会 自动注册-->
-	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-		<property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
-	</bean>
+    <mvc:resources mapping="/itemPicture/**" location="/itemPicture/"/>
+    <mvc:resources mapping="/ueditor/jsp/upload/image/**" location="/ueditor/jsp/upload/image/"/>
+    <mvc:resources mapping="/**" location="/WEB-INF/views/src/"/>
 
-	<mvc:annotation-driven validator="validator">
-		<mvc:message-converters>
-			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-				 <property name="objectMapper" ref="jacksonObjectMapper"></property>
-			</bean>
-		</mvc:message-converters>
-	</mvc:annotation-driven>
+    <!-- 以下 validator  ConversionService 在使用 mvc:annotation-driven 会 自动注册-->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+    </bean>
 
-	<bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-		<property name="prefix" value="/WEB-INF/views/"/>
-		<property name="suffix" value=".jsp"/>
-	</bean>
+    <mvc:annotation-driven validator="validator">
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper" ref="jacksonObjectMapper"></property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
-	<bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
-		<property name="order" value="0" />
-	</bean>
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
 
-	<!-- Spring MVC 内容协商配置 -->
-	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+    <bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+        <property name="order" value="0"/>
+    </bean>
+
+    <!-- Spring MVC 内容协商配置 -->
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
         <property name="contentNegotiationManager">
             <bean class="org.springframework.web.accept.ContentNegotiationManager">
                 <constructor-arg>
@@ -81,48 +82,48 @@
                 </constructor-arg>
             </bean>
         </property>
-		<property name="defaultViews">
-			<list>
-				<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
-			</list>
-		</property>
+        <property name="defaultViews">
+            <list>
+                <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
+            </list>
+        </property>
     </bean>
 
-	<bean id="jeecgTemplateExcelView" class="org.jeecgframework.poi.excel.view.JeecgTemplateExcelView" />
-	<bean id="jeecgSingleExcelView" class="org.jeecgframework.poi.excel.view.JeecgSingleExcelView" />
-	<bean id="jeecgMapExcelView" class="org.jeecgframework.poi.excel.view.JeecgMapExcelView" />
+    <bean id="jeecgTemplateExcelView" class="org.jeecgframework.poi.excel.view.JeecgTemplateExcelView"/>
+    <bean id="jeecgSingleExcelView" class="org.jeecgframework.poi.excel.view.JeecgSingleExcelView"/>
+    <bean id="jeecgMapExcelView" class="org.jeecgframework.poi.excel.view.JeecgMapExcelView"/>
 
-	<!-- 异常统一处理 -->
-	<bean id="exceptionHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver"/>
-	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="defaultEncoding">
-			<value>UTF-8</value>
-		</property>
-		<property name="maxUploadSize">
-			<value>32505856</value><!-- 上传文件大小限制为31M，31*1024*1024 -->
-		</property>
-		<property name="maxInMemorySize">
-			<value>1638400</value>
-		</property>
-	</bean>
-	<bean id="handlerExceptionResolver" class="com.xmomen.module.core.web.exception.GlobalMappingExceptionResolver">
-		<property name="exceptionMappings">
-			<props>
-				<prop key="java.lang.Exception">errors/error</prop>
-				<prop key="java.lang.Throwable">errors/err</prop>
-			</props>
-		</property>
-		<property name="statusCodes">
-			<props>
-				<prop key="errors/error">500</prop>
-				<prop key="errors/404">404</prop>
-			</props>
-		</property>
-		<!-- 默认错误页面，当找不到上面mappings中指定的异常对应视图时，使用本默认配置 -->
-		<property name="defaultErrorView" value="errors/error"></property>
-		<!-- 默认HTTP状态码 -->
-		<property name="defaultStatusCode" value="500"></property>
-	</bean>
-	<!-- 全局异常配置 end -->
+    <!-- 异常统一处理 -->
+    <bean id="exceptionHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver"/>
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding">
+            <value>UTF-8</value>
+        </property>
+        <property name="maxUploadSize">
+            <value>32505856</value><!-- 上传文件大小限制为31M，31*1024*1024 -->
+        </property>
+        <property name="maxInMemorySize">
+            <value>1638400</value>
+        </property>
+    </bean>
+    <bean id="handlerExceptionResolver" class="com.xmomen.module.core.web.exception.GlobalMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="java.lang.Exception">errors/error</prop>
+                <prop key="java.lang.Throwable">errors/err</prop>
+            </props>
+        </property>
+        <property name="statusCodes">
+            <props>
+                <prop key="errors/error">500</prop>
+                <prop key="errors/404">404</prop>
+            </props>
+        </property>
+        <!-- 默认错误页面，当找不到上面mappings中指定的异常对应视图时，使用本默认配置 -->
+        <property name="defaultErrorView" value="errors/error"></property>
+        <!-- 默认HTTP状态码 -->
+        <property name="defaultStatusCode" value="500"></property>
+    </bean>
+    <!-- 全局异常配置 end -->
 
 </beans>

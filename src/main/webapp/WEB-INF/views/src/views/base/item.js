@@ -244,7 +244,33 @@ define(function () {
             var modalInstance = $modal.open({
                 //templateUrl: 'views/base/item.detail.html',
                 templateUrl: 'itemDetail.html',
-                controller: ["$scope", "ItemDetailAPI", "$modalInstance", "currentItem", function ($scope, ItemDetailAPI, $modalInstance, currentItem) {
+                controller: ["$scope", "ItemDetailAPI", "$modalInstance", "currentItem", "ResourceAPI", function ($scope, ItemDetailAPI, $modalInstance, currentItem, ResourceAPI) {
+                    $scope.imageList = [];
+                    //查询图片
+                    ResourceAPI.query({
+                        entityId: currentItem.id,
+                        entityType: "cd_item",
+                        limit: 50,
+                        offset: 1,
+                    }, function (result) {
+                        $scope.imageList = result.data;
+                    });
+                    //上传图片
+                    $scope.fileUploadConfig = {
+                        'buttonText': '上传图片',
+                        'uploader': '/item/picture?itemId=' + currentItem.id,
+                        'fileTypeExts': "*.png;*.jpeg;*.jpg",
+                        onUploadStart: function (file) {
+
+                        },
+                        'onUploadSuccess': function (file, data, response) {
+                            debugger;
+                            // var data = data.parseJSON();
+                            $scope.imageList.push(JSON.parse(data));
+                            $ugDialog.alert("上传成功")
+                        }
+                    };
+
                     $scope.currentItem = angular.copy(currentItem);
                     $scope.queryParam = {};
                     $scope.cancel = function () {
