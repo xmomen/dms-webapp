@@ -149,10 +149,29 @@ public class MemberSercviceImpl implements MemberSercvice {
      * @param openId
      */
     public CdMember bindMember(String mobile, String openId) {
+        //
         CdBind bind = new CdBind();
         bind.setPhone(mobile);
         bind.setOpenId(openId);
-        this.mybatisDao.save(bind);
+        List<CdBind> cdBinds = mybatisDao.selectByModel(bind);
+        //绑定关系存在场合
+        if (cdBinds.size() > 0) {
+            //手机号是否在member表存在 不存在则新增
+            CdMember member = new CdMember();
+            member.setPhoneNumber(mobile);
+            List<CdMember> members = mybatisDao.selectByModel(member);
+            if (members.size() == 0) {
+                member = new CdMember();
+                member.setPhoneNumber(mobile);
+                return mybatisDao.insertByModel(member);
+            }
+            else {
+                return members.get(0);
+            }
+        }
+        else {
+            this.mybatisDao.save(bind);
+        }
         //手机号是否在member表存在 不存在则新增
         CdMember member = new CdMember();
         member.setPhoneNumber(mobile);
@@ -161,7 +180,8 @@ public class MemberSercviceImpl implements MemberSercvice {
             member = new CdMember();
             member.setPhoneNumber(mobile);
             return mybatisDao.insertByModel(member);
-        }else{
+        }
+        else {
             return members.get(0);
         }
     }
