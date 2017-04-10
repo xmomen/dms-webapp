@@ -12,6 +12,7 @@ import com.xmomen.module.product.model.CategoryModel;
 import com.xmomen.module.product.service.CategoryService;
 
 @Controller
+@RequestMapping(value = "/wx")
 public class CategoryController {
 
 	@Autowired

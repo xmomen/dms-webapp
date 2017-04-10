@@ -20,6 +20,7 @@ import com.xmomen.module.wx.module.cart.model.UpdateCartModel;
 import com.xmomen.module.wx.module.cart.service.CartService;
 
 @Controller
+@RequestMapping(value = "/wx")
 public class CartController {
 
 	@Autowired
@@ -27,26 +28,23 @@ public class CartController {
 
 	@ResponseBody
 	@RequestMapping(value ="/cart", method = RequestMethod.GET)
-	public List<ProductModel> getCartProduct(@RequestParam(value = "userToken", required = true) String userOpenId) {
+	public List<ProductModel> getCartProduct(@RequestParam(value = "memberId", required = true) Integer memberId) {
 		ProductQuery productQuery = new ProductQuery();
-		productQuery.setMemberCode(userOpenId);
+		productQuery.setMemberCode(String.valueOf(memberId));
 		return cartService.getProductsInCart(productQuery);
 	}
 	
 	@ResponseBody
 	@RequestMapping(value ="/cart", method = RequestMethod.POST)
-	public Boolean updateCart(@RequestBody @Valid UpdateCartModel updateCartModel, BindingResult bindingResult) throws ArgumentValidException {
-        if(bindingResult != null && bindingResult.hasErrors()){
-            throw new ArgumentValidException(bindingResult);
-        }
-		cartService.change(updateCartModel.getUserToken(), updateCartModel.getItemId(), updateCartModel.getItemNumber());
+	public Boolean updateCart(@RequestBody @Valid UpdateCartModel updateCartModel){
+		cartService.change(String.valueOf(updateCartModel.getMemberId()), updateCartModel.getItemId(), updateCartModel.getItemQty());
 		return Boolean.TRUE;
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "/cart/sync", method = RequestMethod.GET)
-	public Boolean syncCart(@RequestParam(value = "userToken", required = true) String userToken) {
-		cartService.syncToDB(userToken);
+	public Boolean syncCart(@RequestParam(value = "memberId", required = true) Integer memberId) {
+		cartService.syncToDB(String.valueOf(memberId));
 		return Boolean.TRUE;
 	}
 }

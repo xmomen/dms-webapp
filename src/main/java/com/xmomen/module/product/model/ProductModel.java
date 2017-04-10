@@ -33,5 +33,5 @@ public @Data class ProductModel {
 	private List<String> picUrls;
 	private String detailContent;
 	
-	private Integer itemNumber;
+	private Integer itemQty;
 }

@@ -223,4 +223,9 @@ public class MemberAddressServiceImpl implements MemberAddressService {
         memberAddress.setIsDefault(true);
         this.mybatisDao.updateByModel(memberAddress);
     }
+
+	@Override
+	public List<MemberAddressModel> getMemberAddressModels(MemberAddressQuery memberAddressQuery) {
+		return mybatisDao.getSqlSessionTemplate().selectList(MemberAddressMapperExt.MemberAddressMapperNameSpace + "getMemberAddressModel", memberAddressQuery);
+	}
 }

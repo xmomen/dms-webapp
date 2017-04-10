@@ -1,4 +1,4 @@
-package com.xmomen.module.member.controller;
+package com.xmomen.module.wx.controller;
 
 import com.xmomen.framework.exception.BusinessException;
 import com.xmomen.framework.mybatis.page.Page;
@@ -35,8 +35,8 @@ import java.util.List;
  * @date 2017-3-29 0:27:52
  */
 @RestController
-@RequestMapping(value = "/memberAddress")
-public class MemberAddressController {
+@RequestMapping(value = "/wx/memberAddress")
+public class WxMemberAddressController {
 
     @Autowired
     MemberAddressService memberAddressService;
@@ -52,19 +52,16 @@ public class MemberAddressController {
      * @return Page<MemberAddressModel> 客户地址领域分页对象
      */
     @RequestMapping(method = RequestMethod.GET)
-    @Log(actionName = "查询客户地址列表")
-    public Page<MemberAddressModel> getMemberAddressList(@RequestParam(value = "limit") Integer limit,
-                                                         @RequestParam(value = "offset") Integer offset,
-                                                         @RequestParam(value = "id", required = false) String id,
+    public List<MemberAddressModel> getMemberAddressList(@RequestParam(value = "id", required = false) String id,
                                                          @RequestParam(value = "ids", required = false) String[] ids,
-                                                         @RequestParam(value = "cdMemberId", required = false) String cdMemberId,
+                                                         @RequestParam(value = "memberId", required = true) String memberId,
                                                          @RequestParam(value = "excludeIds", required = false) String[] excludeIds) {
         MemberAddressQuery memberAddressQuery = new MemberAddressQuery();
         memberAddressQuery.setId(id);
         memberAddressQuery.setExcludeIds(excludeIds);
         memberAddressQuery.setIds(ids);
-        memberAddressQuery.setCdMemberId(cdMemberId);
-        return memberAddressService.getMemberAddressModelPage(limit, offset, memberAddressQuery);
+        memberAddressQuery.setCdMemberId(memberId);
+        return memberAddressService.getMemberAddressModels(memberAddressQuery);
     }
 
     /**
@@ -74,7 +71,6 @@ public class MemberAddressController {
      * @return MemberAddressModel   客户地址领域对象
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    @Log(actionName = "查询客户地址")
     public MemberAddressModel getMemberAddressById(@PathVariable(value = "id") String id) {
         return memberAddressService.getOneMemberAddressModel(id);
     }
@@ -86,10 +82,7 @@ public class MemberAddressController {
      * @return MemberAddressModel   客户地址领域对象
      */
     @RequestMapping(method = RequestMethod.POST)
-    @Log(actionName = "新增客户地址")
     public MemberAddressModel createMemberAddress(@RequestBody @Valid MemberAddressModel memberAddressModel) {
-        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
-        memberAddressModel.setCdMemberId(userId);
         return memberAddressService.createMemberAddress(memberAddressModel);
     }
 
@@ -100,7 +93,6 @@ public class MemberAddressController {
      * @param memberAddressModel 更新对象参数
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    @Log(actionName = "更新客户地址")
     public void updateMemberAddress(@PathVariable(value = "id") String id,
                                     @RequestBody @Valid MemberAddressModel memberAddressModel) {
         memberAddressService.updateMemberAddress(memberAddressModel);
@@ -112,7 +104,6 @@ public class MemberAddressController {
      * @param id 主键
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    @Log(actionName = "删除单个客户地址")
     public void deleteMemberAddress(@PathVariable(value = "id") String id) {
         memberAddressService.deleteMemberAddress(id);
     }
@@ -123,7 +114,6 @@ public class MemberAddressController {
      * @param ids 主键
      */
     @RequestMapping(method = RequestMethod.DELETE)
-    @Log(actionName = "批量删除客户地址")
     public void deleteMemberAddresss(@RequestParam(value = "ids") String[] ids) {
         memberAddressService.deleteMemberAddress(ids);
     }

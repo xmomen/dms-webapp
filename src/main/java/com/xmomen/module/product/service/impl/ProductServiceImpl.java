@@ -51,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
 			picUrls.add("http://www.cqsxsp.com/images/201410/goods_img/68_P_1413356080309.jpg");
 			picUrls.add("http://pic.58pic.com/58pic/15/38/18/52e58PICDE4_1024.jpg");
 			detail.setPicUrls(picUrls);
-			detail.setPicUrl(null);
+			detail.setPicUrl("http://pic.58pic.com/58pic/15/35/55/12p58PICZv8_1024.jpg");
 			return detail;
 		}
 		return null;

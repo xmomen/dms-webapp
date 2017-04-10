@@ -26,6 +26,9 @@ import com.xmomen.module.base.model.ItemModel;
 import com.xmomen.module.base.model.ItemQuery;
 import com.xmomen.module.base.service.CouponService;
 import com.xmomen.module.base.service.ItemService;
+import com.xmomen.module.member.model.MemberAddressModel;
+import com.xmomen.module.member.model.MemberAddressQuery;
+import com.xmomen.module.member.service.MemberAddressService;
 import com.xmomen.module.order.entity.TbOrder;
 import com.xmomen.module.order.entity.TbOrderExample;
 import com.xmomen.module.order.entity.TbOrderItem;
@@ -49,6 +52,7 @@ import com.xmomen.module.plan.entity.TbTablePlan;
 import com.xmomen.module.product.model.ProductModel;
 import com.xmomen.module.product.service.ProductService;
 import com.xmomen.module.report.model.OrderReport;
+import com.xmomen.module.wx.module.cart.service.CartService;
 import com.xmomen.module.wx.module.order.model.MyOrderQuery;
 import com.xmomen.module.wx.module.order.model.OrderDetailModel;
 import com.xmomen.module.wx.module.order.model.OrderProductItem;
@@ -75,6 +79,12 @@ public class OrderService {
     
     @Autowired
     ProductService productService;
+    
+    @Autowired
+    CartService cartServcie;
+    
+    @Autowired
+    MemberAddressService memberAddressService;
 
     /**
      * 查询订单
@@ -725,8 +735,9 @@ public class OrderService {
         }
         createOrder.setOrderSource(1);
         List<Integer> itemIdList = new ArrayList<Integer>();
-        
+        boolean normalOrder = true;
         if(createOrder.getOrderType() == 2 && StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null) {
+        	normalOrder = false;
         	CouponModel couponModel = couponService.getCouponModel(createOrder.getPaymentRelationNo());
         	if(couponModel == null || couponModel.getCouponType() != 2) {
         		throw new IllegalArgumentException("无效的券!");
@@ -786,8 +797,27 @@ public class OrderService {
         tbOrder.setPayStatus(0);//待支付
         tbOrder.setTransportMode(1);// 默认快递
         tbOrder.setConsigneeName(createOrder.getConsigneeName());
+        
+        MemberAddressQuery memberAddressQuery = new MemberAddressQuery();
+        memberAddressQuery.setCdMemberId(String.valueOf(tbOrder.getCreateUserId()));
         tbOrder.setConsigneeAddress(createOrder.getConsigneeAddress());
         tbOrder.setConsigneePhone(createOrder.getConsigneePhone());
+        List<MemberAddressModel> addresses  = memberAddressService.getMemberAddressModels(memberAddressQuery);
+        if(addresses != null) {
+        	int size = addresses.size();
+            for(int i = 0; i < size; i++) {
+            	MemberAddressModel address = addresses.get(i);
+            	if(i == 0) {
+            		tbOrder.setConsigneeAddress(address.getFullAddress());
+                    tbOrder.setConsigneePhone(address.getMobile());
+            	}
+            	if(address.getIsDefault()) {
+            		tbOrder.setConsigneeAddress(address.getFullAddress());
+                    tbOrder.setConsigneePhone(address.getMobile());
+            		break;
+            	}
+            }
+        }
         tbOrder.setCreateTime(mybatisDao.getSysdate());
         if(createOrder.getPaymentMode() == null) {
         	tbOrder.setPaymentMode(0);//设置非空值
@@ -841,6 +871,11 @@ public class OrderService {
             payOrder.setAmount(totalAmount);
             payOrder(payOrder);
         }
+        // 非券类订单则要将对应的物品从购物车只移除
+        String userToken = String.valueOf(createOrder.getCreateUserId());
+        if(normalOrder) {
+        	cartServcie.removeItems(userToken, itemIdList);
+        }
         return tbOrder;
     }
     
@@ -883,7 +918,7 @@ public class OrderService {
     	}
     	List<ProductModel> productModels = productService.getProducts(itemIds);
     	for(ProductModel productModel: productModels) {
-    		productModel.setItemNumber(itemInfoMap.get(productModel.getId()));
+    		productModel.setItemQty(itemInfoMap.get(productModel.getId()));
     	}
 		return productModels;
 	}

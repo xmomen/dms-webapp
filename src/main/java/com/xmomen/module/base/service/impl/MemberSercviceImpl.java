@@ -148,7 +148,7 @@ public class MemberSercviceImpl implements MemberSercvice {
      * @param mobile
      * @param openId
      */
-    public void bindMember(String mobile, String openId) {
+    public CdMember bindMember(String mobile, String openId) {
         CdBind bind = new CdBind();
         bind.setPhone(mobile);
         bind.setOpenId(openId);
@@ -160,7 +160,9 @@ public class MemberSercviceImpl implements MemberSercvice {
         if (members.size() == 0) {
             member = new CdMember();
             member.setPhoneNumber(mobile);
-            member = mybatisDao.insertByModel(member);
+            return mybatisDao.insertByModel(member);
+        }else{
+            return members.get(0);
         }
     }
 }

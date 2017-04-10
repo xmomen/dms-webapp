@@ -49,7 +49,7 @@ public class CartService {
 		List<CartItemModel> items = this.getCartItems(productQuery.getMemberCode());
 		Map<String, Integer> itemNumberMap = new HashMap<String, Integer>();
 		for(CartItemModel cartItem: items) {
-			itemNumberMap.put(String.valueOf(cartItem.getItemId()), cartItem.getItemNumber());
+			itemNumberMap.put(String.valueOf(cartItem.getItemId()), cartItem.getItemQty());
 		}
 		ArrayList<Integer> productIds = new ArrayList<Integer>();
 		for(CartItemModel item: items) {
@@ -60,9 +60,26 @@ public class CartService {
 		
 		for(ProductModel product: products) {
 			String itemId = String.valueOf(product.getId());
-			product.setItemNumber(itemNumberMap.get(itemId));
+			product.setItemQty(itemNumberMap.get(itemId));
 		}
 		return products;
+	}
+	
+	public void removeItems(String userToken, List<Integer> itemIds) {
+		CartModel cartModel = cartCache.get(userToken);
+		if(CollectionUtils.isEmpty(itemIds)) return;
+		if(cartModel != null && !CollectionUtils.isEmpty(cartModel.getItems())) {
+			List<CartMetadata> cartItems = cartModel.getItems();
+			boolean changed = false;
+			for(CartMetadata item: cartItems) {
+				if(itemIds.contains(item.getItemId())) {
+					item.setItemQty(0);
+					changed = true;
+				}
+			}
+			if(changed) cartModel.setStatus(Constant.DIRTY);
+			this.syncToDB(userToken);
+		}
 	}
 
 	public List<CartItemModel> getCartItems(String userToken, boolean alwaysSync) {
@@ -95,7 +112,7 @@ public class CartService {
 			for(CartItemModel cartItem: persistentCartItems) {
 				String itemId = String.valueOf(cartItem.getItemId());
 				if(!memoryCartMap.containsKey(itemId)) {
-					CartMetadata pCartItem = this.newCartMetadata(userToken, cartItem.getItemId(), cartItem.getItemNumber());
+					CartMetadata pCartItem = this.newCartMetadata(userToken, cartItem.getItemId(), cartItem.getItemQty());
 					if(cartItemMetas == null) {
 						cartItemMetas = new CopyOnWriteArrayList<CartMetadata>();
 						if(cartModel == null) {
@@ -121,7 +138,7 @@ public class CartService {
 				if(!Constant.DELETE.equalsIgnoreCase(metaData.getStatus())) {
 					CartItemModel cartItem = new CartItemModel();
 					cartItem.setItemId(metaData.getItemId());
-					cartItem.setItemNumber(metaData.getItemNumber());
+					cartItem.setItemQty(metaData.getItemQty());
 					cartItems.add(cartItem);
 				}
 			}
@@ -164,7 +181,7 @@ public class CartService {
 				List<CartMetadata> cartItems = sourceCart.getItems();
 				for(CartMetadata cartItem: cartItems) {
 					if(cartItem.getItemId().equals(itemId)) {
-						newNumber += cartItem.getItemNumber();
+						newNumber += cartItem.getItemQty();
 						break;
 					}
 				}
@@ -192,7 +209,7 @@ public class CartService {
 					if(item.getItemId().equals(itemId)) {
 						newAdd = false;
 						if(number >= 0) {
-							updated = item.setItemNumber(number);
+							updated = item.setItemQty(number);
 						}
 					}
 				}
@@ -226,7 +243,7 @@ public class CartService {
 		Boolean updated = Boolean.FALSE;
 		for(CartMetadata item: sourceItems) {
 			String itemId = String.valueOf(item.getItemId());
-			sourceItemMap.put(itemId, item.getItemNumber());
+			sourceItemMap.put(itemId, item.getItemQty());
 			sourceItemModelMap.put(itemId, item);
 		}
 		Set<String> itemIds = new HashSet<String>();
@@ -235,29 +252,29 @@ public class CartService {
 			String itemId = String.valueOf(item.getItemId());
 			CartMetadata sourceItem = sourceItemModelMap.get(itemId);
 			if(sourceItem == null) {
-				sourceItem = this.newCartMetadata(newCartModel.getUserToken(), item.getItemId(), item.getItemNumber());
+				sourceItem = this.newCartMetadata(newCartModel.getUserToken(), item.getItemId(), item.getItemQty());
 				if(sourceItem != null) {
 					updated = sourceItems.add(sourceItem);
 				}
 			} else {
-				updated = sourceItem.setItemNumber(item.getItemNumber());
+				updated = sourceItem.setItemQty(item.getItemQty());
 			}
 		}
 		// 再检查哪些物品被删除了
 		for(CartMetadata sourceItem : sourceItems) {
 			if(!itemIds.contains(String.valueOf(sourceItem.getItemId()))) {
-				updated = sourceItem.setItemNumber(0);
+				updated = sourceItem.setItemQty(0);
 			}
 		}
 		return updated;
 	}
 	
 	public CartMetadata newCartMetadata(String userToken, Integer itemId, Integer number) {
-		if(number <= 0) return null;
+		if(number == null || number <= 0) return null;
 		CartMetadata metadata = new CartMetadata();
 		metadata.setUserToken(userToken);
 		metadata.setItemId(itemId);
-		metadata.setItemNumber(number);
+		metadata.setItemQty(number);
 		return metadata;
 	}
 
@@ -303,7 +320,7 @@ public class CartService {
 				TbCartItem tbCartItem = new TbCartItem();
 				tbCartItem.setItemId(updatedCartItem.getItemId());
 				tbCartItem.setUserToken(updatedCartItem.getUserToken());
-				tbCartItem.setItemNumber(updatedCartItem.getItemNumber());
+				tbCartItem.setItemNumber(updatedCartItem.getItemQty());
 				if(!CollectionUtils.isEmpty(persistentCartItems)) {
 					tbCartItem.setId(persistentCartItems.get(0).getId());
 				}
