@@ -54,7 +54,7 @@ public class WxMemberAddressController {
     @RequestMapping(method = RequestMethod.GET)
     public List<MemberAddressModel> getMemberAddressList(@RequestParam(value = "id", required = false) String id,
                                                          @RequestParam(value = "ids", required = false) String[] ids,
-                                                         @RequestParam(value = "memberId", required = false) String memberId,
+                                                         @RequestParam(value = "memberId", required = true) String memberId,
                                                          @RequestParam(value = "excludeIds", required = false) String[] excludeIds) {
         MemberAddressQuery memberAddressQuery = new MemberAddressQuery();
         memberAddressQuery.setId(id);

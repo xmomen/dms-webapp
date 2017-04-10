@@ -85,7 +85,7 @@ public class MyOrderController {
 	
 	@RequestMapping(value = "/pay", method = RequestMethod.POST)
 	@ResponseBody
-	public Boolean payOrder(@RequestBody @Valid PayOrderModel payOrderModel, BindingResult bindingResult){
+	public Boolean payOrder(@RequestBody @Valid PayOrderModel payOrderModel){
 		return orderService.payWxOrder(payOrderModel);
 	}
 	
