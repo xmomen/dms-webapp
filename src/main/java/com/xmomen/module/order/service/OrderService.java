@@ -881,7 +881,22 @@ public class OrderService {
     
     @Transactional
     public Boolean payWxOrder(PayOrderModel payOrderModel) {
+    	
     	Integer orderId = payOrderModel.getOrderId();
+    	
+    	TbOrder tbOrder = mybatisDao.selectByPrimaryKey(TbOrder.class, orderId);
+        //设置为卡支付订单
+        tbOrder.setPaymentMode(5);
+        tbOrder.setOrderType(1);
+        mybatisDao.update(tbOrder);
+        
+        TbOrderRelation tbOrderRelation = new TbOrderRelation();
+        tbOrderRelation.setOrderNo(tbOrder.getOrderNo());
+        tbOrderRelation.setRefType(OrderMapper.ORDER_PAY_RELATION_CODE);// 订单支付关系
+        tbOrderRelation.setRefValue(payOrderModel.getPaymentNo());
+        mybatisDao.insert(tbOrderRelation);
+    	
+    	
     	MyOrderQuery myOrderQuery = new MyOrderQuery();
     	myOrderQuery.setOrderId(orderId);
     	OrderDetailModel orderDetailModel = myOrderService.getOrderDetail(myOrderQuery);
@@ -897,10 +912,7 @@ public class OrderService {
         payOrder.setAmount(totalAmount);
         payOrder(payOrder);
         
-        TbOrder tbOrder = mybatisDao.selectByPrimaryKey(TbOrder.class, orderId);
-        //设置为卡支付订单
-        tbOrder.setPaymentMode(1);
-        mybatisDao.update(tbOrder);
+        
         return true;
     }
     
