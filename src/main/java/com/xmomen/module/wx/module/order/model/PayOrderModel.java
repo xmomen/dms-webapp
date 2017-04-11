@@ -9,7 +9,6 @@ import lombok.Data;
 public @Data class PayOrderModel {
 
 	@NotNull
-    @NotBlank
 	private Integer orderId;
 	
 	@NotNull
