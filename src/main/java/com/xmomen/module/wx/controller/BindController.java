@@ -18,6 +18,7 @@ import com.xmomen.module.wx.model.AjaxResult;
 import com.xmomen.module.wx.service.BindService;
 import com.xmomen.module.wx.util.Auth2Handler;
 import com.xmomen.module.wx.util.PropertiesUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +67,7 @@ public class BindController {
             try {
                 String reqServer = PropertiesUtils
                         .findPropertiesKey("wx.domain");
-                callbackUrl = "http://www.j9soft.com/bind/auth2Url?url="
+                callbackUrl = reqServer + "/bind/auth2Url?url="
                         + URLEncoder.encode(url, "UTF-8") + "&param=" + param;
                 logger.info("oauth callbackurl <--->" + callbackUrl);
                 redirectUrl = Auth2Handler.getOauthUrl(callbackUrl);
@@ -191,7 +192,11 @@ public class BindController {
 //            request.setAttribute("message", "请先绑定手机号，再进行操作!");
 //            return "wx/bind";
 //        }
-        return "redirect:" + url + "?openId=" + openId + "&memberId=" + memberId;
+        String redirectUrl = "redirect:" + url + "?openId=" + openId;
+        if (memberId != null) {
+            redirectUrl = redirectUrl + "&memberId=" + memberId;
+        }
+        return redirectUrl;
     }
 
     /**
