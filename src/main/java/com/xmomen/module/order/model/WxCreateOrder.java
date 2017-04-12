@@ -49,8 +49,7 @@ public @Data class WxCreateOrder implements Serializable {
     /**
      * 付款方式
      */
-    @NotNull
-    private Integer paymentMode = 0;
+    private Integer paymentMode;
 
     /**
      * 附加付款方式

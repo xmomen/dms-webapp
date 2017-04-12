@@ -95,7 +95,8 @@ public class CouponService {
         return mybatisDao.selectPageByExample(cdCouponExample, limit, offset);
     }
 
-    public Boolean bindMember(String couponNumber, Integer memberId) {
+    @Transactional
+    public Boolean bindMember(String couponNumber, Integer memberId, String password) {
     	CouponQuery couponQuery = new CouponQuery();
     	couponQuery.setCouponNumber(couponNumber);
     	List<ReadCardVo> existingBindCards = mybatisDao.getSqlSessionTemplate().selectList(CouponMapper.CouponMapperNameSpace + "getCouponByCouponNo", couponQuery);
@@ -107,6 +108,15 @@ public class CouponService {
     		break;
     	}
     	if(alreadyBind) return false;
+    	
+    	if(!StringUtils.isEmpty(password)) {
+    		CdCoupon query = new CdCoupon();
+        	query.setCouponNumber(couponNumber);
+        	CdCoupon coupon = mybatisDao.selectOneByModel(query);
+        	coupon.setCouponPassword(password);
+        	mybatisDao.update(coupon);
+    	}
+    	
     	CdMemberCouponRelation relation = new CdMemberCouponRelation();
     	relation.setCdMemberId(memberId);
     	relation.setCouponNumber(couponNumber);
@@ -322,5 +332,20 @@ public class CouponService {
     
     public List<WxCouponModel> getMyCouponList(CouponQueryModel queryModel) {
     	return mybatisDao.getSqlSessionTemplate().selectList(CouponMapper.CouponMapperNameSpace + "getMyCouponList", queryModel);
+    }
+    
+    public Boolean validate(String couponNo, String password) {
+    	CdCoupon couponQuery = new CdCoupon();
+    	couponQuery.setCouponNumber(couponNo);
+    	CdCoupon coupon = mybatisDao.selectOneByModel(couponQuery);
+    	if(coupon == null) return false;
+    	String prePassword = coupon.getCouponPassword();
+    	if(StringUtils.isEmpty(prePassword) && StringUtils.isEmpty(password)) {
+    		return true;
+    	} else {
+    		if(password == null) password = "";
+    		if(password.equals(prePassword)) return true;
+    		return false;
+    	}
     }
 }
