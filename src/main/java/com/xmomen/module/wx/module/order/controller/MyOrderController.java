@@ -79,9 +79,15 @@ public class MyOrderController {
         return myOrderService.confirmReceiveOrder(orderId, memberId);
 	}
 	
+	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
+	@ResponseBody
+	public Boolean cancelOrder(@RequestParam("id") Integer orderId, @RequestParam("memberId") Integer memberId) {
+        return myOrderService.cancelOrder(orderId, memberId);
+	}
+	
 	@RequestMapping(value = "/pay", method = RequestMethod.POST)
 	@ResponseBody
-	public Boolean payOrder(@RequestBody @Valid PayOrderModel payOrderModel){
+	public Boolean payOrder(@RequestBody PayOrderModel payOrderModel) throws Exception {
 		return orderService.payWxOrder(payOrderModel);
 	}
 	

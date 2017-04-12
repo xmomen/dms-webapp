@@ -893,11 +893,45 @@ public class OrderService {
     }
     
     @Transactional
-    public Boolean payWxOrder(PayOrderModel payOrderModel) {
+    public Boolean payWxOrder(PayOrderModel payOrderModel) throws Exception {
     	
     	Integer orderId = payOrderModel.getOrderId();
     	
     	TbOrder tbOrder = mybatisDao.selectByPrimaryKey(TbOrder.class, orderId);
+    	Integer orderType = payOrderModel.getOrderType();
+    	if(orderType == null || (orderType != 1)) {
+    		//货到付款订单
+    		tbOrder.setOrderStatus("1");
+    		tbOrder.setPayStatus(1);
+    		tbOrder.setOrderType(3);//常规订单,货到付款类型
+    		tbOrder.setPaymentMode(4);
+    		mybatisDao.update(tbOrder);
+    		return Boolean.TRUE;
+    	}
+    	String paymentNo = payOrderModel.getPaymentNo();
+    	if(StringUtils.isEmpty(paymentNo)) {
+    		throw new Exception("卡号不能为空!");
+    	}
+    	CdCoupon cdCouponQuery = new CdCoupon();
+    	cdCouponQuery.setCouponNumber(paymentNo);
+    	CdCoupon cdCoupon = mybatisDao.selectOneByModel(cdCouponQuery);
+    	if(cdCoupon == null || cdCoupon.getCouponType() != 1) {
+    		throw new Exception("该卡不存在!");
+    	}
+    	
+    	MyOrderQuery myOrderQuery = new MyOrderQuery();
+    	myOrderQuery.setOrderId(orderId);
+    	OrderDetailModel orderDetailModel = myOrderService.getOrderDetail(myOrderQuery);
+    	List<OrderProductItem> itemList = orderDetailModel.getProducts();
+    	BigDecimal totalAmount = BigDecimal.ZERO;
+    	for (OrderProductItem cdItem : itemList) {
+    		BigDecimal price = cdItem.getItemPrice();
+    		totalAmount = totalAmount.add(price.multiply(cdItem.getItemQty()));
+            
+        }
+    	if(cdCoupon.getUserPrice().compareTo(totalAmount) < 0) {
+    		throw new IllegalArgumentException("卡内余额不足，请充值或选用其他付款方式!");
+    	}
         //设置为卡支付订单
         tbOrder.setPaymentMode(5);
         tbOrder.setOrderType(1);
@@ -910,17 +944,6 @@ public class OrderService {
         tbOrderRelation.setRefValue(payOrderModel.getPaymentNo());
         mybatisDao.insert(tbOrderRelation);
     	
-    	
-    	MyOrderQuery myOrderQuery = new MyOrderQuery();
-    	myOrderQuery.setOrderId(orderId);
-    	OrderDetailModel orderDetailModel = myOrderService.getOrderDetail(myOrderQuery);
-    	List<OrderProductItem> itemList = orderDetailModel.getProducts();
-    	BigDecimal totalAmount = BigDecimal.ZERO;
-    	for (OrderProductItem cdItem : itemList) {
-    		BigDecimal price = cdItem.getItemPrice();
-    		totalAmount = totalAmount.add(price.multiply(cdItem.getItemQty()));
-            
-        }
     	PayOrder payOrder = new PayOrder();
         payOrder.setOrderNo(orderDetailModel.getOrderNo());
         payOrder.setAmount(totalAmount);
