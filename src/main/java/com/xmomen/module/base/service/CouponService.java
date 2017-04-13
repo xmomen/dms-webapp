@@ -95,18 +95,31 @@ public class CouponService {
         return mybatisDao.selectPageByExample(cdCouponExample, limit, offset);
     }
 
-    public Boolean bindMember(String couponNumber, Integer memberId) {
+    @Transactional
+    public Boolean bindMember(String couponNumber, Integer memberId, String password) throws Exception {
     	CouponQuery couponQuery = new CouponQuery();
     	couponQuery.setCouponNumber(couponNumber);
     	List<ReadCardVo> existingBindCards = mybatisDao.getSqlSessionTemplate().selectList(CouponMapper.CouponMapperNameSpace + "getCouponByCouponNo", couponQuery);
-    	boolean alreadyBind = false;
-    	if(CollectionUtils.isEmpty(existingBindCards)) return false;
+    	if(CollectionUtils.isEmpty(existingBindCards)) {
+    		throw new Exception("该卡不存在!");
+    	}
     	for(ReadCardVo readCardVo: existingBindCards) {
     		String userName = readCardVo.getUserName();
-    		if(!StringUtils.isEmpty(userName)) alreadyBind = true;
-    		break;
+    		if(!StringUtils.isEmpty(userName)) {
+    			throw new Exception("该卡已经被绑定了!");
+    		}
     	}
-    	if(alreadyBind) return false;
+    	
+		CdCoupon query = new CdCoupon();
+    	query.setCouponNumber(couponNumber);
+    	CdCoupon coupon = mybatisDao.selectOneByModel(query);
+    	String prePassword = coupon.getCouponPassword();
+    	if(!StringUtils.isEmpty(prePassword)) {
+    		if(!prePassword.equals(password)) {
+    			throw new Exception("密码错误!");
+    		}
+    	}
+    	
     	CdMemberCouponRelation relation = new CdMemberCouponRelation();
     	relation.setCdMemberId(memberId);
     	relation.setCouponNumber(couponNumber);
@@ -322,5 +335,20 @@ public class CouponService {
     
     public List<WxCouponModel> getMyCouponList(CouponQueryModel queryModel) {
     	return mybatisDao.getSqlSessionTemplate().selectList(CouponMapper.CouponMapperNameSpace + "getMyCouponList", queryModel);
+    }
+    
+    public Boolean validate(String couponNo, String password) {
+    	CdCoupon couponQuery = new CdCoupon();
+    	couponQuery.setCouponNumber(couponNo);
+    	CdCoupon coupon = mybatisDao.selectOneByModel(couponQuery);
+    	if(coupon == null) return false;
+    	String prePassword = coupon.getCouponPassword();
+    	if(StringUtils.isEmpty(prePassword) && StringUtils.isEmpty(password)) {
+    		return true;
+    	} else {
+    		if(password == null) password = "";
+    		if(password.equals(prePassword)) return true;
+    		return false;
+    	}
     }
 }
