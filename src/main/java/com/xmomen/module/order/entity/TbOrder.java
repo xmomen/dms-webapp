@@ -24,7 +24,7 @@ public class TbOrder extends BaseMybatisModel {
     private String orderNo;
 
     /**
-     * 1-卡，2-劵，3-常规，4-活动
+     * 0-常规订单， 1-卡，2-劵，3-餐桌计划订单，4-活动
      */
     private Integer orderType;
 

@@ -835,16 +835,19 @@ public class OrderService {
         
         tbOrder.setCreateTime(mybatisDao.getSysdate());
         tbOrder.setPaymentMode(null);
+        tbOrder.setOrderType(createOrder.getOrderType());
         if (StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null && createOrder.getOrderType() == 2) {
         	tbOrder.setPaymentMode(7);
         	//券订单代采购状态
         	tbOrder.setOrderStatus("1");
+        } else {
+        	tbOrder.setOrderType(0);//设置为常规订单
         }
         tbOrder.setOtherPaymentMode(createOrder.getOtherPaymentMode());
         
         tbOrder.setMemberCode(String.valueOf(createOrder.getCreateUserId()));
         tbOrder.setRemark(createOrder.getRemark());
-        tbOrder.setOrderType(createOrder.getOrderType());
+        
         tbOrder.setOrderNo(orderNo);
         tbOrder.setOrderSource(createOrder.getOrderSource());
         tbOrder.setCreateUserId(createOrder.getCreateUserId());
@@ -903,7 +906,7 @@ public class OrderService {
     		//货到付款订单
     		tbOrder.setOrderStatus("1");
     		tbOrder.setPayStatus(1);
-    		tbOrder.setOrderType(3);//常规订单,货到付款类型
+    		tbOrder.setOrderType(0);//常规订单,货到付款类型
     		tbOrder.setPaymentMode(4);
     		mybatisDao.update(tbOrder);
     		return Boolean.TRUE;
