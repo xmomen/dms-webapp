@@ -16,7 +16,7 @@ import lombok.Data;
 
 public @Data class WxCreateOrder implements Serializable {
 	/**
-     * 1-卡，2-劵，3-常规
+     * 0-常规订单，1-卡，2-劵，3-餐桌计划订单
      */
     @NotNull
     private Integer orderType = 0;
