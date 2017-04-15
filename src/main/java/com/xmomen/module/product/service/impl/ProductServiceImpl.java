@@ -3,6 +3,7 @@ package com.xmomen.module.product.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -50,23 +51,20 @@ public class ProductServiceImpl implements ProductService {
 			picUrls.add("http://www.cqsxsp.com/images/201410/goods_img/68_P_1413356080309.jpg");
 			picUrls.add("http://pic.58pic.com/58pic/15/38/18/52e58PICDE4_1024.jpg");
 			detail.setPicUrls(picUrls);
-			detail.setPicUrl(null);
+			detail.setPicUrl("http://pic.58pic.com/58pic/15/35/55/12p58PICZv8_1024.jpg");
 			return detail;
 		}
 		return null;
 	}
 
 	@Override
-	public List<ProductModel> getProductsInCart(ProductQuery productQuery) {
-		//TODO we only use productIds currently, memberCode will use in future
-		/*if(StringUtils.isEmpty(productQuery.getMemberCode()) 
-				&& (productQuery.getProductIds() == null || productQuery.getProductIds().isEmpty())) {
-			return new ArrayList<ProductModel>();
-		}*/
-		if(productQuery.getProductIds() == null || productQuery.getProductIds().isEmpty()) {
+	public List<ProductModel> getProducts(List<Integer> itemIds) {
+		if(CollectionUtils.isEmpty(itemIds)) {
 			return new ArrayList<ProductModel>();
 		}
-		List<ProductModel> products = mybatisDao.getSqlSessionTemplate().selectList(ProductMapper.ProductMapperNameSpace + "getProductsInCart", productQuery);
+		ProductQuery productQuery = new ProductQuery();
+		productQuery.setProductIds(itemIds);
+		List<ProductModel> products = mybatisDao.getSqlSessionTemplate().selectList(ProductMapper.ProductMapperNameSpace + "getProductsByIds", productQuery);
 		if(products != null && !products.isEmpty()) {
 			for(ProductModel product: products) {
 				if(StringUtils.isEmpty(product.getPicUrl())) {

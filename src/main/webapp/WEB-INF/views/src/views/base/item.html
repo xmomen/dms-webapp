@@ -536,6 +536,17 @@
         <h3 class="modal-title">商品详情</h3>
     </div>
     <div class="modal-body">
+        <!--//图片-->
+        <div>
+            <input ux-upload ux-upload-config="fileUploadConfig" id="file" ng-model="fileUrl" type="file" multiple="true">
+        </div>
+
+        <div class="margin-top-5">
+            <span  ng-repeat="image in imageList">
+                <img src="{{image.path}}" width="80px" height="80px">
+            </span>
+        </div>
+
         <div ueditor="editor" ng-required="true" ng-model="currentItem.itemDetailContent" id="editor"></div>
     </div>
     <div class="modal-footer">

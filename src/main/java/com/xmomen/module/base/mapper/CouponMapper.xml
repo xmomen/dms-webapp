@@ -5,6 +5,14 @@
     <resultMap type="com.xmomen.module.base.model.CouponModel" id="couponModelMap" autoMapping="true" >
         <collection property="relationItemList" ofType="com.xmomen.module.base.model.CouponRelationItem" column="coupon_category" select="queryRelationItemList"></collection>
     </resultMap>
+    
+    <resultMap type="com.xmomen.module.base.model.CouponModel" id="couponItemsModel">
+        <id property="id" column="id"></id>
+        <result property="couponType" column="coupon_type"></result>
+        <result property="couponCategory" column="coupon_category"></result>
+        <result property="couponValue" column="coupon_value"></result>
+        <collection property="relationItemList" ofType="com.xmomen.module.base.model.CouponRelationItem"></collection>
+    </resultMap>
 
     <select id="queryRelationItemList" resultType="com.xmomen.module.base.model.CouponRelationItem" parameterType="Integer">
        SELECT 
@@ -250,14 +258,14 @@
          </where>
     </select>
     
-<update id="updateReturnCoupon" parameterType="Integer">
-	update cd_coupon 
-	set is_send=0 ,
-	cd_company_id = null,
-	cd_user_id = null,
-	USER_PRICE = null
-	where id=#{id}
-</update>
+	<update id="updateReturnCoupon" parameterType="Integer">
+		update cd_coupon 
+		set is_send=0 ,
+		cd_company_id = null,
+		cd_user_id = null,
+		USER_PRICE = null
+		where id=#{id}
+	</update>
 
 	<!-- 查询卡的送羊地址 -->
 	<select id="getActivityAddress" resultType="com.xmomen.module.base.model.CouponActivityAddress" parameterType="String">
@@ -265,5 +273,37 @@
 		cd_activity_address
 		where 
 			coupon_number = #{couponNumber}
+	</select>
+	
+	<select id="getCouponItemsByByCouponNo" resultMap="couponItemsModel" parameterType="String">
+	    select cc.id, cc.coupon_type, cc.coupon_category, cc.coupon_value,
+	     cccr.REF_VALUE as itemId, cccr.REF_COUNT as itemNumber
+		from cd_coupon cc
+		inner join cd_coupon_category ccc
+		on cc.COUPON_CATEGORY = ccc.id
+		left join cd_coupon_category_ref cccr
+		on cccr.CD_COUPON_CATEGORY_ID = ccc.ID
+		where cc.coupon_number = #{couponNumber};
+	</select>
+	
+	<select id="getMyCouponList" resultType="com.xmomen.module.wx.module.coupon.model.WxCouponModel" 
+		parameterType="com.xmomen.module.wx.module.coupon.model.CouponQueryModel">
+		select cc.id, cc.coupon_type, cc.coupon_category, cc.coupon_value, cc.coupon_number, cc.user_price
+		from cd_coupon cc
+		<where>
+		    cc.coupon_number in (
+		    select coupon_number from cd_member_coupon_relation cmcr where cmcr.cd_member_id = #{cdUserId}
+		    )
+		    
+		    <if test="couponType != null">
+		    	AND cc.coupon_type = #{couponType}
+		    </if>
+		    <if test="useable != null and useable">
+		        AND cc.user_price > 0
+		    </if>
+		    <if test="useable != null and !useable">
+		        <![CDATA[ AND cc.user_price <= 0]]>
+		    </if>
+		</where>
 	</select>
 </mapper>

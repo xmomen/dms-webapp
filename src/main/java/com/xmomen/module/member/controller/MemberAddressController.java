@@ -57,7 +57,7 @@ public class MemberAddressController {
                                                          @RequestParam(value = "offset") Integer offset,
                                                          @RequestParam(value = "id", required = false) String id,
                                                          @RequestParam(value = "ids", required = false) String[] ids,
-                                                         @RequestParam(value = "cdMemberId") String cdMemberId,
+                                                         @RequestParam(value = "cdMemberId", required = false) String cdMemberId,
                                                          @RequestParam(value = "excludeIds", required = false) String[] excludeIds) {
         MemberAddressQuery memberAddressQuery = new MemberAddressQuery();
         memberAddressQuery.setId(id);

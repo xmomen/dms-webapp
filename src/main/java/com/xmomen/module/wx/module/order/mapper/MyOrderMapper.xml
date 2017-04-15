@@ -63,7 +63,7 @@
         <result column="ITEM_UNIT" property="itemUnit"></result>
     </resultMap>
     
-    <select id="selectOrdersByMemberCode" parameterType="String" resultMap="orderModel">
+    <!-- <select id="selectOrdersByMemberCode" parameterType="String" resultMap="orderModel">
         SELECT 
         tb_order.ID,
         tb_order.ORDER_NO,
@@ -86,7 +86,7 @@
         ON
         	tb_order.ORDER_NO = order_item.ORDER_NO
         WHERE tb_order.MEMBER_CODE = #{memberCode}
-    </select>
+    </select> -->
 
 	<select id="selectOrders" parameterType="com.xmomen.module.wx.module.order.model.MyOrderQuery" resultMap="orderModel">
         SELECT 
@@ -100,7 +100,8 @@
         osp.SHOW_VALUE AS ORDER_SOURCE_DESC,
         case tb_order.PAY_STATUS
             WHEN 1 THEN '已支付'
-            WHEN 0 THEN '未支付'
+            WHEN 0 THEN '待付款'
+            WHEN 2 THEN '待付款'
         END as PAY_STATUS_DESC,
         tb_order.ORDER_SOURCE,
         tb_order.PAYMENT_MODE,
@@ -133,9 +134,9 @@
         LEFT JOIN sys_dictionary oss on oss.DICTIONARY_CODE='ORDER_SOURCE'
         LEFT JOIN sys_dictionary_parameter osp on osp.SYS_DICTIONARY_ID=oss.ID and tb_order.ORDER_SOURCE = osp.REAL_VALUE
         <where>
-        	tb_order.ORDER_NO in ('20170324000550433', '20170315184533193', '20170118205559593', '20170118203939439', '20170118193129321', '20170118203444998')
+        	tb_order.CREATE_USER_ID = #{userId}
        	    <choose>
-       	        <when test="status == 0">
+       	        <when test="status == 0 or status == 2">
        	            AND tb_order.PAY_STATUS = 0
        	        </when>
        	        <when test="status == 1">
@@ -155,7 +156,7 @@
         order by tb_order.CREATE_TIME desc
     </select>
     
-    <select id="getOrderDetail" parameterType="java.lang.Integer" resultMap="orderDetailModel">
+    <select id="getOrderDetail" parameterType="com.xmomen.module.wx.module.order.model.MyOrderQuery" resultMap="orderDetailModel">
         SELECT 
         tb_order.*,
         order_item.ITEM_ID,
@@ -171,7 +172,8 @@
         osp.SHOW_VALUE AS ORDER_SOURCE_DESC,
         case tb_order.PAY_STATUS
             WHEN 1 THEN '已支付'
-            WHEN 0 THEN '未支付'
+            WHEN 0 THEN '待付款'
+            WHEN 2 THEN '待付款'
         END as PAY_STATUS_DESC,
         ce.EXPRESS_NAME
         FROM tb_order
@@ -192,6 +194,14 @@
         LEFT JOIN sys_dictionary oss on oss.DICTIONARY_CODE='ORDER_SOURCE'
         LEFT JOIN sys_dictionary_parameter osp on osp.SYS_DICTIONARY_ID=oss.ID and tb_order.ORDER_SOURCE = osp.REAL_VALUE
         LEFT JOIN cd_express ce on tb_order.despatch_express_id = ce.id
-        WHERE tb_order.id = #{orderId}
+        <where>
+        	<if test="orderId">
+        	    tb_order.ID = #{orderId}
+        	</if>
+        	<if test="orderNo">
+        	    tb_order.ORDER_NO = #{orderNo}
+        	</if>
+        </where>
+        
     </select>
 </mapper>

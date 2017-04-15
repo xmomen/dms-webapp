@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,9 +20,15 @@ import com.xmomen.framework.utils.DateUtils;
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.base.entity.CdCoupon;
 import com.xmomen.module.base.entity.CdCouponExample;
+import com.xmomen.module.base.model.CouponModel;
+import com.xmomen.module.base.model.CouponRelationItem;
 import com.xmomen.module.base.model.ItemModel;
 import com.xmomen.module.base.model.ItemQuery;
+import com.xmomen.module.base.service.CouponService;
 import com.xmomen.module.base.service.ItemService;
+import com.xmomen.module.member.model.MemberAddressModel;
+import com.xmomen.module.member.model.MemberAddressQuery;
+import com.xmomen.module.member.service.MemberAddressService;
 import com.xmomen.module.order.entity.TbOrder;
 import com.xmomen.module.order.entity.TbOrderExample;
 import com.xmomen.module.order.entity.TbOrderItem;
@@ -39,10 +46,18 @@ import com.xmomen.module.order.model.OrderModel;
 import com.xmomen.module.order.model.OrderQuery;
 import com.xmomen.module.order.model.PayOrder;
 import com.xmomen.module.order.model.RefundOrder;
-import com.xmomen.module.order.model.ReturnOrder;
 import com.xmomen.module.order.model.UpdateOrder;
+import com.xmomen.module.order.model.WxCreateOrder;
 import com.xmomen.module.plan.entity.TbTablePlan;
+import com.xmomen.module.product.model.ProductModel;
+import com.xmomen.module.product.service.ProductService;
 import com.xmomen.module.report.model.OrderReport;
+import com.xmomen.module.wx.module.cart.service.CartService;
+import com.xmomen.module.wx.module.order.model.MyOrderQuery;
+import com.xmomen.module.wx.module.order.model.OrderDetailModel;
+import com.xmomen.module.wx.module.order.model.OrderProductItem;
+import com.xmomen.module.wx.module.order.model.PayOrderModel;
+import com.xmomen.module.wx.module.order.service.MyOrderService;
 
 /**
  * Created by Jeng on 16/4/5.
@@ -55,6 +70,21 @@ public class OrderService {
 
     @Autowired
     ItemService itemService;
+    
+    @Autowired
+    CouponService couponService;
+    
+    @Autowired
+    MyOrderService myOrderService;
+    
+    @Autowired
+    ProductService productService;
+    
+    @Autowired
+    CartService cartServcie;
+    
+    @Autowired
+    MemberAddressService memberAddressService;
 
     /**
      * 查询订单
@@ -697,4 +727,211 @@ public class OrderService {
     	this.mybatisDao.save(order);
     }
 
+    @Transactional
+    public TbOrder createWxOrder(WxCreateOrder createOrder) {
+    	String orderNo = createOrder.getOrderNo();
+        if (StringUtils.isEmpty(orderNo)) {
+            orderNo = DateUtils.getDateTimeString();
+        }
+        createOrder.setOrderSource(1);
+        List<Integer> itemIdList = new ArrayList<Integer>();
+        boolean normalOrder = true;
+        if(createOrder.getOrderType() == 2 && StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null) {
+        	normalOrder = false;
+        	CouponModel couponModel = couponService.getCouponModel(createOrder.getPaymentRelationNo());
+        	if(couponModel == null || couponModel.getCouponType() != 2) {
+        		throw new IllegalArgumentException("无效的券!");
+        	}
+        	List<CouponRelationItem> items = couponModel.getRelationItemList();
+        	List<WxCreateOrder.OrderItem> orderList = new ArrayList<WxCreateOrder.OrderItem>();
+        	for(CouponRelationItem item: items) {
+        		WxCreateOrder.OrderItem orderItem = new WxCreateOrder.OrderItem();
+        		orderItem.setOrderItemId(item.getItemId());
+        		orderItem.setItemQty(item.getItemNumber());
+        		orderList.add(orderItem);
+        	}
+        	createOrder.setOrderItemList(orderList);
+        	//券下单的总价格就是券的价格
+        	createOrder.setTotalPrice(couponModel.getCouponValue());
+        }
+        if(CollectionUtils.isEmpty(createOrder.getOrderItemList())) {
+        	throw new IllegalArgumentException("订单不能为空!");
+        }
+        for (WxCreateOrder.OrderItem orderItem : createOrder.getOrderItemList()) {
+            itemIdList.add(orderItem.getOrderItemId());
+        }
+        ItemQuery itemQuery = new ItemQuery();
+        Integer[] array = new Integer[itemIdList.size()];
+        itemQuery.setIds(itemIdList.toArray(array));
+        List<ItemModel> itemList = itemService.queryItemList(itemQuery);
+        BigDecimal totalAmount = BigDecimal.ZERO;
+        int xiajia = 0;
+        for (ItemModel cdItem : itemList) {
+            for (WxCreateOrder.OrderItem orderItem : createOrder.getOrderItemList()) {
+                //查看商品是否下架了
+                if (cdItem.getSellStatus() == 0) {
+                    xiajia = 1;
+                }
+                if (cdItem.getId().equals(orderItem.getOrderItemId())) {
+                    TbOrderItem tbOrderItem = new TbOrderItem();
+                    tbOrderItem.setOrderNo(orderNo);
+                    tbOrderItem.setItemCode(cdItem.getItemCode());
+                    tbOrderItem.setItemId(cdItem.getId());
+                    tbOrderItem.setItemName(cdItem.getItemName());
+                    tbOrderItem.setItemQty(orderItem.getItemQty());
+                    tbOrderItem.setItemUnit(cdItem.getPricingManner());
+                    if (cdItem.getDiscountPrice() != null) {
+                        tbOrderItem.setItemPrice(cdItem.getDiscountPrice());
+                    }
+                    else {
+                        tbOrderItem.setItemPrice(cdItem.getSellPrice());
+                    }
+                    totalAmount = totalAmount.add(tbOrderItem.getItemPrice().multiply(orderItem.getItemQty()));
+                    mybatisDao.insert(tbOrderItem);
+                }
+            }
+        }
+        TbOrder tbOrder = new TbOrder();
+        // 订单新建 待采购状态
+        tbOrder.setOrderStatus("1");
+        tbOrder.setPayStatus(0);//待支付
+        tbOrder.setTransportMode(1);// 默认快递
+        tbOrder.setConsigneeName(createOrder.getConsigneeName());
+        
+        MemberAddressQuery memberAddressQuery = new MemberAddressQuery();
+        memberAddressQuery.setCdMemberId(String.valueOf(tbOrder.getCreateUserId()));
+        tbOrder.setConsigneeAddress(createOrder.getConsigneeAddress());
+        tbOrder.setConsigneePhone(createOrder.getConsigneePhone());
+        List<MemberAddressModel> addresses  = memberAddressService.getMemberAddressModels(memberAddressQuery);
+        if(addresses != null) {
+        	int size = addresses.size();
+            for(int i = 0; i < size; i++) {
+            	MemberAddressModel address = addresses.get(i);
+            	if(i == 0) {
+            		tbOrder.setConsigneeAddress(address.getFullAddress());
+                    tbOrder.setConsigneePhone(address.getMobile());
+            	}
+            	if(address.getIsDefault()) {
+            		tbOrder.setConsigneeAddress(address.getFullAddress());
+                    tbOrder.setConsigneePhone(address.getMobile());
+            		break;
+            	}
+            }
+        }
+        tbOrder.setCreateTime(mybatisDao.getSysdate());
+        if(createOrder.getPaymentMode() == null) {
+        	tbOrder.setPaymentMode(0);//设置非空值
+        } else {
+        	tbOrder.setPaymentMode(createOrder.getPaymentMode());
+        }
+        if (StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null && createOrder.getOrderType() == 2) {
+        	tbOrder.setPaymentMode(7);
+        }
+        tbOrder.setOtherPaymentMode(createOrder.getOtherPaymentMode());
+        
+        tbOrder.setMemberCode(createOrder.getMemberCode());
+        tbOrder.setRemark(createOrder.getRemark());
+        tbOrder.setOrderType(createOrder.getOrderType());
+        tbOrder.setOrderNo(orderNo);
+        tbOrder.setOrderSource(createOrder.getOrderSource());
+        tbOrder.setCreateUserId(createOrder.getCreateUserId());
+        tbOrder.setXiajia(xiajia);
+        
+        
+        totalAmount = totalAmount.subtract(createOrder.getDiscountPrice() == null ? BigDecimal.ZERO : createOrder.getDiscountPrice());
+        //订单总金额 如果是劵的 则就是劵面金额 不用累计商品总金额
+        if ((tbOrder.getOrderType() == 2 && StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null)) {
+            tbOrder.setTotalAmount(createOrder.getTotalPrice());
+            totalAmount = createOrder.getTotalPrice();
+            tbOrder.setDiscountPrice(BigDecimal.ZERO);
+            //生成收货码
+            TbOrderRef orderRef = new TbOrderRef();
+            orderRef.setOrderNo(orderNo);
+            orderRef.setRefType("SHOU_HUO_NO");
+            orderRef.setRefValue(String.valueOf((int) ((Math.random() * 9 + 1) * 100000)));
+            mybatisDao.insert(orderRef);
+        }
+        else {
+            tbOrder.setTotalAmount(totalAmount);
+            tbOrder.setDiscountPrice(createOrder.getDiscountPrice());
+        }
+        tbOrder.setAppointmentTime(createOrder.getAppointmentTime());
+        tbOrder = mybatisDao.insertByModel(tbOrder);
+        // tbOrderNo validation
+        if (StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null && createOrder.getOrderType() > 0) {
+            TbOrderRelation tbOrderRelation = new TbOrderRelation();
+            tbOrderRelation.setOrderNo(orderNo);
+            tbOrderRelation.setRefType(OrderMapper.ORDER_PAY_RELATION_CODE);// 订单支付关系
+            tbOrderRelation.setRefValue(createOrder.getPaymentRelationNo());
+            mybatisDao.insert(tbOrderRelation);
+        }
+        if((tbOrder.getOrderType() == 2 && StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null)) {
+        	PayOrder payOrder = new PayOrder();
+            payOrder.setOrderNo(tbOrder.getOrderNo());
+            payOrder.setAmount(totalAmount);
+            payOrder(payOrder);
+        }
+        // 非券类订单则要将对应的物品从购物车只移除
+        String userToken = String.valueOf(createOrder.getCreateUserId());
+        if(normalOrder) {
+        	cartServcie.removeItems(userToken, itemIdList);
+        }
+        return tbOrder;
+    }
+    
+    @Transactional
+    public Boolean payWxOrder(PayOrderModel payOrderModel) {
+    	
+    	Integer orderId = payOrderModel.getOrderId();
+    	
+    	TbOrder tbOrder = mybatisDao.selectByPrimaryKey(TbOrder.class, orderId);
+        //设置为卡支付订单
+        tbOrder.setPaymentMode(5);
+        tbOrder.setOrderType(1);
+        mybatisDao.update(tbOrder);
+        
+        TbOrderRelation tbOrderRelation = new TbOrderRelation();
+        tbOrderRelation.setOrderNo(tbOrder.getOrderNo());
+        tbOrderRelation.setRefType(OrderMapper.ORDER_PAY_RELATION_CODE);// 订单支付关系
+        tbOrderRelation.setRefValue(payOrderModel.getPaymentNo());
+        mybatisDao.insert(tbOrderRelation);
+    	
+    	
+    	MyOrderQuery myOrderQuery = new MyOrderQuery();
+    	myOrderQuery.setOrderId(orderId);
+    	OrderDetailModel orderDetailModel = myOrderService.getOrderDetail(myOrderQuery);
+    	List<OrderProductItem> itemList = orderDetailModel.getProducts();
+    	BigDecimal totalAmount = BigDecimal.ZERO;
+    	for (OrderProductItem cdItem : itemList) {
+    		BigDecimal price = cdItem.getItemPrice();
+    		totalAmount = totalAmount.add(price.multiply(cdItem.getItemQty()));
+            
+        }
+    	PayOrder payOrder = new PayOrder();
+        payOrder.setOrderNo(orderDetailModel.getOrderNo());
+        payOrder.setAmount(totalAmount);
+        payOrder(payOrder);
+        
+        
+        return true;
+    }
+    
+	public List<ProductModel> getCouponItems(String couponNo) {
+		CouponModel couponModel = couponService.getCouponModel(couponNo);
+    	if(couponModel == null || couponModel.getCouponType() != 2) {
+    		throw new IllegalArgumentException("无效的券!");
+    	}
+    	List<CouponRelationItem> items = couponModel.getRelationItemList();
+    	Map<Integer, Integer> itemInfoMap = new HashMap<Integer, Integer>();
+    	List<Integer> itemIds = new ArrayList<Integer>();
+    	for(CouponRelationItem item: items) {
+    		itemInfoMap.put(item.getItemId(), item.getItemNumber().intValue());
+    		itemIds.add(item.getItemId());
+    	}
+    	List<ProductModel> productModels = productService.getProducts(itemIds);
+    	for(ProductModel productModel: productModels) {
+    		productModel.setItemQty(itemInfoMap.get(productModel.getId()));
+    	}
+		return productModels;
+	}
 }

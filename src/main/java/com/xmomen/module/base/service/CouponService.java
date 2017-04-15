@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.util.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,13 @@ import com.xmomen.module.base.mapper.CouponMapper;
 import com.xmomen.module.base.model.CouponModel;
 import com.xmomen.module.base.model.CouponQuery;
 import com.xmomen.module.base.model.CouponReportModel;
+import com.xmomen.module.base.model.ReadCardVo;
 import com.xmomen.module.order.entity.TbTradeRecord;
 import com.xmomen.module.pick.entity.TbExchangeCardLog;
 import com.xmomen.module.pick.entity.TbRechargeLog;
 import com.xmomen.module.system.entity.SysUserOrganization;
+import com.xmomen.module.wx.module.coupon.model.CouponQueryModel;
+import com.xmomen.module.wx.module.coupon.model.WxCouponModel;
 import com.xmomen.module.wx.util.DateUtils;
 
 /**
@@ -91,8 +95,23 @@ public class CouponService {
         return mybatisDao.selectPageByExample(cdCouponExample, limit, offset);
     }
 
-    public void bindMember(String couponNumber, Integer memberId) {
-
+    public Boolean bindMember(String couponNumber, Integer memberId) {
+    	CouponQuery couponQuery = new CouponQuery();
+    	couponQuery.setCouponNumber(couponNumber);
+    	List<ReadCardVo> existingBindCards = mybatisDao.getSqlSessionTemplate().selectList(CouponMapper.CouponMapperNameSpace + "getCouponByCouponNo", couponQuery);
+    	boolean alreadyBind = false;
+    	if(CollectionUtils.isEmpty(existingBindCards)) return false;
+    	for(ReadCardVo readCardVo: existingBindCards) {
+    		String userName = readCardVo.getUserName();
+    		if(!StringUtils.isEmpty(userName)) alreadyBind = true;
+    		break;
+    	}
+    	if(alreadyBind) return false;
+    	CdMemberCouponRelation relation = new CdMemberCouponRelation();
+    	relation.setCdMemberId(memberId);
+    	relation.setCouponNumber(couponNumber);
+    	mybatisDao.save(relation);
+    	return Boolean.TRUE;
     }
 
     @Transactional
@@ -295,5 +314,13 @@ public class CouponService {
         coupon.setIsUseful(locked ? 1 : 0);
         coupon.setId(id);
         mybatisDao.update(coupon);
+    }
+    
+    public CouponModel getCouponModel(String couponNumber) {
+    	return mybatisDao.getSqlSessionTemplate().selectOne(CouponMapper.CouponMapperNameSpace + "getCouponItemsByByCouponNo", couponNumber);
+    }
+    
+    public List<WxCouponModel> getMyCouponList(CouponQueryModel queryModel) {
+    	return mybatisDao.getSqlSessionTemplate().selectList(CouponMapper.CouponMapperNameSpace + "getMyCouponList", queryModel);
     }
 }

@@ -21,6 +21,7 @@ import com.xmomen.module.product.model.ProductQueryFilter;
 import com.xmomen.module.product.service.ProductService;
 
 @Controller
+@RequestMapping(value = "/wx")
 public class ProductController {
 
 	@Autowired
@@ -30,7 +31,7 @@ public class ProductController {
     @ResponseBody
 	public Page<ProductModel> getProducts(@RequestParam(value = "limit") Integer limit,
             @RequestParam(value = "offset") Integer offset,
-            @RequestParam(value="categoryId", required= false) Integer categoryId,
+            @RequestParam(value = "categoryId", required= false) Integer categoryId,
             @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(value = "orderField", required = false) String orderField,
             @RequestParam(value = "isAsc", required = false, defaultValue="true") Boolean isAsc,
@@ -66,15 +67,5 @@ public class ProductController {
 	@RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
 	public ProductModel detail(@PathVariable(value="id") Integer productId) {
 		return productService.getDetailById(productId);
-	}
-	
-	@ResponseBody
-	@RequestMapping(value ="cart", method = RequestMethod.GET)
-	public List<ProductModel> getCartProduct(@RequestParam(value = "memberCode", required = false) String memberCode,
-			@RequestParam(value="productIds", required = false) List<Integer> productIds) {
-		ProductQuery productQuery = new ProductQuery();
-		productQuery.setMemberCode(memberCode);
-		productQuery.setProductIds(productIds);
-		return productService.getProductsInCart(productQuery);
 	}
 }

@@ -57,6 +57,14 @@ define(function () {
             }
         });
     }]);
+
+    ngREST.factory("ResourceAPI", ["$resource", function ($resource) {
+        return $resource("/resource/:id", {id: '@id'}, {
+            query: {isArray: false},
+            update: {method: "PUT", params: {id: "@id"}}
+        });
+    }]);
+
     ngREST.factory("UserGroupAPI", ["$resource", function ($resource) {
         return $resource("/group/:id", {id: '@id'}, {
             query: {isArray: false}
