@@ -6,10 +6,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.xmomen.framework.web.exceptions.ArgumentValidException;
 import com.xmomen.module.order.entity.TbOrder;
 import com.xmomen.module.order.model.WxCreateOrder;
 import com.xmomen.module.order.service.OrderService;
@@ -27,7 +24,6 @@ import com.xmomen.module.product.model.ProductModel;
 import com.xmomen.module.wx.module.order.model.MyOrderQuery;
 import com.xmomen.module.wx.module.order.model.OrderDetailModel;
 import com.xmomen.module.wx.module.order.model.OrderModel;
-import com.xmomen.module.wx.module.order.model.OrderProductItem;
 import com.xmomen.module.wx.module.order.model.PayOrderModel;
 import com.xmomen.module.wx.module.order.service.MyOrderService;
 
@@ -59,7 +55,7 @@ public class MyOrderController {
 		myOrderQuery.setStatus(status);
 		myOrderQuery.setMinOrderTime(minCreateTime);
 		myOrderQuery.setMaxOrderTime(maxCreateTime);
-		myOrderQuery.setUserId(Integer.valueOf(memberId));
+		myOrderQuery.setUserId(memberId);
 		return myOrderService.myOrder(myOrderQuery);
 	}
 	
@@ -83,9 +79,15 @@ public class MyOrderController {
         return myOrderService.confirmReceiveOrder(orderId, memberId);
 	}
 	
+	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
+	@ResponseBody
+	public Boolean cancelOrder(@RequestParam("id") Integer orderId, @RequestParam("memberId") Integer memberId) {
+        return myOrderService.cancelOrder(orderId, memberId);
+	}
+	
 	@RequestMapping(value = "/pay", method = RequestMethod.POST)
 	@ResponseBody
-	public Boolean payOrder(@RequestBody @Valid PayOrderModel payOrderModel){
+	public Boolean payOrder(@RequestBody PayOrderModel payOrderModel) throws Exception {
 		return orderService.payWxOrder(payOrderModel);
 	}
 	

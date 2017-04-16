@@ -22,13 +22,19 @@
             item.SHI_YI_REN_QUN,
             item.XIAN_SHI_QIANG_GOU,
             item.XIN_PIN_CHANG_XIAN,
-            item.RE_MAI_TUI_JIAN
+            item.RE_MAI_TUI_JIAN,
+            cr.PATH as picUrl
         FROM
           cd_item item
         INNER JOIN
           cd_category category
         ON
           item.CD_CATEGORY_ID = category.id
+        LEFT JOIN
+          cd_resource cr
+        ON
+          item.id = cr.entity_id and cr.entity_type = 'cd_item'
+          AND cr.resource_type = 'PICTURE' AND cr.is_default = 1
         <where>
             <if test="categoryId">
                   AND item.CD_CATEGORY_ID IN (
@@ -70,7 +76,9 @@
             item.XIAN_SHI_QIANG_GOU,
             item.XIN_PIN_CHANG_XIAN,
             item.RE_MAI_TUI_JIAN,
-            detail.ITEM_DETAIL_CONTENT as detailContent
+            detail.ITEM_DETAIL_CONTENT as detailContent,
+            cr.PATH as picUrl,
+            cr.IS_DEFAULT as isDefaultPath
         FROM
           cd_item item
         INNER JOIN
@@ -81,8 +89,12 @@
           cd_item_detail detail
         ON
           item.ID = detail.CD_ITEM_ID
+        LEFT JOIN
+          cd_resource cr
+        ON
+          item.id = cr.entity_id and cr.entity_type = 'cd_item'
+          AND cr.resource_type = 'PICTURE'
         WHERE item.iD = #{id}
-        <!-- left join resources to get pictures -->
     </select>
     
     <select id="getProductsByIds" resultType="com.xmomen.module.product.model.ProductModel" 
@@ -106,13 +118,19 @@
             item.SHI_YI_REN_QUN,
             item.XIAN_SHI_QIANG_GOU,
             item.XIN_PIN_CHANG_XIAN,
-            item.RE_MAI_TUI_JIAN
+            item.RE_MAI_TUI_JIAN,
+            cr.PATH as picUrl
         FROM
           cd_item item
         INNER JOIN
           cd_category category
         ON
           item.CD_CATEGORY_ID = category.id
+        LEFT JOIN
+          cd_resource cr
+        ON
+          item.id = cr.entity_id and cr.entity_type = 'cd_item'
+          AND cr.resource_type = 'PICTURE' AND cr.is_default = 1
         <where>
         	item.ID in 
         	<foreach collection="productIds" item="productId" index="index" open="(" separator=" , " close=")">

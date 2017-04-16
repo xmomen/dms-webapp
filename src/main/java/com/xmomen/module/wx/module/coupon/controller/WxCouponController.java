@@ -33,7 +33,14 @@ public class WxCouponController {
 	
 	@RequestMapping(value="/bind", method = RequestMethod.POST)
 	Boolean bindCoupon(@RequestParam(value = "memberId", required=true) Integer memberId,
-			@RequestParam(value="couponNumber", required=true) String couponNumber) {
-		return couponService.bindMember(couponNumber, memberId);
+			@RequestParam(value="couponNumber", required=true) String couponNumber,
+			@RequestParam(value="password", required = false) String password) throws Exception {
+		return couponService.bindMember(couponNumber, memberId, password);
+	}
+	
+	@RequestMapping(value="/validate", method = RequestMethod.GET)
+	Boolean validateCoupon(@RequestParam(value="couponNumber", required=true) String couponNumber,
+			@RequestParam(value="password", required = false) String password) {
+		return couponService.validate(couponNumber, password);
 	}
 }

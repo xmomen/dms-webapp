@@ -11,6 +11,8 @@
         <result property="couponType" column="coupon_type"></result>
         <result property="couponCategory" column="coupon_category"></result>
         <result property="couponValue" column="coupon_value"></result>
+        <result property="companyId" column="cd_company_id"></result>
+        <result property="managerId" column="cd_user_id"/>
         <collection property="relationItemList" ofType="com.xmomen.module.base.model.CouponRelationItem"></collection>
     </resultMap>
 
@@ -277,6 +279,7 @@
 	
 	<select id="getCouponItemsByByCouponNo" resultMap="couponItemsModel" parameterType="String">
 	    select cc.id, cc.coupon_type, cc.coupon_category, cc.coupon_value,
+	    cc.cd_company_id, cc.cd_user_id,
 	     cccr.REF_VALUE as itemId, cccr.REF_COUNT as itemNumber
 		from cd_coupon cc
 		inner join cd_coupon_category ccc

@@ -11,7 +11,10 @@ public @Data class PayOrderModel {
 	@NotNull
 	private Integer orderId;
 	
-	@NotNull
-    @NotBlank
 	private String paymentNo;
+	
+	/**
+	 * 卡类付款订单为1,其余为货到付款类型
+	 */
+	private Integer orderType;
 }

@@ -69,5 +69,17 @@ public class MyOrderServiceImpl implements MyOrderService {
 		return Boolean.TRUE;
 	}
 
-	
+	@Override
+	public Boolean cancelOrder(Integer orderId, Integer userId) {
+		TbOrder tbOrder = mybatisDao.selectByPrimaryKey(TbOrder.class, orderId);
+		if(tbOrder == null || userId == null || !userId.equals(tbOrder.getCreateUserId())) {
+			throw new IllegalArgumentException("订单不存在或者不属于当前用户!");
+		}
+		Integer payStatus = tbOrder.getPayStatus();
+		if(payStatus == 1) throw new IllegalArgumentException("订单已支付,不能取消!");
+		tbOrder.setOrderStatus("9");//取消订单
+		mybatisDao.update(tbOrder);
+		return Boolean.TRUE;
+	}
+
 }

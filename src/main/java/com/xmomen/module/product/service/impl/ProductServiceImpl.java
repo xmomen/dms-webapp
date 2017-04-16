@@ -14,6 +14,7 @@ import com.xmomen.module.product.mapper.ProductMapper;
 import com.xmomen.module.product.model.ProductModel;
 import com.xmomen.module.product.model.ProductQuery;
 import com.xmomen.module.product.service.ProductService;
+import com.xmomen.module.resource.service.ResourceService;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -26,10 +27,13 @@ public class ProductServiceImpl implements ProductService {
 	public Page<ProductModel> getProductList(ProductQuery productQuery, Integer limit, Integer offset) {
 		Page<ProductModel> pageModel = (Page<ProductModel>) mybatisDao.selectPage(ProductMapper.ProductMapperNameSpace + "getProductList", productQuery, limit, offset);
 		List<ProductModel> products = pageModel.getResult();
-		//TODO mock data
 		if(products != null) {
 			for(ProductModel product: products) {
-				product.setPicUrl("http://pic.58pic.com/58pic/15/35/55/12p58PICZv8_1024.jpg");
+				if(StringUtils.isEmpty(product.getPicUrl())) {
+					product.setPicUrl(ResourceService.getDefaultPicPath());
+				} else {
+					product.setPicUrl(ResourceService.getWholeHttpPath(product.getPicUrl()));
+				}
 			}
 		}
 		return pageModel;
@@ -39,19 +43,28 @@ public class ProductServiceImpl implements ProductService {
 	public ProductModel getDetailById(Integer id) {
 		List<ProductModel> products = mybatisDao.getSqlSessionTemplate().selectList(ProductMapper.ProductMapperNameSpace + "getProductDetail", id);
 		List<String> picUrls = new ArrayList<String>();
+		String defaultPicUrl = null;
 		if(products != null && !products.isEmpty()) {
 			for(ProductModel product: products) {
 				if(!StringUtils.isEmpty(product.getPicUrl())) {
-					picUrls.add(product.getPicUrl());
+					if(product.getIsDefaultPath()) {
+						defaultPicUrl = product.getPicUrl();
+					} else {
+						picUrls.add(ResourceService.getWholeHttpPath(product.getPicUrl()));
+					}
 				}
 			}
 			ProductModel detail = products.get(0);
-			//TODO mock
-			picUrls.add("http://pic.58pic.com/58pic/15/35/55/12p58PICZv8_1024.jpg");
-			picUrls.add("http://www.cqsxsp.com/images/201410/goods_img/68_P_1413356080309.jpg");
-			picUrls.add("http://pic.58pic.com/58pic/15/38/18/52e58PICDE4_1024.jpg");
 			detail.setPicUrls(picUrls);
-			detail.setPicUrl("http://pic.58pic.com/58pic/15/35/55/12p58PICZv8_1024.jpg");
+			if(defaultPicUrl == null) {
+				if(StringUtils.isEmpty(detail.getPicUrl())) {
+					detail.setPicUrl(ResourceService.getDefaultPicPath());
+				} else {
+					detail.setPicUrl(ResourceService.getWholeHttpPath(detail.getPicUrl()));
+				}
+			} else {
+				detail.setPicUrl(ResourceService.getWholeHttpPath(defaultPicUrl));
+			}
 			return detail;
 		}
 		return null;
@@ -68,7 +81,9 @@ public class ProductServiceImpl implements ProductService {
 		if(products != null && !products.isEmpty()) {
 			for(ProductModel product: products) {
 				if(StringUtils.isEmpty(product.getPicUrl())) {
-					product.setPicUrl("http://pic.58pic.com/58pic/15/35/55/12p58PICZv8_1024.jpg");
+					product.setPicUrl(ResourceService.getWholeHttpPath(product.getPicUrl()));
+				} else {
+					product.setPicUrl(ResourceService.getDefaultPicPath());
 				}
 			}
 		}
