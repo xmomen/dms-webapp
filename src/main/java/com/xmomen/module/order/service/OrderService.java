@@ -21,6 +21,7 @@ import com.xmomen.framework.utils.DateUtils;
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.base.entity.CdCoupon;
 import com.xmomen.module.base.entity.CdCouponExample;
+import com.xmomen.module.base.entity.CdMember;
 import com.xmomen.module.base.model.CouponModel;
 import com.xmomen.module.base.model.CouponRelationItem;
 import com.xmomen.module.base.model.ItemModel;
@@ -736,6 +737,13 @@ public class OrderService {
         }
         createOrder.setPaymentMode(null);
         createOrder.setOrderSource(1);
+        
+        TbOrder tbOrder = new TbOrder();
+        // 订单新建 未支付状态
+        tbOrder.setOrderStatus("0");
+        tbOrder.setPayStatus(0);//待支付
+        tbOrder.setTransportMode(1);// 默认快递
+        
         List<Integer> itemIdList = new ArrayList<Integer>();
         boolean normalOrder = true;
         if(createOrder.getOrderType() == 2 && StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null) {
@@ -744,6 +752,8 @@ public class OrderService {
         	if(couponModel == null || couponModel.getCouponType() != 2) {
         		throw new IllegalArgumentException("无效的券!");
         	}
+        	tbOrder.setCompanyId(couponModel.getCompanyId());
+        	tbOrder.setManagerId(couponModel.getManagerId());
         	List<CouponRelationItem> items = couponModel.getRelationItemList();
         	List<WxCreateOrder.OrderItem> orderList = new ArrayList<WxCreateOrder.OrderItem>();
         	for(CouponRelationItem item: items) {
@@ -793,11 +803,7 @@ public class OrderService {
                 }
             }
         }
-        TbOrder tbOrder = new TbOrder();
-        // 订单新建 未支付状态
-        tbOrder.setOrderStatus("0");
-        tbOrder.setPayStatus(0);//待支付
-        tbOrder.setTransportMode(1);// 默认快递
+        
         if(createOrder.getAppointmentTime() != null) {
         	tbOrder.setAppointmentTime(createOrder.getAppointmentTime());
         } else {
@@ -812,7 +818,7 @@ public class OrderService {
         tbOrder.setConsigneePhone(createOrder.getConsigneePhone());
         
         MemberAddressQuery memberAddressQuery = new MemberAddressQuery();
-        memberAddressQuery.setCdMemberId(String.valueOf(tbOrder.getCreateUserId()));
+        memberAddressQuery.setCdMemberId(String.valueOf(createOrder.getCreateUserId()));
         if(StringUtils.isEmpty(createOrder.getConsigneeName()) || StringUtils.isEmpty(createOrder.getConsigneeAddress())
         		|| StringUtils.isEmpty(createOrder.getConsigneePhone())) {
         	List<MemberAddressModel> addresses  = memberAddressService.getMemberAddressModels(memberAddressQuery);
@@ -821,10 +827,12 @@ public class OrderService {
                 for(int i = 0; i < size; i++) {
                 	MemberAddressModel address = addresses.get(i);
                 	if(i == 0) {
+                		tbOrder.setConsigneeName(address.getName());
                 		tbOrder.setConsigneeAddress(address.getFullAddress());
                         tbOrder.setConsigneePhone(address.getMobile());
                 	}
                 	if(address.getIsDefault()) {
+                		tbOrder.setConsigneeName(address.getName());
                 		tbOrder.setConsigneeAddress(address.getFullAddress());
                         tbOrder.setConsigneePhone(address.getMobile());
                 		break;
@@ -871,7 +879,6 @@ public class OrderService {
             tbOrder.setTotalAmount(totalAmount);
             tbOrder.setDiscountPrice(createOrder.getDiscountPrice());
         }
-        tbOrder.setAppointmentTime(createOrder.getAppointmentTime());
         tbOrder = mybatisDao.insertByModel(tbOrder);
         // tbOrderNo validation
         if (StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null && createOrder.getOrderType() > 0) {
@@ -908,6 +915,18 @@ public class OrderService {
     		tbOrder.setPayStatus(1);
     		tbOrder.setOrderType(0);//常规订单,货到付款类型
     		tbOrder.setPaymentMode(4);
+    		
+    		Integer userId = null;
+    		try {
+    			userId = Integer.valueOf(tbOrder.getMemberCode());
+    		} catch(Exception e) {
+    			userId = tbOrder.getCreateUserId();
+    		}
+    		CdMember member = mybatisDao.selectByPrimaryKey(CdMember.class, userId);
+    		if(member != null) {
+    			tbOrder.setCompanyId(member.getCdCompanyId());
+                tbOrder.setManagerId(member.getCdUserId());
+    		}
     		mybatisDao.update(tbOrder);
     		return Boolean.TRUE;
     	}
@@ -939,6 +958,9 @@ public class OrderService {
         tbOrder.setPaymentMode(5);
         tbOrder.setOrderType(1);
         tbOrder.setOrderStatus("1");
+        
+        tbOrder.setCompanyId(cdCoupon.getCdCompanyId());
+        tbOrder.setManagerId(cdCoupon.getCdUserId());
         mybatisDao.update(tbOrder);
         
         TbOrderRelation tbOrderRelation = new TbOrderRelation();
