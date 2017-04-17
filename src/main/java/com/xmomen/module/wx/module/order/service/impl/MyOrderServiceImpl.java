@@ -71,7 +71,7 @@ public class MyOrderServiceImpl implements MyOrderService {
     @Override
     public Boolean confirmReceiveOrder(Integer orderId, Integer userId) {
         TbOrder tbOrder = mybatisDao.selectByPrimaryKey(TbOrder.class, orderId);
-        if (tbOrder == null || userId == null || !userId.equals(tbOrder.getMemberCode())) {
+        if (tbOrder == null || userId == null || !String.valueOf(userId).equals(tbOrder.getMemberCode())) {
             throw new IllegalArgumentException("订单不存在或者不属于当前用户!");
         }
         tbOrder.setOrderStatus("6");//确认本人收货
@@ -83,7 +83,7 @@ public class MyOrderServiceImpl implements MyOrderService {
     @Override
     public Boolean cancelOrder(Integer orderId, Integer userId) {
         TbOrder tbOrder = mybatisDao.selectByPrimaryKey(TbOrder.class, orderId);
-        if (tbOrder == null || userId == null || !userId.equals(tbOrder.getMemberCode())) {
+        if (tbOrder == null || userId == null || !String.valueOf(userId).equals(tbOrder.getMemberCode())) {
             throw new IllegalArgumentException("订单不存在或者不属于当前用户!");
         }
         Integer payStatus = tbOrder.getPayStatus();
