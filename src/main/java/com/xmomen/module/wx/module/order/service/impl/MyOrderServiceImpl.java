@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.module.order.entity.TbOrder;
 import com.xmomen.module.order.service.OrderService;
+import com.xmomen.module.resource.service.ResourceUtilsService;
 import com.xmomen.module.wx.module.order.mapper.MyOrderMapper;
 import com.xmomen.module.wx.module.order.model.MyOrderQuery;
 import com.xmomen.module.wx.module.order.model.OrderDetailModel;
@@ -34,7 +35,12 @@ public class MyOrderServiceImpl implements MyOrderService {
                 List<OrderProductItem> items = order.getProducts();
                 if (items != null) {
                     for (OrderProductItem item : items) {
-                        item.setPicUrl("http://pic.58pic.com/58pic/15/35/55/12p58PICZv8_1024.jpg");
+                    	if (StringUtils.isEmpty(item.getPicUrl())) {
+                    		item.setPicUrl(ResourceUtilsService.getDefaultPicPath());
+                        }
+                        else {
+                        	item.setPicUrl(ResourceUtilsService.getWholeHttpPath(item.getPicUrl()));
+                        }
                     }
                 }
             }
@@ -51,7 +57,12 @@ public class MyOrderServiceImpl implements MyOrderService {
         if (orderDetail != null) {
             List<OrderProductItem> items = orderDetail.getProducts();
             for (OrderProductItem item : items) {
-                item.setPicUrl("http://pic.58pic.com/58pic/15/35/55/12p58PICZv8_1024.jpg");
+            	if (StringUtils.isEmpty(item.getPicUrl())) {
+            		item.setPicUrl(ResourceUtilsService.getDefaultPicPath());
+                }
+                else {
+                	item.setPicUrl(ResourceUtilsService.getWholeHttpPath(item.getPicUrl()));
+                }
             }
         }
         return orderDetail;

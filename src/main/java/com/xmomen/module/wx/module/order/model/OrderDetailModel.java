@@ -42,6 +42,9 @@ public @Data class OrderDetailModel {
 	private Boolean isReject;
 	private String expressName;
 	
+	private String expressMemberName;
+	private String expressMemberPhone;
+	
 	
 	List<OrderProductItem> products;
 }

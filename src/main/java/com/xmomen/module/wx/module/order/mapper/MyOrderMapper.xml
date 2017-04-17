@@ -51,6 +51,8 @@
         <result column="SHOU_HUO_DATE" property="shouHuoDate"></result>
         <result column="IS_REJECT" property="isReject"></result>
         <result column="EXPRESS_NAME" property="expressName"></result>
+        <result column="EXPRESS_MEMBER_NAME" property="expressMemberName"></result>
+        <result column="EXPRESS_MEMBER_PHONE" property="expressMemberPhone"></result>
         <collection property="products" resultMap="orderProductItem"></collection>
     </resultMap>
     
@@ -61,6 +63,7 @@
         <result column="ITEM_PRICE" property="itemPrice"></result>
         <result column="ITEM_QTY" property="itemQty"></result>
         <result column="ITEM_UNIT" property="itemUnit"></result>
+        <result column="PIC_URL" property="picUrl"></result>
     </resultMap>
     
     <!-- <select id="selectOrdersByMemberCode" parameterType="String" resultMap="orderModel">
@@ -116,7 +119,8 @@
         order_item.ITEM_CODE,
         order_item.ITEM_PRICE,
         order_item.ITEM_QTY,
-        order_item.ITEM_UNIT
+        order_item.ITEM_UNIT,
+        cr.PATH as PIC_URL
         FROM tb_order
         LEFT JOIN tb_order_item order_item
         ON
@@ -133,6 +137,9 @@
 
         LEFT JOIN sys_dictionary oss on oss.DICTIONARY_CODE='ORDER_SOURCE'
         LEFT JOIN sys_dictionary_parameter osp on osp.SYS_DICTIONARY_ID=oss.ID and tb_order.ORDER_SOURCE = osp.REAL_VALUE
+        LEFT JOIN cd_resource cr on 
+            cr.ENTITY_TYPE = 'cd_item' and cr.entity_id = order_item.ITEM_ID
+            and cr.IS_DEFAULT = 1
         <where>
         	tb_order.MEMBER_CODE = #{userId}
        	    <choose>
@@ -175,7 +182,10 @@
             WHEN 0 THEN '待付款'
             WHEN 2 THEN '待付款'
         END as PAY_STATUS_DESC,
-        ce.EXPRESS_NAME
+        ce.EXPRESS_NAME,
+        cem.MEMBER_NAME as EXPRESS_MEMBER_NAME,
+        cem.PHONE as EXPRESS_MEMBER_PHONE,
+        cr.PATH as PIC_URL
         FROM tb_order
         LEFT JOIN tb_order_item order_item
         ON
@@ -194,6 +204,10 @@
         LEFT JOIN sys_dictionary oss on oss.DICTIONARY_CODE='ORDER_SOURCE'
         LEFT JOIN sys_dictionary_parameter osp on osp.SYS_DICTIONARY_ID=oss.ID and tb_order.ORDER_SOURCE = osp.REAL_VALUE
         LEFT JOIN cd_express ce on tb_order.despatch_express_id = ce.id
+        LEFT JOIN cd_express_member cem on tb_order.express_member_id = cem.id
+        LEFT JOIN cd_resource cr on 
+            cr.ENTITY_TYPE = 'cd_item' and cr.entity_id = order_item.ITEM_ID
+            and cr.IS_DEFAULT = 1
         <where>
         	<if test="orderId">
         	    tb_order.ID = #{orderId}
