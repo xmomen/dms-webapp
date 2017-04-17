@@ -29,6 +29,7 @@ public @Data class ProductModel {
 	private Boolean reMaiTuiJian;
 	
 	private String picUrl;
+	private Boolean isDefaultPath;
 	
 	private List<String> picUrls;
 	private String detailContent;
