@@ -15,6 +15,7 @@ import com.xmomen.module.resource.service.ResourceService;
 import com.xmomen.module.resource.service.ResourceUtilsService;
 import com.xmomen.module.wx.util.DateUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ImportParams;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -166,17 +167,17 @@ public class ItemController {
                 file.transferTo(new File(imageFullPath));
 
                 //上传到FastDFS
-                String httpPath = ResourceUtilsService.uploadFile(new File(imageFullPath));
-
-                //保存资源文件
-                Resource resource = new Resource();
-                resource.setEntityId(itemId);
-                resource.setEntityType("cd_item");
-//                resource.setPath(imagePath + imageName);
-                resource.setPath(httpPath);
-                resource.setIsDefault(0);
-                resource.setResourceType("PICTURE");
-                return this.resourceService.createResource(resource);
+                String remotePath = ResourceUtilsService.uploadFile(new File(imageFullPath));
+                if (StringUtils.isEmpty(remotePath)) {
+                    //保存资源文件
+                    Resource resource = new Resource();
+                    resource.setEntityId(itemId);
+                    resource.setEntityType("cd_item");
+                    resource.setPath(remotePath);
+                    resource.setIsDefault(0);
+                    resource.setResourceType("PICTURE");
+                    return this.resourceService.createResource(resource);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
