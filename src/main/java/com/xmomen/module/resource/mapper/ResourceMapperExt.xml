@@ -33,4 +33,14 @@
         ORDER BY t.id
     </select>
 
+    <!--更新默认资源-->
+    <update id="updateDefaultByEntityId" parameterType="java.lang.String">
+        update
+        cd_resource
+        set
+          is_default = 0
+        where
+        entity_id=#{entityId}
+    </update>
+
 </mapper>

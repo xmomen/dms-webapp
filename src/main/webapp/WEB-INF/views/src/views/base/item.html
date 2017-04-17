@@ -537,13 +537,15 @@
     </div>
     <div class="modal-body">
         <!--//图片-->
-        <div>
+        <div ng-if="imageList.length <5">
             <input ux-upload ux-upload-config="fileUploadConfig" id="file" ng-model="fileUrl" type="file" multiple="true">
         </div>
 
         <div class="margin-top-5">
-            <span  ng-repeat="image in imageList">
+            <span ng-repeat="image in imageList">
                 <img src="{{image.path}}" width="80px" height="80px">
+                <a href="javascript:void(0);" data-ng-click="removeItemImage($index)">删除</a>
+                <a href="javascript:void(0);" ng-if="image.isDefault != 1" data-ng-click="updateDefault($index)">设定为封面</a>
             </span>
         </div>
 

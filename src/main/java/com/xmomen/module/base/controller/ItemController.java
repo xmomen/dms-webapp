@@ -156,7 +156,7 @@ public class ItemController {
                 String filePath = request.getSession().getServletContext().getRealPath("/") + imagePath;
                 File fileDir = new File(filePath);
                 if (!fileDir.exists()) {
-                    fileDir.mkdir();
+                    fileDir.mkdirs();
                 }
                 String imageName = UUID.randomUUID() + "." + file.getOriginalFilename().split("\\.")[1];
                 //图片全地址
@@ -168,6 +168,7 @@ public class ItemController {
                 resource.setEntityId(itemId);
                 resource.setEntityType("cd_item");
                 resource.setPath(imagePath + imageName);
+                resource.setIsDefault(0);
                 resource.setResourceType("PICTURE");
                 return this.resourceService.createResource(resource);
             } catch (Exception e) {
@@ -181,6 +182,21 @@ public class ItemController {
             }
         }
         return null;
+    }
+
+
+    /**
+     * 默认封面图片
+     *
+     * @param resourceId 资源目录id
+     * @return
+     */
+    @RequestMapping(value = "/item/defaultImage", method = RequestMethod.GET)
+    @ResponseBody
+    public Boolean defaultImage(
+            @RequestParam(value = "resourceId") String resourceId) {
+        this.itemService.defaultImage(resourceId);
+        return Boolean.TRUE;
     }
 
 }

@@ -246,15 +246,20 @@ define(function () {
                 templateUrl: 'itemDetail.html',
                 controller: ["$scope", "ItemDetailAPI", "$modalInstance", "currentItem", "ResourceAPI", function ($scope, ItemDetailAPI, $modalInstance, currentItem, ResourceAPI) {
                     $scope.imageList = [];
-                    //查询图片
-                    ResourceAPI.query({
-                        entityId: currentItem.id,
-                        entityType: "cd_item",
-                        limit: 50,
-                        offset: 1,
-                    }, function (result) {
-                        $scope.imageList = result.data;
-                    });
+                    $scope.getItemImageList = function (currentItem) {
+                        //查询图片
+                        ResourceAPI.query({
+                            entityId: currentItem.id,
+                            entityType: "cd_item",
+                            limit: 50,
+                            offset: 1,
+                        }, function (result) {
+                            $scope.imageList = result.data;
+                        });
+                    };
+
+                    $scope.getItemImageList(currentItem);
+
                     //上传图片
                     $scope.fileUploadConfig = {
                         'buttonText': '上传图片',
@@ -264,10 +269,14 @@ define(function () {
 
                         },
                         'onUploadSuccess': function (file, data, response) {
-                            debugger;
-                            // var data = data.parseJSON();
-                            $scope.imageList.push(JSON.parse(data));
-                            $ugDialog.alert("上传成功")
+                            if (data == '') {
+                                $ugDialog.warn("上传失败");
+                            } else {
+                                $scope.imageList.push(JSON.parse(data));
+                                $ugDialog.alert("上传成功");
+                                //立即刷新数据
+                                $scope.$apply();
+                            }
                         }
                     };
 
@@ -303,6 +312,26 @@ define(function () {
                         } else {
                             $ugDialog.alert("请填写内容");
                         }
+                    };
+
+                    //删除图片
+                    $scope.removeItemImage = function (index) {
+                        var image = $scope.imageList[index];
+                        ResourceAPI.delete({
+                            id: image.id
+                        }, function (result) {
+                            $scope.imageList.splice(index, 1);
+                        })
+                    };
+
+                    //设定为封面
+                    $scope.updateDefault = function (index) {
+                        var image = $scope.imageList[index];
+                        ItemAPI.defaultImage({
+                            resourceId: image.id
+                        }, function (result) {
+                            $scope.getItemImageList(currentItem);
+                        })
                     };
                 }],
                 resolve: {
