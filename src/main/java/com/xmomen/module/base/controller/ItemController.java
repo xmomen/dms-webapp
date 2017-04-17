@@ -12,6 +12,7 @@ import com.xmomen.module.base.model.*;
 
 import com.xmomen.module.resource.entity.Resource;
 import com.xmomen.module.resource.service.ResourceService;
+import com.xmomen.module.resource.service.ResourceUtilsService;
 import com.xmomen.module.wx.util.DateUtils;
 import org.apache.commons.io.FileUtils;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
@@ -163,11 +164,16 @@ public class ItemController {
                 String imageFullPath = filePath + imageName;
                 // 转存文件
                 file.transferTo(new File(imageFullPath));
+
+                //上传到FastDFS
+                String httpPath = ResourceUtilsService.uploadFile(new File(imageFullPath));
+
                 //保存资源文件
                 Resource resource = new Resource();
                 resource.setEntityId(itemId);
                 resource.setEntityType("cd_item");
-                resource.setPath(imagePath + imageName);
+//                resource.setPath(imagePath + imageName);
+                resource.setPath(httpPath);
                 resource.setIsDefault(0);
                 resource.setResourceType("PICTURE");
                 return this.resourceService.createResource(resource);
