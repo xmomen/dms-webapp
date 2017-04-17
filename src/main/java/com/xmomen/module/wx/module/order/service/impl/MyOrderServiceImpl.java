@@ -20,66 +20,66 @@ import com.xmomen.module.wx.module.order.service.MyOrderService;
 @Service
 public class MyOrderServiceImpl implements MyOrderService {
 
-	@Autowired
-	MybatisDao mybatisDao;
-	
-	@Autowired
-	OrderService orderService;
+    @Autowired
+    MybatisDao mybatisDao;
 
-	@Override
-	public List<OrderModel> myOrder(MyOrderQuery myOrderQuery) {
-		List<OrderModel> orders = mybatisDao.getSqlSessionTemplate().selectList(MyOrderMapper.MY_ORDER_MAPPER_NAMESPACE + "selectOrders", myOrderQuery);
-		if(orders != null) {
-			for(OrderModel order: orders) {
-				List<OrderProductItem> items = order.getProducts();
-				if(items != null) {
-					for(OrderProductItem item: items) {
-						item.setPicUrl("http://pic.58pic.com/58pic/15/35/55/12p58PICZv8_1024.jpg");
-					}
-				}
-			}
-		}
-		return orders;
-	}
+    @Autowired
+    OrderService orderService;
 
-	@Override
-	public OrderDetailModel getOrderDetail(MyOrderQuery myOrderQuery) {
-		if(myOrderQuery.getOrderId() == null && StringUtils.isEmpty(myOrderQuery.getOrderNo())) {
-			return null;
-		}
-		OrderDetailModel orderDetail =mybatisDao.getSqlSessionTemplate().selectOne(MyOrderMapper.MY_ORDER_MAPPER_NAMESPACE + "getOrderDetail", myOrderQuery);
-	    if(orderDetail != null) {
-	    	List<OrderProductItem> items = orderDetail.getProducts();
-	    	for(OrderProductItem item: items) {
-				item.setPicUrl("http://pic.58pic.com/58pic/15/35/55/12p58PICZv8_1024.jpg");
-			}
-	    }
-	    return orderDetail;
-	}
+    @Override
+    public List<OrderModel> myOrder(MyOrderQuery myOrderQuery) {
+        List<OrderModel> orders = mybatisDao.getSqlSessionTemplate().selectList(MyOrderMapper.MY_ORDER_MAPPER_NAMESPACE + "selectOrders", myOrderQuery);
+        if (orders != null) {
+            for (OrderModel order : orders) {
+                List<OrderProductItem> items = order.getProducts();
+                if (items != null) {
+                    for (OrderProductItem item : items) {
+                        item.setPicUrl("http://pic.58pic.com/58pic/15/35/55/12p58PICZv8_1024.jpg");
+                    }
+                }
+            }
+        }
+        return orders;
+    }
 
-	@Override
-	public Boolean confirmReceiveOrder(Integer orderId, Integer userId) {
-		TbOrder tbOrder = mybatisDao.selectByPrimaryKey(TbOrder.class, orderId);
-		if(tbOrder == null || userId == null || !userId.equals(tbOrder.getCreateUserId())) {
-			throw new IllegalArgumentException("订单不存在或者不属于当前用户!");
-		}
-		tbOrder.setOrderStatus("6");//确认本人收货
-		tbOrder.setShouHuoDate(new Date());
-		mybatisDao.update(tbOrder);
-		return Boolean.TRUE;
-	}
+    @Override
+    public OrderDetailModel getOrderDetail(MyOrderQuery myOrderQuery) {
+        if (myOrderQuery.getOrderId() == null && StringUtils.isEmpty(myOrderQuery.getOrderNo())) {
+            return null;
+        }
+        OrderDetailModel orderDetail = mybatisDao.getSqlSessionTemplate().selectOne(MyOrderMapper.MY_ORDER_MAPPER_NAMESPACE + "getOrderDetail", myOrderQuery);
+        if (orderDetail != null) {
+            List<OrderProductItem> items = orderDetail.getProducts();
+            for (OrderProductItem item : items) {
+                item.setPicUrl("http://pic.58pic.com/58pic/15/35/55/12p58PICZv8_1024.jpg");
+            }
+        }
+        return orderDetail;
+    }
 
-	@Override
-	public Boolean cancelOrder(Integer orderId, Integer userId) {
-		TbOrder tbOrder = mybatisDao.selectByPrimaryKey(TbOrder.class, orderId);
-		if(tbOrder == null || userId == null || !userId.equals(tbOrder.getCreateUserId())) {
-			throw new IllegalArgumentException("订单不存在或者不属于当前用户!");
-		}
-		Integer payStatus = tbOrder.getPayStatus();
-		if(payStatus == 1) throw new IllegalArgumentException("订单已支付,不能取消!");
-		tbOrder.setOrderStatus("9");//取消订单
-		mybatisDao.update(tbOrder);
-		return Boolean.TRUE;
-	}
+    @Override
+    public Boolean confirmReceiveOrder(Integer orderId, Integer userId) {
+        TbOrder tbOrder = mybatisDao.selectByPrimaryKey(TbOrder.class, orderId);
+        if (tbOrder == null || userId == null || !userId.equals(tbOrder.getMemberCode())) {
+            throw new IllegalArgumentException("订单不存在或者不属于当前用户!");
+        }
+        tbOrder.setOrderStatus("6");//确认本人收货
+        tbOrder.setShouHuoDate(new Date());
+        mybatisDao.update(tbOrder);
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public Boolean cancelOrder(Integer orderId, Integer userId) {
+        TbOrder tbOrder = mybatisDao.selectByPrimaryKey(TbOrder.class, orderId);
+        if (tbOrder == null || userId == null || !userId.equals(tbOrder.getMemberCode())) {
+            throw new IllegalArgumentException("订单不存在或者不属于当前用户!");
+        }
+        Integer payStatus = tbOrder.getPayStatus();
+        if (payStatus == 1) throw new IllegalArgumentException("订单已支付,不能取消!");
+        tbOrder.setOrderStatus("9");//取消订单
+        mybatisDao.update(tbOrder);
+        return Boolean.TRUE;
+    }
 
 }
