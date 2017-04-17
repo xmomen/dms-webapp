@@ -32,7 +32,7 @@ public class ResourceUtilsService {
         DfsService dfsServcie = DfsSdk.getDfsInstance();
         DfsPath path = dfsServcie.putObject(file, null, null);
         if (path == null) return null;
-        return path.getHttpPath();
+        return path.getRemotePath();
     }
 
     public static String getDefaultPicPath() {
