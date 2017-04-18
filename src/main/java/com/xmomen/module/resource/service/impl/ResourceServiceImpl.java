@@ -1,5 +1,8 @@
 package com.xmomen.module.resource.service.impl;
 
+import com.xmomen.module.resource.api.DfsPath;
+import com.xmomen.module.resource.api.DfsSdk;
+import com.xmomen.module.resource.api.DfsService;
 import com.xmomen.module.resource.entity.Resource;
 import com.xmomen.module.resource.entity.ResourceExample;
 import com.xmomen.module.resource.mapper.ResourceMapperExt;
@@ -10,20 +13,22 @@ import com.xmomen.module.resource.model.ResourceModel;
 import com.xmomen.module.resource.service.ResourceService;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author  tanxinzheng
- * @date    2017-4-10 23:26:20
+ * @author tanxinzheng
  * @version 1.0.0
+ * @date 2017-4-10 23:26:20
  */
 @Service
 public class ResourceServiceImpl implements ResourceService {
@@ -41,7 +46,7 @@ public class ResourceServiceImpl implements ResourceService {
     @Transactional
     public ResourceModel createResource(ResourceModel resourceModel) {
         Resource resource = createResource(resourceModel.getEntity());
-        if(resource != null){
+        if (resource != null) {
             return getOneResourceModel(resource.getId());
         }
         return null;
@@ -60,19 +65,19 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     /**
-    * 批量新增资源目录
-    *
-    * @param resourceModels 新增资源目录对象集合参数
-    * @return List<ResourceModel>    资源目录领域对象集合
-    */
+     * 批量新增资源目录
+     *
+     * @param resourceModels 新增资源目录对象集合参数
+     * @return List<ResourceModel>    资源目录领域对象集合
+     */
     @Override
     @Transactional
     public List<ResourceModel> createResources(List<ResourceModel> resourceModels) {
         List<ResourceModel> resourceModelList = null;
         for (ResourceModel resourceModel : resourceModels) {
             resourceModel = createResource(resourceModel);
-            if(resourceModel != null){
-                if(resourceModelList == null){
+            if (resourceModel != null) {
+                if (resourceModelList == null) {
                     resourceModelList = new ArrayList<>();
                 }
                 resourceModelList.add(resourceModel);
@@ -118,10 +123,10 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     /**
-    * 删除资源目录
-    *
-    * @param id 主键
-    */
+     * 删除资源目录
+     *
+     * @param id 主键
+     */
     @Override
     @Transactional
     public void deleteResource(String id) {
@@ -131,8 +136,8 @@ public class ResourceServiceImpl implements ResourceService {
     /**
      * 查询资源目录领域分页对象（带参数条件）
      *
-     * @param limit     每页最大数
-     * @param offset    页码
+     * @param limit         每页最大数
+     * @param offset        页码
      * @param resourceQuery 查询参数
      * @return Page<ResourceModel>   资源目录参数对象
      */
