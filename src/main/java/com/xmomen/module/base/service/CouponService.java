@@ -19,7 +19,7 @@ import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.base.entity.CdCoupon;
 import com.xmomen.module.base.entity.CdCouponExample;
 import com.xmomen.module.base.entity.CdCouponRef;
-import com.xmomen.module.base.entity.CdCouponRefExample;
+import com.xmomen.module.base.entity.CdMember;
 import com.xmomen.module.base.entity.CdMemberCouponRelation;
 import com.xmomen.module.base.mapper.CouponMapper;
 import com.xmomen.module.base.model.CouponModel;
@@ -350,5 +350,43 @@ public class CouponService {
     		if(password.equals(prePassword)) return true;
     		return false;
     	}
+    }
+    
+    public Boolean resetPasword(String couponNumber, String password, String newPassWord, Integer memberId) throws Exception {
+    	CouponQuery couponQuery = new CouponQuery();
+    	couponQuery.setCouponNumber(couponNumber);
+    	List<ReadCardVo> existingBindCards = mybatisDao.getSqlSessionTemplate().selectList(CouponMapper.CouponMapperNameSpace + "getCouponByCouponNo", couponQuery);
+    	if(CollectionUtils.isEmpty(existingBindCards)) {
+    		throw new Exception("该卡不存在!");
+    	}
+    	CdMember cdMember = mybatisDao.selectByPrimaryKey(CdMember.class, memberId);
+    	if(cdMember == null) {
+    		throw new Exception("当前用户不存在!");
+    	}
+    	boolean belongTo = false;
+    	for(ReadCardVo readCardVo: existingBindCards) {
+    		String userName = readCardVo.getUserName();
+    		if(cdMember.getName().equals(userName)) {
+    			belongTo = true;
+    		}
+    	}
+    	if(!belongTo) {
+    		throw new Exception("该卡未被激活或者不属于当前用户!");
+    	}
+    	CdCoupon query = new CdCoupon();
+    	query.setCouponNumber(couponNumber);
+    	CdCoupon coupon = mybatisDao.selectOneByModel(query);
+    	String prePassword = coupon.getCouponPassword();
+    	if(StringUtils.isEmpty(prePassword) && StringUtils.isEmpty(password)) {
+    		coupon.setCouponPassword(newPassWord);
+    	} else if(!StringUtils.isEmpty(prePassword)) {
+    		if(prePassword.equals(password)) {
+    			coupon.setCouponPassword(newPassWord);
+    		} else {
+    			throw new Exception("密码不正确!");
+    		}
+    	}
+    	mybatisDao.update(coupon);
+    	return Boolean.TRUE;
     }
 }

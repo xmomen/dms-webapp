@@ -3,6 +3,7 @@ package com.xmomen.module.wx.module.order.controller;
 import java.beans.PropertyEditorSupport;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -95,6 +96,17 @@ public class MyOrderController {
 	@ResponseBody
 	public List<ProductModel> getCouponItems(@RequestParam("couponNo") String couponNo) {
 		return orderService.getCouponItems(couponNo);
+	}
+	
+	/**
+	 * 
+	 * @param memberId
+	 * @return {"待装箱":7,"待付款":6,"待采购":2,"待配送":2}
+	 */
+	@RequestMapping(value = "/statistic", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Integer> getOrderStatistic(@RequestParam("memberId") Integer memberId) {
+		return myOrderService.getOrderStatistic(memberId);
 	}
 	
 	@InitBinder

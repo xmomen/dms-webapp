@@ -43,4 +43,12 @@ public class WxCouponController {
 			@RequestParam(value="password", required = false) String password) {
 		return couponService.validate(couponNumber, password);
 	}
+	
+	@RequestMapping(value="/reset", method = RequestMethod.POST)
+	Boolean resetPasword(@RequestParam(value = "memberId", required=true) Integer memberId,
+			@RequestParam(value="couponNumber", required=true) String couponNumber,
+			@RequestParam(value="password", required = false) String password,
+			@RequestParam(value="newPassword", required = true) String newPassword) throws Exception {
+		return couponService.resetPasword(couponNumber, password, newPassword, memberId);
+	}
 }
