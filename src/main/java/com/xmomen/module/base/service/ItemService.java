@@ -10,14 +10,16 @@ import java.util.List;
 
 public interface ItemService {
 
-	public List<ItemModel> queryItemList(ItemQuery itemQuery);
+    public List<ItemModel> queryItemList(ItemQuery itemQuery);
 
-	public Page<ItemModel> queryItemList(ItemQuery itemQuery, Integer offset, Integer limit);
+    public Page<ItemModel> queryItemList(ItemQuery itemQuery, Integer offset, Integer limit);
 
-	public void createItem(CreateItem createItem);
-	
-	public void updateItem(Integer id,UpdateItem updateItem);
-	
-	public void delete(Integer id);
-	
+    public void createItem(CreateItem createItem);
+
+    public void updateItem(Integer id, UpdateItem updateItem);
+
+    public void delete(Integer id);
+
+    public void defaultImage(String resourceId);
+
 }	

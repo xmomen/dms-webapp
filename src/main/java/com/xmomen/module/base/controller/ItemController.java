@@ -12,8 +12,10 @@ import com.xmomen.module.base.model.*;
 
 import com.xmomen.module.resource.entity.Resource;
 import com.xmomen.module.resource.service.ResourceService;
+import com.xmomen.module.resource.service.ResourceUtilsService;
 import com.xmomen.module.wx.util.DateUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ImportParams;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -156,20 +158,26 @@ public class ItemController {
                 String filePath = request.getSession().getServletContext().getRealPath("/") + imagePath;
                 File fileDir = new File(filePath);
                 if (!fileDir.exists()) {
-                    fileDir.mkdir();
+                    fileDir.mkdirs();
                 }
                 String imageName = UUID.randomUUID() + "." + file.getOriginalFilename().split("\\.")[1];
                 //图片全地址
                 String imageFullPath = filePath + imageName;
                 // 转存文件
                 file.transferTo(new File(imageFullPath));
-                //保存资源文件
-                Resource resource = new Resource();
-                resource.setEntityId(itemId);
-                resource.setEntityType("cd_item");
-                resource.setPath(imagePath + imageName);
-                resource.setResourceType("PICTURE");
-                return this.resourceService.createResource(resource);
+
+                //上传到FastDFS
+                String remotePath = ResourceUtilsService.uploadFile(new File(imageFullPath));
+                if (StringUtils.isEmpty(remotePath)) {
+                    //保存资源文件
+                    Resource resource = new Resource();
+                    resource.setEntityId(itemId);
+                    resource.setEntityType("cd_item");
+                    resource.setPath(remotePath);
+                    resource.setIsDefault(0);
+                    resource.setResourceType("PICTURE");
+                    return this.resourceService.createResource(resource);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -181,6 +189,21 @@ public class ItemController {
             }
         }
         return null;
+    }
+
+
+    /**
+     * 默认封面图片
+     *
+     * @param resourceId 资源目录id
+     * @return
+     */
+    @RequestMapping(value = "/item/defaultImage", method = RequestMethod.GET)
+    @ResponseBody
+    public Boolean defaultImage(
+            @RequestParam(value = "resourceId") String resourceId) {
+        this.itemService.defaultImage(resourceId);
+        return Boolean.TRUE;
     }
 
 }

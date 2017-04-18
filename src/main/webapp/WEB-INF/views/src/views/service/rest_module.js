@@ -159,7 +159,8 @@ define(function () {
         return $resource("/item/:id", {id: "@id"}, {
             query: {isArray: false},
             update: {method: "PUT", params: {id: "@id"}},
-            getChildItemList: {method: "GET", url: "/getChildItem", isArray: true}
+            getChildItemList: {method: "GET", url: "/getChildItem", isArray: true},
+            defaultImage: {method: "GET", url: "/item/defaultImage"}
         });
     }]);
 
