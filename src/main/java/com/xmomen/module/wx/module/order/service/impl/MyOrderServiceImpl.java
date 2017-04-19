@@ -1,9 +1,12 @@
 package com.xmomen.module.wx.module.order.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,7 @@ import com.xmomen.module.wx.module.order.model.MyOrderQuery;
 import com.xmomen.module.wx.module.order.model.OrderDetailModel;
 import com.xmomen.module.wx.module.order.model.OrderModel;
 import com.xmomen.module.wx.module.order.model.OrderProductItem;
+import com.xmomen.module.wx.module.order.model.OrderStatisticModel;
 import com.xmomen.module.wx.module.order.service.MyOrderService;
 
 @Service
@@ -92,5 +96,31 @@ public class MyOrderServiceImpl implements MyOrderService {
         mybatisDao.update(tbOrder);
         return Boolean.TRUE;
     }
+
+	@Override
+	public Map<String, Integer> getOrderStatistic(Integer userId) {
+		Map<String, Integer> result = new HashMap<String, Integer>();
+		List<OrderStatisticModel> orderStatisticModels = mybatisDao.getSqlSessionTemplate().selectList(MyOrderMapper.MY_ORDER_MAPPER_NAMESPACE + "getOrderStatistic", userId);
+		int notPayCount = 0;
+		if(!CollectionUtils.isEmpty(orderStatisticModels)) {
+			for(OrderStatisticModel orderStatisticModel: orderStatisticModels) {
+				if(orderStatisticModel.getPayStatus() != 1) {
+					notPayCount += orderStatisticModel.getCount();
+				}
+				String statusDesc = orderStatisticModel.getOrderStatusDesc();
+				if(statusDesc != null && !orderStatisticModel.getOrderStatus().equals(0)) {
+					if(result.containsKey(statusDesc)) {
+						result.put(statusDesc, result.get(statusDesc) + orderStatisticModel.getCount());
+					} else {
+						result.put(statusDesc, orderStatisticModel.getCount());
+					}
+				}
+			}
+		}
+		if(notPayCount > 0) {
+			result.put("待付款", notPayCount);
+		}
+		return result;
+	}
 
 }

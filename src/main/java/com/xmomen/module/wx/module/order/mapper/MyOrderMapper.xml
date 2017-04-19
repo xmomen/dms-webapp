@@ -218,4 +218,22 @@
         </where>
         
     </select>
+    
+    <select id="getOrderStatistic" parameterType="Integer" resultType="com.xmomen.module.wx.module.order.model.OrderStatisticModel">
+    	SELECT
+    	COUNT(tb_order.id) as count, 
+    	tb_order.order_status as orderStatus,
+    	tb_order.pay_status as payStatus,
+    	case tb_order.PAY_STATUS
+            WHEN 1 THEN '已支付'
+            ELSE '待付款'
+        END as payStatusDesc,
+        s.show_value as orderStatusDesc from tb_order
+		JOIN sys_dictionary_parameter s
+			ON s.sys_dictionary_id = 5 and s.real_value = tb_order.order_status 
+		WHERE tb_order.order_source = 1 and tb_order.member_code = #{userId}
+		and tb_order.order_status != 9
+		GROUP BY order_status, pay_status
+    	
+    </select>
 </mapper>

@@ -1,6 +1,7 @@
 package com.xmomen.module.wx.module.order.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.xmomen.module.wx.module.order.model.MyOrderQuery;
 import com.xmomen.module.wx.module.order.model.OrderDetailModel;
@@ -14,4 +15,6 @@ public interface MyOrderService {
 	Boolean confirmReceiveOrder(Integer orderId, Integer userId);
 	
 	Boolean cancelOrder(Integer orderId, Integer userId);
+	
+	Map<String, Integer> getOrderStatistic(Integer userId);
 }

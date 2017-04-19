@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +49,13 @@ public class FastDfsService implements DfsService {
      */
     private FastDfsService(String bucketName) {
         this.bucketName = bucketName;
-        String configFilePath = FastDfsService.class.getResource("/").getPath() + "fdfs_client.conf";
+        String configFilePath = null;
+		try {
+			configFilePath = FastDfsService.class.getResource("/").toURI().getPath() + "fdfs_client.conf";
+		} catch (URISyntaxException e1) {
+			Exception e = new Exception("Cann't found fdfs_client.conf file under " + FastDfsService.class.getResource("/"));
+			handleException(e);
+		}
         try {
             ClientGlobal.init(configFilePath);
             IniFileReader reader = new IniFileReader(configFilePath);
