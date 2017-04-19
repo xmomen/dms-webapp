@@ -43,6 +43,7 @@ public class OrderController {
 
     /**
      * 订单列表
+     *
      * @param limit
      * @param offset
      * @param keyword
@@ -51,21 +52,21 @@ public class OrderController {
     @RequestMapping(value = "/order", method = RequestMethod.GET)
     @Log(actionName = "查询订单列表")
     public Page<OrderModel> getUserList(@RequestParam(value = "limit") Integer limit,
-                                  @RequestParam(value = "offset") Integer offset,
-                                  @RequestParam(value = "orderStatus", required = false) Integer orderStatus,
-                                  @RequestParam(value = "keyword", required = false) String keyword,
-                                  @RequestParam(value = "orderCreateTimeStart",required = false) String orderCreateTimeStart,
-                                  @RequestParam(value = "orderCreateTimeEnd",required = false) String orderCreateTimeEnd,
-                                  @RequestParam(value = "couponNumber",required = false) String couponNumber,
-                                  @RequestParam(value = "managerId", required = false) Integer managerId,
-                                  @RequestParam(value = "companyId", required = false) Integer companyId,
-                                  @RequestParam(value = "consigneeName", required = false) String consigneeName,
-                                  @RequestParam(value = "hasNoShowCancel", required = false) Boolean hasNoShowCancel,
-                                  @RequestParam(value = "hasShowDespatch", required = false) Boolean hasShowDespatch,
-                                  @RequestParam(value = "appointmentTimeStart", required = false) String appointmentTimeStart,
-                                  @RequestParam(value = "appointmentTimeEnd", required = false) String appointmentTimeEnd,
-                                  @RequestParam(value = "despatchExpressId",required = false) Integer despatchExpressId,
-                                  @RequestParam(value = "isTwoSend",required = false) Integer isTwoSend){
+                                        @RequestParam(value = "offset") Integer offset,
+                                        @RequestParam(value = "orderStatus", required = false) Integer orderStatus,
+                                        @RequestParam(value = "keyword", required = false) String keyword,
+                                        @RequestParam(value = "orderCreateTimeStart", required = false) String orderCreateTimeStart,
+                                        @RequestParam(value = "orderCreateTimeEnd", required = false) String orderCreateTimeEnd,
+                                        @RequestParam(value = "couponNumber", required = false) String couponNumber,
+                                        @RequestParam(value = "managerId", required = false) Integer managerId,
+                                        @RequestParam(value = "companyId", required = false) Integer companyId,
+                                        @RequestParam(value = "consigneeName", required = false) String consigneeName,
+                                        @RequestParam(value = "hasNoShowCancel", required = false) Boolean hasNoShowCancel,
+                                        @RequestParam(value = "hasShowDespatch", required = false) Boolean hasShowDespatch,
+                                        @RequestParam(value = "appointmentTimeStart", required = false) String appointmentTimeStart,
+                                        @RequestParam(value = "appointmentTimeEnd", required = false) String appointmentTimeEnd,
+                                        @RequestParam(value = "despatchExpressId", required = false) Integer despatchExpressId,
+                                        @RequestParam(value = "isTwoSend", required = false) Integer isTwoSend) {
         OrderQuery orderQuery = new OrderQuery();
         orderQuery.setKeyword(keyword);
         orderQuery.setOrderStatus(orderStatus);
@@ -76,26 +77,31 @@ public class OrderController {
         orderQuery.setCompanyId(companyId);
         orderQuery.setCouponNumber(couponNumber);
         orderQuery.setIsTwoSend(isTwoSend);
-        if(null != hasShowDespatch){
-        	//0显示未分配快递商 1显示已分配快递商
-        	 orderQuery.setShowDespatch(hasShowDespatch ? 1 : 0);
+        if (null != hasShowDespatch) {
+            //0显示未分配快递商 1显示已分配快递商
+            orderQuery.setShowDespatch(hasShowDespatch ? 1 : 0);
         }
-        if(StringUtilsExt.isNotBlank(orderCreateTimeStart)){
-       	    orderQuery.setOrderCreateTimeStart(orderCreateTimeStart.substring(0, 10));
+        if (StringUtilsExt.isNotBlank(orderCreateTimeStart)) {
+            orderQuery.setOrderCreateTimeStart(orderCreateTimeStart.substring(0, 10));
         }
-        if(StringUtilsExt.isNotBlank(orderCreateTimeEnd)){
-        	orderQuery.setOrderCreateTimeEnd(orderCreateTimeEnd.substring(0, 10));
+        if (StringUtilsExt.isNotBlank(orderCreateTimeEnd)) {
+            orderQuery.setOrderCreateTimeEnd(orderCreateTimeEnd.substring(0, 10));
         }
 
-        if(StringUtilsExt.isNotBlank(appointmentTimeStart)){
-        	orderQuery.setAppointmentTimeStart(appointmentTimeStart.substring(0, 10));
+        if (StringUtilsExt.isNotBlank(appointmentTimeStart)) {
+            orderQuery.setAppointmentTimeStart(appointmentTimeStart.substring(0, 10));
         }
-        
-        if(StringUtilsExt.isNotBlank(appointmentTimeEnd)){
-        	orderQuery.setAppointmentTimeEnd(appointmentTimeEnd.substring(0, 10));
+
+        if (StringUtilsExt.isNotBlank(appointmentTimeEnd)) {
+            orderQuery.setAppointmentTimeEnd(appointmentTimeEnd.substring(0, 10));
         }
         //客服经理过滤 如果有客服组权限则不过滤
-        if(SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE) && !SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_PERMISSION_CODE)){
+
+        if (SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE)
+                && !SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_PERMISSION_CODE)
+                && !SecurityUtils.getSubject().hasRole(AppConstants.HOU_TAI_CODE)
+                && !SecurityUtils.getSubject().hasRole(AppConstants.ADMIN)
+                && !SecurityUtils.getSubject().hasRole(AppConstants.SUPER_ADMIN)) {
             Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
             orderQuery.setCreateUserId(userId);
         }
@@ -104,15 +110,16 @@ public class OrderController {
 
     /**
      * 订单明细
+     *
      * @return
      */
     @RequestMapping(value = "/order/{id}", method = RequestMethod.GET)
     @Log(actionName = "查询订单列表")
-    public OrderModel getOrderDetail(@PathVariable(value = "id") Integer id){
+    public OrderModel getOrderDetail(@PathVariable(value = "id") Integer id) {
         OrderQuery orderQuery = new OrderQuery();
         orderQuery.setId(id);
         List<OrderModel> orderModelList = orderService.getOrderList(orderQuery);
-        if(orderModelList != null && !orderModelList.isEmpty() && orderModelList.size() == 1){
+        if (orderModelList != null && !orderModelList.isEmpty() && orderModelList.size() == 1) {
             return orderModelList.get(0);
         }
         return null;
@@ -120,6 +127,7 @@ public class OrderController {
 
     /**
      * 新增订单
+     *
      * @param createOrder
      * @param bindingResult
      * @return
@@ -127,7 +135,7 @@ public class OrderController {
     @RequestMapping(value = "/order", method = RequestMethod.POST)
     @Log(actionName = "新增订单")
     public TbOrder createOrder(@RequestBody @Valid CreateOrder createOrder, BindingResult bindingResult) throws ArgumentValidException {
-        if(bindingResult != null && bindingResult.hasErrors()){
+        if (bindingResult != null && bindingResult.hasErrors()) {
             throw new ArgumentValidException(bindingResult);
         }
         Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("user_id");
@@ -137,6 +145,7 @@ public class OrderController {
 
     /**
      * 批量新增订单
+     *
      * @param createOrder
      * @param bindingResult
      * @return
@@ -144,7 +153,7 @@ public class OrderController {
     @RequestMapping(value = "/order/batch", method = RequestMethod.POST)
     @Log(actionName = "批量新增订单")
     public void batchCreateOrder(@RequestBody @Valid CreateOrder createOrder, BindingResult bindingResult) throws ArgumentValidException {
-        if(bindingResult != null && bindingResult.hasErrors()){
+        if (bindingResult != null && bindingResult.hasErrors()) {
             throw new ArgumentValidException(bindingResult);
         }
         Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("user_id");
@@ -154,6 +163,7 @@ public class OrderController {
 
     /**
      * 更新订单
+     *
      * @param updateOrder
      * @param bindingResult
      * @return
@@ -163,7 +173,7 @@ public class OrderController {
     public TbOrder updateOrder(
             @PathVariable(value = "id") Integer id,
             @RequestBody @Valid UpdateOrder updateOrder, BindingResult bindingResult) throws ArgumentValidException {
-        if(bindingResult != null && bindingResult.hasErrors()){
+        if (bindingResult != null && bindingResult.hasErrors()) {
             throw new ArgumentValidException(bindingResult);
         }
         Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("user_id");
@@ -173,6 +183,7 @@ public class OrderController {
 
     /**
      * 订单商品列表
+     *
      * @param limit
      * @param offset
      * @param orderNo
@@ -181,25 +192,27 @@ public class OrderController {
     @RequestMapping(value = "/order/{id}/item", method = RequestMethod.GET)
     @Log(actionName = "查询订单商品列表")
     public Page<TbOrderItem> getUserList(@RequestParam(value = "limit") Integer limit,
-                                        @RequestParam(value = "offset") Integer offset,
-                                         @RequestParam(value = "orderNo", required = false) String orderNo){
+                                         @RequestParam(value = "offset") Integer offset,
+                                         @RequestParam(value = "orderNo", required = false) String orderNo) {
         TbOrderItem tbOrderItem = new TbOrderItem();
         tbOrderItem.setOrderNo(orderNo);
         return mybatisDao.selectPageByModel(tbOrderItem, limit, offset);
     }
 
     /**
-     *  取消订单
+     * 取消订单
+     *
      * @param id
      */
     @RequestMapping(value = "/order/{id}", method = RequestMethod.DELETE)
     @Log(actionName = "取消订单")
-    public void cancelOrder(@PathVariable(value = "id") Integer id){
+    public void cancelOrder(@PathVariable(value = "id") Integer id) {
         orderService.cancelOrder(id);
     }
 
     /**
      * 更新订单装箱数
+     *
      * @param createOrder
      * @param bindingResult
      * @return
@@ -207,18 +220,19 @@ public class OrderController {
     @RequestMapping(value = "/order/updateTotalBox", method = RequestMethod.POST)
     @Log(actionName = "更新订单装箱数")
     public void updateTotalBox(@RequestParam(value = "orderNo") String orderNo,
-    		@RequestParam(value="totalBox") int totalBox) {
-        orderService.updateTotalBox(orderNo,totalBox);
+                               @RequestParam(value = "totalBox") int totalBox) {
+        orderService.updateTotalBox(orderNo, totalBox);
     }
-    
+
     /**
-     *  二次配送审核
+     * 二次配送审核
+     *
      * @param id
      */
     @RequestMapping(value = "/order/{id}/twoSend", method = RequestMethod.POST)
     @Log(actionName = "二次配送审核")
-    public AjaxResult twoSendOrder(@PathVariable(value = "id") Integer id,@RequestParam(value="auditStatusCd") Integer auditStatusCd){
-        orderService.twoSendOrder(id,auditStatusCd);
+    public AjaxResult twoSendOrder(@PathVariable(value = "id") Integer id, @RequestParam(value = "auditStatusCd") Integer auditStatusCd) {
+        orderService.twoSendOrder(id, auditStatusCd);
         AjaxResult ajaxResult = new AjaxResult();
         ajaxResult.setResult(1);
         ajaxResult.setMessage("审核成功。");
