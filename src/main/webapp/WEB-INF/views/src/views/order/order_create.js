@@ -41,6 +41,19 @@ define(function () {
             $scope.saveBtnLoading = false;
             $scope.addOrderForm = {};
             $scope.errors = null;
+            $scope.checkDate = function () {
+                var hour = new Date().getHours();
+                if (hour >= 18) {
+                    if ($scope.order.appointmentTime == $scope.showTime(1)) {
+                        $ugDialog.alert("不能预约" + $scope.order.appointmentTime + "配送");
+                        return false;
+                    }
+                    return true;
+                } else {
+                    return true;
+                }
+            }
+
             $scope.saveOrder = function (type) {
                 $scope.errors = null;
                 $scope.order.orderItemList = [];
@@ -53,35 +66,38 @@ define(function () {
                 }
                 if ($scope.addOrderForm.validator.form() && $scope.addOrderForm.validator.valid()) {
                     $scope.order.totalPrice = $scope.totalItem.totalPrice;
-                    $ugDialog.confirm("是否提交订单").then(function () {
-                        $scope.saveBtnLoading = true;
-                        $scope.order.remark = "";
-                        if ($scope.order.remark1 != undefined) {
-                            $scope.order.remark += $scope.order.remark1;
-                        }
-                        if ($scope.order.remark2 != undefined) {
-                            $scope.order.remark += " " + $scope.order.remark2;
-                        }
-                        if ($scope.order.batchNumber && type == 1) {
-                            OrderAPI.batch($scope.order, function () {
-                                $ugDialog.alert("订单提交成功！");
-                                $state.go("order");
-                            }, function (data) {
-                                $scope.errors = data.data;
-                            }).$promise.finally(function () {
-                                $scope.saveBtnLoading = false;
-                            });
-                        } else {
-                            OrderAPI.save($scope.order, function () {
-                                $ugDialog.alert("订单提交成功！");
-                                $state.go("order");
-                            }, function (data) {
-                                $scope.errors = data.data;
-                            }).$promise.finally(function () {
-                                $scope.saveBtnLoading = false;
-                            });
-                        }
-                    });
+                    //校验配送时间 如果超过晚上18:10 不能
+                    if ($scope.checkDate()) {
+                        $ugDialog.confirm("是否提交订单").then(function () {
+                            $scope.saveBtnLoading = true;
+                            $scope.order.remark = "";
+                            if ($scope.order.remark1 != undefined) {
+                                $scope.order.remark += $scope.order.remark1;
+                            }
+                            if ($scope.order.remark2 != undefined) {
+                                $scope.order.remark += " " + $scope.order.remark2;
+                            }
+                            if ($scope.order.batchNumber && type == 1) {
+                                OrderAPI.batch($scope.order, function () {
+                                    $ugDialog.alert("订单提交成功！");
+                                    $state.go("order");
+                                }, function (data) {
+                                    $scope.errors = data.data;
+                                }).$promise.finally(function () {
+                                    $scope.saveBtnLoading = false;
+                                });
+                            } else {
+                                OrderAPI.save($scope.order, function () {
+                                    $ugDialog.alert("订单提交成功！");
+                                    $state.go("order");
+                                }, function (data) {
+                                    $scope.errors = data.data;
+                                }).$promise.finally(function () {
+                                    $scope.saveBtnLoading = false;
+                                });
+                            }
+                        });
+                    }
                 }
             };
             $scope.saveBatchOrder = function () {
