@@ -1,5 +1,8 @@
 package com.xmomen.module.resource.service.impl;
 
+import com.xmomen.module.resource.api.DfsPath;
+import com.xmomen.module.resource.api.DfsSdk;
+import com.xmomen.module.resource.api.DfsService;
 import com.xmomen.module.resource.entity.Resource;
 import com.xmomen.module.resource.entity.ResourceExample;
 import com.xmomen.module.resource.mapper.ResourceMapperExt;
@@ -10,11 +13,13 @@ import com.xmomen.module.resource.model.ResourceModel;
 import com.xmomen.module.resource.service.ResourceService;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
