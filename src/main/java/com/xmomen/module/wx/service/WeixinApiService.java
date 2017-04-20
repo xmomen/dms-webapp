@@ -1,5 +1,6 @@
 package com.xmomen.module.wx.service;
 
+import com.alibaba.fastjson.JSON;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.module.wx.constants.WeixinConsts;
@@ -7,7 +8,9 @@ import com.xmomen.module.wx.entity.WxAppSetting;
 import com.xmomen.module.wx.model.AccessToken;
 import com.xmomen.module.wx.model.AccessTokenOAuth;
 import com.xmomen.module.wx.model.JsApiTicket;
+import com.xmomen.module.wx.model.PayAttachModel;
 import com.xmomen.module.wx.model.WeixinUserInfo;
+import com.xmomen.module.wx.module.order.service.MyOrderService;
 import com.xmomen.module.wx.pay.common.Configure;
 import com.xmomen.module.wx.pay.common.MD5;
 import com.xmomen.module.wx.pay.common.RandomStringGenerator;
@@ -33,6 +36,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * 微信认证处理类
@@ -46,6 +50,9 @@ public class WeixinApiService {
 
     @Autowired
     MybatisDao mybatisDao;
+    
+    @Autowired
+    MyOrderService myOrderService;
 
     /**
      * 取得微信用户信息
@@ -196,6 +203,7 @@ public class WeixinApiService {
             log.info("out_trade_no:" + payResData.getOut_trade_no());
             if (StringUtils.equals("SUCCESS", payResData.getReturn_code())) {
                 //进行业务处理
+            	myOrderService.payCallBack(payResData);
             }
             else {
                 return returnFail();
@@ -216,7 +224,6 @@ public class WeixinApiService {
         return "<xml><return_code><![CDATA[FAIL]></return_code><return_msg><![CDATA[FAIL]]></return_msg></xml>";
     }
 
-
     /**
      * 支付
      *
@@ -225,8 +232,21 @@ public class WeixinApiService {
      * @param request
      * @return
      */
-    public PayResData payOrder(String outTradeNo, Integer totalFee, String openId, HttpServletRequest request) {
-        PayReqData payReqData = new PayReqData("订单付费", outTradeNo, totalFee, getIp2(request), openId, "");
+    public PayResData payOrder(String outTradeNo, Integer totalFee, String openId, Integer type,  HttpServletRequest request) {
+    	String tradeNo = outTradeNo;
+    	PayAttachModel attachModel = null;
+    	if(type.equals(2)) {
+    		//如果为充值
+    		tradeNo = UUID.randomUUID().toString().replaceAll("-", "");
+    	} else if(type.equals(1)) {
+    		// 支付
+    	} else {
+    		return null;
+    	}
+    	attachModel = new PayAttachModel(type, tradeNo);
+    	String attachement = JSON.toJSONString(attachModel);
+        PayReqData payReqData = new PayReqData("订单付费", outTradeNo, totalFee, getIp2(request), openId, attachement);
+        //TODO 插入支付记录到tb_pay_record表
 
         try {
             String result = new PayService().request(payReqData);

@@ -86,10 +86,10 @@ public class ProductServiceImpl implements ProductService {
         if (products != null && !products.isEmpty()) {
             for (ProductModel product : products) {
                 if (StringUtils.isEmpty(product.getPicUrl())) {
-                    product.setPicUrl(ResourceUtilsService.getWholeHttpPath(product.getPicUrl()));
+                	product.setPicUrl(ResourceUtilsService.getDefaultPicPath());
                 }
                 else {
-                    product.setPicUrl(ResourceUtilsService.getDefaultPicPath());
+                	product.setPicUrl(ResourceUtilsService.getWholeHttpPath(product.getPicUrl()));
                 }
             }
         }

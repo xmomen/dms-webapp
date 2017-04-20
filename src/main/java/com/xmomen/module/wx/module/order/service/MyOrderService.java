@@ -6,6 +6,7 @@ import java.util.Map;
 import com.xmomen.module.wx.module.order.model.MyOrderQuery;
 import com.xmomen.module.wx.module.order.model.OrderDetailModel;
 import com.xmomen.module.wx.module.order.model.OrderModel;
+import com.xmomen.module.wx.pay.model.PayResData;
 
 public interface MyOrderService {
 
@@ -17,4 +18,6 @@ public interface MyOrderService {
 	Boolean cancelOrder(Integer orderId, Integer userId);
 	
 	Map<String, Integer> getOrderStatistic(Integer userId);
+	
+	void payCallBack(PayResData payResData);
 }

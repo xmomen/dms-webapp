@@ -31,6 +31,7 @@ public class PayResData {
     private String timeStamp;
     private String packageStr;
     private String out_trade_no;
+    private String transaction_id;
     private String attach;
     private double total_fee;
 
@@ -168,5 +169,13 @@ public class PayResData {
 
     public void setTotal_fee(double total_fee) {
         this.total_fee = total_fee;
+    }
+    
+    public void setTransaction_id(String transaction_id) {
+    	this.transaction_id = transaction_id;
+    }
+    
+    public String getTransaction_id() {
+    	return this.transaction_id;
     }
 }

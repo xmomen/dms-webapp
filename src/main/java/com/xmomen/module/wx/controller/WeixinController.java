@@ -1,28 +1,29 @@
 package com.xmomen.module.wx.controller;
 
-import com.xmomen.framework.utils.StringUtilsExt;
-import com.xmomen.module.base.constant.AppConstants;
-import com.xmomen.module.wx.model.AccessTokenOAuth;
-import com.xmomen.module.wx.model.JsApiTicket;
-import com.xmomen.module.wx.pay.model.PayResData;
-import com.xmomen.module.wx.service.MessageHandlerService;
-import com.xmomen.module.wx.service.WeixinApiService;
-import com.xmomen.module.wx.util.Auth2Handler;
-import com.xmomen.module.wx.util.SignUtil;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Map;
+import com.xmomen.framework.utils.StringUtilsExt;
+import com.xmomen.module.wx.model.PayModel;
+import com.xmomen.module.wx.pay.model.PayResData;
+import com.xmomen.module.wx.service.MessageHandlerService;
+import com.xmomen.module.wx.service.WeixinApiService;
+import com.xmomen.module.wx.util.SignUtil;
 
 /**
  * 微信后端接入控制器
@@ -60,8 +61,8 @@ public class WeixinController {
      */
     @RequestMapping(value = "/payOrder", method = RequestMethod.POST)
     @ResponseBody
-    public PayResData payOrder(String outTradeNo, Integer totalFee, String openId, HttpServletRequest request) {
-        return weixinApiService.payOrder(outTradeNo, totalFee, openId, request);
+    public PayResData payOrder(@RequestBody PayModel payOrderModel, HttpServletRequest request) {
+        return weixinApiService.payOrder(payOrderModel.getOutTradeNo(), payOrderModel.getTotalFee(), payOrderModel.getOpenId(), payOrderModel.getType(), request);
     }
 
     /**

@@ -60,7 +60,7 @@ public class MyOrderController {
 		return myOrderService.myOrder(myOrderQuery);
 	}
 	
-	@RequestMapping(value = "/{orderId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{orderId:[0-9]+}", method = RequestMethod.GET)
 	@ResponseBody
 	public OrderDetailModel orderDetail(@PathVariable("orderId") Integer orderId) {
 		MyOrderQuery myOrderQuery  = new MyOrderQuery();
@@ -101,7 +101,7 @@ public class MyOrderController {
 	/**
 	 * 
 	 * @param memberId
-	 * @return {"待装箱":7,"待付款":6,"待采购":2,"待配送":2}
+	 * @return {"待装箱":7,"待付款":6,"待采购":2,"待配送":2,"配送中":1}
 	 */
 	@RequestMapping(value = "/statistic", method = RequestMethod.GET)
 	@ResponseBody
