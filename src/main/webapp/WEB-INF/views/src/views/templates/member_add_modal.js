@@ -44,19 +44,19 @@ define(function () {
                         $scope.member = data;
                     }
                 });
+                //查询收货地址
+                MemberAddressAPI.query({
+                    cdMemberId: currentMember.id,
+                    limit: $scope.pageSetting.pageSize,
+                    offset: $scope.pageSetting.pageNum
+                }, function (result) {
+                    if (result) {
+                        $scope.memberAddressList = result.data;
+                    }
+                });
             } else {
                 $scope.member = currentMember;
             }
-            //查询收货地址
-            MemberAddressAPI.query({
-                cdMemberId: currentMember.id,
-                limit: $scope.pageSetting.pageSize,
-                offset: $scope.pageSetting.pageNum
-            }, function (result) {
-                if (result) {
-                    $scope.memberAddressList = result.data;
-                }
-            });
         }
         //新增场合
         else {
