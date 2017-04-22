@@ -136,6 +136,7 @@ define(function () {
                return ;
            }
             var currentPackingTask =  $scope.choosePackingOrders[0];
+            $scope.newCurrentPackingTask = currentPackingTask;
             $scope.choosePackingOrders = [];
             $scope.currentPackingBoxList = [];
             for (var i = 0; i < $scope.orderList.length; i++) {
@@ -191,6 +192,7 @@ define(function () {
         };
         $scope.currentPackingBoxList = [];
         var setPacking = function(index){
+            $scope.newCurrentPackingTask =  $scope.currentPackingBoxList[index];
             PackingAPI.query({
                 limit:100,
                 offset:1,

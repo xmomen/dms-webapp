@@ -168,7 +168,7 @@ public class ItemController {
 
                 //上传到FastDFS
                 String remotePath = ResourceUtilsService.uploadFile(new File(imageFullPath));
-                if (StringUtils.isEmpty(remotePath)) {
+                if (StringUtils.isNotEmpty(remotePath)) {
                     //保存资源文件
                     Resource resource = new Resource();
                     resource.setEntityId(itemId);
@@ -176,7 +176,10 @@ public class ItemController {
                     resource.setPath(remotePath);
                     resource.setIsDefault(0);
                     resource.setResourceType("PICTURE");
-                    return this.resourceService.createResource(resource);
+                    this.resourceService.createResource(resource);
+                    String fullPath = ResourceUtilsService.getWholeHttpPath(resource.getPath());
+                    resource.setPath(fullPath);
+                    return resource;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
