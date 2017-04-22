@@ -881,14 +881,21 @@ public class OrderService {
         }
         tbOrder = mybatisDao.insertByModel(tbOrder);
         // tbOrderNo validation
-        if (StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null && createOrder.getOrderType() > 0) {
+        /*if (StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null && createOrder.getOrderType() > 0) {
             TbOrderRelation tbOrderRelation = new TbOrderRelation();
             tbOrderRelation.setOrderNo(orderNo);
             tbOrderRelation.setRefType(OrderMapper.ORDER_PAY_RELATION_CODE);// 订单支付关系
             tbOrderRelation.setRefValue(createOrder.getPaymentRelationNo());
             mybatisDao.insert(tbOrderRelation);
-        }
+        }*/
         if((tbOrder.getOrderType() == 2 && StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null)) {
+        	//支付的时候再建立支付关系
+        	TbOrderRelation tbOrderRelation = new TbOrderRelation();
+            tbOrderRelation.setOrderNo(orderNo);
+            tbOrderRelation.setRefType(OrderMapper.ORDER_PAY_RELATION_CODE);// 订单支付关系
+            tbOrderRelation.setRefValue(createOrder.getPaymentRelationNo());
+            mybatisDao.insert(tbOrderRelation);
+            
         	PayOrder payOrder = new PayOrder();
             payOrder.setOrderNo(tbOrder.getOrderNo());
             payOrder.setAmount(totalAmount);
@@ -914,7 +921,7 @@ public class OrderService {
     		tbOrder.setOrderStatus("1");
     		tbOrder.setPayStatus(1);
     		tbOrder.setOrderType(0);//常规订单,货到付款类型
-    		tbOrder.setPaymentMode(4);
+    		tbOrder.setPaymentMode(4);//支付类型为物流公司代收
     		
     		Integer userId = null;
     		try {

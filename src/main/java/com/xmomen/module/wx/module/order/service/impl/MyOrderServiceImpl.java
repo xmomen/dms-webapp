@@ -1,6 +1,7 @@
 package com.xmomen.module.wx.module.order.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -98,16 +99,51 @@ public class MyOrderServiceImpl implements MyOrderService {
         return Boolean.TRUE;
     }
 
+    /**
+     * 未配送的订单才可以取消，如下
+     * 0-等待付款 1-待采购 2-采购中 3-装箱中 4-待出库 12-待配送 13-待装箱
+     */
     @Override
     public Boolean cancelOrder(Integer orderId, Integer userId) {
         TbOrder tbOrder = mybatisDao.selectByPrimaryKey(TbOrder.class, orderId);
         if (tbOrder == null || userId == null || !String.valueOf(userId).equals(tbOrder.getMemberCode())) {
             throw new IllegalArgumentException("订单不存在或者不属于当前用户!");
         }
-        Integer payStatus = tbOrder.getPayStatus();
-        if (payStatus == 1) throw new IllegalArgumentException("订单已支付,不能取消!");
-        tbOrder.setOrderStatus("9");//取消订单
-        mybatisDao.update(tbOrder);
+        if(tbOrder.getOrderStatus() != null && tbOrder.getOrderStatus().equals(9)) {
+        	throw new IllegalArgumentException("已取消的订单不能重复取消!");
+        }
+        /*Integer payStatus = tbOrder.getPayStatus();
+        if (payStatus == 1) throw new IllegalArgumentException("订单已支付,不能取消!");*/
+        String orderStatus = tbOrder.getOrderStatus();
+        List<String> allowCancelStatus = new ArrayList<String>();
+        allowCancelStatus.add("0");
+        allowCancelStatus.add("1");
+        allowCancelStatus.add("2");
+        allowCancelStatus.add("3");
+        allowCancelStatus.add("4");
+        allowCancelStatus.add("12");
+        allowCancelStatus.add("13");
+        if(allowCancelStatus.contains(orderStatus)) {
+        	if(tbOrder.getOrderType().equals(1) || tbOrder.getOrderType().equals(2)) {
+        		//卡类和券类已经支付过了，卡类支付直接把钱退到卡里，券类订单则让券继续可用
+        		orderService.cancelOrder(orderId);
+        	} else if(tbOrder.getOrderType().equals(0)) {
+        		//如果为常规订单
+        		Integer payStatus = tbOrder.getPayStatus();
+        		if(payStatus != null && payStatus.equals(1)) {
+        			Integer paymentMode = tbOrder.getPaymentMode();
+        			if(paymentMode != null && paymentMode.equals(4)) {
+        				////货到付款，即物流公司代收的付款方式,将支付状态回退为0
+        				tbOrder.setPayStatus(0);
+        			}
+            		//微信类支付或者其他第三方的支付，标注为取消状态，由batch统一去处理
+        		}
+                tbOrder.setOrderStatus("9");//取消订单
+                mybatisDao.update(tbOrder);
+        	}
+        } else {
+        	throw new IllegalArgumentException("订单已发货或其他原因，请联系客服!");
+        }
         return Boolean.TRUE;
     }
 
