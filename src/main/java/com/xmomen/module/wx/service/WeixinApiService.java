@@ -1,5 +1,18 @@
 package com.xmomen.module.wx.service;
 
+import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.alibaba.fastjson.JSON;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.utils.StringUtilsExt;
@@ -17,26 +30,13 @@ import com.xmomen.module.wx.pay.common.RandomStringGenerator;
 import com.xmomen.module.wx.pay.common.Util;
 import com.xmomen.module.wx.pay.model.PayReqData;
 import com.xmomen.module.wx.pay.model.PayResData;
+import com.xmomen.module.wx.pay.model.WeixinPayRecord;
+import com.xmomen.module.wx.pay.service.PayRecordService;
 import com.xmomen.module.wx.pay.service.PayService;
 import com.xmomen.module.wx.util.DateUtils;
 import com.xmomen.module.wx.util.HttpUtils;
 import com.xmomen.module.wx.util.JsonUtils;
-
 import com.xmomen.module.wx.util.SignUtil;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.Date;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * 微信认证处理类
@@ -53,6 +53,9 @@ public class WeixinApiService {
     
     @Autowired
     MyOrderService myOrderService;
+    
+    @Autowired
+    PayRecordService payRecordService;
 
     /**
      * 取得微信用户信息
@@ -203,7 +206,12 @@ public class WeixinApiService {
             log.info("out_trade_no:" + payResData.getOut_trade_no());
             if (StringUtils.equals("SUCCESS", payResData.getReturn_code())) {
                 //进行业务处理
-            	myOrderService.payCallBack(payResData);
+            	try {
+					myOrderService.payCallBack(payResData);
+				} catch (Exception e) {
+					log.error("业务逻辑处理失败:" + payResData);
+					return returnFail();
+				}
             }
             else {
                 return returnFail();
@@ -235,19 +243,19 @@ public class WeixinApiService {
     public PayResData payOrder(String outTradeNo, Integer totalFee, String openId, Integer type,  HttpServletRequest request) {
     	String tradeNo = outTradeNo;
     	PayAttachModel attachModel = null;
+    	String tradeId = UUID.randomUUID().toString().replaceAll("-", "");
     	if(type.equals(2)) {
     		//如果为充值
-    		tradeNo = UUID.randomUUID().toString().replaceAll("-", "");
+    		tradeNo = tradeId;
     	} else if(type.equals(1)) {
     		// 支付
     	} else {
     		return null;
     	}
-    	attachModel = new PayAttachModel(type, tradeNo);
+    	attachModel = new PayAttachModel(type, outTradeNo, tradeId);
     	String attachement = JSON.toJSONString(attachModel);
-        PayReqData payReqData = new PayReqData("订单付费", outTradeNo, totalFee, getIp2(request), openId, attachement);
-        //TODO 插入支付记录到tb_pay_record表
-
+        PayReqData payReqData = new PayReqData("订单付费", tradeNo, totalFee, getIp2(request), openId, attachement);
+        
         try {
             String result = new PayService().request(payReqData);
             log.info("请求返回的结果：" + result);
@@ -272,6 +280,21 @@ public class WeixinApiService {
             payResData.setPackageStr(packageStr);
             payResData.setAppid(null);
             payResData.setMch_id(null);
+            
+            
+            //插入支付记录到tb_pay_record表
+            WeixinPayRecord weixinPayRecord = new WeixinPayRecord();
+            weixinPayRecord.setTradeNo(outTradeNo);
+			weixinPayRecord.setTradeId(tradeId);
+			weixinPayRecord.setOpenId(openId);
+			weixinPayRecord.setTradeType(type);
+			weixinPayRecord.setTotalFee(totalFee);
+        	try {
+				payRecordService.addPayRecord(weixinPayRecord);
+			} catch (Exception e) {
+				log.error("记录支付失败：" + weixinPayRecord);
+			}
+
             return payResData;
         } catch (Exception e) {
             e.printStackTrace();

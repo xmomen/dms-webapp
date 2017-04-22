@@ -27,6 +27,8 @@ import com.xmomen.module.wx.module.order.model.OrderProductItem;
 import com.xmomen.module.wx.module.order.model.OrderStatisticModel;
 import com.xmomen.module.wx.module.order.service.MyOrderService;
 import com.xmomen.module.wx.pay.model.PayResData;
+import com.xmomen.module.wx.pay.model.WeixinPayRecord;
+import com.xmomen.module.wx.pay.service.PayRecordService;
 
 @Service
 public class MyOrderServiceImpl implements MyOrderService {
@@ -39,6 +41,9 @@ public class MyOrderServiceImpl implements MyOrderService {
     
     @Autowired
     CouponService couponService;
+    
+    @Autowired
+    PayRecordService payRecordService;
 
     @Override
     public List<OrderModel> myOrder(MyOrderQuery myOrderQuery) {
@@ -156,8 +161,15 @@ public class MyOrderServiceImpl implements MyOrderService {
 			//卡充值
 			String couponNo = payAttachModel.getTradeNo();
 			couponService.cardRecharge(couponNo, new BigDecimal(totalFee/100));
+		} else {
+			throw new IllegalArgumentException("支付类型只能为1或2");
 		}
-		//TODO 更新支付记录tb_pay_record
+		// 更新支付记录tb_pay_record
+		String tradeId = payAttachModel.getTradeId();
+		WeixinPayRecord weixinPayRecord = new WeixinPayRecord();
+		weixinPayRecord.setTradeId(tradeId);
+		weixinPayRecord.setTransactionId(payResData.getTransaction_id());
+		payRecordService.finishPayRecord(weixinPayRecord);
 	}
 
 }
