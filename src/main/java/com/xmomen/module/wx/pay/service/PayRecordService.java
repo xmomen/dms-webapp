@@ -25,6 +25,7 @@ public class PayRecordService {
 		
 		tbPayRecord.setTotalFee(new BigDecimal(Double.valueOf(weixinPayRecord.getTotalFee())/100));
 		tbPayRecord.setTransactionTime(new Date());
+		mybatisDao.insert(tbPayRecord);
 		return tbPayRecord;
 	}
 	
@@ -36,5 +37,10 @@ public class PayRecordService {
 			tbPayRecord.setCompleteTime(new Date());
 			mybatisDao.update(tbPayRecord);
 		}
+	}
+	
+	public TbPayRecord getTbPayRecordById(String id) {
+		TbPayRecord tbPayRecord = mybatisDao.selectByPrimaryKey(TbPayRecord.class, id);
+		return tbPayRecord;
 	}
 }

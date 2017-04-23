@@ -207,7 +207,15 @@ public class WeixinApiService {
             if (StringUtils.equals("SUCCESS", payResData.getReturn_code())) {
                 //进行业务处理
             	try {
-					myOrderService.payCallBack(payResData);
+            		if(StringUtils.equals("SUCCESS", payResData.getResult_code())) {
+            			synchronized(this) {
+                			//考虑微信的重复通知的可能性，所以加锁控制
+                			myOrderService.payCallBack(payResData);
+                		}
+            		} else {
+            			log.error("微信支付失败:" + payResData.getErr_code_des());
+            			return returnFail();
+            		}
 				} catch (Exception e) {
 					log.error("业务逻辑处理失败:" + payResData);
 					return returnFail();
@@ -250,6 +258,7 @@ public class WeixinApiService {
     	} else if(type.equals(1)) {
     		// 支付
     	} else {
+    		log.info("不合法的交易类型：" + type + ",合法的值为[1, 2]");
     		return null;
     	}
     	attachModel = new PayAttachModel(type, outTradeNo, tradeId);

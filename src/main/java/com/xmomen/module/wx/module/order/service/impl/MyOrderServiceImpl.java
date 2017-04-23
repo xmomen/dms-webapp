@@ -27,6 +27,7 @@ import com.xmomen.module.wx.module.order.model.OrderModel;
 import com.xmomen.module.wx.module.order.model.OrderProductItem;
 import com.xmomen.module.wx.module.order.model.OrderStatisticModel;
 import com.xmomen.module.wx.module.order.service.MyOrderService;
+import com.xmomen.module.wx.pay.entity.TbPayRecord;
 import com.xmomen.module.wx.pay.model.PayResData;
 import com.xmomen.module.wx.pay.model.WeixinPayRecord;
 import com.xmomen.module.wx.pay.service.PayRecordService;
@@ -178,6 +179,12 @@ public class MyOrderServiceImpl implements MyOrderService {
 	public void payCallBack(PayResData payResData) {
 		String attachement = payResData.getAttach();
 		PayAttachModel payAttachModel = JSON.parseObject(attachement, PayAttachModel.class);
+		String tradeId = payAttachModel.getTradeId();
+		TbPayRecord tbPayRecord = payRecordService.getTbPayRecordById(tradeId);
+		if(tbPayRecord != null && tbPayRecord.getCompleteTime() != null) {
+			//如果已经处理过,则什么都不做。用于处理微信可能存在的重复通知
+			return;
+		}
 		double totalFee = payResData.getTotal_fee();
 		if(1 == payAttachModel.getType()) {
 			//微信支付
@@ -201,7 +208,6 @@ public class MyOrderServiceImpl implements MyOrderService {
 			throw new IllegalArgumentException("支付类型只能为1或2");
 		}
 		// 更新支付记录tb_pay_record
-		String tradeId = payAttachModel.getTradeId();
 		WeixinPayRecord weixinPayRecord = new WeixinPayRecord();
 		weixinPayRecord.setTradeId(tradeId);
 		weixinPayRecord.setTransactionId(payResData.getTransaction_id());
