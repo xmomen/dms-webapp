@@ -19,9 +19,8 @@ public class Auth2Handler {
 
     private static final String STATE = "WJHYORDER";
 
-    private static final String APPID = "wx7e9cfeede085ae15";
-    private static final String APPSECRET = "0ed640e24adc6a0e7b89c865c4271f74";
-
+    private static final String APPID = "wx6e25cbce77bacdff";
+    private static final String APPSECRET = "df1d3165ce5ac50dd355f66369a6503e";
 
     public static String getOauthUrl(String redirectUrl) {
         String url = "";

@@ -65,7 +65,7 @@
     <!-- 安全管理器 -->
     <bean id="securityManager" class="com.xmomen.module.core.web.mgt.WebSecurityManagerExt">
         <!--<property name="realm"  ref="userRealm"/>-->
-        <property name="realms" >
+        <property name="realms">
             <util:list>
                 <!-- Realm实现 -->
                 <bean id="userRealm" class="com.xmomen.module.account.realm.UserRealm">
@@ -109,7 +109,7 @@
                     <!--    用户角色过滤器    -->
                     <bean class="org.apache.shiro.web.filter.authz.RolesAuthorizationFilter">
                         <property name="unauthorizedUrl" value="/unauthorized"/>
-                        <property name="loginUrl" value="/login" />
+                        <property name="loginUrl" value="/login"/>
                     </bean>
                 </entry>
                 <entry key="authc" value-ref="formAuthenticationFilter"/>
@@ -126,13 +126,14 @@
                 /register.do = anon
                 /logout = logout
                 /login = authc
-                /js/**  =  anon
-                /css/** =  anon
-                /product/** =  anon
+                /js/** = anon
+                /css/** = anon
+                /product/** = anon
                 /img/** = anon
                 /ueditor/jsp/upload/image/** = anon
                 /MP_verify_YdpEW0051d07BR8X.txt = anon
                 /MP_verify_jWIslpvFiCq3GKYd.txt = anon
+                /MP_verify_yXW6rBkSMeHiK8qK.txt = anon
                 /fonts/** = anon
                 /admin/** = role[admin]
                 /** = user
