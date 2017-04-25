@@ -245,11 +245,11 @@ public class WeixinApiService {
      * 支付
      *
      * @param outTradeNo 订单号
-     * @param totalFee   总金额（分）
+     * @param totalFee   总金额（元）
      * @param request
      * @return
      */
-    public PayResData payOrder(String outTradeNo, Integer totalFee, String openId, Integer type, HttpServletRequest request) {
+    public PayResData payOrder(String outTradeNo, Double totalFee, String openId, Integer type, HttpServletRequest request) {
         String tradeNo = outTradeNo;
         PayAttachModel attachModel = null;
         String tradeId = UUID.randomUUID().toString().replaceAll("-", "");
@@ -268,7 +268,8 @@ public class WeixinApiService {
         log.info("outTradeNo:" + outTradeNo + ",totalFee:" + totalFee + ",openId:" + openId + ",type:" + type + ",request:" + request.toString());
         attachModel = new PayAttachModel(type, outTradeNo, tradeId);
         String attachement = JSON.toJSONString(attachModel);
-        PayReqData payReqData = new PayReqData("订单付费", tradeNo, totalFee, getIp2(request), openId, attachement);
+        totalFee = totalFee * 100;
+        PayReqData payReqData = new PayReqData("订单付费", tradeNo, totalFee.intValue(), getIp2(request), openId, attachement);
 
         try {
             String result = new PayService().request(payReqData);
@@ -307,7 +308,7 @@ public class WeixinApiService {
             weixinPayRecord.setTradeId(tradeId);
             weixinPayRecord.setOpenId(openId);
             weixinPayRecord.setTradeType(type);
-            weixinPayRecord.setTotalFee(totalFee);
+            weixinPayRecord.setTotalFee(totalFee.intValue());
             try {
                 payRecordService.addPayRecord(weixinPayRecord);
             } catch (Exception e) {
