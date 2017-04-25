@@ -48,7 +48,7 @@ public class WeixinController {
      */
     @RequestMapping(value = "/jsapi_ticket")
     public Map getJsapiTicket(@RequestParam(value = "url") String url) {
-        return weixinApiService.getJsSDKConfig("gh_67c2b712d650", url);
+        return weixinApiService.getJsSDKConfig("gh_9248df680cef", url);
     }
 
     /**

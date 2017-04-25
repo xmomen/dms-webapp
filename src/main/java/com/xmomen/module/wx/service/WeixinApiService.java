@@ -187,6 +187,9 @@ public class WeixinApiService {
         getAccessToken(publicUid);
         JsApiTicket jsApiTicket = getJsApiTicket(publicUid);
         Map map = SignUtil.sign(jsApiTicket.getTicket(), url);
+        //获取公众号的配置
+        WxAppSetting appSettingExt = appSettingService.getAppSetting(publicUid);
+        map.put("appId", appSettingExt.getAppId());
         return map;
     }
 
@@ -245,22 +248,14 @@ public class WeixinApiService {
      * 支付
      *
      * @param outTradeNo 订单号
-     * @param totalFee   总金额（分）
+     * @param totalFee   总金额（元）
      * @param request
      * @return
      */
-    public PayResData payOrder(String outTradeNo, Integer totalFee, String openId, Integer type, HttpServletRequest request) {
-        String tradeNo = outTradeNo;
+    public PayResData payOrder(String outTradeNo, Double totalFee, String openId, Integer type, HttpServletRequest request) {
         PayAttachModel attachModel = null;
         String tradeId = UUID.randomUUID().toString().replaceAll("-", "");
-        if (type.equals(2)) {
-            //如果为充值
-            tradeNo = tradeId;
-        }
-        else if (type.equals(1)) {
-            // 支付
-        }
-        else {
+        if (!type.equals(2) && !type.equals(1)) {
             log.info("不合法的交易类型：" + type + ",合法的值为[1, 2]");
             return null;
         }
@@ -268,7 +263,8 @@ public class WeixinApiService {
         log.info("outTradeNo:" + outTradeNo + ",totalFee:" + totalFee + ",openId:" + openId + ",type:" + type + ",request:" + request.toString());
         attachModel = new PayAttachModel(type, outTradeNo, tradeId);
         String attachement = JSON.toJSONString(attachModel);
-        PayReqData payReqData = new PayReqData("订单付费", tradeNo, totalFee, getIp2(request), openId, attachement);
+        totalFee = totalFee * 100;
+        PayReqData payReqData = new PayReqData("订单付费", tradeId, 1, getIp2(request), openId, attachement);
 
         try {
             String result = new PayService().request(payReqData);
@@ -297,7 +293,7 @@ public class WeixinApiService {
             payResData.setTimeStamp(String.valueOf(timeStamp));
             payResData.setNonce_str(nonceStr);
             payResData.setPackageStr(packageStr);
-            payResData.setAppid(null);
+            payResData.setAppid(Configure.getAppid());
             payResData.setMch_id(null);
 
 
@@ -307,7 +303,7 @@ public class WeixinApiService {
             weixinPayRecord.setTradeId(tradeId);
             weixinPayRecord.setOpenId(openId);
             weixinPayRecord.setTradeType(type);
-            weixinPayRecord.setTotalFee(totalFee);
+            weixinPayRecord.setTotalFee(totalFee.intValue());
             try {
                 payRecordService.addPayRecord(weixinPayRecord);
             } catch (Exception e) {
