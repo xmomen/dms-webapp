@@ -187,6 +187,9 @@ public class WeixinApiService {
         getAccessToken(publicUid);
         JsApiTicket jsApiTicket = getJsApiTicket(publicUid);
         Map map = SignUtil.sign(jsApiTicket.getTicket(), url);
+        //获取公众号的配置
+        WxAppSetting appSettingExt = appSettingService.getAppSetting(publicUid);
+        map.put("appId", appSettingExt.getAppId());
         return map;
     }
 
