@@ -253,17 +253,9 @@ public class WeixinApiService {
      * @return
      */
     public PayResData payOrder(String outTradeNo, Double totalFee, String openId, Integer type, HttpServletRequest request) {
-        String tradeNo = outTradeNo;
         PayAttachModel attachModel = null;
         String tradeId = UUID.randomUUID().toString().replaceAll("-", "");
-        if (type.equals(2)) {
-            //如果为充值
-            tradeNo = tradeId;
-        }
-        else if (type.equals(1)) {
-            // 支付
-        }
-        else {
+        if (!type.equals(2) && !type.equals(1)) {
             log.info("不合法的交易类型：" + type + ",合法的值为[1, 2]");
             return null;
         }
@@ -272,7 +264,7 @@ public class WeixinApiService {
         attachModel = new PayAttachModel(type, outTradeNo, tradeId);
         String attachement = JSON.toJSONString(attachModel);
         totalFee = totalFee * 100;
-        PayReqData payReqData = new PayReqData("订单付费", tradeNo, totalFee.intValue(), getIp2(request), openId, attachement);
+        PayReqData payReqData = new PayReqData("订单付费", tradeId, 1, getIp2(request), openId, attachement);
 
         try {
             String result = new PayService().request(payReqData);
@@ -301,7 +293,7 @@ public class WeixinApiService {
             payResData.setTimeStamp(String.valueOf(timeStamp));
             payResData.setNonce_str(nonceStr);
             payResData.setPackageStr(packageStr);
-            payResData.setAppid(null);
+            payResData.setAppid(Configure.getAppid());
             payResData.setMch_id(null);
 
 
