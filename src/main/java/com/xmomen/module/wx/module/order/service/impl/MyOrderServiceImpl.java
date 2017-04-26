@@ -1,36 +1,27 @@
 package com.xmomen.module.wx.module.order.service.impl;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.alibaba.fastjson.JSON;
+import com.xmomen.framework.mybatis.dao.MybatisDao;
+import com.xmomen.module.base.service.CouponService;
+import com.xmomen.module.order.entity.TbOrder;
+import com.xmomen.module.order.service.OrderService;
+import com.xmomen.module.payrecord.entity.PayRecord;
+import com.xmomen.module.payrecord.service.PayRecordService;
+import com.xmomen.module.resource.service.ResourceUtilsService;
+import com.xmomen.module.wx.model.PayAttachModel;
+import com.xmomen.module.wx.module.order.mapper.MyOrderMapper;
+import com.xmomen.module.wx.module.order.model.*;
+import com.xmomen.module.wx.module.order.service.MyOrderService;
+import com.xmomen.module.wx.pay.model.PayResData;
+import com.xmomen.module.wx.pay.model.WeixinPayRecord;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSON;
-import com.xmomen.framework.mybatis.dao.MybatisDao;
-import com.xmomen.module.base.service.CouponService;
-import com.xmomen.module.order.entity.TbOrder;
-import com.xmomen.module.order.service.OrderService;
-import com.xmomen.module.resource.service.ResourceUtilsService;
-import com.xmomen.module.wx.model.PayAttachModel;
-import com.xmomen.module.wx.module.order.mapper.MyOrderMapper;
-import com.xmomen.module.wx.module.order.model.MyOrderQuery;
-import com.xmomen.module.wx.module.order.model.OrderDetailModel;
-import com.xmomen.module.wx.module.order.model.OrderModel;
-import com.xmomen.module.wx.module.order.model.OrderProductItem;
-import com.xmomen.module.wx.module.order.model.OrderStatisticModel;
-import com.xmomen.module.wx.module.order.service.MyOrderService;
-import com.xmomen.module.wx.pay.entity.TbPayRecord;
-import com.xmomen.module.wx.pay.model.PayResData;
-import com.xmomen.module.wx.pay.model.WeixinPayRecord;
-import com.xmomen.module.wx.pay.service.PayRecordService;
+import java.math.BigDecimal;
+import java.util.*;
 
 @Service
 public class MyOrderServiceImpl implements MyOrderService {
@@ -40,10 +31,10 @@ public class MyOrderServiceImpl implements MyOrderService {
 
     @Autowired
     OrderService orderService;
-    
+
     @Autowired
     CouponService couponService;
-    
+
     @Autowired
     PayRecordService payRecordService;
 
@@ -55,11 +46,11 @@ public class MyOrderServiceImpl implements MyOrderService {
                 List<OrderProductItem> items = order.getProducts();
                 if (items != null) {
                     for (OrderProductItem item : items) {
-                    	if (StringUtils.isEmpty(item.getPicUrl())) {
-                    		item.setPicUrl(ResourceUtilsService.getDefaultPicPath());
+                        if (StringUtils.isEmpty(item.getPicUrl())) {
+                            item.setPicUrl(ResourceUtilsService.getDefaultPicPath());
                         }
                         else {
-                        	item.setPicUrl(ResourceUtilsService.getWholeHttpPath(item.getPicUrl()));
+                            item.setPicUrl(ResourceUtilsService.getWholeHttpPath(item.getPicUrl()));
                         }
                     }
                 }
@@ -77,11 +68,11 @@ public class MyOrderServiceImpl implements MyOrderService {
         if (orderDetail != null) {
             List<OrderProductItem> items = orderDetail.getProducts();
             for (OrderProductItem item : items) {
-            	if (StringUtils.isEmpty(item.getPicUrl())) {
-            		item.setPicUrl(ResourceUtilsService.getDefaultPicPath());
+                if (StringUtils.isEmpty(item.getPicUrl())) {
+                    item.setPicUrl(ResourceUtilsService.getDefaultPicPath());
                 }
                 else {
-                	item.setPicUrl(ResourceUtilsService.getWholeHttpPath(item.getPicUrl()));
+                    item.setPicUrl(ResourceUtilsService.getWholeHttpPath(item.getPicUrl()));
                 }
             }
         }
@@ -110,8 +101,8 @@ public class MyOrderServiceImpl implements MyOrderService {
         if (tbOrder == null || userId == null || !String.valueOf(userId).equals(tbOrder.getMemberCode())) {
             throw new IllegalArgumentException("订单不存在或者不属于当前用户!");
         }
-        if(tbOrder.getOrderStatus() != null && tbOrder.getOrderStatus().equals(9)) {
-        	throw new IllegalArgumentException("已取消的订单不能重复取消!");
+        if (tbOrder.getOrderStatus() != null && tbOrder.getOrderStatus().equals(9)) {
+            throw new IllegalArgumentException("已取消的订单不能重复取消!");
         }
         /*Integer payStatus = tbOrder.getPayStatus();
         if (payStatus == 1) throw new IllegalArgumentException("订单已支付,不能取消!");*/
@@ -124,94 +115,99 @@ public class MyOrderServiceImpl implements MyOrderService {
         allowCancelStatus.add("4");
         allowCancelStatus.add("12");
         allowCancelStatus.add("13");
-        if(allowCancelStatus.contains(orderStatus)) {
-        	if(tbOrder.getOrderType().equals(1) || tbOrder.getOrderType().equals(2)) {
-        		//卡类和券类已经支付过了，卡类支付直接把钱退到卡里，券类订单则让券继续可用
-        		orderService.cancelOrder(orderId);
-        	} else if(tbOrder.getOrderType().equals(0)) {
-        		//如果为常规订单
-        		Integer payStatus = tbOrder.getPayStatus();
-        		if(payStatus != null && payStatus.equals(1)) {
-        			Integer paymentMode = tbOrder.getPaymentMode();
-        			if(paymentMode != null && paymentMode.equals(4)) {
-        				////货到付款，即物流公司代收的付款方式,将支付状态回退为0
-        				tbOrder.setPayStatus(0);
-        			}
-            		//微信类支付或者其他第三方的支付，标注为取消状态，由batch统一去处理
-        		}
+        if (allowCancelStatus.contains(orderStatus)) {
+            if (tbOrder.getOrderType().equals(1) || tbOrder.getOrderType().equals(2)) {
+                //卡类和券类已经支付过了，卡类支付直接把钱退到卡里，券类订单则让券继续可用
+                orderService.cancelOrder(orderId);
+            }
+            else if (tbOrder.getOrderType().equals(0)) {
+                //如果为常规订单
+                Integer payStatus = tbOrder.getPayStatus();
+                if (payStatus != null && payStatus.equals(1)) {
+                    Integer paymentMode = tbOrder.getPaymentMode();
+                    if (paymentMode != null && paymentMode.equals(4)) {
+                        ////货到付款，即物流公司代收的付款方式,将支付状态回退为0
+                        tbOrder.setPayStatus(0);
+                    }
+                    //微信类支付或者其他第三方的支付，标注为取消状态，由batch统一去处理
+                }
                 tbOrder.setOrderStatus("9");//取消订单
                 mybatisDao.update(tbOrder);
-        	}
-        } else {
-        	throw new IllegalArgumentException("订单已发货或其他原因，请联系客服!");
+            }
+        }
+        else {
+            throw new IllegalArgumentException("订单已发货或其他原因，请联系客服!");
         }
         return Boolean.TRUE;
     }
 
-	@Override
-	public Map<String, Integer> getOrderStatistic(Integer userId) {
-		Map<String, Integer> result = new HashMap<String, Integer>();
-		List<OrderStatisticModel> orderStatisticModels = mybatisDao.getSqlSessionTemplate().selectList(MyOrderMapper.MY_ORDER_MAPPER_NAMESPACE + "getOrderStatistic", userId);
-		int notPayCount = 0;
-		if(!CollectionUtils.isEmpty(orderStatisticModels)) {
-			for(OrderStatisticModel orderStatisticModel: orderStatisticModels) {
-				if(orderStatisticModel.getPayStatus() != 1) {
-					notPayCount += orderStatisticModel.getCount();
-				}
-				String statusDesc = orderStatisticModel.getOrderStatusDesc();
-				if(statusDesc != null && !orderStatisticModel.getOrderStatus().equals(0)) {
-					if(result.containsKey(statusDesc)) {
-						result.put(statusDesc, result.get(statusDesc) + orderStatisticModel.getCount());
-					} else {
-						result.put(statusDesc, orderStatisticModel.getCount());
-					}
-				}
-			}
-		}
-		if(notPayCount > 0) {
-			result.put("待付款", notPayCount);
-		}
-		return result;
-	}
+    @Override
+    public Map<String, Integer> getOrderStatistic(Integer userId) {
+        Map<String, Integer> result = new HashMap<String, Integer>();
+        List<OrderStatisticModel> orderStatisticModels = mybatisDao.getSqlSessionTemplate().selectList(MyOrderMapper.MY_ORDER_MAPPER_NAMESPACE + "getOrderStatistic", userId);
+        int notPayCount = 0;
+        if (!CollectionUtils.isEmpty(orderStatisticModels)) {
+            for (OrderStatisticModel orderStatisticModel : orderStatisticModels) {
+                if (orderStatisticModel.getPayStatus() != 1) {
+                    notPayCount += orderStatisticModel.getCount();
+                }
+                String statusDesc = orderStatisticModel.getOrderStatusDesc();
+                if (statusDesc != null && !orderStatisticModel.getOrderStatus().equals(0)) {
+                    if (result.containsKey(statusDesc)) {
+                        result.put(statusDesc, result.get(statusDesc) + orderStatisticModel.getCount());
+                    }
+                    else {
+                        result.put(statusDesc, orderStatisticModel.getCount());
+                    }
+                }
+            }
+        }
+        if (notPayCount > 0) {
+            result.put("待付款", notPayCount);
+        }
+        return result;
+    }
 
-	@Override
-	@Transactional
-	public void payCallBack(PayResData payResData) {
-		String attachement = payResData.getAttach();
-		PayAttachModel payAttachModel = JSON.parseObject(attachement, PayAttachModel.class);
-		String tradeId = payAttachModel.getTradeId();
-		TbPayRecord tbPayRecord = payRecordService.getTbPayRecordById(tradeId);
-		if(tbPayRecord != null && tbPayRecord.getCompleteTime() != null) {
-			//如果已经处理过,则什么都不做。用于处理微信可能存在的重复通知
-			return;
-		}
-		double totalFee = payResData.getTotal_fee();
-		if(1 == payAttachModel.getType()) {
-			//微信支付
-			String orderNo = payAttachModel.getTradeNo();
-			TbOrder query = new TbOrder();
-			query.setOrderNo(orderNo);
-			TbOrder tbOrder = mybatisDao.selectOneByModel(query);
-			if(tbOrder == null) {
-				throw new IllegalArgumentException("订单不存在!");
-			}
-			//设置为微信支付类型
-			tbOrder.setPaymentMode(8);
-			tbOrder.setPayStatus(1);
-			tbOrder.setOrderStatus("1");
-			mybatisDao.update(tbOrder);
-		} else if(2 == payAttachModel.getType()) {
-			//卡充值
-			String couponNo = payAttachModel.getTradeNo();
-			couponService.cardRecharge(couponNo, new BigDecimal(totalFee/100));
-		} else {
-			throw new IllegalArgumentException("支付类型只能为1或2");
-		}
-		// 更新支付记录tb_pay_record
-		WeixinPayRecord weixinPayRecord = new WeixinPayRecord();
-		weixinPayRecord.setTradeId(tradeId);
-		weixinPayRecord.setTransactionId(payResData.getTransaction_id());
-		payRecordService.finishPayRecord(weixinPayRecord);
-	}
+    @Override
+    @Transactional
+    public void payCallBack(PayResData payResData) {
+        String attachement = payResData.getAttach();
+        PayAttachModel payAttachModel = JSON.parseObject(attachement, PayAttachModel.class);
+        String tradeId = payAttachModel.getTradeId();
+        PayRecord tbPayRecord = payRecordService.getTbPayRecordById(tradeId);
+        if (tbPayRecord != null && tbPayRecord.getCompleteTime() != null) {
+            //如果已经处理过,则什么都不做。用于处理微信可能存在的重复通知
+            return;
+        }
+        double totalFee = payResData.getTotal_fee();
+        if (1 == payAttachModel.getType()) {
+            //微信支付
+            String orderNo = payAttachModel.getTradeNo();
+            TbOrder query = new TbOrder();
+            query.setOrderNo(orderNo);
+            TbOrder tbOrder = mybatisDao.selectOneByModel(query);
+            if (tbOrder == null) {
+                throw new IllegalArgumentException("订单不存在!");
+            }
+            //设置为微信支付类型
+            tbOrder.setPaymentMode(8);
+            tbOrder.setPayStatus(1);
+            tbOrder.setOrderStatus("1");
+            mybatisDao.update(tbOrder);
+        }
+        else if (2 == payAttachModel.getType()) {
+            //卡充值
+            String couponNo = payAttachModel.getTradeNo();
+            couponService.cardRecharge(couponNo, new BigDecimal(totalFee / 100));
+        }
+        else {
+            throw new IllegalArgumentException("支付类型只能为1或2");
+        }
+        // 更新支付记录tb_pay_record
+        WeixinPayRecord weixinPayRecord = new WeixinPayRecord();
+        weixinPayRecord.setTradeId(tradeId);
+        weixinPayRecord.setTransactionId(payResData.getTransaction_id());
+        payRecordService.finishPayRecord(weixinPayRecord);
+    }
 
 }

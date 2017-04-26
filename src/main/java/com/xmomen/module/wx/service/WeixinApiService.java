@@ -1,28 +1,12 @@
 package com.xmomen.module.wx.service;
 
-import java.util.Map;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.alibaba.fastjson.JSON;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.utils.StringUtilsExt;
+import com.xmomen.module.payrecord.service.PayRecordService;
 import com.xmomen.module.wx.constants.WeixinConsts;
 import com.xmomen.module.wx.entity.WxAppSetting;
-import com.xmomen.module.wx.model.AccessToken;
-import com.xmomen.module.wx.model.AccessTokenOAuth;
-import com.xmomen.module.wx.model.JsApiTicket;
-import com.xmomen.module.wx.model.PayAttachModel;
-import com.xmomen.module.wx.model.WeixinUserInfo;
+import com.xmomen.module.wx.model.*;
 import com.xmomen.module.wx.module.order.service.MyOrderService;
 import com.xmomen.module.wx.pay.common.Configure;
 import com.xmomen.module.wx.pay.common.MD5;
@@ -31,12 +15,22 @@ import com.xmomen.module.wx.pay.common.Util;
 import com.xmomen.module.wx.pay.model.PayReqData;
 import com.xmomen.module.wx.pay.model.PayResData;
 import com.xmomen.module.wx.pay.model.WeixinPayRecord;
-import com.xmomen.module.wx.pay.service.PayRecordService;
 import com.xmomen.module.wx.pay.service.PayService;
 import com.xmomen.module.wx.util.DateUtils;
 import com.xmomen.module.wx.util.HttpUtils;
 import com.xmomen.module.wx.util.JsonUtils;
 import com.xmomen.module.wx.util.SignUtil;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * 微信认证处理类
