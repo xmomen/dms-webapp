@@ -1,5 +1,8 @@
 package com.xmomen.module.wx.service;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -28,11 +31,15 @@ import com.xmomen.module.wx.pay.common.Configure;
 import com.xmomen.module.wx.pay.common.MD5;
 import com.xmomen.module.wx.pay.common.RandomStringGenerator;
 import com.xmomen.module.wx.pay.common.Util;
+import com.xmomen.module.wx.pay.entity.TbPayRecord;
 import com.xmomen.module.wx.pay.model.PayReqData;
 import com.xmomen.module.wx.pay.model.PayResData;
+import com.xmomen.module.wx.pay.model.RefundReqData;
+import com.xmomen.module.wx.pay.model.RefundResData;
 import com.xmomen.module.wx.pay.model.WeixinPayRecord;
 import com.xmomen.module.wx.pay.service.PayRecordService;
 import com.xmomen.module.wx.pay.service.PayService;
+import com.xmomen.module.wx.pay.service.RefundService;
 import com.xmomen.module.wx.util.DateUtils;
 import com.xmomen.module.wx.util.HttpUtils;
 import com.xmomen.module.wx.util.JsonUtils;
@@ -249,21 +256,15 @@ public class WeixinApiService {
      * @return
      */
     public PayResData payOrder(String outTradeNo, Integer totalFee, String openId, Integer type,  HttpServletRequest request) {
-    	String tradeNo = outTradeNo;
     	PayAttachModel attachModel = null;
     	String tradeId = UUID.randomUUID().toString().replaceAll("-", "");
-    	if(type.equals(2)) {
-    		//如果为充值
-    		tradeNo = tradeId;
-    	} else if(type.equals(1)) {
-    		// 支付
-    	} else {
+    	if(type == null || !(type.equals(2) || type.equals(1))) {
     		log.info("不合法的交易类型：" + type + ",合法的值为[1, 2]");
     		return null;
     	}
     	attachModel = new PayAttachModel(type, outTradeNo, tradeId);
     	String attachement = JSON.toJSONString(attachModel);
-        PayReqData payReqData = new PayReqData("订单付费", tradeNo, totalFee, getIp2(request), openId, attachement);
+        PayReqData payReqData = new PayReqData("订单付费", tradeId, totalFee, getIp2(request), openId, attachement);
         
         try {
             String result = new PayService().request(payReqData);
@@ -311,6 +312,58 @@ public class WeixinApiService {
         return null;
     }
 
+    public RefundResData refund(String tradeNo, int refundFee) {
+    	TbPayRecord queryModel = new TbPayRecord();
+    	queryModel.setTradeNo(tradeNo);
+    	queryModel.setTradeType(1);
+    	queryModel.setCompleteTime(new Date());//交易完成时间不为空
+    	TbPayRecord tbPayRecord = payRecordService.getTbpayRecordByRecord(queryModel);
+    	if(tbPayRecord == null) {
+    		log.error("支付记录不存在或者支付未完成：" + tradeNo);
+    		throw new IllegalArgumentException("支付记录不存在");
+    	}
+    	String transactionId = tbPayRecord.getTransactionId();
+    	if(StringUtils.isEmpty(transactionId)) {
+    		throw new IllegalArgumentException("未找到订单" + tradeNo + "关联的微信支付订单号" );
+    	}
+    	TbPayRecord refundPayRecordQuery = new TbPayRecord();
+    	refundPayRecordQuery.setTradeType(3);
+    	refundPayRecordQuery.setTransactionId(transactionId);
+    	List<TbPayRecord> refundRecords = payRecordService.getTbpayRecordListByRecord(tbPayRecord);
+    	if(!refundRecords.isEmpty()) {
+    		//这里限定一个订单只能退款一次
+    		throw new IllegalArgumentException("该订单已经提交过退款请求");
+    	}
+    	String outRefundNo = UUID.randomUUID().toString().replaceAll("-", "");
+    	int totalFee = tbPayRecord.getTotalFee().multiply(new BigDecimal(100)).intValue();
+    	RefundReqData refundReqData = new RefundReqData(transactionId, totalFee, refundFee, outRefundNo);
+    	try {
+    		String result = new RefundService().request(refundReqData);
+    		log.info("请求返回的结果：" + result);
+    		//将从API返回的XML数据映射到Java对象
+    		RefundResData refundResData = (RefundResData) Util.getObjectFromXML(result, RefundResData.class);
+    		if (StringUtils.equals("SUCCESS", refundResData.getReturn_code()) && 
+    				StringUtils.equals("SUCCESS",refundResData.getResult_code())) {
+    				//TODO 退款成功，设置completeTime
+    				TbPayRecord refundRecord = new TbPayRecord();
+    				refundRecord.setId(outRefundNo);
+    				refundRecord.setOpenId(tbPayRecord.getOpenId());
+    				refundRecord.setTradeType(3);//退款类型
+    				refundRecord.setTransactionId(tbPayRecord.getTransactionId());
+    				refundRecord.setTransactionTime(tbPayRecord.getTransactionTime());
+    				refundRecord.setCompleteTime(new Date());
+    				refundRecord.setTotalFee(new BigDecimal(Double.valueOf(refundFee)%100));
+    				refundRecord.setTradeNo(tbPayRecord.getTradeNo());
+    				payRecordService.insert(tbPayRecord);
+    		} else {
+    			return null;
+    		}
+    		return refundResData;
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	return null;
+    }
     /**
      * 获取客户端IP
      *

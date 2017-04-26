@@ -29,8 +29,10 @@ import com.xmomen.module.wx.module.order.model.OrderStatisticModel;
 import com.xmomen.module.wx.module.order.service.MyOrderService;
 import com.xmomen.module.wx.pay.entity.TbPayRecord;
 import com.xmomen.module.wx.pay.model.PayResData;
+import com.xmomen.module.wx.pay.model.RefundResData;
 import com.xmomen.module.wx.pay.model.WeixinPayRecord;
 import com.xmomen.module.wx.pay.service.PayRecordService;
+import com.xmomen.module.wx.service.WeixinApiService;
 
 @Service
 public class MyOrderServiceImpl implements MyOrderService {
@@ -46,6 +48,9 @@ public class MyOrderServiceImpl implements MyOrderService {
     
     @Autowired
     PayRecordService payRecordService;
+    
+    @Autowired
+    WeixinApiService weixinApiService;
 
     @Override
     public List<OrderModel> myOrder(MyOrderQuery myOrderQuery) {
@@ -105,6 +110,7 @@ public class MyOrderServiceImpl implements MyOrderService {
      * 0-等待付款 1-待采购 2-采购中 3-装箱中 4-待出库 12-待配送 13-待装箱
      */
     @Override
+    @Transactional
     public Boolean cancelOrder(Integer orderId, Integer userId) {
         TbOrder tbOrder = mybatisDao.selectByPrimaryKey(TbOrder.class, orderId);
         if (tbOrder == null || userId == null || !String.valueOf(userId).equals(tbOrder.getMemberCode())) {
@@ -136,8 +142,15 @@ public class MyOrderServiceImpl implements MyOrderService {
         			if(paymentMode != null && paymentMode.equals(4)) {
         				////货到付款，即物流公司代收的付款方式,将支付状态回退为0
         				tbOrder.setPayStatus(0);
+        			} else if (paymentMode != null && paymentMode.equals(8)) {
+        				//微信类支付
+        				String tradeNo = tbOrder.getOrderNo();
+        				RefundResData refundResData = weixinApiService.refund(tradeNo, tbOrder.getTotalAmount().multiply(new BigDecimal(100)).intValue());
+        				if(refundResData == null) {
+        					throw new IllegalArgumentException("微信退款失败");
+        				}
         			}
-            		//微信类支付或者其他第三方的支付，标注为取消状态，由batch统一去处理
+            		//其他第三方的支付，标注为取消状态，由batch统一去处理
         		}
                 tbOrder.setOrderStatus("9");//取消订单
                 mybatisDao.update(tbOrder);

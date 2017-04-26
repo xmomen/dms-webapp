@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.wx.pay.entity.mapper.PayRecordMapper">
+	<resultMap id="payRecordMap" type="com.xmomen.module.wx.pay.entity.TbPayRecord" >
+	    <id column="ID" property="id" jdbcType="VARCHAR" />
+	    <result column="TRADE_NO" property="tradeNo" jdbcType="VARCHAR" />
+	    <result column="TRADE_TYPE" property="tradeType" jdbcType="INTEGER" />
+	    <result column="TOTAL_FEE" property="totalFee" jdbcType="DECIMAL" />
+	    <result column="OPEN_ID" property="openId" jdbcType="VARCHAR" />
+	    <result column="TRANSACTION_ID" property="transactionId" jdbcType="VARCHAR" />
+	    <result column="TRANSACTION_TIME" property="transactionTime" jdbcType="TIMESTAMP" />
+	    <result column="COMPLETE_TIME" property="completeTime" jdbcType="TIMESTAMP" />
+	  </resultMap>
+	<insert id="insertPayRecord" parameterType="com.xmomen.module.wx.pay.entity.TbPayRecord" useGeneratedKeys="false" keyProperty="id" keyColumn="ID" >
+		insert into tb_pay_record
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+	      <if test="id != null" >
+	        ID,
+	      </if>
+	      <if test="tradeNo != null" >
+	        TRADE_NO,
+	      </if>
+	      <if test="tradeType != null" >
+	        TRADE_TYPE,
+	      </if>
+	      <if test="totalFee != null" >
+	        TOTAL_FEE,
+	      </if>
+	      <if test="openId != null" >
+	        OPEN_ID,
+	      </if>
+	      <if test="transactionId != null" >
+	        TRANSACTION_ID,
+	      </if>
+	      <if test="transactionTime != null" >
+	        TRANSACTION_TIME,
+	      </if>
+	      <if test="completeTime != null" >
+	        COMPLETE_TIME,
+	      </if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+	      <if test="id != null" >
+	        #{id,jdbcType=VARCHAR},
+	      </if>
+	      <if test="tradeNo != null" >
+	        #{tradeNo,jdbcType=VARCHAR},
+	      </if>
+	      <if test="tradeType != null" >
+	        #{tradeType,jdbcType=VARCHAR},
+	      </if>
+	      <if test="totalFee != null" >
+	        #{tradeType,jdbcType=DECIMAL},
+	      </if>
+	      <if test="openId != null" >
+	        #{openId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="transactionId != null" >
+	        #{transactionId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="transactionTime != null" >
+	        #{transactionTime,jdbcType=DATE},
+	      </if>
+	      <if test="completeTime != null" >
+	        #{completeTime,jdbcType=DATE},
+	      </if>
+	    </trim>
+	</insert>
+	
+	<update id="markFinished" parameterType="com.xmomen.module.wx.pay.entity.TbPayRecord">
+		update tb_pay_record set COMPLETE_TIME = #{completeTime,jdbcType=DATE},
+			TRANSACTION_ID = #{transactionId,jdbcType=VARCHAR}
+			where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="selectByQuery" parameterType="com.xmomen.module.wx.pay.entity.TbPayRecord" resultMap="payRecordMap">
+		SELECT * from tb_pay_record
+		<where>
+			<if test="id">
+	    	    AND ID = #{id}
+	    	</if>
+	    	<if test="tradeNo">
+	    	    AND TRADE_NO = #{tradeNo}
+	    	</if>
+	    	<if test="tradeType">
+	    	    AND TRADE_TYPE = #{tradeType}
+	    	</if>
+	    	<if test="openId">
+	    	    AND OPEN_ID = #{openId}
+	    	</if>
+	    	<if test="transactionId">
+	    	    AND TRANSACTION_ID = #{transactionId}
+	    	</if>
+	    	<if test="completeTime">
+	    	    AND COMPLETE_TIME != null
+	    	</if>
+		</where>
+	</select>
+</mapper>

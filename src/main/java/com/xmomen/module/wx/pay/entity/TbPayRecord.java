@@ -27,7 +27,7 @@ public class TbPayRecord extends BaseMybatisModel {
 	
 	/**
 	 * 支付用途
-	 * 1 - 支付商品价格 2 -卡券类充值
+	 * 1 - 支付商品价格 2 -卡券类充值 3-退款
 	 */
 	private Integer tradeType;
 	
