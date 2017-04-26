@@ -228,6 +228,7 @@ public class WeixinApiService {
                         return returnFail();
                     }
                 } catch (Exception e) {
+                	e.printStackTrace();
                     log.error("业务逻辑处理失败:" + payResData);
                     return returnFail();
                 }

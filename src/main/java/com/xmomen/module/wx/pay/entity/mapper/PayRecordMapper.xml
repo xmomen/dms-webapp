@@ -59,16 +59,16 @@
 	        #{transactionId,jdbcType=VARCHAR},
 	      </if>
 	      <if test="transactionTime != null" >
-	        #{transactionTime,jdbcType=DATE},
+	        #{transactionTime,jdbcType=TIMESTAMP},
 	      </if>
 	      <if test="completeTime != null" >
-	        #{completeTime,jdbcType=DATE},
+	        #{completeTime,jdbcType=TIMESTAMP},
 	      </if>
 	    </trim>
 	</insert>
 	
 	<update id="markFinished" parameterType="com.xmomen.module.wx.pay.entity.TbPayRecord">
-		update tb_pay_record set COMPLETE_TIME = #{completeTime,jdbcType=DATE},
+		update tb_pay_record set COMPLETE_TIME = #{completeTime,jdbcType=TIMESTAMP},
 			TRANSACTION_ID = #{transactionId,jdbcType=VARCHAR}
 			where ID = #{id,jdbcType=VARCHAR}
 	</update>

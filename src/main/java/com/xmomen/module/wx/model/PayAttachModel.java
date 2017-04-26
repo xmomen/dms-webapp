@@ -4,6 +4,8 @@ import lombok.Data;
 
 public @Data class PayAttachModel {
 
+	public PayAttachModel() {}
+
 	public PayAttachModel(int type, String tradeNo, String tradeId) {
 		this.type = type;
 		this.tradeNo = tradeNo;
