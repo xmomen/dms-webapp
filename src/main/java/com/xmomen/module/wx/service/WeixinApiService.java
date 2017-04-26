@@ -57,10 +57,10 @@ public class WeixinApiService {
 
     @Autowired
     MybatisDao mybatisDao;
-    
+
     @Autowired
     MyOrderService myOrderService;
-    
+
     @Autowired
     PayRecordService payRecordService;
 
@@ -194,6 +194,9 @@ public class WeixinApiService {
         getAccessToken(publicUid);
         JsApiTicket jsApiTicket = getJsApiTicket(publicUid);
         Map map = SignUtil.sign(jsApiTicket.getTicket(), url);
+        //获取公众号的配置
+        WxAppSetting appSettingExt = appSettingService.getAppSetting(publicUid);
+        map.put("appId", appSettingExt.getAppId());
         return map;
     }
 
@@ -213,20 +216,21 @@ public class WeixinApiService {
             log.info("out_trade_no:" + payResData.getOut_trade_no());
             if (StringUtils.equals("SUCCESS", payResData.getReturn_code())) {
                 //进行业务处理
-            	try {
-            		if(StringUtils.equals("SUCCESS", payResData.getResult_code())) {
-            			synchronized(this) {
-                			//考虑微信的重复通知的可能性，所以加锁控制
-                			myOrderService.payCallBack(payResData);
-                		}
-            		} else {
-            			log.error("微信支付失败:" + payResData.getErr_code_des());
-            			return returnFail();
-            		}
-				} catch (Exception e) {
-					log.error("业务逻辑处理失败:" + payResData);
-					return returnFail();
-				}
+                try {
+                    if (StringUtils.equals("SUCCESS", payResData.getResult_code())) {
+                        synchronized (this) {
+                            //考虑微信的重复通知的可能性，所以加锁控制
+                            myOrderService.payCallBack(payResData);
+                        }
+                    }
+                    else {
+                        log.error("微信支付失败:" + payResData.getErr_code_des());
+                        return returnFail();
+                    }
+                } catch (Exception e) {
+                    log.error("业务逻辑处理失败:" + payResData);
+                    return returnFail();
+                }
             }
             else {
                 return returnFail();
@@ -251,27 +255,35 @@ public class WeixinApiService {
      * 支付
      *
      * @param outTradeNo 订单号
-     * @param totalFee   总金额（分）
+     * @param totalFee   总金额（元）
      * @param request
      * @return
      */
-    public PayResData payOrder(String outTradeNo, Integer totalFee, String openId, Integer type,  HttpServletRequest request) {
-    	PayAttachModel attachModel = null;
-    	String tradeId = UUID.randomUUID().toString().replaceAll("-", "");
-    	if(type == null || !(type.equals(2) || type.equals(1))) {
-    		log.info("不合法的交易类型：" + type + ",合法的值为[1, 2]");
-    		return null;
-    	}
-    	attachModel = new PayAttachModel(type, outTradeNo, tradeId);
-    	String attachement = JSON.toJSONString(attachModel);
-        PayReqData payReqData = new PayReqData("订单付费", tradeId, totalFee, getIp2(request), openId, attachement);
-        
+    public PayResData payOrder(String outTradeNo, Double totalFee, String openId, Integer type, HttpServletRequest request) {
+        PayAttachModel attachModel = null;
+        String tradeId = UUID.randomUUID().toString().replaceAll("-", "");
+        if (!type.equals(2) && !type.equals(1)) {
+            log.info("不合法的交易类型：" + type + ",合法的值为[1, 2]");
+            return null;
+        }
+
+        log.info("outTradeNo:" + outTradeNo + ",totalFee:" + totalFee + ",openId:" + openId + ",type:" + type + ",request:" + request.toString());
+        attachModel = new PayAttachModel(type, outTradeNo, tradeId);
+        String attachement = JSON.toJSONString(attachModel);
+        totalFee = totalFee * 100;
+        PayReqData payReqData = new PayReqData("订单付费", tradeId, 1, getIp2(request), openId, attachement);
+
         try {
             String result = new PayService().request(payReqData);
             log.info("请求返回的结果：" + result);
 
             //将从API返回的XML数据映射到Java对象
             PayResData payResData = (PayResData) Util.getObjectFromXML(result, PayResData.class);
+            //统一下单失败
+            if (payResData.getReturn_code().equals("FAIL")) {
+                log.info("统一下单失败：" + payResData.getReturn_msg());
+                return null;
+            }
             //再次签名
             long timeStamp = System.currentTimeMillis() / 1000;
             String nonceStr = RandomStringGenerator.getRandomStringByLength(32);
@@ -288,22 +300,22 @@ public class WeixinApiService {
             payResData.setTimeStamp(String.valueOf(timeStamp));
             payResData.setNonce_str(nonceStr);
             payResData.setPackageStr(packageStr);
-            payResData.setAppid(null);
+            payResData.setAppid(Configure.getAppid());
             payResData.setMch_id(null);
-            
-            
+
+
             //插入支付记录到tb_pay_record表
             WeixinPayRecord weixinPayRecord = new WeixinPayRecord();
             weixinPayRecord.setTradeNo(outTradeNo);
-			weixinPayRecord.setTradeId(tradeId);
-			weixinPayRecord.setOpenId(openId);
-			weixinPayRecord.setTradeType(type);
-			weixinPayRecord.setTotalFee(totalFee);
-        	try {
-				payRecordService.addPayRecord(weixinPayRecord);
-			} catch (Exception e) {
-				log.error("记录支付失败：" + weixinPayRecord);
-			}
+            weixinPayRecord.setTradeId(tradeId);
+            weixinPayRecord.setOpenId(openId);
+            weixinPayRecord.setTradeType(type);
+            weixinPayRecord.setTotalFee(totalFee.intValue());
+            try {
+                payRecordService.addPayRecord(weixinPayRecord);
+            } catch (Exception e) {
+                log.error("记录支付失败：" + weixinPayRecord);
+            }
 
             return payResData;
         } catch (Exception e) {
@@ -344,7 +356,7 @@ public class WeixinApiService {
     		RefundResData refundResData = (RefundResData) Util.getObjectFromXML(result, RefundResData.class);
     		if (StringUtils.equals("SUCCESS", refundResData.getReturn_code()) && 
     				StringUtils.equals("SUCCESS",refundResData.getResult_code())) {
-    				//TODO 退款成功，设置completeTime
+    				// 申请退款成功，设置completeTime
     				TbPayRecord refundRecord = new TbPayRecord();
     				refundRecord.setId(outRefundNo);
     				refundRecord.setOpenId(tbPayRecord.getOpenId());
@@ -371,21 +383,19 @@ public class WeixinApiService {
      * @return
      */
     public static String getIp2(HttpServletRequest request) {
-        String ip = request.getHeader("X-Forwarded-For");
-        if (org.apache.commons.lang3.StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)) {
-            //多次反向代理后会有多个ip值，第一个ip才是真实ip
-            int index = ip.indexOf(",");
-            if (index != -1) {
-                return ip.substring(0, index);
-            }
-            else {
-                return ip;
-            }
+        String ip = request.getHeader("x-forwarded-for");
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
         }
-        ip = request.getHeader("X-Real-IP");
-        if (org.apache.commons.lang3.StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)) {
-            return ip;
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
         }
-        return request.getRemoteAddr();
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        if (ip.equals("0:0:0:0:0:0:0:1")) {
+            ip = "127.0.0.1";
+        }
+        return ip;
     }
 }

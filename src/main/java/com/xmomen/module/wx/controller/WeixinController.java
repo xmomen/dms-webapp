@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -48,7 +49,7 @@ public class WeixinController {
      */
     @RequestMapping(value = "/jsapi_ticket")
     public Map getJsapiTicket(@RequestParam(value = "url") String url) {
-        return weixinApiService.getJsSDKConfig("gh_67c2b712d650", url);
+        return weixinApiService.getJsSDKConfig("gh_9248df680cef", url);
     }
 
     /**
@@ -61,7 +62,7 @@ public class WeixinController {
      */
     @RequestMapping(value = "/payOrder", method = RequestMethod.POST)
     @ResponseBody
-    public PayResData payOrder(@RequestBody PayModel payOrderModel, HttpServletRequest request) {
+    public PayResData payOrder(@RequestBody @Valid PayModel payOrderModel, HttpServletRequest request) {
         return weixinApiService.payOrder(payOrderModel.getOutTradeNo(), payOrderModel.getTotalFee(), payOrderModel.getOpenId(), payOrderModel.getType(), request);
     }
 
