@@ -30,6 +30,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductModel> products = pageModel.getResult();
         if (products != null) {
             for (ProductModel product : products) {
+            	product.setBasePrice(null);//隐藏商品原价
                 if (StringUtils.isEmpty(product.getPicUrl())) {
                     product.setPicUrl(ResourceUtilsService.getDefaultPicPath());
                 }
@@ -59,6 +60,7 @@ public class ProductServiceImpl implements ProductService {
             }
             ProductModel detail = products.get(0);
             detail.setPicUrls(picUrls);
+            detail.setBasePrice(null);//隐藏商品原价
             if (defaultPicUrl == null) {
                 if (StringUtils.isEmpty(detail.getPicUrl())) {
                     detail.setPicUrl(ResourceUtilsService.getDefaultPicPath());
@@ -85,6 +87,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductModel> products = mybatisDao.getSqlSessionTemplate().selectList(ProductMapper.ProductMapperNameSpace + "getProductsByIds", productQuery);
         if (products != null && !products.isEmpty()) {
             for (ProductModel product : products) {
+            	product.setBasePrice(null);//隐藏商品原价
                 if (StringUtils.isEmpty(product.getPicUrl())) {
                 	product.setPicUrl(ResourceUtilsService.getDefaultPicPath());
                 }

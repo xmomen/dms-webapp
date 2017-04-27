@@ -28,4 +28,5 @@ public @Data class OrderModel {
 	private Date appointmentTime;
 	
 	private List<OrderProductItem> products;
+	private Boolean canCancel = false;
 }

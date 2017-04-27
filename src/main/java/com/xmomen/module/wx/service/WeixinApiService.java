@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.shiro.util.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -269,7 +270,20 @@ public class WeixinApiService {
         }
 
         log.info("outTradeNo:" + outTradeNo + ",totalFee:" + totalFee + ",openId:" + openId + ",type:" + type + ",request:" + request.toString());
-        attachModel = new PayAttachModel(type, outTradeNo, tradeId);
+        //如果订单已经支付(不是充值类型)，则不能再申请微信支付
+        if(type.equals(1)) {
+        	TbPayRecord payRecordQuery = new TbPayRecord();
+    		payRecordQuery.setTradeNo(outTradeNo);
+    		payRecordQuery.setTradeType(1);
+    		payRecordQuery.setCompleteTime(new Date());//支付完成时间不为空
+    		List<TbPayRecord> tbPayRecords = payRecordService.getTbpayRecordListByRecord(payRecordQuery);
+    		if(!CollectionUtils.isEmpty(tbPayRecords)) {
+    			log.error("已经支付成功的订单，不能重复提交支付申请");
+    			return null;
+    		}
+        }
+        
+        attachModel = new PayAttachModel(type, outTradeNo, tradeId, openId);
         String attachement = JSON.toJSONString(attachModel);
         totalFee = totalFee * 100;
         PayReqData payReqData = new PayReqData("订单付费", tradeId, 1, getIp2(request), openId, attachement);
@@ -303,20 +317,6 @@ public class WeixinApiService {
             payResData.setPackageStr(packageStr);
             payResData.setAppid(Configure.getAppid());
             payResData.setMch_id(null);
-
-
-            //插入支付记录到tb_pay_record表
-            WeixinPayRecord weixinPayRecord = new WeixinPayRecord();
-            weixinPayRecord.setTradeNo(outTradeNo);
-            weixinPayRecord.setTradeId(tradeId);
-            weixinPayRecord.setOpenId(openId);
-            weixinPayRecord.setTradeType(type);
-            weixinPayRecord.setTotalFee(totalFee.intValue());
-            try {
-                payRecordService.addPayRecord(weixinPayRecord);
-            } catch (Exception e) {
-                log.error("记录支付失败：" + weixinPayRecord);
-            }
 
             return payResData;
         } catch (Exception e) {
@@ -355,19 +355,23 @@ public class WeixinApiService {
     		log.info("请求返回的结果：" + result);
     		//将从API返回的XML数据映射到Java对象
     		RefundResData refundResData = (RefundResData) Util.getObjectFromXML(result, RefundResData.class);
-    		if (StringUtils.equals("SUCCESS", refundResData.getReturn_code()) && 
-    				StringUtils.equals("SUCCESS",refundResData.getResult_code())) {
-    				// 申请退款成功，设置completeTime
-    				TbPayRecord refundRecord = new TbPayRecord();
-    				refundRecord.setId(outRefundNo);
-    				refundRecord.setOpenId(tbPayRecord.getOpenId());
-    				refundRecord.setTradeType(3);//退款类型
-    				refundRecord.setTransactionId(tbPayRecord.getTransactionId());
-    				refundRecord.setTransactionTime(tbPayRecord.getTransactionTime());
-    				refundRecord.setCompleteTime(new Date());
-    				refundRecord.setTotalFee(new BigDecimal(Double.valueOf(refundFee)%100));
-    				refundRecord.setTradeNo(tbPayRecord.getTradeNo());
-    				payRecordService.insert(tbPayRecord);
+    		if (StringUtils.equals("SUCCESS", refundResData.getReturn_code())) {
+    				if(StringUtils.equals("SUCCESS",refundResData.getResult_code())) {
+	    				// 申请退款成功，设置completeTime
+	    				TbPayRecord refundRecord = new TbPayRecord();
+	    				refundRecord.setId(outRefundNo);
+	    				refundRecord.setOpenId(tbPayRecord.getOpenId());
+	    				refundRecord.setTradeType(3);//退款类型
+	    				refundRecord.setTransactionId(tbPayRecord.getTransactionId());
+	    				refundRecord.setTransactionTime(tbPayRecord.getTransactionTime());
+	    				refundRecord.setCompleteTime(new Date());
+	    				refundRecord.setTotalFee(new BigDecimal(Double.valueOf(refundFee)%100));
+	    				refundRecord.setTradeNo(tbPayRecord.getTradeNo());
+	    				payRecordService.insert(tbPayRecord);
+    				} else {
+    					log.info("请求退款失败" + refundResData.getErr_code_des());
+    					return null;
+    				}
     		} else {
     			return null;
     		}

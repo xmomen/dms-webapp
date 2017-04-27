@@ -7,8 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.util.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +38,8 @@ import com.xmomen.module.wx.service.WeixinApiService;
 
 @Service
 public class MyOrderServiceImpl implements MyOrderService {
+
+	static Logger log = LoggerFactory.getLogger(MyOrderServiceImpl.class);
 
     @Autowired
     MybatisDao mybatisDao;
@@ -68,6 +72,12 @@ public class MyOrderServiceImpl implements MyOrderService {
                         }
                     }
                 }
+                String orderStatus = order.getOrderStatus();
+                if(orderCanCancel(orderStatus)) {
+                	order.setCanCancel(true);
+                } else {
+                	order.setCanCancel(false);
+                }
             }
         }
         return orders;
@@ -89,6 +99,12 @@ public class MyOrderServiceImpl implements MyOrderService {
                 	item.setPicUrl(ResourceUtilsService.getWholeHttpPath(item.getPicUrl()));
                 }
             }
+            String orderStatus = orderDetail.getOrderStatus();
+            if(orderCanCancel(orderStatus)) {
+            	orderDetail.setCanCancel(true);
+            } else {
+            	orderDetail.setCanCancel(false);
+            }
         }
         return orderDetail;
     }
@@ -107,7 +123,7 @@ public class MyOrderServiceImpl implements MyOrderService {
 
     /**
      * 未配送的订单才可以取消，如下
-     * 0-等待付款 1-待采购 2-采购中 3-装箱中 4-待出库 12-待配送 13-待装箱
+     * 0-等待付款 1-待采购
      */
     @Override
     @Transactional
@@ -125,11 +141,6 @@ public class MyOrderServiceImpl implements MyOrderService {
         List<String> allowCancelStatus = new ArrayList<String>();
         allowCancelStatus.add("0");
         allowCancelStatus.add("1");
-        allowCancelStatus.add("2");
-        allowCancelStatus.add("3");
-        allowCancelStatus.add("4");
-        allowCancelStatus.add("12");
-        allowCancelStatus.add("13");
         if(allowCancelStatus.contains(orderStatus)) {
         	if(tbOrder.getOrderType().equals(1) || tbOrder.getOrderType().equals(2)) {
         		//卡类和券类已经支付过了，卡类支付直接把钱退到卡里，券类订单则让券继续可用
@@ -156,7 +167,7 @@ public class MyOrderServiceImpl implements MyOrderService {
                 mybatisDao.update(tbOrder);
         	}
         } else {
-        	throw new IllegalArgumentException("订单已发货或其他原因，请联系客服!");
+        	throw new IllegalArgumentException("已经处理的订单不能取消!");
         }
         return Boolean.TRUE;
     }
@@ -193,11 +204,27 @@ public class MyOrderServiceImpl implements MyOrderService {
 		String attachement = payResData.getAttach();
 		PayAttachModel payAttachModel = JSON.parseObject(attachement, PayAttachModel.class);
 		String tradeId = payAttachModel.getTradeId();
-		TbPayRecord tbPayRecord = payRecordService.getTbPayRecordById(tradeId);
-		if(tbPayRecord != null && tbPayRecord.getCompleteTime() != null) {
-			//如果已经处理过,则什么都不做。用于处理微信可能存在的重复通知
-			return;
+		String tradeNo = payAttachModel.getTradeNo();
+		TbPayRecord payRecordQuery = new TbPayRecord();
+		payRecordQuery.setTradeNo(tradeNo);
+		List<TbPayRecord> tbPayRecords = payRecordService.getTbpayRecordListByRecord(payRecordQuery);
+		if(!CollectionUtils.isEmpty(tbPayRecords)) {
+			for(TbPayRecord tbPayRecord: tbPayRecords) {
+				String thePayRecordId = tbPayRecord.getId();
+				if(tradeId.equals(thePayRecordId)) {
+					//处理微信可能存在的重复通知
+					return;
+				}
+				if(tbPayRecord.getTradeType()!=null && tbPayRecord.getTradeType().equals(1)
+						&& tbPayRecord.getCompleteTime() != null) {
+					//同一个微信订单已支付（出现的请况很少）
+					log.error("出现订单重复支付的记录：tradeNo=" + tradeNo + ", tradeId=" + tradeId 
+							+ ", transactionId=" + payResData.getTransaction_id() + ", openId=" + payAttachModel.getOpenId());
+					return;
+				}
+			}
 		}
+		
 		double totalFee = payResData.getTotal_fee();
 		if(1 == payAttachModel.getType()) {
 			//微信支付
@@ -206,6 +233,7 @@ public class MyOrderServiceImpl implements MyOrderService {
 			query.setOrderNo(orderNo);
 			TbOrder tbOrder = mybatisDao.selectOneByModel(query);
 			if(tbOrder == null) {
+				log.error("订单不存在! --" + orderNo);
 				throw new IllegalArgumentException("订单不存在!");
 			}
 			//设置为微信支付类型
@@ -218,13 +246,27 @@ public class MyOrderServiceImpl implements MyOrderService {
 			String couponNo = payAttachModel.getTradeNo();
 			couponService.cardRecharge(couponNo, new BigDecimal(totalFee/100));
 		} else {
+			log.error("支付类型只能为1或2 -- type是" + payAttachModel.getType());
 			throw new IllegalArgumentException("支付类型只能为1或2");
 		}
-		// 更新支付记录tb_pay_record
-		WeixinPayRecord weixinPayRecord = new WeixinPayRecord();
-		weixinPayRecord.setTradeId(tradeId);
-		weixinPayRecord.setTransactionId(payResData.getTransaction_id());
-		payRecordService.finishPayRecord(weixinPayRecord);
+		//插入支付记录到tb_pay_record表
+		TbPayRecord tbPayRecord = new TbPayRecord();
+		tbPayRecord.setId(tradeId);
+		tbPayRecord.setTradeNo(payAttachModel.getTradeNo());
+		tbPayRecord.setTradeType(payAttachModel.getType());
+		tbPayRecord.setTotalFee(new BigDecimal(totalFee/100));
+		tbPayRecord.setTransactionId(payResData.getTransaction_id());
+		tbPayRecord.setTransactionTime(new Date());
+		tbPayRecord.setCompleteTime(new Date());
+		tbPayRecord.setOpenId(payAttachModel.getOpenId());
+		
+		payRecordService.insert(tbPayRecord);
 	}
 
+	private boolean orderCanCancel(String orderStatus) {
+		if("0".equals(orderStatus) || "1".equals(orderStatus)) {
+			return true;
+		}
+		return false;
+	}
 }

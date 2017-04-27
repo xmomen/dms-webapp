@@ -47,4 +47,5 @@ public @Data class OrderDetailModel {
 	
 	
 	List<OrderProductItem> products;
+	private Boolean canCancel;
 }
