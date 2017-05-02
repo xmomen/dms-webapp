@@ -68,7 +68,7 @@ public class BindController {
                 String reqServer = PropertiesUtils
                         .findPropertiesKey("wx.domain");
                 if (StringUtils.isEmpty(reqServer)) {
-                    reqServer = "http://www.j9soft.com";
+                    reqServer = "http://system.1g3h.com";
                 }
                 callbackUrl = reqServer + "/bind/auth2Url?url="
                         + URLEncoder.encode(url, "UTF-8") + "&param=" + param;
