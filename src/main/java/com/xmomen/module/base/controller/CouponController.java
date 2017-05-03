@@ -13,6 +13,7 @@ import com.xmomen.module.base.service.CouponService;
 import com.xmomen.module.export.model.UploadFileVo;
 import com.xmomen.module.export.util.PrintUtils;
 import com.xmomen.module.logger.Log;
+import com.xmomen.module.wx.util.DateUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
@@ -386,6 +387,12 @@ public class CouponController {
         if (isAutoAudit == 1) {
             CdCoupon coupon = new CdCoupon();
             coupon.setIsUseful(1);
+            //更新卡发放状态
+            CdCoupon couponDb = mybatisDao.selectByPrimaryKey(CdCoupon.class, couponId);
+            //如果是后付款类型并且是卡则记录激活时间
+            if (couponDb.getPaymentType() == 1 && couponDb.getCouponType() == 1) {
+                coupon.setUsefulDate(DateUtils.getNowDate());
+            }
             coupon.setId(couponId);
             if (coupon.getCouponValue() == null) {
                 coupon.setCouponValue(receivedPrice);

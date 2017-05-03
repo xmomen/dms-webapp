@@ -118,6 +118,11 @@ public class CdCoupon extends BaseMybatisModel {
      */
     private String batch;
 
+    /**
+     * 卡激活时间，劵使用时间
+     */
+    private Date usefulDate;
+
     @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
@@ -412,5 +417,19 @@ public class CdCoupon extends BaseMybatisModel {
               return;
         }
         addValidField("batch");
+    }
+
+    @Column(name = "USEFUL_DATE")
+    public Date getUsefulDate() {
+        return usefulDate;
+    }
+
+    public void setUsefulDate(Date usefulDate) {
+        this.usefulDate = usefulDate;
+        if(usefulDate == null){
+              removeValidField("usefulDate");
+              return;
+        }
+        addValidField("usefulDate");
     }
 }

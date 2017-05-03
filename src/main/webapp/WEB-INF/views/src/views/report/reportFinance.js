@@ -59,24 +59,20 @@ define(function () {
 
 
         $scope.exportFinanceExcel = function () {
-            // if (!$("#startTimeId").val()) {
-            //     $ugDialog.warn("请输入开始时间");
-            //     return;
-            // }
-            // if (!$("#endTimeId").val()) {
-            //     $ugDialog.warn("请输入结束时间");
-            //     return;
-            // }
-            var url = "/report/finance"
+            if (!$("#startTimeId").val()) {
+                $ugDialog.warn("请输入开始时间");
+                return;
+            }
+            if (!$("#endTimeId").val()) {
+                $ugDialog.warn("请输入结束时间");
+                return;
+            }
+            var url = "/report/finance?beginTime=" + $("#startTimeId").val() + "&endTime=" + $("#endTimeId").val();
             if ($scope.queryParam.cdCompanyId != undefined) {
-                url += "?companyId=" + $scope.queryParam.cdCompanyId;
+                url += "&companyId=" + $scope.queryParam.cdCompanyId;
             }
             if ($scope.queryParam.customerMangerId != undefined) {
-                if(url.indexOf("?") > 0){
-                    url += "&managerId=" + $scope.queryParam.customerMangerId;
-                }else{
-                    url += "?managerId=" + $scope.queryParam.customerMangerId;
-                }
+                url += "&managerId=" + $scope.queryParam.customerMangerId;
             }
             window.location.href = url;
         }
