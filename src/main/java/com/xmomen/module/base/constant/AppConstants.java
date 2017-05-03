@@ -32,6 +32,11 @@ public class AppConstants implements Serializable {
      */
     public static final String SUPER_ADMIN = "super_admin";
 
+    /**
+     * 物流中心
+     */
+    public static final String WULIUZXB = "wuliuzxb";
+
 
     public static final String PACKAGE_PERMISSION_CODE = "baozhuangzu";
 

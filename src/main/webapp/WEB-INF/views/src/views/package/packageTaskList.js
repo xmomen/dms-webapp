@@ -83,6 +83,8 @@ define(function () {
 
                     $scope.print = function(jobOperationLog){
                         LODOP.PRINT_INITA(0,0,"56.3mm","60.01mm","商品条码打印");
+                        LODOP.ADD_PRINT_IMAGE(-2,128,60,60, "<img border='0' src='http://101.200.51.63:8080/group1/M00/00/00/rBFOZlkIfTOAOb6ZAAB0qe50dIM918.png' width='60' height='60'/>");
+                        LODOP.SET_PRINT_STYLEA(0, "Stretch", 2);//按原图比例(不变形)缩放模式
                         LODOP.ADD_PRINT_BARCODE(62,9,"50.96mm","10.21mm","128B",jobOperationLog.barCode);
                         LODOP.ADD_PRINT_TEXT(134,107,75,19,"采摘人:"+jobOperationLog.caizaiUser);
                         LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
@@ -103,7 +105,7 @@ define(function () {
                         LODOP.SET_PRINT_STYLEA(0,"FontName","黑体");
                         LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 
-//                        LODOP.PRINT_DESIGN();
+                       // LODOP.PRINT_DESIGN();
                         LODOP.PRINT();
                     }
                 }]
