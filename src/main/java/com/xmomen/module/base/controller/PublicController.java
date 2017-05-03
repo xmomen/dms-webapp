@@ -47,7 +47,8 @@ public class PublicController {
                     && !SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_PERMISSION_CODE)
                     && !SecurityUtils.getSubject().hasRole(AppConstants.HOU_TAI_CODE)
                     && !SecurityUtils.getSubject().hasRole(AppConstants.ADMIN)
-                    && !SecurityUtils.getSubject().hasRole(AppConstants.SUPER_ADMIN)) {
+                    && !SecurityUtils.getSubject().hasRole(AppConstants.SUPER_ADMIN)
+                    && !SecurityUtils.getSubject().hasRole(AppConstants.WULIUZXB)) {
                 Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
                 map.put("managerId", userId);
             }
