@@ -77,6 +77,7 @@ define(function () {
                 $ugDialog.warn("请输入结束时间");
                 return;
             }
+            debugger;
             var url = "/report/order?beginTime=" + $("#startTimeId").val() + "&endTime=" + $("#endTimeId").val();
             if ($scope.queryParam.cdCompanyId_order != undefined) {
                 url += "&companyId=" + $scope.queryParam.cdCompanyId_order;
@@ -97,10 +98,10 @@ define(function () {
                 return;
             }
             var url = "/report/express?beginTime=" + $("#startTimeId_express").val() + "&endTime=" + $("#endTimeId_express").val();
-            if ($scope.queryParam.cdCompanyId_express != 'undefined') {
+            if ($scope.queryParam.cdCompanyId_express != undefined) {
                 url += "&companyId=" + $scope.queryParam.cdCompanyId_express;
             }
-            if ($scope.queryParam.customerMangerId_express != 'undefined') {
+            if ($scope.queryParam.customerMangerId_express != undefined) {
                 url += "&managerId=" + $scope.queryParam.customerMangerId_express;
             }
             window.location.href = url;
