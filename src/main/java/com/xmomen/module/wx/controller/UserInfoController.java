@@ -34,7 +34,7 @@ public class UserInfoController {
 		UserInfoModel userInfo = null;
 		ajaxResult.setResult(1);
 		if(!StringUtils.isEmpty(openId)) {
-			String publicUid = "gh_67c2b712d650";
+			String publicUid = "gh_9248df680cef";
 			String accessToken = weixinApiService.getAccessToken(publicUid);
 			WeixinUserInfo weixinUserInfo = WeixinApiService.getWeixinUserInfo(accessToken, openId);
 			if(weixinUserInfo != null && !StringUtils.isEmpty(weixinUserInfo.getNickname())) {

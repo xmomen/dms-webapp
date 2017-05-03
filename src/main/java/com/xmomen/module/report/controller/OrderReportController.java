@@ -54,7 +54,12 @@ public class OrderReportController {
         reportQuery.setCompanyId(companyId);
         reportQuery.setManagerId(managerId);
         //客服经理过滤 如果有客服组权限则不过滤
-        if (SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE) && !SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_PERMISSION_CODE)) {
+        if (SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE)
+                && !SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_PERMISSION_CODE)
+                && !SecurityUtils.getSubject().hasRole(AppConstants.HOU_TAI_CODE)
+                && !SecurityUtils.getSubject().hasRole(AppConstants.ADMIN)
+                && !SecurityUtils.getSubject().hasRole(AppConstants.SUPER_ADMIN)
+                && !SecurityUtils.getSubject().hasRole(AppConstants.WULIUZXB)) {
             Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
             reportQuery.setManagerId(userId);
         }
@@ -91,7 +96,12 @@ public class OrderReportController {
         reportQuery.setCompanyId(companyId);
         reportQuery.setManagerId(managerId);
         //客服经理过滤 如果有客服组权限则不过滤
-        if (SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE) && !SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_PERMISSION_CODE)) {
+        if (SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE)
+                && !SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_PERMISSION_CODE)
+                && !SecurityUtils.getSubject().hasRole(AppConstants.HOU_TAI_CODE)
+                && !SecurityUtils.getSubject().hasRole(AppConstants.ADMIN)
+                && !SecurityUtils.getSubject().hasRole(AppConstants.SUPER_ADMIN)
+                && !SecurityUtils.getSubject().hasRole(AppConstants.WULIUZXB)) {
             Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
             reportQuery.setManagerId(userId);
         }
@@ -128,14 +138,19 @@ public class OrderReportController {
         reportQuery.setCompanyId(companyId);
         reportQuery.setManagerId(managerId);
         //客服经理过滤 如果有客服组权限则不过滤
-        if (SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE) && !SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_PERMISSION_CODE)) {
+        if (SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_MANAGER_PERMISSION_CODE)
+                && !SecurityUtils.getSubject().hasRole(AppConstants.CUSTOMER_PERMISSION_CODE)
+                && !SecurityUtils.getSubject().hasRole(AppConstants.HOU_TAI_CODE)
+                && !SecurityUtils.getSubject().hasRole(AppConstants.ADMIN)
+                && !SecurityUtils.getSubject().hasRole(AppConstants.SUPER_ADMIN)
+                && !SecurityUtils.getSubject().hasRole(AppConstants.WULIUZXB)) {
             Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
             reportQuery.setManagerId(userId);
         }
         List<FinanceReport> list = reportOrderService.getFinanceReportList(reportQuery);
-//        String[] beginTimes = beginTime.split("-");
-//        String[] endTimes = endTime.split("-");
-//        modelMap.put(NormalExcelConstants.FILE_NAME, beginTimes[0] + "年" + beginTimes[1] + "月" + beginTimes[2] + "日-" + endTimes[0] + "年" + endTimes[1] + "月" + endTimes[2] + "日财务报表");
+        String[] beginTimes = beginTime.split("-");
+        String[] endTimes = endTime.split("-");
+        modelMap.put(NormalExcelConstants.FILE_NAME, beginTimes[0] + "年" + beginTimes[1] + "月" + beginTimes[2] + "日-" + endTimes[0] + "年" + endTimes[1] + "月" + endTimes[2] + "日财务报表");
         modelMap.put(NormalExcelConstants.FILE_NAME, "财务报表");
         modelMap.put(NormalExcelConstants.PARAMS, new ExportParams());
         modelMap.put(NormalExcelConstants.CLASS, FinanceReport.class);

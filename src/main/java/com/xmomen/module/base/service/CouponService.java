@@ -97,34 +97,34 @@ public class CouponService {
 
     @Transactional
     public Boolean bindMember(String couponNumber, Integer memberId, String password) throws Exception {
-    	CouponQuery couponQuery = new CouponQuery();
-    	couponQuery.setCouponNumber(couponNumber);
-    	List<ReadCardVo> existingBindCards = mybatisDao.getSqlSessionTemplate().selectList(CouponMapper.CouponMapperNameSpace + "getCouponByCouponNo", couponQuery);
-    	if(CollectionUtils.isEmpty(existingBindCards)) {
-    		throw new Exception("该卡不存在!");
-    	}
-    	for(ReadCardVo readCardVo: existingBindCards) {
-    		String userName = readCardVo.getUserName();
-    		if(!StringUtils.isEmpty(userName)) {
-    			throw new Exception("该卡已经被绑定了!");
-    		}
-    	}
-    	
-		CdCoupon query = new CdCoupon();
-    	query.setCouponNumber(couponNumber);
-    	CdCoupon coupon = mybatisDao.selectOneByModel(query);
-    	String prePassword = coupon.getCouponPassword();
-    	if(!StringUtils.isEmpty(prePassword)) {
-    		if(!prePassword.equals(password)) {
-    			throw new Exception("密码错误!");
-    		}
-    	}
-    	
-    	CdMemberCouponRelation relation = new CdMemberCouponRelation();
-    	relation.setCdMemberId(memberId);
-    	relation.setCouponNumber(couponNumber);
-    	mybatisDao.save(relation);
-    	return Boolean.TRUE;
+        CouponQuery couponQuery = new CouponQuery();
+        couponQuery.setCouponNumber(couponNumber);
+        List<ReadCardVo> existingBindCards = mybatisDao.getSqlSessionTemplate().selectList(CouponMapper.CouponMapperNameSpace + "getCouponByCouponNo", couponQuery);
+        if (CollectionUtils.isEmpty(existingBindCards)) {
+            throw new Exception("该卡不存在!");
+        }
+        for (ReadCardVo readCardVo : existingBindCards) {
+            String userName = readCardVo.getUserName();
+            if (!StringUtils.isEmpty(userName)) {
+                throw new Exception("该卡已经被绑定了!");
+            }
+        }
+
+        CdCoupon query = new CdCoupon();
+        query.setCouponNumber(couponNumber);
+        CdCoupon coupon = mybatisDao.selectOneByModel(query);
+        String prePassword = coupon.getCouponPassword();
+        if (!StringUtils.isEmpty(prePassword)) {
+            if (!prePassword.equals(password)) {
+                throw new Exception("密码错误!");
+            }
+        }
+
+        CdMemberCouponRelation relation = new CdMemberCouponRelation();
+        relation.setCdMemberId(memberId);
+        relation.setCouponNumber(couponNumber);
+        mybatisDao.save(relation);
+        return Boolean.TRUE;
     }
 
     @Transactional
@@ -134,6 +134,10 @@ public class CouponService {
         //如果是后付款类型则发卡就激活
         if (coupon.getPaymentType() == 2) {
             coupon.setIsUseful(1);
+            //如果是卡则记录激活时间
+            if (coupon.getCouponType() == 1) {
+                coupon.setUsefulDate(DateUtils.getNowDate());
+            }
         }
         coupon.setIsSend(1);
         coupon.setId(id);
@@ -322,71 +326,81 @@ public class CouponService {
 
     @Transactional
     public void auditCoupon(Integer id, boolean locked) {
+        //db的卡
+        CdCoupon cdCouponDb = mybatisDao.selectByPrimaryKey(CdCoupon.class, id);
         CdCoupon coupon = new CdCoupon();
         coupon.setAuditDate(DateUtils.getNowDate());
         coupon.setIsUseful(locked ? 1 : 0);
+        //如果是预付款类型则审核就激活
+        if (locked && cdCouponDb.getPaymentType() == 1 && cdCouponDb.getCouponType() == 1) {
+            //激活时间
+            coupon.setUsefulDate(DateUtils.getNowDate());
+        }
         coupon.setId(id);
         mybatisDao.update(coupon);
     }
-    
+
     public CouponModel getCouponModel(String couponNumber) {
-    	return mybatisDao.getSqlSessionTemplate().selectOne(CouponMapper.CouponMapperNameSpace + "getCouponItemsByByCouponNo", couponNumber);
+        return mybatisDao.getSqlSessionTemplate().selectOne(CouponMapper.CouponMapperNameSpace + "getCouponItemsByByCouponNo", couponNumber);
     }
-    
+
     public List<WxCouponModel> getMyCouponList(CouponQueryModel queryModel) {
-    	return mybatisDao.getSqlSessionTemplate().selectList(CouponMapper.CouponMapperNameSpace + "getMyCouponList", queryModel);
+        return mybatisDao.getSqlSessionTemplate().selectList(CouponMapper.CouponMapperNameSpace + "getMyCouponList", queryModel);
     }
-    
+
     public Boolean validate(String couponNo, String password) {
-    	CdCoupon couponQuery = new CdCoupon();
-    	couponQuery.setCouponNumber(couponNo);
-    	CdCoupon coupon = mybatisDao.selectOneByModel(couponQuery);
-    	if(coupon == null) return false;
-    	String prePassword = coupon.getCouponPassword();
-    	if(StringUtils.isEmpty(prePassword) && StringUtils.isEmpty(password)) {
-    		return true;
-    	} else {
-    		if(password == null) password = "";
-    		if(password.equals(prePassword)) return true;
-    		return false;
-    	}
+        CdCoupon couponQuery = new CdCoupon();
+        couponQuery.setCouponNumber(couponNo);
+        CdCoupon coupon = mybatisDao.selectOneByModel(couponQuery);
+        if (coupon == null) return false;
+        String prePassword = coupon.getCouponPassword();
+        if (StringUtils.isEmpty(prePassword) && StringUtils.isEmpty(password)) {
+            return true;
+        }
+        else {
+            if (password == null) password = "";
+            if (password.equals(prePassword)) return true;
+            return false;
+        }
     }
-    
+
     public Boolean resetPasword(String couponNumber, String password, String newPassWord, Integer memberId) throws Exception {
-    	CouponQuery couponQuery = new CouponQuery();
-    	couponQuery.setCouponNumber(couponNumber);
-    	List<ReadCardVo> existingBindCards = mybatisDao.getSqlSessionTemplate().selectList(CouponMapper.CouponMapperNameSpace + "getCouponByCouponNo", couponQuery);
-    	if(CollectionUtils.isEmpty(existingBindCards)) {
-    		throw new Exception("该卡不存在!");
-    	}
-    	CdMember cdMember = mybatisDao.selectByPrimaryKey(CdMember.class, memberId);
-    	if(cdMember == null) {
-    		throw new Exception("当前用户不存在!");
-    	}
-    	boolean belongTo = false;
-    	for(ReadCardVo readCardVo: existingBindCards) {
-    		String userName = readCardVo.getUserName();
-    		if(cdMember.getName().equals(userName)) {
-    			belongTo = true;
-    		}
-    	}
-    	if(!belongTo) {
-    		throw new Exception("该卡未被激活或者不属于当前用户!");
-    	}
-    	CdCoupon query = new CdCoupon();
-    	query.setCouponNumber(couponNumber);
-    	CdCoupon coupon = mybatisDao.selectOneByModel(query);
-    	String prePassword = coupon.getCouponPassword();
-    	if(StringUtils.isEmpty(prePassword) && StringUtils.isEmpty(password)) {
-    		coupon.setCouponPassword(newPassWord);
-    	} else if(!StringUtils.isEmpty(prePassword)) {
-    		if(prePassword.equals(password)) {
-    			coupon.setCouponPassword(newPassWord);
-    		} else {
-    			throw new Exception("密码不正确!");
-    		}
-    	}
-    	mybatisDao.update(coupon);
-    	return Boolean.TRUE;
+        CouponQuery couponQuery = new CouponQuery();
+        couponQuery.setCouponNumber(couponNumber);
+        List<ReadCardVo> existingBindCards = mybatisDao.getSqlSessionTemplate().selectList(CouponMapper.CouponMapperNameSpace + "getCouponByCouponNo", couponQuery);
+        if (CollectionUtils.isEmpty(existingBindCards)) {
+            throw new Exception("该卡不存在!");
+        }
+        CdMember cdMember = mybatisDao.selectByPrimaryKey(CdMember.class, memberId);
+        if (cdMember == null) {
+            throw new Exception("当前用户不存在!");
+        }
+        boolean belongTo = false;
+        for (ReadCardVo readCardVo : existingBindCards) {
+            String userName = readCardVo.getUserName();
+            if (cdMember.getName().equals(userName)) {
+                belongTo = true;
+            }
+        }
+        if (!belongTo) {
+            throw new Exception("该卡未被激活或者不属于当前用户!");
+        }
+        CdCoupon query = new CdCoupon();
+        query.setCouponNumber(couponNumber);
+        CdCoupon coupon = mybatisDao.selectOneByModel(query);
+        String prePassword = coupon.getCouponPassword();
+        if (StringUtils.isEmpty(prePassword) && StringUtils.isEmpty(password)) {
+            coupon.setCouponPassword(newPassWord);
+        }
+        else if (!StringUtils.isEmpty(prePassword)) {
+            if (prePassword.equals(password)) {
+                coupon.setCouponPassword(newPassWord);
+            }
+            else {
+                throw new Exception("密码不正确!");
+            }
+        }
+        mybatisDao.update(coupon);
+        return Boolean.TRUE;
     }
 }

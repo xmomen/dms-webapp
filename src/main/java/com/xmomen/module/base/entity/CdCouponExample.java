@@ -1416,6 +1416,66 @@ public class CdCouponExample extends BaseMybatisExample {
             addCriterion("BATCH not between", value1, value2, "batch");
             return (Criteria) this;
         }
+
+        public Criteria andUsefulDateIsNull() {
+            addCriterion("USEFUL_DATE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsefulDateIsNotNull() {
+            addCriterion("USEFUL_DATE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsefulDateEqualTo(Date value) {
+            addCriterion("USEFUL_DATE =", value, "usefulDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsefulDateNotEqualTo(Date value) {
+            addCriterion("USEFUL_DATE <>", value, "usefulDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsefulDateGreaterThan(Date value) {
+            addCriterion("USEFUL_DATE >", value, "usefulDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsefulDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("USEFUL_DATE >=", value, "usefulDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsefulDateLessThan(Date value) {
+            addCriterion("USEFUL_DATE <", value, "usefulDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsefulDateLessThanOrEqualTo(Date value) {
+            addCriterion("USEFUL_DATE <=", value, "usefulDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsefulDateIn(List<Date> values) {
+            addCriterion("USEFUL_DATE in", values, "usefulDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsefulDateNotIn(List<Date> values) {
+            addCriterion("USEFUL_DATE not in", values, "usefulDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsefulDateBetween(Date value1, Date value2) {
+            addCriterion("USEFUL_DATE between", value1, value2, "usefulDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsefulDateNotBetween(Date value1, Date value2) {
+            addCriterion("USEFUL_DATE not between", value1, value2, "usefulDate");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

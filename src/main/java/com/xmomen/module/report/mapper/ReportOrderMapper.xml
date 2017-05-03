@@ -255,6 +255,16 @@
         cd_coupon_ref coupon_ref ON coupon_ref.CD_COUPON_ID = coupon.ID AND coupon_ref.REF_TYPE = 'RECEIVED_PRICE'
         WHERE
         coupon.IS_SEND = 1 AND coupon.CD_COMPANY_ID IS NOT NULL AND coupon.PAYMENT_TYPE = 1
+        <if test="beginTime">
+            <![CDATA[
+                  AND DATE_FORMAT(coupon.USEFUL_DATE ,'%Y-%m-%d')>= #{beginTime}
+                ]]>
+        </if>
+        <if test="endTime">
+            <![CDATA[
+                  AND DATE_FORMAT(coupon.USEFUL_DATE ,'%Y-%m-%d')<= #{endTime}
+                ]]>
+        </if>
         GROUP BY
         coupon.CD_COMPANY_ID,coupon.CD_USER_ID
         UNION ALL
@@ -273,7 +283,7 @@
         -- 未付
         ,0 before_total_no_value
         -- 余额
-        ,sum(coupon.USER_PRICE) before_user_total_value
+        ,0 before_user_total_value
         -- 回馈总金额
         ,sum(coupon.COUPON_VALUE) before_gift_total_value
         -- 回馈剩余金额
@@ -301,6 +311,16 @@
         cd_coupon coupon
         WHERE
         coupon.IS_SEND = 1 AND coupon.CD_COMPANY_ID IS NOT NULL AND coupon.PAYMENT_TYPE = 1 AND coupon.IS_GIFT = 1
+        <if test="beginTime">
+            <![CDATA[
+                  AND DATE_FORMAT(coupon.USEFUL_DATE ,'%Y-%m-%d')>= #{beginTime}
+                ]]>
+        </if>
+        <if test="endTime">
+            <![CDATA[
+                  AND DATE_FORMAT(coupon.USEFUL_DATE ,'%Y-%m-%d')<= #{endTime}
+                ]]>
+        </if>
         GROUP BY
         coupon.CD_COMPANY_ID,coupon.CD_USER_ID
         UNION ALL
@@ -349,6 +369,16 @@
         cd_coupon_ref coupon_ref ON coupon_ref.CD_COUPON_ID = coupon.ID AND coupon_ref.REF_TYPE = 'RECEIVED_PRICE'
         WHERE
         coupon.IS_SEND = 1 AND coupon.CD_COMPANY_ID IS NOT NULL AND coupon.PAYMENT_TYPE = 2
+        <if test="beginTime">
+            <![CDATA[
+                  AND DATE_FORMAT(coupon.USEFUL_DATE ,'%Y-%m-%d')>= #{beginTime}
+                ]]>
+        </if>
+        <if test="endTime">
+            <![CDATA[
+                  AND DATE_FORMAT(coupon.USEFUL_DATE ,'%Y-%m-%d')<= #{endTime}
+                ]]>
+        </if>
         GROUP BY
         coupon.CD_COMPANY_ID,coupon.CD_USER_ID
         UNION ALL
@@ -395,11 +425,22 @@
         cd_coupon coupon
         WHERE
         coupon.IS_SEND = 1 AND coupon.CD_COMPANY_ID IS NOT NULL AND coupon.PAYMENT_TYPE = 2 AND coupon.IS_GIFT = 1
+        <if test="beginTime">
+            <![CDATA[
+                  AND DATE_FORMAT(coupon.USEFUL_DATE ,'%Y-%m-%d')>= #{beginTime}
+                ]]>
+        </if>
+        <if test="endTime">
+            <![CDATA[
+                  AND DATE_FORMAT(coupon.USEFUL_DATE ,'%Y-%m-%d')<= #{endTime}
+                ]]>
+        </if>
         GROUP BY
         coupon.CD_COMPANY_ID,coupon.CD_USER_ID) coupon_table
         group by coupon_table.CD_COMPANY_ID,coupon_table.CD_USER_ID
         )temp_table
-        left join tb_order tb_order ON tb_order.company_Id = temp_table.CD_COMPANY_ID and tb_order.MANAGER_ID = temp_table.cd_user_id
+        -- 计算订单数
+        LEFT JOIN tb_order tb_order ON tb_order.company_Id = temp_table.CD_COMPANY_ID and tb_order.MANAGER_ID = temp_table.cd_user_id
         LEFT JOIN
         (
         SELECT
@@ -433,9 +474,10 @@
         GROUP BY tb.MANAGER_ID ,tb.COMPANY_ID)order_temp_amount
         GROUP BY order_temp_amount.MANAGER_ID ,order_temp_amount.COMPANY_ID) order_temp_amount
         ON order_temp_amount.COMPANY_ID = temp_table.cd_company_id AND order_temp_amount.MANAGER_ID = temp_table.cd_user_id
-        LEFT JOIN cd_company company ON company.id = order_temp_amount.COMPANY_ID
-        LEFT JOIN sys_users manager ON manager.id = order_temp_amount.MANAGER_ID
-        WHERE REALNAME IS NOT NULL
+        LEFT JOIN cd_company company ON company.id = temp_table.CD_COMPANY_ID
+        LEFT JOIN sys_users manager ON manager.id = temp_table.cd_user_id
+        WHERE
+        REALNAME IS NOT NULL
 
         <if test="managerId">
             AND temp_table.cd_user_id = #{managerId}

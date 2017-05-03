@@ -23,6 +23,7 @@
     <result column="IS_OVER" property="isOver" jdbcType="INTEGER" />
     <result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP" />
     <result column="BATCH" property="batch" jdbcType="VARCHAR" />
+    <result column="USEFUL_DATE" property="usefulDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -85,7 +86,7 @@
   <sql id="Base_Column_List" >
     ID, COUPON_TYPE, COUPON_CATEGORY, COUPON_NUMBER, COUPON_PASSWORD, COUPON_VALUE, USER_PRICE, 
     CD_COMPANY_ID, CD_USER_ID, COUPON_DESC, IS_USED, IS_USEFUL, IS_GIFT, IS_SEND, PAYMENT_TYPE, 
-    BEGIN_TIME, END_TIME, NOTES, IS_OVER, AUDIT_DATE, BATCH
+    BEGIN_TIME, END_TIME, NOTES, IS_OVER, AUDIT_DATE, BATCH, USEFUL_DATE
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.base.entity.CdCouponExample" >
     select
@@ -173,6 +174,9 @@
       <if test="batch != null" >
         BATCH,
       </if>
+      <if test="usefulDate != null" >
+        USEFUL_DATE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -237,6 +241,9 @@
       </if>
       <if test="batch != null" >
         #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="usefulDate != null" >
+        #{usefulDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -311,6 +318,9 @@
       </if>
       <if test="record.batch != null" >
         BATCH = #{record.batch,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usefulDate != null" >
+        USEFUL_DATE = #{record.usefulDate,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null" >
