@@ -499,7 +499,7 @@ define(function () {
                     LODOP.ADD_PRINT_BARCODE(12, 252, 89, 86, "QRCode", order.orderNo + "&www.fygl.ehoyuan.cn/bind/auth?url=/wx/receipt");
                     LODOP.SET_PRINT_STYLEA(0, "QRCodeVersion", 10);
                     LODOP.SET_PRINT_STYLEA(0, "QRCodeErrorLevel", "H");
-                    LODOP.ADD_PRINT_BARCODE(12, 309, 75, 64, "QRCode", "http://www.j9soft.com/bind/auth?url=/wx/receipt&param=" + order.orderNo);
+                    LODOP.ADD_PRINT_BARCODE(12, 309, 75, 64, "QRCode", "http://system.1g3h.com/bind/auth?url=/wx/receipt&param=" + order.orderNo);
                     LODOP.SET_PRINT_STYLEA(0, "QRCodeVersion", 10);
                     LODOP.SET_PRINT_STYLEA(0, "QRCodeErrorLevel", "H");
                     LODOP.ADD_PRINT_BARCODE(99, 23, "57.57mm", "9.95mm", "128Auto", result.packingModels[i].packingNo);
