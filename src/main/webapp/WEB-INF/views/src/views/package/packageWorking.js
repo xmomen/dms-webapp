@@ -208,26 +208,27 @@ define(function () {
 
 
         $scope.print = function (barCode) {
-            LODOP.PRINT_INITA(0, 0, "56.3mm", "60.01mm", "商品条码打印");
-            LODOP.ADD_PRINT_IMAGE(-2, 128, 60, 60, "<img border='0' src='http://101.200.51.63:8080/group1/M00/00/00/rBFOZlkIfTOAOb6ZAAB0qe50dIM918.png' width='60' height='60'/>");
-            LODOP.SET_PRINT_STYLEA(0, "Stretch", 2);//按原图比例(不变形)缩放模式
-            LODOP.ADD_PRINT_BARCODE(62, 9, "50.96mm", "10.21mm", "128B", barCode);
-            LODOP.ADD_PRINT_TEXT(134, 107, 75, 19, "采摘人:" + $scope.packageTask.caizaiUser);
+            var LODOP = getLodop();
+            LODOP.PRINT_INITA(-6, 0, "56.3mm", "60.01mm", "商品条码打印");
+            LODOP.ADD_PRINT_IMAGE(12, 128, 53, 45, "<img border='0' src='http://101.200.51.63:8080/group1/M00/00/00/rBFOZlkIfTOAOb6ZAAB0qe50dIM918.png' width='60' height='60'/>");
+            LODOP.SET_PRINT_STYLEA(0, "Stretch", 2);
+            LODOP.ADD_PRINT_BARCODE(68, 9, "50.96mm", "10.21mm", "128B", jobOperationLog.barCode);
+            LODOP.ADD_PRINT_TEXT(138, 107, 91, 19, "采摘人:" + jobOperationLog.caizaiUser);
             LODOP.SET_PRINT_STYLEA(0, "FontName", "黑体");
             LODOP.SET_PRINT_STYLEA(0, "FontSize", 8);
-            LODOP.ADD_PRINT_TEXT(131, 19, 78, 19, "检验人:" + $scope.packageTask.jianceUser);
+            LODOP.ADD_PRINT_TEXT(135, 19, 78, 19, "检验人:" + jobOperationLog.jianceUser);
             LODOP.SET_PRINT_STYLEA(0, "FontName", "黑体");
             LODOP.SET_PRINT_STYLEA(0, "FontSize", 8);
-            LODOP.ADD_PRINT_TEXT(104, 20, 158, 19, "产品名称:" + $scope.packageTask.itemName);
+            LODOP.ADD_PRINT_TEXT(109, 20, 158, 19, "产品名称:" + jobOperationLog.itemName);
             LODOP.SET_PRINT_STYLEA(0, "FontName", "黑体");
             LODOP.SET_PRINT_STYLEA(0, "FontSize", 8);
-            LODOP.ADD_PRINT_TEXT(145, 19, 100, 20, "采摘点：吐鲁番");
+            LODOP.ADD_PRINT_TEXT(151, 19, 100, 20, "采摘点：吐鲁番");
             LODOP.SET_PRINT_STYLEA(0, "FontName", "黑体");
             LODOP.SET_PRINT_STYLEA(0, "FontSize", 8);
-            LODOP.ADD_PRINT_TEXT(160, 19, 137, 20, "采摘时间：6:00-9:00");
+            LODOP.ADD_PRINT_TEXT(167, 19, 137, 20, "采摘时间：6:00-9:00");
             LODOP.SET_PRINT_STYLEA(0, "FontName", "黑体");
             LODOP.SET_PRINT_STYLEA(0, "FontSize", 8);
-            LODOP.ADD_PRINT_TEXT(118, 20, 119, 19, "检测结果：ub=" + $scope.packageTask.nongCanLv);
+            LODOP.ADD_PRINT_TEXT(123, 20, 119, 19, "检测结果：μb=" + jobOperationLog.nongCanLv);
             LODOP.SET_PRINT_STYLEA(0, "FontName", "黑体");
             LODOP.SET_PRINT_STYLEA(0, "FontSize", 8);
 

@@ -148,6 +148,7 @@ public class MemberSercviceImpl implements MemberSercvice {
      * @param mobile
      * @param openId
      */
+    @Transactional
     public CdMember bindMember(String mobile, String openId) {
         //
         CdBind bind = new CdBind();
