@@ -43,6 +43,9 @@ public class ReportOrderService {
     public List<OrderReport> getOrderReportList(ReportQuery reportQuery) {
         List<OrderReport> orderReportList = mybatisDao.getSqlSessionTemplate().selectList(ReportOrderMapper.REPORT_ORDER_MAPPER_NAMESPACE + "getReportOrderList", reportQuery);
         for (OrderReport orderReport : orderReportList) {
+            if ("0".equals(orderReport.getPaymentMode())) {
+                orderReport.setHuiKuiAmount(orderReport.getPayAmount());
+            }
             if ("1".equals(orderReport.getPaymentMode())) {
                 orderReport.setManagerAmount(orderReport.getPayAmount());
             }

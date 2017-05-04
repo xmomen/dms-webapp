@@ -36,22 +36,22 @@ class OrderReport implements Serializable {
     private String managerName;
     @Excel(name = "物流公司")
     private String expressName;
-    @Excel(name = "客户经理代收", width = 15)
+    @Excel(name = "客户经理代收", width = 15, type = 10)
     private BigDecimal managerAmount;
-    @Excel(name = "物流代收")
+    @Excel(name = "物流代收", type = 10)
     private BigDecimal expressAmount;
-    @Excel(name = "卡类扣款")
+    @Excel(name = "卡类扣款", type = 10)
     private BigDecimal couponAmount;
-    @Excel(name = "券类扣款")
+    @Excel(name = "券类扣款", type = 10)
     private BigDecimal quanAmount;
-    @Excel(name = "刷POS")
+    @Excel(name = "刷POS", type = 10)
     private BigDecimal posAmount;
-    @Excel(name = "转账")
+    @Excel(name = "转账", type = 10)
     private BigDecimal zhuanZhanAmount;
-    @Excel(name = "其它")
+    @Excel(name = "其它", type = 10)
     private BigDecimal otherAmount;
-    @Excel(name = "回馈")
+    @Excel(name = "回馈", type = 10)
     private BigDecimal huiKuiAmount;
-    @Excel(name = "退货金额")
+    @Excel(name = "退货金额", type = 10)
     private BigDecimal returnTotalAmount;
 }

@@ -32,11 +32,11 @@ class OrderDeliveryReport implements Serializable {
     private BigDecimal totalAmount;
     @Excel(name = "付款方式")
     private String paymentModeDesc;
-    @Excel(name = "付款金额")
+    @Excel(name = "付款金额",type = 10)
     private BigDecimal payAmount;
     @Excel(name = "附加付款方式")
     private String otherPaymentModeDesc;
-    @Excel(name = "附加付款金额")
+    @Excel(name = "附加付款金额",type = 10)
     private BigDecimal otherPayAmount;
     @Excel(name = "送货日期" , exportFormat="yyyy-MM-dd", importFormat = "yyyy-MM-dd")
     private Date appointmentTime;
