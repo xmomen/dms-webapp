@@ -22,6 +22,11 @@ public class CdMember extends BaseMybatisModel {
     private String name;
 
     /**
+     * 密码
+     */
+    private String password;
+
+    /**
      * 手机号
      */
     private String phoneNumber;
@@ -82,6 +87,11 @@ public class CdMember extends BaseMybatisModel {
     private String spareAddress2;
 
     /**
+     * 说明
+     */
+    private String flag;
+
+    /**
      * 1-潜在客户，2-普通客户，3-优质客户
      */
     private Integer memberType;
@@ -114,6 +124,20 @@ public class CdMember extends BaseMybatisModel {
               return;
         }
         addValidField("name");
+    }
+
+    @Column(name = "PASSWORD")
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+        if(password == null){
+              removeValidField("password");
+              return;
+        }
+        addValidField("password");
     }
 
     @Column(name = "PHONE_NUMBER")
@@ -282,6 +306,20 @@ public class CdMember extends BaseMybatisModel {
               return;
         }
         addValidField("spareAddress2");
+    }
+
+    @Column(name = "FLAG")
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+        if(flag == null){
+              removeValidField("flag");
+              return;
+        }
+        addValidField("flag");
     }
 
     @Column(name = "MEMBER_TYPE")
