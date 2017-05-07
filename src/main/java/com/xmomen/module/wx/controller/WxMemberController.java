@@ -30,8 +30,8 @@ public class WxMemberController {
      * @param memberId member主键
      * @param mobile   新手机号码
      */
-    @RequestMapping(value = "/updateMobile", method = RequestMethod.GET)
-    public void updateMemberAddress(@RequestParam("memberId") Integer memberId,
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public void updateMemberAddress(@PathVariable("id") Integer memberId,
                                     @RequestParam("mobile") String mobile) {
         memberSercvice.updateMobile(memberId, mobile);
     }
