@@ -30,10 +30,10 @@ public class ResponseMessageEventService implements ResponseMessageBaseService {
 
     @Autowired
     WeixinApiService weixinApiService;
-    
+
     @Autowired
     BindService bindService;
-    
+
     @Autowired
     MybatisDao mybatisDao;
 
@@ -170,14 +170,15 @@ public class ResponseMessageEventService implements ResponseMessageBaseService {
     private String onEventClickRequest(RequestMessageEventBase requestMessage) {
         return StringUtilsExt.EMPTY;
     }
-    
+
     /**
      * 快递扫描操作
+     *
      * @param requestMessage
      * @return
      */
-    private String onEventScancodeWaitMsg(RequestMessageEventScanCode requestMessage){
-    	//回复文本消息
+    private String onEventScancodeWaitMsg(RequestMessageEventScanCode requestMessage) {
+        //回复文本消息
         ResponseMessageText responseMessage = new ResponseMessageText();
         responseMessage.setFromUserName(requestMessage.getToUserName());
         responseMessage.setToUserName(requestMessage.getFromUserName());
@@ -187,15 +188,16 @@ public class ResponseMessageEventService implements ResponseMessageBaseService {
         //扫描的内容
         String scanResult = scanCodeInfo.getScanResult();
         CdBind bind = new CdBind();
-		bind.setOpenId(requestMessage.getFromUserName());
-		List<CdBind> binds = mybatisDao.selectByModel(bind);
-		String content = "";
-		if(binds == null || binds.size() == 0 ){
-			content = "请先绑定再进行扫码操作!绑定格式：绑定+手机号(绑定131XXXXXXXX)";
-		}else{
-	        content = bindService.bindExpressMember(bind.getPhone(), scanResult.split("&")[0]);
-		}
-        
+        bind.setOpenId(requestMessage.getFromUserName());
+        List<CdBind> binds = mybatisDao.selectByModel(bind);
+        String content = "";
+        if (binds == null || binds.size() == 0) {
+            content = "请先绑定再进行扫码操作!绑定格式：绑定+手机号(绑定131XXXXXXXX)";
+        }
+        else {
+            content = bindService.bindExpressMember(bind.getUserId(), scanResult.split("&")[0]);
+        }
+
         log.info(String.format("扫描到的内容(scanResult = %s)。", scanResult.split("&")[0]));
 
         responseMessage.setContent(content);
