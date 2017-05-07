@@ -26,12 +26,12 @@ public class WxMemberController {
     /**
      * 更新客户手机号
      *
-     * @param id     member主键
-     * @param mobile 新手机号码
+     * @param memberId member主键
+     * @param mobile   新手机号码
      */
     @RequestMapping(value = "/updateMobile", method = RequestMethod.GET)
-    public void updateMemberAddress(@RequestParam("id") Integer id,
+    public void updateMemberAddress(@RequestParam("memberId") Integer memberId,
                                     @RequestParam("mobile") String mobile) {
-        memberSercvice.updateMobile(id, mobile);
+        memberSercvice.updateMobile(memberId, mobile);
     }
 }
