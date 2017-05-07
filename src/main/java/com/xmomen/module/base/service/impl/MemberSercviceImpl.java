@@ -41,7 +41,7 @@ public class MemberSercviceImpl implements MemberService {
 
     @Override
     @Transactional
-    public void createMember(CreateMember createMember) {
+    public CdMember createMember(CreateMember createMember) {
 
         CdMember member = new CdMember();
         member.setPhoneNumber(createMember.getPhoneNumber());
@@ -112,7 +112,7 @@ public class MemberSercviceImpl implements MemberService {
                 mybatisDao.update(member);
             }
         }
-        ;
+        return member;
     }
 
     @Transactional
