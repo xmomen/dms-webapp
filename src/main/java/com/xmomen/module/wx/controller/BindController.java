@@ -5,7 +5,6 @@ import com.xmomen.framework.utils.AssertExt;
 import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.module.base.entity.CdBind;
 import com.xmomen.module.base.entity.CdExpressMember;
-import com.xmomen.module.base.entity.CdMember;
 import com.xmomen.module.logger.Log;
 import com.xmomen.module.order.entity.TbOrder;
 import com.xmomen.module.order.entity.TbOrderItem;
@@ -104,102 +103,106 @@ public class BindController {
         List<CdBind> binds = mybatisDao.selectByModel(bind);
         Integer memberId = null;
         if (binds.size() > 0) {
-            CdMember member = new CdMember();
-            member.setPhoneNumber(binds.get(0).getPhone());
-            List<CdMember> members = mybatisDao.selectByModel(member);
-            memberId = members.get(0).getId();
+            memberId = binds.get(0).getUserId();
         }
-//        request.setAttribute("openId", openId);
-//        if (binds != null && binds.size() > 0) {
-//            bind = binds.get(0);
-//            String phone = bind.getPhone();
-//            // 跳转到收货页面
-//            if (url.equals("/wx/receipt")) {
-//                request.setAttribute("express", "0");
-//                // 订单信息
-//                TbOrder order = new TbOrder();
-//                order.setOrderNo(param);
-//                order = mybatisDao.selectOneByModel(order);
-//                request.setAttribute("orderInfo", order);
-//                // 订单明细信息
-//                TbOrderItem orderItem = new TbOrderItem();
-//                orderItem.setOrderNo(param);
-//                List<TbOrderItem> orderItems = mybatisDao
-//                        .selectByModel(orderItem);
-//                request.setAttribute("orderItemInfo", orderItems);
-//                request.setAttribute("phone", phone);
-//                //货主扫描 则订单未收货
-//                if (order.getConsigneePhone().equals(phone) && order.getOrderStatus().equals("5")) {
-//                    return url;
-//                }
-//                // 如果订单已经收货 则是要退货处理
-//                if ((order.getOrderStatus().equals("6") || order.getOrderStatus().equals("7")) && order.getConsigneePhone().equals(phone)) {
-//                    return "/wx/returnOrder";
-//                }
-//                // 查询扫描的是不是快递员 如果是快递员 则需要输入收货码
-//                // 查找快递员信息
-//                CdExpressMember expressMember = new CdExpressMember();
-//                expressMember.setPhone(phone);
-//                List<CdExpressMember> expressMembers = mybatisDao
-//                        .selectByModel(expressMember);
-//                if (expressMembers != null && expressMembers.size() > 0 && order.getOrderStatus().equals("5")) {
-//                    // 快递员扫描
-//                    request.setAttribute("express", "1");
-//                    request.setAttribute("expressId", expressMembers.get(0).getId());
-//                    return url;
-//                }
-//                // 如果订单已经收货 则是要退货处理
-//                if (expressMembers != null && expressMembers.size() > 0 && (order.getOrderStatus().equals("6") || order.getOrderStatus().equals("7"))) {
-//                    request.setAttribute("express", "1");
-//                    request.setAttribute("expressId", expressMembers.get(0).getId());
-//                    return "/wx/returnOrder";
-//                }
-//                if (expressMembers == null) {
-//                    String message = "您绑定手机号和订单收货人手机号不一致，不能收货，请确认";
-//                    request.setAttribute("message", message);
-//                    return "wx/receiptNoAuth";
-//                }
-//                // 如果订单状态是退货中状态，则必须是要快递员账号扫描
-//                if (order.getOrderStatus().equals("11")) {
-//                    if (expressMembers.size() > 0) {
-//                        request.setAttribute("express", "1");
-//                        request.setAttribute("expressId", expressMembers.get(0).getId());
-//                        return "/wx/returnOrder";
-//                    }
-//                    else {
-//                        String message = "该订单已申请退货，不能再进行收货处理。";
-//                        request.setAttribute("message", message);
-//                        return "wx/receiptNoAuth";
-//                    }
-//                }
-//
-//                String message = "该订单不能再进行收货处理，请联系客服。";
-//                request.setAttribute("message", message);
-//                return "wx/receiptNoAuth";
-//            }
-//            // 扫码送货
-//            else if (url.equals("/wx/scanning")) {
-//                String message = bindService.bindExpressMember(bind.getPhone(),
-//                        param);
-//                request.setAttribute("message", message);
-//                if ("扫描成功".equals(message)) {
-//                    return "wx/scanningSuccess";
-//                }
-//                else {
-//                    return "wx/scanningFail";
-//                }
-//            }
-//        }
-//        // 跳转到绑定页面
-//        else {
-//            request.setAttribute("message", "请先绑定手机号，再进行操作!");
-//            return "wx/bind";
-//        }
-        String redirectUrl = "redirect:" + url + "?openId=" + openId;
-        if (memberId != null) {
-            redirectUrl = redirectUrl + "&memberId=" + memberId;
+        request.setAttribute("openId", openId);
+        //不是微商城跳转场合
+        if (url.indexOf("index.html") == -1) {
+            if (binds != null && binds.size() > 0) {
+                bind = binds.get(0);
+                String phone = bind.getPhone();
+                // 跳转到收货页面
+                if (url.equals("/wx/receipt")) {
+                    request.setAttribute("express", "0");
+                    // 订单信息
+                    TbOrder order = new TbOrder();
+                    order.setOrderNo(param);
+                    order = mybatisDao.selectOneByModel(order);
+                    request.setAttribute("orderInfo", order);
+                    // 订单明细信息
+                    TbOrderItem orderItem = new TbOrderItem();
+                    orderItem.setOrderNo(param);
+                    List<TbOrderItem> orderItems = mybatisDao
+                            .selectByModel(orderItem);
+                    request.setAttribute("orderItemInfo", orderItems);
+                    request.setAttribute("phone", phone);
+                    //货主扫描 则订单未收货
+                    if (order.getConsigneePhone().equals(phone) && order.getOrderStatus().equals("5")) {
+                        return url;
+                    }
+                    // 如果订单已经收货 则是要退货处理
+                    if ((order.getOrderStatus().equals("6") || order.getOrderStatus().equals("7")) && order.getConsigneePhone().equals(phone)) {
+                        return "/wx/returnOrder";
+                    }
+                    // 查询扫描的是不是快递员 如果是快递员 则需要输入收货码
+                    // 查找快递员信息
+                    CdExpressMember expressMember = new CdExpressMember();
+                    expressMember.setPhone(phone);
+                    List<CdExpressMember> expressMembers = mybatisDao
+                            .selectByModel(expressMember);
+                    if (expressMembers != null && expressMembers.size() > 0 && order.getOrderStatus().equals("5")) {
+                        // 快递员扫描
+                        request.setAttribute("express", "1");
+                        request.setAttribute("expressId", expressMembers.get(0).getId());
+                        return url;
+                    }
+                    // 如果订单已经收货 则是要退货处理
+                    if (expressMembers != null && expressMembers.size() > 0 && (order.getOrderStatus().equals("6") || order.getOrderStatus().equals("7"))) {
+                        request.setAttribute("express", "1");
+                        request.setAttribute("expressId", expressMembers.get(0).getId());
+                        return "/wx/returnOrder";
+                    }
+                    if (expressMembers == null) {
+                        String message = "您绑定手机号和订单收货人手机号不一致，不能收货，请确认";
+                        request.setAttribute("message", message);
+                        return "wx/receiptNoAuth";
+                    }
+                    // 如果订单状态是退货中状态，则必须是要快递员账号扫描
+                    if (order.getOrderStatus().equals("11")) {
+                        if (expressMembers.size() > 0) {
+                            request.setAttribute("express", "1");
+                            request.setAttribute("expressId", expressMembers.get(0).getId());
+                            return "/wx/returnOrder";
+                        }
+                        else {
+                            String message = "该订单已申请退货，不能再进行收货处理。";
+                            request.setAttribute("message", message);
+                            return "wx/receiptNoAuth";
+                        }
+                    }
+
+                    String message = "该订单不能再进行收货处理，请联系客服。";
+                    request.setAttribute("message", message);
+                    return "wx/receiptNoAuth";
+                }
+                // 扫码送货
+                else if (url.equals("/wx/scanning")) {
+                    String message = bindService.bindExpressMember(bind.getUserId(),
+                            param);
+                    request.setAttribute("message", message);
+                    if ("扫描成功".equals(message)) {
+                        return "wx/scanningSuccess";
+                    }
+                    else {
+                        return "wx/scanningFail";
+                    }
+                }
+            }
+            // 跳转到绑定页面
+            else {
+                request.setAttribute("message", "请先绑定手机号，再进行操作!");
+                return "wx/bind";
+            }
         }
-        return redirectUrl;
+        //微商城跳转场合
+        else {
+            String redirectUrl = "redirect:" + url + "?openId=" + openId;
+            if (memberId != null) {
+                redirectUrl = redirectUrl + "&memberId=" + memberId;
+            }
+            return redirectUrl;
+        }
+        return "wx/bind";
     }
 
     /**
@@ -250,17 +253,17 @@ public class BindController {
      * @param openId   微信唯一标识
      * @param bindType 绑定类型
      */
-    @RequestMapping(value = "/bind/scanning", method = RequestMethod.GET)
-    @ResponseBody
-    public String scanning(HttpServletRequest request,
-                           HttpServletResponse response,
-                           @RequestParam(value = "phone") String phone,
-                           @RequestParam(value = "orderNo") String orderNo) {
-        AssertExt.notNull(orderNo, "订单号不能为空");
-        AssertExt.notNull(phone, "手机号不能为空");
-        bindService.bindExpressMember(phone, orderNo);
-        return "wx/scanningSuccess";
-    }
+//    @RequestMapping(value = "/bind/scanning", method = RequestMethod.GET)
+//    @ResponseBody
+//    public String scanning(HttpServletRequest request,
+//                           HttpServletResponse response,
+//                           @RequestParam(value = "phone") String phone,
+//                           @RequestParam(value = "orderNo") String orderNo) {
+//        AssertExt.notNull(orderNo, "订单号不能为空");
+//        AssertExt.notNull(phone, "手机号不能为空");
+//        bindService.bindExpressMember(phone, orderNo);
+//        return "wx/scanningSuccess";
+//    }
 
     /**
      * 收货
