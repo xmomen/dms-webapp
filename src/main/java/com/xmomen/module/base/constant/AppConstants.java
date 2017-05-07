@@ -54,4 +54,6 @@ public class AppConstants implements Serializable {
      * 用户sessionUserId键值
      */
     public static final String SESSION_USER_ID_KEY = "user_id";
+    
+    public static final String PC_PASSWORD_SALT = "dms_pc";
 }

@@ -25,5 +25,7 @@
         <property name="passwordHelper" ref="passwordHelper"/>
     </bean>
 
+	<bean id="memberService" class="com.xmomen.module.base.service.impl.MemberSercviceImpl">
+    </bean>
 
 </beans>

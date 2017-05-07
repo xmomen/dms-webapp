@@ -1,13 +1,19 @@
 package com.xmomen.module.core.web.filter;
 
-import com.alibaba.fastjson.JSONObject;
-import com.xmomen.module.account.service.UserService;
-import com.xmomen.module.core.web.WebCommonUtils;
-import com.xmomen.module.user.entity.SysUsers;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
@@ -16,37 +22,29 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import com.alibaba.fastjson.JSONObject;
+import com.xmomen.module.base.constant.AppConstants;
+import com.xmomen.module.base.entity.CdMember;
+import com.xmomen.module.base.service.MemberService;
+import com.xmomen.module.core.web.WebCommonUtils;
 
-/**
- * Created by Jeng on 2016/1/7.
- */
-public class FormAuthenticationFilterExt extends FormAuthenticationFilter {
+public class PcFormAuthenticationFilter extends FormAuthenticationFilter {
 
-    @Autowired
-    UserService userService;
-
-    private static Logger logger = LoggerFactory.getLogger(FormAuthenticationFilterExt.class);
-
-    private void initUserContext(String username, Subject subject){
-        SysUsers sysUsers = userService.findByUsername(username);
-        if(sysUsers != null && sysUsers.getId() != null) {
-        	subject.getSession().setAttribute("user_id", sysUsers.getId());
-        }
+	private static Logger logger = LoggerFactory.getLogger(PcFormAuthenticationFilter.class);
+	
+	@Autowired
+	private MemberService memberService;
+	
+	private void initUserContext(String phoneNumber, Subject subject){
+        CdMember query = new CdMember();
+        query.setPhoneNumber(phoneNumber);
+        CdMember member = memberService.findMember(query);
+        subject.getSession().setAttribute(AppConstants.SESSION_USER_ID_KEY, member.getId());
     }
-
-    private void buildJSONMessage(String message, ServletRequest request, ServletResponse response){
+	
+	private void buildJSONMessage(String message, ServletRequest request, ServletResponse response){
         try {
-            Map map = new HashMap<String, Object>();
+            Map<String, Object> map = new HashMap<String, Object>();
             map.put("code", HttpStatus.UNAUTHORIZED.value());
             map.put("message", message);
             map.put("timestamp", new Date());
@@ -111,8 +109,8 @@ public class FormAuthenticationFilterExt extends FormAuthenticationFilter {
                                      ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        String username = (String) subject.getPrincipal();
-        initUserContext(username, subject);
+        String phoneNumber = (String) subject.getPrincipal();
+        initUserContext(phoneNumber, subject);
         if (!WebCommonUtils.isJSON(request)) {// 不是ajax请求
             issueSuccessRedirect(request, response);
         } else {
@@ -148,8 +146,6 @@ public class FormAuthenticationFilterExt extends FormAuthenticationFilter {
                 out.println("{success:false,message:'密码错误'}");
             } else if ("UnknownAccountException".equals(message)) {
                 out.println("{success:false,message:'账号不存在'}");
-            } else if ("LockedAccountException".equals(message)) {
-                out.println("{success:false,message:'账号被锁定'}");
             } else {
                 out.println("{success:false,message:'未知错误'}");
             }

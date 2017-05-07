@@ -1,30 +1,39 @@
 package com.xmomen.module.base.service.impl;
 
-import com.xmomen.framework.mybatis.dao.MybatisDao;
-import com.xmomen.module.base.entity.*;
-import com.xmomen.module.base.model.CreateMember;
-import com.xmomen.module.base.model.MemberModel;
-import com.xmomen.module.base.model.UpdateMember;
-import com.xmomen.module.base.service.CouponService;
-import com.xmomen.module.base.service.MemberSercvice;
-import com.xmomen.module.member.entity.MemberAddress;
-import com.xmomen.module.member.entity.MemberAddressExample;
-import com.xmomen.module.member.model.MemberAddressCreate;
-import com.xmomen.module.member.model.MemberAddressUpdate;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.xmomen.framework.mybatis.dao.MybatisDao;
+import com.xmomen.module.account.service.PasswordHelper;
+import com.xmomen.module.base.constant.AppConstants;
+import com.xmomen.module.base.entity.CdActivityAddress;
+import com.xmomen.module.base.entity.CdBind;
+import com.xmomen.module.base.entity.CdMember;
+import com.xmomen.module.base.entity.CdMemberCouponRelation;
+import com.xmomen.module.base.entity.CdMemberCouponRelationExample;
+import com.xmomen.module.base.model.CreateMember;
+import com.xmomen.module.base.model.UpdateMember;
+import com.xmomen.module.base.service.CouponService;
+import com.xmomen.module.base.service.MemberService;
+import com.xmomen.module.member.entity.MemberAddress;
+import com.xmomen.module.member.entity.MemberAddressExample;
+import com.xmomen.module.member.model.MemberAddressCreate;
+import com.xmomen.module.member.model.MemberAddressUpdate;
 
-@Service
-public class MemberSercviceImpl implements MemberSercvice {
+//@Service
+public class MemberSercviceImpl implements MemberService {
     @Autowired
     MybatisDao mybatisDao;
 
     @Autowired
     CouponService couponService;
+    
+    @Autowired
+    PasswordHelper passwordHelper;
 
     public CdMember getOneMemberModel(String id) {
         return this.mybatisDao.selectByPrimaryKey(CdMember.class, id);
@@ -46,6 +55,13 @@ public class MemberSercviceImpl implements MemberSercvice {
             member.setOfficeTel(createMember.getOfficeTel());
             member.setCdCompanyId(createMember.getCdCompanyId());
             member.setCdUserId(createMember.getCdUserId());
+          	//加密密码
+            String newPassword = "";
+            if(!StringUtils.isEmpty(createMember.getPassword())) {
+            	newPassword = passwordHelper.encryptPassword(createMember.getPassword(), AppConstants.PC_PASSWORD_SALT);
+            }
+            member.setPassword(newPassword);
+            member.setEmail(createMember.getEmail());
             member = mybatisDao.insertByModel(member);
             //保存收货地址
             for (MemberAddressCreate memberAddressCreate : createMember.getMemberAddressList()) {
@@ -212,4 +228,15 @@ public class MemberSercviceImpl implements MemberSercvice {
         member.setId(id);
         this.mybatisDao.updateByModel(member);
     }
+
+	@Override
+	public CdMember findMember(CdMember member) {
+		List<CdMember> members = mybatisDao.selectByModel(member);
+        if (members.size() == 0) {
+            return null;
+        }
+        else {
+            return members.get(0);
+        }
+	}
 }

@@ -77,6 +77,15 @@
                     <property name="authorizationCachingEnabled" value="true"/>
                     <property name="authorizationCacheName" value="authorizationCache"/>
                 </bean>
+                <bean id="memberRealm" class="com.xmomen.module.account.realm.MemberRealm">
+                    <property name="memberService" ref="memberService"/>
+                    <property name="credentialsMatcher" ref="credentialsMatcher"/>
+                    <property name="cachingEnabled" value="true"/>
+                    <property name="authenticationCachingEnabled" value="true"/>
+                    <property name="authenticationCacheName" value="authenticationCache"/>
+                    <property name="authorizationCachingEnabled" value="true"/>
+                    <property name="authorizationCacheName" value="authorizationCache"/>
+                </bean>
             </util:list>
         </property>
         <property name="sessionManager" ref="sessionManager"/>
@@ -92,6 +101,14 @@
 
     <!-- 基于Form表单的身份验证过滤器 -->
     <bean id="formAuthenticationFilter" class="com.xmomen.module.core.web.filter.FormAuthenticationFilterExt">
+        <property name="usernameParam" value="username"/>
+        <property name="passwordParam" value="password"/>
+        <property name="rememberMeParam" value="rememberMe"/>
+        <property name="loginUrl" value="/login"/>
+    </bean>
+    
+    <!-- PC端用户Form表单的身份验证过滤器 -->
+    <bean id="pcFormAuthenticationFilter" class="com.xmomen.module.core.web.filter.PcFormAuthenticationFilter">
         <property name="usernameParam" value="username"/>
         <property name="passwordParam" value="password"/>
         <property name="rememberMeParam" value="rememberMe"/>
@@ -113,6 +130,7 @@
                     </bean>
                 </entry>
                 <entry key="authc" value-ref="formAuthenticationFilter"/>
+                <entry key="memberAuthc" value-ref="pcFormAuthenticationFilter"/>
             </util:map>
         </property>
         <property name="filterChainDefinitions">
@@ -126,6 +144,8 @@
                 /register.do = anon
                 /logout = logout
                 /login = authc
+                /member/register = anon
+                /member/register.do = anon
                 /js/** = anon
                 /css/** = anon
                 /product/** = anon
@@ -136,6 +156,7 @@
                 /MP_verify_yXW6rBkSMeHiK8qK.txt = anon
                 /fonts/** = anon
                 /admin/** = role[admin]
+                /wb/** = user
                 /** = user
             </value>
         </property>

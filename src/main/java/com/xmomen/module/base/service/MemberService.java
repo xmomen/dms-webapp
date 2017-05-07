@@ -6,7 +6,7 @@ import com.xmomen.module.base.model.MemberModel;
 import com.xmomen.module.base.model.UpdateMember;
 import com.xmomen.module.member.model.MemberAddressModel;
 
-public interface MemberSercvice {
+public interface MemberService {
     public void createMember(CreateMember createMember);
 
     public void updateMember(Integer id, UpdateMember updateMember);
@@ -24,4 +24,6 @@ public interface MemberSercvice {
      * @return MemberModel 客户对象
      */
     public CdMember getOneMemberModel(String id);
+
+    public CdMember findMember(CdMember query);
 }
