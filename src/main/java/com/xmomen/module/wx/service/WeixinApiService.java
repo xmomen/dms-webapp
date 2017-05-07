@@ -229,7 +229,7 @@ public class WeixinApiService {
                         return returnFail();
                     }
                 } catch (Exception e) {
-                	e.printStackTrace();
+                    e.printStackTrace();
                     log.error("业务逻辑处理失败:" + payResData);
                     return returnFail();
                 }
@@ -271,22 +271,22 @@ public class WeixinApiService {
 
         log.info("outTradeNo:" + outTradeNo + ",totalFee:" + totalFee + ",openId:" + openId + ",type:" + type + ",request:" + request.toString());
         //如果订单已经支付(不是充值类型)，则不能再申请微信支付
-        if(type.equals(1)) {
-        	TbPayRecord payRecordQuery = new TbPayRecord();
-    		payRecordQuery.setTradeNo(outTradeNo);
-    		payRecordQuery.setTradeType(1);
-    		payRecordQuery.setCompleteTime(new Date());//支付完成时间不为空
-    		List<TbPayRecord> tbPayRecords = payRecordService.getTbpayRecordListByRecord(payRecordQuery);
-    		if(!CollectionUtils.isEmpty(tbPayRecords)) {
-    			log.error("已经支付成功的订单，不能重复提交支付申请");
-    			return null;
-    		}
+        if (type.equals(1)) {
+            TbPayRecord payRecordQuery = new TbPayRecord();
+            payRecordQuery.setTradeNo(outTradeNo);
+            payRecordQuery.setTradeType(1);
+            payRecordQuery.setCompleteTime(new Date());//支付完成时间不为空
+            List<TbPayRecord> tbPayRecords = payRecordService.getTbpayRecordListByRecord(payRecordQuery);
+            if (!CollectionUtils.isEmpty(tbPayRecords)) {
+                log.error("已经支付成功的订单，不能重复提交支付申请");
+                return null;
+            }
         }
-        
+
         attachModel = new PayAttachModel(type, outTradeNo, tradeId, openId);
         String attachement = JSON.toJSONString(attachModel);
         totalFee = totalFee * 100;
-        PayReqData payReqData = new PayReqData("订单付费", tradeId, 1, getIp2(request), openId, attachement);
+        PayReqData payReqData = new PayReqData("订单付费", tradeId, totalFee.intValue(), getIp2(request), openId, attachement);
 
         try {
             String result = new PayService().request(payReqData);
@@ -326,61 +326,64 @@ public class WeixinApiService {
     }
 
     public RefundResData refund(String tradeNo, int refundFee) {
-    	TbPayRecord queryModel = new TbPayRecord();
-    	queryModel.setTradeNo(tradeNo);
-    	queryModel.setTradeType(1);
-    	queryModel.setCompleteTime(new Date());//交易完成时间不为空
-    	TbPayRecord tbPayRecord = payRecordService.getTbpayRecordByRecord(queryModel);
-    	if(tbPayRecord == null) {
-    		log.error("支付记录不存在或者支付未完成：" + tradeNo);
-    		throw new IllegalArgumentException("支付记录不存在");
-    	}
-    	String transactionId = tbPayRecord.getTransactionId();
-    	if(StringUtils.isEmpty(transactionId)) {
-    		throw new IllegalArgumentException("未找到订单" + tradeNo + "关联的微信支付订单号" );
-    	}
-    	TbPayRecord refundPayRecordQuery = new TbPayRecord();
-    	refundPayRecordQuery.setTradeType(3);
-    	refundPayRecordQuery.setTransactionId(transactionId);
-    	List<TbPayRecord> refundRecords = payRecordService.getTbpayRecordListByRecord(tbPayRecord);
-    	if(!refundRecords.isEmpty()) {
-    		//这里限定一个订单只能退款一次
-    		throw new IllegalArgumentException("该订单已经提交过退款请求");
-    	}
-    	String outRefundNo = UUID.randomUUID().toString().replaceAll("-", "");
-    	int totalFee = tbPayRecord.getTotalFee().multiply(new BigDecimal(100)).intValue();
-    	RefundReqData refundReqData = new RefundReqData(transactionId, totalFee, refundFee, outRefundNo);
-    	try {
-    		String result = new RefundService().request(refundReqData);
-    		log.info("请求返回的结果：" + result);
-    		//将从API返回的XML数据映射到Java对象
-    		RefundResData refundResData = (RefundResData) Util.getObjectFromXML(result, RefundResData.class);
-    		if (StringUtils.equals("SUCCESS", refundResData.getReturn_code())) {
-    				if(StringUtils.equals("SUCCESS",refundResData.getResult_code())) {
-	    				// 申请退款成功，设置completeTime
-	    				TbPayRecord refundRecord = new TbPayRecord();
-	    				refundRecord.setId(outRefundNo);
-	    				refundRecord.setOpenId(tbPayRecord.getOpenId());
-	    				refundRecord.setTradeType(3);//退款类型
-	    				refundRecord.setTransactionId(tbPayRecord.getTransactionId());
-	    				refundRecord.setTransactionTime(tbPayRecord.getTransactionTime());
-	    				refundRecord.setCompleteTime(new Date());
-	    				refundRecord.setTotalFee(new BigDecimal(Double.valueOf(refundFee)%100));
-	    				refundRecord.setTradeNo(tbPayRecord.getTradeNo());
-	    				payRecordService.insert(tbPayRecord);
-    				} else {
-    					log.info("请求退款失败" + refundResData.getErr_code_des());
-    					return null;
-    				}
-    		} else {
-    			return null;
-    		}
-    		return refundResData;
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	}
-    	return null;
+        TbPayRecord queryModel = new TbPayRecord();
+        queryModel.setTradeNo(tradeNo);
+        queryModel.setTradeType(1);
+        queryModel.setCompleteTime(new Date());//交易完成时间不为空
+        TbPayRecord tbPayRecord = payRecordService.getTbpayRecordByRecord(queryModel);
+        if (tbPayRecord == null) {
+            log.error("支付记录不存在或者支付未完成：" + tradeNo);
+            throw new IllegalArgumentException("支付记录不存在");
+        }
+        String transactionId = tbPayRecord.getTransactionId();
+        if (StringUtils.isEmpty(transactionId)) {
+            throw new IllegalArgumentException("未找到订单" + tradeNo + "关联的微信支付订单号");
+        }
+        TbPayRecord refundPayRecordQuery = new TbPayRecord();
+        refundPayRecordQuery.setTradeType(3);
+        refundPayRecordQuery.setTransactionId(transactionId);
+        List<TbPayRecord> refundRecords = payRecordService.getTbpayRecordListByRecord(tbPayRecord);
+        if (!refundRecords.isEmpty()) {
+            //这里限定一个订单只能退款一次
+            throw new IllegalArgumentException("该订单已经提交过退款请求");
+        }
+        String outRefundNo = UUID.randomUUID().toString().replaceAll("-", "");
+        int totalFee = tbPayRecord.getTotalFee().multiply(new BigDecimal(100)).intValue();
+        RefundReqData refundReqData = new RefundReqData(transactionId, totalFee, refundFee, outRefundNo);
+        try {
+            String result = new RefundService().request(refundReqData);
+            log.info("请求返回的结果：" + result);
+            //将从API返回的XML数据映射到Java对象
+            RefundResData refundResData = (RefundResData) Util.getObjectFromXML(result, RefundResData.class);
+            if (StringUtils.equals("SUCCESS", refundResData.getReturn_code())) {
+                if (StringUtils.equals("SUCCESS", refundResData.getResult_code())) {
+                    // 申请退款成功，设置completeTime
+                    TbPayRecord refundRecord = new TbPayRecord();
+                    refundRecord.setId(outRefundNo);
+                    refundRecord.setOpenId(tbPayRecord.getOpenId());
+                    refundRecord.setTradeType(3);//退款类型
+                    refundRecord.setTransactionId(tbPayRecord.getTransactionId());
+                    refundRecord.setTransactionTime(tbPayRecord.getTransactionTime());
+                    refundRecord.setCompleteTime(new Date());
+                    refundRecord.setTotalFee(new BigDecimal(Double.valueOf(refundFee) % 100));
+                    refundRecord.setTradeNo(tbPayRecord.getTradeNo());
+                    payRecordService.insert(tbPayRecord);
+                }
+                else {
+                    log.info("请求退款失败" + refundResData.getErr_code_des());
+                    return null;
+                }
+            }
+            else {
+                return null;
+            }
+            return refundResData;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
+
     /**
      * 获取客户端IP
      *
