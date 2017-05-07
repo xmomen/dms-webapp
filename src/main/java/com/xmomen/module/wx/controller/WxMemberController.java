@@ -1,5 +1,6 @@
 package com.xmomen.module.wx.controller;
 
+import com.xmomen.module.base.entity.CdMember;
 import com.xmomen.module.base.service.MemberSercvice;
 import com.xmomen.module.member.model.MemberAddressModel;
 import com.xmomen.module.member.model.MemberAddressQuery;
@@ -34,4 +35,16 @@ public class WxMemberController {
                                     @RequestParam("mobile") String mobile) {
         memberSercvice.updateMobile(memberId, mobile);
     }
+
+    /**
+     * 查询单个客户
+     *
+     * @param id 主键
+     * @return CdMember   客户领域对象
+     */
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public CdMember getMemberById(@PathVariable(value = "id") String id) {
+        return memberSercvice.getOneMemberModel(id);
+    }
+
 }

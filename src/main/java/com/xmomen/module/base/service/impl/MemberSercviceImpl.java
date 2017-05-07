@@ -3,6 +3,7 @@ package com.xmomen.module.base.service.impl;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.module.base.entity.*;
 import com.xmomen.module.base.model.CreateMember;
+import com.xmomen.module.base.model.MemberModel;
 import com.xmomen.module.base.model.UpdateMember;
 import com.xmomen.module.base.service.CouponService;
 import com.xmomen.module.base.service.MemberSercvice;
@@ -24,6 +25,10 @@ public class MemberSercviceImpl implements MemberSercvice {
 
     @Autowired
     CouponService couponService;
+
+    public CdMember getOneMemberModel(String id) {
+        return this.mybatisDao.selectByPrimaryKey(CdMember.class, id);
+    }
 
     @Override
     @Transactional
