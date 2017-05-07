@@ -36,6 +36,7 @@
           item.id = cr.entity_id and cr.entity_type = 'cd_item'
           AND cr.resource_type = 'PICTURE' AND cr.is_default = 1
         <where>
+        	item.SELL_STATUS = 1
             <if test="categoryId">
                   AND item.CD_CATEGORY_ID IN (
                   	SELECT id from cd_category where cd_category.id = #{categoryId} or cd_category.parent_id = #{categoryId}) 
