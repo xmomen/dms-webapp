@@ -29,8 +29,12 @@ public class MemberRealm extends AuthorizingRealm {
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         Set<String> roles = new TreeSet<String>();
         //用户默认有member的权限
-        roles.add("user");
-        roles.add("member");
+        Set<String> realmNames = principals.getRealmNames();
+        for(String realmName: realmNames) {
+        	if(realmName.contains("MemberRealm")) {
+        		roles.add("member");
+        	}
+        }
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         authorizationInfo.setRoles(roles);
         authorizationInfo.setStringPermissions(new TreeSet<String>());

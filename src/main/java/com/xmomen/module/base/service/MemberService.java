@@ -26,4 +26,6 @@ public interface MemberService {
     public CdMember getOneMemberModel(String id);
 
     public CdMember findMember(CdMember query);
+    
+    public void updatePassword(Integer id, String newPassword, String oldPassword);
 }
