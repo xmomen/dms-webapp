@@ -188,6 +188,11 @@ public class MemberSercviceImpl implements MemberSercvice {
      */
     @Transactional
     public void updateMobile(Integer id, String mobile) {
+        CdMember memberDb = this.mybatisDao.selectByPrimaryKey(CdMember.class, id);
+        //新手机号码和原来一样 直接返回
+        if (memberDb.getPhoneNumber().equals(mobile)) {
+            return;
+        }
         //判断新手机是否存在 存在则不能修改
         CdMember member = new CdMember();
         member.setPhoneNumber(mobile);
