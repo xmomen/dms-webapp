@@ -96,6 +96,11 @@ public class CdMember extends BaseMybatisModel {
      */
     private Integer memberType;
 
+    /**
+     * 邮箱
+     */
+    private String email;
+
     @Column(name = "ID")
     @Id
     @GeneratedValue(generator = "UUIDGenerator")
@@ -334,5 +339,19 @@ public class CdMember extends BaseMybatisModel {
               return;
         }
         addValidField("memberType");
+    }
+
+    @Column(name = "email")
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+        if(email == null){
+              removeValidField("email");
+              return;
+        }
+        addValidField("email");
     }
 }
