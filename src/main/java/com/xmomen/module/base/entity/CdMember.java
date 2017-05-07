@@ -1,6 +1,8 @@
 package com.xmomen.module.base.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xmomen.framework.mybatis.model.BaseMybatisModel;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +14,7 @@ import javax.persistence.Version;
 @Table(name = "cd_member")
 public class CdMember extends BaseMybatisModel {
     /**
-     * 
+     *
      */
     private Integer id;
 
@@ -110,9 +112,9 @@ public class CdMember extends BaseMybatisModel {
 
     public void setId(Integer id) {
         this.id = id;
-        if(id == null){
-              removeValidField("id");
-              return;
+        if (id == null) {
+            removeValidField("id");
+            return;
         }
         addValidField("id");
     }
@@ -124,13 +126,14 @@ public class CdMember extends BaseMybatisModel {
 
     public void setName(String name) {
         this.name = name;
-        if(name == null){
-              removeValidField("name");
-              return;
+        if (name == null) {
+            removeValidField("name");
+            return;
         }
         addValidField("name");
     }
 
+    @JsonIgnore
     @Column(name = "PASSWORD")
     public String getPassword() {
         return password;
@@ -138,9 +141,9 @@ public class CdMember extends BaseMybatisModel {
 
     public void setPassword(String password) {
         this.password = password;
-        if(password == null){
-              removeValidField("password");
-              return;
+        if (password == null) {
+            removeValidField("password");
+            return;
         }
         addValidField("password");
     }
@@ -152,9 +155,9 @@ public class CdMember extends BaseMybatisModel {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-        if(phoneNumber == null){
-              removeValidField("phoneNumber");
-              return;
+        if (phoneNumber == null) {
+            removeValidField("phoneNumber");
+            return;
         }
         addValidField("phoneNumber");
     }
@@ -166,9 +169,9 @@ public class CdMember extends BaseMybatisModel {
 
     public void setAddress(String address) {
         this.address = address;
-        if(address == null){
-              removeValidField("address");
-              return;
+        if (address == null) {
+            removeValidField("address");
+            return;
         }
         addValidField("address");
     }
@@ -180,9 +183,9 @@ public class CdMember extends BaseMybatisModel {
 
     public void setCdCompanyId(Integer cdCompanyId) {
         this.cdCompanyId = cdCompanyId;
-        if(cdCompanyId == null){
-              removeValidField("cdCompanyId");
-              return;
+        if (cdCompanyId == null) {
+            removeValidField("cdCompanyId");
+            return;
         }
         addValidField("cdCompanyId");
     }
@@ -194,9 +197,9 @@ public class CdMember extends BaseMybatisModel {
 
     public void setCdUserId(Integer cdUserId) {
         this.cdUserId = cdUserId;
-        if(cdUserId == null){
-              removeValidField("cdUserId");
-              return;
+        if (cdUserId == null) {
+            removeValidField("cdUserId");
+            return;
         }
         addValidField("cdUserId");
     }
@@ -208,9 +211,9 @@ public class CdMember extends BaseMybatisModel {
 
     public void setSpareName(String spareName) {
         this.spareName = spareName;
-        if(spareName == null){
-              removeValidField("spareName");
-              return;
+        if (spareName == null) {
+            removeValidField("spareName");
+            return;
         }
         addValidField("spareName");
     }
@@ -222,9 +225,9 @@ public class CdMember extends BaseMybatisModel {
 
     public void setSpareName2(String spareName2) {
         this.spareName2 = spareName2;
-        if(spareName2 == null){
-              removeValidField("spareName2");
-              return;
+        if (spareName2 == null) {
+            removeValidField("spareName2");
+            return;
         }
         addValidField("spareName2");
     }
@@ -236,9 +239,9 @@ public class CdMember extends BaseMybatisModel {
 
     public void setSpareTel(String spareTel) {
         this.spareTel = spareTel;
-        if(spareTel == null){
-              removeValidField("spareTel");
-              return;
+        if (spareTel == null) {
+            removeValidField("spareTel");
+            return;
         }
         addValidField("spareTel");
     }
@@ -250,9 +253,9 @@ public class CdMember extends BaseMybatisModel {
 
     public void setSpareTel2(String spareTel2) {
         this.spareTel2 = spareTel2;
-        if(spareTel2 == null){
-              removeValidField("spareTel2");
-              return;
+        if (spareTel2 == null) {
+            removeValidField("spareTel2");
+            return;
         }
         addValidField("spareTel2");
     }
@@ -264,9 +267,9 @@ public class CdMember extends BaseMybatisModel {
 
     public void setTelNumber(String telNumber) {
         this.telNumber = telNumber;
-        if(telNumber == null){
-              removeValidField("telNumber");
-              return;
+        if (telNumber == null) {
+            removeValidField("telNumber");
+            return;
         }
         addValidField("telNumber");
     }
@@ -278,9 +281,9 @@ public class CdMember extends BaseMybatisModel {
 
     public void setOfficeTel(String officeTel) {
         this.officeTel = officeTel;
-        if(officeTel == null){
-              removeValidField("officeTel");
-              return;
+        if (officeTel == null) {
+            removeValidField("officeTel");
+            return;
         }
         addValidField("officeTel");
     }
@@ -292,9 +295,9 @@ public class CdMember extends BaseMybatisModel {
 
     public void setSpareAddress(String spareAddress) {
         this.spareAddress = spareAddress;
-        if(spareAddress == null){
-              removeValidField("spareAddress");
-              return;
+        if (spareAddress == null) {
+            removeValidField("spareAddress");
+            return;
         }
         addValidField("spareAddress");
     }
@@ -306,9 +309,9 @@ public class CdMember extends BaseMybatisModel {
 
     public void setSpareAddress2(String spareAddress2) {
         this.spareAddress2 = spareAddress2;
-        if(spareAddress2 == null){
-              removeValidField("spareAddress2");
-              return;
+        if (spareAddress2 == null) {
+            removeValidField("spareAddress2");
+            return;
         }
         addValidField("spareAddress2");
     }
@@ -320,9 +323,9 @@ public class CdMember extends BaseMybatisModel {
 
     public void setFlag(String flag) {
         this.flag = flag;
-        if(flag == null){
-              removeValidField("flag");
-              return;
+        if (flag == null) {
+            removeValidField("flag");
+            return;
         }
         addValidField("flag");
     }
@@ -334,9 +337,9 @@ public class CdMember extends BaseMybatisModel {
 
     public void setMemberType(Integer memberType) {
         this.memberType = memberType;
-        if(memberType == null){
-              removeValidField("memberType");
-              return;
+        if (memberType == null) {
+            removeValidField("memberType");
+            return;
         }
         addValidField("memberType");
     }
@@ -348,9 +351,9 @@ public class CdMember extends BaseMybatisModel {
 
     public void setEmail(String email) {
         this.email = email;
-        if(email == null){
-              removeValidField("email");
-              return;
+        if (email == null) {
+            removeValidField("email");
+            return;
         }
         addValidField("email");
     }
