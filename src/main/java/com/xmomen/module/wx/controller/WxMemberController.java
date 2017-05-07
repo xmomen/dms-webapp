@@ -1,0 +1,37 @@
+package com.xmomen.module.wx.controller;
+
+import com.xmomen.module.base.service.MemberSercvice;
+import com.xmomen.module.member.model.MemberAddressModel;
+import com.xmomen.module.member.model.MemberAddressQuery;
+import com.xmomen.module.member.service.MemberAddressService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+
+/**
+ * @author tanxinzheng
+ * @version 1.0.0
+ * @date 2017-3-29 0:27:52
+ */
+@RestController
+@RequestMapping(value = "/wx/member")
+public class WxMemberController {
+
+    @Autowired
+    MemberSercvice memberSercvice;
+
+
+    /**
+     * 更新客户手机号
+     *
+     * @param id     member主键
+     * @param mobile 新手机号码
+     */
+    @RequestMapping(value = "/updateMobile", method = RequestMethod.GET)
+    public void updateMemberAddress(@RequestParam("id") Integer id,
+                                    @RequestParam("mobile") String mobile) {
+        memberSercvice.updateMobile(id, mobile);
+    }
+}

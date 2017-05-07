@@ -37,6 +37,7 @@ public class BindService {
      */
     @Transactional
     public boolean bindAccount(String openId, String phone, String bindType) {
+        Integer userId = null;
         if ("1".equals(bindType)) {
             CdMember member = new CdMember();
             member.setPhoneNumber(phone);
@@ -44,6 +45,7 @@ public class BindService {
             if (members == null || members.size() == 0) {
                 return false;
             }
+            userId = members.get(0).getId();
         }
         else if ("2".equals(bindType)) {
             CdExpressMember expressMember = new CdExpressMember();
@@ -52,6 +54,7 @@ public class BindService {
             if (expressMembers == null || expressMembers.size() == 0) {
                 return false;
             }
+            userId = expressMembers.get(0).getId();
         }
         CdBind bind = new CdBind();
         bind.setOpenId(openId);
@@ -60,6 +63,7 @@ public class BindService {
             bind.setId(binds.get(0).getId());
         }
         bind.setOpenId(openId);
+        bind.setUserId(userId);
         bind.setPhone(phone);
         mybatisDao.save(bind);
         return true;
@@ -71,7 +75,7 @@ public class BindService {
      * @return
      */
     @Transactional
-    public String bindExpressMember(String phone, String orderNo) {
+    public String bindExpressMember(Integer userId, String orderNo) {
         //查找订单
         TbOrder order = new TbOrder();
         order.setOrderNo(orderNo);
@@ -88,11 +92,11 @@ public class BindService {
         }
         //查找快递员信息
         CdExpressMember expressMember = new CdExpressMember();
-        expressMember.setPhone(phone);
+        expressMember.setId(userId);
         List<CdExpressMember> expressMembers = mybatisDao.selectByModel(expressMember);
         if (expressMembers == null || expressMembers.size() == 0) {
-            logger.error("快递员不存在，手机号：" + phone);
-            return "快递员不存在，手机号：" + phone;
+            logger.error("快递员不存在");
+            return "快递员不存在";
         }
         expressMember = expressMembers.get(0);
         //订单中的发运快递商是否是快递员所属快递商

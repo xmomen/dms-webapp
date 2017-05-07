@@ -150,29 +150,6 @@ public class MemberSercviceImpl implements MemberSercvice {
      */
     @Transactional
     public CdMember bindMember(String mobile, String openId) {
-        //
-        CdBind bind = new CdBind();
-        bind.setPhone(mobile);
-        bind.setOpenId(openId);
-        List<CdBind> cdBinds = mybatisDao.selectByModel(bind);
-        //绑定关系存在场合
-        if (cdBinds.size() > 0) {
-            //手机号是否在member表存在 不存在则新增
-            CdMember member = new CdMember();
-            member.setPhoneNumber(mobile);
-            List<CdMember> members = mybatisDao.selectByModel(member);
-            if (members.size() == 0) {
-                member = new CdMember();
-                member.setPhoneNumber(mobile);
-                return mybatisDao.insertByModel(member);
-            }
-            else {
-                return members.get(0);
-            }
-        }
-        else {
-            this.mybatisDao.save(bind);
-        }
         //手机号是否在member表存在 不存在则新增
         CdMember member = new CdMember();
         member.setPhoneNumber(mobile);
@@ -180,10 +157,54 @@ public class MemberSercviceImpl implements MemberSercvice {
         if (members.size() == 0) {
             member = new CdMember();
             member.setPhoneNumber(mobile);
-            return mybatisDao.insertByModel(member);
+            member = mybatisDao.insertByModel(member);
         }
         else {
-            return members.get(0);
+            member = members.get(0);
         }
+        //新增绑定关系
+        CdBind bind = new CdBind();
+        bind.setUserId(member.getId());
+        bind.setPhone(mobile);
+        bind.setOpenId(openId);
+        List<CdBind> cdBinds = mybatisDao.selectByModel(bind);
+        //绑定关系不存在场合
+        if (cdBinds.size() == 0) {
+            this.mybatisDao.save(bind);
+        }
+        return member;
+    }
+
+    /**
+     * 更新手机号码
+     *
+     * @param id     主键
+     * @param mobile 新手机号码
+     */
+    @Transactional
+    public void updateMobile(Integer id, String mobile) {
+        //判断新手机是否存在 存在则不能修改
+        CdMember member = new CdMember();
+        member.setPhoneNumber(mobile);
+        List<CdMember> members = mybatisDao.selectByModel(member);
+        if (members.size() > 0) {
+            throw new IllegalArgumentException("新手机号已经绑定其他账号!");
+        }
+        //更新bind表的手机号
+        CdBind bind = new CdBind();
+        bind.setUserId(id);
+        List<CdBind> cdBinds = mybatisDao.selectByModel(bind);
+        //更新手机号
+        if (cdBinds.size() > 0) {
+            bind = cdBinds.get(0);
+            bind.setPhone(mobile);
+            mybatisDao.updateByModel(bind);
+        }
+        else {
+            throw new IllegalArgumentException("新手机号已经绑定其他账号!");
+        }
+        //更新用户表的手机号
+        member.setId(id);
+        this.mybatisDao.updateByModel(member);
     }
 }
