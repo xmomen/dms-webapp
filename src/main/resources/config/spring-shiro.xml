@@ -82,15 +82,19 @@
                     <property name="credentialsMatcher" ref="credentialsMatcher"/>
                     <property name="cachingEnabled" value="true"/>
                     <property name="authenticationCachingEnabled" value="true"/>
-                    <property name="authenticationCacheName" value="authenticationCache"/>
-                    <property name="authorizationCachingEnabled" value="false"/>
-                    <property name="authorizationCacheName" value="authorizationCache"/>
+                    <property name="authenticationCacheName" value="pcAuthenticationCache"/>
+                    <property name="authorizationCachingEnabled" value="true"/>
+                    <property name="authorizationCacheName" value="pcAuthorizationCache"/>
                 </bean>
             </util:list>
         </property>
         <property name="sessionManager" ref="sessionManager"/>
         <property name="cacheManager" ref="cacheManager"/>
         <property name="rememberMeManager" ref="rememberMeManager"/>
+        
+        <property name="authenticator">
+            <bean class="com.xmomen.module.core.web.authenticator.MultiLoginAuthenticator"></bean>
+        </property>
     </bean>
 
     <!-- 相当于调用SecurityUtils.setSecurityManager(securityManager) -->
@@ -158,7 +162,7 @@
                 /fonts/** = anon
                 /admin/** = role[admin]
                 /wb/** = role[member]
-                /** = role[user]
+                /** = user
             </value>
         </property>
     </bean>

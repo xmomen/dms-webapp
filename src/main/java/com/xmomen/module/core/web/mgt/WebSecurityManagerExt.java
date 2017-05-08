@@ -1,5 +1,8 @@
 package com.xmomen.module.core.web.mgt;
 
+import org.apache.shiro.authc.Authenticator;
+import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
+import org.apache.shiro.authz.ModularRealmAuthorizer;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.subject.SubjectContext;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -42,4 +45,12 @@ public class WebSecurityManagerExt extends DefaultWebSecurityManager {
         }
         return subject;
     }
+
+	@Override
+	public void setAuthenticator(Authenticator authenticator) throws IllegalArgumentException {
+		super.setAuthenticator(authenticator);
+		if (authenticator instanceof ModularRealmAuthenticator) {
+            ((ModularRealmAuthenticator) authenticator).setRealms(getRealms());
+        }
+	}
 }

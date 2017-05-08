@@ -1,13 +1,19 @@
 package com.xmomen.module.core.web.filter;
 
-import com.alibaba.fastjson.JSONObject;
-import com.xmomen.module.account.service.UserService;
-import com.xmomen.module.core.web.WebCommonUtils;
-import com.xmomen.module.user.entity.SysUsers;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
@@ -16,16 +22,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import com.alibaba.fastjson.JSONObject;
+import com.xmomen.module.account.service.UserService;
+import com.xmomen.module.core.web.WebCommonUtils;
+import com.xmomen.module.core.web.token.SysUserToken;
+import com.xmomen.module.user.entity.SysUsers;
 
 /**
  * Created by Jeng on 2016/1/7.
@@ -162,4 +163,9 @@ public class FormAuthenticationFilterExt extends FormAuthenticationFilter {
         }
         return false;
     }
+    
+    @Override
+	protected AuthenticationToken createToken(String username, String password, boolean rememberMe, String host) {
+		return new SysUserToken(username, password, rememberMe, host);
+	}
 }
