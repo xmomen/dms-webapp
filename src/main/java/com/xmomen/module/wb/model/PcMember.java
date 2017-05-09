@@ -11,8 +11,8 @@ public @Data class PcMember {
 	//昵称,可以为空
 	private String name;
 	
-	@NotNull
-	@NotBlank
+	@NotNull(message = "手机号码必填")
+	@NotBlank(message = "手机号码必填")
 	private String phoneNumber;
 	
 	//主要用于密码重置
@@ -20,7 +20,7 @@ public @Data class PcMember {
 	private String email;
 	
 	//客户密码
-	@NotNull
-	@NotBlank
+	@NotNull(message = "密码必填")
+	@NotBlank(message = "密码必填")
 	private String password;
 }

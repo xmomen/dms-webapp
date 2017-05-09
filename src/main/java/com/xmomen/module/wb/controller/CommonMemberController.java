@@ -38,7 +38,7 @@ public class CommonMemberController {
 		memberQuery.setPhoneNumber(createPcMember.getPhoneNumber());
 		CdMember cdMember = memberService.findMember(memberQuery);
 		if(cdMember == null) {
-			memberService.createMember(createMember);
+			cdMember = memberService.createMember(createMember);
 		} else if(StringUtils.isEmpty(cdMember.getPassword())) {
 			memberService.updatePassword(cdMember.getId(), createPcMember.getPassword(), "");
 		} else {
