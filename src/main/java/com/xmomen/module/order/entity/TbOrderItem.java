@@ -2,6 +2,7 @@ package com.xmomen.module.order.entity;
 
 import com.xmomen.framework.mybatis.model.BaseMybatisModel;
 import java.math.BigDecimal;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -51,6 +52,26 @@ public class TbOrderItem extends BaseMybatisModel {
      * 商品单位
      */
     private String itemUnit;
+
+    /**
+     * 创建时间
+     */
+    private Date createDate;
+
+    /**
+     * 创建人
+     */
+    private Integer createUserId;
+
+    /**
+     * 更新时间
+     */
+    private Date updateDate;
+
+    /**
+     * 更新人
+     */
+    private Integer updateUserId;
 
     @Column(name = "ID")
     @Id
@@ -164,5 +185,61 @@ public class TbOrderItem extends BaseMybatisModel {
               return;
         }
         addValidField("itemUnit");
+    }
+
+    @Column(name = "CREATE_DATE")
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+        if(createDate == null){
+              removeValidField("createDate");
+              return;
+        }
+        addValidField("createDate");
+    }
+
+    @Column(name = "CREATE_USER_ID")
+    public Integer getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(Integer createUserId) {
+        this.createUserId = createUserId;
+        if(createUserId == null){
+              removeValidField("createUserId");
+              return;
+        }
+        addValidField("createUserId");
+    }
+
+    @Column(name = "UPDATE_DATE")
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+        if(updateDate == null){
+              removeValidField("updateDate");
+              return;
+        }
+        addValidField("updateDate");
+    }
+
+    @Column(name = "UPDATE_USER_ID")
+    public Integer getUpdateUserId() {
+        return updateUserId;
+    }
+
+    public void setUpdateUserId(Integer updateUserId) {
+        this.updateUserId = updateUserId;
+        if(updateUserId == null){
+              removeValidField("updateUserId");
+              return;
+        }
+        addValidField("updateUserId");
     }
 }
