@@ -17,6 +17,8 @@ import org.apache.shiro.util.ByteSource;
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.base.entity.CdMember;
 import com.xmomen.module.base.service.MemberService;
+import com.xmomen.module.core.web.token.MemberUserToken;
+import com.xmomen.module.core.web.token.SysUserToken;
 
 public class MemberRealm extends AuthorizingRealm {
 
@@ -28,7 +30,7 @@ public class MemberRealm extends AuthorizingRealm {
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         Set<String> roles = new TreeSet<String>();
-        //用户默认有member的权限
+        //用户默认有member的权限,最好检查下数据库中用户是否存在
         Set<String> realmNames = principals.getRealmNames();
         for(String realmName: realmNames) {
         	if(realmName.contains("MemberRealm")) {
@@ -41,6 +43,14 @@ public class MemberRealm extends AuthorizingRealm {
         return authorizationInfo;
 	}
 
+	@Override
+	public boolean supports(AuthenticationToken token) {
+		if(token instanceof MemberUserToken) {
+			return super.supports(token);
+		}
+		return false;
+	}
+	
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		String phoneNumber = (String)token.getPrincipal();

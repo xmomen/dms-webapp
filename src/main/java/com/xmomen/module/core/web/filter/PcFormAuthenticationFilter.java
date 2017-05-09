@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -27,6 +30,7 @@ import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.base.entity.CdMember;
 import com.xmomen.module.base.service.MemberService;
 import com.xmomen.module.core.web.WebCommonUtils;
+import com.xmomen.module.core.web.token.MemberUserToken;
 
 public class PcFormAuthenticationFilter extends FormAuthenticationFilter {
 
@@ -158,4 +162,9 @@ public class PcFormAuthenticationFilter extends FormAuthenticationFilter {
         }
         return false;
     }
+
+	@Override
+	protected AuthenticationToken createToken(String username, String password, boolean rememberMe, String host) {
+		return new MemberUserToken(username, password, rememberMe, host);
+	}
 }

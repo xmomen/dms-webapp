@@ -96,7 +96,7 @@ public class MemberController {
      *
      * @param id
      */
-    @RequestMapping(value = "/member/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/member/{id:[0-9]+}", method = RequestMethod.GET)
     @Log(actionName = "根据ID查询客户信息")
     public MemberModel getMember(@PathVariable(value = "id") Integer id) {
         Map map = new HashMap<String, Object>();

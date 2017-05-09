@@ -2,10 +2,15 @@ package com.xmomen.module.wb.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,4 +52,26 @@ public class CommonMemberController {
 		cdMember.setPassword("");
 		return cdMember;
 	}
+	
+	@RequestMapping(value = "/member/login", method = RequestMethod.POST)
+    public String login(HttpServletRequest request, Model model){
+        if(SecurityUtils.getSubject().isAuthenticated()){
+            return "success";
+        }
+        String exceptionClassName = (String)request.getAttribute("shiroLoginFailure");
+        String error = null;
+        if(UnknownAccountException.class.getName().equals(exceptionClassName)) {
+            error = "用户名不存在";
+        } else if(IncorrectCredentialsException.class.getName().equals(exceptionClassName)) {
+            error = "用户名/密码错误";
+        } else if(exceptionClassName != null) {
+            error = "其他错误：" + exceptionClassName;
+        }
+        if(error != null) {
+        	//throw new IllegalArgumentException(error);
+        	return error;
+        }
+        //model.addAttribute("error", error);
+        return "login";
+    }
 }
