@@ -43,7 +43,7 @@
         LEFT JOIN tb_return_order return_order on return_order.ORDER_NO = tb.ORDER_NO
         <where>
             <![CDATA[
-            tb.ORDER_STATUS <> 9
+            tb.ORDER_STATUS <> 9 AND tb.order_status != 0
             ]]>
             <if test="managerId">
                 AND tb.MANAGER_ID = #{managerId}

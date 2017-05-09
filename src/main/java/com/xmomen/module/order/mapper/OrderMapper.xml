@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xmomen.module.order.mapper.OrderMapper" >
+<mapper namespace="com.xmomen.module.order.mapper.OrderMapper">
 
     <!--    查询订单    -->
     <select id="getOrderList" resultType="com.xmomen.module.order.model.OrderModel" parameterType="com.xmomen.module.order.model.OrderQuery">
@@ -26,9 +26,9 @@
         tb.*
         FROM
         tb_order tb
-        
+
         LEFT JOIN sys_users createUser ON createUser.id = tb.create_user_id
-        
+
         LEFT JOIN sys_dictionary s on s.DICTIONARY_CODE='ORDER_TYPE'
         left join sys_dictionary_parameter sp on sp.SYS_DICTIONARY_ID=s.ID and tb.ORDER_TYPE = sp.REAL_VALUE
 
@@ -37,14 +37,14 @@
 
         LEFT JOIN sys_dictionary payment on payment.DICTIONARY_CODE='PAYMENT_MODE'
         left join sys_dictionary_parameter paymentp on paymentp.SYS_DICTIONARY_ID=payment.ID and tb.PAYMENT_MODE = paymentp.REAL_VALUE
-        
-		LEFT JOIN sys_dictionary payment2 on payment2.DICTIONARY_CODE='PAYMENT_MODE'
+
+        LEFT JOIN sys_dictionary payment2 on payment2.DICTIONARY_CODE='PAYMENT_MODE'
         left join sys_dictionary_parameter paymentp2 on paymentp2.SYS_DICTIONARY_ID=payment2.ID and tb.`OTHER_PAYMENT_MODE` = paymentp2.REAL_VALUE
 
         LEFT JOIN sys_dictionary oss on oss.DICTIONARY_CODE='ORDER_SOURCE'
         left join sys_dictionary_parameter osp on osp.SYS_DICTIONARY_ID=oss.ID and tb.ORDER_SOURCE = osp.REAL_VALUE
 
-		left join `tb_trade_record` pay2 on pay2.`TRADE_NO` = tb.`ORDER_NO` and pay2.`TRADE_TYPE` = tb.`OTHER_PAYMENT_MODE`
+        left join `tb_trade_record` pay2 on pay2.`TRADE_NO` = tb.`ORDER_NO` and pay2.`TRADE_TYPE` = tb.`OTHER_PAYMENT_MODE`
 
         LEFT JOIN tb_order_relation tor ON tor.ORDER_NO = tb.ORDER_NO AND tor.REF_TYPE = 'ORDER_PACKING_TASK_RELATION'
         LEFT JOIN tb_order_relation torp ON torp.ORDER_NO = tb.ORDER_NO AND torp.REF_TYPE = 'ORDER_PAY_RELATION'
@@ -53,13 +53,14 @@
         LEFT JOIN sys_dictionary stsd on stsd.DICTIONARY_CODE='JOB_STATUS'
         left join sys_dictionary_parameter stsdp on stsdp.SYS_DICTIONARY_ID=stsd.ID and st.TASK_STATUS = stsdp.REAL_VALUE
         left join cd_express ce on tb.despatch_express_id = ce.id
-        
+
         left join sys_users users on users.id = tb.MANAGER_ID
-        
+
         left join tb_order_ref receiving_code on receiving_code.order_no = tb.order_no and receiving_code.ref_type = 'SHOU_HUO_NO'
         <where>
+            tb.order_status != 0
             <if test="orderStatus">
-                  AND tb.order_status = #{orderStatus}
+                AND tb.order_status = #{orderStatus}
             </if>
             <if test="keyword">
                 AND (tb.order_no LIKE CONCAT('%', #{keyword}, '%')
@@ -68,15 +69,15 @@
                 )
             </if>
             <if test="couponNumber">
-            	AND torp.REF_VALUE = #{couponNumber}
+                AND torp.REF_VALUE = #{couponNumber}
             </if>
             <if test="id">
                 AND tb.id = #{id}
             </if>
-             <if test="managerId">
+            <if test="managerId">
                 AND tb.MANAGER_ID = #{managerId}
             </if>
-             <if test="consigneeName">
+            <if test="consigneeName">
                 AND tb.consignee_name LIKE CONCAT('%', #{consigneeName}, '%')
             </if>
             <if test="orderNo">
@@ -100,12 +101,12 @@
             <if test="hasNoShowCancel">
                 AND tb.order_status != 9
             </if>
-           	<if test="showDespatch == 1">
-				AND tb.despatch_express_id is not null
-           	</if>
-           	 <if test="showDespatch == 0">
-				AND tb.despatch_express_id is null
-           	</if>
+            <if test="showDespatch == 1">
+                AND tb.despatch_express_id is not null
+            </if>
+            <if test="showDespatch == 0">
+                AND tb.despatch_express_id is null
+            </if>
             <if test="packingTaskCreateTimeStart">
                 <![CDATA[
                   AND DATE_FORMAT(st.CREATE_TIME ,'%Y-%m-%d')>= #{packingTaskCreateTimeStart}
@@ -137,24 +138,24 @@
                 ]]>
             </if>
             <if test="createUserId">
-            	AND tb.create_user_id = #{createUserId}
+                AND tb.create_user_id = #{createUserId}
             </if>
             <if test="despatchExpressId">
-            	AND tb.DESPATCH_EXPRESS_ID = #{despatchExpressId}
+                AND tb.DESPATCH_EXPRESS_ID = #{despatchExpressId}
             </if>
-             <if test="isTwoSend">
-            	AND tb.is_two_send = #{isTwoSend}
+            <if test="isTwoSend">
+                AND tb.is_two_send = #{isTwoSend}
             </if>
-          </where>
-          order by tb.CREATE_TIME desc
+        </where>
+        order by tb.CREATE_TIME desc
     </select>
 
     <select id="getOrderReportList" resultType="com.xmomen.module.report.model.OrderReport" parameterType="com.xmomen.module.order.model.OrderQuery">
-      SELECT
+        SELECT
         tb.create_time,
         torp.REF_VALUE as couponNumber,
-		cc.`COMPANY_NAME`,
- 		users.realname as managerName,
+        cc.`COMPANY_NAME`,
+        users.realname as managerName,
         tb.order_no,
         tb.`APPOINTMENT_TIME`,
         tb.`CONSIGNEE_NAME`,
@@ -165,7 +166,7 @@
         paymentp2.`SHOW_VALUE` as otherPaymentModeDesc,
         pay.`AMOUNT` payAmount,
         pay2.`AMOUNT` AS otherPayAmount
-      FROM
+        FROM
         tb_order tb
         LEFT JOIN sys_dictionary s on s.DICTIONARY_CODE='ORDER_TYPE'
         left join sys_dictionary_parameter sp on sp.SYS_DICTIONARY_ID=s.ID and tb.ORDER_TYPE = sp.REAL_VALUE
@@ -176,9 +177,9 @@
         LEFT JOIN sys_dictionary payment on payment.DICTIONARY_CODE='PAYMENT_MODE'
         left join sys_dictionary_parameter paymentp on paymentp.SYS_DICTIONARY_ID=payment.ID and tb.PAYMENT_MODE = paymentp.REAL_VALUE
 
- 		LEFT JOIN sys_dictionary payment2 on payment2.DICTIONARY_CODE='PAYMENT_MODE'
+        LEFT JOIN sys_dictionary payment2 on payment2.DICTIONARY_CODE='PAYMENT_MODE'
         left join sys_dictionary_parameter paymentp2 on paymentp2.SYS_DICTIONARY_ID=payment2.ID and tb.`OTHER_PAYMENT_MODE` = paymentp2.REAL_VALUE
-        
+
         left join `tb_trade_record` pay on pay.`TRADE_NO` = tb.`ORDER_NO` and (pay.`TRADE_TYPE` = 'CARD' || pay.`TRADE_TYPE` = 'COUPON')
         left join `tb_trade_record` pay2 on pay2.`TRADE_NO` = tb.`ORDER_NO` and pay2.`TRADE_TYPE` = tb.`OTHER_PAYMENT_MODE`
 
@@ -196,6 +197,7 @@
         left join sys_users users on users.id = tb.MANAGER_ID
         left join cd_company cc on cc.`ID` = tb.`COMPANY_ID`
         <where>
+            tb.order_status != 0
             <if test="orderStatus">
                 AND tb.order_status = #{orderStatus}
             </if>
@@ -267,37 +269,37 @@
 
     <select id="getPurchaseList" resultType="com.xmomen.module.order.model.PurchaseModel" parameterType="java.util.HashMap">
         SELECT
-        	p.id as purchaseId,
-            p.PURCHASE_CODE,
-            p.PURCHASE_STATUS,
-            stsdp.show_value as purchaseStatusDesc,
-            p.ITEM_CODE,
-            i.ITEM_NAME,
-            i.PRICING_MANNER AS itemUnit,
-            i.id as cdItemId,
-            i.sell_Unit,
-            i.spec,
-            p.TOTAL AS totalItemQty,
-            p.TOTAL_WEIGHT as totalWeight,
-       		p.DISTRIBUTE_VALUE,
-			p.PACKAGE_VALUE,
-			p.PACKING_VALUE,
-			p.create_Date
+        p.id as purchaseId,
+        p.PURCHASE_CODE,
+        p.PURCHASE_STATUS,
+        stsdp.show_value as purchaseStatusDesc,
+        p.ITEM_CODE,
+        i.ITEM_NAME,
+        i.PRICING_MANNER AS itemUnit,
+        i.id as cdItemId,
+        i.sell_Unit,
+        i.spec,
+        p.TOTAL AS totalItemQty,
+        p.TOTAL_WEIGHT as totalWeight,
+        p.DISTRIBUTE_VALUE,
+        p.PACKAGE_VALUE,
+        p.PACKING_VALUE,
+        p.create_Date
         FROM
-          tb_purchase p
+        tb_purchase p
         LEFT JOIN cd_item i
-          ON i.ITEM_CODE = p.ITEM_CODE
+        ON i.ITEM_CODE = p.ITEM_CODE
         LEFT JOIN sys_dictionary stsd on stsd.DICTIONARY_CODE='PURCHASE_STATUS'
         left join sys_dictionary_parameter stsdp on stsdp.SYS_DICTIONARY_ID=stsd.ID and p.PURCHASE_STATUS = stsdp.REAL_VALUE
-          <where>
-              <if test="keyword">
-                  AND ( i.ITEM_NAME LIKE CONCAT('%', #{keyword}, '%')
-                  OR p.ITEM_CODE LIKE CONCAT('%', #{keyword}, '%') )
-              </if>
-              <if test="purchaseStatus != null">
-                  AND p.PURCHASE_STATUS = #{purchaseStatus}
-              </if>
-              <if test="startTime">
+        <where>
+            <if test="keyword">
+                AND ( i.ITEM_NAME LIKE CONCAT('%', #{keyword}, '%')
+                OR p.ITEM_CODE LIKE CONCAT('%', #{keyword}, '%') )
+            </if>
+            <if test="purchaseStatus != null">
+                AND p.PURCHASE_STATUS = #{purchaseStatus}
+            </if>
+            <if test="startTime">
                 <![CDATA[
                   AND DATE_FORMAT(p.CREATE_DATE ,'%Y-%m-%d')>= #{startTime}
                 ]]>
@@ -307,19 +309,18 @@
                   AND DATE_FORMAT(p.CREATE_DATE ,'%Y-%m-%d')<= #{endTime}
                 ]]>
             </if>
-              <if test="isDistribute == 1">
-              	AND (p.TOTAL - p.DISTRIBUTE_VALUE) > 0
-              	AND p.PURCHASE_STATUS = 1
-              </if>
-              <if test="sellUnit != '' and sellUnit != null">
-              	AND i.SELL_UNIT = #{sellUnit}
-              </if>
-          </where>
+            <if test="isDistribute == 1">
+                AND (p.TOTAL - p.DISTRIBUTE_VALUE) > 0
+                AND p.PURCHASE_STATUS = 1
+            </if>
+            <if test="sellUnit != '' and sellUnit != null">
+                AND i.SELL_UNIT = #{sellUnit}
+            </if>
+        </where>
         ORDER BY p.create_date desc,i.sell_Unit
     </select>
 
     <select id="getOrderPurchaseList" resultType="com.xmomen.module.order.model.OrderPurchaseModel" parameterType="java.util.HashMap">
-
         select temp.ORDER_NO,
         sum(temp.TOTAL_ITEM_QTY) total_item_qty,
         temp.ITEM_ID,
@@ -389,22 +390,22 @@
 
     <select id="queryPackingModel" resultType="com.xmomen.module.order.model.PackingModel" parameterType="com.xmomen.module.order.model.PackingQuery">
         SELECT
-          p.ID,
-          p.PACKING_NO,
-          p.PACKING_TIME,
-          p.PACKING_STATUS,
-          tor.ORDER_NO,
-          sdp.SHOW_VALUE AS PACKING_STATUS_desc
+        p.ID,
+        p.PACKING_NO,
+        p.PACKING_TIME,
+        p.PACKING_STATUS,
+        tor.ORDER_NO,
+        sdp.SHOW_VALUE AS PACKING_STATUS_desc
         FROM
-          tb_packing p
-          LEFT JOIN sys_dictionary sd
-            ON sd.DICTIONARY_CODE = 'PACKING_STATUS'
-          LEFT JOIN sys_dictionary_parameter sdp
-            ON sd.ID = sdp.SYS_DICTIONARY_ID
-            AND sdp.REAL_VALUE = p.PACKING_STATUS
-          LEFT JOIN tb_order_relation tor
-            ON tor.REF_TYPE = 'ORDER_PACKING_RELATION'
-            AND tor.REF_VALUE = p.PACKING_NO
+        tb_packing p
+        LEFT JOIN sys_dictionary sd
+        ON sd.DICTIONARY_CODE = 'PACKING_STATUS'
+        LEFT JOIN sys_dictionary_parameter sdp
+        ON sd.ID = sdp.SYS_DICTIONARY_ID
+        AND sdp.REAL_VALUE = p.PACKING_STATUS
+        LEFT JOIN tb_order_relation tor
+        ON tor.REF_TYPE = 'ORDER_PACKING_RELATION'
+        AND tor.REF_VALUE = p.PACKING_NO
         <where>
             <if test="orderNo">
                 AND tor.ORDER_NO = #{orderNo}
@@ -420,18 +421,18 @@
 
     <select id="queryCountPackingOrderItemModel" resultType="com.xmomen.module.order.model.PackingOrderItemModel" parameterType="com.xmomen.module.order.model.PackingOrderQuery">
         select
-       tt.ITEM_CODE,
-       tt.ITEM_NAME,
-       sum(ITEM_QTY) as itemQty,
-       sum(packedItemQty) as packedItemQty,
-       CASE
+        tt.ITEM_CODE,
+        tt.ITEM_NAME,
+        sum(ITEM_QTY) as itemQty,
+        sum(packedItemQty) as packedItemQty,
+        CASE
         WHEN sum(packedItemQty) = 0
         THEN '未开始'
         WHEN sum(packedItemQty) = sum(ITEM_QTY)
         THEN '已完成'
         ELSE '待完成'
         END AS packing_status_desc
-      from (SELECT
+        from (SELECT
         oi.`ITEM_CODE`,
         oi.ITEM_NAME,
         oi.ITEM_QTY,
@@ -465,10 +466,10 @@
             </if>
         </where>
         GROUP BY oi.id) as tt group by tt.ITEM_CODE
-        order by  sum(ITEM_QTY) - sum(packedItemQty) 
+        order by sum(ITEM_QTY) - sum(packedItemQty)
     </select>
 
-    <select id="queryPackingOrderItemModel" resultType="com.xmomen.module.order.model.PackingOrderModel" parameterType="com.xmomen.module.order.model.PackingOrderQuery" >
+    <select id="queryPackingOrderItemModel" resultType="com.xmomen.module.order.model.PackingOrderModel" parameterType="com.xmomen.module.order.model.PackingOrderQuery">
         SELECT
         oi.id AS orderItemId,
         p.PACKING_NO,
@@ -505,7 +506,7 @@
             <if test="orderNos">
                 AND oi.ORDER_NO IN
                 <foreach collection="orderNos" close=")" open="(" separator="," item="listItem" index="">
-                  #{listItem}
+                    #{listItem}
                 </foreach>
             </if>
             <if test="orderItemId">
@@ -519,16 +520,16 @@
     </select>
 
     <select id="queryPackingRecordModel" resultType="com.xmomen.module.order.model.PackingRecordModel" parameterType="com.xmomen.module.order.model.PackingRecordQuery">
-        SELECT 
-          oi.ITEM_NAME,
-          tp.PACKING_NO,
-          pr.* 
+        SELECT
+        oi.ITEM_NAME,
+        tp.PACKING_NO,
+        pr.*
         FROM
-          tb_packing_record pr 
-          LEFT JOIN tb_order_item oi 
-            ON oi.ID = pr.ORDER_ITEM_ID
-          left join tb_packing tp
-            on tp.ID = pr.PACKING_ID
+        tb_packing_record pr
+        LEFT JOIN tb_order_item oi
+        ON oi.ID = pr.ORDER_ITEM_ID
+        left join tb_packing tp
+        on tp.ID = pr.PACKING_ID
         <where>
             <if test="id">
                 AND pr.ID = #{id}
@@ -537,13 +538,16 @@
                 AND pr.ORDER_ITEM_ID = #{orderItemId}
             </if>
             <if test="keyword">
-               AND ( pr.UPC LIKE CONCAT('%', #{keyword}, '%') OR oi.ITEM_NAME LIKE CONCAT('%', #{keyword}, '%') )
+                AND ( pr.UPC LIKE CONCAT('%', #{keyword}, '%') OR oi.ITEM_NAME LIKE CONCAT('%', #{keyword}, '%') )
             </if>
         </where>
     </select>
 
     <select id="countPackingTask" resultType="com.xmomen.module.order.model.PackingTaskCount" parameterType="java.util.HashMap">
     <![CDATA[
+
+
+
          select t.actorId,
                 t.actorName,
                 MAX(CASE WHEN t.type = 'TOTAL' then t.number else 0 END) as totalCount,
@@ -614,10 +618,13 @@
                 WHERE
                     sr.ROLE = #{roleType} group by su.id
                     ) t group by actorId
+
+
+
         ]]>
     </select>
-    
-    
+
+
     <!--    查询订单    -->
     <select id="getPackageTaskList" resultType="com.xmomen.module.order.model.OrderModel" parameterType="com.xmomen.module.order.model.OrderQuery">
         SELECT
@@ -650,9 +657,9 @@
 
         LEFT JOIN sys_dictionary oss on oss.DICTIONARY_CODE='ORDER_SOURCE'
         left join sys_dictionary_parameter osp on osp.SYS_DICTIONARY_ID=oss.ID and tb.ORDER_SOURCE = osp.REAL_VALUE
-		
-		left join `tb_trade_record` pay2 on pay2.`TRADE_NO` = tb.`ORDER_NO` and pay2.`TRADE_TYPE` = tb.`OTHER_PAYMENT_MODE`
-		
+
+        left join `tb_trade_record` pay2 on pay2.`TRADE_NO` = tb.`ORDER_NO` and pay2.`TRADE_TYPE` = tb.`OTHER_PAYMENT_MODE`
+
         LEFT JOIN tb_order_relation tor ON tor.ORDER_NO = tb.ORDER_NO AND tor.REF_TYPE = 'ORDER_PACKING_TASK_RELATION'
         LEFT JOIN tb_order_relation torp ON torp.ORDER_NO = tb.ORDER_NO AND torp.REF_TYPE = 'ORDER_PAY_RELATION'
         LEFT JOIN sys_task st on st.ID= tor.REF_VALUE
@@ -660,11 +667,11 @@
         LEFT JOIN sys_dictionary stsd on stsd.DICTIONARY_CODE='JOB_STATUS'
         left join sys_dictionary_parameter stsdp on stsdp.SYS_DICTIONARY_ID=stsd.ID and st.TASK_STATUS = stsdp.REAL_VALUE
         left join cd_express ce on tb.despatch_express_id = ce.id
-        
+
         left join sys_users users on users.id = tb.MANAGER_ID
         <where>
             <if test="orderStatus">
-                  AND tb.order_status = #{orderStatus}
+                AND tb.order_status = #{orderStatus}
             </if>
             <if test="keyword">
                 AND (tb.order_no LIKE CONCAT('%', #{keyword}, '%')
@@ -675,10 +682,10 @@
             <if test="id">
                 AND tb.id = #{id}
             </if>
-             <if test="managerId">
+            <if test="managerId">
                 AND tb.MANAGER_ID = #{managerId}
             </if>
-             <if test="consigneeName">
+            <if test="consigneeName">
                 AND tb.consignee_name LIKE CONCAT('%', #{consigneeName}, '%')
             </if>
             <if test="orderNo">
@@ -693,10 +700,10 @@
             <if test="packingTaskStatus">
                 AND st.TASK_STATUS = #{packingTaskStatus}
             </if>
-             <if test="showPackingAssigns == 1">
+            <if test="showPackingAssigns == 1">
                 AND st.TASK_STATUS is not null
             </if>
-             <if test="showPackingAssigns == 0">
+            <if test="showPackingAssigns == 0">
                 AND st.TASK_STATUS is null
             </if>
             <if test="packingTaskUserId">
@@ -729,15 +736,15 @@
                 ]]>
             </if>
             <if test="createUserId">
-            	AND tb.create_user_id = #{createUserId}
+                AND tb.create_user_id = #{createUserId}
             </if>
-          </where>
-          order by st.TASK_STATUS,tb.order_no desc
+        </where>
+        order by st.TASK_STATUS,tb.order_no desc
     </select>
-    
+
     <select id="countBatchOrder" resultType="java.lang.Integer" parameterType="java.lang.String">
     	select count(1) from tb_order where batch_no =#{batchNo}
     </select>
-    
-    
+
+
 </mapper>

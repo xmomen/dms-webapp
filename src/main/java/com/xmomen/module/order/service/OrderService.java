@@ -185,6 +185,10 @@ public class OrderService {
                         tbOrderItem.setItemPrice(cdItem.getSellPrice());
                     }
                     totalAmount = totalAmount.add(tbOrderItem.getItemPrice().multiply(orderItem.getItemQty()));
+                    tbOrderItem.setCreateDate(mybatisDao.getSysdate());
+                    tbOrderItem.setCreateUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
+                    tbOrderItem.setUpdateDate(mybatisDao.getSysdate());
+                    tbOrderItem.setUpdateUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
                     mybatisDao.insert(tbOrderItem);
                 }
             }
@@ -206,6 +210,8 @@ public class OrderService {
         tbOrder.setOrderNo(orderNo);
         tbOrder.setOrderSource(createOrder.getOrderSource());
         tbOrder.setCreateUserId(createOrder.getCreateUserId());
+        tbOrder.setUpdateDate(mybatisDao.getSysdate());
+        tbOrder.setUpdateUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
         tbOrder.setManagerId(createOrder.getManagerId());
         tbOrder.setCompanyId(createOrder.getCompanyId());
         tbOrder.setBatchNo(createOrder.getBatchNo());
@@ -332,6 +338,10 @@ public class OrderService {
                         tbOrderItem.setItemPrice(cdItem.getSellPrice());
                     }
                     totalAmount = totalAmount.add(tbOrderItem.getItemPrice().multiply(orderItem.getItemQty()));
+                    tbOrderItem.setCreateDate(mybatisDao.getSysdate());
+                    tbOrderItem.setCreateUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
+                    tbOrderItem.setUpdateDate(mybatisDao.getSysdate());
+                    tbOrderItem.setUpdateUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
                     mybatisDao.save(tbOrderItem);
                 }
             }
@@ -364,6 +374,9 @@ public class OrderService {
             tbOrder.setDiscountPrice(updateOrder.getDiscountPrice());
         }
         tbOrder.setAppointmentTime(updateOrder.getAppointmentTime());
+        //订单更新时间
+        tbOrder.setUpdateDate(mybatisDao.getSysdate());
+        tbOrder.setUpdateUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
         mybatisDao.update(tbOrder);
 
         //卡号，劵号，餐桌计划卡号
@@ -802,6 +815,10 @@ public class OrderService {
                         tbOrderItem.setItemPrice(cdItem.getSellPrice());
                     }
                     totalAmount = totalAmount.add(tbOrderItem.getItemPrice().multiply(orderItem.getItemQty()));
+                    tbOrderItem.setCreateDate(mybatisDao.getSysdate());
+                    tbOrderItem.setCreateUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
+                    tbOrderItem.setUpdateDate(mybatisDao.getSysdate());
+                    tbOrderItem.setUpdateUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
                     mybatisDao.insert(tbOrderItem);
                 }
             }
@@ -884,6 +901,8 @@ public class OrderService {
             tbOrder.setTotalAmount(totalAmount);
             tbOrder.setDiscountPrice(createOrder.getDiscountPrice());
         }
+        tbOrder.setUpdateDate(mybatisDao.getSysdate());
+        tbOrder.setUpdateUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
         tbOrder = mybatisDao.insertByModel(tbOrder);
         // tbOrderNo validation
         /*if (StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null && createOrder.getOrderType() > 0) {

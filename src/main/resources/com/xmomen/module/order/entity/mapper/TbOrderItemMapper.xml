@@ -10,6 +10,10 @@
     <result column="ITEM_PRICE" property="itemPrice" jdbcType="DECIMAL" />
     <result column="ITEM_QTY" property="itemQty" jdbcType="DECIMAL" />
     <result column="ITEM_UNIT" property="itemUnit" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="INTEGER" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -70,7 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, ORDER_NO, ITEM_ID, ITEM_CODE, ITEM_NAME, ITEM_PRICE, ITEM_QTY, ITEM_UNIT
+    ID, ORDER_NO, ITEM_ID, ITEM_CODE, ITEM_NAME, ITEM_PRICE, ITEM_QTY, ITEM_UNIT, CREATE_DATE, 
+    CREATE_USER_ID, UPDATE_DATE, UPDATE_USER_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbOrderItemExample" >
     select
@@ -119,6 +124,18 @@
       <if test="itemUnit != null" >
         ITEM_UNIT,
       </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+      <if test="updateUserId != null" >
+        UPDATE_USER_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -144,6 +161,18 @@
       </if>
       <if test="itemUnit != null" >
         #{itemUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -179,6 +208,18 @@
       </if>
       <if test="record.itemUnit != null" >
         ITEM_UNIT = #{record.itemUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserId != null" >
+        CREATE_USER_ID = #{record.createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateDate != null" >
+        UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUserId != null" >
+        UPDATE_USER_ID = #{record.updateUserId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >
