@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
+import com.xmomen.framework.exception.BusinessException;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.module.base.service.CouponService;
 import com.xmomen.module.order.entity.TbOrder;
@@ -110,10 +111,10 @@ public class MyOrderServiceImpl implements MyOrderService {
     }
 
     @Override
-    public Boolean confirmReceiveOrder(Integer orderId, Integer userId) {
+    public Boolean confirmReceiveOrder(Integer orderId, Integer userId) throws Exception {
         TbOrder tbOrder = mybatisDao.selectByPrimaryKey(TbOrder.class, orderId);
         if (tbOrder == null || userId == null || !String.valueOf(userId).equals(tbOrder.getMemberCode())) {
-            throw new IllegalArgumentException("订单不存在或者不属于当前用户!");
+            throw new BusinessException("订单不存在或者不属于当前用户!");
         }
         tbOrder.setOrderStatus("6");//确认本人收货
         tbOrder.setShouHuoDate(new Date());
@@ -127,13 +128,13 @@ public class MyOrderServiceImpl implements MyOrderService {
      */
     @Override
     @Transactional
-    public Boolean cancelOrder(Integer orderId, Integer userId) {
+    public Boolean cancelOrder(Integer orderId, Integer userId) throws Exception {
         TbOrder tbOrder = mybatisDao.selectByPrimaryKey(TbOrder.class, orderId);
         if (tbOrder == null || userId == null || !String.valueOf(userId).equals(tbOrder.getMemberCode())) {
-            throw new IllegalArgumentException("订单不存在或者不属于当前用户!");
+            throw new BusinessException("订单不存在或者不属于当前用户!");
         }
         if(tbOrder.getOrderStatus() != null && tbOrder.getOrderStatus().equals(9)) {
-        	throw new IllegalArgumentException("已取消的订单不能重复取消!");
+        	throw new BusinessException("已取消的订单不能重复取消!");
         }
         /*Integer payStatus = tbOrder.getPayStatus();
         if (payStatus == 1) throw new IllegalArgumentException("订单已支付,不能取消!");*/
@@ -158,7 +159,7 @@ public class MyOrderServiceImpl implements MyOrderService {
         				String tradeNo = tbOrder.getOrderNo();
         				RefundResData refundResData = weixinApiService.refund(tradeNo, tbOrder.getTotalAmount().multiply(new BigDecimal(100)).intValue());
         				if(refundResData == null) {
-        					throw new IllegalArgumentException("微信退款失败");
+        					throw new BusinessException("微信退款失败");
         				}
         			}
             		//其他第三方的支付，标注为取消状态，由batch统一去处理
@@ -167,7 +168,7 @@ public class MyOrderServiceImpl implements MyOrderService {
                 mybatisDao.update(tbOrder);
         	}
         } else {
-        	throw new IllegalArgumentException("已经处理的订单不能取消!");
+        	throw new BusinessException("已经处理的订单不能取消!");
         }
         return Boolean.TRUE;
     }
@@ -200,11 +201,12 @@ public class MyOrderServiceImpl implements MyOrderService {
 
 	@Override
 	@Transactional
-	public void payCallBack(PayResData payResData) {
+	public void payCallBack(PayResData payResData) throws Exception {
 		String attachement = payResData.getAttach();
 		PayAttachModel payAttachModel = JSON.parseObject(attachement, PayAttachModel.class);
 		String tradeId = payAttachModel.getTradeId();
 		String tradeNo = payAttachModel.getTradeNo();
+		int memberId = payAttachModel.getMemberId();
 		TbPayRecord payRecordQuery = new TbPayRecord();
 		payRecordQuery.setTradeNo(tradeNo);
 		List<TbPayRecord> tbPayRecords = payRecordService.getTbpayRecordListByRecord(payRecordQuery);
@@ -234,7 +236,7 @@ public class MyOrderServiceImpl implements MyOrderService {
 			TbOrder tbOrder = mybatisDao.selectOneByModel(query);
 			if(tbOrder == null) {
 				log.error("订单不存在! --" + orderNo);
-				throw new IllegalArgumentException("订单不存在!");
+				throw new BusinessException("订单不存在!");
 			}
 			//设置为微信支付类型
 			tbOrder.setPaymentMode(8);
@@ -244,7 +246,7 @@ public class MyOrderServiceImpl implements MyOrderService {
 		} else if(2 == payAttachModel.getType()) {
 			//卡充值
 			String couponNo = payAttachModel.getTradeNo();
-			couponService.cardRecharge(couponNo, new BigDecimal(totalFee/100));
+			couponService.cardWxRecharge(couponNo, new BigDecimal(totalFee/100), memberId);
 		} else {
 			log.error("支付类型只能为1或2 -- type是" + payAttachModel.getType());
 			throw new IllegalArgumentException("支付类型只能为1或2");

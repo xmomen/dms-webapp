@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.xmomen.framework.exception.BusinessException;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.utils.DateUtils;
@@ -746,7 +747,7 @@ public class OrderService {
     }
 
     @Transactional
-    public TbOrder createWxOrder(WxCreateOrder createOrder) {
+    public TbOrder createWxOrder(WxCreateOrder createOrder) throws Exception {
         String orderNo = createOrder.getOrderNo();
         if (StringUtils.isEmpty(orderNo)) {
             orderNo = DateUtils.getDateTimeString();
@@ -766,7 +767,7 @@ public class OrderService {
             normalOrder = false;
             CouponModel couponModel = couponService.getCouponModel(createOrder.getPaymentRelationNo());
             if (couponModel == null || couponModel.getCouponType() != 2) {
-                throw new IllegalArgumentException("无效的券!");
+                throw new BusinessException("无效的券!");
             }
             tbOrder.setCompanyId(couponModel.getCompanyId());
             tbOrder.setManagerId(couponModel.getManagerId());
@@ -963,13 +964,13 @@ public class OrderService {
         }
         String paymentNo = payOrderModel.getPaymentNo();
         if (StringUtils.isEmpty(paymentNo)) {
-            throw new Exception("卡号不能为空!");
+            throw new BusinessException("卡号不能为空!");
         }
         CdCoupon cdCouponQuery = new CdCoupon();
         cdCouponQuery.setCouponNumber(paymentNo);
         CdCoupon cdCoupon = mybatisDao.selectOneByModel(cdCouponQuery);
         if (cdCoupon == null || cdCoupon.getCouponType() != 1) {
-            throw new Exception("该卡不存在!");
+            throw new BusinessException("该卡不存在!");
         }
 
         MyOrderQuery myOrderQuery = new MyOrderQuery();
@@ -983,7 +984,7 @@ public class OrderService {
 
         }
         if (cdCoupon.getUserPrice().compareTo(totalAmount) < 0) {
-            throw new IllegalArgumentException("卡内余额不足，请充值或选用其他付款方式!");
+            throw new BusinessException("卡内余额不足，请充值或选用其他付款方式!");
         }
         //设置为卡支付订单
         tbOrder.setPaymentMode(5);
