@@ -147,6 +147,7 @@
                 /register = anon
                 /register.do = anon
                 /logout = logout
+                /member/logout = anon
                 /login = authc
                 /member/login = memberAuthc
                 /member/register = anon

@@ -1,5 +1,6 @@
 package com.xmomen.module.wb.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.xmomen.framework.exception.BusinessException;
 import com.xmomen.module.base.entity.CdMember;
 import com.xmomen.module.base.model.CreateMember;
 import com.xmomen.module.base.service.MemberService;
 import com.xmomen.module.member.model.MemberAddressCreate;
 import com.xmomen.module.wb.model.PcMember;
+import com.xmomen.module.wb.model.PcMemberInfo;
 
 @RestController
 public class CommonMemberController {
@@ -34,6 +37,7 @@ public class CommonMemberController {
 	@RequestMapping(value = "/member/register", method = RequestMethod.POST)
 	public CdMember register(@RequestBody @Valid PcMember createPcMember) {
 		CreateMember createMember = new CreateMember();
+		createMember.setName(createPcMember.getName());
 		createMember.setPhoneNumber(createPcMember.getPhoneNumber());
 		createMember.setPassword(createPcMember.getPassword());
 		createMember.setMemberAddressList(new ArrayList<MemberAddressCreate>());
@@ -43,20 +47,33 @@ public class CommonMemberController {
 		memberQuery.setPhoneNumber(createPcMember.getPhoneNumber());
 		CdMember cdMember = memberService.findMember(memberQuery);
 		if(cdMember == null) {
-			memberService.createMember(createMember);
+			cdMember = memberService.createMember(createMember);
 		} else if(StringUtils.isEmpty(cdMember.getPassword())) {
 			memberService.updatePassword(cdMember.getId(), createPcMember.getPassword(), "");
 		} else {
 			throw new IllegalArgumentException("用户已被注册");
 		}
-		cdMember.setPassword("");
 		return cdMember;
 	}
 	
 	@RequestMapping(value = "/member/login", method = RequestMethod.POST)
-    public String login(HttpServletRequest request, Model model){
+    public PcMemberInfo login(HttpServletRequest request, Model model) throws Exception{
         if(SecurityUtils.getSubject().isAuthenticated()){
-            return "success";
+            String phoneNumber = (String) SecurityUtils.getSubject().getPrincipal();
+            // 可能是
+            CdMember query = new CdMember();
+            query.setPhoneNumber(phoneNumber);
+            CdMember cdMember = memberService.findMember(query);
+            if(cdMember == null) {
+                throw new BusinessException("用户名不存在");
+            } else {
+            	PcMemberInfo pcMemberInfo = new PcMemberInfo();
+            	pcMemberInfo.setMemberId(cdMember.getId());
+            	pcMemberInfo.setPhoneNumber(cdMember.getPhoneNumber());
+            	//pcMemberInfo.setEmail(cdMember.getEmail());
+            	pcMemberInfo.setName(cdMember.getName());
+            	return pcMemberInfo;
+            }
         }
         String exceptionClassName = (String)request.getAttribute("shiroLoginFailure");
         String error = null;
@@ -66,12 +83,17 @@ public class CommonMemberController {
             error = "用户名/密码错误";
         } else if(exceptionClassName != null) {
             error = "其他错误：" + exceptionClassName;
+        } else {
+            error = "系统错误";
         }
-        if(error != null) {
-        	//throw new IllegalArgumentException(error);
-        	return error;
-        }
-        //model.addAttribute("error", error);
-        return "login";
+        throw new BusinessException(error);
+    }
+	
+	@RequestMapping(value = "/member/logout")
+    public boolean logout(HttpServletRequest request) throws Exception{
+		if(SecurityUtils.getSubject().isAuthenticated()){
+			SecurityUtils.getSubject().logout();
+		}
+		return true;
     }
 }

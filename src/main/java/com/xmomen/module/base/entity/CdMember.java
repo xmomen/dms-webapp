@@ -26,6 +26,7 @@ public class CdMember extends BaseMybatisModel {
     /**
      * 密码
      */
+    @JsonIgnore
     private String password;
 
     /**
