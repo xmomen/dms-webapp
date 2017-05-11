@@ -37,4 +37,8 @@
 	        </otherwise>
 	    </choose>
 	</insert>
+	
+	<update id="copyCartItems" parameterType="java.util.HashMap">
+		UPDATE tb_shopping_cart set user_token = #{newMemberId} where user_token = #{oldMemberId}
+	</update>
 </mapper>

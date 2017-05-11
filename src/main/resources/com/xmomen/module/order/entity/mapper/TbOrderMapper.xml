@@ -36,6 +36,8 @@
     <result column="OUT_DATE" property="outDate" jdbcType="TIMESTAMP" />
     <result column="SHOU_HUO_DATE" property="shouHuoDate" jdbcType="TIMESTAMP" />
     <result column="IS_REJECT" property="isReject" jdbcType="INTEGER" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -101,7 +103,7 @@
     TRANSPORT_MODE, REMARK, DISCOUNT_PRICE, TOTAL_AMOUNT, CREATE_TIME, APPOINTMENT_TIME, 
     CREATE_USER_ID, DESPATCH_EXPRESS_ID, EXPRESS_MEMBER_ID, COMPANY_ID, MANAGER_ID, BATCH_NO, 
     TOTAL_BOX_NUM, EXPRESS_SCAN_BOX_NUM, XIAJIA, IS_TWO_SEND, TWO_SEND_AUDIT_DATE, TWO_SEND_AUDIT_USER_ID, 
-    OUT_DATE, SHOU_HUO_DATE, IS_REJECT
+    OUT_DATE, SHOU_HUO_DATE, IS_REJECT, UPDATE_DATE, UPDATE_USER_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.module.order.entity.TbOrderExample" >
     select
@@ -228,6 +230,12 @@
       <if test="isReject != null" >
         IS_REJECT,
       </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+      <if test="updateUserId != null" >
+        UPDATE_USER_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -331,6 +339,12 @@
       </if>
       <if test="isReject != null" >
         #{isReject,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -444,6 +458,12 @@
       </if>
       <if test="record.isReject != null" >
         IS_REJECT = #{record.isReject,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateDate != null" >
+        UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUserId != null" >
+        UPDATE_USER_ID = #{record.updateUserId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >

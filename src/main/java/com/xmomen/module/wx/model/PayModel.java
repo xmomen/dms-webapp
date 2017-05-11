@@ -27,4 +27,7 @@ class PayModel {
      */
     @NotNull
     Integer type;
+    
+    @NotNull
+    Integer memberId;
 }

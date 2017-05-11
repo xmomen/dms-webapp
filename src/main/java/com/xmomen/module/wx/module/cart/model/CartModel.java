@@ -12,7 +12,7 @@ import lombok.Data;
 public @Data class CartModel {
 
 	/**
-	 * 微信用户openId
+	 * 微信用户memberId
 	 */
 	private String userToken;
 	

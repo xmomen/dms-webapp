@@ -261,7 +261,7 @@ public class WeixinApiService {
      * @param request
      * @return
      */
-    public PayResData payOrder(String outTradeNo, Double totalFee, String openId, Integer type, HttpServletRequest request) {
+    public PayResData payOrder(String outTradeNo, Double totalFee, String openId, Integer type, Integer memberId, HttpServletRequest request) {
         PayAttachModel attachModel = null;
         String tradeId = UUID.randomUUID().toString().replaceAll("-", "");
         if (!type.equals(2) && !type.equals(1)) {
@@ -283,7 +283,7 @@ public class WeixinApiService {
             }
         }
 
-        attachModel = new PayAttachModel(type, outTradeNo, tradeId, openId);
+        attachModel = new PayAttachModel(type, outTradeNo, tradeId, openId, memberId);
         String attachement = JSON.toJSONString(attachModel);
         totalFee = totalFee * 100;
         PayReqData payReqData = new PayReqData("订单付费", tradeId, totalFee.intValue(), getIp2(request), openId, attachement);
@@ -342,7 +342,7 @@ public class WeixinApiService {
         TbPayRecord refundPayRecordQuery = new TbPayRecord();
         refundPayRecordQuery.setTradeType(3);
         refundPayRecordQuery.setTransactionId(transactionId);
-        List<TbPayRecord> refundRecords = payRecordService.getTbpayRecordListByRecord(tbPayRecord);
+        List<TbPayRecord> refundRecords = payRecordService.getTbpayRecordListByRecord(refundPayRecordQuery);
         if (!refundRecords.isEmpty()) {
             //这里限定一个订单只能退款一次
             throw new IllegalArgumentException("该订单已经提交过退款请求");

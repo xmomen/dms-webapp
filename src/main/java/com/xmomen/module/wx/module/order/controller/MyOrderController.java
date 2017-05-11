@@ -70,19 +70,19 @@ public class MyOrderController {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
-	public TbOrder createModel(@RequestBody @Valid WxCreateOrder createOrder){
+	public TbOrder createModel(@RequestBody @Valid WxCreateOrder createOrder) throws Exception {
         return orderService.createWxOrder(createOrder);
 	}
 	
 	@RequestMapping(value = "/confirm", method = RequestMethod.POST)
 	@ResponseBody
-	public Boolean confirmOrder(@RequestParam("id") Integer orderId, @RequestParam("memberId") Integer memberId) {
+	public Boolean confirmOrder(@RequestParam("id") Integer orderId, @RequestParam("memberId") Integer memberId) throws Exception {
         return myOrderService.confirmReceiveOrder(orderId, memberId);
 	}
 	
 	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
 	@ResponseBody
-	public Boolean cancelOrder(@RequestParam("id") Integer orderId, @RequestParam("memberId") Integer memberId) {
+	public Boolean cancelOrder(@RequestParam("id") Integer orderId, @RequestParam("memberId") Integer memberId) throws Exception {
         return myOrderService.cancelOrder(orderId, memberId);
 	}
 	
