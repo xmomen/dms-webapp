@@ -160,12 +160,12 @@ public class MemberSercviceImpl implements MemberSercvice {
     @Transactional
     public CdMember bindMember(String openId) {
         CdMember member = new CdMember();
+        member.setMemberType(1);
         member = mybatisDao.insertByModel(member);
         //新增绑定关系
         CdBind bind = new CdBind();
         bind.setUserId(member.getId());
         bind.setOpenId(openId);
-        List<CdBind> cdBinds = mybatisDao.selectByModel(bind);
         this.mybatisDao.save(bind);
 
         return member;
@@ -180,13 +180,6 @@ public class MemberSercviceImpl implements MemberSercvice {
      */
     @Transactional
     public CdMember bindMember(String mobile, String name, String openId, Integer memberId) throws Exception {
-        //判断openid是否绑定
-        CdBind binddb = new CdBind();
-        binddb.setOpenId(openId);
-        List<CdBind> cdBinds = mybatisDao.selectByModel(binddb);
-        if (cdBinds.size() > 0) {
-            throw new BusinessException("微信账号已经绑定手机号：" + cdBinds.get(0).getPhone());
-        }
         //手机号是否在member表存在 不存在则新增
         CdMember member = new CdMember();
         member.setPhoneNumber(mobile);
@@ -211,18 +204,29 @@ public class MemberSercviceImpl implements MemberSercvice {
         //手机号存在场合
         else {
             member = members.get(0);
+            member.setName(name);
             //替换购物车数据
             cartService.copyCartInfo(String.valueOf(memberId), String.valueOf(member.getId()));
 
-            //删除新的member
-            mybatisDao.deleteByPrimaryKey(CdMember.class, memberId);
+            try {
+                //删除新的member
+                mybatisDao.deleteByPrimaryKey(CdMember.class, memberId);
+            } catch (Exception e) {
 
-            //新增绑定关系
-            CdBind bind = new CdBind();
-            bind.setUserId(member.getId());
-            bind.setPhone(mobile);
-            bind.setOpenId(openId);
-            mybatisDao.save(bind);
+            }
+
+            CdBind bindDb = new CdBind();
+            bindDb.setUserId(member.getId());
+            bindDb.setPhone(mobile);
+            List<CdBind> cdBinds = mybatisDao.selectByModel(bindDb);
+            if (cdBinds.size() == 0) {
+                //新增绑定关系
+                CdBind bind = new CdBind();
+                bind.setUserId(member.getId());
+                bind.setPhone(mobile);
+                bind.setOpenId(openId);
+                mybatisDao.save(bind);
+            }
         }
 
         return member;
