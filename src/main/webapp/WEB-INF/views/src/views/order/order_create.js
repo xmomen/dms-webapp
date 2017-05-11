@@ -453,7 +453,7 @@ define(function () {
                 });
             };
             $scope.totalItemPrice = function (obj) {
-                if (obj.discountPrice) {
+                if (obj.discountPrice || obj.discountPrice == 0) {
                     return obj.itemQty * obj.discountPrice;
                 }
                 return obj.itemQty * obj.sellPrice;
@@ -466,7 +466,7 @@ define(function () {
                 for (var i = 0; i < $scope.choseOrderItemList.length; i++) {
                     var obj = $scope.choseOrderItemList[i];
                     totalNumber += obj.itemQty;
-                    if (obj.discountPrice) {
+                    if (obj.discountPrice || obj.discountPrice == 0) {
                         totalPrice += (obj.itemQty * obj.discountPrice);
                     } else {
                         totalPrice += (obj.itemQty * obj.sellPrice);
