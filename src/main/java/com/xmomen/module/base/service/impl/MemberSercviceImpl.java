@@ -1,5 +1,6 @@
 package com.xmomen.module.base.service.impl;
 
+import com.xmomen.framework.exception.BusinessException;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.module.base.entity.*;
 import com.xmomen.module.base.model.CreateMember;
@@ -11,6 +12,7 @@ import com.xmomen.module.member.entity.MemberAddress;
 import com.xmomen.module.member.entity.MemberAddressExample;
 import com.xmomen.module.member.model.MemberAddressCreate;
 import com.xmomen.module.member.model.MemberAddressUpdate;
+import com.xmomen.module.wx.module.cart.service.CartService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,9 @@ public class MemberSercviceImpl implements MemberSercvice {
 
     @Autowired
     CouponService couponService;
+
+    @Autowired
+    CartService cartService;
 
     public CdMember getOneMemberModel(String id) {
         return this.mybatisDao.selectByPrimaryKey(CdMember.class, id);
@@ -150,33 +155,76 @@ public class MemberSercviceImpl implements MemberSercvice {
     /**
      * 绑定
      *
-     * @param mobile
      * @param openId
      */
     @Transactional
-    public CdMember bindMember(String mobile, String openId) {
+    public CdMember bindMember(String openId) {
+        CdMember member = new CdMember();
+        member = mybatisDao.insertByModel(member);
+        //新增绑定关系
+        CdBind bind = new CdBind();
+        bind.setUserId(member.getId());
+        bind.setOpenId(openId);
+        List<CdBind> cdBinds = mybatisDao.selectByModel(bind);
+        this.mybatisDao.save(bind);
+
+        return member;
+    }
+
+    /**
+     * 绑定
+     *
+     * @param mobile
+     * @param name
+     * @param memberId
+     */
+    @Transactional
+    public CdMember bindMember(String mobile, String name, String openId, Integer memberId) throws Exception {
+        //判断openid是否绑定
+        CdBind binddb = new CdBind();
+        binddb.setOpenId(openId);
+        List<CdBind> cdBinds = mybatisDao.selectByModel(binddb);
+        if (cdBinds.size() > 0) {
+            throw new BusinessException("微信账号已经绑定手机号：" + cdBinds.get(0).getPhone());
+        }
         //手机号是否在member表存在 不存在则新增
         CdMember member = new CdMember();
         member.setPhoneNumber(mobile);
         List<CdMember> members = mybatisDao.selectByModel(member);
+        //手机号不存在场合
         if (members.size() == 0) {
-            member = new CdMember();
-            member.setPhoneNumber(mobile);
-            member = mybatisDao.insertByModel(member);
+            //更新member
+            CdMember cdMember = new CdMember();
+            cdMember.setId(memberId);
+            cdMember.setName(name);
+            cdMember.setPhoneNumber(mobile);
+            member = mybatisDao.updateByModel(cdMember);
+
+            //更新cdBind
+            CdBindExample cdBindExample = new CdBindExample();
+            cdBindExample.createCriteria().andUserIdEqualTo(memberId);
+            CdBind cdBind = new CdBind();
+            //手机号
+            cdBind.setPhone(mobile);
+            mybatisDao.updateOneByExampleSelective(cdBind, cdBindExample);
         }
+        //手机号存在场合
         else {
             member = members.get(0);
+            //替换购物车数据
+            cartService.copyCartInfo(String.valueOf(memberId), String.valueOf(member.getId()));
+
+            //删除新的member
+            mybatisDao.deleteByPrimaryKey(CdMember.class, memberId);
+
+            //新增绑定关系
+            CdBind bind = new CdBind();
+            bind.setUserId(member.getId());
+            bind.setPhone(mobile);
+            bind.setOpenId(openId);
+            mybatisDao.save(bind);
         }
-        //新增绑定关系
-        CdBind bind = new CdBind();
-        bind.setUserId(member.getId());
-        bind.setPhone(mobile);
-        bind.setOpenId(openId);
-        List<CdBind> cdBinds = mybatisDao.selectByModel(bind);
-        //绑定关系不存在场合
-        if (cdBinds.size() == 0) {
-            this.mybatisDao.save(bind);
-        }
+
         return member;
     }
 
