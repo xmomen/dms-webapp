@@ -63,7 +63,7 @@ public class WeixinController {
     @RequestMapping(value = "/payOrder", method = RequestMethod.POST)
     @ResponseBody
     public PayResData payOrder(@RequestBody @Valid PayModel payOrderModel, HttpServletRequest request) {
-        return weixinApiService.payOrder(payOrderModel.getOutTradeNo(), payOrderModel.getTotalFee(), payOrderModel.getOpenId(), payOrderModel.getType(), request);
+        return weixinApiService.payOrder(payOrderModel.getOutTradeNo(), payOrderModel.getTotalFee(), payOrderModel.getOpenId(), payOrderModel.getType(), payOrderModel.getMemberId(), request);
     }
 
     /**

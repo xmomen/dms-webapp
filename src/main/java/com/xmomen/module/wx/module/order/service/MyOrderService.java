@@ -13,11 +13,11 @@ public interface MyOrderService {
 	List<OrderModel> myOrder(MyOrderQuery myOrderQuery);
 	OrderDetailModel getOrderDetail(MyOrderQuery myOrderQuery);
 	
-	Boolean confirmReceiveOrder(Integer orderId, Integer userId);
+	Boolean confirmReceiveOrder(Integer orderId, Integer userId) throws Exception;
 	
-	Boolean cancelOrder(Integer orderId, Integer userId);
+	Boolean cancelOrder(Integer orderId, Integer userId) throws Exception;
 	
 	Map<String, Integer> getOrderStatistic(Integer userId);
 	
-	void payCallBack(PayResData payResData);
+	void payCallBack(PayResData payResData) throws Exception;
 }

@@ -53,12 +53,15 @@ public class ProductServiceImpl implements ProductService {
                     if (product.getIsDefaultPath()) {
                         defaultPicUrl = product.getPicUrl();
                     }
-                    else {
+                    //else {
                         picUrls.add(ResourceUtilsService.getWholeHttpPath(product.getPicUrl()));
-                    }
+                    //}
                 }
             }
             ProductModel detail = products.get(0);
+            if(picUrls.isEmpty()) {
+            	picUrls.add(ResourceUtilsService.getDefaultPicPath());
+            }
             detail.setPicUrls(picUrls);
             detail.setBasePrice(null);//隐藏商品原价
             if (defaultPicUrl == null) {
