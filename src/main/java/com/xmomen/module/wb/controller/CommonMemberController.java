@@ -1,15 +1,25 @@
 package com.xmomen.module.wb.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import com.xmomen.framework.exception.BusinessException;
+import com.xmomen.framework.web.rest.RestError;
+import com.xmomen.module.core.web.filter.FormAuthenticationFilterExt;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.DisabledAccountException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,12 +37,12 @@ public class CommonMemberController {
 
 	@Autowired
 	MemberService memberService;
-	
+
 	/**
 	 * 普通用户注册
 	 */
 	@RequestMapping(value = "/member/register", method = RequestMethod.POST)
-	public CdMember register(@RequestBody @Valid PcMember createPcMember) {
+	public CdMember register(@RequestBody @Valid PcMember createPcMember) throws BusinessException {
 		CreateMember createMember = new CreateMember();
 		createMember.setPhoneNumber(createPcMember.getPhoneNumber());
 		createMember.setPassword(createPcMember.getPassword());
@@ -47,31 +57,35 @@ public class CommonMemberController {
 		} else if(StringUtils.isEmpty(cdMember.getPassword())) {
 			memberService.updatePassword(cdMember.getId(), createPcMember.getPassword(), "");
 		} else {
-			throw new IllegalArgumentException("用户已被注册");
+			throw new BusinessException("用户已被注册");
 		}
 		cdMember.setPassword("");
 		return cdMember;
 	}
 	
 	@RequestMapping(value = "/member/login", method = RequestMethod.POST)
-    public String login(HttpServletRequest request, Model model){
+    public ResponseEntity login(HttpServletRequest request, Model model){
+		Map<String, Object> result = new HashMap<>();
         if(SecurityUtils.getSubject().isAuthenticated()){
-            return "success";
+			String username = (String) SecurityUtils.getSubject().getPrincipal();
+			result.put("status", 200);
+			result.put("username", username);
+            return new ResponseEntity(result, HttpStatus.OK);
         }
-        String exceptionClassName = (String)request.getAttribute("shiroLoginFailure");
+		String exceptionClassName = (String) request.getAttribute(FormAuthenticationFilterExt.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
         String error = null;
-        if(UnknownAccountException.class.getName().equals(exceptionClassName)) {
-            error = "用户名不存在";
+		RestError restError = new RestError();
+		restError.setTimestamp(new Date());
+        if(DisabledAccountException.class.getName().equals(exceptionClassName)){
+			restError.setMessage("该账号已被锁定，请联系客服。");
+		}else if(UnknownAccountException.class.getName().equals(exceptionClassName)) {
+			restError.setMessage("用户名不存在");
         } else if(IncorrectCredentialsException.class.getName().equals(exceptionClassName)) {
-            error = "用户名/密码错误";
+			restError.setMessage("用户名或密码错误");
         } else if(exceptionClassName != null) {
-            error = "其他错误：" + exceptionClassName;
+			restError.setMessage( "登录失败：" + exceptionClassName);
         }
-        if(error != null) {
-        	//throw new IllegalArgumentException(error);
-        	return error;
-        }
-        //model.addAttribute("error", error);
-        return "login";
+		restError.setStatus(401);
+		return new ResponseEntity(restError, HttpStatus.UNAUTHORIZED);
     }
 }

@@ -3,11 +3,9 @@ package com.xmomen.module.account.realm;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.authc.UnknownAccountException;
+import com.xmomen.framework.exception.BusinessException;
+import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -54,15 +52,15 @@ public class MemberRealm extends AuthorizingRealm {
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		String phoneNumber = (String)token.getPrincipal();
-
+        if(StringUtils.trimToNull(phoneNumber) == null){
+            throw new IncorrectCredentialsException();//账号或密码错误
+        }
 		CdMember query = new CdMember();
 		query.setPhoneNumber(phoneNumber);
         CdMember member = memberService.findMember(query);
-
         if(member == null) {
             throw new UnknownAccountException();//没找到帐号
         }
-
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 phoneNumber, //用户名
                 member.getPassword(), //密码

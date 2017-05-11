@@ -35,13 +35,18 @@ import com.xmomen.module.core.web.token.MemberUserToken;
 public class PcFormAuthenticationFilter extends FormAuthenticationFilter {
 
 	private static Logger logger = LoggerFactory.getLogger(PcFormAuthenticationFilter.class);
-	
+
+    public static final String DEFAULT_ERROR_EXCEPTION_KEY_ATTRIBUTE_NAME = "shiroLoginFailureException";
+
 	@Autowired
 	private MemberService memberService;
 	
 	private void initUserContext(String phoneNumber, Subject subject){
         CdMember query = new CdMember();
         query.setPhoneNumber(phoneNumber);
+        if(phoneNumber == null){
+            return;
+        }
         CdMember member = memberService.findMember(query);
         subject.getSession().setAttribute(AppConstants.SESSION_USER_ID_KEY, member.getId());
     }
@@ -161,6 +166,12 @@ public class PcFormAuthenticationFilter extends FormAuthenticationFilter {
             e1.printStackTrace();
         }
         return false;
+    }
+
+    protected void setFailureAttribute(ServletRequest request, AuthenticationException ae) {
+        String className = ae.getClass().getName();
+        request.setAttribute(getFailureKeyAttribute(), className);
+        request.setAttribute(DEFAULT_ERROR_EXCEPTION_KEY_ATTRIBUTE_NAME, ae);
     }
 
 	@Override
