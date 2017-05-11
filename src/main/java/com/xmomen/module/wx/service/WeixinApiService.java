@@ -342,7 +342,7 @@ public class WeixinApiService {
         TbPayRecord refundPayRecordQuery = new TbPayRecord();
         refundPayRecordQuery.setTradeType(3);
         refundPayRecordQuery.setTransactionId(transactionId);
-        List<TbPayRecord> refundRecords = payRecordService.getTbpayRecordListByRecord(tbPayRecord);
+        List<TbPayRecord> refundRecords = payRecordService.getTbpayRecordListByRecord(refundPayRecordQuery);
         if (!refundRecords.isEmpty()) {
             //这里限定一个订单只能退款一次
             throw new IllegalArgumentException("该订单已经提交过退款请求");

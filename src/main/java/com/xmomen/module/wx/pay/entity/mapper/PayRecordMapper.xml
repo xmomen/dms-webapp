@@ -92,7 +92,7 @@
 	    	    AND TRANSACTION_ID = #{transactionId}
 	    	</if>
 	    	<if test="completeTime">
-	    	    AND COMPLETE_TIME != null
+	    	    AND COMPLETE_TIME is not null
 	    	</if>
 		</where>
 	</select>
