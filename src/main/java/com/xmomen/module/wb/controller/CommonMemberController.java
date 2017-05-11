@@ -1,6 +1,5 @@
 package com.xmomen.module.wb.controller;
 
-import java.security.Principal;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +9,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,12 +24,15 @@ import com.xmomen.framework.exception.BusinessException;
 import com.xmomen.module.base.entity.CdMember;
 import com.xmomen.module.base.model.CreateMember;
 import com.xmomen.module.base.service.MemberService;
+import com.xmomen.module.core.web.filter.PcFormAuthenticationFilter;
 import com.xmomen.module.member.model.MemberAddressCreate;
 import com.xmomen.module.wb.model.PcMember;
 import com.xmomen.module.wb.model.PcMemberInfo;
 
 @RestController
 public class CommonMemberController {
+
+	private static Logger logger = LoggerFactory.getLogger(CommonMemberController.class);
 
 	@Autowired
 	MemberService memberService;
@@ -90,10 +96,14 @@ public class CommonMemberController {
     }
 	
 	@RequestMapping(value = "/member/logout")
-    public boolean logout(HttpServletRequest request) throws Exception{
-		if(SecurityUtils.getSubject().isAuthenticated()){
+    public ResponseEntity logout(HttpServletRequest request){
+		String message = "SUCCESS";
+		try {
 			SecurityUtils.getSubject().logout();
+		} catch (Exception e) {
+			logger.error("登出失败", e);
+			message = "FAILURE";
 		}
-		return true;
+		return new ResponseEntity(message, HttpStatus.UNAUTHORIZED);
     }
 }
