@@ -6,4 +6,5 @@ public @Data class UserInfoModel {
 
 	private String name;
 	private String headimgurl;
+	private String phone;
 }

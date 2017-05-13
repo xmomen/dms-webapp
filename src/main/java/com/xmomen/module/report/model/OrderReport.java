@@ -18,9 +18,9 @@ public
 class OrderReport implements Serializable {
 
     private String paymentMode;
-    private BigDecimal payAmount;
+    private double payAmount;
     private String otherPaymentMode;
-    private BigDecimal otherPayAmount;
+    private double otherPayAmount;
 
     @Excel(name = "订单类型")
     private String orderType;
@@ -37,21 +37,21 @@ class OrderReport implements Serializable {
     @Excel(name = "物流公司")
     private String expressName;
     @Excel(name = "客户经理代收", width = 15, type = 10)
-    private BigDecimal managerAmount;
+    private double managerAmount;
     @Excel(name = "物流代收", type = 10)
-    private BigDecimal expressAmount;
+    private double expressAmount;
     @Excel(name = "卡类扣款", type = 10)
-    private BigDecimal couponAmount;
+    private double couponAmount;
     @Excel(name = "券类扣款", type = 10)
-    private BigDecimal quanAmount;
+    private double quanAmount;
     @Excel(name = "刷POS", type = 10)
-    private BigDecimal posAmount;
+    private double posAmount;
     @Excel(name = "转账", type = 10)
-    private BigDecimal zhuanZhanAmount;
+    private double zhuanZhanAmount;
     @Excel(name = "其它", type = 10)
-    private BigDecimal otherAmount;
+    private double otherAmount;
     @Excel(name = "回馈", type = 10)
-    private BigDecimal huiKuiAmount;
+    private double huiKuiAmount;
     @Excel(name = "退货金额", type = 10)
-    private BigDecimal returnTotalAmount;
+    private double returnTotalAmount;
 }
