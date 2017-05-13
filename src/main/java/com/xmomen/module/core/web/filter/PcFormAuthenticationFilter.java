@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
@@ -31,6 +33,7 @@ import com.xmomen.module.base.entity.CdMember;
 import com.xmomen.module.base.service.MemberService;
 import com.xmomen.module.core.web.WebCommonUtils;
 import com.xmomen.module.core.web.token.MemberUserToken;
+import org.springframework.http.ResponseEntity;
 
 public class PcFormAuthenticationFilter extends FormAuthenticationFilter {
 
@@ -120,15 +123,18 @@ public class PcFormAuthenticationFilter extends FormAuthenticationFilter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         String phoneNumber = (String) subject.getPrincipal();
         initUserContext(phoneNumber, subject);
-        if (!WebCommonUtils.isJSON(request)) {// 不是ajax请求
-            issueSuccessRedirect(request, response);
-        } else {
+//        if (!WebCommonUtils.isJSON(request)) {// 不是ajax请求
+//            issueSuccessRedirect(request, response);
+//        } else {
             httpServletResponse.setCharacterEncoding("UTF-8");
             PrintWriter out = httpServletResponse.getWriter();
-            out.println("{success:true,message:'登入成功'}");
+            Map<String, Object> result = new HashMap<>();
+            result.put("status", 200);
+            result.put("username", phoneNumber);
+            out.println(JSONObject.toJSONString(result));
             out.flush();
             out.close();
-        }
+//        }
         return false;
     }
 
@@ -143,21 +149,26 @@ public class PcFormAuthenticationFilter extends FormAuthenticationFilter {
     @Override
     protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e,
                                      ServletRequest request, ServletResponse response) {
-        if (!WebCommonUtils.isJSON(request)) {// 不是ajax请求
-            setFailureAttribute(request, e);
-            return true;
-        }
+//        if (!WebCommonUtils.isJSON(request)) {// 不是ajax请求
+//            setFailureAttribute(request, e);
+//            return true;
+//        }
         try {
             response.setCharacterEncoding("UTF-8");
             PrintWriter out = response.getWriter();
             String message = e.getClass().getSimpleName();
-            if ("IncorrectCredentialsException".equals(message)) {
-                out.println("{success:false,message:'密码错误'}");
-            } else if ("UnknownAccountException".equals(message)) {
-                out.println("{success:false,message:'账号不存在'}");
+            String error = null;
+            if (IncorrectCredentialsException.class.getSimpleName().equals(message)) {
+                error = "账号或密码错误";
+            } else if (UnknownAccountException.class.getSimpleName().equals(message)) {
+                error = "账号不存在";
             } else {
-                out.println("{success:false,message:'未知错误'}");
+                error = "未知错误";
             }
+            Map<String, Object> result = new HashMap<>();
+            result.put("status", 401);
+            result.put("message", error);
+            out.println(JSONObject.toJSONString(result));
             out.flush();
             out.close();
         } catch (IOException e1) {
