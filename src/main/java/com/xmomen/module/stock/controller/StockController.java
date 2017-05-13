@@ -28,9 +28,9 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- * @author  tanxinzheng
- * @date    2017-5-13 12:49:20
+ * @author tanxinzheng
  * @version 1.0.0
+ * @date 2017-5-13 12:49:20
  */
 @RestController
 @RequestMapping(value = "/stock")
@@ -41,42 +41,49 @@ public class StockController {
 
     /**
      * 商品库存记录列表
-     * @param   limit           每页结果数
-     * @param   offset          页码
-     * @param   id              主键
-     * @param   ids             主键数组
-     * @param   excludeIds      不包含主键数组
-     * @return  Page<StockModel> 商品库存记录领域分页对象
+     *
+     * @param limit      每页结果数
+     * @param offset     页码
+     * @param id         主键
+     * @param ids        主键数组
+     * @param excludeIds 不包含主键数组
+     * @return Page<StockModel> 商品库存记录领域分页对象
      */
     @RequestMapping(method = RequestMethod.GET)
     @Log(actionName = "查询商品库存记录列表")
     public Page<StockModel> getStockList(@RequestParam(value = "limit") Integer limit,
-                                  @RequestParam(value = "offset") Integer offset,
-                                  @RequestParam(value = "id", required = false) String id,
-                                  @RequestParam(value = "ids", required = false) String[] ids,
-                                  @RequestParam(value = "excludeIds", required = false) String[] excludeIds){
+                                         @RequestParam(value = "offset") Integer offset,
+                                         @RequestParam(value = "id", required = false) String id,
+                                         @RequestParam(value = "ids", required = false) String[] ids,
+                                         @RequestParam(value = "excludeIds", required = false) String[] excludeIds,
+                                         @RequestParam(value = "itemName", required = false) String itemName,
+                                         @RequestParam(value = "itemCode", required = false) String itemCode) {
         StockQuery stockQuery = new StockQuery();
         stockQuery.setId(id);
         stockQuery.setExcludeIds(excludeIds);
         stockQuery.setIds(ids);
+        stockQuery.setItemCode(itemCode);
+        stockQuery.setItemName(itemName);
         return stockService.getStockModelPage(limit, offset, stockQuery);
     }
 
     /**
      * 查询单个商品库存记录
-     * @param   id  主键
-     * @return  StockModel   商品库存记录领域对象
+     *
+     * @param id 主键
+     * @return StockModel   商品库存记录领域对象
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @Log(actionName = "查询商品库存记录")
-    public StockModel getStockById(@PathVariable(value = "id") String id){
+    public StockModel getStockById(@PathVariable(value = "id") String id) {
         return stockService.getOneStockModel(id);
     }
 
     /**
      * 新增商品库存记录
-     * @param   stockModel  新增对象参数
-     * @return  StockModel   商品库存记录领域对象
+     *
+     * @param stockModel 新增对象参数
+     * @return StockModel   商品库存记录领域对象
      */
     @RequestMapping(method = RequestMethod.POST)
     @Log(actionName = "新增商品库存记录")
@@ -86,36 +93,38 @@ public class StockController {
 
     /**
      * 更新商品库存记录
-     * @param id                            主键
+     *
+     * @param id         主键
      * @param stockModel 更新对象参数
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @Log(actionName = "更新商品库存记录")
     public void updateStock(@PathVariable(value = "id") String id,
-                           @RequestBody @Valid StockModel stockModel){
+                            @RequestBody @Valid StockModel stockModel) {
         stockService.updateStock(stockModel);
     }
 
     /**
-     *  删除商品库存记录
-     * @param id    主键
+     * 删除商品库存记录
+     *
+     * @param id 主键
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @Log(actionName = "删除单个商品库存记录")
-    public void deleteStock(@PathVariable(value = "id") String id){
+    public void deleteStock(@PathVariable(value = "id") String id) {
         stockService.deleteStock(id);
     }
 
     /**
-     *  删除商品库存记录
-     * @param ids    主键
+     * 删除商品库存记录
+     *
+     * @param ids 主键
      */
     @RequestMapping(method = RequestMethod.DELETE)
     @Log(actionName = "批量删除商品库存记录")
-    public void deleteStocks(@RequestParam(value = "ids") String[] ids){
+    public void deleteStocks(@RequestParam(value = "ids") String[] ids) {
         stockService.deleteStock(ids);
     }
-
 
 
 }
