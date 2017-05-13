@@ -21,38 +21,36 @@ import com.xmomen.module.wx.service.WeixinApiService;
 @RestController
 public class UserInfoController {
 
-	@Autowired
-	WeixinApiService weixinApiService;
-	
-	@Autowired
+    @Autowired
+    WeixinApiService weixinApiService;
+
+    @Autowired
     MybatisDao mybatisDao;
-	
-	@RequestMapping(value = "/wx/userInfo",  method = RequestMethod.GET)
-	public AjaxResult getUserInfo(@RequestParam(value = "openId", required = false) String openId,
-			@RequestParam(value = "memberId", required = false) Integer memberId) {
-		AjaxResult ajaxResult = new AjaxResult();
-		UserInfoModel userInfo = null;
-		ajaxResult.setResult(1);
-		if(!StringUtils.isEmpty(openId)) {
-			String publicUid = "gh_9248df680cef";
-			String accessToken = weixinApiService.getAccessToken(publicUid);
-			WeixinUserInfo weixinUserInfo = WeixinApiService.getWeixinUserInfo(accessToken, openId);
-			if(weixinUserInfo != null && !StringUtils.isEmpty(weixinUserInfo.getNickname())) {
-				userInfo = new UserInfoModel();
-				userInfo.setName(weixinUserInfo.getNickname());
-				userInfo.setHeadimgurl(weixinUserInfo.getHeadimgurl());
-			}
-			
-		} else if(memberId != null) {
-			Map<String, Object> map = new HashMap<String,Object>();
-	        map.put("id", memberId);
-	        MemberModel memberModel = mybatisDao.getSqlSessionTemplate().selectOne(MemberMapper.MemberMapperNameSpace + "getMemberList", map);
-		    if(memberModel != null) {
-		    	userInfo = new UserInfoModel();
-		    	userInfo.setName(memberModel.getName());
-		    }
-		}
-		ajaxResult.setContent(userInfo);
-		return ajaxResult;
-	}
+
+    @RequestMapping(value = "/wx/userInfo", method = RequestMethod.GET)
+    public AjaxResult getUserInfo(@RequestParam(value = "openId", required = false) String openId,
+                                  @RequestParam(value = "memberId", required = false) Integer memberId) {
+        AjaxResult ajaxResult = new AjaxResult();
+        UserInfoModel userInfo = new UserInfoModel();
+        ajaxResult.setResult(1);
+        if (!StringUtils.isEmpty(openId)) {
+            String publicUid = "gh_9248df680cef";
+            String accessToken = weixinApiService.getAccessToken(publicUid);
+            WeixinUserInfo weixinUserInfo = WeixinApiService.getWeixinUserInfo(accessToken, openId);
+            if (weixinUserInfo != null && !StringUtils.isEmpty(weixinUserInfo.getNickname())) {
+                userInfo.setName(weixinUserInfo.getNickname());
+                userInfo.setHeadimgurl(weixinUserInfo.getHeadimgurl());
+            }
+
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("id", memberId);
+            MemberModel memberModel = mybatisDao.getSqlSessionTemplate().selectOne(MemberMapper.MemberMapperNameSpace + "getMemberList", map);
+            if (memberModel != null) {
+                userInfo.setName(memberModel.getName());
+                userInfo.setPhone(memberModel.getPhoneNumber());
+            }
+        }
+        ajaxResult.setContent(userInfo);
+        return ajaxResult;
+    }
 }
