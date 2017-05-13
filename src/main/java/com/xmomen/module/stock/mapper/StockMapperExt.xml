@@ -1,20 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xmomen.module.stock.mapper.StockMapperExt" >
+<mapper namespace="com.xmomen.module.stock.mapper.StockMapperExt">
 
     <!--    查询消息    -->
     <select id="getStockModel"
             resultType="com.xmomen.module.stock.model.StockModel"
             parameterType="com.xmomen.module.stock.model.StockQuery">
-        SELECT * FROM cd_stock t
+        SELECT
+        t.*
+        ,item.item_name
+        ,item.item_code
+        FROM
+        cd_stock t
+        LEFT JOIN cd_item item ON t.item_id = item.id
         <where>
             <if test="id">
                 AND t.ID = #{id}
             </if>
+            <if test="itemCode">
+                AND item.item_code LIKE CONCAT('%', #{itemCode}, '%')
+            </if>
+            <if test="itemName">
+                AND item.item_name LIKE CONCAT('%', #{itemName}, '%')
+            </if>
             <if test="ids">
                 AND t.ID IN
                 <foreach collection="ids" item="item" separator="," open="(" close=")">
-                #{item}
+                    #{item}
                 </foreach>
             </if>
             <if test="excludeIds">
@@ -23,8 +35,8 @@
                     #{item}
                 </foreach>
             </if>
-          </where>
-          ORDER BY t.id
+        </where>
+        ORDER BY t.id
     </select>
 
 </mapper>
