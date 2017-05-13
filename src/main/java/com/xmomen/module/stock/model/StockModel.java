@@ -29,14 +29,13 @@ class StockModel implements Serializable {
     /**
      * 主键
      */
-    @NotBlank(message = "主键为必填项")
     @Length(max = 32, message = "主键字符长度限制[0,32]")
     private String id;
     /**
      * 商品ID
      */
     @Excel(name = "商品ID")
-    @NotBlank(message = "商品ID为必填项")
+    @NotNull(message = "商品ID为必填项")
     @Range(max = 999999999, min = -999999999, message = "商品ID数值范围[999999999,-999999999]")
     private Integer itemId;
     private String itemName;
@@ -45,7 +44,7 @@ class StockModel implements Serializable {
      * 库存数
      */
     @Excel(name = "库存数")
-    @NotBlank(message = "库存数为必填项")
+    @NotNull(message = "库存数为必填项")
     @Range(max = 999999999, min = -999999999, message = "库存数数值范围[999999999,-999999999]")
     private Integer stockNum;
     /**
@@ -58,26 +57,22 @@ class StockModel implements Serializable {
      * 创建时间
      */
     @Excel(name = "创建时间")
-    @NotBlank(message = "创建时间为必填项")
     private Date insertDate;
     /**
      * 创建人
      */
     @Excel(name = "创建人")
-    @NotBlank(message = "创建人为必填项")
     @Range(max = 999999999, min = -999999999, message = "创建人数值范围[999999999,-999999999]")
     private Integer insertUserId;
     /**
      * 更新时间
      */
     @Excel(name = "更新时间")
-    @NotBlank(message = "更新时间为必填项")
     private Date updateDate;
     /**
      * 更新人
      */
     @Excel(name = "更新人")
-    @NotBlank(message = "更新人为必填项")
     @Range(max = 999999999, min = -999999999, message = "更新人数值范围[999999999,-999999999]")
     private Integer updateUserId;
 

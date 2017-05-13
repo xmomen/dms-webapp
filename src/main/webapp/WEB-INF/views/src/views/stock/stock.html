@@ -77,15 +77,15 @@
                                 <tr ng-repeat="stock in stockList" ng-if="stockList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
                                     <td ng-bind="($index+1) * pageInfoSetting.pageNum"></td>
                                     <td ng-bind="stock.itemName"></td>
-                                    <td ng-bind="stock.itemNo"></td>
+                                    <td ng-bind="stock.itemCode"></td>
                                     <td ng-bind="stock.stockNum"></td>
                                     <td ng-bind="stock.warningNum"></td>
                                     <td width="180">
                                         <a ng-show="show" href="javascript:void(0);" data-ng-click="saveStock($index)" title="编辑">
                                             <span class="fa fa-edit"></span>
                                         </a>
-                                        <a ng-show="show" ng-if="stock.stockNum == 0" href="javascript:void(0);" data-ng-click="deleteStock($index)" title="删除">
-                                            <span class="fa fa-trash"></span>
+                                        <a ng-show="show" href="javascript:void(0);" data-ng-click="deleteStock(stock)" title="删除">
+                                            | <span class="fa fa-trash-o"></span>
                                         </a>
                                     </td>
                                 </tr>

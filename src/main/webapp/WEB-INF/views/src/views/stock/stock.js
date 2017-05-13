@@ -10,7 +10,18 @@ define(function () {
             pageNum:1
         };
         $scope.queryParam = {};
-
+        $scope.deleteStock = function(item){
+            if(item.stockNum === 0){
+                StockAPI.delete({
+                    id:item.id
+                }, function(data){
+                    $ugDialog.alert('删除成功');
+                    $scope.getStockList();
+                })
+            }else{
+                $ugDialog.alert('只能删除库存数量为0的商品');
+            }
+        };
         $scope.getStockList = function(){
             StockAPI.query({
                 limit:$scope.pageInfoSetting.pageSize,
@@ -35,9 +46,6 @@ define(function () {
                 },
                 controller: ["$scope", "StockAPI", "CurrentStock", "$modalInstance", "ItemAPI", function ($scope, StockAPI, CurrentStock, $modalInstance, ItemAPI) {
                     $scope.stock = {};
-                    if(CurrentStock){
-                        $scope.stock = CurrentStock;
-                    }
                     $scope.ugSelect2Config = {};
                     $scope.getItemList = function (categoryName) {
                         ItemAPI.query({
@@ -45,6 +53,7 @@ define(function () {
                             offset: 1
                         }, function (data) {
                             $scope.itemList = data.data;
+                            $scope.ugSelect2Config.initSelectData($scope.stock.itemId);
                         });
                     };
                     $scope.stockForm = {};
@@ -53,12 +62,12 @@ define(function () {
                             if($scope.stock.id){
                                 StockAPI.update($scope.stock, function(data){
                                     $ugDialog.alert('保存成功');
-                                    $scope.cancel();
+                                    $modalInstance.close();
                                 })
                             }else{
                                 StockAPI.save($scope.stock, function(data){
                                     $ugDialog.alert('保存成功');
-                                    $scope.cancel();
+                                    $modalInstance.close();
                                 })
                             }
                         }
@@ -66,6 +75,9 @@ define(function () {
                     $scope.cancel = function () {
                         $modalInstance.dismiss('cancel');
                     };
+                    if(CurrentStock){
+                        $scope.stock = CurrentStock;
+                    }
                     $scope.getItemList();
                 }]
             });

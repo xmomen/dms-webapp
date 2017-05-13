@@ -59,7 +59,8 @@ define(function () {
     }]);
     ngREST.factory("StockAPI", ["$resource", function ($resource) {
         return $resource("/stock/:id", {id: '@id'}, {
-            query: {isArray: false}
+            query: {isArray: false},
+            update: {method: "PUT", params: {id: "@id"}}
         });
     }]);
 

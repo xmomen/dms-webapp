@@ -2,6 +2,8 @@ package com.xmomen.module.stock.controller;
 
 import com.xmomen.framework.exception.BusinessException;
 import com.xmomen.framework.mybatis.page.Page;
+import com.xmomen.framework.utils.StringUtils;
+import com.xmomen.module.core.web.controller.DmsBaseController;
 import com.xmomen.module.logger.Log;
 import com.xmomen.module.stock.model.StockQuery;
 import com.xmomen.module.stock.model.StockModel;
@@ -25,6 +27,7 @@ import javax.validation.Valid;
 import java.io.Serializable;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,7 +37,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/stock")
-public class StockController {
+public class StockController extends DmsBaseController {
 
     @Autowired
     StockService stockService;
@@ -53,12 +56,14 @@ public class StockController {
     @Log(actionName = "查询商品库存记录列表")
     public Page<StockModel> getStockList(@RequestParam(value = "limit") Integer limit,
                                          @RequestParam(value = "offset") Integer offset,
+                                         @RequestParam(value = "keyword", required = false) String keyword,
                                          @RequestParam(value = "id", required = false) String id,
                                          @RequestParam(value = "ids", required = false) String[] ids,
                                          @RequestParam(value = "excludeIds", required = false) String[] excludeIds,
                                          @RequestParam(value = "itemName", required = false) String itemName,
                                          @RequestParam(value = "itemCode", required = false) String itemCode) {
         StockQuery stockQuery = new StockQuery();
+        stockQuery.setKeyword(StringUtils.trimToEmpty(keyword));
         stockQuery.setId(id);
         stockQuery.setExcludeIds(excludeIds);
         stockQuery.setIds(ids);
@@ -88,6 +93,8 @@ public class StockController {
     @RequestMapping(method = RequestMethod.POST)
     @Log(actionName = "新增商品库存记录")
     public StockModel createStock(@RequestBody @Valid StockModel stockModel) {
+        stockModel.setInsertUserId(getCurrentUserId());
+        stockModel.setUpdateUserId(getCurrentUserId());
         return stockService.createStock(stockModel);
     }
 
@@ -101,6 +108,7 @@ public class StockController {
     @Log(actionName = "更新商品库存记录")
     public void updateStock(@PathVariable(value = "id") String id,
                             @RequestBody @Valid StockModel stockModel) {
+        stockModel.setUpdateUserId(getCurrentUserId());
         stockService.updateStock(stockModel);
     }
 

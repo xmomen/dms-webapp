@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,6 +41,8 @@ public class StockServiceImpl implements StockService {
     @Override
     @Transactional
     public StockModel createStock(StockModel stockModel) {
+        stockModel.setInsertDate(new Date());
+        stockModel.setUpdateDate(new Date());
         Stock stock = createStock(stockModel.getEntity());
         if(stock != null){
             return getOneStockModel(stock.getId());
@@ -89,6 +92,7 @@ public class StockServiceImpl implements StockService {
     @Override
     @Transactional
     public void updateStock(StockModel stockModel) {
+        stockModel.setUpdateDate(new Date());
         mybatisDao.update(stockModel.getEntity());
     }
 

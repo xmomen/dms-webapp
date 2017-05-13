@@ -25,6 +25,8 @@ class StockQuery implements Serializable {
      */
     private String[] excludeIds;
 
+    private String keyword;
+
     private String itemCode;
 
     private String itemName;
