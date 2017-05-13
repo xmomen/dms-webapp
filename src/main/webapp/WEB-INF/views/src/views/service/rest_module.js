@@ -57,6 +57,11 @@ define(function () {
             }
         });
     }]);
+    ngREST.factory("StockAPI", ["$resource", function ($resource) {
+        return $resource("/stock/:id", {id: '@id'}, {
+            query: {isArray: false}
+        });
+    }]);
 
     ngREST.factory("ResourceAPI", ["$resource", function ($resource) {
         return $resource("/resource/:id", {id: '@id'}, {

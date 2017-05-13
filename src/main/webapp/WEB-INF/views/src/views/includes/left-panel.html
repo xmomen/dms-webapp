@@ -102,6 +102,13 @@ will not initialize.
             </div>
         </nav:group>
     </div>
+    <div permission only="'ORDER_MENU'">
+        <nav:group data-icon="fa fa-fw  fa-reorder" title="库存管理">
+            <div permission only="'ORDER_VIEW'">
+                <nav:item ui-sref="stock" title="库存列表" />
+            </div>
+        </nav:group>
+    </div>
     <div permission only="'PACKAGE_MENU'">
         <nav:group data-icon="fa fa-fw fa-cubes" title="包装管理">
             <div permission only="'PACKAGE_TASK_DOWN'">
