@@ -328,7 +328,7 @@ define(function () {
             $scope.$watch("order.addressChose", function (newVal, oldVal) {
                 if (oldVal != newVal) {
                     var index = parseInt(newVal);
-                    if($scope.memberAddressList.length > 0){
+                    if ($scope.memberAddressList.length > 0) {
                         $scope.order.consigneeAddress = $scope.memberAddressList[index].address;
                         $scope.order.consigneeName = $scope.memberAddressList[index].name;
                         $scope.order.consigneePhone = $scope.memberAddressList[index].mobile;
@@ -396,7 +396,7 @@ define(function () {
                 });
             };
             $scope.totalItemPrice = function (obj) {
-                if (obj.discountPrice) {
+                if (obj.discountPrice || obj.discountPrice == 0) {
                     return obj.itemQty * obj.discountPrice;
                 }
                 return obj.itemQty * obj.sellPrice;
@@ -408,7 +408,7 @@ define(function () {
                 for (var i = 0; i < $scope.choseOrderItemList.length; i++) {
                     var obj = $scope.choseOrderItemList[i];
                     totalNumber += obj.itemQty;
-                    if (obj.discountPrice) {
+                    if (obj.discountPrice || obj.discountPrice == 0) {
                         totalPrice += (obj.itemQty * obj.discountPrice);
                     } else {
                         totalPrice += (obj.itemQty * obj.sellPrice);

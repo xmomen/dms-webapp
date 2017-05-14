@@ -283,7 +283,7 @@ public class WeixinApiService {
             }
         }
 
-        attachModel = new PayAttachModel(type, outTradeNo, tradeId, openId, memberId);
+        attachModel = new PayAttachModel(type, outTradeNo, tradeId, "", memberId);
         String attachement = JSON.toJSONString(attachModel);
         totalFee = totalFee * 100;
         PayReqData payReqData = new PayReqData("订单付费", tradeId, totalFee.intValue(), getIp2(request), openId, attachement);

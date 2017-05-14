@@ -13,7 +13,7 @@ public interface MemberSercvice {
 
     public void delete(Integer id);
 
-    public CdMember bindMember(String mobile, String openId);
+    public CdMember bindMember(String mobile, String name, String openId, Integer memberId) throws Exception;
 
     public void updateMobile(Integer id, String mobile);
 
@@ -24,4 +24,12 @@ public interface MemberSercvice {
      * @return MemberModel 客户对象
      */
     public CdMember getOneMemberModel(String id);
+
+    /**
+     * openId绑定用户
+     *
+     * @param openId
+     * @return
+     */
+    public CdMember bindMember(String openId);
 }

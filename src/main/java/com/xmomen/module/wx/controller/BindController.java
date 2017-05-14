@@ -5,6 +5,8 @@ import com.xmomen.framework.utils.AssertExt;
 import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.module.base.entity.CdBind;
 import com.xmomen.module.base.entity.CdExpressMember;
+import com.xmomen.module.base.entity.CdMember;
+import com.xmomen.module.base.service.MemberSercvice;
 import com.xmomen.module.logger.Log;
 import com.xmomen.module.order.entity.TbOrder;
 import com.xmomen.module.order.entity.TbOrderItem;
@@ -52,6 +54,9 @@ public class BindController {
 
     @Autowired
     ReturnOrderService returnOrderService;
+
+    @Autowired
+    MemberSercvice memberService;
 
     @RequestMapping(value = "/bind/auth")
     public String oauth2Api(HttpServletRequest request,
@@ -197,9 +202,12 @@ public class BindController {
         //微商城跳转场合
         else {
             String redirectUrl = "redirect:" + url + "?openId=" + openId;
-            if (memberId != null) {
-                redirectUrl = redirectUrl + "&memberId=" + memberId;
+            //添加绑定
+            if (memberId == null) {
+                CdMember cdMember = memberService.bindMember(openId);
+                memberId = cdMember.getId();
             }
+            redirectUrl = redirectUrl + "&memberId=" + memberId;
             return redirectUrl;
         }
         return "wx/bind";
