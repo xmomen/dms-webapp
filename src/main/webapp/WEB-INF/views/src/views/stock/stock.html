@@ -3,11 +3,6 @@
 	You do not need to use widgets if you dont want to. Simply remove 
 	the <section></section> and you can use wells or panels instead 
 	-->
-<style>
-    .warning-tip {
-        background-color: red;
-    }
-</style>
 <!-- widget grid -->
 <section id="widget-grid" class="">
 
@@ -78,11 +73,11 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr ng-repeat="stock in stockList" ng-if="stockList.length > 0" data-ng-class="{'warning-tip':stock.stockNum < stock.warningNum}" ng-mouseenter="show=true" ng-mouseleave="show=false">
+                                <tr ng-repeat="stock in stockList" ng-if="stockList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
                                     <td ng-bind="($index+1) * pageInfoSetting.pageNum"></td>
                                     <td ng-bind="stock.itemName"></td>
                                     <td ng-bind="stock.itemCode"></td>
-                                    <td ng-bind="stock.stockNum"></td>
+                                    <td>{{stock.stockNum}}<span ng-if="stock.stockNum < stock.warningNum" style="color: red;">(库存不足)</span></td>
                                     <td ng-bind="stock.warningNum"></td>
                                     <td width="180">
                                         <a ng-show="show" href="javascript:void(0);" data-ng-click="saveStock($index)" title="编辑">

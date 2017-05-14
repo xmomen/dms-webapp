@@ -23,8 +23,6 @@ public @Data class ProductModel {
 	private Boolean sellStatus;
 	private String sellUnit;
 	private Double sellPrice;
-	private Integer sellNum;
-	private Integer stockNum;
 	
 	private Boolean xianShiQiangGou;
 	private Boolean xinPinChangXian;
