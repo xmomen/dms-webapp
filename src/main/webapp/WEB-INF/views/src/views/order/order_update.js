@@ -383,6 +383,11 @@ define(function () {
                         $scope.addItemNumberForm = {};
                         $scope.saveItemNumber = function () {
                             if ($scope.addItemNumberForm.validator.form()) {
+                                //判断库存是否超过库存
+                                if ($scope.orderItem.stockNum < $scope.orderItem.number) {
+                                    $ugDialog.warn("超过库存数，请确认。");
+                                    return;
+                                }
                                 $modalInstance.close($scope.orderItem);
                             }
                         };

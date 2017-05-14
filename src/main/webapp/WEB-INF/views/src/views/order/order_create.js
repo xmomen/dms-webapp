@@ -168,6 +168,7 @@ define(function () {
                     sellStatus: 1,
                     exclude_ids: choseItemId
                 }, function (data) {
+                    debugger;
                     $scope.itemList = data.data;
                     $scope.pageInfoSetting = data.pageInfo;
                     $scope.pageInfoSetting.loadData = $scope.getItemList;
@@ -440,6 +441,11 @@ define(function () {
                         $scope.addItemNumberForm = {};
                         $scope.saveItemNumber = function () {
                             if ($scope.addItemNumberForm.validator.form() && $scope.addItemNumberForm.validator.valid()) {
+                                //判断库存是否超过库存
+                                if ($scope.orderItem.stockNum < $scope.orderItem.number) {
+                                    $ugDialog.warn("超过库存数，请确认。");
+                                    return;
+                                }
                                 $modalInstance.close($scope.orderItem);
                             }
                         };
@@ -452,12 +458,14 @@ define(function () {
                     $scope.choseItem(index, parseFloat(data.number));
                 });
             };
+
             $scope.totalItemPrice = function (obj) {
                 if (obj.discountPrice || obj.discountPrice == 0) {
                     return obj.itemQty * obj.discountPrice;
                 }
                 return obj.itemQty * obj.sellPrice;
             };
+
             $scope.calTotalItem = function () {
                 $scope.totalItem = {};
                 var totalNumber = 0;
