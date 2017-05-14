@@ -7,6 +7,8 @@ import com.xmomen.module.base.service.MemberSercvice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 获取最新快报咨询
  *
@@ -23,10 +25,10 @@ public class WxAdviceController {
 
 
     /**
-     * 更新客户手机号
+     * 获取最新的快报
      */
     @RequestMapping(value = "/getLastNew", method = RequestMethod.GET)
-    public AdviceModel getLastNew() {
-        return adviceService.getAdviceModelList().get(0);
+    public List<AdviceModel> getLastNew() {
+        return adviceService.getAdviceModelList();
     }
 }

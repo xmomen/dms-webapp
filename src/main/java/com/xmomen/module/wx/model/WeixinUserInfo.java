@@ -5,6 +5,8 @@ package com.xmomen.module.wx.model;
  */
 public class WeixinUserInfo {
 
+    private String errcode;
+
     /**
      * 关注的公众号
      */
@@ -173,5 +175,13 @@ public class WeixinUserInfo {
 
     public void setGroupid(String groupid) {
         this.groupid = groupid;
+    }
+
+    public String getErrcode() {
+        return errcode;
+    }
+
+    public void setErrcode(String errcode) {
+        this.errcode = errcode;
     }
 }
