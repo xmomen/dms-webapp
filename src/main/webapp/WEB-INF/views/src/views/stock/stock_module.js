@@ -2,8 +2,9 @@
  * Created by Administrator on 2016/1/15.
  */
 define([
-    "views/stock/stock"
-],function (stock) {
+    "views/stock/stock",
+    "views/stock/beforehandPackage"
+],function (stock,beforehandPackage) {
     angular.module('DMS.stock', [
         "permission"
     ]).config(["$stateProvider", function($stateProvider){
@@ -18,6 +19,17 @@ define([
                 //    }
                 //},
                 controller: stock
+            })
+            .state('beforehandPackage', {
+                url: '/beforehandPackage',
+                templateUrl: 'views/stock/beforehandPackage.html',
+                //data:{
+                //    permissions:{
+                //        only:["USER_VIEW"],
+                //        redirectTo:"unauthorized"
+                //    }
+                //},
+                controller: beforehandPackage
             })
     }]);
 });

@@ -9,6 +9,7 @@ import com.xmomen.module.stock.model.StockQuery;
 import com.xmomen.module.stock.model.StockModel;
 import com.xmomen.module.stock.service.StockService;
 
+import com.xmomen.module.wx.model.AjaxResult;
 import org.apache.commons.io.IOUtils;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ExportParams;
@@ -134,5 +135,19 @@ public class StockController extends DmsBaseController {
         stockService.deleteStock(ids);
     }
 
-
+    /**
+     * 预包装库存变化
+     */
+    @RequestMapping(value = "/beforehandPackageChangeStock", method = RequestMethod.GET)
+    @Log
+    public AjaxResult beforehandPackageChangeStock(@RequestParam(value = "itemId") Integer itemId, @RequestParam(value = "changeStockNum") Integer changeStockNum) {
+        AjaxResult ajaxResult = new AjaxResult();
+        try {
+            ajaxResult = this.stockService.changeStockNum(itemId, changeStockNum, "预包装");
+        } catch (Exception e) {
+            ajaxResult.setResult(0);
+            ajaxResult.setMessage(e.getMessage());
+        }
+        return ajaxResult;
+    }
 }
