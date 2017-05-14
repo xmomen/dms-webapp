@@ -195,12 +195,14 @@ will not initialize.
             </div>
         </nav:group>
     </div>
-    <div>
-        <nav:group data-icon="fa fa-fw fa-wechat" title="微信管理">
-            <!--<div permission only="'REPORT_ORDER'">-->
-            <nav:item ui-sref="advice" title="咨询快报"/>
-            <!--</div>-->
-        </nav:group>
+    <div permission only="'WECHAT_MENU'">
+        <div>
+            <nav:group data-icon="fa fa-fw fa-wechat" title="微信管理">
+                <div permission only="'ADVICE_VIEW'">
+                    <nav:item ui-sref="advice" title="咨询快报"/>
+                </div>
+            </nav:group>
+        </div>
     </div>
     <div permission only="'SYSTEM_MENU'">
         <nav:group data-icon="fa fa-fw  fa-cogs" title="系统管理">

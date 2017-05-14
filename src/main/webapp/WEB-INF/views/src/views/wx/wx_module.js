@@ -9,12 +9,12 @@ define([
             .state('advice', {
                 url: '/advice',
                 templateUrl: 'views/wx/advice.html',
-                // data:{
-                //     permissions:{
-                //         only:["BASE_PLAN"],
-                //         redirectTo:"unauthorized"
-                //     }
-                // },
+                data: {
+                    permissions: {
+                        only: ["ADVICE_VIEW"],
+                        redirectTo: "unauthorized"
+                    }
+                },
                 controller: advice
             })
     }]);
