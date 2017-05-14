@@ -1,10 +1,9 @@
-
 <!-- User info -->
 <div class="login-info" data-ng-controller="LeftPanelController">
     <span> <!-- User image size is adjusted inside CSS, it should stay as is -->
 
-        <a ui-sref="dashboard" id="show-shortcut" >
-            <img src="img/avatars/sunny.png" alt="me" class="online" />
+        <a ui-sref="dashboard" id="show-shortcut">
+            <img src="img/avatars/sunny.png" alt="me" class="online"/>
             <span data-localize="account.username">
                 {{account.username}}
             </span>
@@ -22,7 +21,7 @@ will not initialize.
 -->
 
 <navigation xmlns:nav="http://www.w3.org/2001/XMLSchema">
-    <nav:item ui-sref="dashboard" data-icon="fa fa-fw fa-home" title="控制板" />
+    <nav:item ui-sref="dashboard" data-icon="fa fa-fw fa-home" title="控制板"/>
     <div permission only="'BASE_MENU'">
         <nav:group data-icon="fa fa-fw fa-database" title="基础数据">
             <div permission only="'DICTIONARY_VIEW'">
@@ -85,49 +84,49 @@ will not initialize.
     <div permission only="'PLAN_MENU'">
         <nav:group data-icon="fa fa-fw fa-road" title="餐桌计划">
             <div permission only="'BASE_PLAN'">
-                <nav:item ui-sref="basePlan" title="计划设定" />
+                <nav:item ui-sref="basePlan" title="计划设定"/>
             </div>
             <div permission only="'TABLE_PLAN'">
-                <nav:item ui-sref="tablePlan" title="餐桌计划查询" />
+                <nav:item ui-sref="tablePlan" title="餐桌计划查询"/>
             </div>
         </nav:group>
     </div>
     <div permission only="'ORDER_MENU'">
         <nav:group data-icon="fa fa-fw  fa-reorder" title="订单管理">
             <div permission only="'ORDER_VIEW'">
-                <nav:item ui-sref="order" title="订单列表" />
+                <nav:item ui-sref="order" title="订单列表"/>
             </div>
             <div permission only="'PURCHASE_VIEW'">
-                <nav:item ui-sref="purchase" title="采购计划" />
+                <nav:item ui-sref="purchase" title="采购计划"/>
             </div>
         </nav:group>
     </div>
     <div permission only="'PACKAGE_MENU'">
         <nav:group data-icon="fa fa-fw fa-cubes" title="包装管理">
             <div permission only="'PACKAGE_TASK_DOWN'">
-                <nav:item ui-sref="packageTaskDown" title="任务下发" />
+                <nav:item ui-sref="packageTaskDown" title="任务下发"/>
             </div>
             <div permission only="'PACKAGE_TASK'">
-                <nav:item ui-sref="packageTask" title="包装任务" />
+                <nav:item ui-sref="packageTask" title="包装任务"/>
             </div>
             <div permission only="'PACKAGE_TASK_VIEW'">
-                <nav:item ui-sref="packageTaskView" title="任务进度看板" />
+                <nav:item ui-sref="packageTaskView" title="任务进度看板"/>
             </div>
         </nav:group>
     </div>
     <div permission only="'PACKING_MENU'">
         <nav:group data-icon="fa fa-fw fa-cube" title="装箱管理">
             <div permission only="'PACKING_TASK'">
-                <nav:item ui-sref="packing_task" title="任务分配" />
+                <nav:item ui-sref="packing_task" title="任务分配"/>
             </div>
             <div permission only="'PACKING_TASK'">
-                <nav:item ui-sref="packingTaskSuccessList" title="装箱已分配" />
+                <nav:item ui-sref="packingTaskSuccessList" title="装箱已分配"/>
             </div>
             <div permission only="'PACKING_VIEW'">
-                <nav:item ui-sref="order_packing" title="装箱任务" />
+                <nav:item ui-sref="order_packing" title="装箱任务"/>
             </div>
             <div permission only="'PACKING_LIST_VIEW'">
-                <nav:item ui-sref="packing" title="任务进度看板" />
+                <nav:item ui-sref="packing" title="任务进度看板"/>
             </div>
         </nav:group>
     </div>
@@ -135,13 +134,13 @@ will not initialize.
     <div permission only="'DESPATCH_MENU'">
         <nav:group data-icon="fa fa-fw fa-send" title="发运管理">
             <div permission only="'DESPATCH_JOB'">
-                <nav:item ui-sref="despatch_job" title="发运分配" />
+                <nav:item ui-sref="despatch_job" title="发运分配"/>
             </div>
             <div permission only="'DESPATCH_JOB'">
-                <nav:item ui-sref="despatchSuccessList" title="发运已分配" />
+                <nav:item ui-sref="despatchSuccessList" title="发运已分配"/>
             </div>
             <div permission only="'DESPATCH_OPERATION'">
-                <nav:item ui-sref="despatch_operation" title="快递商提货" />
+                <nav:item ui-sref="despatch_operation" title="快递商提货"/>
             </div>
         </nav:group>
     </div>
@@ -149,22 +148,22 @@ will not initialize.
     <div permission only="'RECEIPT_MENU'">
         <nav:group data-icon="fa fa-fw fa-lock" title="收退货管理">
             <div permission only="'RECEIVING_CODE'">
-                <nav:item ui-sref="receivingCode" title="收货码管理" />
+                <nav:item ui-sref="receivingCode" title="收货码管理"/>
             </div>
             <div permission only="'RECEIVING_CODE_REQUEST'">
-                <nav:item ui-sref="receivingCodeRequest" title="收货码请求" />
+                <nav:item ui-sref="receivingCodeRequest" title="收货码请求"/>
             </div>
             <div permission only="'REVIEW_DESPATCH'">
-                <nav:item ui-sref="reviewDespatch" title="二次配送审核" />
+                <nav:item ui-sref="reviewDespatch" title="二次配送审核"/>
             </div>
             <div permission only="'REVIEW_DESPATCH'">
-                <nav:item ui-sref="twoSendOrderList" title="二次配送订单" />
+                <nav:item ui-sref="twoSendOrderList" title="二次配送订单"/>
             </div>
             <div permission only="'RETURN_AUDIT'">
-                <nav:item ui-sref="returnOrder" title="退货订单" />
+                <nav:item ui-sref="returnOrder" title="退货订单"/>
             </div>
             <!--<div permission only="'RETURN_ORDER_SHOUHUO'">-->
-                <nav:item ui-sref="returnOrderShouHuo" title="退货收货" />
+            <nav:item ui-sref="returnOrderShouHuo" title="退货收货"/>
             <!--</div>-->
         </nav:group>
     </div>
@@ -172,28 +171,35 @@ will not initialize.
     <div permission only="'PICK_MENU'">
         <nav:group data-icon="fa fa-fw fa-paragraph" title="采摘管理">
             <div permission only="'PICK'">
-                <nav:item ui-sref="pick" title="采摘结算" />
+                <nav:item ui-sref="pick" title="采摘结算"/>
             </div>
             <div permission only="'CARD_RECHARGE'">
-                <nav:item ui-sref="cardRecharge" title="充值" />
+                <nav:item ui-sref="cardRecharge" title="充值"/>
             </div>
             <div permission only="'PICK_CARD'">
-                <nav:item ui-sref="pickCard" title="办新卡" />
+                <nav:item ui-sref="pickCard" title="办新卡"/>
             </div>
             <div permission only="'EXCHANGE_CARD'">
-                <nav:item ui-sref="exchangeCard" title="换卡" />
+                <nav:item ui-sref="exchangeCard" title="换卡"/>
             </div>
         </nav:group>
     </div>
     <div permission only="'REPORT_MENU'">
         <nav:group data-icon="fa fa-fw fa-cubes" title="报表管理">
             <div permission only="'REPORT_ORDER'">
-                <nav:item ui-sref="reportOrder" title="报表下载" />
+                <nav:item ui-sref="reportOrder" title="报表下载"/>
             </div>
 
             <div permission only="'REPORT_FINANCE'">
-                <nav:item ui-sref="reportFinance" title="财务报表" />
+                <nav:item ui-sref="reportFinance" title="财务报表"/>
             </div>
+        </nav:group>
+    </div>
+    <div>
+        <nav:group data-icon="fa fa-fw fa-wechat" title="微信管理">
+            <!--<div permission only="'REPORT_ORDER'">-->
+            <nav:item ui-sref="advice" title="咨询快报"/>
+            <!--</div>-->
         </nav:group>
     </div>
     <div permission only="'SYSTEM_MENU'">
@@ -205,13 +211,13 @@ will not initialize.
                 <nav:item ui-sref="group_list" title="用户组管理"/>
             </div>
             <div permission only="'PERMISSION_VIEW'">
-                <nav:item ui-sref="permission_list" title="权限管理" />
+                <nav:item ui-sref="permission_list" title="权限管理"/>
             </div>
             <div permission only="'ORGANIZATION_VIEW'">
-                <nav:item ui-sref="organization" title="组织管理" />
+                <nav:item ui-sref="organization" title="组织管理"/>
             </div>
             <div permission only="'SCHEDULE_VIEW'">
-                <nav:item ui-sref="schedule" title="任务调度" />
+                <nav:item ui-sref="schedule" title="任务调度"/>
             </div>
         </nav:group>
     </div>
