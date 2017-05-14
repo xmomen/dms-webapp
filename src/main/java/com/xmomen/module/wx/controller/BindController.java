@@ -111,6 +111,7 @@ public class BindController {
             memberId = binds.get(0).getUserId();
         }
         request.setAttribute("openId", openId);
+        request.setAttribute("accessToken", accessToken.getAccessToken());
         //不是微商城跳转场合
         if (url.indexOf("index.html") == -1) {
             if (binds != null && binds.size() > 0) {

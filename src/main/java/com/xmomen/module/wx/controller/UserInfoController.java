@@ -3,6 +3,7 @@ package com.xmomen.module.wx.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.xmomen.module.wx.util.Auth2Handler;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,14 +30,26 @@ public class UserInfoController {
 
     @RequestMapping(value = "/wx/userInfo", method = RequestMethod.GET)
     public AjaxResult getUserInfo(@RequestParam(value = "openId", required = false) String openId,
+                                  @RequestParam(value = "accessToken", required = false) String accessToken,
                                   @RequestParam(value = "memberId", required = false) Integer memberId) {
         AjaxResult ajaxResult = new AjaxResult();
         UserInfoModel userInfo = new UserInfoModel();
         ajaxResult.setResult(1);
         if (!StringUtils.isEmpty(openId)) {
             String publicUid = "gh_9248df680cef";
-            String accessToken = weixinApiService.getAccessToken(publicUid);
-            WeixinUserInfo weixinUserInfo = WeixinApiService.getWeixinUserInfo(accessToken, openId);
+            String accessTokenWechat = weixinApiService.getAccessToken(publicUid);
+            //获取微信关注的用户信息
+            WeixinUserInfo weixinUserInfo = WeixinApiService.getWeixinUserInfo(accessTokenWechat, openId);
+
+            //未关注微信
+            if (weixinUserInfo.getSubscribe() == 0) {
+                //获取网页授权的微信信息
+                weixinUserInfo = Auth2Handler.getNoGuanzhuWeixinUserInfo(accessToken, openId);
+                if (weixinUserInfo == null) {
+                    return null;
+                }
+            }
+
             if (weixinUserInfo != null && !StringUtils.isEmpty(weixinUserInfo.getNickname())) {
                 userInfo.setName(weixinUserInfo.getNickname());
                 userInfo.setHeadimgurl(weixinUserInfo.getHeadimgurl());
