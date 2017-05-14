@@ -1,4 +1,5 @@
 define([
+    "views/wx/wx_module",
     "views/user/user_module",
     "views/order/order_module",
     "views/schedule/schedule_module",
@@ -17,8 +18,7 @@ define([
     angular.module('DMS', [
         "smartApp", "ui.router",
         "ug.editor",
-        "DMS.stock",
-        "DMS.schedule", "DMS.order", "DMS.tpls", "DMS.user","DMS.base", "ug.pagination", "EnvModule", "permission", "ug.validate","ug.dialog",
+        "DMS.wx","DMS.schedule", "DMS.order", "DMS.tpls", "DMS.user","DMS.base", "ug.pagination", "EnvModule", "permission", "ug.validate","ug.dialog","DMS.stock",
         "DMS.REST","checklist-model","DMS.plan","DMS.package","DMS.pick","DMS.despatch","DMS.receipt","DMS.report"
     ]).filter(
         'to_trusted', ['$sce', function ($sce) {
