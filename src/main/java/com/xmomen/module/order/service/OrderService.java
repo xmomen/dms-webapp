@@ -479,7 +479,6 @@ public class OrderService {
         TbOrderItemExample tbOrderItemExample = new TbOrderItemExample();
         tbOrderItemExample.createCriteria().andOrderNoEqualTo(tbOrder.getOrderNo());
         List<TbOrderItem> tbOrderItems = mybatisDao.selectByExample(tbOrderItemExample);
-        Map<String, TbOrderItem> oldOrderItemMap = new HashMap<String, TbOrderItem>();
         for (TbOrderItem tbOrderItem : tbOrderItems) {
             stockService.changeStockNum(tbOrderItem.getItemId(), tbOrderItem.getItemQty().intValue(), tbOrder.getId(), "订单取消退回商品");
         }

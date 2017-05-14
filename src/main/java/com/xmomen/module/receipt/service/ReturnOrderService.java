@@ -2,8 +2,14 @@ package com.xmomen.module.receipt.service;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.xmomen.framework.exception.BusinessException;
+import com.xmomen.module.base.entity.CdItem;
+import com.xmomen.module.order.entity.*;
+import com.xmomen.module.stock.service.StockService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,14 +22,6 @@ import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.base.entity.CdExpress;
 import com.xmomen.module.base.service.ItemService;
-import com.xmomen.module.order.entity.TbOrder;
-import com.xmomen.module.order.entity.TbOrderExample;
-import com.xmomen.module.order.entity.TbOrderItem;
-import com.xmomen.module.order.entity.TbOrderRef;
-import com.xmomen.module.order.entity.TbOrderRelation;
-import com.xmomen.module.order.entity.TbReturnOrder;
-import com.xmomen.module.order.entity.TbReturnOrderExample;
-import com.xmomen.module.order.entity.TbReturnOrderItem;
 import com.xmomen.module.order.mapper.OrderMapper;
 import com.xmomen.module.order.model.ReturnOrder;
 import com.xmomen.module.receipt.mapper.ReturnOrderMapper;
@@ -42,6 +40,9 @@ public class ReturnOrderService {
 
     @Autowired
     ItemService itemService;
+
+    @Autowired
+    StockService stockService;
 
     /**
      * 查询订单
@@ -133,6 +134,7 @@ public class ReturnOrderService {
 
     /**
      * 订单退货
+     *
      * @param orderNo
      * @param itemIds
      * @return
@@ -188,6 +190,7 @@ public class ReturnOrderService {
 
     /**
      * 退货订单收货
+     *
      * @param orderNo
      * @param phone
      * @param expressId
@@ -308,7 +311,7 @@ public class ReturnOrderService {
      * @param orderNo 箱号
      */
     @Transactional
-    public void shouhuo(String orderNo) {
+    public void shouhuo(String orderNo) throws BusinessException {
         TbOrder order = new TbOrder();
         order.setOrderNo(orderNo);
         order = mybatisDao.selectOneByModel(order);
@@ -319,11 +322,27 @@ public class ReturnOrderService {
         order.setOrderStatus("15");
         mybatisDao.update(order);
 
+
         TbReturnOrder returnOrder = new TbReturnOrder();
         returnOrder.setOrderNo(order.getOrderNo());
         returnOrder = mybatisDao.selectOneByModel(returnOrder);
         returnOrder.setReturnStatus(15);
         mybatisDao.update(returnOrder);
+
+        //查询订单的退货商品信息
+        TbReturnOrderItemExample tbReturnOrderItemExample = new TbReturnOrderItemExample();
+        tbReturnOrderItemExample.createCriteria().andReturnOrderIdEqualTo(returnOrder.getId());
+        List<TbReturnOrderItem> tbReturnOrderItems = mybatisDao.selectByExample(tbReturnOrderItemExample);
+        for (TbReturnOrderItem tbReturnOrderItem : tbReturnOrderItems) {
+            //需要的退回库存
+            if (tbReturnOrderItem.getIsNeed() == 1) {
+                CdItem cdItem = new CdItem();
+                cdItem.setItemCode(tbReturnOrderItem.getItemCode());
+                cdItem = mybatisDao.selectOneByModel(cdItem);
+                stockService.changeStockNum(cdItem.getId(), tbReturnOrderItem.getItemNumber().intValue(), returnOrder.getId(), "订单退货退回商品");
+            }
+        }
+
         // 卡类订单进行退款
         if (order.getOrderType() == 1) {
 
