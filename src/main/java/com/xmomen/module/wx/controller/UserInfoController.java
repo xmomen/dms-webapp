@@ -45,9 +45,6 @@ public class UserInfoController {
             if (weixinUserInfo.getSubscribe() == 0) {
                 //获取网页授权的微信信息
                 weixinUserInfo = Auth2Handler.getNoGuanzhuWeixinUserInfo(accessToken, openId);
-                if (weixinUserInfo == null) {
-                    return null;
-                }
             }
 
             if (weixinUserInfo != null && !StringUtils.isEmpty(weixinUserInfo.getNickname())) {
