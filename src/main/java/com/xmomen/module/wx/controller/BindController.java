@@ -202,7 +202,7 @@ public class BindController {
         }
         //微商城跳转场合
         else {
-            String redirectUrl = "redirect:" + url + "?openId=" + openId;
+            String redirectUrl = "redirect:" + url + "?openId=" + openId + "&accessToken=" + accessToken.getAccessToken();
             //添加绑定
             if (memberId == null) {
                 CdMember cdMember = memberService.bindMember(openId);
