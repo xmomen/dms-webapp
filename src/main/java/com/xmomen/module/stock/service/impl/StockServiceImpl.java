@@ -224,6 +224,31 @@ public class StockServiceImpl implements StockService {
     }
 
     /**
+     * 库存校验
+     *
+     * @param itemId  商品ID
+     * @param needNum 数量
+     * @return true-库存充足 false-库存不足
+     */
+    public boolean checkStock(Integer itemId, Integer needNum) {
+        //查询商品库存是否存在
+        Stock stock = new Stock();
+        stock.setItemId(itemId);
+        List<Stock> stockList = mybatisDao.selectByModel(stock);
+        //库存存在
+        if (stockList.size() > 0) {
+            stock = stockList.get(0);
+            if (stock.getStockNum() >= needNum) {
+                return true;
+            }
+            return false;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
      * 库存变化表
      *
      * @param itemId         商品id

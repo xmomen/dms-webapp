@@ -130,6 +130,15 @@ public interface StockService {
     public StockModel getOneStockModel(StockQuery stockQuery) throws TooManyResultsException;
 
     /**
+     * 库存校验
+     *
+     * @param itemId  商品ID
+     * @param needNum 数量
+     * @return true-库存充足 false-库存不足
+     */
+    public boolean checkStock(Integer itemId, Integer needNum);
+
+    /**
      * 库存变化表(订单）
      *
      * @param itemId         商品id
