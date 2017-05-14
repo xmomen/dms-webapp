@@ -25,12 +25,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xmomen.module.base.entity.CdMember;
 import com.xmomen.module.base.model.CreateMember;
 import com.xmomen.module.base.service.MemberService;
 import com.xmomen.module.member.model.MemberAddressCreate;
+import com.xmomen.module.sms.api.SmsResponse;
+import com.xmomen.module.sms.api.SmsService;
+import com.xmomen.module.sms.model.IdentifyCodeModel;
+import com.xmomen.module.sms.util.GlobalIdentifyCodeManager;
 import com.xmomen.module.wb.model.PcMember;
 
 @RestController
@@ -39,6 +44,8 @@ public class CommonMemberController extends PcBaseController{
 	@Autowired
 	MemberService memberService;
 
+	@Autowired
+	SmsService smsService;
 	/**
 	 * 普通用户注册
 	 */
@@ -49,9 +56,21 @@ public class CommonMemberController extends PcBaseController{
 		createMember.setPassword(createPcMember.getPassword());
 		createMember.setMemberAddressList(new ArrayList<MemberAddressCreate>());
 		createMember.setEmail(createPcMember.getEmail());
-		
+		String phoneNumber = createPcMember.getPhoneNumber();
+		if(StringUtils.isNumeric(phoneNumber) || phoneNumber.length() != 11) {
+			throw new BusinessException("不合法的手机号码");
+		}
+		// TODO 待信息API接口调通后开启手机验证码验证
+		/*String identifyCodeKey = createPcMember.getPhoneIdentifyCode();
+		IdentifyCodeModel identifyCodeModel = GlobalIdentifyCodeManager.getIdentifyCode(identifyCodeKey);
+		if(identifyCodeModel == null || identifyCodeModel.isExpired()) {
+			throw new BusinessException("验证码未生成或者已过期");
+		}
+		if(!identifyCodeKey.equals(identifyCodeModel.getIdentifyCode())) {
+			throw new BusinessException("验证码不正确");
+		}*/
 		CdMember memberQuery = new CdMember();
-		memberQuery.setPhoneNumber(createPcMember.getPhoneNumber());
+		memberQuery.setPhoneNumber(phoneNumber);
 		CdMember cdMember = memberService.findMember(memberQuery);
 		if(cdMember == null) {
 			cdMember = memberService.createMember(createMember);
@@ -101,4 +120,26 @@ public class CommonMemberController extends PcBaseController{
 		return memberModel;
 	}
 
+	@RequestMapping(value = "/member/logout")
+    public ResponseEntity logout(HttpServletRequest request){
+		String message = "登出成功";
+		try {
+			SecurityUtils.getSubject().logout();
+		} catch (Exception e) {
+			message = "登出失败";
+		}
+		return new ResponseEntity(message, HttpStatus.UNAUTHORIZED);
+    }
+
+	@RequestMapping(value = "/member/verifyphone")
+	public SmsResponse sendSms(@RequestParam(value="phone") String phoneNumber) throws Exception {
+		if(StringUtils.isNumeric(phoneNumber) || phoneNumber.length() != 11) {
+			throw new BusinessException("不合法的手机号码");
+		}
+		SmsResponse smsResponse = smsService.sendSingleRequest(phoneNumber);
+		if(smsResponse == null) {
+			throw new Exception("调用SMS接口失败");
+		}
+		return smsResponse;
+	}
 }
