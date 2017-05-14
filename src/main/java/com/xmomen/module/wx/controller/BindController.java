@@ -6,7 +6,7 @@ import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.module.base.entity.CdBind;
 import com.xmomen.module.base.entity.CdExpressMember;
 import com.xmomen.module.base.entity.CdMember;
-import com.xmomen.module.base.service.MemberSercvice;
+import com.xmomen.module.base.service.MemberService;
 import com.xmomen.module.logger.Log;
 import com.xmomen.module.order.entity.TbOrder;
 import com.xmomen.module.order.entity.TbOrderItem;
@@ -56,7 +56,7 @@ public class BindController {
     ReturnOrderService returnOrderService;
 
     @Autowired
-    MemberSercvice memberService;
+    MemberService memberService;
 
     @RequestMapping(value = "/bind/auth")
     public String oauth2Api(HttpServletRequest request,

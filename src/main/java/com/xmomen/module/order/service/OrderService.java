@@ -747,7 +747,7 @@ public class OrderService {
     }
 
     @Transactional
-    public TbOrder createWxOrder(WxCreateOrder createOrder) throws Exception {
+    public TbOrder createWxOrder(WxCreateOrder createOrder) throws IllegalArgumentException {
         String orderNo = createOrder.getOrderNo();
         if (StringUtils.isEmpty(orderNo)) {
             orderNo = DateUtils.getDateTimeString();
@@ -767,7 +767,7 @@ public class OrderService {
             normalOrder = false;
             CouponModel couponModel = couponService.getCouponModel(createOrder.getPaymentRelationNo());
             if (couponModel == null || couponModel.getCouponType() != 2) {
-                throw new BusinessException("无效的券!");
+                throw new IllegalArgumentException("无效的券!");
             }
             tbOrder.setCompanyId(couponModel.getCompanyId());
             tbOrder.setManagerId(couponModel.getManagerId());

@@ -4,15 +4,12 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.xmomen.framework.mybatis.dao.MybatisDao;
+import com.xmomen.module.member.entity.MemberAddress;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.member.model.MemberAddressModel;
@@ -22,16 +19,17 @@ import com.xmomen.module.wb.model.PcMemberAddressModel;
 
 @RestController
 @RequestMapping(value = "/wb/memberAddress")
-public class PcMemberAddressController {
+public class PcMemberAddressController extends PcBaseController {
 
 	@Autowired
     MemberAddressService memberAddressService;
 
+    @Autowired
+    MybatisDao mybatisDao;
+
     /**
      * 客户地址列表
      *
-     * @param limit      每页结果数
-     * @param offset     页码
      * @param id         主键
      * @param ids        主键数组
      * @param excludeIds 不包含主键数组
@@ -45,8 +43,7 @@ public class PcMemberAddressController {
         memberAddressQuery.setId(id);
         memberAddressQuery.setExcludeIds(excludeIds);
         memberAddressQuery.setIds(ids);
-        Integer memberId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
-        memberAddressQuery.setCdMemberId(String.valueOf(memberId));
+        memberAddressQuery.setCdMemberId(String.valueOf(getCurrentMemberId()));
         return memberAddressService.getMemberAddressModels(memberAddressQuery);
     }
 
@@ -71,8 +68,7 @@ public class PcMemberAddressController {
     public MemberAddressModel createMemberAddress(@RequestBody @Valid PcMemberAddressModel pcMemberAddressModel) {
     	MemberAddressModel memberAddressModel = new MemberAddressModel();
         BeanUtils.copyProperties(pcMemberAddressModel, memberAddressModel);
-        Integer memberId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
-        memberAddressModel.setCdMemberId(memberId);
+        memberAddressModel.setCdMemberId(getCurrentMemberId());
         return memberAddressService.createMemberAddress(memberAddressModel);
     }
 
@@ -87,8 +83,7 @@ public class PcMemberAddressController {
                                     @RequestBody @Valid PcMemberAddressModel pcMemberAddressModel) {
     	MemberAddressModel memberAddressModel = new MemberAddressModel();
         BeanUtils.copyProperties(pcMemberAddressModel, memberAddressModel);
-        Integer memberId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
-        memberAddressModel.setCdMemberId(memberId);
+        memberAddressModel.setCdMemberId(getCurrentMemberId());
         memberAddressService.updateMemberAddress(memberAddressModel);
     }
 
@@ -110,5 +105,38 @@ public class PcMemberAddressController {
     @RequestMapping(method = RequestMethod.DELETE)
     public void deleteMemberAddresss(@RequestParam(value = "ids") String[] ids) {
         memberAddressService.deleteMemberAddress(ids);
+    }
+
+    /**
+     * 默认收货地址
+     *
+     * @param addressId 收货地址
+     * @return
+     */
+    @RequestMapping(value = "/default", method = RequestMethod.PUT)
+    @ResponseBody
+    public Boolean defaultAddress(
+            @RequestParam(value = "addressId") String addressId) {
+        memberAddressService.defaultAddress(addressId);
+        return Boolean.TRUE;
+    }
+
+
+    /**
+     * 获取默认收货地址
+     *
+     * @return
+     */
+    @RequestMapping(value = "/default", method = RequestMethod.GET)
+    @ResponseBody
+    public MemberAddress getDefaultAddress() {
+        MemberAddress memberAddress = new MemberAddress();
+        memberAddress.setCdMemberId(getCurrentMemberId());
+        memberAddress.setIsDefault(true);
+        List<MemberAddress> memberAddresses = this.mybatisDao.selectByModel(memberAddress);
+        if (memberAddresses.size() > 0) {
+            return memberAddresses.get(0);
+        }
+        return null;
     }
 }

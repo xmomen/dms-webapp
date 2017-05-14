@@ -94,14 +94,14 @@ public class PcOrderController {
 	
 	@RequestMapping(value = "/confirm", method = RequestMethod.POST)
 	@ResponseBody
-	public Boolean confirmOrder(@RequestParam("id") Integer orderId) {
+	public Boolean confirmOrder(@RequestParam("id") Integer orderId) throws Exception {
 		Integer memberId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
 		return myOrderService.confirmReceiveOrder(orderId, memberId);
 	}
 	
 	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
 	@ResponseBody
-	public Boolean cancelOrder(@RequestParam("id") Integer orderId) {
+	public Boolean cancelOrder(@RequestParam("id") Integer orderId) throws Exception {
 		Integer memberId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
         return myOrderService.cancelOrder(orderId, memberId);
 	}

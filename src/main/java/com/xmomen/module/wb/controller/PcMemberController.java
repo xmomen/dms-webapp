@@ -23,7 +23,6 @@ public class PcMemberController {
     /**
      * 更新客户手机号
      *
-     * @param memberId member主键
      * @param mobile   新手机号码
      */
     @RequestMapping(value = "/updateMobile", method = RequestMethod.GET)

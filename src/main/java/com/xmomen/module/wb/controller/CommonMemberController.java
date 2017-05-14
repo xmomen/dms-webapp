@@ -10,6 +10,7 @@ import javax.validation.Valid;
 
 import com.xmomen.framework.exception.BusinessException;
 import com.xmomen.framework.web.rest.RestError;
+import com.xmomen.module.base.model.MemberModel;
 import com.xmomen.module.core.web.filter.FormAuthenticationFilterExt;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -33,7 +34,7 @@ import com.xmomen.module.member.model.MemberAddressCreate;
 import com.xmomen.module.wb.model.PcMember;
 
 @RestController
-public class CommonMemberController {
+public class CommonMemberController extends PcBaseController{
 
 	@Autowired
 	MemberService memberService;
@@ -88,4 +89,16 @@ public class CommonMemberController {
 		restError.setStatus(401);
 		return new ResponseEntity(restError, HttpStatus.UNAUTHORIZED);
     }
+
+	/**
+	 * 会员账号
+	 * @return
+	 */
+	@RequestMapping(value = "/member/account", method = RequestMethod.GET)
+	public CdMember accountSetting(){
+		Integer memberId = getCurrentMemberId();
+		CdMember memberModel = memberService.getOneMemberModel(String.valueOf(memberId));
+		return memberModel;
+	}
+
 }

@@ -2,6 +2,7 @@ package com.xmomen.module.base.service.impl;
 
 import java.util.List;
 
+import com.xmomen.module.base.entity.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,11 +12,6 @@ import com.xmomen.framework.exception.BusinessException;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.module.account.service.PasswordHelper;
 import com.xmomen.module.base.constant.AppConstants;
-import com.xmomen.module.base.entity.CdActivityAddress;
-import com.xmomen.module.base.entity.CdBind;
-import com.xmomen.module.base.entity.CdMember;
-import com.xmomen.module.base.entity.CdMemberCouponRelation;
-import com.xmomen.module.base.entity.CdMemberCouponRelationExample;
 import com.xmomen.module.base.model.CreateMember;
 import com.xmomen.module.base.model.UpdateMember;
 import com.xmomen.module.base.service.CouponService;
