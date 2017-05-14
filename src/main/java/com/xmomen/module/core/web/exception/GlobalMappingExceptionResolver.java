@@ -1,6 +1,7 @@
 package com.xmomen.module.core.web.exception;
 
 import com.alibaba.fastjson.JSONObject;
+import com.xmomen.framework.exception.BusinessException;
 import com.xmomen.framework.web.rest.RestError;
 import com.xmomen.module.core.web.WebCommonUtils;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class GlobalMappingExceptionResolver extends SimpleMappingExceptionResolv
         //设置状态码
         int status = HttpStatus.INTERNAL_SERVER_ERROR.value();
         String message = "";
-        if(ex instanceof IllegalArgumentException){
+        if(ex instanceof IllegalArgumentException || ex instanceof BusinessException){
             status = HttpStatus.BAD_REQUEST.value();
             message = ex.getMessage();
         }else{

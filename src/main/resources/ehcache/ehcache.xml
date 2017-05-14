@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<ehcache name="shirocache">
-
-
+<ehcache name="shirocache" updateCheck="false">
 
     <diskStore path="java.io.tmpdir"/>
 
@@ -15,13 +12,9 @@
            timeToLiveSeconds="0"
            overflowToDisk="false"
            statistics="true">
-
     </cache>
 
-
-
     <!-- 登录记录缓存 锁定10分钟 -->
-
     <cache name="passwordRetryCache"
            maxEntriesLocalHeap="2000"
            eternal="false"
@@ -75,7 +68,5 @@
            overflowToDisk="false"
            statistics="true">
     </cache>
-
-
 
 </ehcache>

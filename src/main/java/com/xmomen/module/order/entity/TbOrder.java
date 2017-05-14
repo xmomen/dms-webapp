@@ -24,7 +24,7 @@ public class TbOrder extends BaseMybatisModel {
     private String orderNo;
 
     /**
-     * 0-常规订单， 1-卡，2-劵，3-餐桌计划订单，4-活动
+     * 1-卡，2-劵，3-常规，4-活动
      */
     private Integer orderType;
 
@@ -182,6 +182,16 @@ public class TbOrder extends BaseMybatisModel {
      * 是否拒绝收货（0-不 1-是）
      */
     private Integer isReject;
+
+    /**
+     * 更新时间
+     */
+    private Date updateDate;
+
+    /**
+     * 更新人
+     */
+    private Integer updateUserId;
 
     @Column(name = "ID")
     @Id
@@ -659,5 +669,33 @@ public class TbOrder extends BaseMybatisModel {
               return;
         }
         addValidField("isReject");
+    }
+
+    @Column(name = "UPDATE_DATE")
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+        if(updateDate == null){
+              removeValidField("updateDate");
+              return;
+        }
+        addValidField("updateDate");
+    }
+
+    @Column(name = "UPDATE_USER_ID")
+    public Integer getUpdateUserId() {
+        return updateUserId;
+    }
+
+    public void setUpdateUserId(Integer updateUserId) {
+        this.updateUserId = updateUserId;
+        if(updateUserId == null){
+              removeValidField("updateUserId");
+              return;
+        }
+        addValidField("updateUserId");
     }
 }

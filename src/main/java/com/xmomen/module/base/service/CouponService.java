@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.xmomen.framework.exception.BusinessException;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.utils.AssertExt;
@@ -101,12 +102,12 @@ public class CouponService {
         couponQuery.setCouponNumber(couponNumber);
         List<ReadCardVo> existingBindCards = mybatisDao.getSqlSessionTemplate().selectList(CouponMapper.CouponMapperNameSpace + "getCouponByCouponNo", couponQuery);
         if (CollectionUtils.isEmpty(existingBindCards)) {
-            throw new Exception("该卡不存在!");
+            throw new BusinessException("该卡不存在!");
         }
         for (ReadCardVo readCardVo : existingBindCards) {
             String userName = readCardVo.getUserName();
             if (!StringUtils.isEmpty(userName)) {
-                throw new Exception("该卡已经被绑定了!");
+                throw new BusinessException("该卡已经被绑定了!");
             }
         }
 
@@ -116,7 +117,7 @@ public class CouponService {
         String prePassword = coupon.getCouponPassword();
         if (!StringUtils.isEmpty(prePassword)) {
             if (!prePassword.equals(password)) {
-                throw new Exception("密码错误!");
+                throw new BusinessException("密码错误!");
             }
         }
 
@@ -185,6 +186,47 @@ public class CouponService {
         rechargeLog.setRechargeDate(mybatisDao.getSysdate());
         rechargeLog.setRechargePlace(userOrganization.getOrganizationId());
         rechargeLog.setRechargePrice(rechargePrice);
+        rechargeLog.setRechargeUser(userId);
+        mybatisDao.save(rechargeLog);
+
+        //添加交易记录
+        TbTradeRecord tradeRecord = new TbTradeRecord();
+        tradeRecord.setAmount(rechargePrice);
+        tradeRecord.setCreateTime(mybatisDao.getSysdate());
+        tradeRecord.setTradeNo(couponNo);
+        tradeRecord.setTradeType("recharge");
+        tradeRecord.setRecordUser(userId);
+        tradeRecord.setRemark("卡充值记录");
+        mybatisDao.save(tradeRecord);
+    }
+    
+    /**
+     * 卡充值
+     *
+     * @param couponNo
+     * @param rechargePrice
+     */
+    @Transactional
+    public void cardWxRecharge(String couponNo, BigDecimal rechargePrice, Integer userId) {
+        CdCoupon coupon = new CdCoupon();
+        coupon.setCouponNumber(couponNo);
+        coupon = mybatisDao.selectOneByModel(coupon);
+        AssertExt.notNull(coupon, "卡号不存在！");
+        BigDecimal userPrice = coupon.getUserPrice() == null ? BigDecimal.ZERO : coupon.getUserPrice();
+        coupon.setUserPrice(userPrice.add(rechargePrice));
+        mybatisDao.update(coupon);
+
+        
+        /*SysUserOrganization userOrganization = new SysUserOrganization();
+        userOrganization.setUserId(userId);
+        userOrganization = mybatisDao.selectOneByModel(userOrganization);*/
+        TbRechargeLog rechargeLog = new TbRechargeLog();
+        rechargeLog.setCouponNo(couponNo);
+        rechargeLog.setRechargeDate(mybatisDao.getSysdate());
+        // 微信用户没有组织，设为默认值0
+        rechargeLog.setRechargePlace(0);
+        rechargeLog.setRechargePrice(rechargePrice);
+        // userId 是微信端的memberId(cd_member)
         rechargeLog.setRechargeUser(userId);
         mybatisDao.save(rechargeLog);
 
@@ -369,11 +411,11 @@ public class CouponService {
         couponQuery.setCouponNumber(couponNumber);
         List<ReadCardVo> existingBindCards = mybatisDao.getSqlSessionTemplate().selectList(CouponMapper.CouponMapperNameSpace + "getCouponByCouponNo", couponQuery);
         if (CollectionUtils.isEmpty(existingBindCards)) {
-            throw new Exception("该卡不存在!");
+            throw new BusinessException("该卡不存在!");
         }
         CdMember cdMember = mybatisDao.selectByPrimaryKey(CdMember.class, memberId);
         if (cdMember == null) {
-            throw new Exception("当前用户不存在!");
+            throw new BusinessException("当前用户不存在!");
         }
         boolean belongTo = false;
         for (ReadCardVo readCardVo : existingBindCards) {
@@ -383,7 +425,7 @@ public class CouponService {
             }
         }
         if (!belongTo) {
-            throw new Exception("该卡未被激活或者不属于当前用户!");
+            throw new BusinessException("该卡未被激活或者不属于当前用户!");
         }
         CdCoupon query = new CdCoupon();
         query.setCouponNumber(couponNumber);
@@ -397,7 +439,7 @@ public class CouponService {
                 coupon.setCouponPassword(newPassWord);
             }
             else {
-                throw new Exception("密码不正确!");
+                throw new BusinessException("密码不正确!");
             }
         }
         mybatisDao.update(coupon);

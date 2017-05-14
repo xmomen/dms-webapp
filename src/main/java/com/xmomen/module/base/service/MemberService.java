@@ -13,7 +13,7 @@ public interface MemberService {
 
     public void delete(Integer id);
 
-    public CdMember bindMember(String mobile, String openId);
+    public CdMember bindMember(String mobile, String name, String openId, Integer memberId) throws Exception;
 
     public void updateMobile(Integer id, String mobile);
 
@@ -28,4 +28,12 @@ public interface MemberService {
     public CdMember findMember(CdMember query);
     
     public void updatePassword(Integer id, String newPassword, String oldPassword);
+
+    /**
+     * openId绑定用户
+     *
+     * @param openId
+     * @return
+     */
+    public CdMember bindMember(String openId);
 }

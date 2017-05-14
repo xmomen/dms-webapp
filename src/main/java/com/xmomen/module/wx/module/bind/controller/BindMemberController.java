@@ -21,9 +21,11 @@ public class BindMemberController {
 
     @RequestMapping(value = "/wx/bindMember", method = RequestMethod.PUT)
     @ResponseBody
-    public CdMember myOrder(
+    public CdMember bindMember(
             @RequestParam(value = "mobile") String mobile,
-            @RequestParam(value = "openId") String openId) {
-        return memberSercvice.bindMember(mobile, openId);
+            @RequestParam(value = "name") String name,
+            @RequestParam(value = "openId") String openId,
+            @RequestParam(value = "memberId") Integer memberId) throws Exception {
+        return memberSercvice.bindMember(mobile, name, openId, memberId);
     }
 }

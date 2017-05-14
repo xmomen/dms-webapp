@@ -340,4 +340,23 @@ public class CartService {
 		//TODO 
 	}
 	
+	public void copyCartInfo(String oldMemberId, String newMemberId) {
+		if(StringUtils.isEmpty(oldMemberId) || StringUtils.isEmpty(newMemberId)) {
+			throw new IllegalArgumentException("memberId不能为空. oldMemberId:" + oldMemberId + ", newMemberId:" + newMemberId);
+		}
+		CartModel cartInfo = cartCache.get(oldMemberId);
+		if(cartInfo != null) {
+			cartInfo.setUserToken(newMemberId);
+			cartCache.put(newMemberId, cartInfo);
+			cartCache.remove(oldMemberId);
+		}
+		updateCartOwner(oldMemberId, newMemberId);
+	}
+	
+	public void updateCartOwner(String oldMemberId, String newMemberId) {
+		Map<String, String> info = new HashMap<String, String>();
+		info.put("oldMemberId", oldMemberId);
+		info.put("newMemberId", newMemberId);
+		mybatisDao.getSqlSessionTemplate().update(CartMapper.CART_MAPPER_NAMESPACE + "copyCartItems", info);
+	}
 }
