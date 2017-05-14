@@ -41,6 +41,12 @@ public class StockServiceImpl implements StockService {
     @Override
     @Transactional
     public StockModel createStock(StockModel stockModel) {
+        StockExample stockExample = new StockExample();
+        stockExample.createCriteria().andItemIdEqualTo(stockModel.getItemId());
+        int num = mybatisDao.countByExample(stockExample);
+        if(num > 0){
+            throw new IllegalArgumentException("此商品已有库存信息");
+        }
         stockModel.setInsertDate(new Date());
         stockModel.setUpdateDate(new Date());
         Stock stock = createStock(stockModel.getEntity());
