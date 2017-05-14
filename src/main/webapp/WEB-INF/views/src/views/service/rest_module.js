@@ -60,7 +60,12 @@ define(function () {
     ngREST.factory("StockAPI", ["$resource", function ($resource) {
         return $resource("/stock/:id", {id: '@id'}, {
             query: {isArray: false},
-            update: {method: "PUT", params: {id: "@id"}}
+            update: {method: "PUT", params: {id: "@id"}},
+            beforehandPackageChangeStock: {
+                method: "GET",
+                url: "/stock/beforehandPackageChangeStock",
+                params: {itemId: "@itemId", changeStockNum: "@changeStockNum"}
+            }
         });
     }]);
 
