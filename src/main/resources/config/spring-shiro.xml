@@ -152,6 +152,7 @@
                 /member/login = memberAuthc
                 /member/register = anon
                 /member/register.do = anon
+                /member/phonecode = anon
                 /js/** = anon
                 /css/** = anon
                 /product/** = anon

@@ -32,6 +32,7 @@ import com.xmomen.module.base.entity.CdMember;
 import com.xmomen.module.base.model.CreateMember;
 import com.xmomen.module.base.service.MemberService;
 import com.xmomen.module.member.model.MemberAddressCreate;
+import com.xmomen.module.sms.api.SmsMessageService;
 import com.xmomen.module.sms.api.SmsResponse;
 import com.xmomen.module.sms.api.SmsService;
 import com.xmomen.module.sms.model.IdentifyCodeModel;
@@ -45,7 +46,7 @@ public class CommonMemberController extends PcBaseController{
 	MemberService memberService;
 
 	@Autowired
-	SmsService smsService;
+	SmsMessageService smsMessageService;
 	/**
 	 * 普通用户注册
 	 */
@@ -60,15 +61,14 @@ public class CommonMemberController extends PcBaseController{
 		if(StringUtils.isNumeric(phoneNumber) || phoneNumber.length() != 11) {
 			throw new BusinessException("不合法的手机号码");
 		}
-		// TODO 待信息API接口调通后开启手机验证码验证
-		/*String identifyCodeKey = createPcMember.getPhoneIdentifyCode();
+		String identifyCodeKey = createPcMember.getPhoneIdentifyCode();
 		IdentifyCodeModel identifyCodeModel = GlobalIdentifyCodeManager.getIdentifyCode(identifyCodeKey);
 		if(identifyCodeModel == null || identifyCodeModel.isExpired()) {
 			throw new BusinessException("验证码未生成或者已过期");
 		}
 		if(!identifyCodeKey.equals(identifyCodeModel.getIdentifyCode())) {
 			throw new BusinessException("验证码不正确");
-		}*/
+		}
 		CdMember memberQuery = new CdMember();
 		memberQuery.setPhoneNumber(phoneNumber);
 		CdMember cdMember = memberService.findMember(memberQuery);
@@ -131,12 +131,12 @@ public class CommonMemberController extends PcBaseController{
 		return new ResponseEntity(message, HttpStatus.UNAUTHORIZED);
     }
 
-	@RequestMapping(value = "/member/verifyphone")
+	@RequestMapping(value = "/member/phonecode")
 	public SmsResponse sendSms(@RequestParam(value="phone") String phoneNumber) throws Exception {
-		if(StringUtils.isNumeric(phoneNumber) || phoneNumber.length() != 11) {
+		if(!StringUtils.isNumeric(phoneNumber) || phoneNumber.length() != 11) {
 			throw new BusinessException("不合法的手机号码");
 		}
-		SmsResponse smsResponse = smsService.sendSingleRequest(phoneNumber);
+		SmsResponse smsResponse = smsMessageService.sendSingleRequest(phoneNumber);
 		if(smsResponse == null) {
 			throw new Exception("调用SMS接口失败");
 		}

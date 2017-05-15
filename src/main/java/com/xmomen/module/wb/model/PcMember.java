@@ -25,8 +25,7 @@ public @Data class PcMember {
 	private String password;
 	
 	//手机验证码
-	// TODO 待信息API接口调通后松开验证
-	/*@NotNull(message="手机验证码必填")
-	@NotBlank(message="手机验证码必填")*/
+	@NotNull(message="手机验证码必填")
+	@NotBlank(message="手机验证码必填")
 	private String phoneIdentifyCode;
 }
