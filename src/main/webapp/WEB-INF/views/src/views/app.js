@@ -11,11 +11,13 @@ define([
     "views/pick/pick_module",
     "views/despatch/despatch_module",
     "views/receipt/receipt_module",
-    "views/report/report_module"
-],function (user_module,order_module,schedule_module, dashboard, base_module, template_module,checklist_model,plan_module,package_module,despatch_module,report_module) {
+    "views/report/report_module",
+    "views/stock/stock_module"
+],function (user_module,order_module,schedule_module, dashboard, base_module, template_module,checklist_model,plan_module,package_module,despatch_module,report_module, stock) {
     angular.module('DMS', [
         "smartApp", "ui.router",
         "ug.editor",
+        "DMS.stock",
         "DMS.schedule", "DMS.order", "DMS.tpls", "DMS.user","DMS.base", "ug.pagination", "EnvModule", "permission", "ug.validate","ug.dialog",
         "DMS.REST","checklist-model","DMS.plan","DMS.package","DMS.pick","DMS.despatch","DMS.receipt","DMS.report"
     ]).filter(

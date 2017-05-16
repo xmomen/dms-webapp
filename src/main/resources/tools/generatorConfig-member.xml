@@ -73,20 +73,20 @@
 
         <!-- #########  自定义配置   #########-->
 
-        <javaModelGenerator targetPackage="com.xmomen.module.payrecord.entity"
+        <javaModelGenerator targetPackage="com.xmomen.module.stock.entity"
                             targetProject="./src/main/java">
             <property name="rootClass" value="com.xmomen.framework.mybatis.model.BaseMybatisModel"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="com.xmomen.module.payrecord.entity.mapper"
+        <sqlMapGenerator targetPackage="com.xmomen.module.stock.entity.mapper"
                          targetProject="./src/main/java"/>
-        <javaClientGenerator targetPackage="com.xmomen.module.payrecord.entity.mapper"
+        <javaClientGenerator targetPackage="com.xmomen.module.stock.entity.mapper"
                              targetProject="./src/main/java" type="XMLMAPPER">
         </javaClientGenerator>
-        <table tableName="tb_pay_record" domainObjectName="PayRecord">
-            <property name="tableComment" value="支付凭证"/>
-            <property name="modulePackage" value="com.xmomen.module.payrecord"/>
-            <property name="moduleName" value="payrecord"/>
+        <table tableName="cd_stock" domainObjectName="Stock">
+            <property name="tableComment" value="商品库存记录"/>
+            <property name="modulePackage" value="com.xmomen.module.stock"/>
+            <property name="moduleName" value="stock"/>
             <!--<property name="hideColumns" value="salt,password" />-->
             <!--<property name="keywordColumns" value="USERNAME,NICKNAME,EMAIL,PHONE_NUMBER" />-->
             <generatedKey column="id" sqlStatement="SELECT replace(UUID(),'-','')"/>

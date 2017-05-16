@@ -42,69 +42,73 @@
                     <!-- widget content -->
                     <div class="widget-body no-padding">
                         <div class="dt-toolbar">
-                            <div class="col-sm-2">
-                                <div class="dataTables_filter">
-                                    <label>
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-                                        <input type="search" placeholder="订单编号/手机号码/收货人" data-ng-keyup="getOrderList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="dataTables_filter">
-                                    <label>
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-                                        <input type="search" placeholder="卡号" data-ng-keyup="getOrderList()" ng-model="queryParam.couponNumber" class="form-control" aria-controls="dt_basic"></label>
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="dataTables_filter">
+                            <div class="row">
+                                <div class="col-sm-3">
                                     <div class="dataTables_filter">
-                                        <select ug-select2 style="width: 250px;" ng-model="queryParam.managerId" ng-change="getOrderList()" name="managerId">
-                                            <option value="">--请选择客服经理--</option>
-                                            <option value="{{manager.customerMangerId}}" ng-repeat="manager in managers">{{manager.customerManger}}</option>
-                                        </select>
+                                        <label>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                                            <input type="search" placeholder="订单编号/手机号码/收货人" data-ng-keyup="getOrderList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="dataTables_filter">
+                                        <label>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                                            <input type="search" placeholder="卡号" data-ng-keyup="getOrderList()" ng-model="queryParam.couponNumber" class="form-control" aria-controls="dt_basic"></label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="dataTables_filter">
+                                        <div class="dataTables_filter">
+                                            <select ug-select2 style="width: 250px;" ng-model="queryParam.managerId" ng-change="getOrderList()" name="managerId">
+                                                <option value="">--请选择客服经理--</option>
+                                                <option value="{{manager.customerMangerId}}" ng-repeat="manager in managers">{{manager.customerManger}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" datepicker-localdate
+                                               placeholder="下单起始日期"
+                                               ng-model="queryParam.orderCreateTimeStart"
+                                               close-text="关闭"
+                                               current-text="今日"
+                                               clear-text="清除"
+                                               is-open="datepickerSetting.orderCreateTimeStart.opened"
+                                               ng-required="true"/>
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="openDate($event, 0)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" datepicker-localdate
-                                           placeholder="下单起始日期"
-                                           ng-model="queryParam.orderCreateTimeStart"
-                                           close-text="关闭"
-                                           current-text="今日"
-                                           clear-text="清除"
-                                           is-open="datepickerSetting.orderCreateTimeStart.opened"
-                                           ng-required="true"/>
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default" ng-click="openDate($event, 0)"><i class="glyphicon glyphicon-calendar"></i></button>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" datepicker-localdate
+                                               placeholder="下单截止日期"
+                                               ng-model="queryParam.orderCreateTimeEnd"
+                                               close-text="关闭"
+                                               current-text="今日"
+                                               clear-text="清除"
+                                               is-open="datepickerSetting.orderCreateTimeEnd.opened"
+                                               ng-required="true"/>
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="openDate($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" datepicker-localdate
-                                           placeholder="下单截止日期"
-                                           ng-model="queryParam.orderCreateTimeEnd"
-                                           close-text="关闭"
-                                           current-text="今日"
-                                           clear-text="清除"
-                                           is-open="datepickerSetting.orderCreateTimeEnd.opened"
-                                           ng-required="true"/>
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default" ng-click="openDate($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                    </div>
+                                <div class="col-sm-3">
+                                    <button class="btn btn-primary" type="button" data-ng-click="getOrderList()">
+                                        <i class="fa fa-refresh"></i>
+                                        刷新
+                                    </button>
+                                    <button class="btn btn-primary" type="button" ui-sref="order_create">
+                                        <i class="fa fa-plus"></i>
+                                        新增订单
+                                    </button>
                                 </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <button class="btn btn-primary" type="button" data-ng-click="getOrderList()">
-                                    <i class="fa fa-refresh"></i>
-                                    刷新
-                                </button>
-                                <button class="btn btn-primary" type="button" ui-sref="order_create">
-                                    <i class="fa fa-plus"></i>
-                                    新增订单
-                                </button>
                             </div>
                         </div>
                         <div class="table-responsive">

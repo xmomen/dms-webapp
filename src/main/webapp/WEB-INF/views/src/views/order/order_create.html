@@ -289,7 +289,7 @@
                                             <table class="table table-bordered" ng-show="!setting.disablesChoseItems">
                                                 <thead>
                                                 <tr>
-                                                    <th colspan="6">可选购产品</th>
+                                                    <th colspan="7">可选购产品</th>
                                                 </tr>
                                                 </thead>
                                                 <thead>
@@ -299,6 +299,7 @@
                                                     <th>规格</th>
                                                     <th class="text-align-right">单价</th>
                                                     <th class="text-align-right">折扣价</th>
+                                                    <th class="text-align-right">库存</th>
                                                     <th>操作</th>
                                                 </tr>
                                                 </thead>
@@ -309,8 +310,9 @@
                                                     <td>{{item.spec}}</td>
                                                     <td class="text-align-right">{{item.sellPrice | number:2}}</td>
                                                     <td class="text-align-right">{{item.discountPrice | number:2}}</td>
+                                                    <td class="text-align-right">{{item.stockNum}}</td>
                                                     <td>
-                                                        <div>
+                                                        <div ng-show="item.stockNum > 0">
                                                             <a href="javascript:void(0);" data-ng-click="openItemNumber($index)" title="订购：{{item.itemName}}">
                                                                 <span class="fa fa-plus"></span>
                                                             </a>
@@ -320,7 +322,7 @@
                                                 </tbody>
                                                 <tfoot>
                                                 <tr>
-                                                    <td colspan="6">
+                                                    <td colspan="7">
                                                         <ug-pagination page-info="pageInfoSetting"></ug-pagination>
                                                     </td>
                                                 </tr>
