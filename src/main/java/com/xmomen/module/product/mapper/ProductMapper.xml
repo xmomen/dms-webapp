@@ -6,6 +6,8 @@
         SELECT
             item.ID,
             item.ITEM_CODE,
+            ifnull(s.stock_num,0) as stockNum,
+            ifnull(o.sell_num,0) as sellNum,
             item.CD_CATEGORY_ID as categoryId,
             category.CATEGORY_NAME as categoryName,
             item.ITEM_NAME,
@@ -30,6 +32,11 @@
           cd_category category
         ON
           item.CD_CATEGORY_ID = category.id
+        left join cd_stock s
+        on s.item_id = item.id
+        left join (
+        select count(1) as sell_num,item_id from tb_order_item oi left join tb_order o on o.ORDER_NO = oi.ORDER_NO where o.ORDER_STATUS != 9 group by oi.ITEM_CODE
+        ) o on o.item_id = item.id
         LEFT JOIN
           cd_resource cr
         ON
@@ -60,6 +67,8 @@
         SELECT
             item.ID,
             item.ITEM_CODE,
+            ifnull(s.stock_num,0) as stockNum,
+            ifnull(o.sell_num,0) as sellNum,
             item.CD_CATEGORY_ID as categoryId,
             category.CATEGORY_NAME as categoryName,
             item.ITEM_NAME,
@@ -86,6 +95,11 @@
           cd_category category
         ON
           item.CD_CATEGORY_ID = category.id
+          left join cd_stock s
+        on s.item_id = item.id
+        left join (
+          select count(1) as sell_num,item_id from tb_order_item oi left join tb_order o on o.ORDER_NO = oi.ORDER_NO where o.ORDER_STATUS != 9 group by oi.ITEM_CODE
+        ) o on o.item_id = item.id
         LEFT JOIN
           cd_item_detail detail
         ON
