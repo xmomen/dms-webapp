@@ -84,9 +84,10 @@ public class ExportController {
         if (StringUtilsExt.isNotBlank(endTime) && !"undefined".equals(endTime)) {
             orderQuery.setOrderCreateTimeEnd(endTime.substring(0, 10));
         }
-        // 运输部
+        // 运输部 快递商
         if (SecurityUtils.getSubject().hasRole(
-                AppConstants.YUN_SHU_PERMISSION_CODE)) {
+                AppConstants.YUN_SHU_PERMISSION_CODE)
+                || SecurityUtils.getSubject().hasRole(AppConstants.KUAI_DI_SHANG)) {
             String despatchExpressCode = (String) SecurityUtils.getSubject()
                     .getPrincipal();
             orderQuery.setDespatchExpressCode(despatchExpressCode);
