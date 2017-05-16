@@ -2,6 +2,7 @@ package com.xmomen.module.sms.util;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 import com.xmomen.module.sms.model.IdentifyCodeModel;
 
@@ -14,7 +15,7 @@ public class GlobalIdentifyCodeManager {
 	}
 	
 	public static IdentifyCodeModel updateIdenfifyCode(String identifyCodeKey, String identifyCode) {
-		IdentifyCodeModel identifyCodeModel = new IdentifyCodeModel(identifyCode);
+		IdentifyCodeModel identifyCodeModel = new IdentifyCodeModel(identifyCode, 15L, TimeUnit.MINUTES);
 		identifyCodeCache.put(identifyCodeKey, identifyCodeModel);
 		return identifyCodeModel;
 	}
