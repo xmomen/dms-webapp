@@ -111,6 +111,7 @@ public class BindController {
             memberId = binds.get(0).getUserId();
         }
         request.setAttribute("openId", openId);
+        request.setAttribute("accessToken", accessToken.getAccessToken());
         //不是微商城跳转场合
         if (url.indexOf("index.html") == -1) {
             if (binds != null && binds.size() > 0) {
@@ -201,7 +202,7 @@ public class BindController {
         }
         //微商城跳转场合
         else {
-            String redirectUrl = "redirect:" + url + "?openId=" + openId;
+            String redirectUrl = "redirect:" + url + "?openId=" + openId + "&accessToken=" + accessToken.getAccessToken();
             //添加绑定
             if (memberId == null) {
                 CdMember cdMember = memberService.bindMember(openId);

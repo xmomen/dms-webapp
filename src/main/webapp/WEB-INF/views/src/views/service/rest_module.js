@@ -531,4 +531,11 @@ define(function () {
             query: {isArray: false}
         });
     }]);
+
+    ngREST.factory("AdviceAPI", ["$resource", function ($resource) {
+        return $resource("/advice/:id", {id: "@id"}, {
+            query: {isArray: false},
+            update: {method: "PUT", params: {id: "@id"}}
+        });
+    }]);
 });

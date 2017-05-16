@@ -17,7 +17,7 @@ define(function () {
             }, function(data){
                 $scope.expressMemberList = data.data;
                 $scope.pageInfoSetting = data.pageInfo;
-                $scope.pageInfoSetting.loadData = $scope.getExpressList;
+                $scope.pageInfoSetting.loadData = $scope.getExpressMemberList;
             });
         };
         $scope.removeExpress = function(index){
