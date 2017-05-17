@@ -81,11 +81,14 @@
                                     <td ng-bind="stock.warningNum"></td>
                                     <td width="180">
                                         <a ng-show="show" href="javascript:void(0);" data-ng-click="saveStock($index)" title="编辑">
-                                            <span class="fa fa-edit"></span>
+                                            编辑
                                         </a>
-                                        <a ng-show="show" href="javascript:void(0);" data-ng-click="deleteStock(stock)" title="删除">
-                                            | <span class="fa fa-trash-o"></span>
-                                        </a>
+                                        <div ng-show="show" title="调整库存">
+                                            <a href="javascript:void(0);" data-ng-click="changeStock($index)" >调整库存</a>
+                                        </div>
+                                        <div ng-show="show" title="删除">
+                                            <a href="javascript:void(0);" data-ng-click="changeStock($index)" >删除</a>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr ng-if="stockList == null || stockList.length == 0">
@@ -134,7 +137,7 @@
                         <div class="col-md-10 input-group">
                             <input class="form-control" ng-model="stock.itemId" name="id" type="hidden">
                             <!--<input class="form-control" ng-model="stock.itemName" name="stockDesc" placeholder="商品名称" type="text">-->
-                            <select ug-select2 ug-select2-config="ugSelect2Config"  required="true" style="width: 100%" ng-change="getCouponList()" ng-model="stock.itemId" name="itemId" >
+                            <select ug-select2 ug-select2-config="ugSelect2Config" ng-disabled="stock.id" required="true" style="width: 100%" ng-change="getCouponList()" ng-model="stock.itemId" name="itemId" >
                                 <option value="">--请选择商品--</option>
                                 <option value="{{item.id}}" ng-repeat="item in itemList">{{item.itemName}}</option>
                             </select>
@@ -151,14 +154,14 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">库存数</label>
                         <div class="col-md-10 input-group">
-                            <input class="form-control" required="true" ng-model="stock.stockNum" name="stockNum" placeholder="库存数" type="text">
+                            <input class="form-control" required="true" data-rule-positiveInteger="true" ng-disabled="stock.id" ng-model="stock.stockNum" name="stockNum" placeholder="库存数" type="text">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-2 control-label">预警数量</label>
                         <div class="col-md-10 input-group">
-                            <input class="form-control" required="true" ng-model="stock.warningNum" name="warningNum" placeholder="预警数量" type="text">
+                            <input class="form-control" required="true" data-rule-positiveInteger="true" ng-model="stock.warningNum" name="warningNum" placeholder="预警数量" type="text">
                         </div>
                     </div>
 
@@ -173,7 +176,73 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" type="submit" data-ng-click="save()">
+        <button class="btn btn-primary" btn-loading="saveBtnLoading" type="submit" data-ng-click="save()">
+            <i class="fa fa-save"></i>
+            保存
+        </button>
+        <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="changeStock.html">
+    <div class="modal-header">
+        <h3 class="modal-title">库存信息</h3>
+    </div>
+    <div class="modal-body">
+        <div class="widget-body">
+
+            <form class="form-horizontal" ug-validate="stockForm" name="stockFormName" novalidate="">
+
+                <fieldset>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">商品名称</label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control" ng-model="stock.id" name="id" type="hidden">
+                            <!--<input class="form-control" ng-model="stock.itemName" name="stockDesc" placeholder="商品名称" type="text">-->
+                            <select ug-select2 ug-select2-config="ugSelect2Config" disabled required="true" style="width: 100%" ng-model="stock.itemId" name="itemId" >
+                                <option value="">--请选择商品--</option>
+                                <option value="{{item.id}}" ng-repeat="item in itemList">{{item.itemName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">变更类型：</label>
+                        <div class="col-md-10">
+                            <label class="radio radio-inline">
+                                <input type="radio" class="radiobox" required value="1" ng-model="stock.type" ng-checked="stock.type==1" name="type">
+                                <span>入库</span>
+                            </label>
+                            <label class="radio radio-inline">
+                                <input type="radio" class="radiobox" required value="2" ng-model="stock.type" ng-checked="stock.type==2" name="type">
+                                <span>破损</span>
+                            </label>
+                            <label class="radio radio-inline">
+                                <input type="radio" class="radiobox" required value="3" ng-model="stock.type" ng-checked="stock.type==3" name="type">
+                                <span>核销</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">数量</label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control" required="true" data-rule-positiveInteger="true" ng-model="stock.number" name="stockNum" placeholder="数量" type="number">
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="errors">
+                        <label class="col-md-2 control-label"></label>
+                        <div class="col-md-10 error">
+                            {{errors.message}}
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" btn-loading="saveBtnLoading" type="submit" data-ng-click="save()">
             <i class="fa fa-save"></i>
             保存
         </button>

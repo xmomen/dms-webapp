@@ -54,4 +54,8 @@ public class AppConstants implements Serializable {
      * 用户sessionUserId键值
      */
     public static final String SESSION_USER_ID_KEY = "user_id";
+
+    public static final int STOCK_CHANGE_TYPE_IN = 1;//入库
+    public static final int STOCK_CHANGE_TYPE_BROKEN = 2;//破损
+    public static final int STOCK_CHANGE_TYPE_CANCEL = 3;//核销
 }
