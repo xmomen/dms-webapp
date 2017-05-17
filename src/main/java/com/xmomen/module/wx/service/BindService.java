@@ -100,7 +100,7 @@ public class BindService {
         }
         expressMember = expressMembers.get(0);
         //订单中的发运快递商是否是快递员所属快递商
-        if (order.getDespatchExpressId() != expressMember.getCdExpressId()) {
+        if (order.getDespatchExpressId().intValue() != expressMember.getCdExpressId().intValue()) {
             logger.error("不属于你的包裹，不能扫描!");
             return "不属于你的包裹，不能扫描!";
         }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.advice.mapper.AdviceMapperExt">
+
+    <!--    查询消息    -->
+    <select id="getAdviceModel"
+            resultType="com.xmomen.module.advice.model.AdviceModel"
+            parameterType="com.xmomen.module.advice.model.AdviceQuery">
+        SELECT
+        t.*,
+        inser_user.username insert_user,
+        update_user.username update_user
+        FROM cd_advice t
+        LEFT JOIN sys_users inser_user ON t.insert_user_id = inser_user.id
+        LEFT JOIN sys_users update_user ON t.insert_user_id = update_user.id
+        <where>
+            <if test="id">
+                AND t.ID = #{id}
+            </if>
+            <if test="ids">
+                AND t.ID IN
+                <foreach collection="ids" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="excludeIds">
+                AND t.ID NOT IN
+                <foreach collection="excludeIds" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY t.insert_date desc
+    </select>
+
+</mapper>
