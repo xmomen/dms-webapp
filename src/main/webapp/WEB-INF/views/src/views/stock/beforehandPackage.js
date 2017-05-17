@@ -2,7 +2,7 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "$modal", "$ugDialog", "$stateParams", "StockAPI", "ItemAPI", function ($scope, $modal, $ugDialog, $stateParams, StockAPI, ItemAPI) {
+    return ["$scope", "$modal", "$ugDialog", "$stateParams", "StockAPI", "ItemAPI", "$rootScope", "ItemCategoryAPI", function ($scope, $modal, $ugDialog, $stateParams, StockAPI, ItemAPI, $rootScope, ItemCategoryAPI) {
         $scope.itemList = [];
         $scope.pageInfoSetting = {
             pageSize: 1,
@@ -35,6 +35,53 @@ define(function () {
             });
         };
 
+        $scope.itemCategoryList = [];
+        $scope.queryCategoryParam = {};
+        $scope.getItemCategoryTree = function () {
+            ItemCategoryAPI.query({
+                id: $scope.queryCategoryParam.id
+            }, function (data) {
+                $scope.itemCategoryList = data;
+                $rootScope.$broadcast("loadingTree");
+            });
+        };
+        $scope.getItemCategoryTree();
+
+        $scope.queryParam = {};
+        $scope.pageInfoItemSetting = {
+            pageSize: 100,
+            pageNum: 1
+        };
+        $scope.getItemListCategory = function (categoryName) {
+            var choseItemId = null;
+            if ($scope.choseOrderItemList && $scope.choseOrderItemList.length > 0) {
+                choseItemId = [];
+                for (var i = 0; i < $scope.choseOrderItemList.length; i++) {
+                    var obj = $scope.choseOrderItemList[i];
+                    choseItemId.push(obj.id);
+                }
+            }
+            if (categoryName) {
+                $scope.queryParam.keyword = categoryName;
+            }
+            ItemAPI.query({
+                limit: $scope.pageInfoItemSetting.pageSize,
+                offset: $scope.pageInfoItemSetting.pageNum,
+                keyword: $scope.queryParam.keyword,
+                sellStatus: 1
+            }, function (data) {
+                $scope.itemList2 = data.data;
+                $scope.pageInfoSetting = data.pageInfo;
+                $scope.pageInfoSetting.loadData = $scope.getItemList;
+            });
+        };
+
+        $scope.chooseItem = function (index) {
+            var item = $scope.itemList2[index];
+            $scope.queryParam.itemCode = item.itemCode;
+            $scope.getItemList();
+        }
+
         //回车查询商品信息
         $scope.getItemInfoEvent = function (e) {
             var keycode = window.event ? e.keyCode : e.which;
@@ -42,7 +89,6 @@ define(function () {
                 $scope.getItemList();
             }
         }
-
 
         //回车生成条码
         $scope.printBarCodeEvent = function (e) {
