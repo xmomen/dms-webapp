@@ -61,6 +61,7 @@ define(function () {
         return $resource("/stock/:id", {id: '@id'}, {
             query: {isArray: false},
             update: {method: "PUT", params: {id: "@id"}},
+            change: {method: "PUT", url:"/stock/:id/change", params: {id: "@id"}},
             beforehandPackageChangeStock: {
                 method: "GET",
                 url: "/stock/beforehandPackageChangeStock",

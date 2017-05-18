@@ -57,19 +57,74 @@ define(function () {
                         });
                     };
                     $scope.stockForm = {};
+                    $scope.saveBtnLoading = false;
                     $scope.save = function(){
                         if ($scope.stockForm.validator.form() && $scope.stockForm.validator.valid()) {
+                            $scope.saveBtnLoading = true;
                             if($scope.stock.id){
                                 StockAPI.update($scope.stock, function(data){
                                     $ugDialog.alert('保存成功');
                                     $modalInstance.close();
+                                }).$promise.finally(function(){
+                                    $scope.saveBtnLoading = false;
                                 })
                             }else{
                                 StockAPI.save($scope.stock, function(data){
                                     $ugDialog.alert('保存成功');
                                     $modalInstance.close();
+                                }).$promise.finally(function(){
+                                    $scope.saveBtnLoading = false;
                                 })
                             }
+                        }
+                    };
+                    $scope.cancel = function () {
+                        $modalInstance.dismiss('cancel');
+                    };
+                    if(CurrentStock){
+                        $scope.stock = CurrentStock;
+                    }
+                    $scope.getItemList();
+                }]
+            });
+            modalInstance.result.then(function () {
+                $scope.getStockList();
+            });
+        };
+        $scope.changeStock = function (index) {
+            var modalInstance = $modal.open({
+                templateUrl: 'changeStock.html',
+                resolve: {
+                    CurrentStock: function(){
+                        if($scope.stockList[index]){
+                            return angular.copy($scope.stockList[index]);
+                        }
+                        return null;
+                    }
+                },
+                controller: ["$scope", "StockAPI", "CurrentStock", "$modalInstance", "ItemAPI", function ($scope, StockAPI, CurrentStock, $modalInstance, ItemAPI) {
+                    $scope.stock = {};
+                    $scope.ugSelect2Config = {};
+                    $scope.getItemList = function (categoryName) {
+                        ItemAPI.query({
+                            limit: 1000,
+                            offset: 1
+                        }, function (data) {
+                            $scope.itemList = data.data;
+                            $scope.ugSelect2Config.initSelectData($scope.stock.itemId);
+                        });
+                    };
+                    $scope.stockForm = {};
+                    $scope.saveBtnLoading = false;
+                    $scope.save = function(){
+                        if ($scope.stockForm.validator.form() && $scope.stockForm.validator.valid()) {
+                            $scope.saveBtnLoading = true;
+                            StockAPI.change($scope.stock, function(data){
+                                $ugDialog.alert('保存成功');
+                                $modalInstance.close();
+                            }).$promise.finally(function(){
+                                $scope.saveBtnLoading = false;
+                            });
                         }
                     };
                     $scope.cancel = function () {
