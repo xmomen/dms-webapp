@@ -38,6 +38,7 @@ define([
                    return config;
                },
                responseError:function(response){
+
                    if(response.status == 400){
                        $ugDialog.alert(response.data.message);
                        return $q.reject(response);
