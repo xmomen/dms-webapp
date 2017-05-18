@@ -27,7 +27,7 @@ define([
             }
         }]
     ).factory({
-        HttpInterceptor:["$q", '$ugDialog', function($q, $ugDialog){
+        HttpInterceptor:["$q", function($q){
            return {
                request: function (config) {
                    if(config.method=='GET'){
@@ -38,10 +38,6 @@ define([
                    return config;
                },
                responseError:function(response){
-                   if(response.status == 400){
-                       $ugDialog.alert(response.data.message);
-                       return $q.reject(response);
-                   }
                    if(response.status == 401){
                        //未找到用户
                        window.location.reload();
