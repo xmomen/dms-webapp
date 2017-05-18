@@ -101,16 +101,16 @@ will not initialize.
             </div>
         </nav:group>
     </div>
-    <!--<div permission only="'ORDER_MENU'">-->
-        <nav:group data-icon="fa fa-fw fa-reorder" title="库存管理">
-            <!--<div permission only="'BEFOREHAND_PACKAGE'">-->
+    <div permission only="'STOCK_MENU'">
+        <nav:group data-icon="fa fa-fw fa-codepen" title="库存管理">
+            <div permission only="'BEFOREHAND_PACKAGE'">
                 <nav:item ui-sref="beforehandPackage" title="预包装"/>
-            <!--</div>-->
-            <!--<div permission only="'STOCK_LIST'">-->
+            </div>
+            <div permission only="'STOCK_LIST'">
                 <nav:item ui-sref="stock" title="库存列表"/>
-            <!--</div>-->
+            </div>
         </nav:group>
-    <!--</div>-->
+    </div>
     <div permission only="'PACKAGE_MENU'">
         <nav:group data-icon="fa fa-fw fa-cubes" title="包装管理">
             <div permission only="'PACKAGE_TASK_DOWN'">
@@ -204,6 +204,15 @@ will not initialize.
                 <nav:item ui-sref="reportFinance" title="财务报表"/>
             </div>
         </nav:group>
+    </div>
+    <div permission only="'WECHAT_MENU'">
+        <div>
+            <nav:group data-icon="fa fa-fw fa-wechat" title="微信管理">
+                <div permission only="'ADVICE_VIEW'">
+                    <nav:item ui-sref="advice" title="咨询快报"/>
+                </div>
+            </nav:group>
+        </div>
     </div>
     <div permission only="'SYSTEM_MENU'">
         <nav:group data-icon="fa fa-fw  fa-cogs" title="系统管理">

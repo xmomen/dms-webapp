@@ -24,51 +24,136 @@
 
                         <form class="form-horizontal">
                             <fieldset class="demo-switcher-1">
-                                <legend>工作区</legend>
-                                <div class="form-group">
-                                    <label class="col-md-1 control-label">商品编码：</label>
-                                    <div class="col-md-2">
-                                        <div class="input-group input-group-md">
-                                            <input type="text" ng-model="queryParam.itemCode" ng-keyup="getItemInfoEvent($event);" placeholder="输入编码回车查询商品信息" name="itemCode" class="form-control" id="itemCode">
-                                        </div>
+                                <legend>选择产品</legend>
+                                <div class="row">
+                                    <div class="table-responsive" ng-class="{'col-md-2':!setting.disablesChoseItems}" ng-show="!setting.disablesChoseItems">
+                                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div class="jarviswidget" id="wid-id-0">
+                                                <header>
+                                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                                                    <h2>产品分类</h2>
+                                                </header>
+                                                <div>
+                                                    <div class="jarviswidget-editbox">
+                                                    </div>
+                                                    <div class="widget-body">
+                                                        <div class="tree">
+                                                            <ul>
+                                                                <li data-ng-repeat="item in itemCategoryList" data-ng-include="'tree_view_table.html'"></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </article>
                                     </div>
-                                    <label class="col-md-1 control-label">重量：</label>
-                                    <div class="col-md-2">
-                                        <div class="input-group input-group-md">
-                                            <input type="text" ng-model="queryParam.weight" ng-keyup="printBarCodeEvent($event);" placeholder="输入重量回车自动打印条码" name="weight" class="form-control" id="weight">
+                                    <div class="table-responsive" ng-class="{'col-md-10':!setting.disablesChoseItems,'col-md-12':setting.disablesChoseItems}">
+                                        <div class="row" ng-show="!setting.disablesChoseItems">
+                                            <div class="col-sm-3">
+                                                <div class="input-group">
+                                                    <input class="form-control" type="text" ng-model="queryParam.keyword" data-ng-keyup="getItemListCategory()" placeholder="产品分类/名称/编号">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-default btn-primary" data-ng-click="getItemListCategory()" type="button">
+                                                            <i class="fa fa-search"></i> 查询
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th colspan="7">产品列表</th>
+                                            </tr>
+                                            </thead>
+                                            <thead>
+                                            <tr>
+                                                <th>序号</th>
+                                                <th>名称</th>
+                                                <th>编号</th>
+                                                <th>规格</th>
+                                                <th class="text-align-right">库存</th>
+                                                <th>操作</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr data-ng-repeat="item in itemList2">
+                                                <td ng-bind="$index + (pageInfoSetting.pageNum -1) * 10 + 1"></td>
+                                                <td>{{item.itemName}}</td>
+                                                <td>{{item.itemCode}}</td>
+                                                <td>{{item.spec}}</td>
+                                                <td class="text-align-right">{{item.stockNum}}</td>
+                                                <td>
+                                                    <div>
+                                                        <a href="javascript:void(0);" data-ng-click="chooseItem($index)" title="选择：{{item.itemName}}">
+                                                            <span class="fa fa-plus"></span>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <td colspan="6">
+                                                    <ug-pagination page-info="pageInfoItemSetting"></ug-pagination>
+                                                </td>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
                                     </div>
-                                    <label class="col-md-1 control-label">批量打印：</label>
-                                    <div class="col-md-2">
-                                        <div class="input-group input-group-md">
-                                            <input type="text" ng-model="queryParam.batch" ng-keyup="printBatchBarCodeEvent($event);" placeholder="输入数量按回车自动批量打印" name="batch" class="form-control" id="batch">
-                                        </div>
+
+                                    <div class="row col-md-10" style="margin-top:20px">
+                                        <fieldset class="demo-switcher-1">
+                                            <legend>工作区</legend>
+                                            <label class="col-md-1 control-label">商品编码：</label>
+                                            <div class="col-md-2">
+                                                <div class="input-group input-group-md">
+                                                    <input type="text" ng-model="queryParam.itemCode" disabled="true" placeholder="输入编码回车查询商品信息" name="itemCode" class="form-control" id="itemCode">
+                                                </div>
+                                            </div>
+                                            <label class="col-md-1 control-label">重量：</label>
+                                            <div class="col-md-2">
+                                                <div class="input-group input-group-md">
+                                                    <input type="text" ng-model="queryParam.weight" ng-keyup="printBarCodeEvent($event);" placeholder="输入重量回车自动打印条码" name="weight" class="form-control" id="weight">
+                                                </div>
+                                            </div>
+                                            <label class="col-md-1 control-label">批量打印：</label>
+                                            <div class="col-md-2">
+                                                <div class="input-group input-group-md">
+                                                    <input type="text" ng-model="queryParam.batch" ng-keyup="printBatchBarCodeEvent($event);" placeholder="输入数量按回车自动批量打印" name="batch" class="form-control" id="batch">
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="row col-md-10" style="margin-top:20px">
+                                        <fieldset class="demo-switcher-1">
+                                            <legend>商品信息</legend>
+                                            <div class="form-group">
+                                                <label class="col-md-1 control-label">产品名称：</label>
+                                                <div class="col-md-2">
+                                                    <span style=" font-weight:bold;font-size:26px">{{currentItem.itemName}}</span>
+                                                </div>
+                                                <label class="col-md-1 control-label">产品编码：</label>
+                                                <div class="col-md-2">
+                                                    <span style=" font-weight:bold;font-size:26px">{{currentItem.itemCode}}</span>
+                                                </div>
+                                                <label class="col-md-1 control-label">规格：</label>
+                                                <div class="col-md-2">
+                                                    <span style=" font-weight:bold;font-size:26px">{{currentItem.spec}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-1 control-label">库存数：</label>
+                                                <div class="col-md-2">
+                                                    <span style=" font-weight:bold;font-size:26px">{{currentItem.stockNum}}</span>
+                                                </div>
+                                            </div>
+                                        </fieldset>
                                     </div>
                                 </div>
                             </fieldset>
-                            <fieldset class="demo-switcher-1">
-                                <legend>商品信息</legend>
-                                <div class="form-group">
-                                    <label class="col-md-1 control-label">产品名称：</label>
-                                    <div class="col-md-2">
-                                        <span style=" font-weight:bold;font-size:26px">{{currentItem.itemName}}</span>
-                                    </div>
-                                    <label class="col-md-1 control-label">产品编码：</label>
-                                    <div class="col-md-2">
-                                        <span style=" font-weight:bold;font-size:26px">{{currentItem.itemCode}}</span>
-                                    </div>
-                                    <label class="col-md-1 control-label">规格：</label>
-                                    <div class="col-md-2">
-                                        <span style=" font-weight:bold;font-size:26px">{{currentItem.spec}}</span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-1 control-label">库存数：</label>
-                                    <div class="col-md-2">
-                                        <span style=" font-weight:bold;font-size:26px">{{currentItem.stockNum}}</span>
-                                    </div>
-                                </div>
-                            </fieldset>
+
                         </form>
                     </div>
                     <!-- end widget content -->
@@ -86,3 +171,15 @@
 
 </section>
 <!-- end widget grid -->
+
+
+<script type="text/ng-template" id="tree_view_table.html">
+    <span ng-mouseenter="item.show=true" ng-mouseleave="item.show=false">
+		<i ng-if="item.nodes && item.nodes.length > 0" class="fa fa-lg fa-plus-circle"></i>
+		<a ng-show="item.parentId != null" ng-click="getItemListCategory(item.name)">{{item.name}}</a>
+		<lable ng-show="item.parentId == null">{{item.name}}</lable>
+	</span>
+    <ul ng-if="item.nodes && item.nodes.length > 0" class="tree-hide">
+        <li data-ng-repeat="item in item.nodes" data-ng-include="'tree_view_table.html'"></li>
+    </ul>
+</script>

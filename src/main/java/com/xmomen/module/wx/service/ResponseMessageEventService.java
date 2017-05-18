@@ -195,7 +195,7 @@ public class ResponseMessageEventService implements ResponseMessageBaseService {
             content = "请先绑定再进行扫码操作!绑定格式：绑定+手机号(绑定131XXXXXXXX)";
         }
         else {
-            content = bindService.bindExpressMember(bind.getUserId(), scanResult.split("&")[0]);
+            content = bindService.bindExpressMember(binds.get(0).getUserId(), scanResult.split("&")[0]);
         }
 
         log.info(String.format("扫描到的内容(scanResult = %s)。", scanResult.split("&")[0]));

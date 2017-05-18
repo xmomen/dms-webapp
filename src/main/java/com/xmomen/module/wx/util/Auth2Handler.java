@@ -3,6 +3,9 @@ package com.xmomen.module.wx.util;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import com.xmomen.module.wx.model.WeixinUserInfo;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,5 +69,30 @@ public class Auth2Handler {
             }
         }
         return accessToken;
+    }
+
+    /**
+     * 获取未关注公众号用户信息
+     *
+     * @param accessToken 访问令牌
+     * @param openid      OpenID
+     * @return 信息用户信息
+     */
+    public static WeixinUserInfo getNoGuanzhuWeixinUserInfo(String accessToken, String openid) {
+        try {
+            String url = WechatUrlConstants.GET_NO_GUANZHU_USER_INFO.replace("ACCESS_TOKEN", accessToken).replace("OPENID", openid);
+
+            String result = HttpUtils.doGet(url);
+            WeixinUserInfo weixinUserInfo = JSON.parseObject(result, WeixinUserInfo.class);
+            if (StringUtils.isNotEmpty(weixinUserInfo.getErrcode())) {
+                logger.info("获取用户信息出错，错误码：" + weixinUserInfo.getErrcode());
+                return null;
+            }
+            logger.info("获取用户信息结果字符串：" + result);
+            return weixinUserInfo;
+        } catch (Exception e) {
+            logger.error("获取用户信息失败：", e);
+        }
+        return null;
     }
 }
