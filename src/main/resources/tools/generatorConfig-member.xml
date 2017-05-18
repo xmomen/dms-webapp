@@ -73,19 +73,19 @@
 
         <!-- #########  自定义配置   #########-->
 
-        <javaModelGenerator targetPackage="com.xmomen.module.advice.entity"
+        <javaModelGenerator targetPackage="com.xmomen.module.beforehandpackagerecord.entity"
                             targetProject="./src/main/java">
             <property name="rootClass" value="com.xmomen.framework.mybatis.model.BaseMybatisModel"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="com.xmomen.module.advice.entity.mapper"
+        <sqlMapGenerator targetPackage="com.xmomen.module.beforehandpackagerecord.entity.mapper"
                          targetProject="./src/main/java"/>
-        <javaClientGenerator targetPackage="com.xmomen.module.advice.entity.mapper"
+        <javaClientGenerator targetPackage="com.xmomen.module.beforehandpackagerecord.entity.mapper"
                              targetProject="./src/main/java" type="XMLMAPPER">
         </javaClientGenerator>
-        <table tableName="cd_advice" domainObjectName="Advice">
-            <property name="tableComment" value="快报"/>
-            <property name="modulePackage" value="com.xmomen.module.advice"/>
+        <table tableName="cd_beforehand_package_record" domainObjectName="BeforehandPackageRecord">
+            <property name="tableComment" value="预包装记录表"/>
+            <property name="modulePackage" value="com.xmomen.module.beforehandpackagerecord"/>
             <property name="moduleName" value="advice"/>
             <!--<property name="hideColumns" value="salt,password" />-->
             <!--<property name="keywordColumns" value="USERNAME,NICKNAME,EMAIL,PHONE_NUMBER" />-->

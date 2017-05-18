@@ -2,7 +2,23 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "$modal", "$ugDialog", "$stateParams", "StockAPI", "ItemAPI", "$rootScope", "ItemCategoryAPI", function ($scope, $modal, $ugDialog, $stateParams, StockAPI, ItemAPI, $rootScope, ItemCategoryAPI) {
+    return ["$scope", "$modal", "$ugDialog", "$stateParams", "StockAPI", "ItemAPI", "$rootScope", "ItemCategoryAPI", "BeforehandPackageRecordAPI", function ($scope, $modal, $ugDialog, $stateParams, StockAPI, ItemAPI, $rootScope, ItemCategoryAPI, BeforehandPackageRecordAPI) {
+        $scope.pageInfoBeforehandPackageRecordSetting = {
+            pageSize: 10,
+            pageNum: 1
+        };
+
+        $scope.getBeforehandPackageRecordList = function () {
+            BeforehandPackageRecordAPI.query({
+                limit: $scope.pageInfoBeforehandPackageRecordSetting.pageSize,
+                offset: $scope.pageInfoBeforehandPackageRecordSetting.pageNum
+            }, function (data) {
+                $scope.beforehandPackageRecordList = data.data;
+            });
+        };
+
+        $scope.getBeforehandPackageRecordList();
+
         $scope.itemList = [];
         $scope.pageInfoSetting = {
             pageSize: 1,
@@ -136,6 +152,7 @@ define(function () {
                 if (data.result == 1) {
                     $scope.print(barCode);
                     $scope.currentItem.stockNum = $scope.currentItem.stockNum + 1;
+                    $scope.getBeforehandPackageRecordList();
                 }
                 $ugDialog.alert(data.message);
             });

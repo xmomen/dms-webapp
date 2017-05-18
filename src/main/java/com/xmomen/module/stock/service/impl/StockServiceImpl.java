@@ -2,6 +2,7 @@ package com.xmomen.module.stock.service.impl;
 
 import com.xmomen.framework.exception.BusinessException;
 import com.xmomen.module.base.constant.AppConstants;
+import com.xmomen.module.beforehandpackagerecord.entity.BeforehandPackageRecord;
 import com.xmomen.module.stock.entity.Stock;
 import com.xmomen.module.stock.entity.StockExample;
 import com.xmomen.module.stock.entity.StockRecord;
@@ -51,7 +52,7 @@ public class StockServiceImpl implements StockService {
         StockExample stockExample = new StockExample();
         stockExample.createCriteria().andItemIdEqualTo(stockModel.getItemId());
         int num = mybatisDao.countByExample(stockExample);
-        if(num > 0){
+        if (num > 0) {
             throw new IllegalArgumentException("此商品已有库存信息");
         }
         stockModel.setInsertDate(new Date());
@@ -123,13 +124,14 @@ public class StockServiceImpl implements StockService {
 
     /**
      * 库存变更
+     *
      * @param stockChange
      */
     @Transactional
     @Override
     public void changeStock(StockChange stockChange) {
         Stock stock = mybatisDao.selectByPrimaryKey(Stock.class, stockChange.getStockId());
-        if(stock == null){
+        if (stock == null) {
             throw new BusinessException("未找到匹配的库存信息");
         }
         stock.setUpdateUserId(stockChange.getActionBy());
@@ -140,21 +142,23 @@ public class StockServiceImpl implements StockService {
         stockRecord.setUpdateDate(new Date());
         stockRecord.setUpdateUserId(stockChange.getActionBy());
         stockRecord.setStockId(stockChange.getStockId());
-        if(AppConstants.STOCK_CHANGE_TYPE_IN == stockChange.getType()){
+        if (AppConstants.STOCK_CHANGE_TYPE_IN == stockChange.getType()) {
             stockRecord.setChangeNum(stockChange.getNumber());
             stockRecord.setChangType(1);
             stock.setStockNum(stock.getStockNum() + stockChange.getNumber());
-        }else if(AppConstants.STOCK_CHANGE_TYPE_BROKEN == stockChange.getType()){
+        }
+        else if (AppConstants.STOCK_CHANGE_TYPE_BROKEN == stockChange.getType()) {
             Integer num = stock.getStockNum() - stockChange.getNumber();
-            if(num < 0){
+            if (num < 0) {
                 throw new BusinessException("请输入小于库存数量的破损数值");
             }
             stockRecord.setChangType(2);
             stockRecord.setChangeNum(stockChange.getNumber() * -1);
             stock.setStockNum(num);
-        }else if(AppConstants.STOCK_CHANGE_TYPE_CANCEL == stockChange.getType()){
+        }
+        else if (AppConstants.STOCK_CHANGE_TYPE_CANCEL == stockChange.getType()) {
             Integer num = stock.getStockNum() - stockChange.getNumber();
-            if(num < 0){
+            if (num < 0) {
                 throw new BusinessException("请输入小于库存数量的核销数值");
             }
             stockRecord.setChangType(3);
@@ -366,6 +370,17 @@ public class StockServiceImpl implements StockService {
         stockRecord.setRemark(remark);
         stockRecord.setStockId(stock.getId());
         mybatisDao.save(stockRecord);
+
+        //添加预包装记录
+        BeforehandPackageRecord beforehandPackageRecord = new BeforehandPackageRecord();
+        beforehandPackageRecord.setInsertDate(DateUtils.getNowDate());
+        beforehandPackageRecord.setInsertUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
+        beforehandPackageRecord.setUpdateDate(DateUtils.getNowDate());
+        beforehandPackageRecord.setUpdateUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
+        beforehandPackageRecord.setCdItemId(itemId);
+        beforehandPackageRecord.setPackageNum(changeStockNum);
+        mybatisDao.save(beforehandPackageRecord);
+        
         ajaxResult.setResult(1);
         ajaxResult.setMessage("操作成功");
         return ajaxResult;

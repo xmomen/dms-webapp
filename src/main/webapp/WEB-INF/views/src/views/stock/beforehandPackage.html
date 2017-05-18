@@ -156,6 +156,44 @@
 
                         </form>
                     </div>
+                    <fieldset class="demo-switcher-1">
+                        <legend>包装记录</legend>
+                        <div class="row table-responsive col-md-10">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th colspan="7">包装记录</th>
+                                </tr>
+                                </thead>
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>名称</th>
+                                    <th>编号</th>
+                                    <th>包装数量</th>
+                                    <th>包装时间</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-ng-repeat="beforehandPackageRecord in beforehandPackageRecordList">
+                                    <td ng-bind="$index + (pageInfoSetting.pageNum -1) * 10 + 1"></td>
+                                    <td>{{beforehandPackageRecord.itemName}}</td>
+                                    <td>{{beforehandPackageRecord.itemCode}}</td>
+                                    <td>{{beforehandPackageRecord.packageNum}}</td>
+                                    <td>{{beforehandPackageRecord.insertDate | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <ug-pagination page-info="pageInfoBeforehandPackageRecordSetting"></ug-pagination>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </fieldset>
+
                     <!-- end widget content -->
                 </div>
                 <!-- end widget div -->
