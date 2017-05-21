@@ -4,7 +4,7 @@
 define(function () {
     return ["$scope", "$modal", "$ugDialog", "$stateParams", "StockAPI", "ItemAPI", "$rootScope", "ItemCategoryAPI", "BeforehandPackageRecordAPI", function ($scope, $modal, $ugDialog, $stateParams, StockAPI, ItemAPI, $rootScope, ItemCategoryAPI, BeforehandPackageRecordAPI) {
         $scope.pageInfoBeforehandPackageRecordSetting = {
-            pageSize: 10,
+            pageSize: 50,
             pageNum: 1
         };
 
@@ -84,7 +84,8 @@ define(function () {
                 limit: $scope.pageInfoItemSetting.pageSize,
                 offset: $scope.pageInfoItemSetting.pageNum,
                 keyword: $scope.queryParam.keyword,
-                sellStatus: 1
+                sellStatus: 1,
+                sellUnit: "0"
             }, function (data) {
                 $scope.itemList2 = data.data;
                 $scope.pageInfoSetting = data.pageInfo;

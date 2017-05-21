@@ -172,6 +172,7 @@
                                     <th>编号</th>
                                     <th>包装数量</th>
                                     <th>包装时间</th>
+                                    <th>包装人</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -181,11 +182,12 @@
                                     <td>{{beforehandPackageRecord.itemCode}}</td>
                                     <td>{{beforehandPackageRecord.packageNum}}</td>
                                     <td>{{beforehandPackageRecord.insertDate | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    <td>{{beforehandPackageRecord.packageUserName}}</td>
                                 </tr>
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <td colspan="5">
+                                    <td colspan="6">
                                         <ug-pagination page-info="pageInfoBeforehandPackageRecordSetting"></ug-pagination>
                                     </td>
                                 </tr>

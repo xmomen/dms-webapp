@@ -6,8 +6,14 @@
     <select id="getBeforehandPackageRecordModel"
             resultType="com.xmomen.module.beforehandpackagerecord.model.BeforehandPackageRecordModel"
             parameterType="com.xmomen.module.beforehandpackagerecord.model.BeforehandPackageRecordQuery">
-        SELECT t.*,item.item_code,item.item_name FROM cd_beforehand_package_record t
+        SELECT
+            t.*
+            ,item.item_code
+            ,item.item_name
+            ,user.realname packageUserName
+        FROM cd_beforehand_package_record t
         LEFT JOIN cd_item item ON t.cd_item_id = item.id
+        LEFT JOIN sys_users user ON user.id = t.insert_user_id
         <where>
             <if test="id">
                 AND t.ID = #{id}
@@ -28,7 +34,7 @@
                 </foreach>
             </if>
         </where>
-        ORDER BY t.id
+        ORDER BY t.insert_date desc
     </select>
 
 </mapper>

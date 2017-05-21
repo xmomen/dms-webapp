@@ -73,6 +73,8 @@ class BeforehandPackageRecordModel implements Serializable {
 
     private String itemName;
 
+    private String packageUserName;
+
     /**
      * Get BeforehandPackageRecord Entity Object
      *
