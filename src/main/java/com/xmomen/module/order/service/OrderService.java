@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.xmomen.module.stock.service.StockService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.util.CollectionUtils;
@@ -89,6 +90,9 @@ public class OrderService {
     @Autowired
     MemberAddressService memberAddressService;
 
+    @Autowired
+    StockService stockService;
+
     /**
      * 查询订单
      *
@@ -149,7 +153,7 @@ public class OrderService {
      * @return
      */
     @Transactional
-    public TbOrder createOrder(CreateOrder createOrder) {
+    public TbOrder createOrder(CreateOrder createOrder) throws BusinessException {
         String orderNo = createOrder.getOrderNo();
         if (StringUtils.isEmpty(orderNo)) {
             orderNo = DateUtils.getDateTimeString();
@@ -172,6 +176,12 @@ public class OrderService {
                     xiajia = 1;
                 }
                 if (cdItem.getId().equals(orderItem.getOrderItemId())) {
+                    //判断库存是否有
+                    boolean flag = stockService.checkStock(orderItem.getOrderItemId(), orderItem.getItemQty().intValue());
+                    //库存不足
+                    if (!flag) {
+                        throw new BusinessException("商品：" + cdItem.getItemName() + "库存不足。下单失败");
+                    }
                     TbOrderItem tbOrderItem = new TbOrderItem();
                     tbOrderItem.setOrderNo(orderNo);
                     tbOrderItem.setItemCode(cdItem.getItemCode());
@@ -236,6 +246,13 @@ public class OrderService {
         }
         tbOrder.setAppointmentTime(createOrder.getAppointmentTime());
         tbOrder = mybatisDao.insertByModel(tbOrder);
+
+        //扣除订单相应的产品库存
+        for (CreateOrder.OrderItem orderItem : createOrder.getOrderItemList()) {
+            //扣除库存
+            stockService.changeStockNum(orderItem.getOrderItemId(), 0 - orderItem.getItemQty().intValue(), tbOrder.getId(), "商品下单商品：" + orderItem.getItemQty() + "扣除,库存减少");
+        }
+
         if (StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null && createOrder.getOrderType() > 0) {
             TbOrderRelation tbOrderRelation = new TbOrderRelation();
             tbOrderRelation.setOrderNo(orderNo);
@@ -251,7 +268,7 @@ public class OrderService {
     }
 
     @Transactional
-    public void batchCreateOrder(CreateOrder createOrder) {
+    public void batchCreateOrder(CreateOrder createOrder) throws BusinessException {
         if (createOrder.getBatchNumber() == null) {
             createOrder(createOrder);
         }
@@ -271,7 +288,7 @@ public class OrderService {
      * @return
      */
     @Transactional
-    public TbOrder updateOrder(UpdateOrder updateOrder) {
+    public TbOrder updateOrder(UpdateOrder updateOrder) throws BusinessException {
         String orderNo = updateOrder.getOrderNo();
         TbOrder oldTbOrder = new TbOrder();
         oldTbOrder.setOrderNo(updateOrder.getOrderNo());
@@ -322,9 +339,36 @@ public class OrderService {
                     TbOrderItem tbOrderItem = new TbOrderItem();
                     //map存在 说明是更新
                     if (oldOrderItemMap.containsKey(cdItem.getItemCode())) {
-                        tbOrderItem.setId(oldOrderItemMap.get(cdItem.getItemCode()).getId());
+                        TbOrderItem oldOrderItem = oldOrderItemMap.get(cdItem.getItemCode());
+                        tbOrderItem.setId(oldOrderItem.getId());
                         //map 移除
                         oldOrderItemMap.remove(cdItem.getItemCode());
+
+                        //查看是增加还是减少
+                        Integer oldQty = oldOrderItem.getItemQty().intValue();
+                        Integer newQty = orderItem.getItemQty().intValue();
+                        if (newQty != oldQty) {
+                            //增加
+                            if (newQty > oldQty) {
+                                //校验库存是否够
+                                stockService.checkStock(oldOrderItem.getItemId(), newQty - oldQty);
+                                //将库存改变
+                                stockService.changeStockNum(oldOrderItem.getItemId(), oldQty - newQty, updateOrder.getId(), "订单商品" + oldQty + "变更为" + newQty + "，库存减少");
+                            }
+                            else {
+                                //将库存改变
+                                stockService.changeStockNum(oldOrderItem.getItemId(), oldQty - newQty, updateOrder.getId(), "订单商品" + oldQty + "变更为" + newQty + "，库存增加");
+                            }
+                        }
+                    }
+                    //新增加的商品
+                    else {
+                        tbOrderItem.setCreateDate(mybatisDao.getSysdate());
+                        tbOrderItem.setCreateUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
+                        //校验库存是否够
+                        stockService.checkStock(cdItem.getId(), orderItem.getItemQty().intValue());
+                        //将库存改变
+                        stockService.changeStockNum(cdItem.getId(), 0 - orderItem.getItemQty().intValue(), updateOrder.getId(), "订单商品下单：" + orderItem.getItemQty().intValue() + "，库存减少");
                     }
                     tbOrderItem.setOrderNo(orderNo);
                     tbOrderItem.setItemCode(cdItem.getItemCode());
@@ -339,18 +383,21 @@ public class OrderService {
                         tbOrderItem.setItemPrice(cdItem.getSellPrice());
                     }
                     totalAmount = totalAmount.add(tbOrderItem.getItemPrice().multiply(orderItem.getItemQty()));
-                    tbOrderItem.setCreateDate(mybatisDao.getSysdate());
-                    tbOrderItem.setCreateUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
                     tbOrderItem.setUpdateDate(mybatisDao.getSysdate());
                     tbOrderItem.setUpdateUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
                     mybatisDao.save(tbOrderItem);
                 }
             }
         }
+
         //将map里面还有的进行删除
         for (String key : oldOrderItemMap.keySet()) {
             mybatisDao.delete(oldOrderItemMap.get(key));
+            //库存相应的返回
+            TbOrderItem tbOrderItem = oldOrderItemMap.get(key);
+            stockService.changeStockNum(tbOrderItem.getItemId(), tbOrderItem.getItemQty().intValue(), updateOrder.getId(), "商品取消，库存退回");
         }
+
         TbOrder tbOrder = mybatisDao.selectByPrimaryKey(TbOrder.class, updateOrder.getId());
         tbOrder.setConsigneeName(updateOrder.getConsigneeName());
         tbOrder.setConsigneeAddress(updateOrder.getConsigneeAddress());
@@ -445,13 +492,22 @@ public class OrderService {
      * @param id
      */
     @Transactional
-    public void cancelOrder(Integer id) {
+    public void cancelOrder(Integer id) throws BusinessException {
         TbOrderExample tbOrderExample = new TbOrderExample();
         tbOrderExample.createCriteria().andIdEqualTo(id);
         TbOrder tbOrder = mybatisDao.selectOneByExample(tbOrderExample);
         //订单取消状态
         tbOrder.setOrderStatus("9");
         mybatisDao.updateByModel(tbOrder);
+
+        //查询订单的原商品信息
+        TbOrderItemExample tbOrderItemExample = new TbOrderItemExample();
+        tbOrderItemExample.createCriteria().andOrderNoEqualTo(tbOrder.getOrderNo());
+        List<TbOrderItem> tbOrderItems = mybatisDao.selectByExample(tbOrderItemExample);
+        for (TbOrderItem tbOrderItem : tbOrderItems) {
+            stockService.changeStockNum(tbOrderItem.getItemId(), tbOrderItem.getItemQty().intValue(), tbOrder.getId(), "订单取消退回商品");
+        }
+
         //如果是卡类订单或者是餐桌计划订单(将钱退回卡里面)
         if (tbOrder.getOrderType() == 1) {
             RefundOrder refundOrder = new RefundOrder();
@@ -802,6 +858,12 @@ public class OrderService {
                     xiajia = 1;
                 }
                 if (cdItem.getId().equals(orderItem.getOrderItemId())) {
+                    //判断库存是否有
+                    boolean flag = stockService.checkStock(orderItem.getOrderItemId(), orderItem.getItemQty().intValue());
+                    //库存不足
+                    if (!flag) {
+                        throw new BusinessException("商品：" + cdItem.getItemName() + "库存不足。下单失败");
+                    }
                     TbOrderItem tbOrderItem = new TbOrderItem();
                     tbOrderItem.setOrderNo(orderNo);
                     tbOrderItem.setItemCode(cdItem.getItemCode());
@@ -905,6 +967,13 @@ public class OrderService {
         tbOrder.setUpdateDate(mybatisDao.getSysdate());
         tbOrder.setUpdateUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
         tbOrder = mybatisDao.insertByModel(tbOrder);
+
+        //扣除订单相应的产品库存
+        for (WxCreateOrder.OrderItem orderItem : createOrder.getOrderItemList()) {
+            //扣除库存
+            stockService.changeStockNum(orderItem.getOrderItemId(), 0 - orderItem.getItemQty().intValue(), tbOrder.getId(), "后台订单扣除商品");
+        }
+
         // tbOrderNo validation
         /*if (StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null && createOrder.getOrderType() > 0) {
             TbOrderRelation tbOrderRelation = new TbOrderRelation();

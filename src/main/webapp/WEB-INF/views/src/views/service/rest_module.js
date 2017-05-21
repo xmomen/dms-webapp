@@ -57,6 +57,18 @@ define(function () {
             }
         });
     }]);
+    ngREST.factory("StockAPI", ["$resource", function ($resource) {
+        return $resource("/stock/:id", {id: '@id'}, {
+            query: {isArray: false},
+            update: {method: "PUT", params: {id: "@id"}},
+            change: {method: "PUT", url: "/stock/:id/change", params: {id: "@id"}},
+            beforehandPackageChangeStock: {
+                method: "GET",
+                url: "/stock/beforehandPackageChangeStock",
+                params: {itemId: "@itemId", changeStockNum: "@changeStockNum"}
+            }
+        });
+    }]);
 
     ngREST.factory("ResourceAPI", ["$resource", function ($resource) {
         return $resource("/resource/:id", {id: '@id'}, {
@@ -523,6 +535,13 @@ define(function () {
 
     ngREST.factory("AdviceAPI", ["$resource", function ($resource) {
         return $resource("/advice/:id", {id: "@id"}, {
+            query: {isArray: false},
+            update: {method: "PUT", params: {id: "@id"}}
+        });
+    }]);
+
+    ngREST.factory("BeforehandPackageRecordAPI", ["$resource", function ($resource) {
+        return $resource("/beforehandPackageRecord/:id", {id: "@id"}, {
             query: {isArray: false},
             update: {method: "PUT", params: {id: "@id"}}
         });

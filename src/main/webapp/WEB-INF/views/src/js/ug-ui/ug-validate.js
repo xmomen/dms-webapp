@@ -78,10 +78,15 @@ angular.module('ug.validate', ["ng"])
             },
             addMethod: function (name, func, errorText) {
                 $.validator.addMethod(name, func, errorText);
-
             }
         }
     })
+    .run([function(){
+        $.validator.addMethod("positiveInteger", function(value, element) {
+            value=parseInt(value);
+            return this.optional(element) || value>0;
+        }, "请输入大于0的整数");
+    }])
     .directive('ugValidate', $ugValidate);
 
 }(angular));

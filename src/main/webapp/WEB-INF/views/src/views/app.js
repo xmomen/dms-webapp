@@ -1,5 +1,4 @@
 define([
-    "views/wx/wx_module",
     "views/user/user_module",
     "views/order/order_module",
     "views/schedule/schedule_module",
@@ -12,12 +11,14 @@ define([
     "views/pick/pick_module",
     "views/despatch/despatch_module",
     "views/receipt/receipt_module",
-    "views/report/report_module"
-],function (user_module,order_module,schedule_module, dashboard, base_module, template_module,checklist_model,plan_module,package_module,despatch_module,report_module) {
+    "views/report/report_module",
+    "views/stock/stock_module"
+],function (user_module,order_module,schedule_module, dashboard, base_module, template_module,checklist_model,plan_module,package_module,despatch_module,report_module, stock) {
     angular.module('DMS', [
         "smartApp", "ui.router",
         "ug.editor",
-        "DMS.wx","DMS.schedule", "DMS.order", "DMS.tpls", "DMS.user","DMS.base", "ug.pagination", "EnvModule", "permission", "ug.validate","ug.dialog",
+        "DMS.stock",
+        "DMS.schedule", "DMS.order", "DMS.tpls", "DMS.user","DMS.base", "ug.pagination", "EnvModule", "permission", "ug.validate","ug.dialog",
         "DMS.REST","checklist-model","DMS.plan","DMS.package","DMS.pick","DMS.despatch","DMS.receipt","DMS.report"
     ]).filter(
         'to_trusted', ['$sce', function ($sce) {
@@ -26,7 +27,7 @@ define([
             }
         }]
     ).factory({
-        HttpInterceptor:["$q", function($q){
+        HttpInterceptor:["$q", '$ugDialog', function($q, $ugDialog){
            return {
                request: function (config) {
                    if(config.method=='GET'){
@@ -37,6 +38,10 @@ define([
                    return config;
                },
                responseError:function(response){
+                   if(response.status == 400){
+                       $ugDialog.alert(response.data.message);
+                       return $q.reject(response);
+                   }
                    if(response.status == 401){
                        //未找到用户
                        window.location.reload();

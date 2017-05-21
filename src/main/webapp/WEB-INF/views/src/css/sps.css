@@ -44,3 +44,6 @@ aside{ background: #e8e8e8}
 .edui-default {
     z-index: 1100;
 }
+.widget-body .row {
+    padding-bottom: 10px;
+}

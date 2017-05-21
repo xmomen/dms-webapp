@@ -1,79 +1,84 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xmomen.module.base.mapper.ItemMapper" >
+<mapper namespace="com.xmomen.module.base.mapper.ItemMapper">
 
     <!--    查询消息    -->
     <select id="getItemList" resultType="com.xmomen.module.base.model.ItemModel" parameterType="com.xmomen.module.base.model.ItemQuery">
         SELECT
         cm.*,
         <if test="companyId">
-           ci.CONTRACT_VALUE
-           AS DISCOUNT_PRICE,
+            ci.CONTRACT_VALUE
+            AS DISCOUNT_PRICE,
         </if>
         cc.category_name,
         cid.id item_detail_id,
-        cid.item_detail_content
+        cid.item_detail_content,
+        ifnull(stock.stock_num,0) stock_num
         FROM
         cd_item cm
         left join cd_category cc on cm.cd_category_id = cc.id
         left join cd_item_detail cid on cid.cd_item_id = cm.id
+        left join cd_stock stock on stock.item_id = cm.id
         <if test="companyId">
-            left join cd_contract c on c.CD_COMPANY_ID= ${companyId}  and c.IS_DEL =0
+            left join cd_contract c on c.CD_COMPANY_ID= ${companyId} and c.IS_DEL =0
             left join cd_contract_item ci on ci.CD_ITEM_ID=cm.ID and ci.CD_CONTRACT_ID=c.id
         </if>
         <where>
-              <if test="keyword">
-                  AND (cm.item_Code LIKE CONCAT('%', #{keyword}, '%') or cm.item_name LIKE CONCAT('%', #{keyword}, '%') or cc.CATEGORY_NAME LIKE CONCAT('%',#{keyword}, '%'))
-              </if>
-              <if test="id">
-                  AND cm.id = #{id}
-              </if>
-              <if test="excludeIds">
-                  AND cm.id NOT IN
-                  <foreach collection="excludeIds" item="listItem" open="(" close=")" separator="," >
+            <if test="keyword">
+                AND (cm.item_Code LIKE CONCAT('%', #{keyword}, '%') or cm.item_name LIKE CONCAT('%', #{keyword}, '%') or cc.CATEGORY_NAME LIKE CONCAT('%',#{keyword}, '%'))
+            </if>
+            <if test="id">
+                AND cm.id = #{id}
+            </if>
+            <if test="excludeIds">
+                AND cm.id NOT IN
+                <foreach collection="excludeIds" item="listItem" open="(" close=")" separator=",">
                     #{listItem}
-                  </foreach>
-              </if>
-              <if test="ids">
-                  AND cm.id IN
-                  <foreach collection="ids" item="listItem" open="(" close=")" separator="," >
+                </foreach>
+            </if>
+            <if test="ids">
+                AND cm.id IN
+                <foreach collection="ids" item="listItem" open="(" close=")" separator=",">
                     #{listItem}
-                  </foreach>
-              </if>
-              <if test="itemCodes">
-                  AND cm.item_code IN
-                  <foreach collection="itemCodes" item="listItem" open="(" close=")" separator="," >
+                </foreach>
+            </if>
+            <if test="itemCodes">
+                AND cm.item_code IN
+                <foreach collection="itemCodes" item="listItem" open="(" close=")" separator=",">
                     #{listItem}
-                  </foreach>
-              </if>
-              <if test="sellStatus">
-              		AND cm.sell_status = #{sellStatus}
-              </if>
-              <if test="itemType">
-              		AND cm.item_type = #{itemType}
-              </if>
-          </where>
-          order by cm.item_code
+                </foreach>
+            </if>
+            <if test="sellStatus">
+                AND cm.sell_status = #{sellStatus}
+            </if>
+            <if test="itemType">
+                AND cm.item_type = #{itemType}
+            </if>
+            <if test="sellUnit">
+                AND cm.sell_unit = #{sellUnit}
+            </if>
+        </where>
+        order by cm.item_code
     </select>
-    
-        <select id="getChildItemList" resultType="com.xmomen.module.base.model.ItemChildModel" parameterType="java.util.HashMap">
+
+    <select id="getChildItemList" resultType="com.xmomen.module.base.model.ItemChildModel" parameterType="java.util.HashMap">
         SELECT
-			cm.id,
-        	cm.item_name,
-			cm.item_code,
-        	cc.category_name,
-        	cir.ref_count as count
+        cm.id,
+        cm.item_name,
+        cm.item_code,
+        cc.category_name,
+        cir.ref_count as count
         FROM
-        	cd_item cm
-        left join 
-        	cd_category cc on cm.cd_category_id = cc.id	
-		left join 
-			cd_item_ref cir on cm.id = cir.REF_VALUE and cir.REF_TYPE='CHILD_ITEM'
+        cd_item cm
+        left join
+        cd_category cc on cm.cd_category_id = cc.id
+        left join
+        cd_item_ref cir on cm.id = cir.REF_VALUE and cir.REF_TYPE='CHILD_ITEM'
         <where>
-             <if test = 'parentId'>
-             	AND cir.cd_item_id = #{parentId}
-             </if>	
+            <if test='parentId'>
+                AND cir.cd_item_id = #{parentId}
+            </if>
         </where>
     </select>
-    
+
 </mapper>
