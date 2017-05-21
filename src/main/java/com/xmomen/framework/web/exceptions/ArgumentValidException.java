@@ -9,8 +9,7 @@ import java.util.Iterator;
  * Created by tanxinzheng on 17/5/14.
  */
 @Deprecated
-public class ArgumentValidException extends RuntimeException{
-
+public class ArgumentValidException extends Exception{
     private final BindingResult bindingResult;
 
     public ArgumentValidException(BindingResult bindingResult) {

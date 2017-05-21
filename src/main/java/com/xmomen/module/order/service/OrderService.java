@@ -250,7 +250,7 @@ public class OrderService {
         //扣除订单相应的产品库存
         for (CreateOrder.OrderItem orderItem : createOrder.getOrderItemList()) {
             //扣除库存
-            stockService.changeStockNum(orderItem.getOrderItemId(), 0 - orderItem.getItemQty().intValue(), tbOrder.getId(), "后台订单扣除商品");
+            stockService.changeStockNum(orderItem.getOrderItemId(), 0 - orderItem.getItemQty().intValue(), tbOrder.getId(), "商品下单商品：" + orderItem.getItemQty() + "扣除,库存减少");
         }
 
         if (StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null && createOrder.getOrderType() > 0) {
@@ -339,9 +339,36 @@ public class OrderService {
                     TbOrderItem tbOrderItem = new TbOrderItem();
                     //map存在 说明是更新
                     if (oldOrderItemMap.containsKey(cdItem.getItemCode())) {
-                        tbOrderItem.setId(oldOrderItemMap.get(cdItem.getItemCode()).getId());
+                        TbOrderItem oldOrderItem = oldOrderItemMap.get(cdItem.getItemCode());
+                        tbOrderItem.setId(oldOrderItem.getId());
                         //map 移除
                         oldOrderItemMap.remove(cdItem.getItemCode());
+
+                        //查看是增加还是减少
+                        Integer oldQty = oldOrderItem.getItemQty().intValue();
+                        Integer newQty = orderItem.getItemQty().intValue();
+                        if (newQty != oldQty) {
+                            //增加
+                            if (newQty > oldQty) {
+                                //校验库存是否够
+                                stockService.checkStock(oldOrderItem.getItemId(), newQty - oldQty);
+                                //将库存改变
+                                stockService.changeStockNum(oldOrderItem.getItemId(), oldQty - newQty, updateOrder.getId(), "订单商品" + oldQty + "变更为" + newQty + "，库存减少");
+                            }
+                            else {
+                                //将库存改变
+                                stockService.changeStockNum(oldOrderItem.getItemId(), oldQty - newQty, updateOrder.getId(), "订单商品" + oldQty + "变更为" + newQty + "，库存增加");
+                            }
+                        }
+                    }
+                    //新增加的商品
+                    else {
+                        tbOrderItem.setCreateDate(mybatisDao.getSysdate());
+                        tbOrderItem.setCreateUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
+                        //校验库存是否够
+                        stockService.checkStock(cdItem.getId(), orderItem.getItemQty().intValue());
+                        //将库存改变
+                        stockService.changeStockNum(cdItem.getId(), 0 - orderItem.getItemQty().intValue(), updateOrder.getId(), "订单商品下单：" + orderItem.getItemQty().intValue() + "，库存减少");
                     }
                     tbOrderItem.setOrderNo(orderNo);
                     tbOrderItem.setItemCode(cdItem.getItemCode());
@@ -356,8 +383,6 @@ public class OrderService {
                         tbOrderItem.setItemPrice(cdItem.getSellPrice());
                     }
                     totalAmount = totalAmount.add(tbOrderItem.getItemPrice().multiply(orderItem.getItemQty()));
-                    tbOrderItem.setCreateDate(mybatisDao.getSysdate());
-                    tbOrderItem.setCreateUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
                     tbOrderItem.setUpdateDate(mybatisDao.getSysdate());
                     tbOrderItem.setUpdateUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
                     mybatisDao.save(tbOrderItem);
@@ -778,7 +803,7 @@ public class OrderService {
     }
 
     @Transactional
-    public TbOrder createWxOrder(WxCreateOrder createOrder) throws IllegalArgumentException {
+    public TbOrder createWxOrder(WxCreateOrder createOrder) throws Exception {
         String orderNo = createOrder.getOrderNo();
         if (StringUtils.isEmpty(orderNo)) {
             orderNo = DateUtils.getDateTimeString();
@@ -798,7 +823,7 @@ public class OrderService {
             normalOrder = false;
             CouponModel couponModel = couponService.getCouponModel(createOrder.getPaymentRelationNo());
             if (couponModel == null || couponModel.getCouponType() != 2) {
-                throw new IllegalArgumentException("无效的券!");
+                throw new BusinessException("无效的券!");
             }
             tbOrder.setCompanyId(couponModel.getCompanyId());
             tbOrder.setManagerId(couponModel.getManagerId());

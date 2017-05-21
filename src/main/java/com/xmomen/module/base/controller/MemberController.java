@@ -25,7 +25,7 @@ import com.xmomen.module.base.mapper.MemberMapper;
 import com.xmomen.module.base.model.CreateMember;
 import com.xmomen.module.base.model.MemberModel;
 import com.xmomen.module.base.model.UpdateMember;
-import com.xmomen.module.base.service.MemberService;
+import com.xmomen.module.base.service.MemberSercvice;
 import com.xmomen.module.logger.Log;
 
 /**
@@ -35,7 +35,7 @@ import com.xmomen.module.logger.Log;
 public class MemberController {
 
     @Autowired
-    MemberService memberService;
+    MemberSercvice memberService;
     @Autowired
     MemberMapper memberMapper;
     @Autowired
@@ -96,7 +96,7 @@ public class MemberController {
      *
      * @param id
      */
-    @RequestMapping(value = "/member/{id:[0-9]+}", method = RequestMethod.GET)
+    @RequestMapping(value = "/member/{id}", method = RequestMethod.GET)
     @Log(actionName = "根据ID查询客户信息")
     public MemberModel getMember(@PathVariable(value = "id") Integer id) {
         Map map = new HashMap<String, Object>();

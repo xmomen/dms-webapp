@@ -2,7 +2,7 @@
  * Created by Jeng on 2016/1/8.
  */
 define(function () {
-    return ["$scope", "MemberAPI", "$modalInstance", "currentMember", "CompanyAPI", "UserAPI", "MemberAddressAPI", function ($scope, MemberAPI, $modalInstance, currentMember, CompanyAPI, UserAPI, MemberAddressAPI) {
+    return ["$scope", "MemberAPI", "$modalInstance", "currentMember", "CompanyAPI", "UserAPI", "MemberAddressAPI", "$ugDialog", function ($scope, MemberAPI, $modalInstance, currentMember, CompanyAPI, UserAPI, MemberAddressAPI, $ugDialog) {
         $scope.companyList = [];
         $scope.ugSelect2Config = {};
         $scope.pageSetting = {
@@ -36,22 +36,25 @@ define(function () {
         $scope.memberAddressList = [];
         //编辑场合
         if (currentMember) {
-            if (currentMember.id && !currentMember.name) {
+            if (currentMember.id) {
+                //查询收货地址
+                MemberAddressAPI.query({
+                    cdMemberId: currentMember.id,
+                    limit: $scope.pageSetting.pageSize,
+                    offset: $scope.pageSetting.pageNum
+                }, function (result) {
+                    if (result) {
+                        $scope.memberAddressList = result.data;
+                    }
+                });
+            }
+
+            if (!currentMember.name) {
                 MemberAPI.get({
                     id: currentMember.id
                 }, function (data) {
                     if (data) {
                         $scope.member = data;
-                        //查询收货地址
-                        MemberAddressAPI.query({
-                            cdMemberId: currentMember.id,
-                            limit: $scope.pageSetting.pageSize,
-                            offset: $scope.pageSetting.pageNum
-                        }, function (result) {
-                            if (result) {
-                                $scope.memberAddressList = result.data;
-                            }
-                        });
                     }
                 });
             } else {
@@ -68,7 +71,17 @@ define(function () {
         }
 
         $scope.deleteAddress = function (index) {
-            $scope.memberAddressList.splice(index, 1);
+            $ugDialog.confirm("是否删除地址？").then(function () {
+                $scope.memberAddressList.splice(index, 1);
+                //地址是否保存
+                if ($scope.memberAddressList[index].id) {
+                    MemberAddressAPI.delete({
+                        id: $scope.memberAddressList[index].id
+                    }, function () {
+                        $scope.getExpressList();
+                    });
+                }
+            });
         }
 
         $scope.errors = null;

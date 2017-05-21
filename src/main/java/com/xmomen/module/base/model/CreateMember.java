@@ -59,10 +59,6 @@ public class CreateMember implements Serializable {
      * 所属客服经理
      */
     private Integer cdUserId;
-    
-    private String password;
-    
-    private String email;
 
     //地址集合
     List<MemberAddressCreate> memberAddressList;
@@ -145,21 +141,5 @@ public class CreateMember implements Serializable {
 
     public void setCouponNumber(String couponNumber) {
         this.couponNumber = couponNumber;
-    }
-    
-    public String getPassword() {
-        return password;
-    }
-    
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
-    public String getEmail() {
-    	return email; 
-    }
-    
-    public void setEmail(String email) {
-    	this.email = email;
     }
 }

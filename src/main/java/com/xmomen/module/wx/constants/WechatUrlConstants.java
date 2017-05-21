@@ -20,4 +20,9 @@ public class WechatUrlConstants {
 	 * 获取oauth网页认证的token
 	 */
 	public static String GET_ACCESS_TOKEN_OAUTH = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
+
+	/**
+	 * 获取未关注用户信息
+	 */
+	public static String GET_NO_GUANZHU_USER_INFO = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
 }

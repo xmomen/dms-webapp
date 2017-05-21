@@ -27,6 +27,7 @@ public @Data class MemberAddressModel implements Serializable {
     private String id;
     /** 客户ID */
     @Excel(name = "客户ID")
+    @NotNull(message = "客户ID为必填项")
     @Range(max = 999999999, min = -999999999, message = "客户ID数值范围[999999999,-999999999]")
     private Integer cdMemberId;
     /**  */
@@ -52,12 +53,12 @@ public @Data class MemberAddressModel implements Serializable {
     @Length(max = 256, message = "完整地址字符长度限制[0,256]")
     private String fullAddress;
     /**  */
-//    @Excel(name = "")
+    @Excel(name = "")
     @NotBlank(message = "为必填项")
     @Length(max = 32, message = "字符长度限制[0,32]")
     private String name;
     /**  */
-//    @Excel(name = "")
+    @Excel(name = "")
     @NotBlank(message = "为必填项")
     @Length(max = 32, message = "字符长度限制[0,32]")
     private String mobile;

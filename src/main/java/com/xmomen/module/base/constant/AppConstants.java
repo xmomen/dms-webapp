@@ -51,9 +51,16 @@ public class AppConstants implements Serializable {
     public static final String YUN_SHU_PERMISSION_CODE = "yunshubu";
 
     /**
+     * 快递商
+     */
+    public static final String KUAI_DI_SHANG = "kuaidishang";
+
+    /**
      * 用户sessionUserId键值
      */
     public static final String SESSION_USER_ID_KEY = "user_id";
-    
-    public static final String PC_PASSWORD_SALT = "dms_pc";
+
+    public static final int STOCK_CHANGE_TYPE_IN = 1;//入库
+    public static final int STOCK_CHANGE_TYPE_BROKEN = 2;//破损
+    public static final int STOCK_CHANGE_TYPE_CANCEL = 3;//核销
 }

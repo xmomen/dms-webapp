@@ -2,6 +2,7 @@ package com.xmomen.module.stock.service;
 
 import com.xmomen.framework.exception.BusinessException;
 import com.xmomen.framework.mybatis.page.Page;
+import com.xmomen.module.stock.model.StockChange;
 import com.xmomen.module.stock.model.StockQuery;
 import com.xmomen.module.stock.model.StockModel;
 import com.xmomen.module.stock.entity.Stock;
@@ -37,7 +38,7 @@ public interface StockService {
     /**
      * 批量新增商品库存记录
      *
-     * @param StockModel 新增商品库存记录对象集合参数
+     * @param stockModels 新增商品库存记录对象集合参数
      * @return List<StockModel>    商品库存记录领域对象集合
      */
     List<StockModel> createStocks(List<StockModel> stockModels);
@@ -56,6 +57,12 @@ public interface StockService {
      * @return Stock 商品库存记录实体对象
      */
     public void updateStock(Stock stock);
+
+    /**
+     * 库存变更
+     * @param stockChange
+     */
+    public void changeStock(StockChange stockChange);
 
     /**
      * 批量删除商品库存记录

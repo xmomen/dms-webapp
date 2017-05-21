@@ -1,7 +1,7 @@
 package com.xmomen.module.wx.module.bind.controller;
 
 import com.xmomen.module.base.entity.CdMember;
-import com.xmomen.module.base.service.MemberService;
+import com.xmomen.module.base.service.MemberSercvice;
 import com.xmomen.module.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class BindMemberController {
 
     @Autowired
-    MemberService memberSercvice;
+    MemberSercvice memberSercvice;
 
     @Autowired
     OrderService orderService;

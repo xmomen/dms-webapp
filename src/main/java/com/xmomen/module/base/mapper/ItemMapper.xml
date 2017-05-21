@@ -54,6 +54,9 @@
             <if test="itemType">
                 AND cm.item_type = #{itemType}
             </if>
+            <if test="sellUnit">
+                AND cm.sell_unit = #{sellUnit}
+            </if>
         </where>
         order by cm.item_code
     </select>

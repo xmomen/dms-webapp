@@ -1,21 +1,13 @@
 package com.xmomen.module.base.service.impl;
 
-import java.util.List;
-
-import com.xmomen.module.base.entity.*;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.xmomen.framework.exception.BusinessException;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
-import com.xmomen.module.account.service.PasswordHelper;
-import com.xmomen.module.base.constant.AppConstants;
+import com.xmomen.module.base.entity.*;
 import com.xmomen.module.base.model.CreateMember;
+import com.xmomen.module.base.model.MemberModel;
 import com.xmomen.module.base.model.UpdateMember;
 import com.xmomen.module.base.service.CouponService;
-import com.xmomen.module.base.service.MemberService;
+import com.xmomen.module.base.service.MemberSercvice;
 import com.xmomen.module.member.entity.MemberAddress;
 import com.xmomen.module.member.entity.MemberAddressExample;
 import com.xmomen.module.member.model.MemberAddressCreate;
@@ -26,16 +18,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-//@Service
-public class MemberSercviceImpl implements MemberService {
+import java.util.List;
+
+@Service
+public class MemberSercviceImpl implements MemberSercvice {
     @Autowired
     MybatisDao mybatisDao;
 
     @Autowired
     CouponService couponService;
-    
-    @Autowired
-    PasswordHelper passwordHelper;
 
     @Autowired
     CartService cartService;
@@ -46,7 +37,7 @@ public class MemberSercviceImpl implements MemberService {
 
     @Override
     @Transactional
-    public CdMember createMember(CreateMember createMember) {
+    public void createMember(CreateMember createMember) {
 
         CdMember member = new CdMember();
         member.setPhoneNumber(createMember.getPhoneNumber());
@@ -60,13 +51,6 @@ public class MemberSercviceImpl implements MemberService {
             member.setOfficeTel(createMember.getOfficeTel());
             member.setCdCompanyId(createMember.getCdCompanyId());
             member.setCdUserId(createMember.getCdUserId());
-          	//加密密码
-            String newPassword = "";
-            if(!StringUtils.isEmpty(createMember.getPassword())) {
-            	newPassword = passwordHelper.encryptPassword(createMember.getPassword(), AppConstants.PC_PASSWORD_SALT);
-            }
-            member.setPassword(newPassword);
-            member.setEmail(createMember.getEmail());
             member = mybatisDao.insertByModel(member);
             //保存收货地址
             for (MemberAddressCreate memberAddressCreate : createMember.getMemberAddressList()) {
@@ -117,7 +101,7 @@ public class MemberSercviceImpl implements MemberService {
                 mybatisDao.update(member);
             }
         }
-        return member;
+        ;
     }
 
     @Transactional
@@ -285,29 +269,4 @@ public class MemberSercviceImpl implements MemberService {
         member.setId(id);
         this.mybatisDao.updateByModel(member);
     }
-
-	@Override
-	public CdMember findMember(CdMember member) {
-		List<CdMember> members = mybatisDao.selectByModel(member);
-        if (members.size() == 0) {
-            return null;
-        }
-        else {
-            return members.get(0);
-        }
-	}
-
-	@Override
-	public void updatePassword(Integer id, String newPassword, String oldPassword) {
-		CdMember cdMember = mybatisDao.selectByPrimaryKey(CdMember.class, id);
-		String newEncryptPassword = passwordHelper.encryptPassword(newPassword, AppConstants.PC_PASSWORD_SALT);
-		String oldEncryptPassword = passwordHelper.encryptPassword(oldPassword, AppConstants.PC_PASSWORD_SALT);
-		if(cdMember != null) {
-			if(StringUtils.isEmpty(cdMember.getPassword()) || cdMember.getPassword().equals(oldEncryptPassword)) {
-				cdMember.setPassword(newEncryptPassword);
-				mybatisDao.update(cdMember);
-			}
-		}
-		
-	}
 }

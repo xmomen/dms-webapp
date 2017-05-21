@@ -5,6 +5,7 @@ import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.utils.StringUtils;
 import com.xmomen.module.core.web.controller.DmsBaseController;
 import com.xmomen.module.logger.Log;
+import com.xmomen.module.stock.model.StockChange;
 import com.xmomen.module.stock.model.StockQuery;
 import com.xmomen.module.stock.model.StockModel;
 import com.xmomen.module.stock.service.StockService;
@@ -112,6 +113,22 @@ public class StockController extends DmsBaseController {
         stockModel.setUpdateUserId(getCurrentUserId());
         stockService.updateStock(stockModel);
     }
+
+    /**
+     * 库存变更
+     * @param id
+     * @param stockChange
+     */
+    @RequestMapping(value = "/{id}/change", method = RequestMethod.PUT)
+    @Log(actionName = "更新商品库存记录")
+    public void updateStock(@PathVariable(value = "id") String id,
+                            @RequestBody @Valid StockChange stockChange) {
+        stockChange.setActionBy(getCurrentUserId());
+        stockChange.setStockId(id);
+        stockService.changeStock(stockChange);
+    }
+
+
 
     /**
      * 删除商品库存记录

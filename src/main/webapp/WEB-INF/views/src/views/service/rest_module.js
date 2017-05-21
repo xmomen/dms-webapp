@@ -61,6 +61,7 @@ define(function () {
         return $resource("/stock/:id", {id: '@id'}, {
             query: {isArray: false},
             update: {method: "PUT", params: {id: "@id"}},
+            change: {method: "PUT", url: "/stock/:id/change", params: {id: "@id"}},
             beforehandPackageChangeStock: {
                 method: "GET",
                 url: "/stock/beforehandPackageChangeStock",
@@ -529,6 +530,20 @@ define(function () {
     ngREST.factory("ReceivingCodeRequestAPI", ["$resource", function ($resource) {
         return $resource("/receivingCodeRequest/:id", {id: "@id"}, {
             query: {isArray: false}
+        });
+    }]);
+
+    ngREST.factory("AdviceAPI", ["$resource", function ($resource) {
+        return $resource("/advice/:id", {id: "@id"}, {
+            query: {isArray: false},
+            update: {method: "PUT", params: {id: "@id"}}
+        });
+    }]);
+
+    ngREST.factory("BeforehandPackageRecordAPI", ["$resource", function ($resource) {
+        return $resource("/beforehandPackageRecord/:id", {id: "@id"}, {
+            query: {isArray: false},
+            update: {method: "PUT", params: {id: "@id"}}
         });
     }]);
 });

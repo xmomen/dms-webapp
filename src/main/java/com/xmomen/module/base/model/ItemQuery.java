@@ -16,6 +16,7 @@ class ItemQuery implements Serializable{
     private Integer companyId;
     private Integer itemType;
     private String[] itemCodes;
+    private String sellUnit;
     private Integer[] ids;
     private Integer[] excludeIds;
 

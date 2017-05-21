@@ -25,14 +25,5 @@
         <property name="passwordHelper" ref="passwordHelper"/>
     </bean>
 
-	<bean id="memberService" class="com.xmomen.module.base.service.impl.MemberSercviceImpl">
-    </bean>
-    
-    <!-- <bean id="singleSendSmsService" class="com.xmomen.module.sms.api.SmsService">
-    	<property name="appKey" value="${sms.appKey}"></property>
-    	<property name="appSecret" value="${sms.appSecret}"></property>
-		<property name="signName" value="${sms.signName}"></property>
-		<property name="templateCode" value="${sms.templateCode}"></property>
-    </bean> -->
 
 </beans>

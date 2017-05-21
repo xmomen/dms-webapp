@@ -3,8 +3,6 @@
 
     <diskStore path="java.io.tmpdir"/>
 
-
-
     <cache name="code-cache"
            maxEntriesLocalHeap="2000"
            eternal="false"
@@ -34,24 +32,6 @@
     </cache>
 
     <cache name="authenticationCache"
-           maxEntriesLocalHeap="2000"
-           eternal="false"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="0"
-           overflowToDisk="false"
-           statistics="true">
-    </cache>
-    
-    <cache name="pcAuthorizationCache"
-           maxEntriesLocalHeap="2000"
-           eternal="false"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="0"
-           overflowToDisk="false"
-           statistics="true">
-    </cache>
-
-    <cache name="pcAuthenticationCache"
            maxEntriesLocalHeap="2000"
            eternal="false"
            timeToIdleSeconds="3600"

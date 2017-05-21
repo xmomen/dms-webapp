@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.beforehandpackagerecord.mapper.BeforehandPackageRecordMapperExt">
+
+    <!--    查询消息    -->
+    <select id="getBeforehandPackageRecordModel"
+            resultType="com.xmomen.module.beforehandpackagerecord.model.BeforehandPackageRecordModel"
+            parameterType="com.xmomen.module.beforehandpackagerecord.model.BeforehandPackageRecordQuery">
+        SELECT
+            t.*
+            ,item.item_code
+            ,item.item_name
+            ,user.realname packageUserName
+        FROM cd_beforehand_package_record t
+        LEFT JOIN cd_item item ON t.cd_item_id = item.id
+        LEFT JOIN sys_users user ON user.id = t.insert_user_id
+        <where>
+            <if test="id">
+                AND t.ID = #{id}
+            </if>
+            <if test="insertUserId">
+                AND t.insert_user_id = #{insertUserId}
+            </if>
+            <if test="ids">
+                AND t.ID IN
+                <foreach collection="ids" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="excludeIds">
+                AND t.ID NOT IN
+                <foreach collection="excludeIds" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY t.insert_date desc
+    </select>
+
+</mapper>

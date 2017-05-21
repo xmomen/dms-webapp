@@ -46,6 +46,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 创建用户
+     *
      * @param user
      */
     @Transactional
@@ -67,11 +68,11 @@ public class UserServiceImpl implements UserService {
         sysUsers.setPassword(newPassword);
         sysUsers.setLocked(user.getLocked() ? 1 : 0);
         sysUsers = mybatisDao.saveByModel(sysUsers);
-        for(int userGroupId : user.getUserGroupIds()){
-	        SysUsersRoles userRoles = new SysUsersRoles();
-	        userRoles.setRoleId(userGroupId);
-	        userRoles.setUserId(sysUsers.getId());
-	        mybatisDao.save(userRoles);
+        for (int userGroupId : user.getUserGroupIds()) {
+            SysUsersRoles userRoles = new SysUsersRoles();
+            userRoles.setRoleId(userGroupId);
+            userRoles.setUserId(sysUsers.getId());
+            mybatisDao.save(userRoles);
         }
         SysUserOrganization userOrganization = new SysUserOrganization();
         userOrganization.setOrganizationId(user.getOrganizationId());
@@ -102,16 +103,16 @@ public class UserServiceImpl implements UserService {
         //更新权限
         SysUsersRolesExample sysUsersRolesExample = new SysUsersRolesExample();
         sysUsersRolesExample.createCriteria().andUserIdEqualTo(sysUsers.getId());
-		mybatisDao.deleteByExample(sysUsersRolesExample);
-		for(int userGroupId : updateUserVo.getUserGroupIds()){
-	        SysUsersRoles userRoles = new SysUsersRoles();
-	        userRoles.setRoleId(userGroupId);
-	        userRoles.setUserId(sysUsers.getId());
-	        mybatisDao.save(userRoles);
+        mybatisDao.deleteByExample(sysUsersRolesExample);
+        for (int userGroupId : updateUserVo.getUserGroupIds()) {
+            SysUsersRoles userRoles = new SysUsersRoles();
+            userRoles.setRoleId(userGroupId);
+            userRoles.setUserId(sysUsers.getId());
+            mybatisDao.save(userRoles);
         }
         SysUserOrganizationExample sysUserOrganizationExample = new SysUserOrganizationExample();
         sysUserOrganizationExample.createCriteria().andUserIdEqualTo(sysUsers.getId());
-		mybatisDao.deleteByExample(sysUserOrganizationExample);
+        mybatisDao.deleteByExample(sysUserOrganizationExample);
         SysUserOrganization userOrganization = new SysUserOrganization();
         userOrganization.setOrganizationId(updateUserVo.getOrganizationId());
         userOrganization.setUserId(sysUsers.getId());
@@ -121,6 +122,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 修改密码
+     *
      * @param userId
      * @param newPassword
      */
@@ -140,7 +142,7 @@ public class UserServiceImpl implements UserService {
         sysUsers.setUsername(username);
         sysUsers = mybatisDao.selectOneByModel(sysUsers);
         String currentRealPwd = passwordHelper.encryptPassword(currentPassword, sysUsers.getSalt());
-        if(sysUsers == null || !sysUsers.getPassword().equals(currentRealPwd)){
+        if (sysUsers == null || !sysUsers.getPassword().equals(currentRealPwd)) {
             throw new IllegalArgumentException("当前密码错误");
         }
         String newSalt = passwordHelper.getSalt();
@@ -150,6 +152,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 添加用户-角色关系
+     *
      * @param userId
      * @param roleIds
      */
@@ -167,6 +170,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 移除用户-角色关系
+     *
      * @param userId
      * @param roleIds
      */
@@ -180,6 +184,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 根据用户名查找用户
+     *
      * @param username
      * @return
      */
@@ -188,11 +193,13 @@ public class UserServiceImpl implements UserService {
         sysUsersExample.createCriteria().andUsernameEqualTo(username);
         sysUsersExample.or().andEmailEqualTo(username);
         sysUsersExample.or().andPhoneNumberEqualTo(username);
-        return mybatisDao.selectOneByExample(sysUsersExample);
+        List<SysUsers> userses = mybatisDao.selectByExample(sysUsersExample);
+        return userses.size() > 0 ? userses.get(0) : null;
     }
 
     /**
      * 根据用户名查找其角色
+     *
      * @param username
      * @return
      */
@@ -207,6 +214,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 根据用户名查找其权限
+     *
      * @param username
      * @return
      */
