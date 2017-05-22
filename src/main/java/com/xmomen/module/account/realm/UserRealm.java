@@ -1,6 +1,7 @@
 package com.xmomen.module.account.realm;
 
 import com.xmomen.module.account.service.UserService;
+import com.xmomen.module.core.web.token.SysUserToken;
 import com.xmomen.module.user.entity.SysUsers;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -34,14 +35,28 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         String username = (String)principals.getPrimaryPrincipal();
         Set<String> roles = userService.findRoles(username);
-        roles.add("user");
+        Set<String> realmNames = principals.getRealmNames();
+        for(String realmName: realmNames) {
+        	if(realmName.contains("UserRealm")) {
+        		roles.add("user");
+        	}
+        }
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         authorizationInfo.setRoles(roles);
         authorizationInfo.setStringPermissions(userService.findPermissions(username));
         return authorizationInfo;
     }
 
+    
     @Override
+	public boolean supports(AuthenticationToken token) {
+		if(token instanceof SysUserToken) {
+			return super.supports(token);
+		}
+		return false;
+	}
+
+	@Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 
         String username = (String)token.getPrincipal();

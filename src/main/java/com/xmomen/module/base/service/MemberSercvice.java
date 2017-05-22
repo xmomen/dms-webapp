@@ -7,7 +7,7 @@ import com.xmomen.module.base.model.UpdateMember;
 import com.xmomen.module.member.model.MemberAddressModel;
 
 public interface MemberSercvice {
-    public void createMember(CreateMember createMember);
+    public CdMember createMember(CreateMember createMember);
 
     public void updateMember(Integer id, UpdateMember updateMember);
 
@@ -25,6 +25,9 @@ public interface MemberSercvice {
      */
     public CdMember getOneMemberModel(String id);
 
+    public CdMember findMember(CdMember query);
+    
+    public void updatePassword(Integer id, String newPassword, String oldPassword);
     /**
      * openId绑定用户
      *
