@@ -23,4 +23,9 @@ public @Data class PcMember {
 	@NotNull(message = "密码必填")
 	@NotBlank(message = "密码必填")
 	private String password;
+	
+	//手机验证码
+	@NotNull(message="手机验证码必填")
+	@NotBlank(message="手机验证码必填")
+	private String phoneIdentifyCode;
 }
