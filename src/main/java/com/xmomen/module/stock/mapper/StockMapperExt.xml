@@ -18,7 +18,7 @@
                 AND t.ID = #{id}
             </if>
             <if test="keyword">
-                AND (item.item_code LIKE CONCAT('%', #{keyword}, '%')  OR item.item_name LIKE CONCAT('%', #{keyword}, '%') )
+                AND (item.item_code LIKE CONCAT('%', #{keyword}, '%') OR item.item_name LIKE CONCAT('%', #{keyword}, '%') )
             </if>
             <if test="itemCode">
                 AND item.item_code LIKE CONCAT('%', #{itemCode}, '%')
@@ -39,7 +39,7 @@
                 </foreach>
             </if>
         </where>
-        ORDER BY t.id
+        ORDER BY item.item_code
     </select>
 
 </mapper>

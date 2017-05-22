@@ -14,6 +14,8 @@ define(function () {
                 offset: $scope.pageInfoBeforehandPackageRecordSetting.pageNum
             }, function (data) {
                 $scope.beforehandPackageRecordList = data.data;
+                $scope.pageInfoBeforehandPackageRecordSetting = data.pageInfo;
+                $scope.pageInfoBeforehandPackageRecordSetting.loadData = $scope.getBeforehandPackageRecordList;
             });
         };
 
