@@ -3,6 +3,7 @@ package com.xmomen.module.core.web.filter;
 import com.alibaba.fastjson.JSONObject;
 import com.xmomen.module.account.service.UserService;
 import com.xmomen.module.core.web.WebCommonUtils;
+import com.xmomen.module.core.web.token.SysUserToken;
 import com.xmomen.module.user.entity.SysUsers;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -160,4 +161,9 @@ public class FormAuthenticationFilterExt extends FormAuthenticationFilter {
         }
         return false;
     }
+    
+    @Override
+	protected AuthenticationToken createToken(String username, String password, boolean rememberMe, String host) {
+		return new SysUserToken(username, password, rememberMe, host);
+	}
 }
