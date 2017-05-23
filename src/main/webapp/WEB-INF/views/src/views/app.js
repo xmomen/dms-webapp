@@ -12,14 +12,16 @@ define([
     "views/despatch/despatch_module",
     "views/receipt/receipt_module",
     "views/report/report_module",
-    "views/stock/stock_module"
-],function (user_module,order_module,schedule_module, dashboard, base_module, template_module,checklist_model,plan_module,package_module,despatch_module,report_module, stock) {
+    "views/stock/stock_module",
+    "views/wx/wx_module"
+], function (user_module, order_module, schedule_module, dashboard, base_module, template_module, checklist_model, plan_module, package_module, despatch_module, report_module, stock, wx_module) {
     angular.module('DMS', [
         "smartApp", "ui.router",
         "ug.editor",
         "DMS.stock",
-        "DMS.schedule", "DMS.order", "DMS.tpls", "DMS.user","DMS.base", "ug.pagination", "EnvModule", "permission", "ug.validate","ug.dialog",
-        "DMS.REST","checklist-model","DMS.plan","DMS.package","DMS.pick","DMS.despatch","DMS.receipt","DMS.report"
+        "DMS.wx",
+        "DMS.schedule", "DMS.order", "DMS.tpls", "DMS.user", "DMS.base", "ug.pagination", "EnvModule", "permission", "ug.validate", "ug.dialog",
+        "DMS.REST", "checklist-model", "DMS.plan", "DMS.package", "DMS.pick", "DMS.despatch", "DMS.receipt", "DMS.report"
     ]).filter(
         'to_trusted', ['$sce', function ($sce) {
             return function (text) {
@@ -27,34 +29,34 @@ define([
             }
         }]
     ).factory({
-        HttpInterceptor:["$q", '$ugDialog', function($q, $ugDialog){
-           return {
-               request: function (config) {
-                   if(config.method=='GET'){
-                       if(config.params){
-                           config.params._noCache = new Date().getTime();
-                       }
-                   }
-                   return config;
-               },
-               responseError:function(response){
-                   if(response.status == 400){
-                       $ugDialog.alert(response.data.message);
-                       return $q.reject(response);
-                   }
-                   if(response.status == 401){
-                       //未找到用户
-                       window.location.reload();
-                   }
-                   return $q.reject(response);
-               }
-           }
-        }],
-        User : ["UserAPI","PermissionStore", "$q", function(UserAPI, PermissionStore, $q){
+        HttpInterceptor: ["$q", '$ugDialog', function ($q, $ugDialog) {
             return {
-                fetchPermission: function(){
+                request: function (config) {
+                    if (config.method == 'GET') {
+                        if (config.params) {
+                            config.params._noCache = new Date().getTime();
+                        }
+                    }
+                    return config;
+                },
+                responseError: function (response) {
+                    if (response.status == 400) {
+                        $ugDialog.alert(response.data.message);
+                        return $q.reject(response);
+                    }
+                    if (response.status == 401) {
+                        //未找到用户
+                        window.location.reload();
+                    }
+                    return $q.reject(response);
+                }
+            }
+        }],
+        User: ["UserAPI", "PermissionStore", "$q", function (UserAPI, PermissionStore, $q) {
+            return {
+                fetchPermission: function () {
                     var defered = $q.defer();
-                    UserAPI.getPermissions(function(data){
+                    UserAPI.getPermissions(function (data) {
                         PermissionStore.clearStore();
                         for (var i = 0; i < data.permissions.length; i++) {
                             var obj = data.permissions[i];
@@ -64,12 +66,12 @@ define([
                                 });
                         }
                         defered.resolve();
-                    }, function(){
+                    }, function () {
                         defered.reject();
                     });
                     return defered.promise;
                 },
-                resetPermission: function(data){
+                resetPermission: function (data) {
                     PermissionStore.clearStore();
                     for (var i = 0; i < data.permissions.length; i++) {
                         var obj = data.permissions[i];
@@ -81,33 +83,33 @@ define([
                 }
             }
         }],
-        $baseHttp:["$http", "$q", "ApiEndpoint", function($http, $q, ApiEndpoint){
+        $baseHttp: ["$http", "$q", "ApiEndpoint", function ($http, $q, ApiEndpoint) {
             var urlEndpoint = "";
-            if(ApiEndpoint && ApiEndpoint.url){
+            if (ApiEndpoint && ApiEndpoint.url) {
                 urlEndpoint = ApiEndpoint.url;
             }
-            var httpGet = function(url, options){
+            var httpGet = function (url, options) {
                 var defer = $q.defer();
-                $http.get(urlEndpoint + url, options).then(function(response){
+                $http.get(urlEndpoint + url, options).then(function (response) {
                     return defer.resolve(response.data, response);
-                },function(response){
+                }, function (response) {
                     return defer.reject(response.data, response);
                 });
                 return defer.promise;
             };
 
-            var httpPost = function(url, data, options){
+            var httpPost = function (url, data, options) {
                 var defer = $q.defer();
-                $http.post(urlEndpoint + url, data, options).then(function(response){
+                $http.post(urlEndpoint + url, data, options).then(function (response) {
                     return defer.resolve(response.data, response);
-                },function(response){
+                }, function (response) {
                     return defer.reject(response.data, response);
                 });
                 return defer.promise;
             };
             return {
-                get:httpGet,
-                post:httpPost
+                get: httpGet,
+                post: httpPost
             };
         }]
     }).directive('datepickerLocaldate', ['$filter', function ($filter) {
@@ -116,7 +118,7 @@ define([
          */
         return {
             require: 'ngModel',
-            link:  function link(scope, element, attr, ngModel) {
+            link: function link(scope, element, attr, ngModel) {
 
                 ngModel.$parsers.push(function toModel(date) {
                     if (!date) {
@@ -126,38 +128,38 @@ define([
                 });
 
                 var converted = false;
-                scope.$watch(function(){
+                scope.$watch(function () {
                         return ngModel.$modelValue;
                     },
-                    function(modelValue){
+                    function (modelValue) {
 
                         // convert to localDate (remove timezone if necessary), this is for datepicker to synchronize with the good date for negative timezone (https://github.com/angular-ui/bootstrap/issues/2072)
-                        if(!converted && modelValue){
+                        if (!converted && modelValue) {
 
                             var dt = new Date(modelValue);
-                            if(dt.getTimezoneOffset() > 0)
+                            if (dt.getTimezoneOffset() > 0)
                                 dt.setMinutes(dt.getMinutes() + dt.getTimezoneOffset());
 
                             ngModel.$modelValue = dt;
 
                             ngModel.$render();
 
-                            converted=true;
+                            converted = true;
 
                         }
                     });
             }
         };
-    }]).directive("ugSelect2",["CompanyAPI", "$rootScope", function(CompanyAPI, $rootScope){
+    }]).directive("ugSelect2", ["CompanyAPI", "$rootScope", function (CompanyAPI, $rootScope) {
         return {
-            restrict:"A",
-            require:"select",
-            scope:{ ugSelect2Config: '='},
-            link: function(scope, element, attr, crtl){
+            restrict: "A",
+            require: "select",
+            scope: {ugSelect2Config: '='},
+            link: function (scope, element, attr, crtl) {
                 var config = scope.ugSelect2Config || {};
-                 config = angular.extend(config, {
-                    initSelectData : function(data){
-                        setTimeout(function(){
+                config = angular.extend(config, {
+                    initSelectData: function (data) {
+                        setTimeout(function () {
                             $select2.val(data).trigger("change");
                         }, 100);
                     }
@@ -169,29 +171,29 @@ define([
         /**
          * 文件上传
          */
-        uxUpload:["$timeout","$ugDialog",function($timeout,Dialog){
+        uxUpload: ["$timeout", "$ugDialog", function ($timeout, Dialog) {
             var fileType = "*.xlsx;*.xls;*.pdf;*.doc;*.docx;*.*";
             return {
-                scope:{
-                    uxUploadConfig : '='
+                scope: {
+                    uxUploadConfig: '='
                 },
-                link:function(scope,elem,attr,ctrl){
+                link: function (scope, elem, attr, ctrl) {
                     var config = scope.uxUploadConfig;
                     var defaultConfig = {
-                        buttonClass     : "btn btn-outline btn-primary",
-                        buttonText      : '上传身份证图片',
-                        swf             : '/js/uploadify/uploadify.swf',
-                        uploader        : '/wms-webapp/',
-                        fileSizeLimit   : "10MB",
-                        fileObjName     : "files",//对应后台参数名，请勿修改
-                        fileTypeDesc    : "请选择 " + fileType + " 类型的文件",
-                        fileTypeExts    : fileType,
-                        overrideEvents  : [ 'onDialogClose', 'onSelectError' ],
-                        onFallback      : function() {
+                        buttonClass: "btn btn-outline btn-primary",
+                        buttonText: '上传身份证图片',
+                        swf: '/js/uploadify/uploadify.swf',
+                        uploader: '/wms-webapp/',
+                        fileSizeLimit: "10MB",
+                        fileObjName: "files",//对应后台参数名，请勿修改
+                        fileTypeDesc: "请选择 " + fileType + " 类型的文件",
+                        fileTypeExts: fileType,
+                        overrideEvents: ['onDialogClose', 'onSelectError'],
+                        onFallback: function () {
                             //Dialog.alert('Flash was not detected or flash version is not supported.');
                             Dialog.alert('未发现Flash插件或Flash版本不支持（请确保已下载Flash插件且已启用Flash插件）。');
                         },
-                        onSelectError   : function(file, errorCode, errorMsg){
+                        onSelectError: function (file, errorCode, errorMsg) {
                             switch (errorCode) {
                                 case SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED:
                                     if (this.settings.queueSizeLimit > errorMsg) {
@@ -213,13 +215,13 @@ define([
                                     this.queueData.errorMsg = "文件上传失败，" + errorMsg;
                             }
                         },
-                        onDialogClose   : function(queueData){
+                        onDialogClose: function (queueData) {
                             if (queueData.filesErrored > 0) {
                                 Dialog.alert(this.queueData.errorMsg);
                             }
                         }
                     };
-                    angular.extend(defaultConfig,config);
+                    angular.extend(defaultConfig, config);
                     $(elem).uploadify(defaultConfig);
                 }
             };
@@ -239,23 +241,23 @@ define([
 //                }
 //            };
         }]
-    }).controller("LeftPanelController",["$scope", "$rootScope", "$http", function($scope, $rootScope, $http){
-        $http.get("/account/setting").then(function(data){
-            if(data.data){
+    }).controller("LeftPanelController", ["$scope", "$rootScope", "$http", function ($scope, $rootScope, $http) {
+        $http.get("/account/setting").then(function (data) {
+            if (data.data) {
                 $rootScope.account = data.data;
             }
         })
-    }]).run(["$rootScope", "User", function($rootScope, User){
+    }]).run(["$rootScope", "User", function ($rootScope, User) {
         User.resetPermission(permissionList);
 
-        $rootScope.$on('loadingTree', function(){
-            setTimeout(function(){
+        $rootScope.$on('loadingTree', function () {
+            setTimeout(function () {
                 $(".tree").find("li:has(ul)").addClass("parent_li").attr("role", "treeitem").find(" > span").attr("title", "收缩").on("click", function (a) {
                     var b = $(this).parent("li.parent_li").find(" > ul");
-                    if(b.is(":visible")){
+                    if (b.is(":visible")) {
                         b.hide("fast");
                         $(this).attr("title", "展开").find(" > i").addClass("fa-plus-circle").removeClass("fa-minus-circle");
-                    }else{
+                    } else {
                         b.show("fast");
                         $(this).attr("title", "收缩").find(" > i").addClass("fa-minus-circle").removeClass("fa-plus-circle");
                     }
@@ -264,7 +266,7 @@ define([
             }, 1500);
         });
 
-        $rootScope.$on('$viewContentLoaded', function (event, next,  nextParams, fromState) {
+        $rootScope.$on('$viewContentLoaded', function (event, next, nextParams, fromState) {
             // 初始化全局控件
 //           pageSetUp();
         });
@@ -294,8 +296,8 @@ define([
             })
 
     }]);
-    angular.element(document).ready(function() {
-        $.get('/user/permissions', function(data) {
+    angular.element(document).ready(function () {
+        $.get('/user/permissions', function (data) {
             permissionList = data;
             angular.bootstrap(document, ['DMS']);
         });

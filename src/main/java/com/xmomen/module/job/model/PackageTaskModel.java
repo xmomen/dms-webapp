@@ -3,9 +3,9 @@ package com.xmomen.module.job.model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class PackageTaskModel implements Serializable{
-	/**
-     * 
+public class PackageTaskModel implements Serializable {
+    /**
+     *
      */
     private Integer id;
 
@@ -30,7 +30,7 @@ public class PackageTaskModel implements Serializable{
     private Integer jobStatus;
 
     /**
-     * 
+     *
      */
     private Integer jobUser;
 
@@ -39,18 +39,18 @@ public class PackageTaskModel implements Serializable{
      */
     private Date jobCreateTime;
 
-    
+
     /**
      * 任务开始时间
      */
     private Date jobBeginTime;
-    
-    
+
+
     /**
      * 包装的产品
      */
     private Integer cdItemId;
-    
+
     /**
      * 销售单位
      */
@@ -68,7 +68,7 @@ public class PackageTaskModel implements Serializable{
 
     private Integer noFinishValue;
     /**
-     * 
+     *
      */
     private Date finishTime;
 
@@ -76,13 +76,13 @@ public class PackageTaskModel implements Serializable{
      * 任务创建人
      */
     private Integer jobCreateUser;
-    
+
     private String itemCode;
-    
+
     private String itemName;
-    
+
     private String jobUserName;
-    
+
     private String spec;
 
     /**
@@ -94,187 +94,198 @@ public class PackageTaskModel implements Serializable{
      * 检测人
      */
     private String jianceUser;
-    
+
     /**
      * 农残率
      */
     private String nongCanLv;
-    
-	public String getItemCode() {
-		return itemCode;
-	}
 
-	public void setItemCode(String itemCode) {
-		this.itemCode = itemCode;
-	}
+    /**
+     * 生产地
+     */
+    private String yieldly;
 
-	public String getItemName() {
-		return itemName;
-	}
+    public String getItemCode() {
+        return itemCode;
+    }
 
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
-	}
+    public void setItemCode(String itemCode) {
+        this.itemCode = itemCode;
+    }
 
-	public String getJobUserName() {
-		return jobUserName;
-	}
+    public String getItemName() {
+        return itemName;
+    }
 
-	public void setJobUserName(String jobUserName) {
-		this.jobUserName = jobUserName;
-	}
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public String getJobUserName() {
+        return jobUserName;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setJobUserName(String jobUserName) {
+        this.jobUserName = jobUserName;
+    }
 
-	public String getPurchaseCode() {
-		return purchaseCode;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setPurchaseCode(String purchaseCode) {
-		this.purchaseCode = purchaseCode;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Integer getPurchaseId() {
-		return purchaseId;
-	}
+    public String getPurchaseCode() {
+        return purchaseCode;
+    }
 
-	public void setPurchaseId(Integer purchaseId) {
-		this.purchaseId = purchaseId;
-	}
+    public void setPurchaseCode(String purchaseCode) {
+        this.purchaseCode = purchaseCode;
+    }
 
-	public Integer getJobType() {
-		return jobType;
-	}
+    public Integer getPurchaseId() {
+        return purchaseId;
+    }
 
-	public void setJobType(Integer jobType) {
-		this.jobType = jobType;
-	}
+    public void setPurchaseId(Integer purchaseId) {
+        this.purchaseId = purchaseId;
+    }
 
-	public Integer getJobStatus() {
-		return jobStatus;
-	}
+    public Integer getJobType() {
+        return jobType;
+    }
 
-	public void setJobStatus(Integer jobStatus) {
-		this.jobStatus = jobStatus;
-	}
+    public void setJobType(Integer jobType) {
+        this.jobType = jobType;
+    }
 
-	public Integer getJobUser() {
-		return jobUser;
-	}
+    public Integer getJobStatus() {
+        return jobStatus;
+    }
 
-	public void setJobUser(Integer jobUser) {
-		this.jobUser = jobUser;
-	}
+    public void setJobStatus(Integer jobStatus) {
+        this.jobStatus = jobStatus;
+    }
 
-	public Date getJobCreateTime() {
-		return jobCreateTime;
-	}
+    public Integer getJobUser() {
+        return jobUser;
+    }
 
-	public void setJobCreateTime(Date jobCreateTime) {
-		this.jobCreateTime = jobCreateTime;
-	}
+    public void setJobUser(Integer jobUser) {
+        this.jobUser = jobUser;
+    }
 
-	public Integer getCdItemId() {
-		return cdItemId;
-	}
+    public Date getJobCreateTime() {
+        return jobCreateTime;
+    }
 
-	public void setCdItemId(Integer cdItemId) {
-		this.cdItemId = cdItemId;
-	}
+    public void setJobCreateTime(Date jobCreateTime) {
+        this.jobCreateTime = jobCreateTime;
+    }
 
-	public Integer getCountValue() {
-		return countValue;
-	}
+    public Integer getCdItemId() {
+        return cdItemId;
+    }
 
-	public void setCountValue(Integer countValue) {
-		this.countValue = countValue;
-	}
+    public void setCdItemId(Integer cdItemId) {
+        this.cdItemId = cdItemId;
+    }
 
-	public Integer getFinishValue() {
-		return finishValue;
-	}
+    public Integer getCountValue() {
+        return countValue;
+    }
 
-	public void setFinishValue(Integer finishValue) {
-		this.finishValue = finishValue;
-	}
+    public void setCountValue(Integer countValue) {
+        this.countValue = countValue;
+    }
 
-	public Date getFinishTime() {
-		return finishTime;
-	}
+    public Integer getFinishValue() {
+        return finishValue;
+    }
 
-	public void setFinishTime(Date finishTime) {
-		this.finishTime = finishTime;
-	}
+    public void setFinishValue(Integer finishValue) {
+        this.finishValue = finishValue;
+    }
 
-	public Integer getJobCreateUser() {
-		return jobCreateUser;
-	}
+    public Date getFinishTime() {
+        return finishTime;
+    }
 
-	public void setJobCreateUser(Integer jobCreateUser) {
-		this.jobCreateUser = jobCreateUser;
-	}
+    public void setFinishTime(Date finishTime) {
+        this.finishTime = finishTime;
+    }
 
-	public Date getJobBeginTime() {
-		return jobBeginTime;
-	}
+    public Integer getJobCreateUser() {
+        return jobCreateUser;
+    }
 
-	public void setJobBeginTime(Date jobBeginTime) {
-		this.jobBeginTime = jobBeginTime;
-	}
+    public void setJobCreateUser(Integer jobCreateUser) {
+        this.jobCreateUser = jobCreateUser;
+    }
 
-	public Integer getNoFinishValue() {
-		return noFinishValue;
-	}
+    public Date getJobBeginTime() {
+        return jobBeginTime;
+    }
 
-	public void setNoFinishValue(Integer noFinishValue) {
-		this.noFinishValue = noFinishValue;
-	}
+    public void setJobBeginTime(Date jobBeginTime) {
+        this.jobBeginTime = jobBeginTime;
+    }
 
-	public String getSpec() {
-		return spec;
-	}
+    public Integer getNoFinishValue() {
+        return noFinishValue;
+    }
 
-	public void setSpec(String spec) {
-		this.spec = spec;
-	}
+    public void setNoFinishValue(Integer noFinishValue) {
+        this.noFinishValue = noFinishValue;
+    }
 
-	public String getCaizaiUser() {
-		return caizaiUser;
-	}
+    public String getSpec() {
+        return spec;
+    }
 
-	public void setCaizaiUser(String caizaiUser) {
-		this.caizaiUser = caizaiUser;
-	}
+    public void setSpec(String spec) {
+        this.spec = spec;
+    }
 
-	public String getJianceUser() {
-		return jianceUser;
-	}
+    public String getCaizaiUser() {
+        return caizaiUser;
+    }
 
-	public void setJianceUser(String jianceUser) {
-		this.jianceUser = jianceUser;
-	}
+    public void setCaizaiUser(String caizaiUser) {
+        this.caizaiUser = caizaiUser;
+    }
 
-	public String getSellUnit() {
-		return sellUnit;
-	}
+    public String getJianceUser() {
+        return jianceUser;
+    }
 
-	public void setSellUnit(String sellUnit) {
-		this.sellUnit = sellUnit;
-	}
+    public void setJianceUser(String jianceUser) {
+        this.jianceUser = jianceUser;
+    }
 
-	public String getNongCanLv() {
-		return nongCanLv;
-	}
+    public String getSellUnit() {
+        return sellUnit;
+    }
 
-	public void setNongCanLv(String nongCanLv) {
-		this.nongCanLv = nongCanLv;
-	}
-	
-	
+    public void setSellUnit(String sellUnit) {
+        this.sellUnit = sellUnit;
+    }
+
+    public String getNongCanLv() {
+        return nongCanLv;
+    }
+
+    public void setNongCanLv(String nongCanLv) {
+        this.nongCanLv = nongCanLv;
+    }
+
+    public String getYieldly() {
+        return yieldly;
+    }
+
+    public void setYieldly(String yieldly) {
+        this.yieldly = yieldly;
+    }
 }

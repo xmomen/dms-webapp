@@ -223,7 +223,7 @@ define(function () {
             LODOP.ADD_PRINT_TEXT(109, 20, 158, 19, "产品名称:" + $scope.currentItem.itemName);
             LODOP.SET_PRINT_STYLEA(0, "FontName", "黑体");
             LODOP.SET_PRINT_STYLEA(0, "FontSize", 8);
-            LODOP.ADD_PRINT_TEXT(151, 19, 100, 20, "采摘点：吐鲁番");
+            LODOP.ADD_PRINT_TEXT(151, 19, 100, 20, "采摘点：" + ($scope.currentItem.yieldly == null ? "无" : $scope.currentItem.yieldly));
             LODOP.SET_PRINT_STYLEA(0, "FontName", "黑体");
             LODOP.SET_PRINT_STYLEA(0, "FontSize", 8);
             LODOP.ADD_PRINT_TEXT(167, 19, 137, 20, "采摘时间：6:00-9:00");
