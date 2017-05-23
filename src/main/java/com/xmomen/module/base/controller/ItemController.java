@@ -64,6 +64,7 @@ public class ItemController {
                                          @RequestParam(value = "sellStatus", required = false) Integer sellStatus,
                                          @RequestParam(value = "itemType", required = false) Integer itemType,
                                          @RequestParam(value = "sellUnit", required = false) String sellUnit,
+                                         @RequestParam(value = "excludeStock", required = false) Integer excludeStock,
                                          @RequestParam(value = "ids", required = false) Integer[] ids,
                                          @RequestParam(value = "exclude_ids", required = false) Integer[] exclude_ids) {
         ItemQuery itemQuery = new ItemQuery();
@@ -83,6 +84,9 @@ public class ItemController {
         }
         if (ids != null) {
             itemQuery.setIds(ids);
+        }
+        if (excludeStock != null) {
+            itemQuery.setExcludeStock(excludeStock);
         }
         if (StringUtils.isNotBlank(sellUnit)) {
             itemQuery.setSellUnit(sellUnit);

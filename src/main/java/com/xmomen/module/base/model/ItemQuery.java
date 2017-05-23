@@ -19,5 +19,5 @@ class ItemQuery implements Serializable{
     private String sellUnit;
     private Integer[] ids;
     private Integer[] excludeIds;
-
+    private Integer excludeStock;
 }
