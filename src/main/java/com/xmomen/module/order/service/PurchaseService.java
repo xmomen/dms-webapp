@@ -39,57 +39,61 @@ public class PurchaseService {
 
     /**
      * 查询采购单
+     *
      * @param keyword
      * @param limit
      * @param offset
      * @return
      */
-    public Page<PurchaseModel> getPurchaseList(Map param, Integer limit, Integer offset){
+    public Page<PurchaseModel> getPurchaseList(Map param, Integer limit, Integer offset) {
         return (Page<PurchaseModel>) mybatisDao.selectPage(OrderMapper.ORDER_MAPPER_NAMESPACE + "getPurchaseList", param, limit, offset);
     }
 
     /**
      * 查询采购单
+     *
      * @param keyword
      * @param limit
      * @param offset
      * @return
      */
-    public List<PurchaseModel> getPurchaseList(Map param){
-        return  mybatisDao.getSqlSessionTemplate().selectList(OrderMapper.ORDER_MAPPER_NAMESPACE + "getPurchaseList", param);
+    public List<PurchaseModel> getPurchaseList(Map param) {
+        return mybatisDao.getSqlSessionTemplate().selectList(OrderMapper.ORDER_MAPPER_NAMESPACE + "getPurchaseList", param);
     }
-    
+
     /**
      * 创建采购单
+     *
      * @param createPurchase
      * @return
      */
     @Transactional
-    public void createPurchase(CreatePurchase createPurchase){
+    public synchronized void createPurchase(CreatePurchase createPurchase) {
         Map param = new HashMap();
 
-   	 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        if(createPurchase.getAppointmentTimeStart()!=null){
-        	  param.put("startTime",format.format(createPurchase.getAppointmentTimeStart()));
-              param.put("endTime", format.format(createPurchase.getAppointmentTimeEnd()));
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        if (createPurchase.getAppointmentTimeStart() != null) {
+            param.put("startTime", format.format(createPurchase.getAppointmentTimeStart()));
+            param.put("endTime", format.format(createPurchase.getAppointmentTimeEnd()));
         }
-        else{
+        else {
             param.put("startTime", format.format(createPurchase.getOrderDate()));
             param.put("endTime", format.format(new Date(createPurchase.getOrderDate().getTime() + 24 * 3600 * 1000)));
         }
         List<OrderPurchaseModel> purchaseModelList = mybatisDao.getSqlSessionTemplate().selectList(OrderMapper.ORDER_MAPPER_NAMESPACE + "getOrderPurchaseList", param);
-        if(CollectionUtils.isEmpty(purchaseModelList)){
-        	if(createPurchase.getAppointmentTimeStart()!=null){
-        		throw new IllegalArgumentException("选定的配送日期内没有需要生成采购计划的订单");
-        	}else{
-        		throw new IllegalArgumentException("今天没有需要生成采购计划的订单");
-        	}
+        if (CollectionUtils.isEmpty(purchaseModelList)) {
+            if (createPurchase.getAppointmentTimeStart() != null) {
+                throw new IllegalArgumentException("选定的配送日期内没有需要生成采购计划的订单");
+            }
+            else {
+                throw new IllegalArgumentException("今天没有需要生成采购计划的订单");
+            }
         }
         Map<String, TbPurchase> tbPurchaseMap = new HashMap<String, TbPurchase>();
         List<String> orderNoList = new ArrayList<String>();
         String purchaseCode = DateUtils.getDateTimeString();
         for (OrderPurchaseModel purchaseModel : purchaseModelList) {
-            if(tbPurchaseMap.get(purchaseModel.getItemCode()) == null){
+            if (tbPurchaseMap.get(purchaseModel.getItemCode()) == null) {
                 TbPurchase tbPurchase = new TbPurchase();
                 tbPurchase.setPurchaseCode(purchaseCode);
                 tbPurchase.setCreateDate(mybatisDao.getSysdate());
@@ -98,7 +102,8 @@ public class PurchaseService {
                 tbPurchase.setTotal(purchaseModel.getTotalItemQty());
                 tbPurchase.setTotalWeight(purchaseModel.getTotalWeight());
                 tbPurchaseMap.put(purchaseModel.getItemCode(), tbPurchase);
-            }else{
+            }
+            else {
                 BigDecimal total = tbPurchaseMap.get(purchaseModel.getItemCode()).getTotal().add(purchaseModel.getTotalItemQty());
                 BigDecimal totalWeight = tbPurchaseMap.get(purchaseModel.getItemCode()).getTotalWeight().add(purchaseModel.getTotalWeight());
                 tbPurchaseMap.get(purchaseModel.getItemCode()).setTotal(total);
@@ -110,9 +115,9 @@ public class PurchaseService {
             mybatisDao.insert(tbPurchase);
         }
         //去除重复的订单号
-        HashSet h = new HashSet(orderNoList);  
-        orderNoList.clear();  
-        orderNoList.addAll(h);  
+        HashSet h = new HashSet(orderNoList);
+        orderNoList.clear();
+        orderNoList.addAll(h);
         TbOrder tbOrder = new TbOrder();
         tbOrder.setOrderStatus("2");//待采购
         TbOrderExample tbOrderExample = new TbOrderExample();
@@ -130,7 +135,7 @@ public class PurchaseService {
     }
 
     @Transactional
-    public void updatePurchaseStatus(Integer id, Integer purchaseStatus){
+    public void updatePurchaseStatus(Integer id, Integer purchaseStatus) {
         TbPurchaseExample tbPurchaseExample = new TbPurchaseExample();
         tbPurchaseExample.createCriteria().andIdEqualTo(id);
         TbPurchase tbPurchase = new TbPurchase();
@@ -140,9 +145,10 @@ public class PurchaseService {
 
     /**
      * 删除采购单
+     *
      * @param id
      */
-    public void deletePurchase(Integer id){
+    public void deletePurchase(Integer id) {
         mybatisDao.deleteByPrimaryKey(TbPurchase.class, id);
     }
 
