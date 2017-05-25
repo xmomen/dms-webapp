@@ -371,16 +371,19 @@ public class StockServiceImpl implements StockService {
         stockRecord.setStockId(stock.getId());
         mybatisDao.save(stockRecord);
 
-        //添加预包装记录
-        BeforehandPackageRecord beforehandPackageRecord = new BeforehandPackageRecord();
-        beforehandPackageRecord.setInsertDate(DateUtils.getNowDate());
-        beforehandPackageRecord.setInsertUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
-        beforehandPackageRecord.setUpdateDate(DateUtils.getNowDate());
-        beforehandPackageRecord.setUpdateUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
-        beforehandPackageRecord.setCdItemId(itemId);
-        beforehandPackageRecord.setPackageNum(changeStockNum);
-        mybatisDao.save(beforehandPackageRecord);
-        
+        //预包装添加包装记录
+        if (remark.equals("预包装")) {
+            //添加预包装记录
+            BeforehandPackageRecord beforehandPackageRecord = new BeforehandPackageRecord();
+            beforehandPackageRecord.setInsertDate(DateUtils.getNowDate());
+            beforehandPackageRecord.setInsertUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
+            beforehandPackageRecord.setUpdateDate(DateUtils.getNowDate());
+            beforehandPackageRecord.setUpdateUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
+            beforehandPackageRecord.setCdItemId(itemId);
+            beforehandPackageRecord.setPackageNum(changeStockNum);
+            mybatisDao.save(beforehandPackageRecord);
+        }
+
         ajaxResult.setResult(1);
         ajaxResult.setMessage("操作成功");
         return ajaxResult;
