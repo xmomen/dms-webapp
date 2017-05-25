@@ -55,15 +55,15 @@ public class CommonMemberController extends PcBaseController{
 		createMember.setMemberAddressList(new ArrayList<MemberAddressCreate>());
 		createMember.setEmail(createPcMember.getEmail());
 		String phoneNumber = createPcMember.getPhoneNumber();
-		if(StringUtils.isNumeric(phoneNumber) || phoneNumber.length() != 11) {
+		if(!StringUtils.isNumeric(phoneNumber) || phoneNumber.length() != 11) {
 			throw new BusinessException("不合法的手机号码");
 		}
-		String identifyCodeKey = createPcMember.getPhoneIdentifyCode();
+		String identifyCodeKey = createPcMember.getPhoneNumber();
 		IdentifyCodeModel identifyCodeModel = GlobalIdentifyCodeManager.getIdentifyCode(identifyCodeKey);
 		if(identifyCodeModel == null || identifyCodeModel.isExpired()) {
 			throw new BusinessException("验证码未生成或者已过期");
 		}
-		if(!identifyCodeKey.equals(identifyCodeModel.getIdentifyCode())) {
+		if(!createPcMember.getPhoneIdentifyCode().equals(identifyCodeModel.getIdentifyCode())) {
 			throw new BusinessException("验证码不正确");
 		}
 		CdMember memberQuery = new CdMember();

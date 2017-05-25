@@ -74,6 +74,15 @@
         <url-pattern>/druid/*</url-pattern>
     </servlet-mapping>
 
+    <filter>
+        <filter-name>cors</filter-name>
+        <filter-class>com.xmomen.framework.web.interceptor.CrossInterceptor</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>cors</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <!--<filter>-->
         <!--<filter-name>oauth2</filter-name>-->
         <!--<filter-class>com.udfex.ams.module.oauth2.client.OAuth2AuthenticationFilter</filter-class>-->

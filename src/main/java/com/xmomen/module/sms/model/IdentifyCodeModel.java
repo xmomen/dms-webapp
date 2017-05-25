@@ -22,10 +22,12 @@ public @Data class IdentifyCodeModel {
 				switch(timeUnit) {
 					case SECONDS: {
 						expiredTime = new Date(createTime.getTime() + validTime * 1000);
-					};
+						break;
+					}
 					case MINUTES: {
 						expiredTime = new Date(createTime.getTime() + validTime * 1000 * 60);
-					};
+						break;
+					}
 					default: {
 						throw new IllegalArgumentException("不支持其他时间类型");
 					}

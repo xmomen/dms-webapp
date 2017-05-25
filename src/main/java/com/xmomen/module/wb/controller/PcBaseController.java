@@ -18,4 +18,6 @@ public class PcBaseController {
         Integer memberId = (Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY);
         return memberId;
     }
+
+
 }

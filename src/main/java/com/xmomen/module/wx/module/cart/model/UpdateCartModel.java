@@ -6,7 +6,7 @@ import lombok.Data;
 
 public @Data class UpdateCartModel {
 
-	@NotNull
+//	@NotNull
 	private Integer memberId;
 	@NotNull
 	private Integer itemId;

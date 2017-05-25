@@ -1,6 +1,7 @@
 package com.xmomen.module.product.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -32,12 +33,16 @@ public class ProductController {
 	public Page<ProductModel> getProducts(@RequestParam(value = "limit") Integer limit,
             @RequestParam(value = "offset") Integer offset,
             @RequestParam(value = "categoryId", required= false) Integer categoryId,
+		  	@RequestParam(value = "productIds", required= false) Integer[] productIds,
             @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(value = "orderField", required = false) String orderField,
             @RequestParam(value = "isAsc", required = false, defaultValue="true") Boolean isAsc,
             @RequestParam(value = "labels", required = false) List<String> labels) {
 		ProductQuery productQuery = new ProductQuery();
 		productQuery.setKeyword(keyword);
+		if(productIds != null && productIds.length > 0){
+			productQuery.setProductIds(Arrays.asList(productIds));
+		}
 		if(categoryId != null && categoryId > 0) {
 			productQuery.setCategoryId(categoryId);
 		}

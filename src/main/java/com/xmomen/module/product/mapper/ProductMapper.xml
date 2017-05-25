@@ -57,6 +57,12 @@
                    item.${label} = 1
                 </foreach>
             </if>
+            <if test="productIds">
+                AND item.ID IN
+                <foreach collection="productIds" item="item" index="index" open="(" separator="," close=")">
+                    ${item}
+                </foreach>
+            </if>
         </where>
         <if test="orderField">
             ORDER BY item.${orderField} <choose><when test="isAsc">ASC</when><otherwise>DESC</otherwise></choose>
