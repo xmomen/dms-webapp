@@ -72,8 +72,10 @@ define(function () {
             });
         };
         $scope.choosePackingOrders = [];
+
+        $scope.chooseAllCheck = {};
         $scope.checkedAll = function () {
-            if ($scope.isCheckOrder == 0) {
+            if ($scope.chooseAllCheck.isCheckOrder == 0) {
                 $scope.choosePackingOrders.splice(0, $scope.choosePackingOrders.length);
                 for (var i = 0; i < $scope.orderList.length; i++) {
                     var obj = $scope.orderList[i];
@@ -85,7 +87,6 @@ define(function () {
                 $scope.choosePackingOrders.splice(0, $scope.choosePackingOrders.length);
             }
         };
-
         $scope.changePackingOrderList = function () {
             var j = 0;
             for (var i = 0; i < $scope.orderList.length; i++) {
@@ -94,6 +95,7 @@ define(function () {
                     j++;
                 }
             }
+
             if ($scope.choosePackingOrders.length == j && j > 0) {
                 $scope.isCheckOrder = 0;
             } else {
@@ -182,14 +184,17 @@ define(function () {
                 for (var i = 0; i < $scope.packingOrderCountItemList.length; i++) {
                     var packingOrderItem = $scope.packingOrderCountItemList[i];
                     var itemCode = packingOrderItem.itemCode;
-                    var currentScanItemCode = $scope.currentUpc.substr(0, 7);
-                    if (packingOrderItem.packedItemQty == packingOrderItem.itemQty && itemCode == currentScanItemCode) {
-                        //播放单品完成声音
-                        $('#chatItemAudio')[0].play();
+                    if ($scope.currentUpc) {
+                        var currentScanItemCode = $scope.currentUpc.substr(0, 7);
+                        if (packingOrderItem.packedItemQty == packingOrderItem.itemQty && itemCode == currentScanItemCode) {
+                            //播放单品完成声音
+                            $('#chatItemAudio')[0].play();
+                        }
                     }
                 }
             });
         };
+
         $scope.currentPackingBoxList = [];
         var setPacking = function (index) {
             $scope.newCurrentPackingTask = $scope.currentPackingBoxList[index];
@@ -209,16 +214,21 @@ define(function () {
                 }
             });
         };
+
         $scope.choseOrder2CurrentPackingList = function (order) {
             for (var i = 0; i < $scope.currentPackingBoxList.length; i++) {
                 setPacking(i);
             }
         };
+
         $scope.finishOrderPacking = function () {
             $scope.pageSetting.showPackingTask = false;
             $scope.choosePackingOrders = [];
             $scope.currentPackingBoxList = [];
+            //重新加载
+            $scope.getOrderList();
         };
+
         $scope.isPackingOrder = function (index) {
             for (var i = 0; i < $scope.choosePackingOrders.length; i++) {
                 var obj = $scope.choosePackingOrders[i];
@@ -228,6 +238,7 @@ define(function () {
             }
             return false;
         };
+
         $scope.changeBox = function (index) {
             $ugDialog.confirm("是否进行换箱操作?").then(function () {
                 PackingAPI.save({
@@ -238,6 +249,7 @@ define(function () {
                 });
             });
         };
+
         $scope.packingHistory = [];
         $scope.scanItemForm = {};
         $scope.item = {};
@@ -250,7 +262,7 @@ define(function () {
                     $scope.autoPacking(i);
                 }
             });
-        }
+        };
 
         // 自动装箱
         $scope.autoPacking = function (index) {
