@@ -58,6 +58,19 @@ public class StockServiceImpl implements StockService {
         stockModel.setInsertDate(new Date());
         stockModel.setUpdateDate(new Date());
         Stock stock = createStock(stockModel.getEntity());
+
+        //添加记录
+        StockRecord stockRecord = new StockRecord();
+        stockRecord.setInsertDate(new Date());
+        stockRecord.setInsertUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
+        stockRecord.setUpdateDate(new Date());
+        stockRecord.setUpdateUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
+        stockRecord.setStockId(stock.getId());
+        stockRecord.setRemark("库存初始化");
+        stockRecord.setChangType(1);
+        stockRecord.setChangeNum(stock.getStockNum());
+        this.mybatisDao.save(stockRecord);
+
         if (stock != null) {
             return getOneStockModel(stock.getId());
         }
@@ -144,6 +157,7 @@ public class StockServiceImpl implements StockService {
         stockRecord.setStockId(stockChange.getStockId());
         if (AppConstants.STOCK_CHANGE_TYPE_IN == stockChange.getType()) {
             stockRecord.setChangeNum(stockChange.getNumber());
+            //1-入库，2-出库，3-取消退款入库 4-破损 5-核销
             stockRecord.setChangType(1);
             stockRecord.setRemark("手工入库");
             stock.setStockNum(stock.getStockNum() + stockChange.getNumber());
@@ -153,7 +167,8 @@ public class StockServiceImpl implements StockService {
             if (num < 0) {
                 throw new BusinessException("请输入小于库存数量的破损数值");
             }
-            stockRecord.setChangType(2);
+            //1-入库，2-出库，3-取消退款入库 4-破损 5-核销
+            stockRecord.setChangType(4);
             stockRecord.setRemark("破损");
             stockRecord.setChangeNum(stockChange.getNumber() * -1);
             stock.setStockNum(num);
@@ -163,7 +178,8 @@ public class StockServiceImpl implements StockService {
             if (num < 0) {
                 throw new BusinessException("请输入小于库存数量的核销数值");
             }
-            stockRecord.setChangType(2);
+            //1-入库，2-出库，3-取消退款入库 4-破损 5-核销
+            stockRecord.setChangType(5);
             stockRecord.setRemark("核销");
             stockRecord.setChangeNum(stockChange.getNumber() * -1);
             stock.setStockNum(num);
@@ -308,11 +324,12 @@ public class StockServiceImpl implements StockService {
      * @param itemId         商品id
      * @param changeStockNum 变化数量 负数表示扣除
      * @param remark         备注
+     * @param changeType     1-入库（预包装，手工入库），2-出库，3-取消退款入库 4-破损 5-核销
      * @return
      */
     @Transactional
-    public AjaxResult changeStockNum(Integer itemId, Integer changeStockNum, String remark) throws BusinessException {
-        return changeStockNum(itemId, changeStockNum, null, remark);
+    public AjaxResult changeStockNum(Integer itemId, Integer changeStockNum, String remark, Integer changeType) throws BusinessException {
+        return changeStockNum(itemId, changeStockNum, null, remark, changeType);
     }
 
     /**
@@ -322,10 +339,11 @@ public class StockServiceImpl implements StockService {
      * @param changeStockNum 变化数量 负数表示扣除
      * @param orderId        订单id
      * @param remark         备注
+     * @param changeType     1-入库（预包装，手工入库），2-出库，3-取消退款入库 4-破损 5-核销
      * @return
      */
     @Transactional
-    public AjaxResult changeStockNum(Integer itemId, Integer changeStockNum, Integer orderId, String remark) throws BusinessException {
+    public AjaxResult changeStockNum(Integer itemId, Integer changeStockNum, Integer orderId, String remark, Integer changeType) throws BusinessException {
         AjaxResult ajaxResult = new AjaxResult();
         //查询商品库存是否存在
         Stock stock = new Stock();
@@ -363,8 +381,8 @@ public class StockServiceImpl implements StockService {
         //添加变更记录
         StockRecord stockRecord = new StockRecord();
         stockRecord.setChangeNum(changeStockNum);
-        //1-增加 2-减少
-        stockRecord.setChangType(changeStockNum > 0 ? 1 : 2);
+        //1-入库（预包装，手工入库），2-出库，3-取消退款入库 4-破损 5-核销
+        stockRecord.setChangType(changeType);
         stockRecord.setInsertDate(DateUtils.getNowDate());
         stockRecord.setInsertUserId((Integer) SecurityUtils.getSubject().getSession().getAttribute(AppConstants.SESSION_USER_ID_KEY));
         stockRecord.setUpdateDate(DateUtils.getNowDate());

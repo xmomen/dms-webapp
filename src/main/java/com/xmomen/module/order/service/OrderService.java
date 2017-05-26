@@ -250,7 +250,7 @@ public class OrderService {
         //扣除订单相应的产品库存
         for (CreateOrder.OrderItem orderItem : createOrder.getOrderItemList()) {
             //扣除库存
-            stockService.changeStockNum(orderItem.getOrderItemId(), 0 - orderItem.getItemQty().intValue(), tbOrder.getId(), "商品下单商品：" + orderItem.getItemQty() + "扣除,库存减少");
+            stockService.changeStockNum(orderItem.getOrderItemId(), 0 - orderItem.getItemQty().intValue(), tbOrder.getId(), "商品下单：" + orderItem.getItemQty() + "扣除,库存减少", 2);
         }
 
         if (StringUtils.trimToNull(createOrder.getPaymentRelationNo()) != null && createOrder.getOrderType() > 0) {
@@ -353,11 +353,11 @@ public class OrderService {
                                 //校验库存是否够
                                 stockService.checkStock(oldOrderItem.getItemId(), newQty - oldQty);
                                 //将库存改变
-                                stockService.changeStockNum(oldOrderItem.getItemId(), oldQty - newQty, updateOrder.getId(), "订单商品" + oldQty + "变更为" + newQty + "，库存减少");
+                                stockService.changeStockNum(oldOrderItem.getItemId(), oldQty - newQty, updateOrder.getId(), "订单商品" + oldQty + "变更为" + newQty + "，库存减少", 2);
                             }
                             else {
                                 //将库存改变
-                                stockService.changeStockNum(oldOrderItem.getItemId(), oldQty - newQty, updateOrder.getId(), "订单商品" + oldQty + "变更为" + newQty + "，库存增加");
+                                stockService.changeStockNum(oldOrderItem.getItemId(), oldQty - newQty, updateOrder.getId(), "订单商品" + oldQty + "变更为" + newQty + "，库存增加", 3);
                             }
                         }
                     }
@@ -368,7 +368,7 @@ public class OrderService {
                         //校验库存是否够
                         stockService.checkStock(cdItem.getId(), orderItem.getItemQty().intValue());
                         //将库存改变
-                        stockService.changeStockNum(cdItem.getId(), 0 - orderItem.getItemQty().intValue(), updateOrder.getId(), "订单商品下单：" + orderItem.getItemQty().intValue() + "，库存减少");
+                        stockService.changeStockNum(cdItem.getId(), 0 - orderItem.getItemQty().intValue(), updateOrder.getId(), "订单商品下单：" + orderItem.getItemQty().intValue() + "，库存减少", 2);
                     }
                     tbOrderItem.setOrderNo(orderNo);
                     tbOrderItem.setItemCode(cdItem.getItemCode());
@@ -395,7 +395,7 @@ public class OrderService {
             mybatisDao.delete(oldOrderItemMap.get(key));
             //库存相应的返回
             TbOrderItem tbOrderItem = oldOrderItemMap.get(key);
-            stockService.changeStockNum(tbOrderItem.getItemId(), tbOrderItem.getItemQty().intValue(), updateOrder.getId(), "商品取消，库存退回");
+            stockService.changeStockNum(tbOrderItem.getItemId(), tbOrderItem.getItemQty().intValue(), updateOrder.getId(), "商品取消，库存退回", 3);
         }
 
         TbOrder tbOrder = mybatisDao.selectByPrimaryKey(TbOrder.class, updateOrder.getId());
@@ -505,7 +505,7 @@ public class OrderService {
         tbOrderItemExample.createCriteria().andOrderNoEqualTo(tbOrder.getOrderNo());
         List<TbOrderItem> tbOrderItems = mybatisDao.selectByExample(tbOrderItemExample);
         for (TbOrderItem tbOrderItem : tbOrderItems) {
-            stockService.changeStockNum(tbOrderItem.getItemId(), tbOrderItem.getItemQty().intValue(), tbOrder.getId(), "订单取消退回商品");
+            stockService.changeStockNum(tbOrderItem.getItemId(), tbOrderItem.getItemQty().intValue(), tbOrder.getId(), "订单取消退回商品", 3);
         }
 
         //如果是卡类订单或者是餐桌计划订单(将钱退回卡里面)
@@ -971,7 +971,7 @@ public class OrderService {
         //扣除订单相应的产品库存
         for (WxCreateOrder.OrderItem orderItem : createOrder.getOrderItemList()) {
             //扣除库存
-            stockService.changeStockNum(orderItem.getOrderItemId(), 0 - orderItem.getItemQty().intValue(), tbOrder.getId(), "后台订单扣除商品");
+            stockService.changeStockNum(orderItem.getOrderItemId(), 0 - orderItem.getItemQty().intValue(), tbOrder.getId(), "微信订单扣除商品", 2);
         }
 
         // tbOrderNo validation

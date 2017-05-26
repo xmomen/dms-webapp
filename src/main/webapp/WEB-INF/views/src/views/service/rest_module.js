@@ -70,6 +70,14 @@ define(function () {
         });
     }]);
 
+    ngREST.factory("StockDailyAPI", ["$resource", function ($resource) {
+        return $resource("/stockDaily/:id", {id: '@id'}, {
+            query: {isArray: false},
+            update: {method: "PUT", params: {id: "@id"}},
+            createStockDaily: {method: "GET", url: "/stockDaily/createStockDaily"}
+        });
+    }]);
+
     ngREST.factory("ResourceAPI", ["$resource", function ($resource) {
         return $resource("/resource/:id", {id: '@id'}, {
             query: {isArray: false},

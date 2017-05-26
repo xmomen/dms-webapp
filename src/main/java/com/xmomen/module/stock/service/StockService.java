@@ -60,6 +60,7 @@ public interface StockService {
 
     /**
      * 库存变更
+     *
      * @param stockChange
      */
     public void changeStock(StockChange stockChange);
@@ -152,9 +153,10 @@ public interface StockService {
      * @param changeStockNum 变化数量 负数表示扣除
      * @param orderId        订单id
      * @param remark         备注
+     * @param changeType     1-入库（预包装，手工入库），2-出库，3-取消退款入库 4-破损 5-核销
      * @return
      */
-    public AjaxResult changeStockNum(Integer itemId, Integer changeStockNum, Integer orderId, String remark) throws BusinessException;
+    public AjaxResult changeStockNum(Integer itemId, Integer changeStockNum, Integer orderId, String remark, Integer changeType) throws BusinessException;
 
     /**
      * 库存变化表
@@ -162,7 +164,8 @@ public interface StockService {
      * @param itemId         商品id
      * @param changeStockNum 变化数量 负数表示扣除
      * @param remark         备注
+     * @param changeType     1-入库（预包装，手工入库），2-出库，3-取消退款入库 4-破损 5-核销
      * @return
      */
-    public AjaxResult changeStockNum(Integer itemId, Integer changeStockNum, String remark) throws BusinessException;
+    public AjaxResult changeStockNum(Integer itemId, Integer changeStockNum, String remark, Integer changeType) throws BusinessException;
 }

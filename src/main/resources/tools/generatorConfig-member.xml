@@ -73,20 +73,20 @@
 
         <!-- #########  自定义配置   #########-->
 
-        <javaModelGenerator targetPackage="com.xmomen.module.beforehandpackagerecord.entity"
+        <javaModelGenerator targetPackage="com.xmomen.module.stockdaily.entity"
                             targetProject="./src/main/java">
             <property name="rootClass" value="com.xmomen.framework.mybatis.model.BaseMybatisModel"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="com.xmomen.module.beforehandpackagerecord.entity.mapper"
+        <sqlMapGenerator targetPackage="com.xmomen.module.stockdaily.entity.mapper"
                          targetProject="./src/main/java"/>
-        <javaClientGenerator targetPackage="com.xmomen.module.beforehandpackagerecord.entity.mapper"
+        <javaClientGenerator targetPackage="com.xmomen.module.stockdaily.entity.mapper"
                              targetProject="./src/main/java" type="XMLMAPPER">
         </javaClientGenerator>
-        <table tableName="cd_beforehand_package_record" domainObjectName="BeforehandPackageRecord">
-            <property name="tableComment" value="预包装记录表"/>
-            <property name="modulePackage" value="com.xmomen.module.beforehandpackagerecord"/>
-            <property name="moduleName" value="advice"/>
+        <table tableName="cd_stock_daily" domainObjectName="StockDaily">
+            <property name="tableComment" value="库存日报"/>
+            <property name="modulePackage" value="com.xmomen.module.stockdaily"/>
+            <property name="moduleName" value="stockDaily"/>
             <!--<property name="hideColumns" value="salt,password" />-->
             <!--<property name="keywordColumns" value="USERNAME,NICKNAME,EMAIL,PHONE_NUMBER" />-->
             <generatedKey column="id" sqlStatement="SELECT replace(UUID(),'-','')"/>
