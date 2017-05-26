@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.module.stockdaily.mapper.StockDailyMapperExt" >
+
+    <!--    查询消息    -->
+    <select id="getStockDailyModel"
+            resultType="com.xmomen.module.stockdaily.model.StockDailyModel"
+            parameterType="com.xmomen.module.stockdaily.model.StockDailyQuery">
+        SELECT
+          t.*
+          ,item.item_code
+          ,item.item_name
+        FROM cd_stock_daily t
+        LEFT JOIN cd_item item ON item.id = t.item_id
+        <where>
+            <if test="id">
+                AND t.ID = #{id}
+            </if>
+            <if test="dailyDateStart">
+                <![CDATA[
+                  AND DATE_FORMAT(t.daily_date ,'%Y-%m-%d')>= #{dailyDateStart}
+                ]]>
+            </if>
+            <if test="dailyDateEnd">
+                <![CDATA[
+                  AND DATE_FORMAT(t.daily_date ,'%Y-%m-%d')<= #{dailyDateEnd}
+                ]]>
+            </if>
+            <if test="keyword">
+                AND (item.item_code LIKE CONCAT('%', #{keyword}, '%')
+                OR item.item_name LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+            <if test="ids">
+                AND t.ID IN
+                <foreach collection="ids" item="item" separator="," open="(" close=")">
+                #{item}
+                </foreach>
+            </if>
+            <if test="excludeIds">
+                AND t.ID NOT IN
+                <foreach collection="excludeIds" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+          </where>
+          ORDER BY t.id
+    </select>
+
+    <insert id="createStockDaily">
+        INSERT INTO
+          cd_stock_daily
+        SELECT
+            REPLACE(UUID(),'-','') id
+            ,stock.id stock_id
+            ,item_id
+            ,IFNULL((select new_stock_num from cd_stock_daily stock_daily where stock_daily.daily_date = date_sub(CURDATE(),interval 1 day) and stock_daily.stock_id = stock.id ),0) old_stock_num
+            ,IFNULL(SUM(CASE when stock_record.chang_type = 1 then stock_record.change_num else null end),0)  in_num
+            ,IFNULL(SUM(CASE when stock_record.chang_type =3 then stock_record.change_num else null end),0)   return_in_num
+            ,IFNULL(0-SUM(CASE when stock_record.chang_type =2 then stock_record.change_num else null end),0)   out_num
+            ,IFNULL(0-SUM(CASE when stock_record.chang_type =4 then stock_record.change_num else null end),0)   damaged_num
+            ,IFNULL(0-SUM(CASE when stock_record.chang_type =5 then stock_record.change_num else null end),0)   verification_num
+            ,stock.stock_num new_stock_num
+            ,CURDATE() daily_date
+            ,now() insert_date
+        FROM
+            cd_stock stock
+            LEFT JOIN cd_stock_record stock_record ON stock.id = stock_record.stock_id AND DATE_FORMAT(stock_record.insert_date ,'%Y-%m-%d') = CURDATE()
+        GROUP BY
+            stock.item_id
+    </insert>
+
+</mapper>
