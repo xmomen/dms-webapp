@@ -43,7 +43,7 @@
                 </foreach>
             </if>
           </where>
-          ORDER BY t.id
+          ORDER BY item.item_code
     </select>
 
     <insert id="createStockDaily">
