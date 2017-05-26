@@ -145,6 +145,7 @@ public class StockServiceImpl implements StockService {
         if (AppConstants.STOCK_CHANGE_TYPE_IN == stockChange.getType()) {
             stockRecord.setChangeNum(stockChange.getNumber());
             stockRecord.setChangType(1);
+            stockRecord.setRemark("手工入库");
             stock.setStockNum(stock.getStockNum() + stockChange.getNumber());
         }
         else if (AppConstants.STOCK_CHANGE_TYPE_BROKEN == stockChange.getType()) {
@@ -153,6 +154,7 @@ public class StockServiceImpl implements StockService {
                 throw new BusinessException("请输入小于库存数量的破损数值");
             }
             stockRecord.setChangType(2);
+            stockRecord.setRemark("破损");
             stockRecord.setChangeNum(stockChange.getNumber() * -1);
             stock.setStockNum(num);
         }
@@ -161,7 +163,8 @@ public class StockServiceImpl implements StockService {
             if (num < 0) {
                 throw new BusinessException("请输入小于库存数量的核销数值");
             }
-            stockRecord.setChangType(3);
+            stockRecord.setChangType(2);
+            stockRecord.setRemark("核销");
             stockRecord.setChangeNum(stockChange.getNumber() * -1);
             stock.setStockNum(num);
         }
@@ -372,7 +375,7 @@ public class StockServiceImpl implements StockService {
         mybatisDao.save(stockRecord);
 
         //预包装添加包装记录
-        if (remark.equals("预包装")) {
+        if (remark.equals("预包装入库")) {
             //添加预包装记录
             BeforehandPackageRecord beforehandPackageRecord = new BeforehandPackageRecord();
             beforehandPackageRecord.setInsertDate(DateUtils.getNowDate());
