@@ -410,11 +410,11 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-1">折扣</label>
                                     <div class="col-md-2">
-                                        <input type="text" ng-model="order.discount" placeholder="折扣百分比" class="form-control" data-ng-keyup="discountTotalPrice(1)">
+                                        <input type="text" ng-model="order.discount" placeholder="折扣百分比" class="form-control" data-ng-blur="discountTotalPrice(1)">
                                     </div>
                                     <label class="control-label col-md-1">折扣金额</label>
                                     <div class="col-md-2">
-                                        <input type="text" ng-model="order.discountPrice" placeholder="折扣金额" class="form-control" data-ng-keyup="discountTotalPrice(2)">
+                                        <input type="text" ng-model="order.discountPrice" placeholder="折扣金额" class="form-control" data-ng-blur="discountTotalPrice(2)">
                                     </div>
                                     <label class="col-md-2 control-label">显示订单金额</label>
                                     <div class="col-md-2">

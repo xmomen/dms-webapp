@@ -21,10 +21,12 @@
         ce.EXPRESS_NAME,
         -- 付款方式
         tb.PAYMENT_MODE,
+        tb.total_amount,
+        tb.discount_price,
         -- 付款金额
         CASE
         WHEN tb.ORDER_TYPE = '1' or tb.order_type = '2' or tb.order_type= '3' THEN pay.AMOUNT
-        ELSE tb.TOTAL_AMOUNT END pay_amount,
+        ELSE tb.TOTAL_AMOUNT-tb.discount_price END pay_amount,
         -- 额外付款方式
         tb.OTHER_PAYMENT_MODE as otherPaymentMode,
         -- 额外付款金额
@@ -134,7 +136,7 @@
         -- 总张数
         ,sum(temp_table.before_coupon_count) before_coupon_count
         -- 总金额
-        ,sum(temp_table.before_total_value) before_total_value
+        ,(sum(temp_table.before_total_value) + sum(temp_table.before_total_recharge_value)) before_total_value
         -- 充值金额
         ,sum(temp_table.before_total_recharge_value) before_total_recharge_value
         -- 已付
@@ -152,7 +154,7 @@
         -- 总张数
         ,sum(temp_table.after_coupon_count) after_coupon_count
         -- 总金额
-        ,sum(temp_table.after_total_value) after_total_value
+        ,(sum(temp_table.after_total_value) + sum(temp_table.after_total_recharge_value)) after_total_value
         -- 充值金额
         ,sum(temp_table.after_total_recharge_value) after_total_recharge_value
         -- 已付
@@ -192,7 +194,7 @@
         -- 总金额
         ,sum(coupon.COUPON_VALUE) before_total_value
         -- 充值金额
-        ,sum(trade_record.AMOUNT) before_total_recharge_value
+        ,0 before_total_recharge_value
         -- 已付
         ,sum(coupon_ref.REF_VALUE) before_total_yes_value
         -- 未付
@@ -242,8 +244,6 @@
         FROM
         cd_coupon coupon
         LEFT JOIN
-        tb_trade_record trade_record ON trade_record.TRADE_NO AND trade_record.TRADE_NO = coupon.COUPON_NUMBER AND trade_record.TRADE_TYPE ='recharge'
-        LEFT JOIN
         cd_coupon_ref coupon_ref ON coupon_ref.CD_COUPON_ID = coupon.ID AND coupon_ref.REF_TYPE = 'RECEIVED_PRICE'
         WHERE
         coupon.IS_SEND = 1
@@ -262,6 +262,85 @@
         GROUP BY
         coupon.CD_COMPANY_ID,coupon.CD_USER_ID
 
+        -- 充值金额
+        UNION ALL
+        SELECT
+        coupon.cd_company_id
+        ,coupon.cd_user_id
+        -- 预付款
+        -- 总张数
+        ,0 before_coupon_count
+        -- 总金额
+        ,0 before_total_value
+        -- 充值金额
+        ,sum(trade_record.AMOUNT) before_total_recharge_value
+        -- 已付
+        ,0 before_total_yes_value
+        -- 未付
+        ,0 before_total_no_value
+        -- 余额
+        ,0 before_user_total_value
+        -- 回馈总金额
+        ,0 before_gift_total_value
+        -- 回馈剩余金额
+        ,0 before_gift_user_total_value
+
+        -- 后付款
+        -- 总张数
+        ,0 after_coupon_count
+        -- 总金额
+        ,0 after_total_value
+        -- 充值金额
+        ,0 after_total_recharge_value
+        -- 已付
+        ,0 after_total_yes_value
+        -- 未付
+        ,0 after_total_no_value
+        -- 余额
+        ,0 after_user_total_value
+        -- 回馈总金额
+        ,0 after_gift_total_value
+        -- 回馈剩余金额
+        ,0 after_gift_user_total_value
+
+        -- 常规订单数据
+        -- 总单数
+        ,0 total_order
+        -- 订单总金额
+        ,0 total_order_amount
+        -- 优惠金额
+        ,0 youhui_amount
+        -- 回馈总金额
+        ,0 gift_order_total
+        -- 客户经理代收
+        ,0 manager_amount
+        -- POS
+        ,0 pos_amount
+        -- 转账
+        ,0 zhuan_amount
+        -- 物流代收
+        ,0 express_amount
+        FROM
+        cd_coupon coupon
+        LEFT JOIN
+        tb_trade_record trade_record ON trade_record.TRADE_NO AND trade_record.TRADE_NO = coupon.COUPON_NUMBER AND trade_record.TRADE_TYPE ='recharge'
+        WHERE
+        coupon.IS_SEND = 1
+        AND coupon.CD_COMPANY_ID IS NOT NULL
+        AND coupon.PAYMENT_TYPE = 1
+        <if test="beginTime">
+            <![CDATA[
+                  AND DATE_FORMAT(trade_record.CREATE_TIME ,'%Y-%m-%d')>= #{beginTime}
+                ]]>
+        </if>
+        <if test="endTime">
+            <![CDATA[
+                  AND DATE_FORMAT(trade_record.CREATE_TIME ,'%Y-%m-%d')<= #{endTime}
+                ]]>
+        </if>
+        GROUP BY
+        coupon.CD_COMPANY_ID,coupon.CD_USER_ID
+        -- 后付款
         UNION ALL
         SELECT
         coupon.cd_company_id
