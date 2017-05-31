@@ -21,12 +21,14 @@
         ce.EXPRESS_NAME,
         -- 付款方式
         tb.PAYMENT_MODE,
-        tb.total_amount,
+        -- 订单总金额
+        tb.total_amount + tb.discount_price,
+        -- 订单折扣金额
         tb.discount_price,
         -- 付款金额
         CASE
         WHEN tb.ORDER_TYPE = '1' or tb.order_type = '2' or tb.order_type= '3' THEN pay.AMOUNT
-        ELSE tb.TOTAL_AMOUNT-tb.discount_price END pay_amount,
+        ELSE tb.TOTAL_AMOUNT END pay_amount,
         -- 额外付款方式
         tb.OTHER_PAYMENT_MODE as otherPaymentMode,
         -- 额外付款金额

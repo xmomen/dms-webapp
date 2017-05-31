@@ -94,7 +94,7 @@ public @Data class UpdateOrder implements Serializable {
     /**
      * 折扣
      */
-    private Integer discount;
+    private Double discount;
 
     /**
      * 是否显示金额
