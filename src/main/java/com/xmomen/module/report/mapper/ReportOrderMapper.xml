@@ -22,7 +22,7 @@
         -- 付款方式
         tb.PAYMENT_MODE,
         -- 订单总金额
-        tb.total_amount + tb.discount_price,
+        tb.total_amount + tb.discount_price total_amount,
         -- 订单折扣金额
         tb.discount_price,
         -- 付款金额
