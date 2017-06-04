@@ -27,7 +27,7 @@ import org.springframework.http.HttpStatus;
 import com.alibaba.fastjson.JSONObject;
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.base.entity.CdMember;
-import com.xmomen.module.base.service.MemberSercvice;
+import com.xmomen.module.base.service.MemberService;
 import com.xmomen.module.core.web.WebCommonUtils;
 import com.xmomen.module.core.web.token.MemberUserToken;
 
@@ -38,7 +38,7 @@ public class PcFormAuthenticationFilter extends FormAuthenticationFilter {
     public static final String DEFAULT_ERROR_EXCEPTION_KEY_ATTRIBUTE_NAME = "shiroLoginFailureException";
 
 	@Autowired
-	private MemberSercvice memberService;
+	private MemberService memberService;
 	
 	private void initUserContext(String phoneNumber, Subject subject){
         CdMember query = new CdMember();

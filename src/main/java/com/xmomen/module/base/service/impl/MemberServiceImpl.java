@@ -18,7 +18,7 @@ import com.xmomen.module.base.entity.CdMemberCouponRelationExample;
 import com.xmomen.module.base.model.CreateMember;
 import com.xmomen.module.base.model.UpdateMember;
 import com.xmomen.module.base.service.CouponService;
-import com.xmomen.module.base.service.MemberSercvice;
+import com.xmomen.module.base.service.MemberService;
 import com.xmomen.module.member.entity.MemberAddress;
 import com.xmomen.module.member.entity.MemberAddressExample;
 import com.xmomen.module.member.model.MemberAddressCreate;
@@ -26,7 +26,7 @@ import com.xmomen.module.member.model.MemberAddressUpdate;
 import com.xmomen.module.wx.module.cart.service.CartService;
 
 //@Service
-public class MemberSercviceImpl implements MemberSercvice {
+public class MemberServiceImpl implements MemberService {
     @Autowired
     MybatisDao mybatisDao;
 

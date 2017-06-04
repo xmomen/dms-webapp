@@ -18,14 +18,14 @@ import org.apache.shiro.util.ByteSource;
 
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.base.entity.CdMember;
-import com.xmomen.module.base.service.MemberSercvice;
+import com.xmomen.module.base.service.MemberService;
 import com.xmomen.module.core.web.token.MemberUserToken;
 
 public class MemberRealm extends AuthorizingRealm {
 
-	MemberSercvice memberService;
+	MemberService memberService;
 
-	public void setMemberService(MemberSercvice memberService) {
+	public void setMemberService(MemberService memberService) {
 		this.memberService = memberService;
 	}
 	@Override

@@ -3,7 +3,7 @@ package com.xmomen.module.core.web.mgt;
 import com.xmomen.module.account.service.UserService;
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.base.entity.CdMember;
-import com.xmomen.module.base.service.MemberSercvice;
+import com.xmomen.module.base.service.MemberService;
 import com.xmomen.module.user.entity.SysUsers;
 
 import org.apache.shiro.authc.Authenticator;
@@ -22,7 +22,7 @@ public class WebSecurityManagerExt extends DefaultWebSecurityManager {
     UserService userService;
 
     @Autowired
-    MemberSercvice memberService;
+    MemberService memberService;
 
     protected Subject doCreateSubject(SubjectContext context) {
     	Subject subject = this.getSubjectFactory().createSubject(context);

@@ -25,7 +25,7 @@ import com.xmomen.module.base.mapper.MemberMapper;
 import com.xmomen.module.base.model.CreateMember;
 import com.xmomen.module.base.model.MemberModel;
 import com.xmomen.module.base.model.UpdateMember;
-import com.xmomen.module.base.service.MemberSercvice;
+import com.xmomen.module.base.service.MemberService;
 import com.xmomen.module.logger.Log;
 
 /**
@@ -35,7 +35,7 @@ import com.xmomen.module.logger.Log;
 public class MemberController {
 
     @Autowired
-    MemberSercvice memberService;
+    MemberService memberService;
     @Autowired
     MemberMapper memberMapper;
     @Autowired

@@ -1,15 +1,9 @@
 package com.xmomen.module.wx.controller;
 
 import com.xmomen.module.base.entity.CdMember;
-import com.xmomen.module.base.service.MemberSercvice;
-import com.xmomen.module.member.model.MemberAddressModel;
-import com.xmomen.module.member.model.MemberAddressQuery;
-import com.xmomen.module.member.service.MemberAddressService;
+import com.xmomen.module.base.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.List;
 
 /**
  * @author tanxinzheng
@@ -21,7 +15,7 @@ import java.util.List;
 public class WxMemberController {
 
     @Autowired
-    MemberSercvice memberSercvice;
+    MemberService memberSercvice;
 
 
     /**

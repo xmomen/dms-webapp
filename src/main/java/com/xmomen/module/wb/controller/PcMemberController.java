@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.base.entity.CdMember;
-import com.xmomen.module.base.service.MemberSercvice;
+import com.xmomen.module.base.service.MemberService;
 
 @RestController
 @RequestMapping(value = "/wb/member")
 public class PcMemberController {
 
 	@Autowired
-	MemberSercvice memberSercvice;
+    MemberService memberSercvice;
 
 
     /**

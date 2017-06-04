@@ -2,8 +2,6 @@ package com.xmomen.module.wx.controller;
 
 import com.xmomen.module.advice.model.AdviceModel;
 import com.xmomen.module.advice.service.AdviceService;
-import com.xmomen.module.base.entity.CdMember;
-import com.xmomen.module.base.service.MemberSercvice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

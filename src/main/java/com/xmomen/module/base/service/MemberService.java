@@ -6,7 +6,7 @@ import com.xmomen.module.base.model.MemberModel;
 import com.xmomen.module.base.model.UpdateMember;
 import com.xmomen.module.member.model.MemberAddressModel;
 
-public interface MemberSercvice {
+public interface MemberService {
     public CdMember createMember(CreateMember createMember);
 
     public void updateMember(Integer id, UpdateMember updateMember);

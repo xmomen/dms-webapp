@@ -27,7 +27,7 @@ import com.xmomen.framework.exception.BusinessException;
 import com.xmomen.framework.web.rest.RestError;
 import com.xmomen.module.base.entity.CdMember;
 import com.xmomen.module.base.model.CreateMember;
-import com.xmomen.module.base.service.MemberSercvice;
+import com.xmomen.module.base.service.MemberService;
 import com.xmomen.module.core.web.filter.FormAuthenticationFilterExt;
 import com.xmomen.module.member.model.MemberAddressCreate;
 import com.xmomen.module.sms.api.SmsMessageService;
@@ -40,7 +40,7 @@ import com.xmomen.module.wb.model.PcMember;
 public class CommonMemberController extends PcBaseController{
 
 	@Autowired
-	MemberSercvice memberService;
+	MemberService memberService;
 
 	@Autowired
 	SmsMessageService smsMessageService;
