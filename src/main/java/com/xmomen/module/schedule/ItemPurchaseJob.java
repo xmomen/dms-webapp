@@ -7,6 +7,7 @@ import com.xmomen.module.order.service.PurchaseService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
@@ -18,6 +19,7 @@ import java.util.Date;
 @Component(value = "itemPurchaseJob")
 public class ItemPurchaseJob implements Job {
 
+    @Autowired
     PurchaseService purchaseService;
 
     @Override

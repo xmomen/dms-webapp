@@ -95,7 +95,6 @@ public @Data class WxCreateOrder implements Serializable {
     /**
      * 操作人
      */
-    @NotNull
     private Integer createUserId;
 
     private Date appointmentTime;

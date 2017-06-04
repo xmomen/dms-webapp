@@ -9,6 +9,7 @@ import com.xmomen.module.plan.service.TablePlanSercvice;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
@@ -19,6 +20,7 @@ import java.util.Date;
 @Component(value = "planJob")
 public class PlanJob implements Job {
 
+    @Autowired
 	TablePlanSercvice tablePlanSercvice;
 
     @Override
