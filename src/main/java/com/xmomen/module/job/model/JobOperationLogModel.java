@@ -32,5 +32,11 @@ public @Data class JobOperationLogModel implements Serializable{
     /**
      * 农残率
      */
-    private String nongCanLv; 
+    private String nongCanLv;
+
+
+    /**
+     * 生产地
+     */
+    private String yieldly;
 }

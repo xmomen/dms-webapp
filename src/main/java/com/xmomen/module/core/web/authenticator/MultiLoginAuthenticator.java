@@ -20,7 +20,6 @@ public class MultiLoginAuthenticator extends ModularRealmAuthenticator {
 			throws AuthenticationException {
 		assertRealmsConfigured();
 		//根据不同类型的token找对应的的Realm
-        Collection<Realm> realms = getRealms();
         String realmKey = "";
         if(authenticationToken instanceof MemberUserToken) {
             realmKey = ((MemberUserToken)authenticationToken).getRealmKey();
@@ -41,7 +40,6 @@ public class MultiLoginAuthenticator extends ModularRealmAuthenticator {
 		Collection<Realm> realms = getRealms();
 		for(Realm realm: realms) {
 			// 不是很严格，但是根据是否名字包含就足够
-			System.out.println("relam name is: " + realm.getName());
 			if(realm.getName().indexOf(realmName) > -1) {
 				return realm;
 			}

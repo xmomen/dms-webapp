@@ -36,6 +36,10 @@
                     #{listItem}
                 </foreach>
             </if>
+            <if test="excludeStock">
+                AND cm.id NOT IN
+                (SELECT item_id FROM cd_stock )
+            </if>
             <if test="ids">
                 AND cm.id IN
                 <foreach collection="ids" item="listItem" open="(" close=")" separator=",">

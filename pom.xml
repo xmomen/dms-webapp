@@ -1,558 +1,558 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.xmomen</groupId>
-	<artifactId>dms-webapp</artifactId>
-	<version>1.0-SNAPSHOT</version>
-	<packaging>war</packaging>
-	<properties>
+    <groupId>com.xmomen</groupId>
+    <artifactId>dms-webapp</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
     </properties>
-	<repositories>
-		<repository>
-			<id>sonatype-nexus-snapshots</id>
-			<name>Nexus Snapshots Repository</name>
-			<layout>default</layout>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>sonatype-nexus-snapshots</id>
-			<name>Nexus Snapshots Repository</name>
-			<layout>default</layout>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</pluginRepository>
-	</pluginRepositories>
+    <repositories>
+        <repository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Nexus Snapshots Repository</name>
+            <layout>default</layout>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Nexus Snapshots Repository</name>
+            <layout>default</layout>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </pluginRepository>
+    </pluginRepositories>
 
-	<!--<repositories> -->
-	<!--<repository> -->
-	<!--<id>public</id> -->
-	<!--<name>Public Repositories</name> -->
-	<!--<layout>default</layout> -->
-	<!--<url>http://192.168.8.200:8082/nexus/content/groups/public</url> -->
-	<!--<snapshots> -->
-	<!--<enabled>true</enabled> -->
-	<!--<updatePolicy>always</updatePolicy> -->
-	<!--</snapshots> -->
-	<!--<releases> -->
-	<!--<enabled>true</enabled> -->
-	<!--<updatePolicy>always</updatePolicy> -->
-	<!--</releases> -->
-	<!--</repository> -->
-	<!--</repositories> -->
-	<!--<pluginRepositories> -->
-	<!--<pluginRepository> -->
-	<!--<id>public</id> -->
-	<!--<name>Public Repositories</name> -->
-	<!--<url>http://192.168.8.200:8082/nexus/content/groups/public</url> -->
-	<!--<layout>default</layout> -->
-	<!--<snapshots> -->
-	<!--<enabled>true</enabled> -->
-	<!--<updatePolicy>always</updatePolicy> -->
-	<!--</snapshots> -->
-	<!--<releases> -->
-	<!--<enabled>true</enabled> -->
-	<!--<updatePolicy>always</updatePolicy> -->
-	<!--</releases> -->
-	<!--</pluginRepository> -->
-	<!--</pluginRepositories> -->
+    <!--<repositories> -->
+    <!--<repository> -->
+    <!--<id>public</id> -->
+    <!--<name>Public Repositories</name> -->
+    <!--<layout>default</layout> -->
+    <!--<url>http://192.168.8.200:8082/nexus/content/groups/public</url> -->
+    <!--<snapshots> -->
+    <!--<enabled>true</enabled> -->
+    <!--<updatePolicy>always</updatePolicy> -->
+    <!--</snapshots> -->
+    <!--<releases> -->
+    <!--<enabled>true</enabled> -->
+    <!--<updatePolicy>always</updatePolicy> -->
+    <!--</releases> -->
+    <!--</repository> -->
+    <!--</repositories> -->
+    <!--<pluginRepositories> -->
+    <!--<pluginRepository> -->
+    <!--<id>public</id> -->
+    <!--<name>Public Repositories</name> -->
+    <!--<url>http://192.168.8.200:8082/nexus/content/groups/public</url> -->
+    <!--<layout>default</layout> -->
+    <!--<snapshots> -->
+    <!--<enabled>true</enabled> -->
+    <!--<updatePolicy>always</updatePolicy> -->
+    <!--</snapshots> -->
+    <!--<releases> -->
+    <!--<enabled>true</enabled> -->
+    <!--<updatePolicy>always</updatePolicy> -->
+    <!--</releases> -->
+    <!--</pluginRepository> -->
+    <!--</pluginRepositories> -->
 
-	<profiles>
-		<profile>
-			<id>dev</id>
-			<properties>
-				<env>dev</env>
-			</properties>
-		</profile>
-		<profile>
-			<id>local</id>
-			<properties>
-				<env>local</env>
-			</properties>
-		</profile>
-		<profile>
-			<id>prd</id>
-			<properties>
-				<env>prd</env>
-			</properties>
-		</profile>
-		<profile>
-			<id>rls</id>
-			<properties>
-				<env>rls</env>
-			</properties>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-		</profile>
-	</profiles>
-	<build>
-		<finalName>ROOT</finalName>
-		<filters>
-			<filter>src/main/resources/deploy/env-${env}.properties</filter>
-		</filters>
-		<resources>
-			<resource>
-				<directory>src/main/java</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
-			</resource>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>**/*.properties</include>
-					<include>**/*.xml</include>
-					<include>**/*.xls</include>
-					<include>**/*.conf</include>
-				</includes>
-				<excludes>
-					<exclude>deploy/**</exclude>
-					<exclude>sql/**</exclude>
-				</excludes>
-			</resource>
-		</resources>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<webResources>
-						<resource>
-							<directory>${project.basedir}/lib</directory>
-							<targetPath>WEB-INF/lib</targetPath>
-							<filtering>true</filtering>
-							<includes>
-								<include>**/*.jar</include>
-							</includes>
-						</resource>
-					</webResources>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.5.1</version>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>8.1.8.v20121106</version>
-				<configuration>
-					<webAppConfig>
-						<contextPath>/</contextPath>
-					</webAppConfig>
-					<connectors>
-						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-							<port>8700</port>
-							<maxIdleTime>60000</maxIdleTime>
-						</connector>
-					</connectors>
-				</configuration>
-			</plugin>
-			<!-- <plugin> -->
-			<!-- <groupId>org.jacoco</groupId> -->
-			<!-- <artifactId>jacoco-maven-plugin</artifactId> -->
-			<!-- <version>0.7.1.201405082137</version> -->
-			<!-- <executions> -->
-			<!-- <execution> -->
-			<!-- <id>pre-test</id> -->
-			<!-- <goals> -->
-			<!-- <goal>prepare-agent</goal> -->
-			<!-- </goals> -->
-			<!-- </execution> -->
-			<!-- <execution> -->
-			<!-- <id>post-test</id> -->
-			<!-- <phase>test</phase> -->
-			<!-- <goals> -->
-			<!-- <goal>report</goal> -->
-			<!-- </goals> -->
-			<!-- </execution> -->
-			<!-- </executions> -->
-			<!-- </plugin> -->
-			<!-- <plugin> -->
-			<!-- <groupId>org.apache.maven.plugins</groupId> -->
-			<!-- <artifactId>maven-surefire-plugin</artifactId> -->
-			<!-- <version>2.12.2</version> -->
-			<!-- <configuration> -->
-			<!-- <skip>true</skip> -->
-			<!-- <systemPropertyVariables> -->
-			<!-- 生成结果存放路径 -->
-			<!-- <jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile> -->
-			<!-- </systemPropertyVariables> -->
-			<!-- </configuration> -->
-			<!-- </plugin> -->
-			<plugin>
-				<groupId>org.mybatis.generator</groupId>
-				<artifactId>mybatis-generator-maven-plugin</artifactId>
-				<version>1.3.0</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.mybatis.generator</groupId>
-						<artifactId>mybatis-generator-core</artifactId>
-						<version>1.3.2</version>
-					</dependency>
-					<dependency>
-						<groupId>com.xmomen.maven.plugins</groupId>
-						<artifactId>mybatis-generator</artifactId>
-						<version>1.0.0-SNAPSHOT</version>
-					</dependency>
-				</dependencies>
-				<configuration>
-					<configurationFile>src/main/resources/tools/generatorConfig.xml</configurationFile>
-					<verbose>true</verbose>
-					<overwrite>true</overwrite>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.xmomen.maven.plugins</groupId>
-				<artifactId>xmomen-generator-maven-plugin</artifactId>
-				<version>1.0-SNAPSHOT</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.mybatis.generator</groupId>
-						<artifactId>mybatis-generator-core</artifactId>
-						<version>1.3.2</version>
-					</dependency>
-					<dependency>
-						<groupId>com.xmomen.maven.plugins</groupId>
-						<artifactId>mybatis-generator</artifactId>
-						<version>1.1.0-SNAPSHOT</version>
-						<scope>compile</scope>
-					</dependency>
-					<dependency>
-						<groupId>mysql</groupId>
-						<artifactId>mysql-connector-java</artifactId>
-						<version>5.1.31</version>
-						<scope>runtime</scope>
-					</dependency>
-				</dependencies>
-				<configuration>
-					<configurationFiles>
-						<configurationFile>src/main/resources/tools/generatorConfig-member.xml</configurationFile>
-					</configurationFiles>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-	<dependencies>
-		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20160212</version>
-		</dependency>
-		<dependency>
-			<groupId>com.baidu.ueditor</groupId>
-			<artifactId>ueditor</artifactId>
-			<version>1.1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/ueditor-1.1.2.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.4</version>
-		</dependency>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <env>dev</env>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>local</id>
+            <properties>
+                <env>local</env>
+            </properties>
+        </profile>
+        <profile>
+            <id>prd</id>
+            <properties>
+                <env>prd</env>
+            </properties>
+        </profile>
+        <profile>
+            <id>rls</id>
+            <properties>
+                <env>rls</env>
+            </properties>
+        </profile>
+    </profiles>
+    <build>
+        <finalName>ROOT</finalName>
+        <filters>
+            <filter>src/main/resources/deploy/env-${env}.properties</filter>
+        </filters>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.xls</include>
+                    <include>**/*.conf</include>
+                </includes>
+                <excludes>
+                    <exclude>deploy/**</exclude>
+                    <exclude>sql/**</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>${project.basedir}/lib</directory>
+                            <targetPath>WEB-INF/lib</targetPath>
+                            <filtering>true</filtering>
+                            <includes>
+                                <include>**/*.jar</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>8.1.8.v20121106</version>
+                <configuration>
+                    <webAppConfig>
+                        <contextPath>/</contextPath>
+                    </webAppConfig>
+                    <connectors>
+                        <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+                            <port>8700</port>
+                            <maxIdleTime>60000</maxIdleTime>
+                        </connector>
+                    </connectors>
+                </configuration>
+            </plugin>
+            <!-- <plugin> -->
+            <!-- <groupId>org.jacoco</groupId> -->
+            <!-- <artifactId>jacoco-maven-plugin</artifactId> -->
+            <!-- <version>0.7.1.201405082137</version> -->
+            <!-- <executions> -->
+            <!-- <execution> -->
+            <!-- <id>pre-test</id> -->
+            <!-- <goals> -->
+            <!-- <goal>prepare-agent</goal> -->
+            <!-- </goals> -->
+            <!-- </execution> -->
+            <!-- <execution> -->
+            <!-- <id>post-test</id> -->
+            <!-- <phase>test</phase> -->
+            <!-- <goals> -->
+            <!-- <goal>report</goal> -->
+            <!-- </goals> -->
+            <!-- </execution> -->
+            <!-- </executions> -->
+            <!-- </plugin> -->
+            <!-- <plugin> -->
+            <!-- <groupId>org.apache.maven.plugins</groupId> -->
+            <!-- <artifactId>maven-surefire-plugin</artifactId> -->
+            <!-- <version>2.12.2</version> -->
+            <!-- <configuration> -->
+            <!-- <skip>true</skip> -->
+            <!-- <systemPropertyVariables> -->
+            <!-- 生成结果存放路径 -->
+            <!-- <jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile> -->
+            <!-- </systemPropertyVariables> -->
+            <!-- </configuration> -->
+            <!-- </plugin> -->
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.3.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.mybatis.generator</groupId>
+                        <artifactId>mybatis-generator-core</artifactId>
+                        <version>1.3.2</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.xmomen.maven.plugins</groupId>
+                        <artifactId>mybatis-generator</artifactId>
+                        <version>1.0.0-SNAPSHOT</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <configurationFile>src/main/resources/tools/generatorConfig.xml</configurationFile>
+                    <verbose>true</verbose>
+                    <overwrite>true</overwrite>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.xmomen.maven.plugins</groupId>
+                <artifactId>xmomen-generator-maven-plugin</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.mybatis.generator</groupId>
+                        <artifactId>mybatis-generator-core</artifactId>
+                        <version>1.3.2</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.xmomen.maven.plugins</groupId>
+                        <artifactId>mybatis-generator</artifactId>
+                        <version>1.1.0-SNAPSHOT</version>
+                        <scope>compile</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>5.1.31</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <configurationFiles>
+                        <configurationFile>src/main/resources/tools/generatorConfig-member.xml</configurationFile>
+                    </configurationFiles>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20160212</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baidu.ueditor</groupId>
+            <artifactId>ueditor</artifactId>
+            <version>1.1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/ueditor-1.1.2.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.4</version>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
 
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>18.0</version>
-		</dependency>
-		<!-- xml parse begin -->
-		<dependency>
-			<groupId>com.thoughtworks.xstream</groupId>
-			<artifactId>xstream</artifactId>
-			<version>1.4.7</version>
-		</dependency>
-		<!-- xml parse end -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>
+        <!-- xml parse begin -->
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+        <!-- xml parse end -->
 
-		<dependency>
-			<groupId>com.xmomen.framework</groupId>
-			<artifactId>easy-mybatis</artifactId>
-			<version>1.2.0-SNAPSHOT</version>
-		</dependency>
+        <dependency>
+            <groupId>com.xmomen.framework</groupId>
+            <artifactId>easy-mybatis</artifactId>
+            <version>1.2.0-SNAPSHOT</version>
+        </dependency>
 
-		<!--<dependency>-->
-			<!--<groupId>com.mangofactory</groupId>-->
-			<!--<artifactId>swagger-springmvc</artifactId>-->
-			<!--<version>0.9.4</version>-->
-		<!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>com.mangofactory</groupId>-->
+        <!--<artifactId>swagger-springmvc</artifactId>-->
+        <!--<version>0.9.4</version>-->
+        <!--</dependency>-->
 
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.14.4</version>
-		</dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.14.4</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework.hateoas</groupId>
-			<artifactId>spring-hateoas</artifactId>
-			<version>0.16.0.RELEASE</version>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework.hateoas</groupId>
+            <artifactId>spring-hateoas</artifactId>
+            <version>0.16.0.RELEASE</version>
+        </dependency>
 
-		<dependency>
-			<groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId>
-			<version>1.2.1</version>
-		</dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.2.1</version>
+        </dependency>
 
-		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
-			<version>3.2.1</version>
-		</dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.1</version>
+        </dependency>
 
-		<dependency>
-			<groupId>javax.el</groupId>
-			<artifactId>javax.el-api</artifactId>
-			<version>2.2.4</version>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.web</groupId>
-			<artifactId>javax.el</artifactId>
-			<version>2.2.4</version>
-		</dependency>
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>javax.el-api</artifactId>
+            <version>2.2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>javax.el</artifactId>
+            <version>2.2.4</version>
+        </dependency>
 
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.0.1</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>jsp-api</artifactId>
-			<version>2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
-		</dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-core</artifactId>
-			<version>1.2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-ehcache</artifactId>
-			<version>1.2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-web</artifactId>
-			<version>1.2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-quartz</artifactId>
-			<version>1.2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-spring</artifactId>
-			<version>1.2.2</version>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-ehcache</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-web</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-quartz</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>1.2.2</version>
+        </dependency>
 
-		<!--jackson -->
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.4.6</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>5.0.2.Final</version>
-		</dependency>
+        <!--jackson -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.4.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>5.0.2.Final</version>
+        </dependency>
 
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>druid</artifactId>
-			<version>0.2.23</version>
-		</dependency>
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-			<version>1.1.41</version>
-		</dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>0.2.23</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.1.41</version>
+        </dependency>
 
-		<!-- logback framework support -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.5</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>log4j-over-slf4j</artifactId>
-			<version>1.7.5</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-			<version>1.7.5</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-			<version>1.0.9</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.0.9</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-access</artifactId>
-			<version>1.0.9</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-			<version>4.1.7.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>4.1.7.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aop</artifactId>
-			<version>4.1.7.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aspects</artifactId>
-			<version>4.1.7.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
-			<version>1.8.6</version>
-		</dependency>
+        <!-- logback framework support -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.0.9</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.0.9</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-access</artifactId>
+            <version>1.0.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>4.1.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>4.1.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>4.1.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>4.1.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.6</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.jeecg</groupId>
-			<artifactId>easypoi-base</artifactId>
-			<version>2.3.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jeecg</groupId>
-			<artifactId>easypoi-web</artifactId>
-			<version>2.3.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jeecg</groupId>
-			<artifactId>easypoi-annotation</artifactId>
-			<version>2.3.1</version>
-		</dependency>
+        <dependency>
+            <groupId>org.jeecg</groupId>
+            <artifactId>easypoi-base</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jeecg</groupId>
+            <artifactId>easypoi-web</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jeecg</groupId>
+            <artifactId>easypoi-annotation</artifactId>
+            <version>2.3.1</version>
+        </dependency>
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
 
-		<!-- httpclient -->
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.3.5</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpcore</artifactId>
-			<version>4.3.2</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-httpclient</groupId>
-			<artifactId>commons-httpclient</artifactId>
-			<version>3.1</version>
-		</dependency>
-		<dependency>
-			<groupId>dom4j</groupId>
-			<artifactId>dom4j</artifactId>
-			<version>1.6.1</version>
-		</dependency>
+        <!-- httpclient -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.3.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6.1</version>
+        </dependency>
 
-		<!-- POI -->
-		<!--<dependency>-->
-			<!--<groupId>org.apache.poi</groupId>-->
-			<!--<artifactId>poi-ooxml</artifactId>-->
-			<!--<version>3.14</version>-->
-		<!--</dependency>-->
+        <!-- POI -->
+        <!--<dependency>-->
+        <!--<groupId>org.apache.poi</groupId>-->
+        <!--<artifactId>poi-ooxml</artifactId>-->
+        <!--<version>3.14</version>-->
+        <!--</dependency>-->
 
-		<dependency>
-			<groupId>stax</groupId>
-			<artifactId>stax-api</artifactId>
-			<version>1.0</version>
-		</dependency>
+        <dependency>
+            <groupId>stax</groupId>
+            <artifactId>stax-api</artifactId>
+            <version>1.0</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.jeecg</groupId>
-			<artifactId>easypoi-base</artifactId>
-			<version>2.3.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jeecg</groupId>
-			<artifactId>easypoi-web</artifactId>
-			<version>2.3.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jeecg</groupId>
-			<artifactId>easypoi-annotation</artifactId>
-			<version>2.3.1</version>
-		</dependency>
+        <dependency>
+            <groupId>org.jeecg</groupId>
+            <artifactId>easypoi-base</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jeecg</groupId>
+            <artifactId>easypoi-web</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jeecg</groupId>
+            <artifactId>easypoi-annotation</artifactId>
+            <version>2.3.1</version>
+        </dependency>
 
-		<dependency>
-			<groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId>
-			<version>1.3.2</version>
-		</dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.2</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.mybatis.generator</groupId>
-			<artifactId>mybatis-generator-core</artifactId>
-			<version>1.3.2</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.xmomen.maven.plugins</groupId>
-			<artifactId>mybatis-generator</artifactId>
-			<version>1.1.0-SNAPSHOT</version>
-			<scope>test</scope>
-		</dependency>
-		
-		<dependency>
-		    <groupId>com.aliyun.mns</groupId>
-		    <artifactId>aliyun-sdk-mns</artifactId>
-		    <version>1.1.8</version>
-		    <classifier>jar-with-dependencies</classifier>
-		</dependency>
+        <dependency>
+            <groupId>org.mybatis.generator</groupId>
+            <artifactId>mybatis-generator-core</artifactId>
+            <version>1.3.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.xmomen.maven.plugins</groupId>
+            <artifactId>mybatis-generator</artifactId>
+            <version>1.1.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
 
-	</dependencies>
+        <dependency>
+            <groupId>com.aliyun.mns</groupId>
+            <artifactId>aliyun-sdk-mns</artifactId>
+            <version>1.1.8</version>
+            <classifier>jar-with-dependencies</classifier>
+        </dependency>
+
+    </dependencies>
 
 </project>

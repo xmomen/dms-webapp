@@ -27,16 +27,16 @@ class ExpressReport implements Serializable {
     private Date outDate;
     @Excel(name = "收货时间", width = 20, exportFormat = "yyyy-MM-dd HH:mm:ss")
     private Date shouHuoDate;
-    @Excel(name = "二次配送",type = 10)
+    @Excel(name = "二次配送", type = 10)
     private int isTwoSend;
-    @Excel(name = "正常配送",type = 10)
+    @Excel(name = "正常配送", type = 10)
     private int isNormal;
-    @Excel(name = "异常配送",type = 10)
+    @Excel(name = "异常配送", type = 10)
     private int isNoNormal;
-    @Excel(name = "物流代收款", width = 15,type = 10)
-    private BigDecimal expressAmount;
-    @Excel(name = "损失承担",type = 10)
-    private BigDecimal returnAmount;
+    @Excel(name = "物流代收款", width = 15, type = 10)
+    private double expressAmount;
+    @Excel(name = "损失承担", type = 10)
+    private double returnAmount;
 
     private int isReject;
 }

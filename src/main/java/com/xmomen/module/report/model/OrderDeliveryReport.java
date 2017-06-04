@@ -29,15 +29,15 @@ class OrderDeliveryReport implements Serializable {
     @Excel(name = "收货人地址",width = 30)
     private String consigneeAddress;
     @Excel(name = "金额")
-    private BigDecimal totalAmount;
+    private double totalAmount;
     @Excel(name = "付款方式")
     private String paymentModeDesc;
     @Excel(name = "付款金额",type = 10)
-    private BigDecimal payAmount;
+    private double payAmount;
     @Excel(name = "附加付款方式")
     private String otherPaymentModeDesc;
     @Excel(name = "附加付款金额",type = 10)
-    private BigDecimal otherPayAmount;
+    private double otherPayAmount;
     @Excel(name = "送货日期" , exportFormat="yyyy-MM-dd", importFormat = "yyyy-MM-dd")
     private Date appointmentTime;
     @Excel(name = "备注",width = 30)
