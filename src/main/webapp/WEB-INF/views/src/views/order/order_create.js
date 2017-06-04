@@ -66,6 +66,11 @@ define(function () {
                 }
                 if ($scope.addOrderForm.validator.form() && $scope.addOrderForm.validator.valid()) {
                     $scope.order.totalPrice = $scope.totalItem.totalPrice;
+                    //判断订单金额是否为负数
+                    if ($scope.totalItem.totalPriceDiscount < 0) {
+                        $ugDialog.error("订单金额不可为负数！");
+                        return;
+                    }
                     //校验配送时间 如果超过晚上18:10 不能
                     if ($scope.checkDate()) {
                         $ugDialog.confirm("是否提交订单").then(function () {
@@ -503,11 +508,23 @@ define(function () {
                 //如果是劵的话 不会打折
                 if ($scope.order.orderType != 2) {
                     if (type == 1) {
+                        if ($scope.totalItem.totalPrice * $scope.order.discount / 100 <= 0) {
+                            $scope.order.discount = 0;
+                            $scope.order.discountPrice = $scope.totalItem.totalPrice;
+                            $scope.totalItem.totalPriceDiscount = 0;
+                            return;
+                        }
                         $scope.totalItem.totalPriceDiscount = $scope.totalItem.totalPrice * $scope.order.discount / 100;
                         $scope.order.discountPrice = $scope.totalItem.totalPrice - $scope.totalItem.totalPriceDiscount;
                     } else if (type == 2) {
+                        if ((1 - ($scope.order.discountPrice / $scope.totalItem.totalPrice).toFixed(2)) <= 0) {
+                            $scope.order.discount = 0;
+                            $scope.order.discountPrice = $scope.totalItem.totalPrice;
+                            $scope.totalItem.totalPriceDiscount = 0;
+                            return;
+                        }
                         $scope.totalItem.totalPriceDiscount = $scope.totalItem.totalPrice - $scope.order.discountPrice;
-                        $scope.order.discount = (1 - ($scope.order.discountPrice / $scope.totalItem.totalPrice).toFixed(2)) * 100;
+                        $scope.order.discount = ((1 - ($scope.order.discountPrice / $scope.totalItem.totalPrice)) * 100).toFixed(2);
                     }
                 }
             };

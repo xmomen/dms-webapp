@@ -339,7 +339,7 @@ public class ReturnOrderService {
                 CdItem cdItem = new CdItem();
                 cdItem.setItemCode(tbReturnOrderItem.getItemCode());
                 cdItem = mybatisDao.selectOneByModel(cdItem);
-                stockService.changeStockNum(cdItem.getId(), tbReturnOrderItem.getItemNumber().intValue(), returnOrder.getId(), "订单退货退回商品");
+                stockService.changeStockNum(cdItem.getId(), tbReturnOrderItem.getItemNumber().intValue(), returnOrder.getId(), "订单退货退回商品", 3);
             }
         }
 

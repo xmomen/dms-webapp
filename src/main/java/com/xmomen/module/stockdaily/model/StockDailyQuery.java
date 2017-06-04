@@ -1,4 +1,4 @@
-package com.xmomen.module.stock.model;
+package com.xmomen.module.stockdaily.model;
 
 import lombok.Data;
 
@@ -7,11 +7,11 @@ import java.io.Serializable;
 /**
  * @author tanxinzheng
  * @version 1.0.0
- * @date 2017-5-13 12:48:23
+ * @date 2017-5-26 21:56:22
  */
 public
 @Data
-class StockRecordQuery implements Serializable {
+class StockDailyQuery implements Serializable {
     /**
      * 主键
      */
@@ -25,8 +25,10 @@ class StockRecordQuery implements Serializable {
      */
     private String[] excludeIds;
 
-    private String stockId;
-    private Integer changeType;
+    private String dailyDateStart;
 
-    private String dailyDate;
+    private String dailyDateEnd;
+
+    private String keyword;
+
 }

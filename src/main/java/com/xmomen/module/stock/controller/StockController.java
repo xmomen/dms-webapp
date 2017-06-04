@@ -116,6 +116,7 @@ public class StockController extends DmsBaseController {
 
     /**
      * 库存变更
+     *
      * @param id
      * @param stockChange
      */
@@ -127,7 +128,6 @@ public class StockController extends DmsBaseController {
         stockChange.setStockId(id);
         stockService.changeStock(stockChange);
     }
-
 
 
     /**
@@ -160,7 +160,7 @@ public class StockController extends DmsBaseController {
     public AjaxResult beforehandPackageChangeStock(@RequestParam(value = "itemId") Integer itemId, @RequestParam(value = "changeStockNum") Integer changeStockNum) {
         AjaxResult ajaxResult = new AjaxResult();
         try {
-            ajaxResult = this.stockService.changeStockNum(itemId, changeStockNum, "预包装");
+            ajaxResult = this.stockService.changeStockNum(itemId, changeStockNum, "预包装入库", 1);
         } catch (Exception e) {
             ajaxResult.setResult(0);
             ajaxResult.setMessage(e.getMessage());

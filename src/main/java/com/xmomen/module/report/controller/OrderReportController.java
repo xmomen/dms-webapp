@@ -154,7 +154,6 @@ public class OrderReportController {
         String[] beginTimes = beginTime.split("-");
         String[] endTimes = endTime.split("-");
         modelMap.put(NormalExcelConstants.FILE_NAME, beginTimes[0] + "年" + beginTimes[1] + "月" + beginTimes[2] + "日-" + endTimes[0] + "年" + endTimes[1] + "月" + endTimes[2] + "日财务报表");
-        modelMap.put(NormalExcelConstants.FILE_NAME, "财务报表");
         modelMap.put(NormalExcelConstants.PARAMS, new ExportParams());
         modelMap.put(NormalExcelConstants.CLASS, FinanceReport.class);
         modelMap.put(NormalExcelConstants.DATA_LIST, list);

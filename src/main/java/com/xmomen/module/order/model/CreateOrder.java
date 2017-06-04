@@ -14,7 +14,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 /**
  * Created by Jeng on 16/4/5.
  */
-public @Data
+public
+@Data
 class CreateOrder implements Serializable {
 
     /**
@@ -27,12 +28,12 @@ class CreateOrder implements Serializable {
      * 批量下单数
      */
     private Integer batchNumber;
-    
+
     /**
      * 订单编号
      */
     private String orderNo;
-    
+
     private String batchNo;
 
     /**
@@ -100,7 +101,7 @@ class CreateOrder implements Serializable {
     /**
      * 折扣
      */
-    private Integer discount;
+    private Double discount;
 
     /**
      * 是否显示金额
@@ -116,7 +117,7 @@ class CreateOrder implements Serializable {
      * 单位
      */
     private Integer companyId;
-    
+
     /**
      * 客户经理
      */
@@ -222,11 +223,11 @@ class CreateOrder implements Serializable {
         this.paymentMode = paymentMode;
     }
 
-    public Integer getDiscount() {
+    public Double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Integer discount) {
+    public void setDiscount(Double discount) {
         this.discount = discount;
     }
 
@@ -278,13 +279,13 @@ class CreateOrder implements Serializable {
         this.paymentRelationNo = paymentRelationNo;
     }
 
-	public Date getAppointmentTime() {
-		return appointmentTime;
-	}
+    public Date getAppointmentTime() {
+        return appointmentTime;
+    }
 
-	public void setAppointmentTime(Date appointmentTime) {
-		this.appointmentTime = appointmentTime;
-	}
+    public void setAppointmentTime(Date appointmentTime) {
+        this.appointmentTime = appointmentTime;
+    }
 
     public Integer getCompanyId() {
         return companyId;
@@ -294,29 +295,29 @@ class CreateOrder implements Serializable {
         this.companyId = companyId;
     }
 
-	public BigDecimal getDiscountPrice() {
-		return discountPrice;
-	}
+    public BigDecimal getDiscountPrice() {
+        return discountPrice;
+    }
 
-	public void setDiscountPrice(BigDecimal discountPrice) {
-		this.discountPrice = discountPrice;
-	}
+    public void setDiscountPrice(BigDecimal discountPrice) {
+        this.discountPrice = discountPrice;
+    }
 
-	public BigDecimal getTotalPrice() {
-		return totalPrice;
-	}
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
 
-	public void setTotalPrice(BigDecimal totalPrice) {
-		this.totalPrice = totalPrice;
-	}
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 
-	public Integer getManagerId() {
-		return managerId;
-	}
+    public Integer getManagerId() {
+        return managerId;
+    }
 
-	public void setManagerId(Integer managerId) {
-		this.managerId = managerId;
-	}
+    public void setManagerId(Integer managerId) {
+        this.managerId = managerId;
+    }
 
     public Integer getOtherPaymentMode() {
         return otherPaymentMode;

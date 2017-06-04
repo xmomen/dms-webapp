@@ -6,10 +6,30 @@
     <select id="getStockRecordModel"
             resultType="com.xmomen.module.stock.model.StockRecordModel"
             parameterType="com.xmomen.module.stock.model.StockRecordQuery">
-        SELECT * FROM cd_stock_record t
+        SELECT
+          t.*
+          ,item.item_name
+          ,item.item_code
+          ,tborder.order_no
+        FROM
+          cd_stock_record t
+        LEFT JOIN cd_stock stock ON t.stock_id = stock.id
+        LEFT JOIN cd_item item ON stock.item_id = item.id
+        LEFT JOIN tb_order tborder ON tborder.id = t.ref_order_id
         <where>
             <if test="id">
                 AND t.ID = #{id}
+            </if>
+            <if test="stockId">
+                AND t.stock_id = #{stockId}
+            </if>
+            <if test="changeType">
+                AND t.chang_type = #{changeType}
+            </if>
+            <if test="dailyDate">
+                <![CDATA[
+                  AND DATE_FORMAT(t.insert_date ,'%Y-%m-%d') = #{dailyDate}
+                ]]>
             </if>
             <if test="ids">
                 AND t.ID IN
@@ -24,7 +44,7 @@
                 </foreach>
             </if>
           </where>
-          ORDER BY t.id
+          ORDER BY t.insert_date
     </select>
 
 </mapper>

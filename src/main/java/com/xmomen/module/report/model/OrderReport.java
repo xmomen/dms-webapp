@@ -36,6 +36,10 @@ class OrderReport implements Serializable {
     private String managerName;
     @Excel(name = "物流公司")
     private String expressName;
+    @Excel(name = "总金额")
+    private double totalAmount;
+    @Excel(name = "折扣金额")
+    private double discountPrice;
     @Excel(name = "客户经理代收", width = 15, type = 10)
     private double managerAmount;
     @Excel(name = "物流代收", type = 10)

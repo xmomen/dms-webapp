@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xmomen.module.base.mapper.CouponMapper" >
+<mapper namespace="com.xmomen.module.base.mapper.CouponMapper">
 
-    <resultMap type="com.xmomen.module.base.model.CouponModel" id="couponModelMap" autoMapping="true" >
+    <resultMap type="com.xmomen.module.base.model.CouponModel" id="couponModelMap" autoMapping="true">
         <collection property="relationItemList" ofType="com.xmomen.module.base.model.CouponRelationItem" column="coupon_category" select="queryRelationItemList"></collection>
     </resultMap>
-    
+
     <resultMap type="com.xmomen.module.base.model.CouponModel" id="couponItemsModel">
         <id property="id" column="id"></id>
         <result property="couponType" column="coupon_type"></result>
@@ -28,17 +28,17 @@
     </select>
 
     <!-- -->
-	<select id="getCouponList" resultMap="couponModelMap" parameterType="com.xmomen.module.base.model.CouponQuery">
+    <select id="getCouponList" resultMap="couponModelMap" parameterType="com.xmomen.module.base.model.CouponQuery">
         SELECT
         cc.*,
         cc.COUPON_CATEGORY as couponCategoryId,
-		ccc.CATEGORY_NAME,
-		cd_company.id as companyId,
-		cd_company.COMPANY_NAME,
+        ccc.CATEGORY_NAME,
+        cd_company.id as companyId,
+        cd_company.COMPANY_NAME,
         r.cd_member_id AS memberId,
-		su.realname as managerName,
-		su.id as managerId,
-		price.ref_value as receivedPrice
+        su.realname as managerName,
+        su.id as managerId,
+        price.ref_value as receivedPrice
         FROM
         cd_coupon cc
         left join cd_coupon_category ccc on cc.COUPON_CATEGORY = ccc.id
@@ -47,237 +47,241 @@
         LEFT JOIN cd_member_coupon_relation r ON r.COUPON_NUMBER = cc.COUPON_NUMBER
         left join cd_coupon_ref price on cc.id = price.cd_coupon_id and price.ref_type='RECEIVED_PRICE'
         <where>
-       			<![CDATA[ (cc.IS_USED = 0 or cc.IS_USED = 1) ]]>  
-              <if test="keyword !=null and keyword !=''">
-                  AND (cc.COUPON_NUMBER LIKE CONCAT('%', #{keyword}, '%') or cc.COUPON_DESC LIKE CONCAT('%', #{keyword}, '%'))
-              </if>
-              <if test="couponNumber !=null and couponNumber !=''">
-                  AND cc.COUPON_NUMBER = #{couponNumber}
-              </if>
-              <if test="categoryType">
-              	AND ccc.category_type = #{categoryType}
-              </if>
-              <if test="couponType != null">
-              	AND cc.COUPON_TYPE = #{couponType}
-              </if>
-              <if test="couponCategoryId != null">
-              	AND cc.COUPON_CATEGORY = #{couponCategoryId}
-              </if>
-              <if test="isSend != null">
-              	AND cc.is_send = #{isSend}
-              </if>
-                <if test="batch">
-              	AND cc.batch = #{batch}
-              </if>
-              <if test="isUseful == 0 || isUseful == 1">
-              	AND cc.is_useful = #{isUseful}
-              </if>
-              <if test="isUseful == 3">
-              	AND cc.is_useful = 0 and cc.coupon_Value > 0 AND cc.PAYMENT_TYPE = 1 AND cc.coupon_type = 1
-              </if>
-              <if test="isUseful == 4">
-              	AND ( cc.coupon_type = 2 or (cc.PAYMENT_TYPE = 2 and cc.COUPON_TYPE =1))
-              </if>
-              <if test="customerMangerId">
+            <![CDATA[ (cc.IS_USED = 0 or cc.IS_USED = 1) ]]>
+            <if test="keyword !=null and keyword !=''">
+                AND (cc.COUPON_NUMBER LIKE CONCAT('%', #{keyword}, '%') or cc.COUPON_DESC LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+            <if test="couponNumber !=null and couponNumber !=''">
+                AND cc.COUPON_NUMBER = #{couponNumber}
+            </if>
+            <if test="categoryType">
+                AND ccc.category_type = #{categoryType}
+            </if>
+            <if test="couponType != null">
+                AND cc.COUPON_TYPE = #{couponType}
+            </if>
+            <if test="couponCategoryId != null">
+                AND cc.COUPON_CATEGORY = #{couponCategoryId}
+            </if>
+            <if test="isSend != null">
+                AND cc.is_send = #{isSend}
+            </if>
+            <if test="batch">
+                AND cc.batch = #{batch}
+            </if>
+            <if test="isUseful == 0 || isUseful == 1">
+                AND cc.is_useful = #{isUseful}
+            </if>
+            <if test="isUseful == 3">
+                AND cc.is_useful = 0 and cc.coupon_Value > 0 AND cc.PAYMENT_TYPE = 1 AND cc.coupon_type = 1
+            </if>
+            <if test="isUseful == 4">
+                AND ( cc.coupon_type = 2 or (cc.PAYMENT_TYPE = 2 and cc.COUPON_TYPE =1))
+            </if>
+            <if test="customerMangerId">
                 AND cc.cd_user_id = #{customerMangerId}
-              </if>
-              <if test="cdCompanyId != null">
-              	AND cc.cd_company_id = #{cdCompanyId}
-              </if>
-              <if test="managerId != null">
-              	AND cc.cd_user_id = #{managerId}
-              </if>
-              <if test="isOver != null">
-              	AND cc.is_over = #{isOver}
-              </if>
-              <if test="auditDateStart">
-	                <![CDATA[
+            </if>
+            <if test="cdCompanyId != null">
+                AND cc.cd_company_id = #{cdCompanyId}
+            </if>
+            <if test="managerId != null">
+                AND cc.cd_user_id = #{managerId}
+            </if>
+            <if test="isOver != null">
+                AND cc.is_over = #{isOver}
+            </if>
+            <if test="auditDateStart">
+                <![CDATA[
 	                  AND DATE_FORMAT(cc.AUDIT_DATE ,'%Y-%m-%d')>= #{auditDateStart}
 	                ]]>
-          		</if>
-	           	<if test="auditDateEnd">
-	                <![CDATA[
+            </if>
+            <if test="auditDateEnd">
+                <![CDATA[
 	                  AND DATE_FORMAT(cc.AUDIT_DATE ,'%Y-%m-%d')<= #{auditDateEnd}
 	                ]]>
-	           	</if>
-         </where>
+            </if>
+        </where>
     </select>
-    
+
     <!--金额回填查询-->
-	<select id="getCouponActivityList" resultType="com.xmomen.module.base.model.CouponModel" parameterType="com.xmomen.module.base.model.CouponQuery">
+    <select id="getCouponActivityList" resultType="com.xmomen.module.base.model.CouponModel" parameterType="com.xmomen.module.base.model.CouponQuery">
         SELECT
-        	cc.id,
-			car.CD_ACTIVITY_ID,
-	        cc.COUPON_TYPE,
-	        cc.USER_PRICE,
-	        cc.COUPON_NUMBER,
-	        cc.BATCH,
-	        cc.COUPON_CATEGORY as couponCategoryId,
-			ccc.CATEGORY_NAME,
-			cd_company.COMPANY_NAME,
-	        r.CD_MEMBER_ID AS memberId,
-			su.realname as managerName,
-			price.ref_value as receivedPrice
+        cc.id,
+        car.CD_ACTIVITY_ID,
+        cc.COUPON_TYPE,
+        cc.USER_PRICE,
+        cc.COUPON_NUMBER,
+        cc.BATCH,
+        cc.COUPON_CATEGORY as couponCategoryId,
+        ccc.CATEGORY_NAME,
+        cd_company.COMPANY_NAME,
+        r.CD_MEMBER_ID AS memberId,
+        su.realname as managerName,
+        price.ref_value as receivedPrice
         FROM
-	        cd_coupon cc
-	        left join cd_coupon_category ccc on cc.COUPON_CATEGORY = ccc.id
-	        left join cd_company cd_company on cc.cd_company_id = cd_company.id
-	        left join sys_users su on cc.cd_user_id = su.id
-	        left join cd_coupon_ref price on cc.id = price.cd_coupon_id and price.ref_type='RECEIVED_PRICE'
-	        LEFT JOIN cd_member_coupon_relation r ON r.COUPON_NUMBER = cc.COUPON_NUMBER
-			left join cd_activity_ref car on cc.COUPON_CATEGORY = car.REF_VALUE and car.REF_TYPE ='COUPON'
+        cd_coupon cc
+        left join cd_coupon_category ccc on cc.COUPON_CATEGORY = ccc.id
+        left join cd_company cd_company on cc.cd_company_id = cd_company.id
+        left join sys_users su on cc.cd_user_id = su.id
+        left join cd_coupon_ref price on cc.id = price.cd_coupon_id and price.ref_type='RECEIVED_PRICE'
+        LEFT JOIN cd_member_coupon_relation r ON r.COUPON_NUMBER = cc.COUPON_NUMBER
+        left join cd_activity_ref car on cc.COUPON_CATEGORY = car.REF_VALUE and car.REF_TYPE ='COUPON'
         <where>
-       			<![CDATA[ (cc.IS_USED = 0 or cc.IS_USED = 1) ]]>  
-              <if test="keyword !=null and keyword !=''">
-                  AND (cc.COUPON_NUMBER LIKE CONCAT('%', #{keyword}, '%'))
-              </if>
-              <if test="couponNumber !=null and couponNumber !=''">
-                  AND cc.COUPON_NUMBER = #{couponNumber}
-              </if>
-              <if test="categoryType">
-              	AND ccc.category_type = #{categoryType}
-              </if>
-              <if test="couponType != null">
-              	AND cc.COUPON_TYPE = #{couponType}
-              </if>
-              <if test="couponCategoryId != null">
-              	AND cc.COUPON_CATEGORY = #{couponCategoryId}
-              </if>
-              <if test="isSend != null">
-              	AND cc.is_send = #{isSend}
-              </if>
-                <if test="batch">
-              	AND cc.batch = #{batch}
-              </if>
-              <if test="isUseful == 0 || isUseful == 1">
-              	AND cc.is_useful = #{isUseful}
-              </if>
-              <if test="isUseful == 3">
-              	AND cc.is_useful = 0 and cc.coupon_Value > 0
-              </if>
-              <if test="customerMangerId">
+            <![CDATA[ (cc.IS_USED = 0 or cc.IS_USED = 1) ]]>
+            <if test="keyword !=null and keyword !=''">
+                AND (cc.COUPON_NUMBER LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+            <if test="couponNumber !=null and couponNumber !=''">
+                AND cc.COUPON_NUMBER = #{couponNumber}
+            </if>
+            <if test="categoryType">
+                AND ccc.category_type = #{categoryType}
+            </if>
+            <if test="couponType != null">
+                AND cc.COUPON_TYPE = #{couponType}
+            </if>
+            <if test="couponCategoryId != null">
+                AND cc.COUPON_CATEGORY = #{couponCategoryId}
+            </if>
+            <if test="isSend != null">
+                AND cc.is_send = #{isSend}
+            </if>
+            <if test="batch">
+                AND cc.batch = #{batch}
+            </if>
+            <if test="isUseful == 0 || isUseful == 1">
+                AND cc.is_useful = #{isUseful}
+            </if>
+            <if test="isUseful == 3">
+                AND cc.is_useful = 0 and cc.coupon_Value > 0
+            </if>
+            <if test="customerMangerId">
                 AND cc.cd_user_id = #{customerMangerId}
-              </if>
-              <if test="cdCompanyId != null">
-              	AND cc.cd_company_id = #{cdCompanyId}
-              </if>
-              <if test="managerId != null">
-              	AND cc.cd_user_id = #{managerId}
-              </if>
-              <if test="isOver != null">
-              	AND cc.is_over = #{isOver}
-              </if>
-         </where>
+            </if>
+            <if test="cdCompanyId != null">
+                AND cc.cd_company_id = #{cdCompanyId}
+            </if>
+            <if test="managerId != null">
+                AND cc.cd_user_id = #{managerId}
+            </if>
+            <if test="isOver != null">
+                AND cc.is_over = #{isOver}
+            </if>
+        </where>
     </select>
-    
+
     <!--参与活动卡劵回填查询-->
-	<select id="getCouponActivityAddressList" resultType="com.xmomen.module.base.model.CouponModel" parameterType="com.xmomen.module.base.model.CouponQuery">
+    <select id="getCouponActivityAddressList" resultType="com.xmomen.module.base.model.CouponModel" parameterType="com.xmomen.module.base.model.CouponQuery">
         SELECT
-        	cc.id,
-			car.CD_ACTIVITY_ID,
-	        cc.COUPON_TYPE,
-	        cc.USER_PRICE,
-	        cc.COUPON_NUMBER,
-	        cc.BATCH,
-	        cc.COUPON_CATEGORY as couponCategoryId,
-			ccc.CATEGORY_NAME,
-			cd_company.COMPANY_NAME,
-	        r.CD_MEMBER_ID AS memberId,
-			su.realname as managerName,
-			price.ref_value as receivedPrice,
-			activity.LOWEST_PRICE
+        cc.id,
+        car.CD_ACTIVITY_ID,
+        cc.COUPON_TYPE,
+        cc.USER_PRICE,
+        cc.COUPON_NUMBER,
+        cc.BATCH,
+        cc.COUPON_CATEGORY as couponCategoryId,
+        ccc.CATEGORY_NAME,
+        cd_company.COMPANY_NAME,
+        r.CD_MEMBER_ID AS memberId,
+        su.realname as managerName,
+        price.ref_value as receivedPrice,
+        activity.LOWEST_PRICE
         FROM
-	        cd_coupon cc
-	        left join cd_coupon_category ccc on cc.COUPON_CATEGORY = ccc.id
-	        left join cd_company cd_company on cc.cd_company_id = cd_company.id
-	        left join sys_users su on cc.cd_user_id = su.id
-	        left join cd_coupon_ref price on cc.id = price.cd_coupon_id and price.ref_type='RECEIVED_PRICE'
-	        LEFT JOIN cd_member_coupon_relation r ON r.COUPON_NUMBER = cc.COUPON_NUMBER
-			left join cd_activity_ref car on cc.COUPON_CATEGORY = car.REF_VALUE and car.REF_TYPE ='COUPON'
-			left join cd_activity activity on car.CD_ACTIVITY_ID = activity.id
+        cd_coupon cc
+        left join cd_coupon_category ccc on cc.COUPON_CATEGORY = ccc.id
+        left join cd_company cd_company on cc.cd_company_id = cd_company.id
+        left join sys_users su on cc.cd_user_id = su.id
+        left join cd_coupon_ref price on cc.id = price.cd_coupon_id and price.ref_type='RECEIVED_PRICE'
+        LEFT JOIN cd_member_coupon_relation r ON r.COUPON_NUMBER = cc.COUPON_NUMBER
+        left join cd_activity_ref car on cc.COUPON_CATEGORY = car.REF_VALUE and car.REF_TYPE ='COUPON'
+        left join cd_activity activity on car.CD_ACTIVITY_ID = activity.id
         <where>
-       			<![CDATA[ (cc.IS_USED = 0 or cc.IS_USED = 1) and car.cd_Activity_Id != 0 and cc.user_price > 0]]>  
-              <if test="keyword !=null and keyword !=''">
-                  AND (cc.COUPON_NUMBER LIKE CONCAT('%', #{keyword}, '%'))
-              </if>
-              <if test="couponNumber !=null and couponNumber !=''">
-                  AND cc.COUPON_NUMBER = #{couponNumber}
-              </if>
-              <if test="categoryType">
-              	AND ccc.category_type = #{categoryType}
-              </if>
-              <if test="couponType != null">
-              	AND cc.COUPON_TYPE = #{couponType}
-              </if>
-              <if test="couponCategoryId != null">
-              	AND cc.COUPON_CATEGORY = #{couponCategoryId}
-              </if>
-              <if test="isSend != null">
-              	AND cc.is_send = #{isSend}
-              </if>
-                <if test="batch">
-              	AND cc.batch = #{batch}
-              </if>
-              <if test="isUseful == 0 || isUseful == 1">
-              	AND cc.is_useful = #{isUseful}
-              </if>
-              <if test="isUseful == 3">
-              	AND cc.is_useful = 0 and cc.coupon_Value > 0
-              </if>
-              <if test="customerMangerId">
+            <![CDATA[ (cc.IS_USED = 0 or cc.IS_USED = 1) and car.cd_Activity_Id != 0 and cc.user_price > 0]]>
+            <if test="keyword !=null and keyword !=''">
+                AND (cc.COUPON_NUMBER LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+            <if test="couponNumber !=null and couponNumber !=''">
+                AND cc.COUPON_NUMBER = #{couponNumber}
+            </if>
+            <if test="categoryType">
+                AND ccc.category_type = #{categoryType}
+            </if>
+            <if test="couponType != null">
+                AND cc.COUPON_TYPE = #{couponType}
+            </if>
+            <if test="couponCategoryId != null">
+                AND cc.COUPON_CATEGORY = #{couponCategoryId}
+            </if>
+            <if test="isSend != null">
+                AND cc.is_send = #{isSend}
+            </if>
+            <if test="batch">
+                AND cc.batch = #{batch}
+            </if>
+            <if test="isUseful == 0 || isUseful == 1">
+                AND cc.is_useful = #{isUseful}
+            </if>
+            <if test="isUseful == 3">
+                AND cc.is_useful = 0 and cc.coupon_Value > 0
+            </if>
+            <if test="customerMangerId">
                 AND cc.cd_user_id = #{customerMangerId}
-              </if>
-              <if test="cdCompanyId != null">
-              	AND cc.cd_company_id = #{cdCompanyId}
-              </if>
-              <if test="managerId != null">
-              	AND cc.cd_user_id = #{managerId}
-              </if>
-              <if test="isOver != null">
-              	AND cc.is_over = #{isOver}
-              </if>
-         </where>
+            </if>
+            <if test="cdCompanyId != null">
+                AND cc.cd_company_id = #{cdCompanyId}
+            </if>
+            <if test="managerId != null">
+                AND cc.cd_user_id = #{managerId}
+            </if>
+            <if test="isOver != null">
+                AND cc.is_over = #{isOver}
+            </if>
+        </where>
     </select>
-    
-    
+
+
     <select id="getCouponByCouponNo" resultType="com.xmomen.module.base.model.ReadCardVo" parameterType="com.xmomen.module.base.model.CouponQuery">
-        select 
-        	cc.COUPON_NUMBER as couponNo,
-        	cc.USER_PRICE as couponPrice,
-        	cm.`NAME` as userName,
-        	cm.PHONE_NUMBER,
-        	cc.COUPON_PASSWORD 
+        select
+        cc.COUPON_NUMBER as couponNo,
+        cc.USER_PRICE as couponPrice,
+        cm.`NAME` as userName,
+        cm.PHONE_NUMBER,
+        cc.COUPON_PASSWORD
         from cd_coupon cc
-		left join cd_member_coupon_relation cmcr on cc.COUPON_NUMBER = cmcr.COUPON_NUMBER
-		left join cd_member cm on cmcr.CD_MEMBER_ID = cm.ID
+        left join cd_member_coupon_relation cmcr on cc.COUPON_NUMBER = cmcr.COUPON_NUMBER
+        left join cd_member cm on cmcr.CD_MEMBER_ID = cm.ID
         <where>
-          <if test="couponNumber != null">
-              	AND cc.COUPON_NUMBER = #{couponNumber}
-          </if>  
-          <if test="password != null">
-              	AND cc.COUPON_PASSWORD = #{password}
-          </if>  
-         </where>
+            <if test="couponNumber != null">
+                AND cc.COUPON_NUMBER = #{couponNumber}
+            </if>
+            <if test="password != null">
+                AND cc.COUPON_PASSWORD = #{password}
+            </if>
+        </where>
     </select>
-    
-	<update id="updateReturnCoupon" parameterType="Integer">
+
+    <update id="updateReturnCoupon" parameterType="Integer">
 		update cd_coupon 
-		set is_send=0 ,
+		set
+        is_send=0 ,
+        is_useful = 0,
+        useful_date = null,
+        batch = null,
 		cd_company_id = null,
 		cd_user_id = null,
 		USER_PRICE = null
 		where id=#{id}
 	</update>
 
-	<!-- 查询卡的送羊地址 -->
-	<select id="getActivityAddress" resultType="com.xmomen.module.base.model.CouponActivityAddress" parameterType="String">
+    <!-- 查询卡的送羊地址 -->
+    <select id="getActivityAddress" resultType="com.xmomen.module.base.model.CouponActivityAddress" parameterType="String">
 		select * from 
 		cd_activity_address
 		where 
 			coupon_number = #{couponNumber}
 	</select>
-	
-	<select id="getCouponItemsByByCouponNo" resultMap="couponItemsModel" parameterType="String">
+
+    <select id="getCouponItemsByByCouponNo" resultMap="couponItemsModel" parameterType="String">
 	    select cc.id, cc.coupon_type, cc.coupon_category, cc.coupon_value,
 	    cc.cd_company_id, cc.cd_user_id,
 	     cccr.REF_VALUE as itemId, cccr.REF_COUNT as itemNumber
@@ -288,25 +292,25 @@
 		on cccr.CD_COUPON_CATEGORY_ID = ccc.ID
 		where cc.coupon_number = #{couponNumber};
 	</select>
-	
-	<select id="getMyCouponList" resultType="com.xmomen.module.wx.module.coupon.model.WxCouponModel" 
-		parameterType="com.xmomen.module.wx.module.coupon.model.CouponQueryModel">
-		select cc.id, cc.coupon_type, cc.coupon_category, cc.coupon_value, cc.coupon_number, cc.user_price
-		from cd_coupon cc
-		<where>
-		    cc.coupon_number in (
-		    select coupon_number from cd_member_coupon_relation cmcr where cmcr.cd_member_id = #{cdUserId}
-		    )
-		    
-		    <if test="couponType != null">
-		    	AND cc.coupon_type = #{couponType}
-		    </if>
-		    <if test="useable != null and useable">
-		        AND cc.user_price > 0
-		    </if>
-		    <if test="useable != null and !useable">
-		        <![CDATA[ AND cc.user_price <= 0]]>
-		    </if>
-		</where>
-	</select>
+
+    <select id="getMyCouponList" resultType="com.xmomen.module.wx.module.coupon.model.WxCouponModel"
+            parameterType="com.xmomen.module.wx.module.coupon.model.CouponQueryModel">
+        select cc.id, cc.coupon_type, cc.coupon_category, cc.coupon_value, cc.coupon_number, cc.user_price
+        from cd_coupon cc
+        <where>
+            cc.coupon_number in (
+            select coupon_number from cd_member_coupon_relation cmcr where cmcr.cd_member_id = #{cdUserId}
+            )
+
+            <if test="couponType != null">
+                AND cc.coupon_type = #{couponType}
+            </if>
+            <if test="useable != null and useable">
+                AND cc.user_price > 0
+            </if>
+            <if test="useable != null and !useable">
+                <![CDATA[ AND cc.user_price <= 0]]>
+            </if>
+        </where>
+    </select>
 </mapper>

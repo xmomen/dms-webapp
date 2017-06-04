@@ -436,16 +436,28 @@ define(function () {
             };
             $scope.discountTotalPrice = function (type) {
                 //如果是劵的话 不会打折
-                if ($scope.order.orderType != 2 && $scope.order.orderType != 3) {
+                if ($scope.order.orderType != 2) {
                     if (type == 1) {
+                        if ($scope.totalItem.totalPrice * $scope.order.discount / 100 <= 0) {
+                            $scope.order.discount = 0;
+                            $scope.order.discountPrice = $scope.totalItem.totalPrice;
+                            $scope.totalItem.totalPriceDiscount = 0;
+                            return;
+                        }
                         $scope.totalItem.totalPriceDiscount = $scope.totalItem.totalPrice * $scope.order.discount / 100;
                         $scope.order.discountPrice = $scope.totalItem.totalPrice - $scope.totalItem.totalPriceDiscount;
                     } else if (type == 2) {
+                        if ((1 - ($scope.order.discountPrice / $scope.totalItem.totalPrice).toFixed(2)) <= 0) {
+                            $scope.order.discount = 0;
+                            $scope.order.discountPrice = $scope.totalItem.totalPrice;
+                            $scope.totalItem.totalPriceDiscount = 0;
+                            return;
+                        }
                         $scope.totalItem.totalPriceDiscount = $scope.totalItem.totalPrice - $scope.order.discountPrice;
-                        $scope.order.discount = (1 - ($scope.order.discountPrice / $scope.totalItem.totalPrice).toFixed(2)) * 100;
+                        $scope.order.discount = ((1 - ($scope.order.discountPrice / $scope.totalItem.totalPrice)) * 100).toFixed(2);
                     }
                 }
-            }
+            };
             $scope.itemCategoryList = [];
             $scope.queryCategoryParam = {};
             $scope.getItemCategoryTree = function () {
