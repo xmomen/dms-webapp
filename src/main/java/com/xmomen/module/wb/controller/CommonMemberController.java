@@ -133,6 +133,12 @@ public class CommonMemberController extends PcBaseController{
 		if(!StringUtils.isNumeric(phoneNumber) || phoneNumber.length() != 11) {
 			throw new BusinessException("不合法的手机号码");
 		}
+		CdMember memberQuery = new CdMember();
+		memberQuery.setPhoneNumber(phoneNumber);
+		CdMember cdMember = memberService.findMember(memberQuery);
+		if(cdMember != null){
+			throw new BusinessException("该手机号码已注册");
+		}
 		SmsResponse smsResponse = smsMessageService.sendSingleRequest(phoneNumber);
 		if(smsResponse == null) {
 			throw new Exception("调用SMS接口失败");
