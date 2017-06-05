@@ -545,9 +545,6 @@
 
     <select id="countPackingTask" resultType="com.xmomen.module.order.model.PackingTaskCount" parameterType="java.util.HashMap">
     <![CDATA[
-
-
-
          select t.actorId,
                 t.actorName,
                 MAX(CASE WHEN t.type = 'TOTAL' then t.number else 0 END) as totalCount,
@@ -670,6 +667,7 @@
 
         left join sys_users users on users.id = tb.MANAGER_ID
         <where>
+            tb.order_status != 0
             <if test="orderStatus">
                 AND tb.order_status = #{orderStatus}
             </if>
