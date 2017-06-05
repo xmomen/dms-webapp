@@ -125,7 +125,7 @@
                                 </thead>
                                 <tbody>
                                 <tr ng-repeat="order in orderTakeDeliveryList"  ng-if="orderTakeDeliveryList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
-                                    <td ng-bind="$index*pageInfoSetting.pageNum + 1"></td>
+                                    <td ng-bind="($index+1) +((pageInfoSetting.pageNum -1) * pageInfoSetting.pageSize)"></td>
                                     <td ng-bind="order.orderNo"></td>
                                     <td ng-bind="order.orderStatusDesc"></td>
                                     <td ng-bind="order.expressName"></td>
@@ -261,7 +261,7 @@
                                             <i></i>
                                         </label>
                                     </td>
-                                    <td ng-bind="$index*pageInfoSetting.pageNum + 1"></td>
+                                    <td ng-bind="($index+1) +((pageInfoSetting.pageNum -1) * pageInfoSetting.pageSize)"></td>
                                     <td ng-bind="order.orderNo"></td>
                                     <td ng-bind="order.orderStatusDesc"></td>
                                     <td ng-bind="order.expressName"></td>

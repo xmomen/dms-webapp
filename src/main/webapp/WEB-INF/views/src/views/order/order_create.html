@@ -305,7 +305,7 @@
                                                 </thead>
                                                 <tbody>
                                                 <tr data-ng-repeat="item in itemList">
-                                                    <td ng-bind="$index + (pageInfoSetting.pageNum -1) * 10 + 1"></td>
+                                                    <td ng-bind="($index+1) +((pageInfoSetting.pageNum -1) * pageInfoSetting.pageSize)"></td>
                                                     <td>{{item.itemName}}</td>
                                                     <td>{{item.spec}}</td>
                                                     <td class="text-align-right">{{item.sellPrice | number:2}}</td>

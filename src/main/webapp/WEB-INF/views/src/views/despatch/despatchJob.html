@@ -42,7 +42,7 @@
                                 <tr ng-repeat="express in expressList"
                                     ng-class="{'chose-tr':express.id == currentCustomer.id}"
                                     ng-if="expressList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
-                                    <td ng-bind="$index*pageSetting.pageNum + 1"></td>
+                                    <td ng-bind="($index+1) +((pageSetting.pageNum -1) * pageSetting.pageSize)"></td>
                                     <td ng-bind="express.expressName"></td>
                                     <td>
                                         <div>
@@ -176,7 +176,7 @@
                                             <i></i>
                                         </label>
                                     </td>
-                                    <td ng-bind="$index*pageInfoSetting.pageNum + 1"></td>
+                                    <td ng-bind="($index+1) +((pageInfoSetting.pageNum -1) * pageInfoSetting.pageSize)"></td>
                                     <td ng-bind="order.orderNo"></td>
                                     <td ng-bind="order.orderStatusDesc"></td>
                                     <td ng-bind="order.expressName"></td>

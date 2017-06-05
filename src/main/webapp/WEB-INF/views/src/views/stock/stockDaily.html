@@ -109,7 +109,7 @@
                                 </thead>
                                 <tbody>
                                 <tr ng-repeat="stockDaily in stockDailyList" ng-if="stockDailyList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
-                                    <td ng-bind="($index+1) * pageInfoSetting.pageNum"></td>
+                                    <td ng-bind="($index+1) +((pageInfoSetting.pageNum -1) * pageInfoSetting.pageSize)"></td>
                                     <td ng-bind="stockDaily.dailyDate| date: 'yyyy-MM-dd'"></td>
                                     <td ng-bind="stockDaily.itemName"></td>
                                     <td ng-bind="stockDaily.itemCode"></td>
@@ -172,7 +172,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="stockRecord in stockRecordList" ng-if="stockRecordList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
-                    <td ng-bind="($index+1) * pageInfoRecordSetting.pageNum"></td>
+                    <td ng-bind="($index+1) +((pageInfoRecordSetting.pageNum -1) * pageInfoRecordSetting.pageSize)"></td>
                     <td ng-bind="stockRecord.insertDate| date: 'yyyy-MM-dd HH:mm:ss'"></td>
                     <td ng-bind="stockRecord.itemName"></td>
                     <td ng-bind="stockRecord.itemCode"></td>

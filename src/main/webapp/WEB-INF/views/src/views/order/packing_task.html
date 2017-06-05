@@ -78,7 +78,7 @@
 									ng-class="{'chose-tr':companyCustomer.actorId==currentCustomer.actorId}"
 									title="点击选择为当前装箱负责人"
 									ng-if="companyCustomerManagers.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
-									<td ng-bind="$index*packingTaskPageInfoSetting.pageNum + 1"></td>
+									<td ng-bind="($index+1) +((packingTaskPageInfoSetting.pageNum -1) * packingTaskPageInfoSetting.pageSize)"></td>
 									<td ng-bind="companyCustomer.actorName"></td>
 									<td ng-bind="companyCustomer.readyCount"></td>
 									<td ng-bind="companyCustomer.executingCount"></td>
@@ -254,7 +254,7 @@
                                             <i></i>
                                         </label>
                                     </td>
-									<td ng-bind="$index*pageInfoSetting.pageNum + 1"></td>
+									<td ng-bind="($index+1) +((pageInfoSetting.pageNum -1) * pageInfoSetting.pageSize)"></td>
 									<td ng-bind="order.orderNo"></td>
                                     <td ng-bind="order.managerName"></td>
                                     <td ng-bind="order.consigneeName"></td>

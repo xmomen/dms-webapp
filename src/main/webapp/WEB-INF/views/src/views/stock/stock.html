@@ -74,7 +74,7 @@
                                 </thead>
                                 <tbody>
                                 <tr ng-repeat="stock in stockList" ng-if="stockList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
-                                    <td ng-bind="($index+1) * pageInfoSetting.pageNum"></td>
+                                    <td ng-bind="($index+1) +((pageInfoSetting.pageNum -1) * pageInfoSetting.pageSize)"></td>
                                     <td ng-bind="stock.itemName"></td>
                                     <td ng-bind="stock.itemCode"></td>
                                     <td>{{stock.stockNum}}<span ng-if="stock.stockNum < stock.warningNum" style="color: red;">(库存不足)</span></td>

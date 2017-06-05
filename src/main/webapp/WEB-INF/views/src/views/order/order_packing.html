@@ -242,7 +242,7 @@
                                 <tbody>
                                 <tr ng-repeat="packingOrderItem in packingOrderCountItemList"
                                     ng-click="choseOrderItem($index)" ng-if="packingOrderCountItemList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
-                                    <td ng-bind="$index*orderItemPageInfoSetting.pageNum + 1"></td>
+                                    <td ng-bind="($index+1) +((orderItemPageInfoSetting.pageNum -1) * orderItemPageInfoSetting.pageSize)"></td>
                                     <td style="font-weight:bold;font-size:20px" ng-bind="packingOrderItem.itemCode"></td>
                                     <td style="font-weight:bold;font-size:20px" ng-bind="packingOrderItem.itemName"></td>
                                     <td style="text-align: center;font-weight:bold;font-size:20px" ng-bind="packingOrderItem.packedItemQty +'/' + packingOrderItem.itemQty"></td>
@@ -543,7 +543,7 @@
                                     <tr ng-repeat="packingOrderItem in packingOrderItemList"
                                         ng-class="{'chose-tr':choseOrder.choseOrderItem.orderItemId==packingOrderItem.orderItemId}"
                                         ng-click="choseOrderItem($index)" ng-if="packingOrderItemList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
-                                        <td ng-bind="$index*orderItemPageInfoSetting.pageNum + 1"></td>
+                                        <td ng-bind="($index+1) +((orderItemPageInfoSetting.pageNum -1) * orderItemPageInfoSetting.pageSize)"></td>
                                         <td ng-bind="packingOrderItem.orderNo"></td>
                                         <td ng-bind="packingOrderItem.itemName"></td>
                                         <td ng-bind="packingOrderItem.packingStatusDesc"></td>

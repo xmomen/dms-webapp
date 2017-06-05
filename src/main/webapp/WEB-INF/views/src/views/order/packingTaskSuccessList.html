@@ -119,7 +119,7 @@
                                             <i></i>
                                         </label>
                                     </td>
-									<td ng-bind="$index*pageInfoSetting.pageNum + 1"></td>
+									<td ng-bind="($index+1) +((pageInfoSetting.pageNum -1) * pageInfoSetting.pageSize)"></td>
 									<td ng-bind="order.orderNo"></td>
                                     <td ng-bind="order.managerName"></td>
                                     <td ng-bind="order.consigneeName"></td>
