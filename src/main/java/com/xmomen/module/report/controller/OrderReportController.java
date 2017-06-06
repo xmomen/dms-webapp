@@ -4,11 +4,10 @@ import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.order.model.OrderQuery;
 import com.xmomen.module.order.service.OrderService;
-import com.xmomen.module.report.model.ExpressReport;
-import com.xmomen.module.report.model.FinanceReport;
-import com.xmomen.module.report.model.OrderReport;
-import com.xmomen.module.report.model.ReportQuery;
+import com.xmomen.module.report.model.*;
 import com.xmomen.module.report.service.ReportOrderService;
+import com.xmomen.module.stockdaily.model.StockDailyModel;
+import com.xmomen.module.stockdaily.service.StockDailyService;
 import org.apache.shiro.SecurityUtils;
 import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
@@ -30,6 +29,8 @@ public class OrderReportController {
     @Autowired
     ReportOrderService reportOrderService;
 
+    @Autowired
+    StockDailyService stockDailyService;
 
     /**
      * 订单导出
@@ -156,6 +157,35 @@ public class OrderReportController {
         modelMap.put(NormalExcelConstants.FILE_NAME, beginTimes[0] + "年" + beginTimes[1] + "月" + beginTimes[2] + "日-" + endTimes[0] + "年" + endTimes[1] + "月" + endTimes[2] + "日财务报表");
         modelMap.put(NormalExcelConstants.PARAMS, new ExportParams());
         modelMap.put(NormalExcelConstants.CLASS, FinanceReport.class);
+        modelMap.put(NormalExcelConstants.DATA_LIST, list);
+        return NormalExcelConstants.JEECG_EXCEL_VIEW;
+    }
+
+    /**
+     * 库存快照导出
+     *
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping(value = "/report/stockDaily", method = RequestMethod.GET)
+    public String exportStockDaily(
+            @RequestParam(value = "beginTime", required = false) String beginTime,
+            @RequestParam(value = "endTime", required = false) String endTime,
+            ModelMap modelMap) {
+        ReportQuery reportQuery = new ReportQuery();
+        if (StringUtilsExt.isNotBlank(beginTime)) {
+            reportQuery.setBeginTime(beginTime);
+        }
+        if (StringUtilsExt.isNotBlank(endTime)) {
+            reportQuery.setEndTime(endTime);
+        }
+
+        List<StockDailyReport> list = stockDailyService.getStockDailyReport(reportQuery);
+        String[] beginTimes = beginTime.split("-");
+        String[] endTimes = endTime.split("-");
+        modelMap.put(NormalExcelConstants.FILE_NAME, beginTimes[0] + "年" + beginTimes[1] + "月" + beginTimes[2] + "日-" + endTimes[0] + "年" + endTimes[1] + "月" + endTimes[2] + "日库存快照报表");
+        modelMap.put(NormalExcelConstants.PARAMS, new ExportParams());
+        modelMap.put(NormalExcelConstants.CLASS, StockDailyReport.class);
         modelMap.put(NormalExcelConstants.DATA_LIST, list);
         return NormalExcelConstants.JEECG_EXCEL_VIEW;
     }

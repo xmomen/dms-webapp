@@ -1,5 +1,8 @@
 package com.xmomen.module.stockdaily.service.impl;
 
+import com.xmomen.module.report.model.FinanceReport;
+import com.xmomen.module.report.model.ReportQuery;
+import com.xmomen.module.report.model.StockDailyReport;
 import com.xmomen.module.stock.entity.Stock;
 import com.xmomen.module.stockdaily.entity.StockDaily;
 import com.xmomen.module.stockdaily.entity.StockDailyExample;
@@ -221,5 +224,16 @@ public class StockDailyServiceImpl implements StockDailyService {
         this.mybatisDao.deleteByExample(stockDailyExample);
         //重新创建今日库存
         mybatisDao.getSqlSessionTemplate().update(StockDailyMapperExt.StockDailyMapperNameSpace + "createStockDaily");
+    }
+
+    /**
+     * 查询库存快照
+     *
+     * @param reportQuery
+     * @return
+     */
+    public List<StockDailyReport> getStockDailyReport(ReportQuery reportQuery) {
+        List<StockDailyReport> stockDailyModels = mybatisDao.getSqlSessionTemplate().selectList(StockDailyMapperExt.StockDailyMapperNameSpace + "getStockDailyReport", reportQuery);
+        return stockDailyModels;
     }
 }

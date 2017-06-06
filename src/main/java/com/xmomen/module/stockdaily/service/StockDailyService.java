@@ -1,6 +1,8 @@
 package com.xmomen.module.stockdaily.service;
 
 import com.xmomen.framework.mybatis.page.Page;
+import com.xmomen.module.report.model.ReportQuery;
+import com.xmomen.module.report.model.StockDailyReport;
 import com.xmomen.module.stockdaily.model.StockDailyQuery;
 import com.xmomen.module.stockdaily.model.StockDailyModel;
 import com.xmomen.module.stockdaily.entity.StockDaily;
@@ -131,4 +133,12 @@ public interface StockDailyService {
      * 定时任务创建库存快照
      */
     public void createStockDaily();
+
+    /**
+     * 查询财务报表
+     *
+     * @param reportQuery
+     * @return
+     */
+    public List<StockDailyReport> getStockDailyReport(ReportQuery reportQuery);
 }
