@@ -165,12 +165,17 @@ public class CommonMemberController extends PcBaseController{
 		if(cdMember == null){
 			throw new BusinessException("该用户不存在");
 		}
-		String operationCode = RandomStringGenerator.getRandomNumberStrByLength(6);
+		/*String operationCode = RandomStringGenerator.getRandomNumberStrByLength(6);
 		SmsResponse smsResponse = smsMessageService.sendPasswordInfo(phoneNumber, operationCode);
 		if(smsResponse == null) {
 			throw new Exception("调用SMS接口失败");
 		} else {
 			GlobalIdentifyCodeManager.updateOperationCode(phoneNumber, operationCode);
+		}
+		return smsResponse;*/
+		SmsResponse smsResponse = smsMessageService.sendSingleRequest(phoneNumber);
+		if(smsResponse == null) {
+			throw new Exception("调用SMS接口失败");
 		}
 		return smsResponse;
 	}
@@ -188,7 +193,8 @@ public class CommonMemberController extends PcBaseController{
 			throw new BusinessException("不合法的手机号码");
 		}
 		String identifyCodeKey = pcMember.getPhoneNumber();
-		IdentifyCodeModel identifyCodeModel = GlobalIdentifyCodeManager.getOperationCode(identifyCodeKey);
+		//IdentifyCodeModel identifyCodeModel = GlobalIdentifyCodeManager.getOperationCode(identifyCodeKey);
+		IdentifyCodeModel identifyCodeModel = GlobalIdentifyCodeManager.getIdentifyCode(identifyCodeKey);
 		if(identifyCodeModel == null || identifyCodeModel.isExpired()) {
 			throw new BusinessException("验证码未生成或者已过期");
 		}

@@ -9,7 +9,7 @@ import com.xmomen.module.sms.model.IdentifyCodeModel;
 public class GlobalIdentifyCodeManager {
 
 	static Map<String, IdentifyCodeModel> identifyCodeCache = new ConcurrentHashMap<String, IdentifyCodeModel>();
-	static Map<String, IdentifyCodeModel> operationCodeCache = new ConcurrentHashMap<String, IdentifyCodeModel>();
+	//static Map<String, IdentifyCodeModel> operationCodeCache = new ConcurrentHashMap<String, IdentifyCodeModel>();
 
 	public static IdentifyCodeModel getIdentifyCode(String identifyCodeKey) {
 		return identifyCodeCache.get(identifyCodeKey);
@@ -22,7 +22,7 @@ public class GlobalIdentifyCodeManager {
 	}
 	
 	
-	public static IdentifyCodeModel getOperationCode(String operationCodeKey) {
+	/*public static IdentifyCodeModel getOperationCode(String operationCodeKey) {
 		return operationCodeCache.get(operationCodeKey);
 	}
 	
@@ -30,5 +30,5 @@ public class GlobalIdentifyCodeManager {
 		IdentifyCodeModel identifyCodeModel = new IdentifyCodeModel(identifyCode, 15L, TimeUnit.MINUTES);
 		operationCodeCache.put(operationCodeKey, identifyCodeModel);
 		return identifyCodeModel;
-	}
+	}*/
 }
