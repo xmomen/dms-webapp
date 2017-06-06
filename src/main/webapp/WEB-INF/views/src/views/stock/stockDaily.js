@@ -109,6 +109,20 @@ define(function () {
                 })
             });
         }
+
+        $scope.exportStockDaily = function () {
+            if (!$scope.queryParam.dailyDateStart) {
+                $ugDialog.warn("请输入开始时间");
+                return;
+            }
+            if (!$scope.queryParam.dailyDateEnd) {
+                $ugDialog.warn("请输入结束时间");
+                return;
+            }
+            var url = "/report/stockDaily?beginTime=" + $scope.queryParam.dailyDateStart + "&endTime=" + $scope.queryParam.dailyDateEnd;
+            window.location.href = url;
+        }
+
         $scope.getStockDailyList();
     }];
 });

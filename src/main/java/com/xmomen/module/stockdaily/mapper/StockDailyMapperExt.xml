@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xmomen.module.stockdaily.mapper.StockDailyMapperExt" >
+<mapper namespace="com.xmomen.module.stockdaily.mapper.StockDailyMapperExt">
 
     <!--    查询消息    -->
     <select id="getStockDailyModel"
             resultType="com.xmomen.module.stockdaily.model.StockDailyModel"
             parameterType="com.xmomen.module.stockdaily.model.StockDailyQuery">
         SELECT
-          t.*
-          ,item.item_code
-          ,item.item_name
+        t.*
+        ,item.item_code
+        ,item.item_name
         FROM cd_stock_daily t
         LEFT JOIN cd_item item ON item.id = t.item_id
         <where>
@@ -33,7 +33,7 @@
             <if test="ids">
                 AND t.ID IN
                 <foreach collection="ids" item="item" separator="," open="(" close=")">
-                #{item}
+                    #{item}
                 </foreach>
             </if>
             <if test="excludeIds">
@@ -42,8 +42,8 @@
                     #{item}
                 </foreach>
             </if>
-          </where>
-          ORDER BY item.item_code
+        </where>
+        ORDER BY item.item_code
     </select>
 
     <insert id="createStockDaily">
@@ -69,4 +69,54 @@
             stock.item_id
     </insert>
 
+
+    <!--获取库存快照报表-->
+    <select id="getStockDailyReport"
+            resultType="com.xmomen.module.report.model.StockDailyReport"
+            parameterType="com.xmomen.module.report.model.ReportQuery">
+        SELECT
+        item.item_code,
+        item.item_name,
+        min_stock.old_stock_num,
+        temp.in_num,
+        temp.return_in_num,
+        temp.out_num,
+        temp.damaged_num,
+        temp.verification_num,
+        max_stock.new_stock_num
+        FROM
+        (
+        SELECT
+        stock_daily.item_id,
+        min(insert_date) min_insert_date,
+        max(insert_date) max_insert_date,
+        sum(stock_daily.in_num) in_num,
+        sum(stock_daily.return_in_num) return_in_num,
+        sum(stock_daily.out_num) out_num,
+        sum(stock_daily.damaged_num) damaged_num,
+        sum(
+        stock_daily.verification_num
+        ) verification_num
+        FROM
+        cd_stock_daily stock_daily
+        <where>
+        <if test="beginTime">
+            <![CDATA[
+                  AND DATE_FORMAT(stock_daily.insert_date ,'%Y-%m-%d')>= #{beginTime}
+                ]]>
+        </if>
+        <if test="endTime">
+            <![CDATA[
+                  AND DATE_FORMAT(stock_daily.insert_date ,'%Y-%m-%d')<= #{endTime}
+                ]]>
+        </if>
+        </where>
+        GROUP BY
+        stock_daily.item_id
+        ) temp
+        LEFT JOIN cd_stock_daily min_stock ON min_stock.item_id = temp.item_id AND min_stock.insert_date = temp.min_insert_date
+        LEFT JOIN cd_stock_daily max_stock ON max_stock.item_id = temp.item_id AND max_stock.insert_date = temp.max_insert_date
+        LEFT JOIN cd_item item ON item.id = temp.item_id
+        ORDER BY item.item_code
+    </select>
 </mapper>
