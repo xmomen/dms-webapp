@@ -83,8 +83,44 @@ public class SmsMessageService implements InitializingBean {
         	client = null;
             return null;
         }
+	}
+	
+	public SmsResponse sendPasswordInfo(String phoneNumber, String plainPassword) {
+		if(client == null || !client.isOpen()) {
+			log.info("client已关闭，重新创建连接");
+			startUp();
+		}
+        CloudTopic topic = client.getTopicRef("sms.topic-cn-hangzhou");
+        MessageAttributes messageAttributes = new MessageAttributes();
+        BatchSmsAttributes batchSmsAttributes = new BatchSmsAttributes();
+        // 3.1 设置发送短信的签名（SMSSignName）
+        batchSmsAttributes.setFreeSignName("益谷上禾");
+        // TODO 密码重置的模板
+        batchSmsAttributes.setTemplateCode("SMS_67180402");
+        // 3.3 设置发送短信所使用的模板中参数对应的值（在短信模板中定义的，没有可以不用设置）
+        BatchSmsAttributes.SmsReceiverParams smsReceiverParams = new BatchSmsAttributes.SmsReceiverParams();
+        smsReceiverParams.setParam("code", plainPassword);
+        // 3.4 增加接收短信的号码
+        batchSmsAttributes.addSmsReceiver(phoneNumber, smsReceiverParams);
+        messageAttributes.setBatchSmsAttributes(batchSmsAttributes);
 
-        
+        RawTopicMessage msg = new RawTopicMessage();
+        msg.setMessageBody("sms-message");
+        try {
+            TopicMessage ret = topic.publishMessage(msg, messageAttributes);
+            log.info("MessageId:" + ret.getMessageId());
+            SmsResponse response = new SmsResponse();
+            response.setSuccess(true);
+            return response;
+        } catch (ServiceException se) {
+        	log.error("API异常：" + se.getMessage());
+            throw new BusinessException("执行SMS API 异常：ErrorCode=" + se.getErrorCode() + ", RequestId=" + se.getRequestId());
+        } catch (Exception e) {
+        	log.error("系统异常", e.getMessage());
+        	client.close();
+        	client = null;
+            return null;
+        }
 	}
 	
 	@Override

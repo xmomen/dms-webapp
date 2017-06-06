@@ -27,7 +27,7 @@ public interface MemberService {
 
     public CdMember findMember(CdMember query);
     
-    public void updatePassword(Integer id, String newPassword, String oldPassword);
+    public boolean updatePassword(Integer id, String newPassword, String oldPassword);
     /**
      * openId绑定用户
      *
@@ -35,4 +35,6 @@ public interface MemberService {
      * @return
      */
     public CdMember bindMember(String openId);
+    
+    public CdMember updateMember(CdMember updateMember);
 }

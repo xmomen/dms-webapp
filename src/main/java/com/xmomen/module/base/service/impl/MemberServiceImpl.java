@@ -297,7 +297,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void updatePassword(Integer id, String newPassword, String oldPassword) {
+	public boolean updatePassword(Integer id, String newPassword, String oldPassword) {
 		CdMember cdMember = mybatisDao.selectByPrimaryKey(CdMember.class, id);
 		String newEncryptPassword = passwordHelper.encryptPassword(newPassword, AppConstants.PC_PASSWORD_SALT);
 		String oldEncryptPassword = passwordHelper.encryptPassword(oldPassword, AppConstants.PC_PASSWORD_SALT);
@@ -305,8 +305,17 @@ public class MemberServiceImpl implements MemberService {
 			if(StringUtils.isEmpty(cdMember.getPassword()) || cdMember.getPassword().equals(oldEncryptPassword)) {
 				cdMember.setPassword(newEncryptPassword);
 				mybatisDao.update(cdMember);
+				return true;
 			}
 		}
-		
+		return false;
+	}
+
+	@Override
+	public CdMember updateMember(CdMember updateMember) {
+		if(updateMember != null) {
+			mybatisDao.update(updateMember);
+		}
+		return updateMember;
 	}
 }
