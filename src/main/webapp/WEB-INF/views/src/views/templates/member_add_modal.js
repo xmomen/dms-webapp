@@ -35,8 +35,7 @@ define(function () {
         $scope.member = {};
         $scope.memberAddressList = [];
         //编辑场合
-        if (currentMember.id) {
-
+        if (currentMember != undefined && currentMember.id) {
             //查询收货地址
             MemberAddressAPI.query({
                 cdMemberId: currentMember.id,

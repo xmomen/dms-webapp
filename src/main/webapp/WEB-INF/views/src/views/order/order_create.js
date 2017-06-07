@@ -226,18 +226,24 @@ define(function () {
 
             $scope.companyList = [];
             $scope.ugSelect2Config = {};
+            debugger;
             $scope.getCompanyList = function () {
                 CompanyAPI.query({
                     limit: 1000,
                     offset: 1
                 }, function (data) {
+                    debugger;
                     $scope.companyList = data.data;
                     $scope.pageInfoSetting = data.pageInfo;
                     $scope.pageInfoSetting.loadData = $scope.getCompanyList;
-                    $scope.ugSelect2Config.initSelectData($scope.order.companyId);
-                    $scope.managerUgSelect2Config.initSelectData($scope.order.managerId);
+                    if ($scope.order.companyId != undefined) {
+                        $scope.ugSelect2Config.initSelectData($scope.order.companyId);
+                        $scope.managerUgSelect2Config.initSelectData($scope.order.managerId);
+                    }
                 });
             };
+
+            $scope.getCompanyList();
 
             $scope.managerUgSelect2Config = {};
 
