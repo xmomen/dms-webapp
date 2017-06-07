@@ -37,4 +37,6 @@ public interface MemberService {
     public CdMember bindMember(String openId);
     
     public CdMember updateMember(CdMember updateMember);
+    
+    public boolean resetPassword(Integer id, String newPassword);
 }

@@ -207,11 +207,7 @@ public class CommonMemberController extends PcBaseController{
 		if(cdMember == null) {
 			throw new BusinessException("该用户不存在");
 		}
-		String oldPassword = cdMember.getPassword();
-		if(oldPassword == null) {
-			oldPassword = "";
-		}
-		boolean success = memberService.updatePassword(cdMember.getId(), pcMember.getPassword(), oldPassword);
+		boolean success = memberService.resetPassword(cdMember.getId(), pcMember.getPassword());
 		if(!success) {
 			throw new BusinessException("密码重置失败");
 		}

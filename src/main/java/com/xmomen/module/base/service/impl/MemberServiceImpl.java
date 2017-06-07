@@ -302,9 +302,11 @@ public class MemberServiceImpl implements MemberService {
 		String newEncryptPassword = passwordHelper.encryptPassword(newPassword, AppConstants.PC_PASSWORD_SALT);
 		String oldEncryptPassword = passwordHelper.encryptPassword(oldPassword, AppConstants.PC_PASSWORD_SALT);
 		if(cdMember != null) {
-            cdMember.setPassword(newEncryptPassword);
-            mybatisDao.update(cdMember);
-            return true;
+			if(StringUtils.isEmpty(cdMember.getPassword()) || cdMember.getPassword().equals(oldEncryptPassword)) {
+				cdMember.setPassword(newEncryptPassword);
+	            mybatisDao.update(cdMember);
+	            return true;
+			}
 		}
 		return false;
 	}
@@ -315,5 +317,17 @@ public class MemberServiceImpl implements MemberService {
 			mybatisDao.update(updateMember);
 		}
 		return updateMember;
+	}
+
+	@Override
+	public boolean resetPassword(Integer id, String newPassword) {
+		CdMember cdMember = mybatisDao.selectByPrimaryKey(CdMember.class, id);
+		String newEncryptPassword = passwordHelper.encryptPassword(newPassword, AppConstants.PC_PASSWORD_SALT);
+		if(cdMember != null) {
+			cdMember.setPassword(newEncryptPassword);
+			mybatisDao.update(cdMember);
+			return true;
+		}
+		return false;
 	}
 }
