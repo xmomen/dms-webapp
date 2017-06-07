@@ -35,19 +35,18 @@ define(function () {
         $scope.member = {};
         $scope.memberAddressList = [];
         //编辑场合
-        if (currentMember) {
-            if (currentMember.id) {
-                //查询收货地址
-                MemberAddressAPI.query({
-                    cdMemberId: currentMember.id,
-                    limit: $scope.pageSetting.pageSize,
-                    offset: $scope.pageSetting.pageNum
-                }, function (result) {
-                    if (result) {
-                        $scope.memberAddressList = result.data;
-                    }
-                });
-            }
+        if (currentMember.id) {
+
+            //查询收货地址
+            MemberAddressAPI.query({
+                cdMemberId: currentMember.id,
+                limit: $scope.pageSetting.pageSize,
+                offset: $scope.pageSetting.pageNum
+            }, function (result) {
+                if (result) {
+                    $scope.memberAddressList = result.data;
+                }
+            });
 
             if (!currentMember.name) {
                 MemberAPI.get({
@@ -61,9 +60,10 @@ define(function () {
                 $scope.member = currentMember;
             }
         }
-        //新增场合
+        //新增、绑定场合
         else {
             $scope.memberAddressList.push({});
+            $scope.member = currentMember;
         }
 
         $scope.addAddressList = function () {

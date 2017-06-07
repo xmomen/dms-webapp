@@ -6,13 +6,13 @@
 
         <form class="form-horizontal" ug-validate="addMemberForm" name="addMemberForm" novalidate="">
             <fieldset>
-                <div class="form-group" ng-if="member.id == null">
+                <div class="form-group" ng-if="member.id == null || member.id==''">
                     <label class="col-md-2 control-label">卡号</label>
                     <div class="col-md-10">
                         <input class="form-control" disabled ng-model="member.couponNumber" name="couponNumber" placeholder="卡号" type="text">
                     </div>
                 </div>
-                <div class="form-group" ng-if="member.id != null">
+                <div class="form-group" ng-if="member.id != null && member.id != ''">
                     <label class="col-md-2 control-label">绑定卡号(余额)</label>
                     <div class="col-md-10 ">
                         <span ng-repeat="couponNumber in member.couponNumbers">{{couponNumber.couponNumber}}(￥{{couponNumber.userPrice}});</span>

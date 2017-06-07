@@ -43,7 +43,7 @@
                 </foreach>
             </if>
         </where>
-        ORDER BY item.item_code
+        ORDER BY t.daily_date desc,item.item_code
     </select>
 
     <insert id="createStockDaily">
@@ -100,16 +100,16 @@
         FROM
         cd_stock_daily stock_daily
         <where>
-        <if test="beginTime">
-            <![CDATA[
+            <if test="beginTime">
+                <![CDATA[
                   AND DATE_FORMAT(stock_daily.insert_date ,'%Y-%m-%d')>= #{beginTime}
                 ]]>
-        </if>
-        <if test="endTime">
-            <![CDATA[
+            </if>
+            <if test="endTime">
+                <![CDATA[
                   AND DATE_FORMAT(stock_daily.insert_date ,'%Y-%m-%d')<= #{endTime}
                 ]]>
-        </if>
+            </if>
         </where>
         GROUP BY
         stock_daily.item_id

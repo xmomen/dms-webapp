@@ -173,7 +173,7 @@ define(function () {
                     sellStatus: 1,
                     exclude_ids: choseItemId
                 }, function (data) {
-                    debugger;
+
                     $scope.itemList = data.data;
                     $scope.pageInfoSetting = data.pageInfo;
                     $scope.pageInfoSetting.loadData = $scope.getItemList;
@@ -213,6 +213,9 @@ define(function () {
                             var member = data.data[0];
                             setMemberInfo(member);
                         } else {
+                            //清空地址
+                            $scope.memberAddressList = [];
+                            $scope.initMemberInfo();
                             $ugDialog.confirm("未找到匹配手机号的客户，是否新增客户？").then(function () {
                                 bindMember();
                             });
@@ -247,6 +250,12 @@ define(function () {
                 }
             };
 
+            $scope.initMemberInfo = function () {
+                $scope.order.memberId = "";
+                $scope.order.memberCode = "";
+                $scope.order.name = "";
+                $scope.order.phone = "";
+            };
 
             $scope.memberAddressList = [];
 
@@ -272,10 +281,11 @@ define(function () {
                 $scope.order.phone = member.phoneNumber;
 
                 $scope.order.addressChose = 0;
+
                 //查询收货地址
                 MemberAddressAPI.query({
                     cdMemberId: member.id,
-                    limit: 1000,
+                    limit: 10,
                     offset: 1
                 }, function (result) {
                     if (result) {
@@ -312,8 +322,19 @@ define(function () {
                                 MemberAPI.get({
                                     id: coupon.memberId
                                 }, function (data) {
-                                    setMemberInfo(data);
+
+                                    if (data.id) {
+                                        setMemberInfo(data);
+                                    } else {
+                                        //清空地址
+                                        $scope.memberAddressList = [];
+                                        $scope.initMemberInfo();
+                                    }
                                 })
+                            } else {
+                                //清空地址
+                                $scope.memberAddressList = [];
+                                $scope.initMemberInfo();
                             }
                             //存在是否绑定客户 没有则填写客户信息
                         } else {
@@ -346,7 +367,13 @@ define(function () {
                                 MemberAPI.get({
                                     id: coupon.memberId
                                 }, function (data) {
-                                    setMemberInfo(data);
+                                    if (data) {
+                                        setMemberInfo(data);
+                                    } else {
+                                        //清空地址
+                                        $scope.memberAddressList = [];
+                                        $scope.initMemberInfo();
+                                    }
                                 })
                             }
                             if (coupon.relationItemList) {
