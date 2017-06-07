@@ -2,11 +2,7 @@ package com.xmomen.module.wb.controller;
 
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.xmomen.module.base.constant.AppConstants;
 import com.xmomen.module.base.entity.CdMember;
@@ -41,4 +37,18 @@ public class PcMemberController {
     public CdMember getMemberById(@PathVariable(value = "id") String id) {
         return memberSercvice.getOneMemberModel(id);
     }
+
+    /**
+     * 查询单个客户
+     *
+     * @param id 主键
+     * @return CdMember   客户领域对象
+     */
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public CdMember getMemberById(@PathVariable(value = "id") String id,
+                                  @RequestBody CdMember cdMember) {
+        return memberSercvice.updateMember(cdMember);
+    }
+
+
 }
