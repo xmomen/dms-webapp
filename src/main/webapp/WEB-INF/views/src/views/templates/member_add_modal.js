@@ -71,7 +71,6 @@ define(function () {
 
         $scope.deleteAddress = function (index) {
             $ugDialog.confirm("是否删除地址？").then(function () {
-                $scope.memberAddressList.splice(index, 1);
                 //地址是否保存
                 if ($scope.memberAddressList[index].id) {
                     MemberAddressAPI.delete({
@@ -80,6 +79,7 @@ define(function () {
                         $scope.getExpressList();
                     });
                 }
+                $scope.memberAddressList.splice(index, 1);
             });
         }
 
