@@ -6,19 +6,19 @@ define(function () {
 
         $scope.ugSelect2Config = {};
         $scope.getCategoryList = function(){
-            $scope.pageInfoSetting = {
+            $scope.pageInfoCategorySetting = {
                 pageSize:1000,
                 pageNum:1
             };
             $scope.queryParam = {};
             $scope.categoryList = [];
             CouponCategoryAPI.query({
-                limit:$scope.pageInfoSetting.pageSize,
-                offset:$scope.pageInfoSetting.pageNum
+                limit:$scope.pageInfoCategorySetting.pageSize,
+                offset:$scope.pageInfoCategorySetting.pageNum
             }, function(data){
                 $scope.categoryList = data.data;
-                $scope.pageInfoSetting = data.pageInfo;
-                $scope.pageInfoSetting.loadData = $scope.getCategoryList;
+                $scope.pageInfoCategorySetting = data.pageInfo;
+                $scope.pageInfoCategorySetting.loadData = $scope.getCategoryList;
             });
         }
         $scope.getCategoryList();

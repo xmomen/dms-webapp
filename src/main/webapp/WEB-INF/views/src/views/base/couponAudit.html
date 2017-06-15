@@ -7,15 +7,15 @@
 <!-- widget grid -->
 <section id="widget-grid" class="">
 
-	<!-- row -->
-	<div class="row">
+    <!-- row -->
+    <div class="row">
 
-		<!-- NEW WIDGET START -->
-		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-			<!-- Widget ID (each widget will need unique ID)-->
-			<div class="jarviswidget" id="wid-id-4">
-				<!-- widget options:
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-4">
+                <!-- widget options:
                 usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
 
                 data-widget-colorbutton="false"
@@ -28,20 +28,20 @@
                 data-widget-sortable="false"
 
                 -->
-				<header>
-					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
-					<h2>卡券未审核列表</h2>
-				</header>
-				<!-- widget div-->
-				<div>
-					<!-- widget edit box -->
-					<div class="jarviswidget-editbox">
-						<!-- This area used as dropdown edit box -->
-					</div>
-					<!-- end widget edit box -->
-					<!-- widget content -->
-					<div class="widget-body no-padding">
-						<div class="dt-toolbar">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>卡券未审核列表</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+                        <div class="dt-toolbar">
                             <div class="col-sm-3">
                                 <div class="dataTables_filter">
                                     <select ug-select2 style="width: 250px;;" ng-model="queryParam.cdCompanyId" name="company" ng-change="getCouponList()">
@@ -52,7 +52,7 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="dataTables_filter">
-                                    <select ug-select2 style="width: 250px;" ng-model="queryParam.customerMangerId" ng-change="getCouponList()"  name="customerManager" >
+                                    <select ug-select2 style="width: 250px;" ng-model="queryParam.customerMangerId" ng-change="getCouponList()" name="customerManager">
                                         <option value="">--请选择客服经理--</option>
                                         <option value="{{customerManager.customerMangerId}}" ng-repeat="customerManager in companyCustomerManagers">{{customerManager.customerManger}}</option>
                                     </select>
@@ -61,20 +61,20 @@
                             <div class="col-sm-3">
                                 <div class="dataTables_filter">
                                     <label>
-                                        <select ug-select2 ug-select2-config="ugSelect2Config" style="width: 250px;" ng-change="getCouponList()" ng-model="queryParam.couponCategoryId" name="couponCategoryId" >
+                                        <select ug-select2 ug-select2-config="ugSelect2Config" style="width: 250px;" ng-change="getCouponList()" ng-model="queryParam.couponCategoryId" name="couponCategoryId">
                                             <option value="">--请选择卡类别--</option>
                                             <option value="{{category.id}}" ng-repeat="category in categoryList">{{category.categoryName}}</option>
                                         </select>
                                     </label>
                                 </div>
                             </div>
-							<div class="col-sm-3">
-								<div class="dataTables_filter">
-									<label>
-										<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-										<input type="search" placeholder="卡号/券号/描述" data-ng-keyup="getCouponList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
-								</div>
-							</div>
+                            <div class="col-sm-3">
+                                <div class="dataTables_filter">
+                                    <label>
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                                        <input type="search" placeholder="卡号/券号/描述" data-ng-keyup="getCouponList()" ng-model="queryParam.keyword" class="form-control" aria-controls="dt_basic"></label>
+                                </div>
+                            </div>
                             <div class="col-sm-3">
                                 <div class="dataTables_filter">
                                     <label>
@@ -82,53 +82,55 @@
                                         <input type="search" placeholder="批号" data-ng-keyup="getCouponList()" ng-model="queryParam.batch" class="form-control" aria-controls="dt_basic"></label>
                                 </div>
                             </div>
-							<div class="col-sm-12">
-								<button class="btn btn-primary" type="button" data-ng-click="getCouponList()">
-									<i class="fa fa-refresh"></i>
-									刷新
-								</button>
+                            <div class="col-sm-12">
+                                <button class="btn btn-primary" type="button" data-ng-click="getCouponList()">
+                                    <i class="fa fa-refresh"></i>
+                                    刷新
+                                </button>
                                 <button class="btn btn-primary" type="button" data-ng-click="batchUsefulCoupon()">
                                     <i class="fa fa-upload"></i>
                                     批量激活
                                 </button>
-							</div>
-						</div>
-						<div class="table-responsive">
-							<table class="table table-striped table-condensed table-hover smart-form has-tickbox">
-								<thead>
-								<tr>
-									<th>
-										<label class="checkbox">
-                                            <input type="checkbox" ng-model="isCheckCoupon" ng-true-value="0" ng-false-value="1" ng-change="checkedAllCoupon()" />
-											<i></i>
-										</label>
-									</th>
-									<th>卡券类型</th>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-condensed table-hover smart-form has-tickbox">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        <label class="checkbox">
+                                            <input type="checkbox" ng-model="isCheckCoupon" ng-true-value="0" ng-false-value="1" ng-change="checkedAllCoupon()"/>
+                                            <i></i>
+                                        </label>
+                                    </th>
+                                    <th>序号</th>
+                                    <th>卡券类型</th>
                                     <th>卡劵类别</th>
-									<th>卡号/劵号</th>
+                                    <th>卡号/劵号</th>
                                     <th>批号</th>
-									<th>充值金额</th>
+                                    <th>充值金额</th>
                                     <th>发放单位</th>
                                     <th>发放客户经理</th>
                                     <th>实收金额</th>
                                     <th>审核激活</th>
-								</tr>
-								</thead>
-								<tbody>
-								<tr ng-repeat="coupon in couponList  | orderBy:'couponType'"  ng-if="couponList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
-									<td>
-										<label class="checkbox">
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="coupon in couponList  | orderBy:'couponType'" ng-if="couponList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+                                    <td>
+                                        <label class="checkbox">
                                             <input type="checkbox"
                                                    checklist-model="chooseCoupon"
                                                    ng-change="changeCouponList()"
                                                    checklist-value="coupon">
-											<i></i>
-										</label>
-									</td>
+                                            <i></i>
+                                        </label>
+                                    </td>
+                                    <td ng-bind="($index+1) +((pageInfoNoAuditSetting.pageNum -1) * pageInfoNoAuditSetting.pageSize)"></td>
                                     <td><span ng-if="coupon.couponType == 1">卡</span><span ng-if="coupon.couponType == 2">消费劵</span></td>
                                     <td ng-bind="coupon.categoryName"></td>
-									<!--<td ng-bind="coupon.couponDesc"></td>-->
-									<td ng-bind="coupon.couponNumber"></td>
+                                    <!--<td ng-bind="coupon.couponDesc"></td>-->
+                                    <td ng-bind="coupon.couponNumber"></td>
                                     <td ng-bind="coupon.batch"></td>
                                     <td>{{coupon.couponValue}}</td>
                                     <td ng-bind="coupon.companyName"></td>
@@ -144,32 +146,32 @@
                                         </label>
                                     </td>
                                 </tr>
-								<tr ng-if="couponList == null || couponList.length == 0">
-									<td colspan="11">
-										<div>暂无数据</div>
-									</td>
-								</tr>
-								</tbody>
-							</table>
-						</div>
-						<div class="dt-toolbar-footer">
-							<div class="col-xs-12 col-sm-12">
-								<ug-pagination page-info="pageInfoNoAuditSetting" ></ug-pagination>
-							</div>
-						</div>
-					</div>
-					<!-- end widget content -->
-				</div>
-				<!-- end widget div -->
-			</div>
-			<!-- end widget -->
+                                <tr ng-if="couponList == null || couponList.length == 0">
+                                    <td colspan="11">
+                                        <div>暂无数据</div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="dt-toolbar-footer">
+                            <div class="col-xs-12 col-sm-12">
+                                <ug-pagination page-info="pageInfoNoAuditSetting"></ug-pagination>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+            <!-- end widget -->
 
-		</article>
-		<!-- WIDGET END -->
+        </article>
+        <!-- WIDGET END -->
 
-	</div>
+    </div>
 
-	<!-- end row -->
+    <!-- end row -->
     <div class="row">
 
         <!-- NEW WIDGET START -->
@@ -215,7 +217,7 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="dataTables_filter">
-                                        <select ug-select2 style="width: 250px;" ng-model="queryParamAudit.customerMangerId" ng-change="getCouponAuditList()"  name="customerManager" >
+                                        <select ug-select2 style="width: 250px;" ng-model="queryParamAudit.customerMangerId" ng-change="getCouponAuditList()" name="customerManager">
                                             <option value="">--请选择客服经理--</option>
                                             <option value="{{customerManager.customerMangerId}}" ng-repeat="customerManager in companyCustomerManagers">{{customerManager.customerManger}}</option>
                                         </select>
@@ -224,7 +226,7 @@
                                 <div class="col-sm-3">
                                     <div class="dataTables_filter">
                                         <label>
-                                            <select ug-select2 ug-select2-config="ugSelect2Config" style="width: 250px;" ng-change="getCouponAuditList()" ng-model="queryParamAudit.couponCategoryId" name="couponCategoryId" >
+                                            <select ug-select2 ug-select2-config="ugSelect2Config" style="width: 250px;" ng-change="getCouponAuditList()" ng-model="queryParamAudit.couponCategoryId" name="couponCategoryId">
                                                 <option value="">--请选择卡类别--</option>
                                                 <option value="{{category.id}}" ng-repeat="category in categoryList">{{category.categoryName}}</option>
                                             </select>
@@ -255,7 +257,7 @@
                                                current-text="今日"
                                                clear-text="清除"
                                                is-open="datepickerSetting.auditDateStart.opened"
-                                               ng-required="true" />
+                                               ng-required="true"/>
                                         <div class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="openDate($event, 0)"><i class="glyphicon glyphicon-calendar"></i></button>
                                         </div>
@@ -270,7 +272,7 @@
                                                current-text="今日"
                                                clear-text="清除"
                                                is-open="datepickerSetting.auditDateEnd.opened"
-                                               ng-required="true" />
+                                               ng-required="true"/>
                                         <div class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="openDate($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
                                         </div>
@@ -289,6 +291,7 @@
                             <table class="table table-striped table-condensed table-hover smart-form has-tickbox">
                                 <thead>
                                 <tr>
+                                    <th>序号</th>
                                     <th style="width:80px">审核日期</th>
                                     <th>卡券类型</th>
                                     <th>卡劵类别</th>
@@ -303,7 +306,8 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr ng-repeat="coupon in couponAuditList  | orderBy:'couponType'"  ng-if="couponAuditList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+                                <tr ng-repeat="coupon in couponAuditList  | orderBy:'couponType'" ng-if="couponAuditList.length > 0" ng-mouseenter="show=true" ng-mouseleave="show=false">
+                                    <td ng-bind="($index+1) +((pageInfoAuditSetting.pageNum -1) * pageInfoAuditSetting.pageSize)"></td>
                                     <td ng-bind="coupon.auditDate | date: 'yyyy-MM-dd'"></td>
                                     <td><span ng-if="coupon.couponType == 1">卡</span><span ng-if="coupon.couponType == 2">消费劵</span></td>
                                     <td ng-bind="coupon.categoryName"></td>
@@ -341,7 +345,7 @@
                         </div>
                         <div class="dt-toolbar-footer">
                             <div class="col-xs-12 col-sm-12">
-                                <ug-pagination page-info="pageInfoAuditSetting" ></ug-pagination>
+                                <ug-pagination page-info="pageInfoAuditSetting"></ug-pagination>
                             </div>
                         </div>
                     </div>
